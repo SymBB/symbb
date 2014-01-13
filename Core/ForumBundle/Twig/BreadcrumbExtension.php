@@ -16,10 +16,9 @@ class BreadcrumbExtension extends \Twig_Extension
     protected $config = array();
 
     public function __construct($container) {
-        $this->translator   = $container->get('translator');
-        $this->router       = $container->get('router');
-        $config             = $container->getParameter('symbb_config');
-        $this->config       = $config['template'];
+        $this->translator       = $container->get('translator');
+        $this->router           = $container->get('router');
+        $this->configManager    = $container->get('symbb.core.config.manager');
     }
 
     public function initRuntime(\Twig_Environment $environment){
@@ -52,7 +51,7 @@ class BreadcrumbExtension extends \Twig_Extension
         $breadcrumb     = array_reverse($breadcrumb);
         
         $html = $this->env->render(
-            $this->config['forum'].'::breadcrumb.html.twig',
+            $this->configManager->get('template.forum').'::breadcrumb.html.twig',
             array('breadcrumb' => $breadcrumb)
         );
         

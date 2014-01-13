@@ -2,4 +2,4 @@ Hallo {{user.getUsername}}.
 Es wurde eine Antwort auf den Beitrag "{{ topic.getName() }}" verfasst.<br/>
 Klicke <a href="{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId()}) }}">hier</a> um den kompletten Beitrag zu lesen.
 
-Du erhälst diese Nachricht weil du bei {{ symbb_config.system.name }} angemeldet bist.
+Du erhälst diese Nachricht weil du bei {{ symbbConfigManager.get('system.name') }} angemeldet bist.

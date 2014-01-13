@@ -38,3 +38,14 @@ New User: neuer User
 Forummanagment: Forumsverwaltung
 Group: Gruppe
 Name of the Group: Name der Gruppe
+config.default: System Einstellungen
+config.default.system.name: System Name
+config.default.system.email: System E-Mail
+config.template: Template Einstellungen
+config.template.template.acp: Acp Template
+config.template.template.forum: Forum Template
+config.template.template.portal: Portal Template
+config.template.template.email: Email Template
+Default Template: Standard Template
+You you can not delete guest or administrator role: Du kannst keine Gast oder Administrator Rolle löschen
+successfully saved: Erfolgreich gespeichert

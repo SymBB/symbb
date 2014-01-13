@@ -18,8 +18,7 @@ abstract class AbstractController extends Controller
     protected function getTemplateBundleName($for = 'forum')
     {
         if ($this->templateBundle === null) {
-            $config = $this->container->getParameter('symbb_config');
-            $this->templateBundle = $config['template'][$for];
+            $this->templateBundle = $this->container->get('symbb.core.config.manager')->get('template.'.$for);
         }
         return $this->templateBundle;
 

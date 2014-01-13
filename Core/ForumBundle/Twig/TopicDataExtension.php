@@ -70,8 +70,7 @@ class TopicDataExtension extends \Twig_Extension
     }
     
     protected function getTemplateBundleName($for = 'forum'){
-        $config = $this->container->getParameter('symbb_config');
-        return $config['template'][$for];
+        return $this->container->get('symbb.core.config.manager')->get('template.'.$for);
     }
         
         

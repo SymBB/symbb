@@ -25,7 +25,7 @@ class Builder extends ContainerAware
         $menu->addChild('Usermanagment', array('route' => '_symbbcoreuserbundle_group_list'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('User and Groupaccess', array('route' => '_symbbcoreuserbundle_group_access', 'routeParameters' => array('step' => 1)))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Style', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
-        $menu->addChild('Options', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
+        $menu->addChild('Options', array('route' => '_symbbcoresystembundle_config'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Extensions', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Maintenance', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
 
@@ -79,6 +79,17 @@ class Builder extends ContainerAware
         $menu->addChild('User List', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('New User', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
         
+        return $menu;
+
+    }
+    
+    
+    
+    public function systemMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+        $menu->addChild('Einstellungen', array('route' => '_symbbcoresystembundle_config'))->setExtra('translation_domain', 'symbb_backend');
+
         return $menu;
 
     }

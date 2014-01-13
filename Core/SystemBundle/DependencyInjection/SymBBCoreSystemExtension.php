@@ -22,6 +22,7 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
         
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('doctrine.yml');
 
     }
         

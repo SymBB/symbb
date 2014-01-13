@@ -1,17 +1,9 @@
 sym_bb_core_config:
     usermanager:
       user_class: SymBB\Core\UserBundle\Entity\User
-    system:
-      name: SymBB Test System
-      email: alpha@symbb.de
     database:
       table_prefix: 
         prod: symbb_
         dev:  symbb_dev_
         test: symbb_test_
-    template: 
-      acp: SymBBTemplateSimpleBundle
-      forum: SymBBTemplateSimpleBundle
-      portal: SymBBTemplateSimpleBundle
-      email: SymBBTemplateSimpleBundle
     

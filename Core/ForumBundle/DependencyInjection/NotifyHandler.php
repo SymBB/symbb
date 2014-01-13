@@ -13,6 +13,7 @@ use \SymBB\Core\UserBundle\Entity\UserInterface;
 use \SymBB\Core\ForumBundle\Entity\Topic;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use \Doctrine\ORM\EntityManager;
+use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
 class NotifyHandler
 {
@@ -39,11 +40,16 @@ class NotifyHandler
      * @var UserInterface
      */
     protected $user;
+    
+    /**
+     *
+     * @var ConfigManager
+     */
+    protected $configManager;
 
     protected $mailer;
     protected $container;
     
-    protected $config = array();
     protected $locale = 'en';
 
     public function __construct($container) {
@@ -52,9 +58,9 @@ class NotifyHandler
         $this->flagHandler      = $container->get('symbb.core.topic.flag');
         $this->mailer           = $container->get('swiftmailer.mailer.default');
         $this->translator       = $container->get('translator');
-        $this->config           = $container->getParameter('symbb_config');
         $this->locale           = $container->get('request')->getLocale();
         $this->container        = $container;
+        $this->configManager    = $container->get('symbb.core.config.manager');
         if(strpos('_', $this->locale) !== false){
             $this->locale = explode('_', $this->locale);
             $this->locale = reset($this->locale);
@@ -75,7 +81,7 @@ class NotifyHandler
         }
         
         $subject    = $this->translator->trans('It was written a new answer to "%topic%"', array('%topic%' => $topic->getName()), 'symbb_email');
-        $sender     = $this->config['system']['email'];
+        $sender     = $this->configManager->get('system.email');
         $recipient  = $user->getEmail();
         
         $message = \Swift_Message::newInstance()
@@ -84,8 +90,8 @@ class NotifyHandler
             ->setTo($recipient)
             ->setBody(
                 $this->container->get('twig')->render(
-                    $this->config['template']['email'].':Email:topic_notify.'.$this->locale.'.html.twig',
-                    array('topic' => $topic, 'user' => $user, 'symbb_config' => $this->config)
+                    $this->configManager->get('template.email').':Email:topic_notify.'.$this->locale.'.html.twig',
+                    array('topic' => $topic, 'user' => $user, 'symbbConfigManager' => $this->configManager)
                 ), 'text/html'
             )
         ;

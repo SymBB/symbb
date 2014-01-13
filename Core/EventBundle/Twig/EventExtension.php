@@ -17,12 +17,9 @@ class EventExtension extends \Twig_Extension
 {
     protected $container;
     protected $env;
-    protected $config = array();
 
     public function __construct($container) {
-        $this->container    = $container;
-        $config             = $container->getParameter('symbb_config');
-        $this->config       = $config['template'];
+        $this->container        = $container;
     }
 
     public function initRuntime(\Twig_Environment $environment){

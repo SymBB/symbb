@@ -54,3 +54,8 @@ _symbbcoreuserbundle_group_edit:
 _symbbcoreuserbundle_group_remove:
     pattern:  /acp/group/{id}/remove
     defaults: { _controller: SymBBCoreUserBundle:AcpGroup:remove }
+    
+    
+_symbbcoresystembundle_config:
+    pattern:  /acp/config
+    defaults: { _controller: SymBBCoreSystemBundle:AcpConfig:index }

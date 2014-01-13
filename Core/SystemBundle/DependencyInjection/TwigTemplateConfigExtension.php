@@ -10,11 +10,14 @@ namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 class TwigTemplateConfigExtension extends \Twig_Extension
 {
-    protected $config;
+    /**
+     *
+     * @var \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager 
+     */
+    protected $configManager;
 
     public function __construct($container) {
-        $config         = $container->getParameter('symbb_config');
-        $this->config   = $config['template'];
+        $this->configManager   = $container->get('symbb.core.config.manager');
     }
 
     public function getFunctions()
@@ -26,7 +29,7 @@ class TwigTemplateConfigExtension extends \Twig_Extension
     
     public function getSymbbTemplateConfig($config)
     {
-        return $this->config[$config];
+        return $this->configManager->get('template.'.$config);
     }
 
     public function getName()

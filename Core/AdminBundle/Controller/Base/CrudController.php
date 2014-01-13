@@ -232,8 +232,8 @@ abstract class CrudController extends Controller
     protected function getTemplateBundleName()
     {
         if ($this->templateBundle === null) {
-            $config = $this->container->getParameter('symbb_config');
-            $this->templateBundle = $config['template']['acp'];
+            $config = $this->container->get('symbb.core.config.manager');
+            $this->templateBundle = $config->get('template.acp');
         }
         return $this->templateBundle;
 
