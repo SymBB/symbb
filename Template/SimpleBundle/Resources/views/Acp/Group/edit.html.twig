@@ -1,4 +1,4 @@
-{% extends getSymbbTemplateConfig('acp') ~ ':Acp/Forum:list.html.twig' %}
+{% extends getSymbbTemplateConfig('acp') ~ ':Acp/Group:list.html.twig' %}
 
 {% trans_default_domain "symbb_backend" %}
 
@@ -12,6 +12,7 @@
         </div>
         <div class="panel-body">
         {{ form_row(form._token) }}
+        {{ form_rowbootstrap(form.name) }}
         {{ form_restbootstrap(form) }}
         <input type="hidden" name="id" value="{{ entity.getId() }}" />
         </div>

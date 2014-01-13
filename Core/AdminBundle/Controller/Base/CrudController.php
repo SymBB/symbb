@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 abstract class CrudController extends Controller
 {
 
-    private $formEntity;
+    protected $formEntity;
 
     protected $entityBundle = 'SymBBCoreForumBundle';
 
@@ -28,8 +28,8 @@ abstract class CrudController extends Controller
     {
         $entityList = $this->findListEntities($parent);
 
-        $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent));
-        $params = $this->addListParams($params);
+        $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), 'parent' => $parent);
+        $params = $this->addListParams($params, $parent);
         return $this->render(
                 $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
         );
@@ -183,13 +183,13 @@ abstract class CrudController extends Controller
 
     }
 
-    protected function addListParams($params)
+    protected function addListParams($params, $parent = null)
     {
         return $params;
 
     }
 
-    protected function addFormParams($params)
+    protected function addFormParams($params, $form, $entity)
     {
         return $params;
 
@@ -216,13 +216,14 @@ abstract class CrudController extends Controller
 
     protected function editCallback($form, $entity)
     {
-
+        
         $params = array(
             'entity' => $entity,
             'form' => $form->createView(),
             'breadcrum' => $this->getBreadcrum($entity->getParent())
         );
-        $params = $this->addFormParams($params);
+        
+        $params = $this->addFormParams($params, $form, $entity);
 
         return $this->render($this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':edit.html.twig', $params);
 

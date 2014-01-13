@@ -11,29 +11,46 @@ _symbbcoreforumbundle_forum_list_child:
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
 
 _symbbcoreforumbundle_forum_new:
-    pattern:  /acp/forum/new/forum
-    defaults: { _controller: SymBBCoreForumBundle:Acp:new }
-
-_symbbcoreforumbundle_forum_edit:
-    pattern:  /acp/forum/edit/{id}
-    defaults: { _controller: SymBBCoreForumBundle:Acp:edit }
+    pattern:  /acp/forum/new/forum/{parent}
+    defaults: { _controller: SymBBCoreForumBundle:Acp:new, parent: 0 }
     
 _symbbcoreforumbundle_forum_new_category:
-    pattern:  /acp/forum/new/category
-    defaults: { _controller: SymBBCoreForumBundle:Acp:newCategory }
+    pattern:  /acp/forum/new/category/{parent}
+    defaults: { _controller: SymBBCoreForumBundle:Acp:newCategory, parent: 0 }
     
 _symbbcoreforumbundle_forum_new_link:
-    pattern:  /acp/forum/new/link
-    defaults: { _controller: SymBBCoreForumBundle:Acp:newLink }
+    pattern:  /acp/forum/new/link/{parent}
+    defaults: { _controller: SymBBCoreForumBundle:Acp:newLink, parent: 0 }
+
+_symbbcoreforumbundle_forum_edit:
+    pattern:  /acp/forum/{id}/edit
+    defaults: { _controller: SymBBCoreForumBundle:Acp:edit }
     
 _symbbcoreforumbundle_forum_sort:
     pattern:  /acp/forum/sort
     defaults: { _controller: SymBBCoreForumBundle:Acp:sort }
     
 _symbbcoreforumbundle_forum_remove:
-    pattern:  /acp/forum/remove/{id}
+    pattern:  /acp/forum/{id}/remove
     defaults: { _controller: SymBBCoreForumBundle:Acp:remove }
     
 _symbbcoreuserbundle_group_access:
     pattern:  /acp/access/group/{step}
     defaults: { _controller: SymBBCoreUserBundle:AcpAccess:group }
+    
+    
+_symbbcoreuserbundle_group_list:
+    pattern:  /acp/group/list
+    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:list }
+    
+_symbbcoreuserbundle_group_new:
+    pattern:  /acp/group/new
+    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:new }
+
+_symbbcoreuserbundle_group_edit:
+    pattern:  /acp/group/{id}/edit
+    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:edit }
+    
+_symbbcoreuserbundle_group_remove:
+    pattern:  /acp/group/{id}/remove
+    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:remove }

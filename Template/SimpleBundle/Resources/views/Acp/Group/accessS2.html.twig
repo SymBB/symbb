@@ -18,11 +18,11 @@
     {{ form_row(form._token) }}
     {{ form_row(form.subforum) }}
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
               {{ 'Gruppe'|trans }}: {{ group.getName() }}
             </div>
-            <div class="panel-footer">
+            <div class="panel-body">
                 {% for forum in forumList %}
                 <div class="panel panel-info">
                     <div class="panel-heading">

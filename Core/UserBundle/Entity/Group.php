@@ -30,7 +30,8 @@ class Group extends BaseGroup
      */
     protected $type = 'custom';
     
-    
     public function setType($value){$this->type = $value;}
     public function getType(){return $this->type;}
+    
+    public function getParent(){ return null; }
 }

@@ -34,10 +34,10 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     protected $symbbType = 'user';
     
      /**
-     * @ORM\ManyToMany(targetEntity="\SymBB\Core\UserBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="\SymBB\Core\UserBundle\Entity\Group", cascade={"all"})
      * @ORM\JoinTable(name="user_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")},
      * )
      */
     protected $groups;

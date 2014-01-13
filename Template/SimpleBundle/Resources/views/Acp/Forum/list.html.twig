@@ -2,9 +2,11 @@
 
 {% trans_default_domain "symbb_backend" %}
 
-{% block subnavi %}
-    {{ knp_menu_render('SymBBCoreForumBundle:Builder:subMenu') }}
+{% block symbb_sidebar %}
+{% set menuItem = knp_menu_get('SymBBCoreAdminBundle:Builder:forumMenu', [], {'parent': parent}) %}
+{{ knp_menu_render(menuItem, {'template': getSymbbTemplateConfig('acp') ~ '::sidemenu.html.twig'}) }}
 {% endblock %}
+
     
 {% block javascripts %} 
     {{ parent() }}
@@ -22,9 +24,9 @@
 {% endblock %}
 
 {% block symbb_body %}
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
         <div class="panel-heading">
-            <button onclick="window.location.href='{{path('_symbbcoreforumbundle_forum_new')}}';" type="button" class="btn btn-info">{{ 'new'|trans({}) }}</button>
+        {{ 'Forummanagment'|trans }}
         </div>
         <table class="table">
             <colgroup>
