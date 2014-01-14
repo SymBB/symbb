@@ -7,7 +7,7 @@ Macro to generate the row of a forum
 -->
 
 {% macro forumRow(object) %}
-    <div class="row forum {% if checkSymbbForForumNewFlag(object) %}new{% endif %}"> 
+    <div class="row forum {% if checkSymbbForForumNewFlag(object) %}new{% endif %}" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}'"> 
         <div class="col-md-6 nameBlock">{{_self.nameRow(object, true, true)}}</div>
         <div class="col-md-2 postCountBlock">
             {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;

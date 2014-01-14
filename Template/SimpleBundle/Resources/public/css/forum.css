@@ -25,6 +25,7 @@
     border-right: 1px solid #CCC;
     font-size: 12px;
     min-height: 50px;
+    cursor: pointer;
 }
 
 .symbb_list .row.new {
