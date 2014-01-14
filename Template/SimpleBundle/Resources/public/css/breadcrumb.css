@@ -1,22 +1,14 @@
 .symbb_breadcrumb a {
-    color: #FFF;
+    color: #000;
     line-height: 20px;
     font-size: 11px;
 }
 
 
 .symbb_breadcrumb  {
-    position: fixed;
-    top: 0px;
-    left: 0;
     width: 100%;
-    color: #FFF;
-    margin: 40px auto;
-    background-color: rgba(0,0,0,0.5);
-    border-top: 1px solid rgba(238,238,238,0.5);
-    border-bottom: 1px solid rgba(238,238,238,0.3);
-    z-index: 1000;
-    color: #FFF;
+    color: #000;
+    padding: 10px;
 }
 
 
@@ -29,8 +21,7 @@
 
 
 .symbb_breadcrumb .navbar .container {
-    width: 95%;
-    margin: auto;
+    width: 100%;
     padding-left: 0px;
     padding-right: 0px;
 }
@@ -38,7 +29,7 @@
 .symbb_breadcrumb .navbar-brand {
     padding: 3px;
     padding-right: 5px;
-    color: #FFF;
+    color: #000;
     line-height: initial;    
     margin-left: 0px !important;
     margin-top: 3px;
@@ -46,7 +37,7 @@
 
 .symbb_breadcrumb .navbar-nav>li>a {
     padding: 5px;
-    color: #FFF;
+    color: #000;
 }
 
 .symbb_breadcrumb .navbar-default {
@@ -57,7 +48,7 @@
 
 .symbb_breadcrumb .navbar-nav>li>a:hover,
 .symbb_breadcrumb .navbar-brand:hover {
-    color: #FFF;
+    color: #000;
 }
 
 .symbb_breadcrumb .navbar {
@@ -81,5 +72,5 @@
 }
 
 .symbb_breadcrumb .breadcrumb>.active {
-    color: #FFF;
+    color: #000;
 }

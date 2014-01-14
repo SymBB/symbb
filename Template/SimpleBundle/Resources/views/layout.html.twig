@@ -82,17 +82,21 @@
                 <div class="clear"></div>
             </div>
         </div>
-        {% block symbb_breadcrumb %}
-            {{ getSymbbBreadcrumb() }}
-        {% endblock %}
-        <div class="symbb_container">
         
-            <div class="symbb_navi">
-                {% block symbb_navi %} 
-                {% endblock %}
-            </div>
+        <div class="symbb_logo">
+        </div>
+        
+        <div class="symbb_navi">
+            {% block symbb_navi %} 
+            {% endblock %}
+        </div>
+        
+        <div class="symbb_container">
             
-            <div class="clear"></div>
+
+            {% block symbb_breadcrumb %}
+                {{ getSymbbBreadcrumb() }}
+            {% endblock %}
 
             <div class="symbb_actions">
                 

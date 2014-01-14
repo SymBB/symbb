@@ -4,7 +4,9 @@
 
 .symbb_list .row.category {
     padding: 5px;
-    color: #000;
+    color: #FFF;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid rgba(238,238,238,0.5);
 }
 
 .symbb_list .row.category {
@@ -36,9 +38,10 @@
 }
 
 .symbb_list .row.category a, 
-.symbb_list .row a {
+.symbb_list .row a,
+.symbb_list .row.category .nameBlock .description {
     cursor: pointer;
-    color: #000;
+    color: #FFF;
 }
 
 .symbb_list .row.forum a, 
