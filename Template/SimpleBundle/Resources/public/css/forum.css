@@ -7,6 +7,8 @@
     color: #FFF;
     background-color: rgba(0,0,0,0.5);
     border: 1px solid rgba(238,238,238,0.5);
+    background-color: #428bca;
+    border-color: #428bca;
 }
 
 .symbb_list .row.category {
@@ -16,13 +18,13 @@
 .symbb_list .row.forum, 
 .symbb_list .row.subcategory, 
 .symbb_list .row.topic {
-    background-color: #EEE;
-    padding: 4px;
+    padding: 8px;
     margin-bottom: 1px;
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
     font-size: 12px;
+    min-height: 50px;
 }
 
 .symbb_list .row.new {

@@ -152,7 +152,7 @@ Macro to generate a list of all topics
             </a>
         </div>
         <div class="col-md-2 postCountBlock">
-            {{topic.getPostCount()}} <span>{% trans %}Answers{% endtrans %}</span>
+            {% trans %}Answers{% endtrans %} <span class="badge">{{topic.getPostCount()}}</span>
         </div>
         <div class="col-md-4">
             {% if topic.getPostCount() %}

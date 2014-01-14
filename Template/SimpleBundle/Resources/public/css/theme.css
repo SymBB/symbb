@@ -54,9 +54,10 @@ root, body, html {
 }
 
 .symbb_header_bg {
-    background-color: #f8f8f8;
     border: 1px solid #ccc;
-    color: #000;
+    color: #FFF;
+    background-color: #428bca;
+    border-color: #428bca;
 }
 
 .f-right {
