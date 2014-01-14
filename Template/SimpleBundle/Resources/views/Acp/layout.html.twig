@@ -1,16 +1,6 @@
 {% trans_default_domain "symbb_backend" %}
 
 {% extends getSymbbTemplateConfig('acp') ~ '::layoutWithSidebar.html.twig' %}
-
-{% block stylesheets %} 
-    {{ parent() }}
-    {% stylesheets 
-        '@SymBBTemplateSimpleBundle/Resources/public/css/acp/*.css' filter='?yui_css'
-     %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
-    {% endstylesheets %}
-{% endblock %}
-    
     
 
 {% block symbb_navi %} 
