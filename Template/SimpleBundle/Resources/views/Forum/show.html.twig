@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block symbb_actions %}
-    {% if forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+    {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
          <div class="btn-group">
              {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
              <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
@@ -40,9 +40,9 @@
                 
     <div class="symbb_list">
             
+        {{ symbBBForumMacro.showForumList(forumList, 1) }}
         
-        {{ symbBBForumMacro.showForumList(forum.getChildren(), 1) }}
-        {% if forum.getType() == 'forum' %}
+        {% if forum and forum.getType() == 'forum' %}
             {% set topicPagination = getTopicPagination(forum) %}
             {{ symbBBForumMacro.showTopicList(topicPagination, forum) }}
         {% endif %}

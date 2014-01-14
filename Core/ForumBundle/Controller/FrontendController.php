@@ -46,8 +46,8 @@ class FrontendController extends \SymBB\Core\SystemBundle\Controller\AbstractCon
             }
         }
         
-        $params = array('forumList' => $forumList);
-        return $this->render($this->getTemplateBundleName('forum').':Forum:index.html.twig', $params);
+        $params = array('forumList' => $forumList, 'forum' => null);
+        return $this->render($this->getTemplateBundleName('forum').':Forum:show.html.twig', $params);
     }
     
     public function forumShowAction($name, $id){
@@ -57,7 +57,7 @@ class FrontendController extends \SymBB\Core\SystemBundle\Controller\AbstractCon
         $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
         $this->get('symbb.core.access.manager')->checkAccess();
         
-        $params = array('forum' => $forum);
+        $params = array('forum' => $forum, 'forumList' => $forum->getChildren());
         return $this->render($this->getTemplateBundleName('forum').':Forum:show.html.twig', $params);
     }
     

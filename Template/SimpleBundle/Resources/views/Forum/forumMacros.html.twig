@@ -10,8 +10,8 @@ Macro to generate the row of a forum
     <div class="row forum {% if checkSymbbForForumNewFlag(object) %}new{% endif %}"> 
         <div class="col-md-6 nameBlock">{{_self.nameRow(object, true, true)}}</div>
         <div class="col-md-2 postCountBlock">
-            {{object.getTopicCount()}} <span>{% trans %}Topics{% endtrans %}</span><br/>
-            {{object.getPostCount()}} <span>{% trans %}Posts{% endtrans %}</span>
+            {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;
+            {% trans %}Posts{% endtrans %} <span class="badge">{{object.getPostCount()}}</span>
         </div>
         <div class="col-md-4 lastPostBlock">{{_self.lastPostRow(object)}}</div>
     </div>
@@ -190,17 +190,21 @@ Macro to generate a List of Categories and Forums
             {% set forumTitle = 0 %}
         {% endif %}
 
-        {% if object.getType() == 'category' %}
-            {% if sub %}
-                {{ _self.subCategoryRow(object) }}
+        {% if hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+
+            {% if object.getType() == 'category' %}
+                {% if sub %}
+                    {{ _self.subCategoryRow(object) }}
+                {% else %}
+                    {{ _self.categoryRow(object) }}
+                {% endif %}
+                {% set forumTitle = 1 %}
+            {% elseif object.getType() == 'link' %}
+                {{ _self.linkRow(object) }}
             {% else %}
-                {{ _self.categoryRow(object) }}
+                {{ _self.forumRow(object) }}
             {% endif %}
-            {% set forumTitle = 1 %}
-        {% elseif object.getType() == 'link' %}
-            {{ _self.linkRow(object) }}
-        {% else %}
-            {{ _self.forumRow(object) }}
+
         {% endif %}
 
     {% else %}

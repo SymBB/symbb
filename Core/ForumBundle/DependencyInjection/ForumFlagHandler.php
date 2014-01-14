@@ -53,7 +53,7 @@ class ForumFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
         // an we must check if the user has ignore the forum
         if($flag === 'new'){
             $this->accessManager->addAccessCheck('SYMBB_FORUM#VIEW', $object, $user);
-            $access = $this->accessManager->checkAccess();
+            $access = $this->accessManager->hasAccess();
             if($access){
                 $ignore = $this->checkFlag($object, 'ignore', $user);
             } else {

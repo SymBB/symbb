@@ -55,6 +55,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userUser->setPlainPassword('user');
         $userUser->setEmail('user@no-email.com');
         $userUser->setEnabled(true);
+        $userUser->addGroup($this->getReference('guest-group'));
         $userUser->addGroup($this->getReference('user-group'));
         
         $userAdmin      = $userManager->createUser();
@@ -63,6 +64,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userAdmin->setPlainPassword('admin');
         $userAdmin->setEmail('admin-email.com');
         $userAdmin->setEnabled(true);
+        $userAdmin->addGroup($this->getReference('guest-group'));
+        $userAdmin->addGroup($this->getReference('user-group'));
         $userAdmin->addGroup($this->getReference('admin-group'));
        
         $userManager->updateUser($userGuest);

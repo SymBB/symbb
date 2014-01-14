@@ -82,6 +82,7 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
                 $entity = new $entity_class_name('');
+                $entity->addRole('ROLE_GUEST');
                 $entity->addRole('ROLE_USER');
             }
 

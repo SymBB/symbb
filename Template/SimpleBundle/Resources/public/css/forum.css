@@ -16,7 +16,6 @@
 .symbb_list .row.topic {
     background-color: #EEE;
     padding: 4px;
-    padding-top: 10px;
     margin-bottom: 1px;
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
@@ -93,7 +92,6 @@
 }
 .symbb_list .row .labels {
     float: right;
-    margin-top: -4px;
 }
 
 
@@ -106,10 +104,4 @@
 .symbb_list  .postCountBlock {
     text-align: right;
     font-size: 11px;
-}
-
-.symbb_list .row.forum .subForumList span
-.symbb_list  .topicCountBlock span,
-.symbb_list  .postCountBlock span {
-    color: #888;
 }

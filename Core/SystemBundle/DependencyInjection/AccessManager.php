@@ -208,7 +208,6 @@ class AccessManager {
             foreach($groups as $group){
                 $this->addAccessCheck($permission, $object, $group);
             }
-            
         } else if($indentityObject instanceof \SymBB\Core\UserBundle\Entity\Group){
             $indentity          = $this->getUserGroupIdentity($indentityObject);
         } else {
