@@ -26,10 +26,7 @@ class BundleLoader {
                 new \SymBB\Core\EventBundle\SymBBCoreEventBundle(),
                 new \SymBB\Core\MessageBundle\SymBBCoreMessageBundle(),
                 // SymBB optional bundles
-                new \SymBB\Extension\RatingBundle\SymBBExtensionRatingBundle(),
-                new \SymBB\Extension\BBCodeBundle\SymBBExtensionBBCodeBundle(),
                 new \SymBB\FOS\UserBundle\SymBBFOSUserBundle(),
-                new \SymBB\Extension\SurveyBundle\SymBBExtensionSurveyBundle(),
                 // SymBB Templates
                 new \SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle(),
                 // FOS 
