@@ -48,6 +48,8 @@ class BundleLoader {
             );
         
         $bundles = array_merge($bundles, $symbbBundles);
+        
+        \SymBB\ExtensionBundle\KernelPlugin::addBundles($bundles);
     }
     
 }
