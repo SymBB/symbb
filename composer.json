@@ -14,6 +14,7 @@
         }
     ],
     "require": {
+        "seyon/composer-plugin": "dev-master",
         "php": ">=5.3.3",
         "symfony/symfony": ">=2.4",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
@@ -24,9 +25,8 @@
         "knplabs/knp-menu-bundle": "2.0.*@dev",
         "knplabs/knp-paginator-bundle": "2.3.*@dev",
         "sonata-project/intl-bundle": "2.2.*@dev",
-        "helios-ag/fm-bbcode-bundle": "6.2",
-        "leaseweb/memcache-bundle": "1.1.*@dev",
-        "seyon/composer-plugin": "dev-master"
+        "helios-ag/fm-bbcode-bundle": "6.*@dev",
+        "leaseweb/memcache-bundle": "1.1.*@dev"
     },
     "minimum-stability": "dev",
     "autoload": {

@@ -29,7 +29,7 @@ class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormTyp
                 'second_options' => array('label' => 'form.password_confirmation', 'attr' => array('placeholder' => 'Retype your Password')),
                 'invalid_message' => 'fos_user.password.mismatch',
             ))
-            ->add('terms', 'checkbox', array('label' => 'Read and accepted Terms of Use', 'translation_domain' => 'symbb_frontend', 'mapped' => false))
+            ->add('terms', 'checkbox', array('label' => 'Read and accepted Terms of Use', 'translation_domain' => 'symbb_frontend', 'mapped' => false, 'required' => true))
             
         ;
     }
