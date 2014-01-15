@@ -26,7 +26,7 @@
         "sonata-project/intl-bundle": "2.2.*@dev",
         "helios-ag/fm-bbcode-bundle": "6.2",
         "leaseweb/memcache-bundle": "1.1.*@dev",
-        "seyon/composer_plugin": "dev-master"
+        "seyon/composer-plugin": "dev-master"
     },
     "minimum-stability": "dev",
     "autoload": {
