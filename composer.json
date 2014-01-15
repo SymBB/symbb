@@ -1,5 +1,5 @@
 {
-    "name": "seyon/symbb",
+    "name": "symbb/symbb",
     "type": "symfony-bundle",
     "description": "Symfony 2 BB Forum",
     "keywords": ["bb","forum", "Symfony"],
