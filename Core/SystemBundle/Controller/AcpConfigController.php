@@ -2,14 +2,11 @@
 /**
 *
 * @package symBB
-* @copyright (c) 2013 Christian Wielath
+* @copyright (c) 2013-2014 Christian Wielath
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 namespace SymBB\Core\SystemBundle\Controller;
-
-use SymBB\Core\SystemBundle\Form\Type\PanelStartType;
-use SymBB\Core\SystemBundle\Form\Type\PanelEndType;
 
 class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractController 
 {
@@ -31,6 +28,9 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 if($type == 'choice'){
                     $choices = $this->get('symbb.core.config.manager')->getChoices($key);
                     $options['choices'] = $choices->toArray();
+                }
+                if($type == 'bbcode'){
+                    $type = new \SymBB\Extension\BBCodeBundle\Form\Type\BBEditorType();
                 }
                 $name = \str_replace('.', '_', $key);
                 $options['attr']['section'] = $section;

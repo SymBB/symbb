@@ -2,7 +2,7 @@
 /**
 *
 * @package symBB
-* @copyright (c) 2013 Christian Wielath
+* @copyright (c) 2013-2014 Christian Wielath
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -30,9 +30,30 @@ class Config
     protected $key;
 
     /**
-     * @ORM\Column(name="config_value",type="string", length=255)
+     * @ORM\Column(name="config_value_string",type="string", length=255, nullable=true)
      */
-    protected $value;
+    protected $stringValue;
+
+    /**
+     * @ORM\Column(name="config_value_text",type="text", nullable=true)
+     */
+    protected $textValue;
+
+    /**
+     * @ORM\Column(name="config_value_datetime",type="datetime", nullable=true)
+     */
+    protected $datetimeValue;
+
+    /**
+     * @ORM\Column(name="config_value_int",type="integer", nullable=true)
+     */
+    protected $intValue;
+    
+
+    /**
+     * @ORM\Column(name="config_type", type="string", length=30, unique=false)
+     */
+    protected $type = 'string';
 
 
     ############################################################################
@@ -40,7 +61,24 @@ class Config
     ############################################################################
     public function getKey(){return $this->key;}
     public function setKey($value){$this->key = $value;}
-    public function getValue(){return $this->value;}
-    public function setValue($value){$this->value = $value;}
     ############################################################################
+    
+    public function setValue($value, $type = 'string'){
+        $this->resetValues();
+        $attribut = $type.'Value';
+        $this->$attribut = $value;
+        $this->type = $type;
+    }
+    
+    public function resetValues(){
+        $this->intValue         = null;
+        $this->datetimeValue    = null;
+        $this->stringValue      = null;
+        $this->textValue        = null;
+    }
+    
+    public function getValue(){
+        $attribut = $this->type.'Value';
+        return $this->$attribut;
+    }
 }

@@ -2,7 +2,7 @@
 /**
 *
 * @package symBB
-* @copyright (c) 2013 Christian Wielath
+* @copyright (c) 2013-2014 Christian Wielath
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -45,13 +45,33 @@ class ConfigManager {
         return $value;
     }
     
-    public function set($key, $value){
+    public function set($key, $value, $type = null){
+        
         $config = $this->em->getRepository('SymBBCoreSystemBundle:Config')->findOneBy(array('key' => $key));
+        
         if(!$config){
             $config = new \SymBB\Core\SystemBundle\Entity\Config();
             $config->setKey($key);
         }
-        $config->setValue($value);
+        
+        if($type === null){
+            
+            $type = $this->getType($key);
+            
+            if(\is_numeric($value)){
+                $type = 'integer';
+            } else if($type === 'date'){
+                $type = 'datetime';
+            } else if($type === 'textarea' || $type === 'bbcode'){
+                $type = 'text';
+            } else {
+                $type = 'string';
+            }
+            
+        }
+        
+        $config->setValue($value, $type);
+        
         $this->em->persist($config);
     }
     

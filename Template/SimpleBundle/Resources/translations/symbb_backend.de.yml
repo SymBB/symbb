@@ -46,6 +46,7 @@ config.template.template.acp: Acp Template
 config.template.template.forum: Forum Template
 config.template.template.portal: Portal Template
 config.template.template.email: Email Template
+config.default.system.imprint: Impressum
 Default Template: Standard Template
 You you can not delete guest or administrator role: Du kannst keine Gast oder Administrator Rolle löschen
 successfully saved: Erfolgreich gespeichert

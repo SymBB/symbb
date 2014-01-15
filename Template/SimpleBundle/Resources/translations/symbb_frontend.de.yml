@@ -81,4 +81,10 @@ sent: Gesendet
 message_info: Nachricht von %sender% am %date%
 message_on: am %date%
 message_by: von %sender%
-
+form.email: E-Mail
+form.username: Username
+form.password: Passwort
+form.password_confirmation: Passwort bestätigen
+Retype your Password: Passwor bestätigen
+Read and accepted Terms of Use: AGB´ gelesen und akzeptiert
+fos_user.password.mismatch: Die Passwörter stimmen nicht über ein

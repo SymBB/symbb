@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        {{ executeSymbbEvent('template.global.stylesheets') }}
     {% endblock %}
         
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -27,7 +28,7 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
     {% block javascripts %} 
-        
+        {{ executeSymbbEvent('template.global.javascripts') }}
     {% endblock %}
     </head>
 

@@ -2,12 +2,8 @@ services:
     symbb.listener.post.bbcode.editor:
         class: SymBB\Extension\BBCodeBundle\EventListener\TemplateListener
         tags:
-            - { name: kernel.event_listener, event: symbb.topic.template.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.topic.template.javascripts, method: javascripts }
-            - { name: kernel.event_listener, event: symbb.post.template.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.post.template.javascripts, method: javascripts }
-            - { name: kernel.event_listener, event: symbb.user.template.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.user.template.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
+            - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
     symbb.listener.post.bbcode.form:
         class: SymBB\Extension\BBCodeBundle\EventListener\FormListener
         tags:

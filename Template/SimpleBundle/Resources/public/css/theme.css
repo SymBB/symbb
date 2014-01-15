@@ -73,7 +73,6 @@ root, body, html {
 }
 
 .fos_user_content {
-    width: 250px;
     margin: 0 auto;
 }
 
@@ -190,5 +189,4 @@ root, body, html {
 .symbb_actions {
     padding: 10px;
     padding-bottom: 0px;
-    padding-top: 0px;
 }

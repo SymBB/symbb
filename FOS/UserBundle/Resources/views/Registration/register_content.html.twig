@@ -2,12 +2,25 @@
 
 {% form_theme form 'SymBBTemplateSimpleBundle::form.html.twig' %}
 
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal fos_user_registration_register">
-    {{ form_widget(form.email) }}
-        {{ form_widget(form.username) }}
-        {{ form_widget(form.plainPassword.first) }}
-        {{ form_widget(form.plainPassword.second) }}
-    {{ form_rest(form) }}
-        <br/>
-        <input type="submit" id="_submit" name="_submit" value="{{ 'registration.submit'|trans }}" class="btn btn-lg btn-primary btn-block" />
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal">
+        {{ form_rowbootstrap(form.email) }}
+        {{ form_rowbootstrap(form.username) }}
+        {{ form_rowbootstrap(form.plainPassword.first) }}
+        {{ form_rowbootstrap(form.plainPassword.second) }}
+         <div class="form-group">
+            {{ form_labelbootstrap(form.terms) }}
+            <div class="col-sm-10">
+            {{ form_widget(form.terms) }}
+            ( <a href=" {{ path('symbb_terms') }} ">{{ 'AGBs öffnen'|trans }}</a> )
+            </div>
+        </div>
+        {{ form_rest(form) }}
+                 
+        <div class="form-group">
+            <label class="col-sm-2 control-label required"></label>
+            <div class="col-sm-10">
+                <input type="submit" id="_submit" name="_submit" value="{{ 'registration.submit'|trans }}" class="btn btn-primary" />
+                
+            </div>
+        </div>
 </form>
