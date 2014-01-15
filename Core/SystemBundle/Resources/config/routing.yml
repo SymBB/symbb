@@ -29,3 +29,6 @@ _symbb_core_forum:
     resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"
  
     
+SymBBExtensionBundle_Extra:
+    resource: .
+    type: extra

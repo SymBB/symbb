@@ -27,6 +27,7 @@ class BundleLoader {
                 new \SymBB\Core\MessageBundle\SymBBCoreMessageBundle(),
                 // SymBB optional bundles
                 new \SymBB\FOS\UserBundle\SymBBFOSUserBundle(),
+                new \SymBB\ExtensionBundle\SymBBExtensionBundle(),
                 // SymBB Templates
                 new \SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle(),
                 // FOS 
