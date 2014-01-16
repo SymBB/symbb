@@ -17,6 +17,10 @@ symbb_imprint:
 symbb_terms:
     pattern:  /terms
     defaults: { _controller: SymBBCoreSystemBundle:StaticPage:terms }
+    
+symbb_test:
+    pattern:  /test
+    defaults: { _controller: SymBBCoreSystemBundle:StaticPage:test } 
 
     
     

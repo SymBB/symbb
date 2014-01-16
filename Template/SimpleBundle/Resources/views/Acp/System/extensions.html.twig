@@ -1,0 +1,39 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplateConfig('acp') ~ ':Acp:Layout/system.html.twig' %}
+
+{% block symbb_body %}
+
+<table class="table table-striped">
+
+    <colgroup>
+        <col style="width: auto"></col>
+        <col style="width: 300px"></col>
+    </colgroup>
+    
+    <thead>
+        <tr>
+            <th> {{ 'Extension'|trans }} </th>
+            <th> {{ 'Aktion'|trans }} </th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        {% for extension in extensions %}
+        <tr>
+            <td> {{ extension.getName() }} </td>
+            <td> 
+                {% if extension.isEnabled() %}
+                    <button onclick="window.location.href='{{ path('_symbbcoresystembundle_extension_disable', {'package': extension.getPackageForUrl()} ) }}'" type="button" class="btn btn-warning btn-xs">{{ 'Deaktivate'|trans }}</button>
+                {% else %}
+                    <button onclick="window.location.href='{{ path('_symbbcoresystembundle_extension_enable', {'package': extension.getPackageForUrl()} ) }}'" type="button" class="btn btn-success btn-xs">{{ 'Activate'|trans }}</button>
+                {% endif %}
+                <button type="button" class="btn btn-danger btn-xs">{{ 'Uninstall'|trans }}</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+{% endblock %}

@@ -59,3 +59,15 @@ _symbbcoreuserbundle_group_remove:
 _symbbcoresystembundle_config:
     pattern:  /acp/config
     defaults: { _controller: SymBBCoreSystemBundle:AcpConfig:index }
+    
+_symbbcoresystembundle_extensions:
+    pattern:  /acp/extensions
+    defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:index }
+    
+_symbbcoresystembundle_extension_disable:
+    pattern:  /acp/extension/{package}/disable
+    defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:disable }
+    
+_symbbcoresystembundle_extension_enable:
+    pattern:  /acp/extension/{package}/enable
+    defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:enable }
