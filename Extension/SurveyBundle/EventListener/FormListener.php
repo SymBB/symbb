@@ -24,7 +24,7 @@ class FormListener
             'attr' => array(),
             'constraints' => array(
                 new Length(array(
-                    'min'        => 10
+                    'min'        => 5
                 ))
             )
         ));
@@ -34,7 +34,7 @@ class FormListener
             'label' => 'The answers',
             'constraints' => array(
                 new Length(array(
-                    'min'        => 10
+                    'min'        => 1
                 ))
             ),
             'attr' => array(
