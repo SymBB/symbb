@@ -90,6 +90,11 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
             die();
         }
         
+        foreach($output as $key => $value){
+            $value        = \str_replace('color:rgba(230,230,50,1)', 'color:rgba(0, 126, 5, 1)', $value);
+            $output[$key] = \nl2br($value);
+        }
+        
         
         return $this->render(
             $this->getTemplateBundleName('forum').':Install:step_'.$step.'.html.twig',
