@@ -2,9 +2,10 @@
 
     var BBCodeEditor = function(element)
     {
-        var elem    = $(element);
+        var element = $(element).parent();
         var obj     = this;
-        var area    = $(element).find('.symbb_bbcode_editor_textarea');
+        var area    = $(element).find('.symbb_editor textarea');
+
         $(element).find('.symbb_bbbcode_btn').each(function(index, button) {
             $(button).click(function() {
                 button      = $(button);
@@ -14,6 +15,7 @@
         });
 
         this.insertCode = function(tagCode, element) {
+
             element = element[0];
             if (document.selection) {
                 element.focus();
@@ -51,5 +53,5 @@
 
 
 $(document).ready(function() {
-    $('#symbb_bbcode_editor').bbcodeEditor();
+    $('.symbb_editor').bbcodeEditor();
 });
