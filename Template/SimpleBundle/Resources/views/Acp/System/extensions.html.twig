@@ -28,7 +28,6 @@
                 {% else %}
                     <button onclick="window.location.href='{{ path('_symbbcoresystembundle_extension_enable', {'package': extension.getPackageForUrl()} ) }}'" type="button" class="btn btn-success btn-xs">{{ 'Activate'|trans }}</button>
                 {% endif %}
-                <button type="button" class="btn btn-danger btn-xs">{{ 'Uninstall'|trans }}</button>
             </td>
         </tr>
         {% endfor %}
