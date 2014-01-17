@@ -121,7 +121,13 @@ abstract class CrudController extends Controller
                 $em = $this->get('doctrine')->getManager('symbb');
                 $em->persist($entity);
                 $em->flush();
-                return $this->listAction();
+                if($form->has('parent')){
+                    $parent = $form->get('parent')->getData();
+                    if(\is_object($parent)){
+                        $parent = $parent->getId();
+                    }
+                }
+                return $this->listAction($parent);
             }
             else {
                 return $this->editCallback($form, $entity);

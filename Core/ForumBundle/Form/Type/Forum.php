@@ -43,7 +43,8 @@ class Forum extends AbstractType
         $helperTyp->setTranslator($this->translator);
         $aTypes = $helperTyp->getArray();
 
-        $builder->add('name')
+        $builder
+            ->add('name')
             ->add('parent', 'entity', array(
                 'class' => 'SymBBCoreForumBundle:Forum',
                 'choices' => $this->getParentList(),
