@@ -40,7 +40,7 @@
                                 <div class="panel">
                                     {% for permission in permissionData.permissions %}
                                         <div>
-                                            <input {% if hasSymbbAccess(permission, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ permission }}]" id="permission-{{count}}" > <label for="permission-{{count}}">{{ permission|trans({}, 'symbb_access') }}</label>
+                                            <input {% if hasSymbbAccess(permission, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ permission }}]" id="permission-{{ forum.getId() }}-{{count}}" > <label for="permission-{{ forum.getId() }}-{{count}}">{{ permission|trans({}, 'symbb_access') }}</label>
                                         </div>
                                         {% set count = count + 1%}
                                     {% endfor %}
