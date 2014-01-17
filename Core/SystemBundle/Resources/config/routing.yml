@@ -27,6 +27,9 @@ _symbb_core_user:
     
 _symbb_core_forum:
     resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"
+    
+_symbb_core_install:
+    resource: "@SymBBCoreInstallBundle/Resources/config/routing.yml"
  
     
 SymBBExtensionBundle_Extra:

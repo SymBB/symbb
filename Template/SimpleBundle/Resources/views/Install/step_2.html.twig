@@ -1,0 +1,29 @@
+{% extends getSymbbTemplateConfig('forum') ~ ':Install:step_1.html.twig' %}
+
+{% block progress %}
+
+<div class="progress progress-striped active">
+  <div class="progress-bar"  role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+    <span class="sr-only">30% Complete</span>
+  </div>
+</div>
+{% endblock %}
+
+{% block symbb_body %}
+
+{{ parent() }}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Enable extensions </h3>
+    </div>
+    <div class="panel-body">
+        {% if step == 2 %}
+        <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('symbb_install_step', {'step': 3}) }}'">Enable</button>
+        {% else %}
+        <button type="button" class="btn btn-default btn-sm">Enable</button>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

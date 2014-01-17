@@ -40,10 +40,13 @@ class GuestListener extends AnonymousAuthenticationListener
 
         $user = $this->em->getRepository('SymBBCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
         
-        $this->context->setToken(new AnonymousToken($this->key, $user, array()));
+        if(\is_object($user)){
+           
+            $this->context->setToken(new AnonymousToken($this->key, $user, array()));
 
-        if (null !== $this->logger) {
-            $this->logger->info('Populated SecurityContext with an anonymous Token');
+            if (null !== $this->logger) {
+                $this->logger->info('Populated SecurityContext with an anonymous Token');
+            }
         }
     }
 }

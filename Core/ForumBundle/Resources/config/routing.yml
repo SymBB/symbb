@@ -3,49 +3,49 @@ _symbb_index:
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
     
 symbb_forum_index:
-    pattern:  /
+    pattern:  /forum
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
     
 symbb_forum_show:
-    pattern:  /f-{name}/{id}/show
+    pattern:  /forum/f-{name}/{id}/show
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forumShow }
     
 symbb_forum_newest:
-    pattern:  /newest
+    pattern:  /forum/newest
     defaults: { _controller: SymBBCoreForumBundle:Frontend:newest }
     
 symbb_forum_topic_new:
-    pattern:  /f-{forum}/new
+    pattern:  /forum/f-{forum}/new
     defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:new }
     
 symbb_forum_topic_edit:
-    pattern:  /t-{topic}/edit
+    pattern:  /forum/t-{topic}/edit
     defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:edit }
     
 symbb_forum_topic_show:
-    pattern:  /t-{name}/{id}/show
+    pattern:  /forum/t-{name}/{id}/show
     defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:show}
     
 symbb_forum_ignore:
-    pattern:  /f-{forum}/ignore
+    pattern:  /forum/f-{forum}/ignore
     defaults: { _controller: SymBBCoreForumBundle:Frontend:ignore}
     
 symbb_forum_watch:
-    pattern:  /f-{forum}/watch
+    pattern:  /forum/f-{forum}/watch
     defaults: { _controller: SymBBCoreForumBundle:Frontend:watch}
 
 symbb_forum_read:
-    pattern:  /f-{forum}/read
+    pattern:  /forum/f-{forum}/read
     defaults: { _controller: SymBBCoreForumBundle:Frontend:read}
 
 symbb_new_post:
-    pattern:  /t-{topic}/new
+    pattern:  /forum/t-{topic}/new
     defaults: { _controller: SymBBCoreForumBundle:FrontendPost:new}
     
 symbb_edit_post:
-    pattern:  /p-{post}/edit
+    pattern:  /forum/p-{post}/edit
     defaults: { _controller: SymBBCoreForumBundle:FrontendPost:edit}
     
 symbb_delete_post:
-    pattern:  /p-{post}/delete
+    pattern:  /forum/p-{post}/delete
     defaults: { _controller: SymBBCoreForumBundle:FrontendPost:delete}

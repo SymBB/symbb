@@ -34,6 +34,7 @@ class AcpExtensionController extends \SymBB\Core\SystemBundle\Controller\Abstrac
         
         $api = new Api();
         $api->enable($package);
+        $api->clearCache();
         
         //workaound because after api call the cache will be deleted and after this the normale rendering of an twig template wil throw errors
         echo '<meta http-equiv="refresh" content="0; URL='.$uri.'">';
@@ -49,6 +50,7 @@ class AcpExtensionController extends \SymBB\Core\SystemBundle\Controller\Abstrac
         
         $api = new Api();
         $api->disable($package);
+        $api->clearCache();
         
         //workaound because after api call the cache will be deleted and after this the normale rendering of an twig template wil throw errors
         echo '<meta http-equiv="refresh" content="0; URL='.$uri.'">';
