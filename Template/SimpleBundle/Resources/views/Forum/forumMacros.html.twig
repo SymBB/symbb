@@ -185,6 +185,10 @@ Macro to generate a List of Categories and Forums
 
     {% for object in objects if object.isActive() %}
 
+        {% if object.getType() == 'category' %}
+            {% set forumTitle = 0 %}
+        {% endif %}
+
         {% if forumTitle %}
             {{ _self.showEmptyForumHeader() }}
             {% set forumTitle = 0 %}
