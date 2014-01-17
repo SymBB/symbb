@@ -34,7 +34,7 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
         }
         
         foreach ($container->getExtensions() as $name => $extension) {
-            if($name == 'security'){                
+            if($name == 'security' && !empty($prefix)){                
                 $config['acl']['tables']['class']                       = $prefix.'acl_classes';
                 $config['acl']['tables']['entry']                       = $prefix.'acl_entries';
                 $config['acl']['tables']['object_identity']             = $prefix.'acl_object_identities';
