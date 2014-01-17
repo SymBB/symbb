@@ -67,7 +67,7 @@ abstract class CrudController extends Controller
         $return = array('success' => 0);
         if ($request->isMethod('POST')) {
             $repository = $this->getRepository();
-            $em = $this->get('doctrine')->getEntityManager('symbb');
+            $em = $this->get('doctrine')->getManager('symbb');
             $entries = (array) $request->get('entry');
             $i = 0;
             foreach ($entries as $entry) {
@@ -118,7 +118,7 @@ abstract class CrudController extends Controller
             $form->bind($request);
             $entity = $this->getFormEntity();
             if ($form->isValid()) {
-                $em = $this->get('doctrine')->getEntityManager('symbb');
+                $em = $this->get('doctrine')->getManager('symbb');
                 $em->persist($entity);
                 $em->flush();
                 return $this->listAction();
@@ -137,7 +137,7 @@ abstract class CrudController extends Controller
         $parent = null;
         if (is_object($entity)) {
             $parent = $entity->getParent();
-            $em = $this->get('doctrine')->getEntityManager('symbb');
+            $em = $this->get('doctrine')->getManager('symbb');
             $em->remove($entity);
             $em->flush();
         }

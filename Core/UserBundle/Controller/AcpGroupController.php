@@ -53,7 +53,7 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
             }
         
             $parent = $entity->getParent();
-            $em = $this->get('doctrine')->getEntityManager('symbb');
+            $em = $this->get('doctrine')->getManager('symbb');
             $em->remove($entity);
             $em->flush();
         }

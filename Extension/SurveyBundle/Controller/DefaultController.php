@@ -18,7 +18,7 @@ class DefaultController  extends Controller
     public function voteAction($name, $post){
         
         
-        $em = $this->get('doctrine')->getEntityManager('symbb');
+        $em = $this->get('doctrine')->getManager('symbb');
         
         $post = $em->getRepository('SymBBCoreForumBundle:Post')
             ->find($post);
