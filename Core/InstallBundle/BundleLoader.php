@@ -11,7 +11,7 @@ namespace SymBB\Core\InstallBundle;
 
 class BundleLoader {
     
-    public static function loadBundles(&$bundles){
+    public static function loadBundles(&$bundles, $kernel){
         
         $symbbBundles = array(
                 // none Default Bundles
