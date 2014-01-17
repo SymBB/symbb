@@ -47,7 +47,7 @@ class BundleLoader {
         
         $bundles = array_merge($bundles, $symbbBundles);
         
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($kernel->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
         }
         
