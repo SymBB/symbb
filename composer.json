@@ -41,7 +41,7 @@
         "kunstmaan/sitemap-bundle": "dev-master",
         "kunstmaan/utilities-bundle": "dev-master",
         "kunstmaan/live-reload-bundle": "dev-master",
-        "kunstmaan/translator-bundle": "dev-master",
+        "kunstmaan/translator-bundle": "dev-master"
     },
     "minimum-stability": "dev",
     "autoload": {
