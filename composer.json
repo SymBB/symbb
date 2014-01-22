@@ -27,21 +27,7 @@
         "helios-ag/fm-bbcode-bundle": "6.*@dev",
         "leaseweb/memcache-bundle": "1.1.*@dev",
         "symbb/extension-bundle": "dev-master",
-        "coresphere/console-bundle": "dev-master",
-        "kunstmaan/languagechooser-bundle": "dev-master",
-        "kunstmaan/media-bundle": "dev-master",
-        "kunstmaan/media-pagepart-bundle": "dev-master",
-        "kunstmaan/newrelicbundle": "dev-master",
-        "kunstmaan/node-bundle": "dev-master",
-        "kunstmaan/node-search-bundle": "dev-master",
-        "kunstmaan/pagepart-bundle": "dev-master",
-        "kunstmaan/search-bundle": "dev-master",
-        "kunstmaan/sentry-bundle": "dev-master",
-        "kunstmaan/seo-bundle": "dev-master",
-        "kunstmaan/sitemap-bundle": "dev-master",
-        "kunstmaan/utilities-bundle": "dev-master",
-        "kunstmaan/live-reload-bundle": "dev-master",
-        "kunstmaan/translator-bundle": "dev-master"
+        "coresphere/console-bundle": "dev-master"
     },
     "minimum-stability": "stable",
     "autoload": {
