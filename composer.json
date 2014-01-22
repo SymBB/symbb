@@ -43,7 +43,7 @@
         "kunstmaan/live-reload-bundle": "dev-master",
         "kunstmaan/translator-bundle": "dev-master"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-0": { "SymBB\\": "" }
     },
