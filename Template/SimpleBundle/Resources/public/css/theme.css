@@ -194,6 +194,10 @@ root, body, html {
     padding: 10px;
 }
 
+.footer a {
+    color: #FFF;
+}
+
 .footer ul {
     list-style: none;
     float: left;

@@ -29,7 +29,7 @@ class StaticPageController extends \SymBB\Core\SystemBundle\Controller\AbstractC
         
         return $this->render(
             $this->getTemplateBundleName('forum').'::terms.html.twig',
-            array('imprint' => $configData)
+            array('terms' => $configData)
         );
         
     }
