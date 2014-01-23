@@ -72,15 +72,34 @@ root, body, html {
     left: 0;
     height: 40px;
     width: 100%;
-    background-color: #232323;
+    background-color: #428BCA;
     border-bottom: 1px solid rgba(0,0,0,0.1);
     z-index: 1000;
     color: #FFF;
 }
 
+.symbb_user_panel .brand {
+    float: left;
+    height: 40px;
+    padding: 12px;
+    background-color: #428BCA;
+}
+
+.symbb_user_panel .arrow {
+    content: "";
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #428BCA;
+    width: 0;
+    height: 0;
+    display: block;
+    float: left;
+}
 .symbb_user_panel .content {
-    width: 95%;
-    margin: 5px auto;
+    background-color: #232323;
+    padding-top: 5px;
+    padding-left: 100px;
+    padding-right: 5px;
 }
 
 .avatar {
@@ -159,4 +178,5 @@ root, body, html {
 .breadcrumb {
     border-radius: 0;
     background-color: #FFF;
+    font-size: 11px;
 }
