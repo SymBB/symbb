@@ -37,11 +37,77 @@
 
 {% block symbb_body %}
 
+    {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+
+            
+        <div class="symbb_category">
+            <a href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}">
+                <div class="title">{{object.getName()}}</div>
+                <div class="description">{{object.getDescription()}}</div>
+                <div class="infos">
+                    {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;
+                    {% trans %}Posts{% endtrans %} <span class="badge">{{object.getPostCount()}}</span>
+                    {% if checkSymbbForForumNewFlag(object) %}
+                        <span class="label label-success">{% trans %}new{% endtrans %}</span>
+                    {% endif %}
+                    <div class="more">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                        <div class="clear"></div>
+                        <div class="more-infos">
+                            {% if object.getLastPost() %}
+                                <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
+                                    <div class="name">{{object.getLastPost().getName()}}</div>
+                                    <div class="user">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                                </a>
+                            {% else %}
+                                {% trans %}no Topics{% endtrans %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+    {% endfor %}
+
+    <div class="clear"></div>
+
+    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+
+            
+        <div class="symbb_category">
+            <a href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}">
+                <div class="title">{{object.getName()}}</div>
+                <div class="description">{{object.getDescription()}}</div>
+                <div class="infos">
+                    {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;
+                    {% trans %}Posts{% endtrans %} <span class="badge">{{object.getPostCount()}}</span>
+                    {% if checkSymbbForForumNewFlag(object) %}
+                        <span class="label label-success">{% trans %}new{% endtrans %}</span>
+                    {% endif %}
+                    <div class="more">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                        <div class="clear"></div>
+                        <div class="more-infos">
+                            {% if object.getLastPost() %}
+                                <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
+                                    <div class="name">{{object.getLastPost().getName()}}</div>
+                                    <div class="user">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                                </a>
+                            {% else %}
+                                {% trans %}no Topics{% endtrans %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+
+    {% endfor %}
                 
     <div class="symbb_list">
-            
-        {{ symbBBForumMacro.showForumList(forumList, 1) }}
-        
         {% if forum and forum.getType() == 'forum' %}
             {% set topicPagination = getTopicPagination(forum) %}
             {{ symbBBForumMacro.showTopicList(topicPagination, forum) }}

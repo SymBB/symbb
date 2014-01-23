@@ -1,0 +1,51 @@
+.symbb_navi {
+    width: 150px;
+    position: fixed;
+    top: 100px;
+    left: -130px;
+    z-index: 999;
+}
+
+.symbb_navi ul{
+    list-style: none;
+    width: 150px;
+    padding: 0;
+    margin: 0;
+}
+
+.symbb_navi ul li{
+    list-style: none;
+    float: left;
+    width: 100%;
+    background-color: #232323;
+    padding: 5px;
+    text-align: right;
+    margin-bottom: 5px;
+    height: 35px;
+}
+
+.symbb_navi ul li a { 
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.symbb_navi ul li:hover { 
+    position: relative;
+    left: 100px;
+}
+
+.symbb_navi ul li .text{
+    color: #FFF;
+    margin-top: 5px;
+    display: block;
+    float: right;
+}
+
+.symbb_navi .glyphicon {
+    color: #FFF;
+    width: 20px !important;
+    font-size: 16px;
+    padding: 5px;
+    float: right;
+}

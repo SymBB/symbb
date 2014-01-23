@@ -1,3 +1,61 @@
+.symbb_category {
+    
+    width: 200px;
+    float: left;
+    min-height: 100px;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #666;
+    position: relative;
+    margin-bottom: 10px;
+    
+}
+
+.symbb_category a,
+.symbb_category a:link,
+.symbb_category a:visited,
+.symbb_category a:active {
+    color: #FFF;
+    text-decoration: none;
+}
+
+.symbb_category .title {
+    font-weight: bold;
+    padding: 5px;
+    border-bottom: 1px solid #CCC;
+    background-color: #232323;
+    color: #FFF;
+    text-align: center;
+}
+
+.symbb_category .description {
+    padding: 5px;
+    color: #000;
+}
+
+.symbb_category .infos {
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    border-top: 1px solid #CCC;
+    background-color: #232323;
+    width: 200px;
+    color: #FFF;
+    text-align: center;
+}
+
+.symbb_category .infos .more-infos {
+    display: none;
+    height: 25px;
+    overflow: hidden;
+}
+
+.symbb_category .infos .more:hover .more-infos{
+    display: block;
+}
+
+
+
 .symbb_list .row.space {
     height: 14px;
 }

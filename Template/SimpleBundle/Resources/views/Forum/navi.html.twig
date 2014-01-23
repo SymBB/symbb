@@ -1,19 +1,24 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ path('_symbb_index') }}">{% trans %}Portal{% endtrans %}</a></li>
-                <li><a href="{{ path('symbb_forum_index') }}">{% trans %}Forum{% endtrans %}</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Search{% endtrans %} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('symbb_forum_newest') }}">{% trans %}Newest Posts{% endtrans %}</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div>
+<nav class="navbar" role="navigation">
+    <ul>
+        <li>
+            <a href="{{ path('_symbb_index') }}">
+                <span class="glyphicon glyphicon-globe"></span>
+                <span class="text">{% trans %}Portal{% endtrans %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('symbb_forum_index') }}">
+                <span class="glyphicon glyphicon-th-list"></span>
+                <span class="text">{% trans %}Forum{% endtrans %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('symbb_forum_newest') }}">
+                <span class="glyphicon glyphicon-search"></span>
+                <span class="text">{% trans %}Newest Posts{% endtrans %}</span>
+            </a>
+        </li>
+    </ul>
 </nav>

@@ -14,6 +14,7 @@
             '@SymBBTemplateSimpleBundle/Resources/public/css/theme.css' filter='?yui_css'
             '@SymBBTemplateSimpleBundle/Resources/public/css/form.css' filter='?yui_css'
             '@SymBBTemplateSimpleBundle/Resources/public/css/breadcrumb.css' filter='?yui_css'
+            '@SymBBTemplateSimpleBundle/Resources/public/css/navi.css' filter='?yui_css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -86,56 +87,48 @@
             </div>
         </div>
         
-        <div class="symbb_logo">
-        </div>
-        
         <div class="symbb_navi">
             {% block symbb_navi %} 
             {% endblock %}
         </div>
         
         <div class="symbb_container">
-            
+            <div class="symbb_content">
 
-            {% block symbb_breadcrumb %}
-                {{ getSymbbBreadcrumb() }}
-            {% endblock %}
 
-            <div class="symbb_actions">
-                
-            {% if app.getUser.getSymbbType() == 'guest' %}
-                <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
-            {% endif %}
-                
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="alert alert-success">
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
-                
-            {% for flashMessage in app.session.flashbag.get('error') %}
-                <div class="alert alert-danger">
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
-                
-            {% block symbb_actions %}
-                   
-            {% endblock %}
-            </div>
-            
-            <div class="clear"></div>
-            
-            {% block symbb_body_container %}
-            <div class="row">
-                <div class="symbb_body col-md-12">
-                    {% block symbb_body %}
+                {% block symbb_breadcrumb %}
+                    {{ getSymbbBreadcrumb() }}
+                {% endblock %}
+
+                <div class="symbb_actions">
+
+                    {% if app.getUser.getSymbbType() == 'guest' %}
+                        <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+                    {% endif %}
+
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="alert alert-success">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    {% for flashMessage in app.session.flashbag.get('error') %}
+                        <div class="alert alert-danger">
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+
+                    {% block symbb_actions %}
 
                     {% endblock %}
-                    <div class="clear"></div>
                 </div>
+
+                <div class="clear"></div>
+
+                {% block symbb_body %}
+
+                {% endblock %}
             </div>
-            {% endblock %}
         </div>
     </body>
 </html>
