@@ -32,6 +32,9 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 if($type == 'bbcode'){
                     $type = new \SymBB\Extension\BBCodeBundle\Form\Type\BBEditorType();
                 }
+                if($type == 'number' || $type == 'int'){
+                    $type = 'integer';
+                }
                 $name = \str_replace('.', '_', $key);
                 $options['attr']['section'] = $section;
                 $options['label'] = 'config.'.$section.'.'.$key;

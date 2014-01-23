@@ -13,6 +13,7 @@ use \SymBB\Core\ForumBundle\Entity\Forum;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
+use  \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
 class ForumManager
 {
@@ -33,11 +34,24 @@ class ForumManager
      */
     protected $postFlagHandler;
     
-    public function __construct(SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, $em)
-    {
+    /**
+     *
+     * @var ConfigManager 
+     */
+    protected $configManager;
+
+
+    public function __construct(
+        SecurityContextInterface $securityContext, 
+        TopicFlagHandler $topicFlagHandler, 
+        PostFlagHandler $postFlagHandler,
+        ConfigManager $configManager,
+        $em
+    ){
         $this->securityContext  = $securityContext;
         $this->topicFlagHandler = $topicFlagHandler;
         $this->postFlagHandler  = $postFlagHandler;
+        $this->configManager    = $configManager;
         $this->em               = $em;
     }
     
@@ -56,6 +70,9 @@ class ForumManager
     
     public function findNewestPosts(Forum $parent = null, $limit = null)
     {
+        if($limit === null){
+            $limit = $this->configManager->get('forum.newpost.max');
+        }     
         $posts = $this->postFlagHandler->findPostsByFlag('new', $parent, null, true, $limit);
         return $posts;
     }

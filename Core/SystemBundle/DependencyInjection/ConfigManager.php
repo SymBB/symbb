@@ -64,6 +64,8 @@ class ConfigManager {
                 $type = 'datetime';
             } else if($type === 'textarea' || $type === 'bbcode'){
                 $type = 'text';
+            } else if($type === 'int' || $type === 'number'){
+                $type = 'integer';
             } else {
                 $type = 'string';
             }

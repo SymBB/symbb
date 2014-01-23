@@ -185,3 +185,33 @@ root, body, html {
     background-color: #FFF;
     font-size: 11px;
 }
+
+.footer {
+    clear: both;
+    background-color: #232323;
+    margin-top: 5px;
+    color: #FFF;
+    padding: 10px;
+}
+
+.footer ul {
+    list-style: none;
+    float: left;
+    margin: 0;
+    margin-right: 10px;
+    border-left: 1px solid #CCC;
+    padding: 0;
+}
+
+.footer ul li{
+    margin-right: 10px;
+    padding: 0;
+    margin: 0;
+    padding-left: 5px;
+}
+
+.footer ul li:hover {
+    background-color: #CCC;
+    color: #000;
+    cursor: pointer;
+}

@@ -47,7 +47,7 @@ class Config
     /**
      * @ORM\Column(name="config_value_int",type="integer", nullable=true)
      */
-    protected $intValue;
+    protected $integerValue;
     
 
     /**

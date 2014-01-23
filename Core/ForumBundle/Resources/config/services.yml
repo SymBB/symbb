@@ -22,7 +22,7 @@ services:
             
     symbb.core.forum.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumManager
-        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@doctrine.orm.symbb_entity_manager']
+        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager']
             
     symbb.core.forum.flag:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumFlagHandler
@@ -48,3 +48,10 @@ services:
         class: SymBB\Core\ForumBundle\Acl\Manager
         tags:
             - { name: symbb.acl.manager }
+            
+    symbb.core.forum.config:
+        class: SymBB\Core\ForumBundle\EventListener\ConfigListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.config.defaults, method: defaults }
+            - { name: kernel.event_listener, event: symbb.config.type, method: type }
+            - { name: kernel.event_listener, event: symbb.config.section, method: section }

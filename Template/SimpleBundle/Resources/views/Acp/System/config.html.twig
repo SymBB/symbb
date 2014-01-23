@@ -1,6 +1,10 @@
 {% trans_default_domain "symbb_backend" %}
 
-{% extends getSymbbTemplateConfig('acp') ~ ':Acp:Layout/system.html.twig' %}
+{% extends getSymbbTemplateConfig('acp') ~ ':Acp:Layout/list.html.twig' %}
+
+{% block symbb_sidebar %}
+{{ knp_menu_render('SymBBCoreAdminBundle:Builder:systemMenu', {'template': getSymbbTemplateConfig('acp') ~ '::sidemenu.html.twig'}) }}
+{% endblock %}
 
 {% form_theme form getSymbbTemplateConfig('acp') ~ '::form.html.twig' %}
 

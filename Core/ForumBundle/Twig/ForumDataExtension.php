@@ -43,7 +43,7 @@ class ForumDataExtension extends \Twig_Extension
         return $this->checkForFlag($element, 'new');
     }
     
-    public function getNewestPost($parent, $limit = 10)
+    public function getNewestPost($parent, $limit = null)
     {
         return $this->forumManager->findNewestPosts($parent, $limit);
     }

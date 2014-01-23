@@ -99,7 +99,7 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
     }
     
     public function doFindPostsByFlag($flag, $element, $user = null, $objects = true, $limit = null){
-        
+   
         if(is_object($element)){
 
             if(!$user){
