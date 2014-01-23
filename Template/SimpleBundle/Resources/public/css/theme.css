@@ -156,3 +156,8 @@ root, body, html {
     margin-bottom: 10px;
     
 }
+
+.breadcrumb {
+    border-radius: 0;
+    background-color: #FFF;
+}
