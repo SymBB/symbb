@@ -6,15 +6,7 @@ root, body, html {
     width: 100%;
     height: 100%;
     background-color: #CCC;
-    /*
-    background:
-    radial-gradient(#1c1c1c 15%, transparent 16%) 0 0,
-    radial-gradient(#1c1c1c 15%, transparent 16%) 8px 8px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-    background-color:#282828;
-    background-size:15px 15px;
-    */
+    background-image: url(/bundles/symbbtemplatesimple/images/bg/shattered.png)
 }
 
 .symbb_container {
@@ -33,11 +25,6 @@ root, body, html {
 .symbb_container .row {
     padding: 10px;
 }
-
-.symbb_topic .row.body:last-child {
-    margin-bottom: 20px;
-}
-
 .symbb_body {
     margin-bottom: 20px;
     padding: 0px;
@@ -54,9 +41,10 @@ root, body, html {
 
 .symbb_header_bg {
     border: 1px solid #ccc;
-    color: #FFF;
-    background-color: #428bca;
-    border-color: #428bca;
+    color: #000;
+    background-color: #F5F5F5;
+    border-color: #CCC;
+    border-radius: 3px 3px 0px 0px;
 }
 
 .f-right {
@@ -164,6 +152,7 @@ root, body, html {
 }
 
 .symbb_actions {
-    padding: 10px;
     padding-bottom: 0px;
+    margin-bottom: 10px;
+    
 }

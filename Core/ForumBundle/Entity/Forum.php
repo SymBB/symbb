@@ -130,7 +130,12 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
         $count = $this->topicCount;
         if($count === null){
             $topics = $this->getTopics();
-            $count  = $this->topicCount = count($topics);
+            $count  = count($topics);
+            $childs = $this->getChildren();
+            foreach($childs as $child){
+                $count += $child->getTopicCount();
+            }
+            $this->topicCount = $count;
         }
         return $count;
     }
@@ -144,7 +149,11 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
                 $posts  = $topic->getPosts();
                 $count  += count($posts);
             }
-            $this->topicCount = $count;
+            $childs = $this->getChildren();
+            foreach($childs as $child){
+                $count += $child->getPostCount();
+            }
+            $this->postCount = $count;
         }
         return $count;
     }
@@ -154,8 +163,27 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
         $topics = $this->getTopics();
         foreach($topics as $topic){
             $currLastPost = $topic->getPosts()->last();
-            if(!$lastPost || $currLastPost->getChanged() > $lastPost->getChanged()){
+            if(
+                \is_object($currLastPost) &&
+                (
+                    !$lastPost || 
+                    $currLastPost->getChanged() > $lastPost->getChanged()    
+                )
+            ){
                 $lastPost = $currLastPost;
+            }
+        }
+        $childs = $this->getChildren();
+        foreach($childs as $child){
+            $lastChildPost = $child->getLastPost();
+            if(
+                is_object($lastChildPost) && 
+                (
+                    !$lastPost ||
+                    $lastChildPost->getChanged() > $lastPost->getChanged() 
+                )
+            ){
+                $lastPost = $lastChildPost;
             }
         }
         return $lastPost;

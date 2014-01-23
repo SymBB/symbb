@@ -9,14 +9,21 @@
     padding-top: 8px;
 }
 
+
+
 .symbb_topic .row.body {
-    background-color: #EEE;
+    background-color: #FFF;
     padding: 0.3em;
     padding-top: 0.8em;
     margin-bottom: 1px;
     border-bottom: 1px solid #CCC;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
+    border-radius: 0px 0px 3px 3px;
+}
+
+.symbb_topic .row.body:last-child {
+    margin-bottom: 20px;
 }
 
 .symbb_topic .textblock .text {

@@ -1,13 +1,14 @@
 .symbb_category {
     
-    width: 200px;
+    width: 400px;
     float: left;
-    min-height: 100px;
-    overflow: hidden;
-    background-color: #fff;
-    border: 1px solid #666;
+    min-height: 200px;
+    border: 1px solid #CCC;
     position: relative;
     margin-bottom: 10px;
+    margin-right: 10px;
+    background-color: #FFF;
+    color: #000;
     
 }
 
@@ -15,157 +16,43 @@
 .symbb_category a:link,
 .symbb_category a:visited,
 .symbb_category a:active {
-    color: #FFF;
+    color: #000;
     text-decoration: none;
 }
 
 .symbb_category .title {
     font-weight: bold;
-    padding: 5px;
-    border-bottom: 1px solid #CCC;
-    background-color: #232323;
-    color: #FFF;
-    text-align: center;
+    padding: 20px;
+    text-align: left;
+    color: #000;
+    padding-bottom: 5px;
 }
 
 .symbb_category .description {
-    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
     color: #000;
+    padding-top: 0;
+}
+
+.symbb_category .subheader {
+    clear: both;
+    color: #AAA;
+    font-size: 11px;
+    margin-top: 5px;
+    border-bottom: 1px solid #EEE;
+    margin-bottom: 5px;
 }
 
 .symbb_category .infos {
-    position: absolute;
-    bottom: 0;
-    padding: 5px;
-    border-top: 1px solid #CCC;
-    background-color: #232323;
-    width: 200px;
-    color: #FFF;
-    text-align: center;
+    padding: 20px;
 }
 
 .symbb_category .infos .more-infos {
-    display: none;
-    height: 25px;
+}
+
+
+.symbb_category .lastpost {
+    height: 30px;
     overflow: hidden;
-}
-
-.symbb_category .infos .more:hover .more-infos{
-    display: block;
-}
-
-
-
-.symbb_list .row.space {
-    height: 14px;
-}
-
-.symbb_list .row.category {
-    padding: 5px;
-    color: #FFF;
-    background-color: rgba(0,0,0,0.5);
-    border: 1px solid rgba(238,238,238,0.5);
-    background-color: #428bca;
-    border-color: #428bca;
-}
-
-.symbb_list .row.category {
-    margin-top: 5px;
-}
-
-.symbb_list .row.forum, 
-.symbb_list .row.subcategory, 
-.symbb_list .row.topic {
-    padding: 8px;
-    margin-bottom: 1px;
-    border-bottom: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    font-size: 12px;
-    min-height: 50px;
-    cursor: pointer;
-}
-
-.symbb_list .row.new {
-    color: #31708f;
-    background-color: #d9edf7;
-}
-
-.symbb_list .row .nameBlock .user,
-.symbb_list .row .lastPostBlock .user,
-.symbb_list .row .nameBlock .description {
-    font-size: 11px;
-    color: #2E5F75;
-}
-
-.symbb_list .row.category a, 
-.symbb_list .row a,
-.symbb_list .row.category .nameBlock .description {
-    cursor: pointer;
-    color: #FFF;
-}
-
-.symbb_list .row.forum a, 
-.symbb_list .row.subcategory a, 
-.symbb_list .row.topic a {
-    cursor: pointer;
-    color: #000;
-}
-
-
-.symbb_list .row.forum .description {
-    font-size: 11px;
-}
-
-.symbb_list .row.forum .subForumList {
-    float: left;
-    font-size: 11px;
-    margin-left: 20px;
-    font-style: italic;
-}
-
-
-.symbb_list .row.forum:hover {
-    background-color: #CCC;
-}
-
-.symbb_list .row.topic:hover {
-    background-color: #CCC;
-}
-
-.symbb_list .row.topic:hover a {
-    text-decoration: none;
-}
-
-.symbb_list .padding1em {
-    padding: 14px;
-}
-
-.symbb_list .row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.symbb_list .row .glyphicon {
-    margin-right: 10px;
-}
-
-.symbb_list .row .name {
-    margin-right: 7px;
-    float: left;
-}
-.symbb_list .row .labels {
-    float: right;
-}
-
-
-.symbb_list .row .user {
-    clear: both;
-}
-
-.symbb_list .row.forum .subForumList
-.symbb_list  .topicCountBlock ,
-.symbb_list  .postCountBlock {
-    text-align: right;
-    font-size: 11px;
 }
