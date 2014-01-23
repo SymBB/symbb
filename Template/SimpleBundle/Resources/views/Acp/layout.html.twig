@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     
     {% block stylesheets %} 
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {% stylesheets 
-            '@SymBBTemplateSimpleBundle/Resources/public/css/acp.css' filter='?yui_css'
+            '@SymBBTemplateSimpleBundle/Resources/public/css/acp/theme.css' filter='?yui_css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        {{ executeSymbbEvent('template.global.stylesheets') }}
+        {{ executeSymbbEvent('template.acp.stylesheets') }}
     {% endblock %}
         
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -25,6 +27,8 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
     {% block javascripts %} 
+        {{ executeSymbbEvent('template.global.javascripts') }}
+        {{ executeSymbbEvent('template.acp.javascripts') }}
     {% endblock %}
     </head>
 
@@ -32,15 +36,11 @@
         
         <div class="symbb_navi">
             {% block symbb_navi %} 
+                {% include getSymbbTemplateConfig('acp') ~ ':Acp:navi.html.twig' %}
             {% endblock %}
         </div>
         
         <div class="symbb_container">
-            
-
-            {% block symbb_breadcrumb %}
-                {{ getSymbbBreadcrumb() }}
-            {% endblock %}
 
             <div class="symbb_actions">
                 
@@ -67,16 +67,17 @@
             
             <div class="clear"></div>
             
-            {% block symbb_body_container %}
-            <div class="row">
-                <div class="symbb_body col-md-12">
-                    {% block symbb_body %}
+            <div class="symbb_sidebar">
+                {% block symbb_sidebar %}
 
-                    {% endblock %}
-                    <div class="clear"></div>
-                </div>
+                {% endblock %}
             </div>
-            {% endblock %}
+            
+            <div class="symbb_body">
+                {% block symbb_body %}
+
+                {% endblock %}
+            </div>
         </div>
     </body>
 </html>

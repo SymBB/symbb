@@ -18,12 +18,14 @@ fos_message:
  
 _symbb_acp_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
+    prefix: /acp
     
 _symbb_frontend_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/frontend.yml"
     
 _symbb_core_user:
     resource: "@SymBBCoreUserBundle/Resources/config/routing.yml"
+    prefix: /ucp
     
 _symbb_core_forum:
     resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"
