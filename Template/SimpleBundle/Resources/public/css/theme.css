@@ -17,6 +17,9 @@ root, body, html {
     margin-top: 50px;
 }
 
+.symbb_body {
+}
+
 .symbb_body .btn-group {
     margin-bottom: 0px;
 }
@@ -169,10 +172,12 @@ root, body, html {
     padding-top: 0px;
 }
 
+.symbb_sidebar {
+    padding-right: 0px;
+}
+
 .symbb_actions {
-    padding-bottom: 0px;
     margin-bottom: 10px;
-    
 }
 
 .breadcrumb {

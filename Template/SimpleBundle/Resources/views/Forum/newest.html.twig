@@ -14,38 +14,11 @@
 
 {% block symbb_body %}
 
-    <div class="symbb_list">
-        <div class="row category symbb_header_bg">
-            <div class="col-md-12 nameBlock">
-                {% trans %}Posts{% endtrans %}
-            </div>
-        </div>
-        {% for post in posts %}
-            
-        <div class="row topic">
-            <div class="col-md-12 nameBlock">
-                <a href="{{ path('symbb_forum_topic_show', {'id': post.getTopic().getId(), 'name': post.getTopic().getSeoName()}) }}">
-                    <div class="name">{{post.getName()}}</div>
-                    <div class="labels">
-                    {% if checkSymbbForTopicAnsweredFlag(post) %}
-                        <span class="label label-info">{% trans %}answered{% endtrans %}</span>
-                    {% endif %}
-                    <span class="label label-success">{% trans %}new{% endtrans %}</span>
-                    {% if post.getTopic().isLocked() %}
-                        <span class="label label-warning">{% trans %}locked{% endtrans %}</span>
-                    {% endif %}
-                    </div>
-                    <div class="clear"></div>
-                    <div class="user">{% trans with {'%user%': post.getAuthor().getUsername(), '%date%': post.getCreated().format('D d.M Y'), '%time%': post.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
-                </a>
-                <div>
-                    <blockquote>{{post.getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
-                </div>
-            </div>
-        </div>
+    {% for post in posts %}
 
-        {% endfor %}
-    </div>
+        {{ symbBBForumMacro.createPostCardFull(post) }}
+
+    {% endfor %}
     
 {% endblock %}
 

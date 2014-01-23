@@ -1,15 +1,33 @@
 .symbb_category {
-    
-    width: 400px;
+    width: 25%;
     float: left;
-    min-height: 200px;
-    border: 1px solid #CCC;
+    min-height: 190px;
     position: relative;
     margin-bottom: 10px;
-    margin-right: 10px;
     background-color: #FFF;
     color: #000;
-    
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.symbb_category .border {
+    border: 1px solid #CCC;
+    min-height: 190px;
+}
+
+.symbb_category .labels {
+    min-height: 20px;
+}
+
+.symbb_category.post {
+    min-height: 100px;
+    margin-right: 0;
+    width: 100%;
+}
+
+.symbb_category.post .border {
+    min-height: 100px;
 }
 
 .symbb_category:hover{
@@ -50,7 +68,14 @@
 
 .symbb_category .infos {
     padding: 20px;
+    padding-top: 5px;
 }
+
+.symbb_category .infos .badge {
+    margin-bottom: 2px;
+}
+
+
 
 .symbb_category .infos .more-infos {
 }

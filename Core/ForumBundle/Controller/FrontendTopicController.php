@@ -131,6 +131,10 @@ class FrontendTopicController  extends \SymBB\Core\SystemBundle\Controller\Abstr
         $params['form']     = $form->createView();
         $params['saved']    = $saved;
         
+        if($saved){
+            return $this->render($this->getTemplateBundleName('forum').':Topic:saved.html.twig', $params);
+        }
+        
         return $this->render($this->getTemplateBundleName('forum').':Topic:new.html.twig', $params);
     }
     

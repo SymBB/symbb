@@ -1,29 +1,11 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<div class="symbb_list">
-    <div class="row category symbb_header_bg">
-        <div class="col-md-12 nameBlock">{% trans %}Last posts{% endtrans %}</div>
-    </div>
-    
-    {% if forum is not defined %}
-        {% set forum = null %}
-    {% endif %} 
-    
-    {% for post in getNewestPost(forum) %}
-    <div class="row forum"> 
-        <div class="col-md-4">
-            <div class="avatar_mini">
-                <img src="{{getSymbbUserAvatar(post.getAuthor())}}" />
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div>
-                  {{ post.getName() }}
-            </div>
-            <div>
-                {{ post.getAuthor().getUsername() }}
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+{% if forum is not defined %}
+    {% set forum = null %}
+{% endif %} 
+
+{% for post in getNewestPost(forum) %}
+
+    {{ symbBBForumMacro.createPostCard(post) }}
+
+{% endfor %}

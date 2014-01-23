@@ -71,6 +71,10 @@ class FrontendPostController extends \SymBB\Core\SystemBundle\Controller\Abstrac
         $params['saved']    = $saved;
         $params['post']     = $post;
         
+        if($saved){
+            return $this->render($this->getTemplateBundleName('forum').':Post:saved.html.twig', $params);
+        }
+        
         return $this->render($this->getTemplateBundleName('forum').':Post:edit.html.twig', $params);
     }
     
