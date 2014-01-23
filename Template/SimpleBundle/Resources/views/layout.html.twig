@@ -19,6 +19,7 @@
         {% endstylesheets %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {{ executeSymbbEvent('template.global.stylesheets') }}
+        {{ executeSymbbEvent('template.forum.stylesheets') }}
     {% endblock %}
         
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -29,6 +30,7 @@
         
     {% block javascripts %} 
         {{ executeSymbbEvent('template.global.javascripts') }}
+        {{ executeSymbbEvent('template.forum.javascripts') }}
     {% endblock %}
     </head>
 

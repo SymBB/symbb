@@ -1,25 +1,24 @@
-{% extends getSymbbTemplateConfig('acp') ~ ':Acp/Group:list.html.twig' %}
+{% extends getSymbbTemplateConfig('acp') ~ ':Acp:Layout/edit.html.twig' %}
 
 {% trans_default_domain "symbb_backend" %}
 
 {% form_theme form getSymbbTemplateConfig('acp') ~ '::form.html.twig' %}
 
-{% block symbb_body %}
+{% block symbb_sidebar %}
+{{ knp_menu_render('SymBBCoreAdminBundle:Builder:userManagmentMenu', {'template': getSymbbTemplateConfig('acp') ~ '::sidemenu.html.twig'}) }}
+{% endblock %}
+
+{% block symbb_edit_header %}{{ 'Eintrag speichern'|trans }}{% endblock %}
+
+{% block symbb_edit_body %}
 {{ form_startbootstrap(form) }}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            {{ 'Eintrag speichern'|trans }}
-        </div>
-        <div class="panel-body">
-        {{ form_row(form._token) }}
+{{ form_row(form._token) }}
         {{ form_rowbootstrap(form.name) }}
         {{ form_restbootstrap(form) }}
         <input type="hidden" name="id" value="{{ entity.getId() }}" />
-        </div>
-        <div class="panel-footer">
-            <button onclick="submit();" type="button" class="btn btn-info">{{ 'save'|trans({}) }}</button>
-            <div class="clear"></div>
-        </div>
-    </div>
+
+        <button onclick="submit();" type="button" class="btn btn-info">{{ 'save'|trans({}) }}</button>
+        <div class="clear"></div>
+    
 {{ form_end(form) }}
 {% endblock %}

@@ -1,73 +1,73 @@
 _symbb_acp:
-    pattern:  /acp/
+    pattern:  /
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
     
 _symbbcoreforumbundle_forum_list:
-    pattern:  /acp/forum/list
+    pattern:  /forum/list
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
     
 _symbbcoreforumbundle_forum_list_child:
-    pattern:  /acp/forum/list/{parent}
+    pattern:  /forum/list/{parent}
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
 
 _symbbcoreforumbundle_forum_new:
-    pattern:  /acp/forum/new/forum/{parent}
+    pattern:  /forum/new/forum/{parent}
     defaults: { _controller: SymBBCoreForumBundle:Acp:new, parent: 0 }
     
 _symbbcoreforumbundle_forum_new_category:
-    pattern:  /acp/forum/new/category/{parent}
+    pattern:  /forum/new/category/{parent}
     defaults: { _controller: SymBBCoreForumBundle:Acp:newCategory, parent: 0 }
     
 _symbbcoreforumbundle_forum_new_link:
-    pattern:  /acp/forum/new/link/{parent}
+    pattern:  /forum/new/link/{parent}
     defaults: { _controller: SymBBCoreForumBundle:Acp:newLink, parent: 0 }
 
 _symbbcoreforumbundle_forum_edit:
-    pattern:  /acp/forum/{id}/edit
+    pattern:  /forum/{id}/edit
     defaults: { _controller: SymBBCoreForumBundle:Acp:edit }
     
 _symbbcoreforumbundle_forum_sort:
-    pattern:  /acp/forum/sort
+    pattern:  /forum/sort
     defaults: { _controller: SymBBCoreForumBundle:Acp:sort }
     
 _symbbcoreforumbundle_forum_remove:
-    pattern:  /acp/forum/{id}/remove
+    pattern:  /forum/{id}/remove
     defaults: { _controller: SymBBCoreForumBundle:Acp:remove }
     
 _symbbcoreuserbundle_group_access:
-    pattern:  /acp/access/group/{step}
+    pattern:  /access/group/{step}
     defaults: { _controller: SymBBCoreUserBundle:AcpAccess:group }
     
     
 _symbbcoreuserbundle_group_list:
-    pattern:  /acp/group/list
+    pattern:  /group/list
     defaults: { _controller: SymBBCoreUserBundle:AcpGroup:list }
     
 _symbbcoreuserbundle_group_new:
-    pattern:  /acp/group/new
+    pattern:  /group/new
     defaults: { _controller: SymBBCoreUserBundle:AcpGroup:new }
 
 _symbbcoreuserbundle_group_edit:
-    pattern:  /acp/group/{id}/edit
+    pattern:  /group/{id}/edit
     defaults: { _controller: SymBBCoreUserBundle:AcpGroup:edit }
     
 _symbbcoreuserbundle_group_remove:
-    pattern:  /acp/group/{id}/remove
+    pattern:  /group/{id}/remove
     defaults: { _controller: SymBBCoreUserBundle:AcpGroup:remove }
     
     
 _symbbcoresystembundle_config:
-    pattern:  /acp/config
+    pattern:  /config
     defaults: { _controller: SymBBCoreSystemBundle:AcpConfig:index }
     
 _symbbcoresystembundle_extensions:
-    pattern:  /acp/extensions
+    pattern:  /extensions
     defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:index }
     
 _symbbcoresystembundle_extension_disable:
-    pattern:  /acp/extension/{package}/disable
+    pattern:  /extension/{package}/disable
     defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:disable }
     
 _symbbcoresystembundle_extension_enable:
-    pattern:  /acp/extension/{package}/enable
+    pattern:  /extension/{package}/enable
     defaults: { _controller: SymBBCoreSystemBundle:AcpExtension:enable }

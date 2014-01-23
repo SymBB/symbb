@@ -1,18 +1,83 @@
-{% trans_default_domain "symbb_backend" %}
-
-{% extends getSymbbTemplateConfig('acp') ~ '::layoutWithSidebar.html.twig' %}
+{% trans_default_domain "symbb_frontend" %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     
-
-{% block symbb_navi %} 
-    {% include getSymbbTemplateConfig('forum') ~ ':Acp:navi.html.twig' %}
-{% endblock %}
-
-{% block symbb_breadcrumb %}
- 
-{% endblock %}
-
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     
-{% block symbb_body %}
-    
-{% endblock %}
+    {% block stylesheets %} 
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        {% stylesheets 
+            '@SymBBTemplateSimpleBundle/Resources/public/css/acp/theme.css' filter='?yui_css'
+         %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {{ executeSymbbEvent('template.global.stylesheets') }}
+        {{ executeSymbbEvent('template.acp.stylesheets') }}
+    {% endblock %}
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        
+    {% block javascripts %} 
+        {{ executeSymbbEvent('template.global.javascripts') }}
+        {{ executeSymbbEvent('template.acp.javascripts') }}
+    {% endblock %}
+    </head>
 
+    <body>
+        
+        <div class="symbb_navi">
+            {% block symbb_navi %} 
+                {% include getSymbbTemplateConfig('acp') ~ ':Acp:navi.html.twig' %}
+            {% endblock %}
+        </div>
+        
+        <div class="symbb_container">
+
+            <div class="symbb_actions">
+                
+            {% if app.getUser.getSymbbType() == 'guest' %}
+                <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+            {% endif %}
+                
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+                
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+                
+            {% block symbb_actions %}
+                   
+            {% endblock %}
+            </div>
+            
+            <div class="clear"></div>
+            
+            <div class="symbb_sidebar">
+                {% block symbb_sidebar %}
+
+                {% endblock %}
+            </div>
+            
+            <div class="symbb_body">
+                {% block symbb_body %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
