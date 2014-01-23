@@ -127,9 +127,10 @@
                 </div>
 
                 <div class="clear"></div>
+                {% block symbb_body_container %}
+                    {% block symbb_body %}
 
-                {% block symbb_body %}
-
+                    {% endblock %}
                 {% endblock %}
             </div>
         </div>
