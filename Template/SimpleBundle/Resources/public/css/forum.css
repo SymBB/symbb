@@ -12,6 +12,10 @@
     
 }
 
+.symbb_category:hover{
+    background-color: #EEE;
+}
+
 .symbb_category a,
 .symbb_category a:link,
 .symbb_category a:visited,
