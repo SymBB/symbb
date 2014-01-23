@@ -88,9 +88,9 @@
 
 {% macro createPostCard(object) %}
 
-    <div class="symbb_category post" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
+    <div class="symbb_category post" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="border">
-            <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
+            <a href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
                 <div class="title">{{object.getName()}}</div>
                 <div class="description">{% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
             </a>
@@ -117,9 +117,9 @@
 
 {% macro createPostCardFull(object) %}
 
-    <div class="symbb_category postfull" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
+    <div class="symbb_category postfull" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="border">
-            <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
+            <a href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
                 <div class="title">{{object.getName()}}</div>
                 <div class="description">
                 {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}

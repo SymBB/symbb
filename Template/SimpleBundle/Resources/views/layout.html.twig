@@ -132,19 +132,22 @@
 
                     {% endblock %}
                 {% endblock %}
-                <div class="footer">
-                    <ul>
-                        <li><a href="{{path('symbb_imprint')}}">{{ 'Imprint'|trans }}</a></li>
-                        <li><a href="{{path('symbb_terms')}}">{{ 'Terms'|trans }}</a></li>
-                    </ul>
-                        
-                    <ul>
-                        <li>{{ 'RSS Feed'|trans }}</li>
-                        <li>{{ 'Sitemap'|trans }}</li>
-                    </ul>
-                        
-                    <div class="clear"></div>
-                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="container">
+                <ul>
+                    <li><a href="{{path('symbb_imprint')}}">{{ 'Imprint'|trans }}</a></li>
+                    <li><a href="{{path('symbb_terms')}}">{{ 'Terms'|trans }}</a></li>
+                </ul>
+
+                <ul>
+                    <li>{{ 'RSS Feed'|trans }}</li>
+                    <li>{{ 'Sitemap'|trans }}</li>
+                </ul>
+
+                <div class="clear"></div>
             </div>
         </div>
     </body>

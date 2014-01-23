@@ -17,8 +17,6 @@ root, body, html {
     margin-top: 50px;
 }
 
-.symbb_body {
-}
 
 .symbb_body .btn-group {
     margin-bottom: 0px;
@@ -28,7 +26,7 @@ root, body, html {
     padding: 10px;
 }
 .symbb_body {
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     padding: 0px;
 }
 
@@ -191,7 +189,17 @@ root, body, html {
     background-color: #232323;
     margin-top: 5px;
     color: #FFF;
-    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    
+}
+
+.footer .container {
+    width: 95%;
+    margin: 10px auto;
+    padding-bottom: 5px;
 }
 
 .footer a {
