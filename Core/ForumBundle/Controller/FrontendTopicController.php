@@ -252,7 +252,9 @@ class FrontendTopicController  extends \SymBB\Core\SystemBundle\Controller\Abstr
             
             $this->get('symbb.core.forum.flag')->insertFlags($forum, 'new');
             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
-            $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
+            if($post){
+                $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
+            }
             
             return true;
         }
