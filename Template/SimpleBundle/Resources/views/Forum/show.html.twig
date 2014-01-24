@@ -19,6 +19,8 @@
     {% set topicPagination = false %}
 {% endif %}
 
+{% set setFirstRowId = true %}
+
 {% block symbb_body %}
 
     {% set count = 0 %}
@@ -27,7 +29,7 @@
     {% endfor %}
 
     {% if count > 0 %}
-    <div class="symbb_action_row">
+    <div class="symbb_action_row" {% if setFirstRowId %} id="symbb_first_action_row" {% set setFirstRowId = false %} {% endif %}>
         <div class="title">{{ 'Categories'|trans() }}</div>
         <div class="arrow"></div>
         <div class="clear"></div>
@@ -50,7 +52,7 @@
     {% endfor %}
 
     {% if count > 0 %}
-    <div class="symbb_action_row">
+    <div class="symbb_action_row" {% if setFirstRowId %} id="symbb_first_action_row" {% set setFirstRowId = false %} {% endif %}>
         <div class="title">{{ 'Forums'|trans() }}</div>
         <div class="arrow"></div>
         <div class="clear"></div>
@@ -75,7 +77,7 @@
         {% endfor %}
 
         {% if count > 0 %}
-        <div class="symbb_action_row">
+        <div class="symbb_action_row" {% if setFirstRowId %} id="symbb_first_action_row" {% set setFirstRowId = false %} {% endif %}>
             <div class="title">{{ 'Topics'|trans() }}</div>
             <div class="arrow"></div>
             {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}

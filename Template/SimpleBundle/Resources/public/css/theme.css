@@ -60,7 +60,10 @@ root, body, html {
 }
 
 .fos_user_content {
-    margin: 0 auto;
+    background-color: #FFF;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
 }
 
 .m-top-1 {
@@ -179,7 +182,7 @@ root, body, html {
     height: 35px;
     width: 100%;
     background-color: #FFF;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .symbb_action_row .title{
@@ -302,4 +305,8 @@ root, body, html {
 
 .slider .carousel-inner {
     height: 300px;
+}
+
+.symbb_actions .alert {
+    margin-bottom: 5px;
 }
