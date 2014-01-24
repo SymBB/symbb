@@ -15,37 +15,49 @@ class BundleLoader {
         
         $symbbBundles = array(
                 // none Default Bundles
-                new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+                '\Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle',
                 // SymBB, befor other Bundles
-                new \SymBB\Core\ConfigBundle\SymBBCoreConfigBundle(),
-                new \SymBB\Core\UserBundle\SymBBCoreUserBundle(),
-                new \SymBB\Core\AdminBundle\SymBBCoreAdminBundle(),
-                new \SymBB\Core\ForumBundle\SymBBCoreForumBundle(),
-                new \SymBB\Core\SystemBundle\SymBBCoreSystemBundle(),
-                new \SymBB\Core\InstallBundle\SymBBCoreInstallBundle(),
-                new \SymBB\Core\EventBundle\SymBBCoreEventBundle(),
-                new \SymBB\Core\MessageBundle\SymBBCoreMessageBundle(),
+                '\SymBB\Core\ConfigBundle\SymBBCoreConfigBundle',
+                '\SymBB\Core\UserBundle\SymBBCoreUserBundle',
+                '\SymBB\Core\AdminBundle\SymBBCoreAdminBundle',
+                '\SymBB\Core\ForumBundle\SymBBCoreForumBundle',
+                '\SymBB\Core\SystemBundle\SymBBCoreSystemBundle',
+                '\SymBB\Core\InstallBundle\SymBBCoreInstallBundle',
+                '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
+                '\SymBB\Core\MessageBundle\SymBBCoreMessageBundle',
                 // SymBB optional bundles
-                new \SymBB\FOS\UserBundle\SymBBFOSUserBundle(),
-                new \SymBB\ExtensionBundle\SymBBExtensionBundle(),
+                '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
+                '\SymBB\ExtensionBundle\SymBBExtensionBundle',
                 // SymBB Templates
-                new \SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle(),
+                '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
                 // FOS 
-                new \FOS\UserBundle\FOSUserBundle(),
-                new \FOS\RestBundle\FOSRestBundle(),
-                new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-                new \FOS\MessageBundle\FOSMessageBundle(),
+                '\FOS\UserBundle\FOSUserBundle',
+                '\FOS\RestBundle\FOSRestBundle',
+                '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
+                '\FOS\MessageBundle\FOSMessageBundle',
                 // KNP
-                new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
-                new \Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+                '\Knp\Bundle\MenuBundle\KnpMenuBundle',
+                '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',
                 // Sonata
-                new \Sonata\IntlBundle\SonataIntlBundle(),
+                '\Sonata\IntlBundle\SonataIntlBundle',
                 //
-                new \FM\BbcodeBundle\FMBbcodeBundle(),
-                new \Lsw\MemcacheBundle\LswMemcacheBundle(),
+                '\FM\BbcodeBundle\FMBbcodeBundle',
+                '\Lsw\MemcacheBundle\LswMemcacheBundle',
+                '\JMS\TranslationBundle\JMSTranslationBundle',
             );
         
-        $bundles = array_merge($bundles, $symbbBundles);
+        foreach($symbbBundles as $symbbBundle){
+            $found = false;
+            foreach($bundles as $bundle){
+                if($bundle instanceof $symbbBundle){
+                    $found = true; 
+                    break;
+                }
+            }
+            if(!$found){
+                $bundles[] = new $symbbBundle();
+            }
+        }
         
         if (in_array($kernel->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
