@@ -14,7 +14,7 @@
                     <div class="subforum_list">
                         <small>
                         {% for child in object.getChildren() %}
-                        <a href="{{ path('symbb_forum_show', {'id': child.getId(), 'name': child.getSeoName()}) }}">
+                        <a href="{{ path('symbb_forum_show', {'id': child.getId(), 'name': child.getSeoName()}) }}#first_header">
                             {{child.getName()}}, 
                         </a>
                         {% else %}

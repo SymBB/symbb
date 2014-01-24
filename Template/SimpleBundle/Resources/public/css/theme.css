@@ -190,7 +190,8 @@ root, body, html {
     height: 0;
 }
 
-.anker-group .anker:first-child {
+.anker-group { 
+    padding-bottom: 20px;
     height: 20px;
 }
 

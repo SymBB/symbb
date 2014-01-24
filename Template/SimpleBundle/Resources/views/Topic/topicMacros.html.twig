@@ -4,7 +4,7 @@
 
     {% for post in pagination %}
 
-        <div class="row body">
+    <div class="row body" id="{{post.getSeoName()}}-{{post.getId()}}">
             <div class="media">
                 <div class="pull-left userblock">
                     {{ executeSymbbTemplatePostEvent('before.avatar', post) }}
