@@ -28,6 +28,7 @@
         "jms/serializer-bundle": "0.12.*@dev",
         "jms/security-extra-bundle": "1.5.*@dev",
         "jms/di-extra-bundle": "1.4.*@dev",
+        "jms/translation-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "friendsofsymfony/user-bundle": ">=2.0",
         "friendsofsymfony/rest-bundle": ">=0.13",
