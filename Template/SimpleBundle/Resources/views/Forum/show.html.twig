@@ -12,30 +12,31 @@
     {{ getSymbbBreadcrumb(forum) }}
 {% endblock %}
 
+
+{% if forum and forum.getType() == 'forum' %}
+    {% set topicPagination = getTopicPagination(forum) %}
+{% else %}
+    {% set topicPagination = false %}
+{% endif %}
+
 {% block symbb_actions %}
-    {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
-         <div class="btn-group">
-             {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
-             <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
-             {% endif %}
-             {% if app.user.getSymbbType() == 'user' %}
-                 <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_read', {'forum': forum.getId()}) }}'">{% trans %}Mark as read{% endtrans %}</button>
-                 {% if checkSymbbForForumIgnoreFlag(forum) %}
-                     <button title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_watch', {'forum': forum.getId()}) }}'">
-                         <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
-                     </button>
-                 {% else %}
-                     <button title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_ignore', {'forum': forum.getId()}) }}'">
-                         <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
-                     </button>
-                 {% endif %}
-             {% endif %}
-         </div>
-     {% endif %}            
+        
+
 {% endblock %}
 
 
 {% block symbb_body %}
+
+    {% set count = 0 %}
+    {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+        {% set count = count + 1 %}
+    {% endfor %}
+
+    {% if count > 0 %}
+    <div class="page-header mini">
+    {{ 'Categories'|trans() }}
+    </div>
+    {% endif %}
 
     {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
  
@@ -43,23 +44,72 @@
 
     {% endfor %}
 
-    <div class="clear"></div>
+    {% if count > 0 %}
+    <div class="clear spacer-bottom"></div>
+    {% endif %}
+    
+    {% set count = 0 %}
+    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+        {% set count = count + 1 %}
+    {% endfor %}
 
+    {% if count > 0 %}
+    <div class="page-header mini">
+    {{ 'Forums'|trans() }}
+    </div>
+    {% endif %}
+    
+    
     {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
     
         {{ symbBBForumMacro.createCard(object) }}
     
     {% endfor %}
-                
+    {% if count > 0 %}
+    <div class="clear spacer-bottom"></div>
+    {% endif %}
+    
     {% if forum and forum.getType() == 'forum' %}
-
-        {% set topicPagination = getTopicPagination(forum) %}
-        
+    
+        {% set count = 0 %}
         {% for object in forum.getTopics() %}
+            {% set count = count + 1 %}
+        {% endfor %}
+
+        {% if count > 0 %}
+        <div class="page-header mini topics">
+            <div class="pull-left">{{ 'Topics'|trans() }}</div> 
+            <div class="pull-right">{{ knp_pagination_render(topicPagination) }}</div>
+            {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+                <div class="btn-group pull-right">
+                    {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
+                    {% endif %}
+                    {% if app.user.getSymbbType() == 'user' %}
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_read', {'forum': forum.getId()}) }}'">{% trans %}Mark as read{% endtrans %}</button>
+                        {% if checkSymbbForForumIgnoreFlag(forum) %}
+                            <button title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_watch', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
+                            </button>
+                        {% else %}
+                            <button title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_ignore', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="clear"></div>
+        </div>
+        {% endif %}
+        
+        {% for object in topicPagination %}
     
             {{ symbBBForumMacro.createTopicCard(object) }}
 
         {% endfor %}
+    
+        {{ knp_pagination_render(topicPagination) }}
 
     {% endif %}
 {% endblock %}

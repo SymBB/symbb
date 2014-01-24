@@ -4,8 +4,12 @@
     {% set forum = null %}
 {% endif %} 
 
-{% for post in getNewestPost(forum) %}
+<div class="page-header mini">
+  {{ 'Newest Posts'|trans() }}
+</div>
 
-    {{ symbBBForumMacro.createPostCard(post) }}
+{% for post in getNewestPost(null) %}
+
+    {{ symbBBForumMacro.createPostCardFull(post, 'post') }}
 
 {% endfor %}

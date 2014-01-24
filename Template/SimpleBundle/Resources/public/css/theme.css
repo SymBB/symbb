@@ -227,3 +227,34 @@ root, body, html {
     color: #000;
     cursor: pointer;
 }
+
+.page-header .pagination {
+    margin: 0;
+}
+
+.page-header.mini {
+    margin-top: 5px;
+}
+
+.page-header.mini.topics {
+    line-height: 31px;
+}
+
+.page-header.mini .btn-group {
+    margin-right: 5px;
+}
+
+.symbb_body .btn-default {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.spacer-bottom {
+    margin-bottom: 20px;
+}

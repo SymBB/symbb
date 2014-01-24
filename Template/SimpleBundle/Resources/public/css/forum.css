@@ -3,13 +3,17 @@
     float: left;
     min-height: 190px;
     position: relative;
-    margin-bottom: 10px;
     background-color: #FFF;
     color: #000;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     overflow: hidden;
+}
+
+
+.symbb_category:nth-child(odd) {
+    background-color: #FAFAFA;
 }
 
 .symbb_category .border {
@@ -22,7 +26,6 @@
 }
 
 .symbb_category.post {
-    min-height: 100px;
     margin-right: 0;
     width: 100%;
 }
@@ -48,7 +51,7 @@
     padding: 20px;
     text-align: left;
     color: #000;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
 }
 
 .symbb_category .description {
@@ -56,6 +59,47 @@
     padding-right: 20px;
     color: #000;
     padding-top: 0;
+    min-height: 17px;
+    overflow: hidden;
+}
+
+.symbb_category .show_subforums .subforum_list {
+    max-height: 17px;
+}
+
+.symbb_category .show_subforums:hover .subforum_list {
+    max-height: none;
+}
+
+.symbb_category .user.creator {
+    color: #CCC;
+    padding-top: 0;
+    font-size: 85%;
+    padding-left: 20px;
+}
+
+.symbb_category .lastpost .user.creator {
+    padding-left: 0px;
+}
+
+.symbb_category.postfull .description {
+ 
+    max-height: 100px;
+    height: 100px;
+    
+}
+
+
+.symbb_category .description blockquote {
+    margin-bottom: 0;
+    max-height: 44px;
+    height: 44px;
+}
+
+.symbb_category.postfull .description blockquote {
+    margin-bottom: 0;
+    max-height: 100px;
+    height: 100px;
 }
 
 .symbb_category .subheader {
@@ -70,7 +114,9 @@
 .symbb_category .infos {
     padding: 20px;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
+
 
 .symbb_category .infos .badge {
     margin-bottom: 2px;
