@@ -24,6 +24,12 @@ services:
             - { name: kernel.event_listener, event: symbb.post.controller.save, method: save }
             - { name: kernel.event_listener, event: symbb.post.controller.handle.request, method: handleRequest }
             
+    symbb.listener.topic.labels:
+        class: SymBB\Extension\SurveyBundle\EventListener\TopicLabelListener
+        arguments: ['@doctrine.orm.symbb_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: symbb.topic.labels, method: topicLabels }
+            
             
             
             

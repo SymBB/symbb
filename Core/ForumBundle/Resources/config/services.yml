@@ -9,14 +9,14 @@ services:
     symbb.core.forum.topic.data:
         twig.extension.symbb.core.forum.topic.data:
         class: SymBB\Core\ForumBundle\Twig\TopicDataExtension
-        arguments: ['@doctrine.orm.symbb_entity_manager', '@knp_paginator', '@service_container', '@symbb.core.topic.flag']
+        arguments: ['@service_container']
         tags:
             - { name: twig.extension } 
             
     symbb.core.forum.data:
         twig.extension.symbb.core.forum.data:
         class: SymBB\Core\ForumBundle\Twig\ForumDataExtension
-        arguments: ['@symbb.core.forum.flag', '@symbb.core.forum.manager']
+        arguments: ['@service_container']
         tags:
             - { name: twig.extension } 
             

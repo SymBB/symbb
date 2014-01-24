@@ -38,9 +38,9 @@
                 <div class="labels">
                     {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;
                     {% trans %}Posts{% endtrans %} <span class="badge">{{object.getPostCount()}}</span>
-                    {% if checkSymbbForForumNewFlag(object) %}
-                        <span class="label label-success">{% trans %}new{% endtrans %}</span>
-                    {% endif %}
+                    {% for label in checkSymbbForumLabels(object) %}
+                        <span class="label label-{{label.type}}">{{label.title}}</span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -71,19 +71,9 @@
                 </div>
                 <div class="subheader">{% trans %}Infos{% endtrans %}</div>
                 <div class="labels">
-                {% if app.user and app.user.getId() == object.getAuthor().getId() %}
-                    <span class="label label-default">{% trans %}author{% endtrans %}</span>
-                {% endif %}
-                {% if checkSymbbForTopicAnsweredFlag(object) %}
-                    <span class="label label-info">{% trans %}answered{% endtrans %}</span>
-                {% endif %}
-                {% if checkSymbbForTopicNewFlag(object) %}
-                    <span class="label label-success">{% trans %}new{% endtrans %}</span>
-                {% endif %}
-                {% if object.isLocked() %}
-                    <span class="label label-warning">{% trans %}locked{% endtrans %}</span>
-                {% endif %}
-                 {{ executeSymbbTemplateTopicEvent('topiclist.label', object) }}
+                {% for label in checkSymbbTopicLabels(object) %}
+                    <span class="label label-{{label.type}}">{{label.title}}</span>
+                {% endfor %}
                 </div>
             </div>
         </div>
@@ -107,16 +97,9 @@
             <div class="infos">
                 <div class="subheader">{% trans %}Infos{% endtrans %}</div>
                 <div class="labels">
-                {% if app.user and app.user.getId() == object.getTopic().getAuthor().getId() %}
-                    <span class="label label-default">{% trans %}author{% endtrans %}</span>
-                {% endif %}
-                {% if checkSymbbForTopicAnsweredFlag(object.getTopic()) %}
-                    <span class="label label-info">{% trans %}answered{% endtrans %}</span>
-                {% endif %}
-                {% if checkSymbbForTopicNewFlag(object.getTopic()) %}
-                    <span class="label label-success">{% trans %}new{% endtrans %}</span>
-                {% endif %}
-                 {{ executeSymbbTemplateTopicEvent('topiclist.label', object.getTopic()) }}
+                    {% for label in checkSymbbTopicLabels(object.getTopic()) %}
+                        <span class="label label-{{label.type}}">{{label.title}}</span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
