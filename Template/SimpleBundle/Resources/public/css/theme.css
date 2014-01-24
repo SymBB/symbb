@@ -220,12 +220,12 @@ root, body, html {
 
 .symbb_action_row .pagination{
  margin: 0;   
- margin-top: 2px;
+ margin-top: 5px;
  margin-right: 5px;
 }
 
 .symbb_action_row .btn-group {
-    margin-top: 2px;
+    margin-top: 5px;
     margin-left: 5px;
 }
 
@@ -241,13 +241,15 @@ root, body, html {
     display: block;
     float: left;
     height: 100%;
+    overflow: hidden;
 }
 
 .breadcrumb li a {
-    margin-top: 11px;
+    margin-top: 13px;
     margin-right: 10px;
     margin-left: 10px;
     display: block;
+    color: #000;
 }
 
 .breadcrumb li:first-child {
@@ -255,17 +257,61 @@ root, body, html {
     color: #FFF;
 }
 
-.breadcrumb li a {
+.breadcrumb li:first-child a {
     color: #FFF;
 }
 
 .breadcrumb li.arrow {
-    content: "";
     border-top: 21px solid transparent;
     border-bottom: 21px solid transparent;
     border-left: 21px solid #428BCA;
     width: 0;
     height: 0;
+}
+
+.breadcrumb li.subarrow {
+    border-color: rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) #C2E1F5;
+    border-width: 36px;
+    margin-top: -36px;
+}
+.arrow_box { 
+    position: relative; 
+    width: 0;
+} 
+
+.arrow_box_li span {
+    width: 30px;
+    height: 28px;
+    display: block;
+}
+
+.arrow_box:after, 
+.arrow_box:before 
+{ 
+    left: 100%; 
+    top: 50%; 
+    border: solid transparent; 
+    content: " "; 
+    height: 0; 
+    width: 0; 
+    position: absolute; 
+    pointer-events: none; 
+} 
+.arrow_box:after {
+    border-color: rgba(213, 213, 213, 0); 
+    border-left-color: #FFF; 
+    border-width: 20px; 
+    margin-top: -27px; 
+} 
+.arrow_box:before { 
+    border-color: rgba(194, 225, 245, 0); 
+    border-left-color: #c2e1f5; 
+    border-width: 23px; 
+    margin-top: -30px; 
+}
+
+.breadcrumb > li + li:before {
+    content: initial;
 }
 
 

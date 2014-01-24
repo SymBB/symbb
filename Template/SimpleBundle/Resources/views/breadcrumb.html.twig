@@ -7,7 +7,13 @@
         {% elseif loop.last %}
             <li class="active"><a href="{{item.link}}">{{item.name}}</a></li>
         {% else %}
-            <li><a href="{{item.link}}">{{item.name}}</a></li>
+            <li>
+                <a href="{{item.link}}">{{item.name}}</a>
+            </li>
+            <li class="arrow_box_li">
+                <span></span>
+                <div class="arrow_box"></div>
+            </li>
         {% endif %}
         {% endspaceless %}
     {% endfor %}
