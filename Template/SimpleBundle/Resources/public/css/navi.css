@@ -1,7 +1,7 @@
 .symbb_navi {
     width: 150px;
     position: fixed;
-    top: 20px;
+    top: 19px;
     left: -130px;
     z-index: 999;
 }
@@ -26,8 +26,9 @@
 
 .symbb_navi li.avatar_link {
     position: relative;
-    left: 20px;
+    left: 27px;
     height: 42px;
+    background-color: #428BCA;
 }
 
 .symbb_navi li.avatar_link:hover {

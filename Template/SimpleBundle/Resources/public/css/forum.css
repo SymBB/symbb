@@ -1,5 +1,4 @@
 .symbb_category {
-    width: 25%;
     float: left;
     position: relative;
     background-color: #FFF;
@@ -8,8 +7,13 @@
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     overflow: hidden;
+    padding: 0 !important;
+    font-size: 200%;
 }
 
+.symbb_category * {
+    font-size: 1em;
+}
 
 .symbb_category:nth-child(odd) {
     background-color: #FAFAFA;
@@ -20,7 +24,8 @@
 }
 
 .symbb_category .labels {
-    min-height: 20px;
+    height: 2em;
+    overflow: hidden;
 }
 
 .symbb_category.post {
@@ -57,16 +62,18 @@
     padding-right: 20px;
     color: #000;
     padding-top: 0;
-    min-height: 17px;
+    min-height: 1.5em;
     overflow: hidden;
+    font-size: 1em;
 }
 
 .symbb_category .show_subforums .subforum_list {
-    max-height: 17px;
+    max-height: 1.8em;
+    min-height: 1.8em;
+    overflow: hidden;
 }
 
 .symbb_category .show_subforums:hover .subforum_list {
-    max-height: none;
 }
 
 .symbb_category .user.creator {
@@ -89,8 +96,8 @@
 
 .symbb_category.postfull .description blockquote {
     margin-bottom: 0;
-    max-height: 56px;
-    height: 56px;
+    max-height: 42px;
+    height: 42px;
     overflow: hidden;
 }
 
@@ -123,4 +130,21 @@
 .symbb_category .lastpost {
     height: 30px;
     overflow: hidden;
+}
+
+.symbb_category small, .symbb_category .small {
+    font-size: 85%;
+}
+
+@media (min-width: 992px) { 
+    .symbb_category  {
+        font-size: 150%;
+    }
+} 
+
+
+@media (min-width: 1200px ) { 
+    .symbb_category  {
+        font-size: 100%;
+    }
 }

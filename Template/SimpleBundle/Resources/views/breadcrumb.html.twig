@@ -1,7 +1,10 @@
 <ol class="breadcrumb">
     {% for item in breadcrumb %}
         {% spaceless %}
-        {% if loop.last %}
+        {% if loop.first %}
+            <li class="first"><a href="{{item.link}}">{{item.name}}</a></li>
+            <li class="arrow"></li>
+        {% elseif loop.last %}
             <li class="active"><a href="{{item.link}}">{{item.name}}</a></li>
         {% else %}
             <li><a href="{{item.link}}">{{item.name}}</a></li>

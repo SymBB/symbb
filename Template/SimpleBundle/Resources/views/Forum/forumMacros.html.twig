@@ -2,9 +2,9 @@
 
 {% macro createCard(object) %}
 
-    <div class="symbb_category" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#symbb_first_action_row'">
+    <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
-            <a href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#symbb_first_action_row">
+            <a href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
                 <div class="title">{{object.getName()}}</div>
                 <div class="description">{{object.getDescription()}}</div>
             </a>
@@ -51,11 +51,13 @@
 
 {% macro createTopicCard(object) %}
 
-    <div class="symbb_category" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#symbb_first_action_row'">
+    <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
-            <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#symbb_first_action_row">
+            <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
                 <div class="title">{{object.getName()}}</div>
-                <div class="user creator">{% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                <div class="user creator">
+                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}
+                </div>
             </a>
             <div class="infos">
                 <div class="subheader">{% trans %}Last post{% endtrans %}</div>
@@ -88,8 +90,9 @@
         <div class="border">
             <a href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
                 <div class="title">{{object.getName()}}</div>
-                <div class="user creator">{% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}
-                </div>
+                <div class="user creator">
+                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user%{% endtrans %} <br/>
+                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}on %date% at %time%{% endtrans %}</div>
                 <div class="description">
                     <blockquote>{{object.getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
                 </div>

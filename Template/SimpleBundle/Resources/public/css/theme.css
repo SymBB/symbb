@@ -25,8 +25,9 @@ root, body, html {
 .symbb_container .row {
     padding: 10px;
 }
+
 .symbb_body {
-    margin-bottom: 60px;
+    margin-bottom: 0px;
     padding: 0px;
 }
 
@@ -180,25 +181,37 @@ root, body, html {
 
 .symbb_action_row {
     margin-bottom: 10px;
-    height: 35px;
+    height: 42px;
     width: 100%;
     background-color: #FFF;
-    margin-top: 10px;
+    margin-top: 0px;
+}
+.anker {
+    height: 0;
+}
+
+.anker-group .anker:first-child {
+    height: 20px;
 }
 
 .symbb_action_row .title{
     float: left;
     background-color: #428BCA;
     height: 100%;
-    padding: 10px;
+    padding: 12px;
+    color: #FFF;
+    padding-left: 10px;
+}
+
+.symbb_action_row .title a{
     color: #FFF;
 }
 
 .symbb_action_row .arrow{
     content: "";
-    border-top: 18px solid transparent;
-    border-bottom: 18px solid transparent;
-    border-left: 18px solid #428BCA;
+    border-top: 21px solid transparent;
+    border-bottom: 21px solid transparent;
+    border-left: 21px solid #428BCA;
     width: 0;
     height: 0;
     display: block;
@@ -219,16 +232,49 @@ root, body, html {
 .breadcrumb {
     border-radius: 0;
     background-color: #FFF;
-    font-size: 11px;
+    font-size: 1em;
+    height: 42px;
+    padding: 0px;
 }
+
+.breadcrumb li {
+    display: block;
+    float: left;
+    height: 100%;
+}
+
+.breadcrumb li a {
+    margin-top: 11px;
+    margin-right: 10px;
+    margin-left: 10px;
+    display: block;
+}
+
+.breadcrumb li:first-child {
+    background-color: #428BCA;
+    color: #FFF;
+}
+
+.breadcrumb li a {
+    color: #FFF;
+}
+
+.breadcrumb li.arrow {
+    content: "";
+    border-top: 21px solid transparent;
+    border-bottom: 21px solid transparent;
+    border-left: 21px solid #428BCA;
+    width: 0;
+    height: 0;
+}
+
+
 
 .footer {
     clear: both;
     background-color: #232323;
-    margin-top: 5px;
+    margin-top: 20px;
     color: #FFF;
-    position: fixed;
-    bottom: 0;
     height: 50px;
     width: 100%;
     
@@ -362,3 +408,14 @@ root, body, html {
 .glyphicon-warning {
     color: #f0ad4e !important;
 }
+
+@media (max-width: 992px) { 
+    .symbb_action_row .title{
+        padding-left: 40px;
+    }
+    .breadcrumb li:first-child {
+        background-color: #428BCA;
+        color: #FFF;
+        padding-left: 40px;
+    }
+} 
