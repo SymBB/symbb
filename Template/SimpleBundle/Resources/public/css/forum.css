@@ -1,7 +1,6 @@
 .symbb_category {
     width: 25%;
     float: left;
-    min-height: 190px;
     position: relative;
     background-color: #FFF;
     color: #000;
@@ -18,7 +17,6 @@
 
 .symbb_category .border {
     border: 1px solid #CCC;
-    min-height: 190px;
 }
 
 .symbb_category .labels {
@@ -82,13 +80,6 @@
     padding-left: 0px;
 }
 
-.symbb_category.postfull .description {
- 
-    max-height: 100px;
-    height: 100px;
-    
-}
-
 
 .symbb_category .description blockquote {
     margin-bottom: 0;
@@ -98,8 +89,9 @@
 
 .symbb_category.postfull .description blockquote {
     margin-bottom: 0;
-    max-height: 100px;
-    height: 100px;
+    max-height: 56px;
+    height: 56px;
+    overflow: hidden;
 }
 
 .symbb_category .subheader {

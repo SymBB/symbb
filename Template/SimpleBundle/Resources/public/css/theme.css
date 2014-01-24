@@ -234,11 +234,9 @@ root, body, html {
 
 .page-header.mini {
     margin-top: 5px;
-}
-
-.page-header.mini.topics {
     line-height: 31px;
 }
+
 
 .page-header.mini .btn-group {
     margin-right: 5px;

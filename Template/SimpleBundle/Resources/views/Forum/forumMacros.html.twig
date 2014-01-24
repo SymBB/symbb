@@ -56,9 +56,6 @@
             <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}">
                 <div class="title">{{object.getName()}}</div>
                 <div class="user creator">{% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
-                <div class="description">
-                    <blockquote>{{object.getMainPost().getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
-                </div>
             </a>
             <div class="infos">
                 <div class="subheader">{% trans %}Last post{% endtrans %}</div>
