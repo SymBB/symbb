@@ -13,6 +13,12 @@ setTimeout('window.location="'+newLocation+'"', 300);
 
 {% endif %}
 
+{% if collapse is not defined%}
+
+    {% set collapse = false %}
+
+{% endif %}
+
 {% if not saved %}
 <div id="symbb_bottom"></div>
 
@@ -24,8 +30,10 @@ setTimeout('window.location="'+newLocation+'"', 300);
             {{ form_errors(form) }}
         
             <div class="panel panel-default">
-                <div class="panel-heading">{{ 'new answer'|trans }}</div>
-                <div class="panel-body">
+                <div class="panel-heading" data-toggle="collapse" data-target="#answer">
+                    {{ 'new answer'|trans }}  
+                </div>
+                <div class="panel-body collapse {% if not collapse %}in{% endif %}" id="answer">
 
                     {{ form_row(form.id) }}
                     {{ form_row(form._token) }}

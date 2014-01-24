@@ -101,6 +101,44 @@
                 {% block symbb_breadcrumb %}
                     {{ getSymbbBreadcrumb() }}
                 {% endblock %}
+                
+                <div class="slider">
+                    
+                    <div id="carousel-slider-generic" class="carousel slide" data-ride="carousel">
+
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-slider-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-slider-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-slider-generic" data-slide-to="2"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                
+                            </div>
+                            <div class="item">
+                                
+                            </div>
+                            <div class="item">
+                                
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-slider-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-slider-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+
+                    </div>
+                    
+                </div>
+                
+                <div class="clear"></div>
 
                 <div class="symbb_actions">
 
@@ -123,7 +161,7 @@
                     {% block symbb_actions %}
 
                     {% endblock %}
-                        <div class="clear"></div>
+                    <div class="clear"></div>
                 </div>
 
                 <div class="clear"></div>

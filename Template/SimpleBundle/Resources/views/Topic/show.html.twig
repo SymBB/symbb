@@ -34,17 +34,20 @@
 {% endblock %}
 
 {% block symbb_actions %}
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bbcode_editor'">{{ 'Answer'|trans }}</button>
-        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bottom'">{{ 'Bottom'|trans }}</button>
-    </div>        
+           
 {% endblock %}
     
 {% block symbb_body %}
- 
-
- 
-    {{ knp_pagination_render(pagination) }}
+    <div class="symbb_action_row">
+        <div class="title">{{ topic.getName() }}</div>
+        <div class="arrow"></div>
+        <div class="btn-group pull-left">
+            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bbcode_editor'"  data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
+            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bottom'">{{ 'Bottom'|trans }}</button>
+        </div> 
+        {{ knp_pagination_render(pagination) }}
+        <div class="clear"></div>
+    </div>
    
     {% if topic.isLocked() %}
     <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
@@ -61,11 +64,16 @@
     <div class="clear"></div>
     {% endif %}
     
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#top'">{{ 'Top'|trans }}</button>
-    </div>
     
-{{ knp_pagination_render(pagination) }}
+    <div class="symbb_action_row">
+        <div class="title">{{ topic.getName() }}</div>
+        <div class="arrow"></div>
+        <div class="btn-group pull-left">
+            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#top'">{{ 'Top'|trans }}</button>
+        </div>
+        {{ knp_pagination_render(pagination) }}
+        <div class="clear"></div>
+    </div>
     
     {% if not topic.isLocked() %}
     
@@ -73,7 +81,7 @@
 
             <hr>
     
-            {% include getSymbbTemplateConfig('forum') ~ ':Post:new.html.twig' with {'form': form, 'topic': topic, 'saved': false} %}
+            {% include getSymbbTemplateConfig('forum') ~ ':Post:new.html.twig' with {'form': form, 'topic': topic, 'saved': false, 'collapse': true} %}
 
         {% endif %}
     

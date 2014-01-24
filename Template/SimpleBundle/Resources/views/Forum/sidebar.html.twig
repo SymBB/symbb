@@ -4,8 +4,10 @@
     {% set forum = null %}
 {% endif %} 
 
-<div class="page-header mini">
-  {{ 'Newest Posts'|trans() }}
+<div class="symbb_action_row">
+    <div class="title">{{ 'Newest Posts'|trans() }}</div>
+    <div class="arrow"></div>
+    <div class="clear"></div>
 </div>
 
 {% for post in getNewestPost(null) %}

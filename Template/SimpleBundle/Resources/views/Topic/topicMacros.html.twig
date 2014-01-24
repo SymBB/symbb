@@ -3,21 +3,7 @@
 {% macro showPostList(object, pagination) %}
 
     {% for post in pagination %}
-        <div class="row symbb_header_bg {% if loop.first %} header {% else %} subheader {% endif %}">
-            <div class="col-md-12">{{post.getName()}}
-                <div class="f-right">
-                    <div class="btn-group btn-group-xs">
-                       <button type="button" class="btn btn-default quote" data-user="{{post.getAuthor().getUsername()}}" data-quote="{{post.getText()}}" >{% trans %}Quote{% endtrans %}</button>
-                        {% if hasSymbbAccess('SYMBB_POST#EDIT', post) %}
-                        <button type="button" class="btn btn-default btn-primary" onclick="window.location.href='{{ path('symbb_edit_post', {'post': post.getId()}) }}'">{% trans %}Edit{% endtrans %}</button>
-                        {% endif %}
-                        {% if hasSymbbAccess('SYMBB_POST#DELETE', post) %}
-                        <button type="button" class="btn btn-default btn-danger" onclick="if (confirm('{% trans %}you really want to delete the entry?{% endtrans %}')) { window.location.href='{{ path('symbb_delete_post', {'post': post.getId()}) }}' };" >{% trans %}Delete{% endtrans %}</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="row body">
             <div class="media">
                 <div class="pull-left userblock">
@@ -43,14 +29,26 @@
                     {{ executeSymbbTemplatePostEvent('after.userdata', post) }}
                 </div>
                 <div class="media-body textblock">
-                    <div class="date">
+                    <div class="date pull-left">
                         {% trans with {'%user%': post.getAuthor().getUsername(), '%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}%user% wrote on %date% at %time%{% endtrans %}
+                        
                     </div>
+                    <div class="btn-group pull-right">
+                       <button type="button" class="btn quote btn-info btn-xs" data-user="{{post.getAuthor().getUsername()}}" data-quote="{{post.getText()}}" >{% trans %}Quote{% endtrans %}</button>
+                        {% if hasSymbbAccess('SYMBB_POST#EDIT', post) %}
+                        <button type="button" class="btn btn-primary btn-xs" onclick="window.location.href='{{ path('symbb_edit_post', {'post': post.getId()}) }}'">{% trans %}Edit{% endtrans %}</button>
+                        {% endif %}
+                        {% if hasSymbbAccess('SYMBB_POST#DELETE', post) %}
+                        <button type="button" class="btn btn-danger btn-xs" onclick="if (confirm('{% trans %}you really want to delete the entry?{% endtrans %}')) { window.location.href='{{ path('symbb_delete_post', {'post': post.getId()}) }}' };" >{% trans %}Delete{% endtrans %}</button>
+                        {% endif %}
+                    </div>
+                        <div class="clear"></div>
                     {{ executeSymbbTemplatePostEvent('before.text', post) }}
                     <div class="text" id="symbb_post_body_{{post.getId()}}">
                     {{post.getText()|bbcode_filter('default')}}
                     </div>
                     {{ executeSymbbTemplatePostEvent('after.text', post) }}
+                        
                     {{ executeSymbbTemplatePostEvent('before.signature', post) }}
                     {{ _self.showSignature(post) }}
                     {{ executeSymbbTemplatePostEvent('after.signature', post) }}

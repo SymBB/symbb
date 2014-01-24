@@ -19,12 +19,6 @@
     {% set topicPagination = false %}
 {% endif %}
 
-{% block symbb_actions %}
-        
-
-{% endblock %}
-
-
 {% block symbb_body %}
 
     {% set count = 0 %}
@@ -33,8 +27,10 @@
     {% endfor %}
 
     {% if count > 0 %}
-    <div class="page-header mini">
-    {{ 'Categories'|trans() }}
+    <div class="symbb_action_row">
+        <div class="title">{{ 'Categories'|trans() }}</div>
+        <div class="arrow"></div>
+        <div class="clear"></div>
     </div>
     {% endif %}
 
@@ -54,8 +50,10 @@
     {% endfor %}
 
     {% if count > 0 %}
-    <div class="page-header mini">
-    {{ 'Forums'|trans() }}
+    <div class="symbb_action_row">
+        <div class="title">{{ 'Forums'|trans() }}</div>
+        <div class="arrow"></div>
+        <div class="clear"></div>
     </div>
     {% endif %}
     
@@ -77,11 +75,11 @@
         {% endfor %}
 
         {% if count > 0 %}
-        <div class="page-header mini topics">
-            <div class="pull-left">{{ 'Topics'|trans() }}</div> 
-            <div class="pull-right">{{ knp_pagination_render(topicPagination) }}</div>
+        <div class="symbb_action_row">
+            <div class="title">{{ 'Topics'|trans() }}</div>
+            <div class="arrow"></div>
             {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
-                <div class="btn-group pull-right">
+                <div class="btn-group pull-left">
                     {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
                     <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
                     {% endif %}
@@ -99,8 +97,9 @@
                     {% endif %}
                 </div>
             {% endif %}
+            {{ knp_pagination_render(topicPagination) }}
             <div class="clear"></div>
-        </div>
+            </div>
         {% endif %}
         
         {% for object in topicPagination %}

@@ -174,8 +174,42 @@ root, body, html {
     padding-right: 0px;
 }
 
-.symbb_actions {
+.symbb_action_row {
     margin-bottom: 10px;
+    height: 35px;
+    width: 100%;
+    background-color: #FFF;
+    margin-top: 20px;
+}
+
+.symbb_action_row .title{
+    float: left;
+    background-color: #428BCA;
+    height: 100%;
+    padding: 10px;
+    color: #FFF;
+}
+
+.symbb_action_row .arrow{
+    content: "";
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+    border-left: 18px solid #428BCA;
+    width: 0;
+    height: 0;
+    display: block;
+    float: left;
+}
+
+.symbb_action_row .pagination{
+ margin: 0;   
+ margin-top: 2px;
+ margin-right: 5px;
+}
+
+.symbb_action_row .btn-group {
+    margin-top: 2px;
+    margin-left: 5px;
 }
 
 .breadcrumb {
@@ -228,7 +262,8 @@ root, body, html {
     cursor: pointer;
 }
 
-.page-header .pagination {
+.page-header .pagination,
+.symbb_actions .pagination{
     margin: 0;
 }
 
@@ -249,10 +284,22 @@ root, body, html {
     margin-left: -1px;
     line-height: 1.428571429;
     text-decoration: none;
-    background-color: #fff;
     border: 1px solid #ddd;
 }
 
 .spacer-bottom {
     margin-bottom: 20px;
+}
+
+.slider {
+    width: 95%;
+    height: 300px;
+    margin: 0 auto;
+    background-color: #CCC;
+    border: 1px solid #EEE;
+    margin-bottom: 10px;
+}
+
+.slider .carousel-inner {
+    height: 300px;
 }
