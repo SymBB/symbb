@@ -50,21 +50,21 @@
                 <div class="username">{{app.user.getUsername()}}</div>
                 {% if app.user.getSymbbType == 'user' %}
                 <div class="usermenu">
-                    <button onclick="window.location.href='{{ path('symbb_user_options') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-cog"></span> {{ 'Options'|trans }}
+                       <!--
+                    <button type="button" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-comment"></span> XX {{ 'Chat'|trans }} 
                     </button>
-                    <button onclick="window.location.href='{{ path('fos_message_inbox') }}'" type="button" class="btn btn-default btn-xs {% if fos_message_nb_unread() %} btn-danger{% endif %}">
-                        <span class="glyphicon glyphicon-comment"></span> {{ fos_message_nb_unread() }} {{ 'Messages'|trans }} 
-                    </button>
+                        
+                    <div class="chatbox">
+                        <div class="lastMessage"><marquee>TODO: Chat einbauen und letzte Chat-Nachricht hier anzeigen</marquee></div>
+                        <div class="text">
+                            <input value="" placeholder="...hier kannst du antworten">
+                        </div>
+                    </div>
+                       -->
                 </div>
                 {% endif %}
                 <div class="f-right usermenu">
-                    <button onclick="window.location.href='{{ path('_symbb_index') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-list-alt"></span> {{ 'Portal'|trans }}
-                    </button>
-                    <button onclick="window.location.href='{{ path('symbb_forum_index') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-list-alt"></span> {{ 'Forum'|trans }}
-                    </button>
                     {% if is_granted('ROLE_ADMIN') %}
                     <button onclick="window.location.href='{{ path('_symbb_acp') }}'" type="button" class="btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-list-alt"></span> {{ 'Adminpanel'|trans }}
@@ -91,6 +91,7 @@
         
         <div class="symbb_navi">
             {% block symbb_navi %} 
+                {% include getSymbbTemplateConfig('forum') ~ ':Forum:navi.html.twig' %}
             {% endblock %}
         </div>
         

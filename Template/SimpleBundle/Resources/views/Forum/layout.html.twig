@@ -13,12 +13,6 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 {% endblock %}
-    
-    
-
-{% block symbb_navi %} 
-    {% include getSymbbTemplateConfig('forum') ~ ':Forum:navi.html.twig' %}
-{% endblock %}
 
 {% block symbb_breadcrumb %}
     {{ getSymbbBreadcrumb() }}

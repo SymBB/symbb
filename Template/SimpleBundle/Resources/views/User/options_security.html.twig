@@ -1,29 +1,11 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplateConfig('forum') ~ '::layoutWithSidebar.html.twig' %}
+{% extends getSymbbTemplateConfig('forum') ~ ':User:layoutUcp.html.twig' %}
 
 {% form_theme form getSymbbTemplateConfig('forum') ~ '::form.html.twig' %}
 
-{% block stylesheets %} 
-    {{ parent() }}
-    {{ executeSymbbEvent('user.template.stylesheets') }}
-{% endblock %}
-    
-{% block javascripts %} 
-    {{ parent() }}
-    {{ executeSymbbEvent('user.template.stylesheets') }}
-{% endblock %}
-
-{% block symbb_sidebar %}
-    
-    {% include getSymbbTemplateConfig('forum') ~ ':User:sidebar.html.twig' %}
-    
-{% endblock %}    
-    
-
-
 {% block symbb_body %}
-    
+
 <div class="panel panel-primary">
     <div class="panel-heading">{{ 'Security'|trans }}</div>
     <div class="panel-body">

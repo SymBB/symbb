@@ -31,6 +31,9 @@ class UserManager
      */
     protected $userClass = '';
     
+    protected $request;
+    protected $paginator;
+    
     public function __construct($container)
     {
         $this->em               = $container->get('doctrine.orm.symbb_entity_manager');
@@ -38,6 +41,8 @@ class UserManager
         $config                 = $container->getParameter('symbb_config');
         $this->config           = $config['usermanager'];
         $this->userClass        = $this->config['user_class'];
+        $this->request          = $container->get('request');
+        $this->paginator        = $container->get('knp_paginator');
     }
 
     /**
@@ -90,5 +95,19 @@ class UserManager
     
     public function getClass(){
         return $this->userClass;
+    }
+    
+    public function findAll(){
+        $dql   = "SELECT u FROM SymBBCoreUserBundle:User u";
+        $query = $this->em->createQuery($dql);
+
+        $paginator  = $this->paginator;
+        $pagination = $paginator->paginate(
+            $query,
+            $this->request->query->get('page', 1)/*page number*/,
+            20/*limit per page*/
+        );
+        
+        return $pagination;
     }
 }

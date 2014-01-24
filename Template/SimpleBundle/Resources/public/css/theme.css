@@ -14,7 +14,7 @@ root, body, html {
 }
 
 .symbb_content {
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 
@@ -80,6 +80,7 @@ root, body, html {
     border-bottom: 1px solid rgba(0,0,0,0.1);
     z-index: 1000;
     color: #FFF;
+    display: none;
 }
 
 .symbb_user_panel .brand {
@@ -309,4 +310,55 @@ root, body, html {
 
 .symbb_actions .alert {
     margin-bottom: 5px;
+}
+
+.chatbox  {
+    float: right;
+}
+
+.chatbox .lastMessage {
+    float: left;
+    width: 200px;
+    overflow: hidden;
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+.chatbox .text {
+    float: left;
+}
+
+.chatbox .text input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #666;
+    margin-left: 10px;
+    width: 200px;
+    color: #FFF;
+}
+
+.chatbox .send {
+    float: left;
+}
+
+.default-content {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    padding: 10px;
+}
+
+.glyphicon-danger {
+    color: #d9534f !important;
+}
+
+.glyphicon-danger:hover {
+    color: #d2322d !important;
+}
+
+.glyphicon-success {
+    color: #5cb85c !important;
+}
+
+.glyphicon-warning {
+    color: #f0ad4e !important;
 }

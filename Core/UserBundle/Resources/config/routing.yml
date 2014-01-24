@@ -1,7 +1,11 @@
 symbb_user_options:
-    pattern:  /ucp/options
+    pattern:  /options
     defaults: { _controller: SymBBCoreUserBundle:Option:index }
     
 symbb_user_options_security:
-    pattern:  /ucp/options/security
+    pattern:  /options/security
     defaults: { _controller: SymBBCoreUserBundle:Option:security }
+    
+symbb_user_userlist:
+    pattern:  /userlist
+    defaults: { _controller: SymBBCoreUserBundle:Info:userlist }

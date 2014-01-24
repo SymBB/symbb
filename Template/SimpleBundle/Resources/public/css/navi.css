@@ -1,7 +1,7 @@
 .symbb_navi {
     width: 150px;
     position: fixed;
-    top: 100px;
+    top: 20px;
     left: -130px;
     z-index: 999;
 }
@@ -22,6 +22,20 @@
     text-align: right;
     margin-bottom: 5px;
     height: 35px;
+}
+
+.symbb_navi li.avatar_link {
+    position: relative;
+    left: 20px;
+    height: 42px;
+}
+
+.symbb_navi li.avatar_link:hover {
+    left: 20px;
+}
+
+.symbb_navi li.avatar_link .avatar {
+    float: right !important;
 }
 
 .symbb_navi ul li a { 
