@@ -49,7 +49,7 @@ abstract class CrudController extends Controller
                 $breadcrum = array();
                 $names = $parentEntity->getExtendNameArray();
                 $uri = $this->get('router')->generate($path . '_list');
-                $breadcrum[] = '<li><a href="' . $uri . '">' . $this->get('translator')->trans('Übersicht', array(), 'list') . '</a></li>';
+                $breadcrum[] = '<li><a href="' . $uri . '">' . $this->get('translator')->trans('Übersicht', array(), 'symbb_backend') . '</a></li>';
                 foreach ($names as $id => $name) {
                     $uri = $this->get('router')->generate($path . '_list_child', array('parent' => $id));
                     $breadcrum[] = '<li><a href="' . $uri . '">' . $name . '</a></li>';
