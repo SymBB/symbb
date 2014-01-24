@@ -16,7 +16,7 @@ class InfoController extends \SymBB\Core\SystemBundle\Controller\AbstractControl
 
     public function userlistAction(){
         
-        $users = $this->get('symbb.core.user.manager')->findAll();
+        $users = $this->get('symbb.core.user.manager')->paginateAll($this->get('request'));
         
         return $this->render(
             $this->getTemplateBundleName('forum').':User:userlist.html.twig',

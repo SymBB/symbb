@@ -14,7 +14,7 @@
 
 
 {% if forum and forum.getType() == 'forum' %}
-    {% set topicPagination = getTopicPagination(forum) %}
+    {% set topicPagination = getTopicPagination(forum, app.request) %}
 {% else %}
     {% set topicPagination = false %}
 {% endif %}

@@ -7,6 +7,7 @@ services:
     symbb.core.user.manager:
         class: SymBB\Core\UserBundle\DependencyInjection\UserManager
         arguments: ["@service_container"]
+        
     symbb.core.user.metadata:
         class: SymBB\Core\UserBundle\EventListener\DoctrineMetaDataListener
         arguments: ['@service_container']

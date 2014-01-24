@@ -28,7 +28,6 @@ class TopicDataExtension extends \Twig_Extension
         $this->securityContext  = $container->get('security.context');
         $this->translator       = $container->get('translator');
         $this->dispatcher       = $container->get('event_dispatcher');
-        $this->request          = $container->get('request');
         
     }
 
@@ -43,7 +42,7 @@ class TopicDataExtension extends \Twig_Extension
         );
     }
     
-    public function getTopicPagination($forum){
+    public function getTopicPagination($forum, $request){
         
         $qb     = $this->em->createQueryBuilder();
         $qb     ->select('t')
@@ -55,7 +54,7 @@ class TopicDataExtension extends \Twig_Extension
 
         $pagination = $this->paginator->paginate(
             $query,
-            $this->request->query->get('page', 1)/*page number*/,
+            $request->query->get('page', 1)/*page number*/,
             $forum->getEntriesPerPage()/*limit per page*/
         );
         
