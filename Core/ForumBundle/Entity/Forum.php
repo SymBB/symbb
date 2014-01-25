@@ -11,10 +11,14 @@ namespace SymBB\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="forums")
  * @ORM\Entity()
+ * @Vich\Uploadable
  */
 class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
 {
@@ -24,6 +28,24 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @Assert\File(
+     *     maxSize="1M",
+     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
+     * )
+     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     *
+     * @var File $image
+     */
+    protected $image;
+
+    /**
+     * @ORM\Column(type="string", length=255, name="image_name")
+     *
+     * @var string $imageName
+     */
+    protected $imageName;
 
     /**
      * @ORM\Column(type="string", length=10))

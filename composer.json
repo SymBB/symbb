@@ -40,7 +40,9 @@
         "helios-ag/fm-bbcode-bundle": "6.*@dev",
         "leaseweb/memcache-bundle": "1.1.*@dev",
         "symbb/extension-bundle": "dev-master",
-        "coresphere/console-bundle": "dev-master"
+        "coresphere/console-bundle": "dev-master",
+        "vich/uploader-bundle": "dev-master",
+        "knplabs/knp-gaufrette-bundle" : "dev-master"
     },
     "minimum-stability": "dev",
     "autoload": {

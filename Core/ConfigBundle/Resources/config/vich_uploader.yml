@@ -1,0 +1,20 @@
+knp_gaufrette:
+    stream_wrapper: ~
+
+    adapters:
+        symbb_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/symbb/images/forum
+
+    filesystems:
+        symbb_forum_image_fs:
+            adapter:    symbb_adapter
+
+vich_uploader:
+    db_driver: orm
+    gaufrette: true
+    storage:   vich_uploader.storage.gaufrette
+    mappings:
+        symbb_forum_image:
+            uri_prefix:         /images/forum/
+            upload_destination: symbb_forum_image_fs
