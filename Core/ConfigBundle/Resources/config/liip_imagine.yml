@@ -3,4 +3,5 @@ liip_imagine:
         symbb_forum_bg:
             quality: 75
             filters:
-                thumbnail: { size: [223, 377], mode: outbound }
+                thumbnail: { size: [223, 377], mode: inset  } 
+                symbb_opacity: { opacity: 50 }

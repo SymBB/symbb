@@ -9,12 +9,11 @@
 
 namespace SymBB\Core\SystemBundle\Imagine\Filter\Loader;
 
-use Imagine\Image\Box;
-use Imagine\Image\Point;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
+use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
-class AlphaFilterLoader implements LoaderInterface
+class OpacityFilterLoader implements LoaderInterface
 {
     
     public function __construct(ImagineInterface $imagine, $rootPath)
@@ -28,8 +27,7 @@ class AlphaFilterLoader implements LoaderInterface
     */
     public function load(ImageInterface $image, array $options = array())
     {
-        $alpha = $options['alpha'];
-        
-        return $image->applyMask();
+        $alpha = $options['opacity'];
+        return $image->applyMask($alpha); 
     }
 }

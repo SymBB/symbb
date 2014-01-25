@@ -31,8 +31,16 @@ services:
         tags:
             - { name: kernel.event_listener, event: symbb.config.defaults, method: defaults }
             - { name: kernel.event_listener, event: symbb.config.type, method: type }
+            
     symbb.extension.routing_loader:
         class: SymBB\ExtensionBundle\Routing\ExtraLoader
         arguments: ["@kernel"]
         tags:
             - { name: routing.loader } 
+    
+    symbb.core.imagine.filter.loader.symbb_opacity:
+        class: SymBB\Core\SystemBundle\Imagine\Filter\Loader\OpacityFilterLoader
+        arguments: ["@liip_imagine", "%kernel.root_dir%"]
+        tags:
+            - { name: liip_imagine.filter.loader , loader: symbb_opacity }
+        

@@ -1,9 +1,15 @@
 {% trans_default_domain "symbb_frontend" %}
 
 {% macro createCard(object) %}
+ 
+    {% set categoryBackground = vich_uploader_asset(object, 'image') %}
+
+    {% if categoryBackground %}
+        {% set categoryBackground = categoryBackground|imagine_filter('symbb_forum_bg') %}
+    {% endif %}
 
     <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
-        <div class="border" style="background-image: url({{  vich_uploader_asset(object, 'image') | imagine_filter('symbb_forum_bg') }})">
+        <div class="border" style="background-image: url({{ categoryBackground }})">
             <a href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
                 <div class="title">{{object.getName()}}</div>
                 <div class="description">{{object.getDescription()}}</div>
