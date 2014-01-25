@@ -50,7 +50,8 @@ class Forum extends AbstractType
                 'choices' => $this->getParentList(),
                 'required' => false
             ))
-            ->add('type', 'choice', array('choices' => $aTypes, 'attr' => array('onchange' => 'submit();')));
+            ->add('type', 'choice', array('choices' => $aTypes, 'attr' => array('onchange' => 'submit();')))
+            ->add('image', 'file');
 
         $builder->addEventSubscriber(new \SymBB\Core\ForumBundle\Form\EventListener\AddForumFieldSubscriber());
 

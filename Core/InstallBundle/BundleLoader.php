@@ -38,14 +38,15 @@ class BundleLoader {
                 // KNP
                 '\Knp\Bundle\MenuBundle\KnpMenuBundle',
                 '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',
-                '\Knp\Bundle\GaufretteBundle\KnpGaufretteBundle()',
+                '\Knp\Bundle\GaufretteBundle\KnpGaufretteBundle',
                 // Sonata
                 '\Sonata\IntlBundle\SonataIntlBundle',
                 //
                 '\FM\BbcodeBundle\FMBbcodeBundle',
                 '\Lsw\MemcacheBundle\LswMemcacheBundle',
                 '\JMS\TranslationBundle\JMSTranslationBundle',
-                '\Vich\UploaderBundle\VichUploaderBundle()'
+                '\Vich\UploaderBundle\VichUploaderBundle',
+                '\Liip\ImagineBundle\LiipImagineBundle'
             );
         
         foreach($symbbBundles as $symbbBundle){

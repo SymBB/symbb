@@ -1,3 +1,11 @@
+_imagine:
+    resource: .
+    type:     imagine
+
+SymBBExtensionBundle_Extra:
+    resource: .
+    type: extra
+    
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
@@ -33,7 +41,3 @@ _symbb_core_forum:
 _symbb_core_install:
     resource: "@SymBBCoreInstallBundle/Resources/config/routing.yml"
  
-    
-SymBBExtensionBundle_Extra:
-    resource: .
-    type: extra

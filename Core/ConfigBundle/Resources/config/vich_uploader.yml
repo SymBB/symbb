@@ -16,5 +16,5 @@ vich_uploader:
     storage:   vich_uploader.storage.gaufrette
     mappings:
         symbb_forum_image:
-            uri_prefix:         /images/forum/
+            uri_prefix:         /symbb/images/forum
             upload_destination: symbb_forum_image_fs

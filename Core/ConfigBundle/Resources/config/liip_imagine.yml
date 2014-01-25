@@ -1,0 +1,6 @@
+liip_imagine:
+    filter_sets:
+        symbb_forum_bg:
+            quality: 75
+            filters:
+                thumbnail: { size: [223, 377], mode: outbound }

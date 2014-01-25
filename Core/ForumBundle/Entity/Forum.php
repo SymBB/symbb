@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="forums")
  * @ORM\Entity()
  * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
 {
@@ -34,7 +35,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      *     maxSize="1M",
      *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
      * )
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="symbb_forum_image", fileNameProperty="imageName")
      *
      * @var File $image
      */
@@ -113,7 +114,14 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $position = 0;
+    protected $position = 0;    
+    
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime $updatedAt
+     */
+    protected $updatedAt;
 
     protected $topicCount = null;
     protected $postCount = null;
@@ -217,5 +225,35 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
             return true;
         }
         return false;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        if ($this->image) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+    
+    /**
+    * @ORM\PreUpdate
+    * @ORM\PrePersist
+    */
+    public function setupdatedAtValue()
+    {
+       $this->updatedAt = new \DateTime('now');
+    } 
+  
+    public function getImage(){
+        return $this->image;
+    }
+    
+    public function getImageName(){
+        return $this->imageName;
+    }
+    
+    public function setImageName($name){
+        $this->imageName = $name;
     }
 }
