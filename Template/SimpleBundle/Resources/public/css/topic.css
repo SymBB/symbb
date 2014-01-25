@@ -13,14 +13,22 @@
 
 .symbb_topic .row.body {
     background-color: #FFF;
-    padding: 0.3em;
-    padding-top: 0.8em;
-    margin-bottom: 1px;
-    border-bottom: 1px solid #CCC;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-    border-radius: 0px 0px 3px 3px;
+    padding: 0;
+    margin: 0;
 }
+
+.symbb_topic .symbb_action_row {
+    margin-bottom: 0px;
+}
+
+.symbb_topic .symbb_action_row .title{
+    width: 200px;
+}
+
+.symbb_topic .symbb_action_row .btn-group{
+    margin-right: 5px;
+}
+
 
 .symbb_topic .row.body:last-child {
     margin-bottom: 20px;
@@ -30,10 +38,11 @@
     padding-right: 20px;
 }
 
-.symbb_topic .textblock .date {
-    margin-bottom: 1em;
-    border-bottom: 1px solid #CCC;
+.symbb_topic .date {
     color: #BBB;
+    padding-top: 13px;
+    padding-left: 10px;
+    float: left;
 }
 
 .symbb_topic .row.signature {
@@ -71,8 +80,12 @@
 }
 
 .symbb_topic .userblock {
-    margin-top: 5px;    
-    margin-left: 1em;
+    background-color: #428BCA;
+    padding: 10px;
+    width: 200px;
+    color: #FFF;
+    overflow: hidden;
+    max-width: 200px;
 }
 
 .symbb_topic .textblock {
