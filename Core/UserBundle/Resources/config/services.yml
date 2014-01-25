@@ -13,9 +13,21 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: symbb }
+            
     symbb.core.user.access.twig:
         twig.extension.symbb.core.user.access:
         class: SymBB\Core\UserBundle\Twig\AccessExtension
         arguments: ['@symbb.core.access.manager']
+        tags:
+            - { name: twig.extension } 
+            
+    symbb.core.user.whoisonline.manager:
+        class: SymBB\Core\UserBundle\DependencyInjection\WhoIsOnlineManager
+        arguments: ['@symbb.core.user.manager', '@security.context', '@memcache.default']
+        
+    symbb.core.user.whoisonline.manager.twig:
+        twig.extension.symbb.core.user.whoisonline.manager:
+        class: SymBB\Core\UserBundle\Twig\WhoIsOnlineExtension
+        arguments: ['@symbb.core.user.whoisonline.manager']
         tags:
             - { name: twig.extension } 

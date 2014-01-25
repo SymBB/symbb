@@ -91,3 +91,8 @@ fos_user.password.mismatch: Die Passwörter stimmen nicht über ein
 Last posts: Letzte Beiträge
 no subforums: keine Unterforen
 no Topics: keine Beiträge
+Who is online?: Wer ist online?
+user.online.total: |
+  {0} Es sind keine Besucher da|{1} Es ist ein Besucher online|]1,Inf] Es sind insgesamt %count% Besucher online
+user.online.type: %member_count% registrierte und %guest_count% Gäste
+Members: Mitglieder

@@ -35,157 +35,160 @@
     </head>
 
     <body>
-        
-        <div class="symbb_user_panel">
-            <div class="brand">SymBB</div>
-            <div class="arrow"></div>
-            <div class="content">
-            {% block symbb_userinfob %}
-                {% if app.user.getSymbbType() == 'user' %}
-                <div class="avatar avatar_mini">
-                    <img src="{{getSymbbUserAvatar(app.user)}}" />
-                </div>
-                {% endif %}
-                <div class="username">{{app.user.getUsername()}}</div>
-                {% if app.user.getSymbbType == 'user' %}
-                <div class="usermenu">
-                       <!--
-                    <button type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-comment"></span> XX {{ 'Chat'|trans }} 
-                    </button>
-                        
-                    <div class="chatbox">
-                        <div class="lastMessage"><marquee>TODO: Chat einbauen und letzte Chat-Nachricht hier anzeigen</marquee></div>
-                        <div class="text">
-                            <input value="" placeholder="...hier kannst du antworten">
-                        </div>
+        <div id="wrap">
+            <div class="symbb_user_panel">
+                <div class="brand">SymBB</div>
+                <div class="arrow"></div>
+                <div class="content">
+                {% block symbb_userinfob %}
+                    {% if app.user.getSymbbType() == 'user' %}
+                    <div class="avatar avatar_mini">
+                        <img src="{{getSymbbUserAvatar(app.user)}}" />
                     </div>
-                       -->
-                </div>
-                {% endif %}
-                <div class="f-right usermenu">
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <button onclick="window.location.href='{{ path('_symbb_acp') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-list-alt"></span> {{ 'Adminpanel'|trans }}
-                    </button>
                     {% endif %}
-                        
-                    {% if app.user.getSymbbType == 'guest' %}
-                    <button onclick="window.location.href='{{ path('symbb_login') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-off"></span> {{ 'Sign in'|trans }}
-                    </button>
-                    <button onclick="window.location.href='{{ path('symbb_register') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-plus-sign"></span> {{ 'Sign up'|trans }}
-                    </button>
-                    {% else %}
-                    <button onclick="window.location.href='{{ path('symbb_logout') }}'" type="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}
-                    </button>
-                    {% endif %}
-                </div>
-            {% endblock %}
-                <div class="clear"></div>
-            </div>
-        </div>
-        
-        <div class="symbb_navi">
-            {% block symbb_navi %} 
-                {% include getSymbbTemplateConfig('forum') ~ ':Forum:navi.html.twig' %}
-            {% endblock %}
-        </div>
-        
-        <div class="symbb_container">
-            <div class="symbb_content">
+                    <div class="username">{{app.user.getUsername()}}</div>
+                    {% if app.user.getSymbbType == 'user' %}
+                    <div class="usermenu">
+                           <!--
+                        <button type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-comment"></span> XX {{ 'Chat'|trans }} 
+                        </button>
 
-
-                {% block symbb_breadcrumb %}
-                    {{ getSymbbBreadcrumb() }}
-                {% endblock %}
-                
-                {% block symbb_slider %}
-                <div class="slider">
-                    
-                    <div id="carousel-slider-generic" class="carousel slide" data-ride="carousel">
-
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-target="#carousel-slider-generic" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-slider-generic" data-slide-to="1"></li>
-                            <li data-target="#carousel-slider-generic" data-slide-to="2"></li>
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                
-                            </div>
-                            <div class="item">
-                                
-                            </div>
-                            <div class="item">
-                                
+                        <div class="chatbox">
+                            <div class="lastMessage"><marquee>TODO: Chat einbauen und letzte Chat-Nachricht hier anzeigen</marquee></div>
+                            <div class="text">
+                                <input value="" placeholder="...hier kannst du antworten">
                             </div>
                         </div>
-
-                        <!-- Controls -->
-                        <a class="left carousel-control" href="#carousel-slider-generic" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                        </a>
-                        <a class="right carousel-control" href="#carousel-slider-generic" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
-
+                           -->
                     </div>
-                    
-                </div>
-                {% endblock %}
-                
-                <div class="clear"></div>
-
-                <div class="symbb_actions">
-
-                    {% if app.getUser.getSymbbType() == 'guest' %}
-                        <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
                     {% endif %}
+                    <div class="f-right usermenu">
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <button onclick="window.location.href='{{ path('_symbb_acp') }}'" type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-list-alt"></span> {{ 'Adminpanel'|trans }}
+                        </button>
+                        {% endif %}
 
-                    {% for flashMessage in app.session.flashbag.get('success') %}
-                        <div class="alert alert-success">
-                            {{ flashMessage }}
-                        </div>
-                    {% endfor %}
-
-                    {% for flashMessage in app.session.flashbag.get('error') %}
-                        <div class="alert alert-danger">
-                            {{ flashMessage }}
-                        </div>
-                    {% endfor %}
-
-                    {% block symbb_actions %}
-
-                    {% endblock %}
+                        {% if app.user.getSymbbType == 'guest' %}
+                        <button onclick="window.location.href='{{ path('symbb_login') }}'" type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-off"></span> {{ 'Sign in'|trans }}
+                        </button>
+                        <button onclick="window.location.href='{{ path('symbb_register') }}'" type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-plus-sign"></span> {{ 'Sign up'|trans }}
+                        </button>
+                        {% else %}
+                        <button onclick="window.location.href='{{ path('symbb_logout') }}'" type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}
+                        </button>
+                        {% endif %}
+                    </div>
+                {% endblock %}
                     <div class="clear"></div>
                 </div>
+            </div>
 
-                <div class="clear"></div>
-                {% block symbb_body_container %}
-                    {% block symbb_body %}
-
-                    {% endblock %}
+            <div class="symbb_navi">
+                {% block symbb_navi %} 
+                    {% include getSymbbTemplateConfig('forum') ~ ':Forum:navi.html.twig' %}
                 {% endblock %}
             </div>
-        </div>
-        
-        <div class="footer">
-            <div class="container">
-                <ul>
-                    <li><a href="{{path('symbb_imprint')}}">{{ 'Imprint'|trans }}</a></li>
-                    <li><a href="{{path('symbb_terms')}}">{{ 'Terms'|trans }}</a></li>
-                </ul>
 
-                <ul>
-                    <li>{{ 'RSS Feed'|trans }}</li>
-                    <li>{{ 'Sitemap'|trans }}</li>
-                </ul>
+            <div class="symbb_container">
+                <div class="symbb_content">
+
+
+                    {% block symbb_breadcrumb %}
+                        {{ getSymbbBreadcrumb() }}
+                    {% endblock %}
+
+                    {% block symbb_slider %}
+                    <div class="slider">
+
+                        <div id="carousel-slider-generic" class="carousel slide" data-ride="carousel">
+
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-slider-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-slider-generic" data-slide-to="1"></li>
+                                <li data-target="#carousel-slider-generic" data-slide-to="2"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item active">
+
+                                </div>
+                                <div class="item">
+
+                                </div>
+                                <div class="item">
+
+                                </div>
+                            </div>
+
+                            <!-- Controls -->
+                            <a class="left carousel-control" href="#carousel-slider-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-slider-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+
+                        </div>
+
+                    </div>
+                    {% endblock %}
+
+                    <div class="clear"></div>
+
+                    <div class="symbb_actions">
+
+                        {% if app.getUser.getSymbbType() == 'guest' %}
+                            <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+                        {% endif %}
+
+                        {% for flashMessage in app.session.flashbag.get('success') %}
+                            <div class="alert alert-success">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        {% for flashMessage in app.session.flashbag.get('error') %}
+                            <div class="alert alert-danger">
+                                {{ flashMessage }}
+                            </div>
+                        {% endfor %}
+
+                        {% block symbb_actions %}
+
+                        {% endblock %}
+                        <div class="clear"></div>
+                    </div>
+
+                    <div class="clear"></div>
+                    {% block symbb_body_container %}
+                        {% block symbb_body %}
+
+                        {% endblock %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="container">
+                
+                {% set onlineUsers = getSymbbOnlineUsers() %}
+                
+                <div class="page-header">
+                    {{ 'Who is online?'|trans }}
+                </div>
+                {{ 'user.online.total'|transchoice(getSymbbOnlineUserCount(), {'%count%': getSymbbOnlineUserCount()}) }}:
+                {{ 'user.online.type'|trans({'%member_count%': getSymbbOnlineUserCount('user'), '%guest_count%': getSymbbOnlineUserCount('guest')}) }} <br/>
+                {{ 'Members'|trans }}: 
+                {% for onlineUser in onlineUsers if onlineUser.type == 'user'%}
+                    {{ onlineUser.username }}, 
+                {% endfor %}
 
                 <div class="clear"></div>
             </div>

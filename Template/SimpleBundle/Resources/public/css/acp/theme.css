@@ -129,3 +129,7 @@ root, html, body {
     padding: 5px;
     margin-bottom: 10px;
 }
+
+.clear {
+    clear: both;
+}

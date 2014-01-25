@@ -8,6 +8,18 @@ root, body, html {
     background-image: url(/bundles/symbbtemplatesimple/images/bg/shattered.png)
 }
 
+html, body {
+    height: 100%;
+}
+
+#wrap {
+    height: auto;
+    margin: 0 auto -150px;
+    min-height: 100%;
+    padding: 0 0 60px;
+}
+
+
 .symbb_container {
     width: 95%;
     margin: 0px auto;
@@ -201,7 +213,7 @@ root, body, html {
     height: 100%;
     padding: 12px;
     color: #FFF;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
 .symbb_action_row .title a{
@@ -260,6 +272,7 @@ root, body, html {
 
 .breadcrumb li:first-child a {
     color: #FFF;
+    padding-left: 10px;
 }
 
 .breadcrumb li.arrow {
@@ -317,27 +330,23 @@ root, body, html {
 
 
 
-.footer {
-    clear: both;
+#footer {
     background-color: #232323;
-    margin-top: 20px;
     color: #FFF;
-    height: 50px;
-    width: 100%;
-    
+    height: 150px;
 }
 
-.footer .container {
+#footer .container {
     width: 95%;
     margin: 10px auto;
     padding-bottom: 5px;
 }
 
-.footer a {
+#footer a {
     color: #FFF;
 }
 
-.footer ul {
+#footer ul {
     list-style: none;
     float: left;
     margin: 0;
@@ -346,14 +355,14 @@ root, body, html {
     padding: 0;
 }
 
-.footer ul li{
+#footer ul li{
     margin-right: 10px;
     padding: 0;
     margin: 0;
     padding-left: 5px;
 }
 
-.footer ul li:hover {
+#footer ul li:hover {
     background-color: #CCC;
     color: #000;
     cursor: pointer;
