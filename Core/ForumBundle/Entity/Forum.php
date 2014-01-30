@@ -245,15 +245,18 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
        $this->updatedAt = new \DateTime('now');
     } 
   
-    public function getImage(){
+    public function getImage() 
+    {
         return $this->image;
     }
     
-    public function getImageName(){
+    public function getImageName()
+    {
         return $this->imageName;
     }
     
-    public function setImageName($name){
+    public function setImageName($name)
+    {
         $this->imageName = $name;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace SymBB\Core\ForumBundle\Entity\Post;
 
@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Flag
 {
+
     /**
      * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post", inversedBy="flags")
@@ -31,7 +32,7 @@ class Flag
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
-    
+
     /**
      * @ORM\Id()
      * @ORM\Column(type="string", length=10)
@@ -43,25 +44,57 @@ class Flag
      */
     private $created;
 
+    public function getFlag()
+    {
+        return $this->flag;
 
+    }
 
-    ############################################################################
-    # Default Get and Set
-    ############################################################################
-    public function getFlag(){return $this->flag;}
-    public function setFlag($value){$this->flag = $value;}
-    public function setPost($object){$this->post = $object;}
-    public function getPost(){return $this->post;}
-    public function setUser($object){$this->user = $object;}
-    public function getUser(){return $this->user;}
-    public function getCreated(){return $this->created;}
-    ############################################################################
-    
+    public function setFlag($value)
+    {
+        $this->flag = $value;
+
+    }
+
+    public function setPost(\SymBB\Core\ForumBundle\Entity\Post $object)
+    {
+        $this->post = $object;
+
+    }
+
     /**
-    * @ORM\PrePersist
-    */
+     * @return \SymBB\Core\ForumBundle\Entity\Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+
+    }
+
+    public function setUser($object)
+    {
+        $this->user = $object;
+
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
     public function setCreatedValue()
     {
-       $this->created = new \DateTime();
+        $this->created = new \DateTime();
+
     }
 }

@@ -1,0 +1,17 @@
+services:
+    symbb.listener.post.upload.template:
+        class: SymBB\Extension\PostUploadBundle\EventListener\TemplateListener
+        arguments: ['@doctrine.orm.symbb_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addUploadTab }
+            - { name: kernel.event_listener, event: symbb.post.template.form.options.tabcontents, method: addUploadTabContent }
+          
+    symbb.listener.post.upload.form:
+        class: SymBB\Extension\PostUploadBundle\EventListener\FormListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.post.controller.form, method: addPostFormPart }
+
+            
+            
+            
+            

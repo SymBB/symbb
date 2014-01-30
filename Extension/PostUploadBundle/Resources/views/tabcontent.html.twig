@@ -1,0 +1,47 @@
+{% trans_default_domain "symbb_frontend" %}
+
+<div class="symbb_tabcontent" data-tab="files">
+    <div class="panel panel-default">
+        <div class="padding10">
+            <div class="collection" data-prototype='{{ form_widget(form.files.vars.prototype) }}'>
+                {% for currfile in form.files %}
+                    {{ form_rowbootstrap(currfile.file) }}
+                {% endfor %}
+                <button class="btn btn-default collection_add" onclick="return false;">{{ 'add file'|trans() }}</button>
+                <div class="clear"></div>
+             </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    jQuery(document).ready(function() {
+        
+        // Get the ul that holds the collection of tags
+        $('.collection').each(function(key, collectionHolder){
+            console.debug(collectionHolder);
+            collectionHolder = $(collectionHolder);
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            collectionHolder.data('index', collectionHolder.find('.collection_item').length);
+            
+            var addButton = collectionHolder.find('.collection_add');
+            var prototype = collectionHolder.data('prototype');
+            
+            addButton.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+                var index = collectionHolder.data('index');
+                var newItem = $('<div class="collection_item"></div>');
+                var prototypeCurrent = prototype.replace(/__name__/g, index);
+                newItem.append($(prototypeCurrent));
+                collectionHolder.prepend(newItem);
+                collectionHolder.data('index', (index+1));
+            });
+            
+        });
+        
+    });
+    
+</script>
