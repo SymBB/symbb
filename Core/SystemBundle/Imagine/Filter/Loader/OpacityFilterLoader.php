@@ -1,4 +1,4 @@
-<?php
+<?
 /**
 *
 * @package symBB
@@ -11,8 +11,8 @@ namespace SymBB\Core\SystemBundle\Imagine\Filter\Loader;
 
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
-use Imagine\Image\Palette\RGB;
-use Imagine\Image\Box;
+use Imagine\Image\Color;
+use Imagine\Image\Point;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 class OpacityFilterLoader implements LoaderInterface
@@ -29,23 +29,24 @@ class OpacityFilterLoader implements LoaderInterface
     */
     public function load(ImageInterface $image, array $options = array())
     {
-        
-        $mode = ImageInterface::THUMBNAIL_OUTBOUND;
-        if (!empty($options['mode']) && 'inset' === $options['mode']) {
-            $mode = ImageInterface::THUMBNAIL_INSET;
-        }
+
+        $size       = $image->getSize();
+        $width      = $size->getWidth();
+        $height     = $size->getHeight();
         
         $alpha      = $options['opacity'];
         
-        $size       = $image->getSize();
-        $origWidth  = $size->getWidth();
-        $origHeight = $size->getHeight();
+        for ($x = 0; $x < $width; $x++) {
+            for ($y = 0; $y < $height; $y++) {
+                $point = new Point($x, $y);
+                $color = $image->getColorAt($point);
+                $dR = $color->getRed();
+                $dG = $color->getGreen();
+                $dB = $color->getBlue();
+                $image->draw()->dot($point, new Color(array($dR, $dG, $dB), $alpha));
+            }
+        }
         
-        $palette    = new RGB();
-        $size       = new Box($origWidth, $origHeight);
-        $color      = $palette->color('#000', $alpha);
-        $image      = $this->imagine->create($size, $color);
-        
-        return $image->applyMask($image); 
+        return $image; 
     }
 }

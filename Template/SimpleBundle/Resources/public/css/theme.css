@@ -198,6 +198,7 @@ html, body {
     width: 100%;
     background-color: #FFF;
     margin-top: 0px;
+    border: 1px solid #999;
 }
 .anker {
     height: 0;
@@ -249,6 +250,7 @@ html, body {
     font-size: 1em;
     height: 42px;
     padding: 0px;
+    border: 1px solid #999;
 }
 
 .breadcrumb li {

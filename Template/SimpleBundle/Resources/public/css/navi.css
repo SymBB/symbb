@@ -26,9 +26,11 @@
 
 .symbb_navi li.avatar_link {
     position: relative;
-    left: 27px;
+    left: 28px;
     height: 42px;
     background-color: #428BCA;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
 }
 
 .symbb_navi li.avatar_link:hover {
