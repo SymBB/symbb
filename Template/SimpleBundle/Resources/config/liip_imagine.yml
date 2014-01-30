@@ -1,0 +1,8 @@
+liip_imagine:
+    filter_sets:
+        symbb_forum_bg3:
+            quality: 100
+            filters:
+                strip: ~
+                thumbnail: { size: [377, 223], mode: outbound  } 
+                symbb_opacity: { opacity: 50 } 

@@ -42,5 +42,5 @@ services:
         class: SymBB\Core\SystemBundle\Imagine\Filter\Loader\OpacityFilterLoader
         arguments: ["@liip_imagine", "%kernel.root_dir%"]
         tags:
-            - { name: liip_imagine.filter.loader , loader: symbb_opacity }
+            - { name: liip_imagine.filter.loader , loader: symbb_opacity } 
         

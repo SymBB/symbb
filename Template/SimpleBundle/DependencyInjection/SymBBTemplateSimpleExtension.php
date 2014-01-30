@@ -15,13 +15,14 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class SymBBTemplateSimpleExtension extends Extension implements PrependExtensionInterface 
+class SymBBTemplateSimpleExtension extends Extension implements PrependExtensionInterface
 {
     
     public function prepend(ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('liip_imagine.yml'); 
     }
         
     public function load(array $configs, ContainerBuilder $container)

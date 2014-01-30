@@ -14,10 +14,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class SymBBCoreConfigExtension extends Extension implements PrependExtensionInterface 
+class SymBBCoreConfigExtension extends Extension implements PrependExtensionInterface
 {
     
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container) 
     {
         
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -33,7 +33,6 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('swiftmailer.yml');
         $loader->load('framework.yml');
         $loader->load('vich_uploader.yml');
-        $loader->load('liip_imagine.yml');
 
     }
         
