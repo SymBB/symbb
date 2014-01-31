@@ -68,7 +68,7 @@ form .collection_item.hidden {
     display: none;
 }
 
-form .symbb_bbbcode_btn {
+form .collection_item .symbb_bbbcode_btn {
     cursor: pointer;
     margin-left: 5px;
 }
