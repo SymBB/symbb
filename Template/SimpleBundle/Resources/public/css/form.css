@@ -58,6 +58,14 @@ form .collection_item {
     
 }
 
+form .collection_item.pull-left {
+    
+    margin-bottom: 5px;
+    margin-right: 20px;
+    
+}
+
+
 form .collection_item img {
     
     float: left;
