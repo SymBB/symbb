@@ -29,6 +29,11 @@ form div .input-group:last-child {
 form .form-control {
     min-width: 500px;
 }
+
+form .form-control[type="file"] {
+    font-size: 12px;
+}
+
 form .panel-heading .nav-tabs.nav-justified {   
     margin-bottom: -11px;
 }
@@ -45,4 +50,25 @@ form select {
 form .btn {
     float: left;
     margin-right: 5px;
+}
+
+form .collection_item {
+    
+    margin-bottom: 5px;
+    
+}
+
+form .collection_item img {
+    
+    float: left;
+    
+}
+
+form .collection_item.hidden {
+    display: none;
+}
+
+form .symbb_bbbcode_btn {
+    cursor: pointer;
+    margin-left: 5px;
 }

@@ -468,6 +468,10 @@ html, body {
     color: #f0ad4e !important;
 }
 
+.hidden {
+    display: none;
+}
+
 @media (max-width: 992px) { 
     .symbb_action_row .title{
         padding-left: 40px;

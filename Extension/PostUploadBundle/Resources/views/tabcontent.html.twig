@@ -5,7 +5,21 @@
         <div class="padding10">
             <div class="collection" data-prototype='{{ form_widget(form.files.vars.prototype) }}'>
                 {% for currfile in form.files %}
-                    {{ form_rowbootstrap(currfile.file) }}
+                    <div class="collection_item">
+                        {% set imageOriginal = vich_uploader_asset(currfile.vars.data, 'image') %}
+                        {% set image = imageOriginal|imagine_filter('symbb_post_file') %}
+                        <img src="{{image}}" />
+                        <div class="hidden">
+                            {{ form_widget(currfile.image) }}
+                        </div>
+                        <div class="symbb_bbbcode_btn" data-tag-code="[img]{{imageOriginal}}[/img]" title="{{ 'insert file'|trans() }}">
+                           <span class="glyphicon glyphicon-picture"  onclick="return false;" title="{{ 'insert file'|trans() }}"></span>
+                        </div>
+                        <div class="symbb_bbbcode_btn" data-tag-code="" title="{{ 'remove file'|trans() }}">
+                           <span class="glyphicon glyphicon-remove-sign collection_item_remove" onclick="return false;" title="{{ 'remove file'|trans() }}"></span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
                 {% endfor %}
                 <button class="btn btn-default collection_add" onclick="return false;">{{ 'add file'|trans() }}</button>
                 <div class="clear"></div>
@@ -38,6 +52,22 @@
                 newItem.append($(prototypeCurrent));
                 collectionHolder.prepend(newItem);
                 collectionHolder.data('index', (index+1));
+            });
+            
+            collectionHolder.find('.collection_item').each(function(key2, item){
+                
+                item = $(item);
+                
+                item.find('.collection_item_remove').each(function(key3, btn){
+                    
+                    $(btn).on('click', function(e) {
+                        // prevent the link from creating a "#" on the URL
+                        e.preventDefault();
+                        item.remove();
+                    });
+                    
+                });
+                
             });
             
         });

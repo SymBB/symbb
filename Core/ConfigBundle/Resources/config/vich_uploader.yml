@@ -5,10 +5,15 @@ knp_gaufrette:
         symbb_adapter:
             local:
                 directory: %kernel.root_dir%/../web/symbb/images/forum
+        symbb_post_file_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/symbb/files/post
 
     filesystems:
         symbb_forum_image_fs:
             adapter:    symbb_adapter
+        symbb_post_files_fs:
+            adapter:    symbb_post_file_adapter
 
 vich_uploader:
     db_driver: orm
@@ -18,3 +23,6 @@ vich_uploader:
         symbb_forum_image:
             uri_prefix:         /symbb/images/forum
             upload_destination: symbb_forum_image_fs
+        symbb_post_file:
+            uri_prefix:         /symbb/files/post
+            upload_destination: symbb_post_files_fs

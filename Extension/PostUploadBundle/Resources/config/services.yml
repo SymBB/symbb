@@ -10,6 +10,7 @@ services:
         class: SymBB\Extension\PostUploadBundle\EventListener\FormListener
         tags:
             - { name: kernel.event_listener, event: symbb.post.controller.form, method: addPostFormPart }
+            
 
             
             

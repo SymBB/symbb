@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace SymBB\Core\ForumBundle\Entity;
 
@@ -23,13 +23,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
 {
+
     /**
      * @ORM\Column(type="integer", unique=true)
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @Assert\File(
      *     maxSize="1M",
@@ -42,7 +43,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     protected $image;
 
     /**
-     * @ORM\Column(type="string", length=255, name="image_name")
+     * @ORM\Column(type="string", length=255, name="image_name", nullable=true)
      *
      * @var string $imageName
      */
@@ -62,7 +63,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $link;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -72,7 +73,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
      * @ORM\OrderBy({"position" = "ASC", "name" = "ASC"})
@@ -84,38 +85,38 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     protected $parent;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
      * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
      */
     protected $topics;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Forum\Flag", mappedBy="forum")
      */
     private $flags;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $active = true;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $showSubForumList = false;
-    
+
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $entriesPerPage = 20;
-    
+
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $position = 0;    
-    
+    protected $position = 0;
+
     /**
      * @ORM\Column(type="datetime")
      *
@@ -124,107 +125,207 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     protected $updatedAt;
 
     protected $topicCount = null;
+
     protected $postCount = null;
 
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->children = new ArrayCollection();
+
     }
 
-    ############################################################################
-    # Default Get and Set
-    ############################################################################
-    public function getLink(){return $this->link;}
-    public function setLink($value){$this->link = $value;}
-    public function getCountLinkCalls(){return $this->countLinkCalls;}
-    public function setCountLinkCalls($value){$this->countLinkCalls = $value;}
-    public function getDescription(){return $this->description;}
-    public function setDescription($value){$this->description = $value;}
-    public function isActive(){return $this->active;}
-    public function setActive($value){$this->active = $value;}
-    public function getType(){return $this->type;}
-    public function setType($value){$this->type = $value;}
-    public function hasShowSubForumList(){return $this->showSubForumList;}
-    public function setShowSubForumList($value){$this->showSubForumList = $value;}
-    public function getEntriesPerPage(){return $this->entriesPerPage;}
-    public function setEntriesPerPage($value){$this->entriesPerPage = $value;}
-    public function setParent($object){$this->parent = $object;}
-    public function getParent(){return $this->parent;}
-    public function getChildren(){return $this->children;}
-    public function getTopics(){return $this->topics;}
-    public function getFlags(){return $this->flags;}
-    ############################################################################
-    
 
-    public function getTopicCount(){
+    public function getLink()
+    {
+        return $this->link;
+
+    }
+
+    public function setLink($value)
+    {
+        $this->link = $value;
+
+    }
+
+    public function getCountLinkCalls()
+    {
+        return $this->countLinkCalls;
+
+    }
+
+    public function setCountLinkCalls($value)
+    {
+        $this->countLinkCalls = $value;
+
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+
+    }
+
+    public function setDescription($value)
+    {
+        $this->description = $value;
+
+    }
+
+    public function isActive()
+    {
+        return $this->active;
+
+    }
+
+    public function setActive($value)
+    {
+        $this->active = $value;
+
+    }
+
+    public function getType()
+    {
+        return $this->type;
+
+    }
+
+    public function setType($value)
+    {
+        $this->type = $value;
+
+    }
+
+    public function hasShowSubForumList()
+    {
+        return $this->showSubForumList;
+
+    }
+
+    public function setShowSubForumList($value)
+    {
+        $this->showSubForumList = $value;
+
+    }
+
+    public function getEntriesPerPage()
+    {
+        return $this->entriesPerPage;
+
+    }
+
+    public function setEntriesPerPage($value)
+    {
+        $this->entriesPerPage = $value;
+
+    }
+
+    public function setParent($object)
+    {
+        $this->parent = $object;
+
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+
+    }
+
+    public function getTopics()
+    {
+        return $this->topics;
+
+    }
+
+    public function getFlags()
+    {
+        return $this->flags;
+
+    }
+
+    public function getTopicCount()
+    {
         $count = $this->topicCount;
-        if($count === null){
+        if ($count === null) {
             $topics = $this->getTopics();
-            $count  = count($topics);
+            $count = count($topics);
             $childs = $this->getChildren();
-            foreach($childs as $child){
+            foreach ($childs as $child) {
                 $count += $child->getTopicCount();
             }
             $this->topicCount = $count;
         }
         return $count;
+
     }
-    
-    public function getPostCount(){
+
+    public function getPostCount()
+    {
         $count = $this->postCount;
-        if($count === null){
+        if ($count === null) {
             $topics = $this->getTopics();
-            $count  = 0;
-            foreach($topics as $topic){
-                $posts  = $topic->getPosts();
-                $count  += count($posts);
+            $count = 0;
+            foreach ($topics as $topic) {
+                $posts = $topic->getPosts();
+                $count += count($posts);
             }
             $childs = $this->getChildren();
-            foreach($childs as $child){
+            foreach ($childs as $child) {
                 $count += $child->getPostCount();
             }
             $this->postCount = $count;
         }
         return $count;
+
     }
-    
-    public function getLastPost(){
+
+    public function getLastPost()
+    {
         $lastPost = null;
         $topics = $this->getTopics();
-        foreach($topics as $topic){
+        foreach ($topics as $topic) {
             $currLastPost = $topic->getPosts()->last();
-            if(
+            if (
                 \is_object($currLastPost) &&
                 (
-                    !$lastPost || 
-                    $currLastPost->getChanged() > $lastPost->getChanged()    
+                !$lastPost ||
+                $currLastPost->getChanged() > $lastPost->getChanged()
                 )
-            ){
+            ) {
                 $lastPost = $currLastPost;
             }
         }
         $childs = $this->getChildren();
-        foreach($childs as $child){
+        foreach ($childs as $child) {
             $lastChildPost = $child->getLastPost();
-            if(
-                is_object($lastChildPost) && 
+            if (
+                is_object($lastChildPost) &&
                 (
-                    !$lastPost ||
-                    $lastChildPost->getChanged() > $lastPost->getChanged() 
+                !$lastPost ||
+                $lastChildPost->getChanged() > $lastPost->getChanged()
                 )
-            ){
+            ) {
                 $lastPost = $lastChildPost;
             }
         }
         return $lastPost;
+
     }
-    
-    public function hasTopics(){
+
+    public function hasTopics()
+    {
         $topics = $this->getTopics();
-        if($topics->count() > 0){
+        if ($topics->count() > 0) {
             return true;
         }
         return false;
+
     }
 
     public function setImage($image)
@@ -234,29 +335,34 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
         if ($this->image) {
             $this->updatedAt = new \DateTime('now');
         }
+
     }
-    
+
     /**
-    * @ORM\PreUpdate
-    * @ORM\PrePersist
-    */
-    public function setupdatedAtValue()
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function setUpdatedAtValue()
     {
-       $this->updatedAt = new \DateTime('now');
-    } 
-  
-    public function getImage() 
+        $this->updatedAt = new \DateTime('now');
+
+    }
+
+    public function getImage()
     {
         return $this->image;
+
     }
-    
+
     public function getImageName()
     {
         return $this->imageName;
+
     }
-    
+
     public function setImageName($name)
     {
         $this->imageName = $name;
+
     }
 }

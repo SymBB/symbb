@@ -68,7 +68,7 @@ class Post
     private $flags;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\File", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
      */
     private $files;
 
@@ -129,12 +129,6 @@ class Post
 
     }
 
-    public function setFiles($files)
-    {
-        $this->files = $files;
-
-    }
-
     public function getFiles()
     {
         return $this->files;
@@ -144,12 +138,13 @@ class Post
     public function addFile(\SymBB\Core\ForumBundle\Entity\Post\File $file)
     {
         $this->files->add($file);
+        $file->setPost($this);
 
     }
     
-    public function removeFile($key)
+    public function removeFile($file)
     {
-       $this->files->remove($key);
+       $this->files->removeElement($file);
     }  
 
     /**

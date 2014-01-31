@@ -9,6 +9,8 @@
 
 namespace SymBB\Extension\PostUploadBundle\EventListener;
 
+use \SymBB\Extension\PostUploadBundle\Form\Type\FileType;
+
 class FormListener
 {
 
@@ -16,13 +18,10 @@ class FormListener
     {
         $builder = $event->getBuilder();
         $builder->add('files', 'collection', array(
-            'type' => 'file',
-            'options' => array(
-                'required' => false
-            ),
+            'type'          => new FileType(),
             'allow_add'     => true,
             'allow_delete'  => true,
-            'label' => 'abc'
+            'by_reference' => false,
         ));
     }
 }
