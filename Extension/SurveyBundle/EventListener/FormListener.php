@@ -53,13 +53,27 @@ class FormListener
                 ))
             )
         ));
+        
         $builder->add('surveyChoicesChangeable', 'checkbox', array('mapped' => false, 'required' => false, 'label' => 'Allow changing the voting', 'attr' => array()));
-        $builder->add('surveyEnd', 'date', array(
+        
+        
+        $tz = $event->getUserManager()->getTimezone();
+        
+        $now = new \DateTime();
+        $now->setTimezone($tz);
+        
+        $builder->add('surveyEnd', 'datetime', array(
             'mapped' => false,
             'required' => false,
             'label' => 'End date',
             'input' => 'datetime',
-            'widget' => 'single_text'
+            'widget' => 'single_text',
+            'view_timezone' => $tz->getName(),
+            'format' => \IntlDateFormatter::MEDIUM,
+            'with_seconds' => false,
+            'attr' => array(
+                'class' => 'datetime'
+            )
         ));
 
     }

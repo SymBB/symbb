@@ -69,11 +69,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
      */
     private $created;
 
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
-    private $timezone = 'Europe/Berlin';
-
     public function __construct()
     {
         parent::__construct();
@@ -216,31 +211,5 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
         }
         return $data;
 
-    }
-
-    /**
-     * @return \DateTimeZone
-     */
-    public function getTimezone()
-    {
-        $tz = $this->timezone;
-        
-        if (!empty($tz)) {
-            $tz = new \DateTimeZone($tz);
-        } else {
-            $now = new \DateTime;
-            $tz = $now->getTimezone();
-        }
-
-        return $tz;
-    }
-
-    /**
-     * 
-     * @param \DateTimeZone $tz
-     */
-    public function setTimezone(\DateTimeZone $tz)
-    {
-        $this->timezone = $tz;
     }
 }

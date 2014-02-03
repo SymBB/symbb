@@ -47,6 +47,10 @@ class UserManager
 
     }
 
+    /**
+     * 
+     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     */
     public function getCurrentUser()
     {
         return $this->securityContext->getToken()->getUser();
@@ -148,7 +152,16 @@ class UserManager
     public function getTimezone()
     {
         $user   = $this->getCurrentUser();
-        $tz     = $user->getTimezone();
+        $data   = $user->getSymbbData();
+        $tz     = $data->getTimezone();
+        
+        if (!empty($tz)) {
+            $tz = new \DateTimeZone($tz);
+        } else {
+            $now = new \DateTime;
+            $tz = $now->getTimezone();
+        }
+
         return $tz;
     }
 }

@@ -19,6 +19,12 @@ setTimeout('window.location="'+newLocation+'"', 300);
 
 {% endif %}
 
+{% if edit is not defined%}
+
+    {% set edit = false %}
+
+{% endif %}
+
 {% if not saved %}
 <div id="symbb_bottom"></div>
 
@@ -31,7 +37,11 @@ setTimeout('window.location="'+newLocation+'"', 300);
         
             <div class="panel panel-primary">
                 <div class="panel-heading" data-toggle="collapse" data-target="#answer">
-                    {{ 'new answer'|trans }}  
+                    {% if edit %}
+                        {{ 'edit post'|trans }}  
+                    {% else %}
+                        {{ 'new answer'|trans }}  
+                    {% endif %}
                 </div>
                 <div class="panel-body collapse {% if not collapse %}in{% endif %}" id="answer">
 

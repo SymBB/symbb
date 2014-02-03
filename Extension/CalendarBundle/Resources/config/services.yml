@@ -4,5 +4,18 @@ services:
         tags:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
             - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addPostTab }
+            - { name: kernel.event_listener, event: symbb.post.template.form.options.tabcontents, method: addPostTabContent }
             
+           
+    symbb.listener.post.calendar.form:
+        class: SymBB\Extension\CalendarBundle\EventListener\FormListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.post.controller.form, method: addPostFormPart }
             
+    symbb.listener.post.calendar.save:
+        class: SymBB\Extension\CalendarBundle\EventListener\SaveListener
+        arguments: ['@doctrine.orm.symbb_entity_manager', '@symbb.core.group.manager']
+        tags:
+            - { name: kernel.event_listener, event: symbb.post.controller.save, method: save }
+            - { name: kernel.event_listener, event: symbb.post.controller.handle.request, method: handleRequest }

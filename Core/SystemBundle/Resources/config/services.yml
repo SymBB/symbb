@@ -44,3 +44,9 @@ services:
         tags:
             - { name: liip_imagine.filter.loader , loader: symbb_opacity } 
         
+    symbb.core.system.intl.twig:
+        twig.extension.symbb.core.system.intl.twig:
+        class: SymBB\Core\SystemBundle\Twig\IntlExtension
+        arguments: ['@symbb.core.user.manager']
+        tags:
+            - { name: twig.extension } 

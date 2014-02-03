@@ -21,4 +21,16 @@ class TemplateListener
     {
         $event->render('SymBBExtensionCalendarBundle::javascripts.html.twig', array());
     }
+
+    public function addPostTab($event)
+    {
+        $event->render('SymBBExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
+
+    }
+
+    public function addPostTabContent($event)
+    {
+        $event->render('SymBBExtensionCalendarBundle:Post:tabcontent.html.twig', array('form' => $event->getForm()));
+
+    }
 }
