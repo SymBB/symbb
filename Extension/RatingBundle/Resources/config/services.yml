@@ -2,7 +2,7 @@ services:
     symbb.listener.post.rating:
         class: SymBB\Extension\RatingBundle\EventListener\TemplateListener
         tags:
-            - { name: kernel.event_listener, event: symbb.post.template.after.text, method: afterText }
+            - { priority: -255, name: kernel.event_listener, event: symbb.post.template.after.text, method: afterText }
             - { name: kernel.event_listener, event: symbb.topic.template.stylesheets, method: topicStylesheets }
    
     symbb.extensionrating.util:
@@ -11,6 +11,7 @@ services:
         arguments: ['@doctrine', '@security.context']
         tags:
             - { name: twig.extension } 
+            
     symbb.extensionrating.acl.manager:
         class: SymBB\Extension\RatingBundle\Acl\Manager
         tags:

@@ -33,11 +33,12 @@ class SaveListener
     public function save(EditPostEvent $event)
     {
 
-        $post   = $event->getPost();
-        $form   = $event->getForm();
-        $start  = $form->get('calendarStartDate')->getData();
-        $end    = $form->get('calendarEndDate')->getData();
+        $post = $event->getPost();
+        $form = $event->getForm();
+        $start = $form->get('calendarStartDate')->getData();
+        $end = $form->get('calendarEndDate')->getData();
         $groups = $form->get('calendarGroups')->getData();
+        $name = $form->get('calendarName')->getData();
 
         if (!empty($start) && !empty($end)) {
 
@@ -47,10 +48,14 @@ class SaveListener
             if (!$event) {
                 $event = new \SymBB\Extension\CalendarBundle\Entity\Event();
                 $event->setPost($post);
+                if (empty($name)) {
+                    $name = $post->getName();
+                }
             }
 
             $event->setStartDate($start);
             $event->setEndDate($end);
+            $event->setName($name);
 
             $finalGroups = array();
 
@@ -78,7 +83,7 @@ class SaveListener
             $event = $repo->findOneBy(array('post' => $post));
 
             if (is_object($event) && !$form->isSubmitted()) {
-                
+
                 $groups = array();
                 foreach ($event->getGroups() as $group) {
                     $groups[] = $group->getId();
@@ -87,6 +92,7 @@ class SaveListener
                 $form->get('calendarStartDate')->setData($event->getStartDate());
                 $form->get('calendarEndDate')->setData($event->getEndDate());
                 $form->get('calendarGroups')->setData($groups);
+                $form->get('calendarName')->setData($event->getName());
             }
         }
 

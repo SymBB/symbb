@@ -1,12 +1,13 @@
 services:
     symbb.listener.template.calendar:
         class: SymBB\Extension\CalendarBundle\EventListener\TemplateListener
+        arguments: ['@doctrine.orm.symbb_entity_manager']
         tags:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
             - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addPostTab }
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabcontents, method: addPostTabContent }
-            
+            - { priority: 255, name: kernel.event_listener, event: symbb.post.template.before.text, method: addPostEventBox }
            
     symbb.listener.post.calendar.form:
         class: SymBB\Extension\CalendarBundle\EventListener\FormListener

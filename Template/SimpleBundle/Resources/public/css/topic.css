@@ -95,6 +95,8 @@
 
 .symbb_topic .textblock {
     width: auto;
+    padding: 10px;
+    padding-left: 0px;
 }
 
 .symbb_topic .userblock .username {

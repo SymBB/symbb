@@ -17,14 +17,77 @@ class DataController extends Controller
     public function eventsAction()
     {
 
-        $events[] = array(
-            'id' => 1,
-            'title' => 'test',
-            'url' => 'abc/url/1',
-            'start' => time()
-        );
+        $from = $this->get('request')->get('from');
+        $until = $this->get('request')->get('to');
+        $eventList = array();
 
-        $data = array('success' => 1, 'result' => $events);
+        if (\is_numeric($from) && $from > 0 && \is_numeric($until) && $until > 0) {
+
+
+            $from = $from / 1000;
+            $from = \DateTime::createFromFormat('U', $from);
+
+            $until = $until / 1000;
+            $until = \DateTime::createFromFormat('U', $until);
+
+            if ($from && $until) {
+                $em = $this->get('doctrine.orm.symbb_entity_manager');
+
+                $query = $em->createQuery(
+                    'SELECT 
+                        e
+                    FROM 
+                        SymBBExtensionCalendarBundle:Event e
+                    WHERE 
+                        e.startDate >= :from AND 
+                        e.startDate <= :until AND
+                        e.post > 0
+                    ORDER BY 
+                        e.startDate, e.name ASC'
+                )
+                ->setParameter('from', $from->format('Y-m-d H:i:s'))
+                ->setParameter('until', $until->format('Y-m-d H:i:s'));
+
+                $events = $query->getResult();
+
+
+                foreach ($events as $event) {
+
+                    $post = $event->getPost();
+
+                    if ($post) {
+
+                        $topic = $post->getTopic();
+
+                        $url = $this->generateUrl(
+                            'symbb_forum_topic_show', array('name' => $topic->getSeoName(), 'id' => $topic->getId())
+                        );
+                        
+                        $url = $url.'#'.$post->getSeoName().'-'.$post->getId();
+
+                        $start = $event->getStartDate()->getTimestamp();
+                        $start = $start * 1000;
+                        
+                        $end = $event->getEndDate()->getTimestamp();
+                        $end = $end * 1000;
+                        
+                        $eventList[] = array(
+                            'id' => $event->getId(),
+                            'title' => $event->getName(),
+                            'url' => $url,
+                            'start' => $start,
+                            'end' => $end
+                        );
+                    }
+                }
+            }
+        }
+
+
+
+
+
+        $data = array('success' => 1, 'result' => $eventList);
 
         $response = new \Symfony\Component\HttpFoundation\JsonResponse();
         $response->setData($data);
@@ -37,7 +100,7 @@ class DataController extends Controller
     {
 
         return $this->render(
-            'SymBBExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
+                'SymBBExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
         );
 
     }

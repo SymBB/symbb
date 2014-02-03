@@ -28,6 +28,17 @@ class FormListener
         $now = new \DateTime();
         $now->setTimezone($tz);
         
+        $builder->add('calendarName', 'text', array(
+            'mapped' => false,
+            'required' => false,
+            'label' => 'Title',
+            'constraints' => array(
+                new \Symfony\Component\Validator\Constraints\Length(array(
+                    'min'        => 3
+                ))
+            )
+        ));
+        
         $builder->add('calendarStartDate', 'datetime', array(
             'mapped' => false,
             'required' => false,

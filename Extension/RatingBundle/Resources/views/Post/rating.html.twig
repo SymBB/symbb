@@ -1,5 +1,5 @@
 {% if hasSymbbAccess('SYMBB_FORUM_RATING#VIEW', object.getTopic().getForum()) %}
-<div class="row raiting">
+<div class="raiting">
     <div class="like_dislike">
         <button type="button" class="btn btn-default btn-sm {{ getDislikeCssClass(object) }}"{% if hasSymbbAccess('SYMBB_FORUM_RATING#EDIT', object.getTopic().getForum()) %} onclick="window.location.href='{{ path('_symbb_post_rating_like', {'name': object.getSeoName() , 'id': object.getId() , 'like': 'dislike'}) }}'{% endif %}">
             <div class="glyphicon glyphicon-thumbs-down"></div>

@@ -1,0 +1,18 @@
+
+{% if calendarEvent %}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ calendarEvent.getName() }}</h3>
+    </div>
+    <div class="panel-body">
+        
+        {% set eventStart = calendarEvent.getStartDate() %}
+        {% set eventStart = formatIntlDate(eventStart) %}
+        {% set eventEnd = calendarEvent.getEndDate() %}
+        {% set eventEnd = formatIntlDate(eventEnd) %}
+            
+        {{ 'There is an appointment from %from% to %until%'|trans({ '%from%': eventStart, '%until%': eventEnd}) }}
+    </div>
+</div>
+{% endif %}

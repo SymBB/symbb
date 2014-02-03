@@ -31,6 +31,14 @@ class Event
      */
     private $post;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="SymBB\Core\UserBundle\Entity\Group")
+     * @ORM\JoinTable(name="forum_topic_post_calendar_event_groups",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     *      )
+     */
+    private $groups;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -43,14 +51,10 @@ class Event
     private $endDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SymBB\Core\UserBundle\Entity\Group")
-     * @ORM\JoinTable(name="forum_topic_post_calendar_event_groups",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
-     *      )
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $groups;
-    
+    private $name;
+
     public function getId()
     {
         return $this->id;
@@ -110,20 +114,43 @@ class Event
         return $this->endDate;
 
     }
-    
+
     /**
      * @return array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">)
      */
-    public function getGroups(){
+    public function getGroups()
+    {
         return $this->groups;
+
     }
-    
+
     /**
      * 
      * @param array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">) $groups
      */
-    public function setGroups($groups){
+    public function setGroups($groups)
+    {
         $this->groups = $groups;
+
     }
-    
+
+    /**
+     * 
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+
+    }
+
+    /**
+     * 
+     * @param string $title
+     */
+    public function setName($title)
+    {
+        $this->name = $title;
+
+    }
 }
