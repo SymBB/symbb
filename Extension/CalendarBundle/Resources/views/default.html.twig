@@ -1,0 +1,10 @@
+<div class="symbb_calendar"></div>
+<script>
+$(function() {
+    $(".symbb_calendar").calendar({
+        tmpl_path: '{{ path('symbb_extension_calendar_template_dummy') }}', 
+        events_source: '{{ path('symbb_extension_calendar_get_events') }}',
+        view: "week"
+    });
+});
+</script>

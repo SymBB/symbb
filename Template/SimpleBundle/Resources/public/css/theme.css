@@ -466,6 +466,16 @@ html, body {
 
 .glyphicon-warning {
     color: #f0ad4e !important;
+} 
+
+.carousel-control {
+    width: 50px;
+    background: none !important;
+    background-image: none !important;
+}
+
+.carousel-inner>.item {
+    height: 100%;
 }
 
 .hidden {
@@ -481,4 +491,4 @@ html, body {
         color: #FFF;
         padding-left: 40px;
     }
-} 
+}

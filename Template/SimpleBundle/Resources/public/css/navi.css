@@ -13,7 +13,7 @@
     margin: 0;
 }
 
-.symbb_navi ul li{
+.symbb_navi ul li {
     list-style: none;
     float: left;
     width: 100%;
@@ -31,6 +31,7 @@
     background-color: #428BCA;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
+    margin-bottom: 25px;
 }
 
 .symbb_navi li.avatar_link:hover {

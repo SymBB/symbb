@@ -1,0 +1,24 @@
+{
+    "name": "symbb/extension-rating",
+    "type": "symbb-extension",
+    "description": "SymBB Rating Extension",
+    "keywords": ["SymBB","Extension", "Rating"],
+    "homepage": "https://github.com/seyon/symbb",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Christian Wielath",
+            "email": "christianwielath@gmail.com",
+            "homepage": "https://github.com/seyon/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "symbb/symbb": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "SymBB\\Extension": "" }
+    },
+    "target-dir": "SymBB/Extension"
+}

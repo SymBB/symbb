@@ -1,0 +1,8 @@
+services:
+    symbb.listener.template.calendar:
+        class: SymBB\Extension\CalendarBundle\EventListener\TemplateListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
+            - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
+            
+            
