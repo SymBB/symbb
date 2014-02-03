@@ -4,8 +4,13 @@ services:
         class: SymBB\Core\UserBundle\Twig\UserDataExtension
         tags:
             - { name: twig.extension } 
+            
     symbb.core.user.manager:
         class: SymBB\Core\UserBundle\DependencyInjection\UserManager
+        arguments: ["@service_container"]
+        
+    symbb.core.group.manager:
+        class: SymBB\Core\UserBundle\DependencyInjection\GroupManager
         arguments: ["@service_container"]
         
     symbb.core.user.metadata:

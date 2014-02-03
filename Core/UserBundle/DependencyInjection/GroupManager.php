@@ -11,9 +11,9 @@ namespace SymBB\Core\UserBundle\DependencyInjection;
 
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
-use \SymBB\Core\UserBundle\Entity\UserInterface;
+use \SymBB\Core\UserBundle\Entity\GroupInterface;
 
-class UserManager
+class GroupManager
 {
 
     /**
@@ -29,7 +29,7 @@ class UserManager
     /**
      * @var string 
      */
-    protected $userClass = '';
+    protected $groupClass = '';
 
     protected $paginator;
 
@@ -38,77 +38,62 @@ class UserManager
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
         $this->securityFactory = $container->get('security.encoder_factory');
         $config = $container->getParameter('symbb_config');
-        $this->config = $config['usermanager'];
-        $this->userClass = $this->config['user_class'];
+        $this->config = $config['groupmanager'];
+        $this->groupClass = $this->config['group_class'];
         $this->paginator = $container->get('knp_paginator');
 
     }
 
     /**
-     * update the given user
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $user
+     * update the given group
+     * @param \SymBB\Core\UserBundle\Entity\GroupInterface $group
      */
-    public function updateUser(UserInterface $user)
+    public function updateGroup(GroupInterface $group)
     {
-        $this->em->persist($user);
+        $this->em->persist($group);
         $this->em->flush();
 
     }
 
     /**
-     * remove the given user
-     * @param UserInterface $user
+     * remove the given group
+     * @param \SymBB\Core\UserBundle\Entity\GroupInterface $user
      */
-    public function removeUser(UserInterface $user)
+    public function removeUser(GroupInterface $group)
     {
-        $this->em->remove($user);
+        $this->em->remove($group);
         $this->em->flush();
 
     }
 
     /**
-     * change the password of an user
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $user
-     * @param string $newPassword
+     * create a new Group
+     * @return \SymBB\Core\UserBundle\Entity\GroupInterface
      */
-    public function changeUserPassword(UserInterface $user, $newPassword)
+    public function createGroup()
     {
-        $encoder = $this->securityFactory->getEncoder($user);
-        $password = $encoder->encodePassword($newPassword, $user->getSalt());
-        $user->setPassword($password);
-        $this->em->persist($user);
-        $this->em->flush();
+        $groupClass = $this->groupClass;
+        $group = new $groupClass();
+        return $group;
 
     }
 
-    /**
-     * create a new User
-     * @return UserInterface
-     */
-    public function createUser()
+    public function findGroups()
     {
-        $userClass = $this->userClass;
-        $user = new $userClass();
-        return $user;
-
-    }
-
-    public function findUsers()
-    {
-        $users = $this->em->getRepository($this->userClass)->findAll();
-        return $users;
+        $groups = $this->em->getRepository($this->groupClass)->findAll();
+        return $groups;
 
     }
 
     public function getClass()
     {
-        return $this->userClass;
+        return $this->groupClass;
 
     }
 
     public function paginateAll($request)
     {
-        $dql = "SELECT u FROM SymBBCoreUserBundle:User u";
+        $dql = "SELECT g FROM SymBBCoreUserBundle:Group g";
         $query = $this->em->createQuery($dql);
 
         $paginator = $this->paginator;
