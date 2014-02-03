@@ -33,6 +33,8 @@ class UserManager
 
     protected $paginator;
 
+    protected $securityContext;
+
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
@@ -41,6 +43,13 @@ class UserManager
         $this->config = $config['usermanager'];
         $this->userClass = $this->config['user_class'];
         $this->paginator = $container->get('knp_paginator');
+        $this->securityContext = $container->get('security.context');
+
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->securityContext->getToken()->getUser();
 
     }
 
@@ -135,5 +144,11 @@ class UserManager
         return $pagination;
 
     }
-    
+
+    public function getTimezone()
+    {
+        $user   = $this->getCurrentUser();
+        $tz     = $user->getTimezone();
+        return $tz;
+    }
 }

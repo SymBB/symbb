@@ -53,6 +53,7 @@ class PostType extends AbstractType
      * @var \SymBB\Core\UserBundle\DependencyInjection\GroupManager 
      */
     protected $groupManager;
+    
 
     public function __construct($url, \SymBB\Core\ForumBundle\Entity\Post $post, $dispatcher, $translator, $em, UserManager $userManager, GroupManager $groupManager)
     {

@@ -51,6 +51,7 @@ class FormPostEvent extends Event
      * @var \SymBB\Core\UserBundle\DependencyInjection\GroupManager 
      */
     protected $groupManager;
+    
 
     public function __construct(Post $post, FormBuilderInterface $builder, $translator, $em, UserManager $userManager, GroupManager $groupManager)
     {

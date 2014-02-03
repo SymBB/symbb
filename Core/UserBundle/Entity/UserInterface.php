@@ -19,6 +19,8 @@ interface UserInterface {
     public function getPosts();
     public function getGroups();
     public function getSymbbType();
+    public function getTimezone();
+    public function setTimezone(\DateTimeZone $tz);
     
     /**
      * @return \SymBB\Core\UserBundle\Entity\User\Data 
