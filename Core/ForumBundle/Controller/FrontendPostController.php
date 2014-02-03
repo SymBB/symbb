@@ -186,12 +186,13 @@ class FrontendPostController extends \SymBB\Core\SystemBundle\Controller\Abstrac
             $em = $this->getDoctrine()->getManager('symbb');
 
             $event = new \SymBB\Core\EventBundle\Event\EditPostEvent($post, $form);
-            $this->get('event_dispatcher')->dispatch('symbb.post.controller.save', $event);
 
 
             $em->persist($post);
             $em->persist($topic);
             $em->flush();
+            
+            $this->get('event_dispatcher')->dispatch('symbb.post.controller.save', $event);
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('Your post has been saved successfully You will now be redirected ...', array(), 'symbb_frontend')

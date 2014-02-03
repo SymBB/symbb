@@ -245,17 +245,17 @@ class FrontendTopicController extends \SymBB\Core\SystemBundle\Controller\Abstra
 
             $em = $this->getDoctrine()->getManager('symbb');
 
-            $event = new \SymBB\Core\EventBundle\Event\EditTopicEvent($topic, $form);
-            $this->get('event_dispatcher')->dispatch('symbb.topic.controller.save', $event);
-
-            $event = new \SymBB\Core\EventBundle\Event\EditPostEvent($topic->getMainPost(), $form->get('mainPost'));
-            $this->get('event_dispatcher')->dispatch('symbb.post.controller.save', $event);
-
             $em->persist($topic);
             if ($post) {
                 $em->persist($post);
             }
             $em->flush();
+
+            $event = new \SymBB\Core\EventBundle\Event\EditTopicEvent($topic, $form);
+            $this->get('event_dispatcher')->dispatch('symbb.topic.controller.save', $event);
+
+            $event = new \SymBB\Core\EventBundle\Event\EditPostEvent($topic->getMainPost(), $form->get('mainPost'));
+            $this->get('event_dispatcher')->dispatch('symbb.post.controller.save', $event);
 
             $this->get('session')->getFlashBag()->add(
                 'success', $this->get('translator')->trans('Your post has been saved successfully You will now be redirected ...', array(), 'symbb_frontend')

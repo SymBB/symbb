@@ -34,7 +34,7 @@ class DataController extends Controller
                 $em = $this->get('doctrine.orm.symbb_entity_manager');
 
                 $query = $em->createQuery(
-                    'SELECT 
+                        'SELECT 
                         e
                     FROM 
                         SymBBExtensionCalendarBundle:Event e
@@ -44,33 +44,48 @@ class DataController extends Controller
                         e.post > 0
                     ORDER BY 
                         e.startDate, e.name ASC'
-                )
-                ->setParameter('from', $from->format('Y-m-d H:i:s'))
-                ->setParameter('until', $until->format('Y-m-d H:i:s'));
+                    )
+                    ->setParameter('from', $from->format('Y-m-d H:i:s'))
+                    ->setParameter('until', $until->format('Y-m-d H:i:s'));
 
                 $events = $query->getResult();
 
+                $user = $this->get('symbb.core.user.manager');
+                $userGroups = $user->getCurrentUser()->getGroups();
 
                 foreach ($events as $event) {
 
                     $post = $event->getPost();
+                    $groups = $event->getGroups();
+                    $check = false;
+                    foreach ($groups as $group) {
+                        foreach ($userGroups as $userGroup) {
+                            if ($userGroup->getId() == $group->getId()) {
+                                $check = true;
+                                break;
+                            }
+                        }
+                        if ($check) {
+                            break;
+                        }
+                    }
 
-                    if ($post) {
+                    if ($post && $check) {
 
                         $topic = $post->getTopic();
 
                         $url = $this->generateUrl(
                             'symbb_forum_topic_show', array('name' => $topic->getSeoName(), 'id' => $topic->getId())
                         );
-                        
-                        $url = $url.'#'.$post->getSeoName().'-'.$post->getId();
+
+                        $url = $url . '#' . $post->getSeoName() . '-' . $post->getId();
 
                         $start = $event->getStartDate()->getTimestamp();
                         $start = $start * 1000;
-                        
+
                         $end = $event->getEndDate()->getTimestamp();
                         $end = $end * 1000;
-                        
+
                         $eventList[] = array(
                             'id' => $event->getId(),
                             'title' => $event->getName(),

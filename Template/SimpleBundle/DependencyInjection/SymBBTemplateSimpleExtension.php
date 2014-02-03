@@ -23,6 +23,7 @@ class SymBBTemplateSimpleExtension extends Extension implements PrependExtension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('liip_imagine.yml'); 
+        $loader->load('doctrine.yml'); 
     }
         
     public function load(array $configs, ContainerBuilder $container)
