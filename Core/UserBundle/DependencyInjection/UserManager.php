@@ -93,6 +93,22 @@ class UserManager
 
     }
 
+    /**
+     * 
+     * @param type $userId
+     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     */
+    public function find($userId)
+    {
+        $user = $this->em->getRepository($this->userClass)->find($userId);
+        return $user;
+
+    }
+
+    /**
+     * 
+     * @return array(<"\SymBB\Core\UserBundle\Entity\UserInterface">)
+     */
     public function findUsers()
     {
         $users = $this->em->getRepository($this->userClass)->findAll();

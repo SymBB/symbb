@@ -78,6 +78,22 @@ class GroupManager
 
     }
 
+    /**
+     * 
+     * @param type $groupId
+     * @return \SymBB\Core\UserBundle\Entity\GroupInterface
+     */
+    public function find($groupId)
+    {
+        $group = $this->em->getRepository($this->groupClass)->find($groupId);
+        return $group;
+
+    }
+
+    /**
+     * 
+     * @return array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">)
+     */
     public function findGroups()
     {
         $groups = $this->em->getRepository($this->groupClass)->findAll();
