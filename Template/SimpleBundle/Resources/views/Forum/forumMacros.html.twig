@@ -4,7 +4,7 @@
  
     {% set categoryBackground = false %}
 
-    {% if object.getImage() %}
+    {% if object.getImageName() %}
         {% set categoryBackground = vich_uploader_asset(object, 'image') %}
     {% endif %}
 

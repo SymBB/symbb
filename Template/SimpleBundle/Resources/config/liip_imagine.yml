@@ -4,5 +4,5 @@ liip_imagine:
             quality: 100
             filters:
                 strip: ~
-                thumbnail: { size: [377, 223], mode: outbound  } 
+                relative_resize: { heighten: 218  }  
                 symbb_opacity: { opacity: 80 } 

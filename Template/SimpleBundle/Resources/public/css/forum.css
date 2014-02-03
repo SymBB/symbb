@@ -21,7 +21,9 @@
 
 .symbb_category .border {
     border: 1px solid #999;
-    background-size: 100%; 
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: right bottom;
 }
 
 .symbb_category .labels {
