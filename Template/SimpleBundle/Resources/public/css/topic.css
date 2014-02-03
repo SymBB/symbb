@@ -17,11 +17,13 @@
     margin: 0;
     border: 1px solid #999;
     border-top: 0px;
-    margin-top: -1px;
+    margin-top: 0px;
+    clear: both;
 }
 
 .symbb_topic .symbb_action_row {
     margin-bottom: 0px;
+    height: 43px;
 }
 
 .symbb_topic .symbb_action_row .title{
@@ -108,4 +110,22 @@
 
 .symbb_topic .userblock .userdata .data {
     margin-left: 8em;
+}
+
+.symbb_action_row.topic_start {
+    margin-bottom: -26px;
+}
+
+.symbb_action_row.topic_end {
+    margin-top: -21px;
+}
+
+.symbb_action_row.topic_start .title,
+.symbb_action_row.topic_end .title{
+    width: 200px;
+}
+
+
+.symbb_topic_bradcrumb .first{
+    width: 200px;
 }

@@ -2,7 +2,11 @@
 
 {% macro createCard(object) %}
  
-    {% set categoryBackground = vich_uploader_asset(object, 'image') %}
+    {% set categoryBackground = false %}
+
+    {% if object.getImage() %}
+        {% set categoryBackground = vich_uploader_asset(object, 'image') %}
+    {% endif %}
 
     {% if categoryBackground %}
         {% set categoryBackground = categoryBackground|imagine_filter('symbb_forum_bg') %}

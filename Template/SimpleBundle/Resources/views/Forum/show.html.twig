@@ -23,32 +23,28 @@
 
 {% block symbb_body %}
 
-    {% set count = 0 %}
-    {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
-        {% set count = count + 1 %}
-    {% endfor %}
-
-    {% if count > 0 %}
-    <div class="anker-group">
-        <div class="anker" id="categories"></div>
-        {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
-    </div>
-    <div class="symbb_action_row">
-        <div class="title"><a href="#categories">{{ 'Categories'|trans() }}</a></div>
-        <div class="arrow"></div>
-        <div class="clear"></div>
-    </div>
-    {% endif %}
 
     {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
  
-        {{ symbBBForumMacro.createCard(object) }}
+        <div class="anker-group">
+            <div class="anker" id="category_{{ object.getId() }}"></div>
+            {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+        </div>
+        <div class="symbb_action_row">
+            <div class="title"><a href="#category_{{ object.getId() }}">{{ object.getName() }}</a></div>
+            <div class="arrow"></div>
+            <div class="clear"></div>
+        </div>
+
+        {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
+
+            {{ symbBBForumMacro.createCard(subobject) }}
+
+        {% endfor %}
+
+        <div class="clear spacer-bottom"></div>
 
     {% endfor %}
-
-    {% if count > 0 %}
-    <div class="clear spacer-bottom"></div>
-    {% endif %}
     
     {% set count = 0 %}
     {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
@@ -76,15 +72,9 @@
     {% if count > 0 %}
     <div class="clear spacer-bottom"></div>
     {% endif %}
-    
-    {% if forum and forum.getType() == 'forum' %}
-    
-        {% set count = 0 %}
-        {% for object in forum.getTopics() %}
-            {% set count = count + 1 %}
-        {% endfor %}
+ 
+    {% if forum and forum.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', forum) %}
 
-        {% if count > 0 %}
         <div class="anker-group">
             <div class="anker" id="topics"></div>
             {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
@@ -113,8 +103,7 @@
             {% endif %}
             {{ knp_pagination_render(topicPagination) }}
             <div class="clear"></div>
-            </div>
-        {% endif %}
+        </div>
         
         {% for object in topicPagination %}
     

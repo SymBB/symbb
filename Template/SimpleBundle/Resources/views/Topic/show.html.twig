@@ -39,9 +39,8 @@
     
 {% block symbb_body %}
     <div class="anker-group"><div class="anker" id="first_header"></div></div>
-    <div class="symbb_action_row">
+    <div class="symbb_action_row topic_start">
         <div class="title">{{ topic.getName() }}</div>
-        <div class="arrow"></div>
         <div class="btn-group pull-left">
             <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bbcode_editor'"  data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
             <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#symbb_bottom'">{{ 'Bottom'|trans }}</button>
@@ -58,6 +57,15 @@
     <div class="symbb_topic">
         {{ symbBBForumTopicMacro.showPostList(topic, pagination) }}
     </div>
+    
+    <div class="symbb_action_row topic_end">
+        <div class="title">&nbsp;</div>
+        <div class="btn-group pull-left">
+            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#top'">{{ 'Top'|trans }}</button>
+        </div>
+        {{ knp_pagination_render(pagination) }}
+        <div class="clear"></div>
+    </div>
 
     {% if topic.isLocked() %}
     <div class="m-top-1"></div>
@@ -65,22 +73,13 @@
     <div class="clear"></div>
     {% endif %}
     
-    
-    <div class="symbb_action_row">
-        <div class="title">{{ topic.getName() }}</div>
-        <div class="arrow"></div>
-        <div class="btn-group pull-left">
-            <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='#top'">{{ 'Top'|trans }}</button>
-        </div>
-        {{ knp_pagination_render(pagination) }}
-        <div class="clear"></div>
+    <div class="symbb_topic_bradcrumb bottom">
+        {{ getSymbbBreadcrumb(topic) }}
     </div>
     
     {% if not topic.isLocked() %}
     
         {% if hasSymbbAccess('SYMBB_FORUM#CREATE_POST', topic.getForum()) %}
-
-            <hr>
     
             {% include getSymbbTemplateConfig('forum') ~ ':Post:new.html.twig' with {'form': form, 'topic': topic, 'saved': false, 'collapse': true} %}
 
