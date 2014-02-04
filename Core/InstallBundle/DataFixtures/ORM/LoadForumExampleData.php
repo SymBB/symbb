@@ -35,6 +35,7 @@ class LoadForumExampleData extends AbstractFixture implements OrderedFixtureInte
     public function load(ObjectManager $manager)
     {
         
+        /*
         $forum = new \SymBB\Core\ForumBundle\Entity\Forum();
         $forum->setActive(1);
         $forum->setName('Main Category');
@@ -254,7 +255,7 @@ class LoadForumExampleData extends AbstractFixture implements OrderedFixtureInte
             'SYMBB_FORUM_RATING#VIEW',
             'SYMBB_FORUM_RATING#EDIT'
         ), $forum6, $this->getReference('admin-group'));
-        
+        */
     }
 
     /**
