@@ -1,5 +1,2 @@
 framework:
     validation: { enable_annotations: true }
-    
-web_profiler:
-    intercept_redirects: false 
