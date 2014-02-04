@@ -68,7 +68,7 @@ class TopicType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $postType = new PostType('', $this->topic->getMainPost(), $this->dispatcher, $this->translator, false);
+        $postType = new PostType('', $this->topic->getMainPost(), $this->dispatcher, $this->translator, $this->em, $this->userManager, $this->groupManager);
         $builder//->add('name', 'text', array('label' => 'Titel', 'required' => true, 'attr' => array('placeholder' => 'Enter a name here')))
             ->add('mainPost', $postType)
             ->add('locked', 'checkbox', array('required' => false, 'label' => 'close topic'))
