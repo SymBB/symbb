@@ -76,7 +76,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
 
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"position" = "ASC", "name" = "ASC"})
+     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      */
     protected $children;
 
