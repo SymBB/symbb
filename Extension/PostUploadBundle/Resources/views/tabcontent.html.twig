@@ -3,8 +3,7 @@
 <div class="symbb_tabcontent" data-tab="files">
     <div class="panel panel-default">
         <div class="padding10">
-            <div class="hidden">{{ form_rowbootstrap(form.files) }}</div>
-            <div class="collection" data-prototype='{{ form_widget(form.files.vars.prototype) }}'>
+            <div class="collection" data-prototype='{{ form_widget(form.files.vars.prototype)|e }}'>
                 {% for currfile in form.files %}
                     <div class="collection_item pull-left">
                         {% set imageOriginal = vich_uploader_asset(currfile.vars.data, 'image') %}
@@ -26,6 +25,7 @@
                 <button class="btn btn-default collection_add" onclick="return false;">{{ 'add file'|trans() }}</button>
                 <div class="clear"></div>
              </div>
+            <div class="hidden">{{ form_rowbootstrap(form.files) }}</div>
         </div>
     </div>
 </div>

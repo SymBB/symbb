@@ -1,7 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 <div class="symbb_tabcontent" data-tab="files">
     <div class="panel panel-default">
-        <div class="hidden">{{ form_rowbootstrap(form.mainPost.files) }}</div>
         <div class="padding10">
             <div class="collection" data-prototype='{{ form_widget(form.mainPost.files.vars.prototype) }}'>
                 {% for currfile in form.mainPost.files %}
@@ -25,6 +24,7 @@
                 <button class="btn btn-default collection_add" onclick="return false;">{{ 'add file'|trans() }}</button>
                 <div class="clear"></div>
              </div>
+            <div class="hidden">{{ form_rowbootstrap(form.mainPost.files) }}</div>
         </div>
     </div>
 </div>
