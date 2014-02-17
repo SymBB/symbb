@@ -1,6 +1,13 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplateConfig('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+
+{% if getNewestPost(null) %}
+    {% set templateFile = getSymbbTemplateConfig('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+{% else %}
+    {% set templateFile = getSymbbTemplateConfig('forum') ~ ':Forum:layout.html.twig' %}
+{% endif %}
+
+{% extends templateFile %}
 
 {% block symbb_sidebar %}
     

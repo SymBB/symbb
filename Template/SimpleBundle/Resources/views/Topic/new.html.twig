@@ -39,8 +39,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">{{ form_widget(form.forum) }}</div>
             <div class="panel-body">
-            {{ form_row(form.mainPost.name) }}
+            {{ form_row(form.name) }}
             {{ form_row(form.id) }}
+            {{ form_row(form.mainPost.id) }}
             {{ form_row(form._token) }}
     
             {{ form_widget(form.mainPost.text) }}

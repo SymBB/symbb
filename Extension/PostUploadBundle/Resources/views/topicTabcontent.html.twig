@@ -1,11 +1,10 @@
 {% trans_default_domain "symbb_frontend" %}
-
 <div class="symbb_tabcontent" data-tab="files">
     <div class="panel panel-default">
+        <div class="hidden">{{ form_rowbootstrap(form.mainPost.files) }}</div>
         <div class="padding10">
-            <div class="hidden">{{ form_rowbootstrap(form.files) }}</div>
-            <div class="collection" data-prototype='{{ form_widget(form.files.vars.prototype) }}'>
-                {% for currfile in form.files %}
+            <div class="collection" data-prototype='{{ form_widget(form.mainPost.files.vars.prototype) }}'>
+                {% for currfile in form.mainPost.files %}
                     <div class="collection_item pull-left">
                         {% set imageOriginal = vich_uploader_asset(currfile.vars.data, 'image') %}
                         {% set image = imageOriginal|imagine_filter('symbb_post_file') %}

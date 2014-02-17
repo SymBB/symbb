@@ -6,6 +6,8 @@ services:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
             - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addPostTab }
+            - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabcontents, method: addTopicTabContent }
+            - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabs, method: addTopicTab }
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabcontents, method: addPostTabContent }
             - { priority: 255, name: kernel.event_listener, event: symbb.post.template.before.text, method: addPostEventBox }
            

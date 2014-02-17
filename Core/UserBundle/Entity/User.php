@@ -57,7 +57,7 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     private $posts;
 
     /**
-     * @ORM\OneToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User\Data")
+     * @ORM\OneToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
      * @var array(<"\SymBB\Core\UserBundle\Entity\User\Data">)
      */

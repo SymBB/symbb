@@ -30,4 +30,14 @@ class TemplateListener
         $event->render('SymBBExtensionPostUploadBundle::tabcontent.html.twig', array('form' => $event->getForm()));
     }
 
+    public function addTopicUploadTab($event)
+    {
+        $event->render('SymBBExtensionPostUploadBundle::tab.html.twig', array('form' => $event->getForm()));
+    }
+
+    public function addTopicUploadTabContent($event)
+    {
+        $event->render('SymBBExtensionPostUploadBundle::topicTabcontent.html.twig', array('form' => $event->getForm()));
+    }
+
 }

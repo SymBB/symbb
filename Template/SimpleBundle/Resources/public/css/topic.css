@@ -131,3 +131,7 @@
 .symbb_topic_bradcrumb .first{
     width: 200px;
 }
+
+.symbb_topic form{
+    margin-top: 20px;
+}

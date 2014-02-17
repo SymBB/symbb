@@ -47,6 +47,18 @@ class TemplateListener
 
     }
 
+    public function addTopicTab($event)
+    {
+        $event->render('SymBBExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
+
+    }
+
+    public function addTopicTabContent($event)
+    {
+        $event->render('SymBBExtensionCalendarBundle:Topic:tabcontent.html.twig', array('form' => $event->getForm()));
+
+    }
+
     public function addPostEventBox(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
     {
 

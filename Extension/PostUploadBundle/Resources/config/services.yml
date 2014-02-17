@@ -5,6 +5,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addUploadTab }
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabcontents, method: addUploadTabContent }
+            - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabs, method: addTopicUploadTab }
+            - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabcontents, method: addTopicUploadTabContent }
           
     symbb.listener.post.upload.form:
         class: SymBB\Extension\PostUploadBundle\EventListener\FormListener
