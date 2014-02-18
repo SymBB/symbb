@@ -20,6 +20,15 @@
 {% endblock %}
 
 
+
+{% block symbb_slider %}
+    {% if not forum %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+
+
 {% if forum and forum.getType() == 'forum' %}
     {% set topicPagination = getTopicPagination(forum, app.request) %}
 {% else %}
@@ -112,11 +121,14 @@
             <div class="clear"></div>
         </div>
         
-        {% for object in topicPagination %}
-    
-            {{ symbBBForumMacro.createTopicCard(object) }}
+        <div>
+            {% for object in topicPagination %}
 
-        {% endfor %}
+                {{ symbBBForumMacro.createTopicCard(object) }}
+
+            {% endfor %}
+            <div class="clear"></div>
+        </div>
     
         {{ knp_pagination_render(topicPagination) }}
 

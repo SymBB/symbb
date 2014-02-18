@@ -1,7 +1,6 @@
 .symbb_category {
     float: left;
     position: relative;
-    background-color: #FFF;
     color: #000;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -9,14 +8,43 @@
     overflow: hidden;
     padding: 0 !important;
     font-size: 200%;
+    border-radius: 5px;
 }
 
 .symbb_category * {
     font-size: 1em;
 }
 
-.symbb_category:nth-child(odd) {
-    background-color: #FAFAFA;
+.symbb_category:hover {
+    z-index: 1000;
+}
+
+
+
+.symbb_category .header {
+    background-color: #97CE68;
+    display: inline-block;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.symbb_category:nth-child(odd) .header {
+    background-color: #428BCA;
+}
+
+
+
+.symbb_category .header .image{
+    background-color: #FFF;
+    height: 60px;
+    width: 60px;
+    border-radius: 60px;
+    float: left;
+    margin: 5px;
+    margin-left: 25px;
+    margin-right: 20px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .symbb_category .border {
@@ -24,6 +52,13 @@
     background-size: auto;
     background-repeat: no-repeat;
     background-position: right bottom;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: #fff;
+}
+
+.symbb_category .border:nth-child(odd) {
+    background-color: #FAFAFA;
 }
 
 .symbb_category .labels {
@@ -40,10 +75,6 @@
     min-height: 100px;
 }
 
-.symbb_category:hover{
-    background-color: #EEE;
-}
-
 .symbb_category a,
 .symbb_category a:link,
 .symbb_category a:visited,
@@ -55,19 +86,21 @@
 .symbb_category .title {
     font-weight: bold;
     padding: 20px;
+    padding-top: 10px;
     text-align: left;
-    color: #000;
+    color: #fff;
     padding-bottom: 0px;
 }
 
 .symbb_category .description {
-    padding-left: 20px;
+    padding-left: 0px;
     padding-right: 20px;
-    color: #000;
+    color: #fff;
     padding-top: 0;
     min-height: 1.5em;
     overflow: hidden;
     font-size: 1em;
+    height: 35px;
 }
 
 .symbb_category .show_subforums .subforum_list {
@@ -76,11 +109,16 @@
     overflow: hidden;
 }
 
-.symbb_category .show_subforums:hover .subforum_list {
+.symbb_category .show_subforums {
+    display: none;
+}
+
+.symbb_category:hover .show_subforums {
+    display: inherit;
 }
 
 .symbb_category .user.creator {
-    color: #808080;
+    color: #FFF;
     padding-top: 0;
     font-size: 85%;
     padding-left: 20px;
@@ -117,8 +155,12 @@
     padding: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
+    height: 60px;
 }
 
+.symbb_category:hover .infos {
+    height: auto;
+}
 
 .symbb_category .infos .badge {
     margin-bottom: 2px;
@@ -131,8 +173,11 @@
 
 
 .symbb_category .lastpost {
-    height: 30px;
-    overflow: hidden;
+    display: none;
+}
+
+.symbb_category:hover .lastpost {
+    display: inherit;
 }
 
 .symbb_category small, .symbb_category .small {

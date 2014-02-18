@@ -42,6 +42,7 @@ html, body {
 .symbb_body {
     margin-bottom: 0px;
     padding: 0px;
+    position: relative;
 }
 
 .symbb_body .alert {
