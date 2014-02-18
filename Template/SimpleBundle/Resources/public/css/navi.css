@@ -1,14 +1,14 @@
 .symbb_navi {
-    width: 150px;
+    width: 30px;
     position: fixed;
     top: 19px;
-    left: -130px;
+    left: -5px;
     z-index: 999;
 }
 
 .symbb_navi ul{
     list-style: none;
-    width: 150px;
+    width: 30px;
     padding: 0;
     margin: 0;
 }
@@ -18,7 +18,7 @@
     float: left;
     width: 100%;
     background-color: #232323;
-    padding: 5px;
+    padding: 0px;
     text-align: right;
     margin-bottom: 5px;
     height: 35px;
@@ -26,16 +26,12 @@
 
 .symbb_navi li.avatar_link {
     position: relative;
-    left: 28px;
+    left: 8px;
     height: 42px;
     background-color: #428BCA;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
     margin-bottom: 25px;
-}
-
-.symbb_navi li.avatar_link:hover {
-    left: 20px;
 }
 
 .symbb_navi li.avatar_link .avatar {
@@ -48,22 +44,26 @@
     width: 100%;
 }
 
-.symbb_navi ul li:hover { 
-    position: relative;
-    left: 100px;
-}
-
-.symbb_navi ul li .text{
-    color: #FFF;
-    margin-top: 5px;
-    display: block;
-    float: right;
-}
-
 .symbb_navi .glyphicon {
     color: #FFF;
     width: 20px !important;
     font-size: 16px;
-    padding: 5px;
-    float: right;
+    padding: 10px;
+    padding-left: 0px;
+}
+
+.symbb_navi ul li .text {
+    position: absolute;
+    left: 30px;
+    background-color: #000;
+    color: #FFF;
+    padding: 10px;
+    height: 35px;
+    width: auto;
+    white-space: nowrap;
+    display: none;
+}
+
+.symbb_navi ul li:hover .text {
+    display: inline;
 }
