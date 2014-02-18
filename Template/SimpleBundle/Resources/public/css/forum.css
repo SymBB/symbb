@@ -23,7 +23,7 @@
 
 .symbb_category .header {
     background-color: #97CE68;
-    display: inline-block;
+    display: inline-flex;
     width: 100%;
     border-radius: 5px 5px 0 0;
 }
@@ -32,7 +32,9 @@
     background-color: #428BCA;
 }
 
-
+.symbb_category .header .text{
+    margin: auto 0;
+}
 
 .symbb_category .header .image{
     background-color: #FFF;
@@ -85,8 +87,7 @@
 
 .symbb_category .title {
     font-weight: bold;
-    padding: 20px;
-    padding-top: 10px;
+    padding-top: 0px;
     text-align: left;
     color: #fff;
     padding-bottom: 0px;
@@ -97,10 +98,9 @@
     padding-right: 20px;
     color: #fff;
     padding-top: 0;
-    min-height: 1.5em;
+    max-height: 35px;
     overflow: hidden;
     font-size: 1em;
-    height: 35px;
 }
 
 .symbb_category .show_subforums .subforum_list {
