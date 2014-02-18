@@ -42,17 +42,18 @@
 
     {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
  
-        <div class="anker-group">
-            <div class="anker" id="category_{{ object.getId() }}"></div>
-            {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
-        </div>
-        <div class="symbb_action_row">
-            <div class="title"><a href="#category_{{ object.getId() }}">{{ object.getName() }}</a></div>
-            <div class="arrow"></div>
-            <div class="clear"></div>
-        </div>
-
         <div>
+            
+            <div class="anker-group">
+                <div class="anker" id="category_{{ object.getId() }}"></div>
+                {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+            </div>
+            <div class="symbb_action_row">
+                <div class="title"><a href="#category_{{ object.getId() }}">{{ object.getName() }}</a></div>
+                <div class="arrow"></div>
+                <div class="clear"></div>
+            </div>
+            
             {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
 
                 {{ symbBBForumMacro.createCard(subobject) }}
@@ -67,20 +68,21 @@
     {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
         {% set count = count + 1 %}
     {% endfor %}
-
-    {% if count > 0 %}
-    <div class="anker-group">
-        <div class="anker" id="forums"></div>
-        {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
-    </div>
-    <div class="symbb_action_row">
-        <div class="title"><a href="#forums">{{ 'Forums'|trans() }}</a></div>
-        <div class="arrow"></div>
-        <div class="clear"></div>
-    </div>
-    {% endif %}
     
     <div >
+       
+        {% if count > 0 %}
+        <div class="anker-group">
+            <div class="anker" id="forums"></div>
+            {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+        </div>
+        <div class="symbb_action_row">
+            <div class="title"><a href="#forums">{{ 'Forums'|trans() }}</a></div>
+            <div class="arrow"></div>
+            <div class="clear"></div>
+        </div>
+        {% endif %}
+        
         {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
 
             {{ symbBBForumMacro.createCard(object) }}
