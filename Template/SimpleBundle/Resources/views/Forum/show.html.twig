@@ -52,13 +52,14 @@
             <div class="clear"></div>
         </div>
 
-        {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
+        <div>
+            {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
 
-            {{ symbBBForumMacro.createCard(subobject) }}
+                {{ symbBBForumMacro.createCard(subobject) }}
 
-        {% endfor %}
-
-        <div class="clear spacer-bottom"></div>
+            {% endfor %}
+            <div class="clear spacer-bottom"></div>
+        </div>
 
     {% endfor %}
     
