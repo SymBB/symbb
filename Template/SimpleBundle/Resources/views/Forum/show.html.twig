@@ -79,12 +79,13 @@
     </div>
     {% endif %}
     
-    
-    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
-    
-        {{ symbBBForumMacro.createCard(object) }}
-    
-    {% endfor %}
+    <div >
+        {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+
+            {{ symbBBForumMacro.createCard(object) }}
+
+        {% endfor %}
+    </div>
     {% if count > 0 %}
     <div class="clear spacer-bottom"></div>
     {% endif %}
