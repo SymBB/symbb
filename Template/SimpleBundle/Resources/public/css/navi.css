@@ -26,16 +26,18 @@
 
 .symbb_navi li.avatar_link {
     position: relative;
-    left: 8px;
+    left: -5px;
     height: 42px;
     background-color: #428BCA;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
     margin-bottom: 25px;
+    width: 58px;
 }
 
 .symbb_navi li.avatar_link .avatar {
     float: right !important;
+    margin: 5px;
 }
 
 .symbb_navi ul li a { 
