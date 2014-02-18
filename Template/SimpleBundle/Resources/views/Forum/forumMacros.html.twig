@@ -105,14 +105,18 @@
     <div class="symbb_category postfull {{ css }}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="border">
             <a class="header" href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
-                <div class="title">{{object.getName()}}</div>
-                <div class="user creator">
-                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user%{% endtrans %} <br/>
-                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}on %date% at %time%{% endtrans %}</div>
-                <div class="description">
-                    <blockquote>{{object.getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
+                <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})"></div>
+                <div class="text">
+                    <div class="title">{{object.getName()}}</div>
+                    <div class="user creator">
+                        {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user%{% endtrans %} <br/>
+                        {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}on %date% at %time%{% endtrans %}
+                    </div>
                 </div>
             </a>
+            <div class="description">
+                <blockquote>{{object.getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
+            </div>
             <div class="infos">
                 <div class="subheader">{% trans %}Infos{% endtrans %}</div>
                 <div class="labels">
