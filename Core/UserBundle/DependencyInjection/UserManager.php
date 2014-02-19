@@ -35,6 +35,12 @@ class UserManager
 
     protected $securityContext;
 
+    /**
+     *
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher 
+     */
+    protected $dispatcher;
+    
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
@@ -44,7 +50,7 @@ class UserManager
         $this->userClass = $this->config['user_class'];
         $this->paginator = $container->get('knp_paginator');
         $this->securityContext = $container->get('security.context');
-
+        $this->dispatcher = $container->get('event_dispatcher');
     }
 
     /**
@@ -120,6 +126,18 @@ class UserManager
 
     /**
      * 
+     * @param string $username
+     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     */
+    public function findByUsername($username)
+    {
+        $user = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username));
+        return $user;
+
+    }
+
+    /**
+     * 
      * @return array(<"\SymBB\Core\UserBundle\Entity\UserInterface">)
      */
     public function findUsers()
@@ -151,10 +169,10 @@ class UserManager
 
     public function getTimezone()
     {
-        $user   = $this->getCurrentUser();
-        $data   = $user->getSymbbData();
-        $tz     = $data->getTimezone();
-        
+        $user = $this->getCurrentUser();
+        $data = $user->getSymbbData();
+        $tz = $data->getTimezone();
+
         if (!empty($tz)) {
             $tz = new \DateTimeZone($tz);
         } else {
@@ -163,5 +181,30 @@ class UserManager
         }
 
         return $tz;
+
+    }
+
+    public function getSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    {
+        $data = $user->getSymbbData();
+        $signature = $data->getSignature();
+        
+        $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
+        $this->dispatcher->dispatch("symbb.core.user.parse.signature");
+        
+        $signature = $event->getSignature();
+        return $signature;
+
+    }
+
+    public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    {
+        $data = $user->getSymbbData();
+        $avatar = $data->getAvatar();
+        if (empty($avatar)) {
+            $avatar = '/bundles/symbbtemplatesimple/images/avatar/empty.gif';
+        }
+        return $avatar;
+
     }
 }

@@ -2,6 +2,7 @@ services:
     symbb.core.user.data:
         twig.extension.symbb.core.user.data:
         class: SymBB\Core\UserBundle\Twig\UserDataExtension
+        arguments: ['@symbb.core.user.manager']
         tags:
             - { name: twig.extension } 
             

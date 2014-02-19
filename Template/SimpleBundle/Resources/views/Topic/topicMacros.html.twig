@@ -58,7 +58,7 @@
                         <div class="clear"></div>
                     {{ executeSymbbTemplatePostEvent('before.text', post) }}
                     <div class="text" id="symbb_post_body_{{post.getId()}}">
-                    {{post.getText()|bbcode_filter('default')}}
+                    {{ getSymbbPostManager().parseText(post, "post")|raw }}
                     </div>
                     {{ executeSymbbTemplatePostEvent('after.text', post) }}
                         
@@ -75,7 +75,7 @@
 {% macro showSignature(object) %}
 {% if getSymbbUserData(object.getAuthor()).hasSignature() %}
     <div class="row signature">
-        {{getSymbbUserSignature(object.getAuthor())|bbcode_filter('signature')}}
+        {{getSymbbUserSignature(object.getAuthor())}}
     </div>
 {% endif %}
 {% endmacro %}

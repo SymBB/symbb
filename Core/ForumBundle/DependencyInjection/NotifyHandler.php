@@ -1,11 +1,11 @@
 <?
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
@@ -15,32 +15,21 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use \Doctrine\ORM\EntityManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
-class NotifyHandler
+class NotifyHandler extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
+
     /**
      *
      * @var EntityManager
      */
     protected $em;
-    
+
     /**
      *
      * @var TopicFlagHandler
      */
     protected $flagHandler;
-    
-    /**
-     *
-     * @var SecurityContextInterface
-     */
-    protected $securityContext;
 
-    /**
-     *
-     * @var UserInterface
-     */
-    protected $user;
-    
     /**
      *
      * @var ConfigManager
@@ -48,54 +37,51 @@ class NotifyHandler
     protected $configManager;
 
     protected $mailer;
+
     protected $container;
-    
+
     protected $locale = 'en';
 
-    public function __construct($container) {
-        $this->em               = $container->get('doctrine.orm.symbb_entity_manager');
-        $this->securityContext  = $container->get('security.context');
-        $this->flagHandler      = $container->get('symbb.core.topic.flag');
-        $this->mailer           = $container->get('swiftmailer.mailer.default');
-        $this->translator       = $container->get('translator');
-        $this->locale           = $container->get('request')->getLocale();
-        $this->container        = $container;
-        $this->configManager    = $container->get('symbb.core.config.manager');
-        if(strpos('_', $this->locale) !== false){
+    public function __construct($container)
+    {
+        $this->em = $container->get('doctrine.orm.symbb_entity_manager');
+        $this->securityContext = $container->get('security.context');
+        $this->flagHandler = $container->get('symbb.core.topic.flag');
+        $this->mailer = $container->get('swiftmailer.mailer.default');
+        $this->translator = $container->get('translator');
+        $this->locale = $container->get('request')->getLocale();
+        $this->container = $container;
+        $this->configManager = $container->get('symbb.core.config.manager');
+        if (strpos('_', $this->locale) !== false) {
             $this->locale = explode('_', $this->locale);
             $this->locale = reset($this->locale);
         }
+
     }
-    
-    public function getUser(){
-        if(!is_object($this->user)){
-            $this->user = $this->securityContext->getToken()->getUser();
-        }
-        return $this->user;
-    }
-    
-    public function sendTopicNotifications(Topic $topic, $user){
-        
-        if(is_numeric($user)){
+
+    public function sendTopicNotifications(Topic $topic, $user)
+    {
+
+        if (is_numeric($user)) {
             $user = $this->em->getRepository('SymBBCoreUserBundle:User')->find($user);
         }
-        
-        $subject    = $this->translator->trans('It was written a new answer to "%topic%"', array('%topic%' => $topic->getName()), 'symbb_email');
-        $sender     = $this->configManager->get('system.email');
-        $recipient  = $user->getEmail();
-        
+
+        $subject = $this->translator->trans('It was written a new answer to "%topic%"', array('%topic%' => $topic->getName()), 'symbb_email');
+        $sender = $this->configManager->get('system.email');
+        $recipient = $user->getEmail();
+
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($sender)
             ->setTo($recipient)
             ->setBody(
-                $this->container->get('twig')->render(
-                    $this->configManager->get('template.email').':Email:topic_notify.'.$this->locale.'.html.twig',
-                    array('topic' => $topic, 'user' => $user, 'symbbConfigManager' => $this->configManager)
-                ), 'text/html'
+            $this->container->get('twig')->render(
+                $this->configManager->get('template.email') . ':Email:topic_notify.' . $this->locale . '.html.twig', array('topic' => $topic, 'user' => $user, 'symbbConfigManager' => $this->configManager)
+            ), 'text/html'
             )
         ;
-        
+
         $this->mailer->send($message);
+
     }
 }

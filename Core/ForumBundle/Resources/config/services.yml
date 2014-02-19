@@ -20,9 +20,20 @@ services:
         tags:
             - { name: twig.extension } 
             
+    symbb.core.forum.managers.twig:
+        twig.extension.symbb.core.forum.managers.twig:
+        class: SymBB\Core\ForumBundle\Twig\ManagerExtension
+        arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager']
+        tags:
+            - { name: twig.extension } 
+            
     symbb.core.forum.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumManager
         arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager']
+    
+    symbb.core.post.manager:
+        class: SymBB\Core\ForumBundle\DependencyInjection\PostManager
+        arguments: ['@security.context', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher']
             
     symbb.core.forum.flag:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumFlagHandler

@@ -1,11 +1,11 @@
 <?
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
@@ -13,78 +13,64 @@ use \SymBB\Core\ForumBundle\Entity\Forum;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
-use  \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
-class ForumManager
+class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
-    
-    /**
-     *
-     * @var SecurityContextInterface 
-     */
-    protected $securityContext;
+
     /**
      *
      * @var TopicFlagHandler
      */
     protected $topicFlagHandler;
+
     /**
      *
      * @var PostFlagHandler
      */
     protected $postFlagHandler;
-    
+
     /**
      *
      * @var ConfigManager 
      */
     protected $configManager;
 
-
     public function __construct(
-        SecurityContextInterface $securityContext, 
-        TopicFlagHandler $topicFlagHandler, 
-        PostFlagHandler $postFlagHandler,
-        ConfigManager $configManager,
-        $em
-    ){
-        $this->securityContext  = $securityContext;
+    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em
+    )
+    {
+        $this->securityContext = $securityContext;
         $this->topicFlagHandler = $topicFlagHandler;
-        $this->postFlagHandler  = $postFlagHandler;
-        $this->configManager    = $configManager;
-        $this->em               = $em;
+        $this->postFlagHandler = $postFlagHandler;
+        $this->configManager = $configManager;
+        $this->em = $em;
+
     }
-    
-    public function getUser(){
-        if(!is_object($this->user)){
-            $this->user = $this->securityContext->getToken()->getUser();
-        }
-        return $this->user;
-    }
-    
+
     public function findNewestTopics(Forum $parent = null)
     {
         $topics = $this->topicFlagHandler->findTopicsByFlag('new', $parent);
         return $topics;
+
     }
-    
+
     public function findNewestPosts(Forum $parent = null, $limit = null)
     {
-        if($limit === null){
+        if ($limit === null) {
             $limit = $this->configManager->get('forum.newpost.max');
-        }     
+        }
         $posts = $this->postFlagHandler->findPostsByFlag('new', $parent, null, true, $limit);
         return $posts;
+
     }
-    
-    
-    
+
     public function getSelectList($types = array())
     {
-        $repo   = $this->em->getRepository('SymBBCoreForumBundle:Forum');
-        $list   = array();
-        $by     = array('parent' => null);
-        if(!empty($types)){
+        $repo = $this->em->getRepository('SymBBCoreForumBundle:Forum');
+        $list = array();
+        $by = array('parent' => null);
+        if (!empty($types)) {
             $by['type'] = $types;
         }
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
@@ -94,24 +80,26 @@ class ForumManager
         }
 
         $listFinal = array();
-        
-        foreach($list as $forum){
-            $name = ' '.$forum->getName();
+
+        foreach ($list as $forum) {
+            $name = ' ' . $forum->getName();
             $name = $this->addSpaceForParents($forum, $name);
             $listFinal[$forum->getId()] = $name;
         }
-        
+
         return $listFinal;
 
     }
-    
-    private function addSpaceForParents($forum, $name){
+
+    private function addSpaceForParents($forum, $name)
+    {
         $parent = $forum->getParent();
-        if(is_object($parent)){
-            $name = '─'.$name;
+        if (is_object($parent)) {
+            $name = '─' . $name;
             $name = $this->addSpaceForParents($parent, $name);
         }
         return $name;
+
     }
 
     private function addChildsToArray($entity, &$array)
@@ -125,5 +113,4 @@ class ForumManager
         }
 
     }
-    
 }

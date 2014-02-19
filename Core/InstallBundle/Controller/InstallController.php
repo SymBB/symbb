@@ -86,16 +86,25 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
                 $extensionPostCalendar->setPackage('symbb/extension-calendar');
                 $extensionPostCalendar->disableComposer();
 
+                $extensionUserTag = new \SymBB\ExtensionBundle\Extension();
+                $extensionUserTag->setName('SymBB User Tags');
+                $extensionUserTag->setBundleClass('\SymBB\Extension\UserTagBundle\SymBBExtensionUserTagBundle');
+                $extensionUserTag->enable();
+                $extensionUserTag->setPackage('symbb/extension-user-tag');
+                $extensionUserTag->disableComposer();
+
                 $api->remove('symbb/extension-post-upload');
                 $api->remove('symbb/extension-survey');
                 $api->remove('symbb/extension-bbcode');
                 $api->remove('symbb/extension-rating');
                 $api->remove('symbb/extension-calendar');
+                $api->remove('symbb/extension-user-tag');
                 $api->addExtension($extensionRating);
                 $api->addExtension($extensionSurvey);
                 $api->addExtension($extensionBBCode);
                 $api->addExtension($extensionPostUpload);
                 $api->addExtension($extensionPostCalendar);
+                $api->addExtension($extensionUserTag);
                 
             } else {
                 $errors[] = 'Permission denied (/app/config/extensions.yml)';

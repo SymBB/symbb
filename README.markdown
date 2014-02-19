@@ -49,3 +49,13 @@ With the following command should you can import the sample data
 
 Please note that " -env " is your wish environment. 
 Also note that the User and Group Data are required. The forums fixtures are optional.
+
+
+
+-------
+Ideensammlung:
+
+- @NAME verlinkt automatisch und informiert den betroffenen
+- Topics können an eine andere Person übergeben werden ( muss jedoch bestätigt werden, bzw. die neue person kann es "beantragen" )
+- bbcode Ersetzer durch eigenen service austauschen ( z.b nötig für @name )
+- "Editiert bei" historie verfügbar machen ( keine genauen infos nur wer und wann, ggf. noch "grund des editierens" als feld beim editieren anlegen )

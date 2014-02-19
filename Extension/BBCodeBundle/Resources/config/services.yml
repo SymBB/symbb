@@ -9,6 +9,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: symbb.post.controller.form, method: getPostFormType }
             - { name: kernel.event_listener, event: symbb.topic.controller.form, method: getTopicFormType }
+            
+    symbb.listener.bbcode.parse:
+        class: SymBB\Extension\BBCodeBundle\EventListener\ParseListener
+        arguments: ['@fm_bbcode.templating.helper']
+        tags:
+            - { name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText }
+            - { name: kernel.event_listener, event: symbb.post.manager.clean.text, method: cleanPostText }
+            - { name: kernel.event_listener, event: symbb.core.user.parse.signature, method: parseUserSignature }
+           
     symbb.extensionbbcode.manager:
         class: SymBB\Extension\BBCodeBundle\DependencyInjection\BBCodeManager
         arguments: ['@service_container']

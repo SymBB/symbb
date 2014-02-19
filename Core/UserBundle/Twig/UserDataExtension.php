@@ -10,13 +10,25 @@ namespace SymBB\Core\UserBundle\Twig;
 
 class UserDataExtension extends \Twig_Extension
 {
+    protected $userManager;
+    
+    public function __construct(\SymBB\Core\UserBundle\DependencyInjection\UserManager $userManager)
+    {
+    
+        $this->userManager = $userManager;
 
+    }
+    
     public function getFunctions()
     {
         return array(
             new \Twig_SimpleFunction('getSymbbUserData', array($this, 'getSymbbUserData')),
-            new \Twig_SimpleFunction('getSymbbUserAvatar', array($this, 'getSymbbUserAvatar')),
-            new \Twig_SimpleFunction('getSymbbUserSignature', array($this, 'getSymbbUserSignature'))
+            new \Twig_SimpleFunction('getSymbbUserAvatar', array($this, 'getSymbbUserAvatar'), array(
+                'is_safe' => array('html')
+            )),
+            new \Twig_SimpleFunction('getSymbbUserSignature', array($this, 'getSymbbUserSignature'), array(
+                'is_safe' => array('html')
+            ))
         );
     }
     
@@ -28,18 +40,12 @@ class UserDataExtension extends \Twig_Extension
     
     public function getSymbbUserSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user)
     {
-        $data = $user->getSymbbData();
-        return $data->getSignature();
+        return $this->userManager->getSignature($user);
     }
     
     public function getSymbbUserAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user)
     {
-        $data   = $user->getSymbbData();
-        $avatar = $data->getAvatar();
-        if(empty($avatar)){
-            $avatar = '/bundles/symbbtemplatesimple/images/avatar/empty.gif';
-        }
-        return $avatar;
+        return $this->userManager->getAvatar($user);
     }
 
     public function getName()
