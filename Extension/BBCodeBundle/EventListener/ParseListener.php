@@ -46,7 +46,7 @@ class ParseListener
 
         $text = $this->templatingHelper->filter($text, "signature");
 
-        $event->setText($text);
+        $event->setSignature($text);
 
     }
 }
