@@ -1,5 +1,4 @@
 <?php
-
 /**
  *
  * @package symBB
@@ -12,42 +11,46 @@ namespace SymBB\Extension\SurveyBundle\EventListener;
 
 use \SymBB\Core\EventBundle\Event\EditPostEvent;
 
-class SaveListener {
+class SaveListener
+{
 
     protected $em;
 
-    public function __construct($em) {
+    public function __construct($em)
+    {
         $this->em = $em;
+
     }
 
-    public function save(EditPostEvent $event) {
+    public function save(EditPostEvent $event)
+    {
 
         $post = $event->getPost();
         $form = $event->getForm();
         $surveyQuestion = $form->get('surveyQuestion')->getData();
         $surveyAnswers = $form->get('surveyAnswers')->getData();
-        $surveyChoices = (int)$form->get('surveyChoices')->getData();
-        $surveyChoicesChangeable = (boolean)$form->get('surveyChoicesChangeable')->getData();
+        $surveyChoices = (int) $form->get('surveyChoices')->getData();
+        $surveyChoicesChangeable = (boolean) $form->get('surveyChoicesChangeable')->getData();
         $surveyEnd = $form->get('surveyEnd')->getData();
 
-        if(!empty($surveyQuestion) && !empty($surveyAnswers)) {
-            
+        if (!empty($surveyQuestion) && !empty($surveyAnswers)) {
+
             $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post->getId()));
-            
+
             if (!$survey) {
                 $survey = new \SymBB\Extension\SurveyBundle\Entity\Survey();
             }
 
             // if answers are changed, then we need to reset all votes because we have no unique answer keys
-            if($surveyAnswers != $survey->getAnswers()){
+            if ($surveyAnswers != $survey->getAnswers()) {
                 $votes = $survey->getVotes();
-                foreach($votes as $vote){
+                foreach ($votes as $vote) {
                     $this->em->remove($vote);
                 }
                 $survey->setVotes(array());
             }
-            
+
             $survey->setAnswers($surveyAnswers);
             $survey->setQuestion($surveyQuestion);
             $survey->setChoices($surveyChoices);
@@ -56,16 +59,19 @@ class SaveListener {
             $survey->setEnd($surveyEnd);
 
             $this->em->persist($survey);
+            $this->em->flush();
         }
-        //flush will be execute in the controller
+        //flush will be execute in the controller but only if main object are changed...
+
     }
 
-    public function handleRequest(EditPostEvent $event) {
+    public function handleRequest(EditPostEvent $event)
+    {
 
         $post = $event->getPost();
         $form = $event->getForm();
 
-        if ($post->getId() > 0) {
+        if ($post->getId() > 0 && !$form->isSubmitted()) {
 
             $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post));
@@ -78,6 +84,6 @@ class SaveListener {
                 $form->get('surveyEnd')->setData($survey->getEnd());
             }
         }
-    }
 
+    }
 }

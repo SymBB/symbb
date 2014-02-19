@@ -43,7 +43,7 @@
                 {% endif %}
 
             {% endfor %}
-            {% if survey.checkIfVoteable(app.user) %}
+            {% if survey.checkIfVoteable(app.user) and not isSymbbGuest(app.user) %}
                 <li class="list-group-item">
                     {% for flashMessage in app.session.flashbag.get('symbb-extension-survey-error') %}
                         <div class="alert alert-danger">

@@ -66,8 +66,9 @@ class SaveListener
             $event->setGroups($finalGroups);
 
             $this->em->persist($event);
+            $this->em->flush();
         }
-        //flush will be execute in the controller
+        //flush will be execute in the controller but only if main object are changed...
 
     }
 

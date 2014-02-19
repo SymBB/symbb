@@ -96,8 +96,6 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
                         $objects[$prefix]['masks'][] = $finalMask;
                     }
                     break;
-                } else {
-                    
                 }
             }
         }
