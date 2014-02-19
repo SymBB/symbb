@@ -18,7 +18,9 @@
             {% trans with {'%user%': post.getAuthor().getUsername(), '%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}%user% wrote on %date% at %time%{% endtrans %}
         </div>              
         <div class="btn-group pull-right">
+            {% if hasSymbbAccess('SYMBB_FORUM#CREATE_POST', post.getTopic().getForum()) %}
            <button type="button" class="btn quote btn-info" data-user="{{post.getAuthor().getUsername()}}" data-quote="{{post.getText()}}" >{% trans %}Quote{% endtrans %}</button>
+            {% endif %}
             {% if hasSymbbAccess('SYMBB_POST#EDIT', post) %}
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('symbb_edit_post', {'post': post.getId()}) }}'">{% trans %}Edit{% endtrans %}</button>
             {% endif %}
