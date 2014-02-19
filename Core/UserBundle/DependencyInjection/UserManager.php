@@ -190,7 +190,7 @@ class UserManager
         $signature = $data->getSignature();
         
         $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
-        $this->dispatcher->dispatch("symbb.core.user.parse.signature");
+        $this->dispatcher->dispatch("symbb.core.user.parse.signature", $event);
         
         $signature = $event->getSignature();
         return $signature;
