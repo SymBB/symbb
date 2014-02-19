@@ -29,20 +29,19 @@ class ParseListener
         $text = $event->getText();
 
         $matches = array();
-        
+
         preg_match_all(
             "|\W@(\S+)?|", $text, $matches);
 
-        if(isset($matches[1])){
-            foreach($matches[1] as $username){
+        if (isset($matches[1])) {
+            foreach ($matches[1] as $username) {
                 $userFound = $this->userManager->findByUsername($username);
-                if(\is_object($userFound)){
-                    $text = \str_replace("@".$username, "<a>@".$userFound->getUsername()."</a>", $text);
+                if (\is_object($userFound)) {
+                    $text = \str_replace("@" . $username, "<a href=''>@" . $userFound->getUsername() . "</a>", $text);
                 }
             }
         }
 
-        
         $event->setText($text);
 
     }

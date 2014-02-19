@@ -3,7 +3,7 @@ services:
         class: SymBB\Extension\UserTagBundle\EventListener\ParseListener
         arguments: ['@symbb.core.user.manager']
         tags:
-            - { name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText, priority: 255 }
+            - { name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText, priority: -10 }
 
             
             

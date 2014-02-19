@@ -58,7 +58,7 @@
                         <div class="clear"></div>
                     {{ executeSymbbTemplatePostEvent('before.text', post) }}
                     <div class="text" id="symbb_post_body_{{post.getId()}}">
-                    {{ getSymbbPostManager().parseText(post, "post")|raw }}
+                    {{ getSymbbPostManager().parseText(post, "post") |raw }}
                     </div>
                     {{ executeSymbbTemplatePostEvent('after.text', post) }}
                         
