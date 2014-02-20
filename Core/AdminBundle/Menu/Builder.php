@@ -27,7 +27,7 @@ class Builder extends ContainerAware
         $menu->addChild('Style', array('route' => '_symbbcoresystembundle_config'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Options', array('route' => '_symbbcoresystembundle_config'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Extensions', array('route' => '_symbbcoresystembundle_extensions'))->setExtra('translation_domain', 'symbb_backend');
-        $menu->addChild('Maintenance', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
+        $menu->addChild('Maintenance', array('route' => '_symbbcoresystembundle_maintenance'))->setExtra('translation_domain', 'symbb_backend');
 
         return $menu;
 
