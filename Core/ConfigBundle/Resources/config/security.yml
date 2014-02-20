@@ -1,6 +1,6 @@
 security:
     acl:
-        connection: symbb
+        connection: default
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
 
@@ -17,30 +17,30 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern:  ^/forum/(login$|register|resetting)  
+            pattern:  ^/([^/]*)/(login$|register|resetting)  
             anonymous: true
-        symbb:
-            pattern: ^/
-            remember_me:
-              key:      "%secret%"
-              lifetime: 31536000 # 365 days in seconds
-              path:     /
-              domain:   ~ # Defaults to the current domain from $_SERVER
+        install:
+            pattern:  ^/symbb/install 
+            security: false
+        main:
+            pattern: .*
             form_login:
-                check_path: /forum/login_check
-                login_path: /forum/login
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
                 provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-                remember_me: true
             logout:
-                path:   /forum/logout
-                target: /
-            anonymous: ~
+              path:   fos_user_security_logout
+              target: /
+            anonymous:    true
+            remember_me:
+                key:      %secret%
+                lifetime: 604800
+                path:     /
+                domain:   ~
 
     access_control:
-        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/forum/acp/, role: ROLE_ADMIN }
-        - { path: ^/forum/ucp/, role: ROLE_USER }
+        - { path: ^/([^/]*)/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/([^/]*)/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/([^/]*)/acp/, role: ROLE_ADMIN }
+        - { path: ^/([^/]*)/acp, role: ROLE_ADMIN }
+        - { path: ^/_trans/, role: ROLE_ADMIN }
