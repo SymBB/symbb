@@ -35,7 +35,7 @@
                     <td>{{helper.type.format(entry.getType())}}</td>
                     <td>
                         <a href="{{ path('_symbbcoreforumbundle_forum_edit', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatesimple/images/icons/16_16/pencil.png" alt="{{ 'Editieren'|trans }}" title="{{ 'Editieren'|trans }}" /> </a>
-                        <a onclick="if(!confirm('{{ 'Eintrag wirklich löschen?'|trans }}')) { return false; }" href="{{ path('_symbbcoreforumbundle_forum_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatesimple/images/icons/16_16/cross.png" alt="{{ 'Löschen'|trans }}" title="{{ 'Löschen'|trans }}" /> </a>
+                        <a onclick="if(!confirm('{{ 'Really delete entry?'|trans }}')) { return false; }" href="{{ path('_symbbcoreforumbundle_forum_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatesimple/images/icons/16_16/cross.png" alt="{{ 'Delete'|trans }}" title="{{ 'Delete'|trans }}" /> </a>
                     </td>
                 </tr>
             {% endfor %}
