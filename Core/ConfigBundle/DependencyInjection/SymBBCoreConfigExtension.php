@@ -33,6 +33,7 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('swiftmailer.yml');
         $loader->load('framework.yml');
         $loader->load('vich_uploader.yml');
+        $loader->load('jms_translation.yml');
 
     }
         
