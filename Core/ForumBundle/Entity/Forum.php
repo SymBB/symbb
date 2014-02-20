@@ -77,6 +77,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     * @var ArrayCollection 
      */
     protected $children;
 
@@ -89,11 +90,13 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
      * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
+     * @var ArrayCollection 
      */
     protected $topics;
 
     /**
      * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Forum\Flag", mappedBy="forum")
+     * @var ArrayCollection 
      */
     private $flags;
 
@@ -115,7 +118,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $position = 0;
+    protected $position = 999;
 
     /**
      * @ORM\Column(type="datetime")
@@ -131,6 +134,8 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     public function __construct()
     {
         $this->children = new ArrayCollection();
+        $this->topics = new ArrayCollection();
+        $this->flags = new ArrayCollection();
 
     }
 
@@ -235,6 +240,13 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     {
         return $this->children;
 
+    }
+    
+    public function hasChildren(){
+        if($this->getChildren()->count() > 0){
+            return true;
+        }
+        return false;
     }
 
     public function getTopics()

@@ -2,13 +2,40 @@
 
 {% trans_default_domain "symbb_backend" %}
 
+{% macro forumList(entities, parent) %}
+    {% for entry in entities %}
+
+            <li data-jstree='{"opened":true {% if parent and entry.getId() == parent %},"selected":true{% endif %}}'>
+                <a href="{{ path('_symbbcoreforumbundle_forum_list_child', {parent: entry.getId()}) }}">{{ entry.getName() }}</a>
+            {% if entry.hasChildren() %}
+                <ul>
+                    {{ _self.forumList(entry.getChildren(), parent) }}
+                </ul>
+            {% endif %}
+            </li>
+    {% endfor %}
+{% endmacro %}
+
 {% block symbb_sidebar %}
-{% set menuItem = knp_menu_get('SymBBCoreAdminBundle:Builder:forumMenu', [], {'parent': parent}) %}
-{{ knp_menu_render(menuItem, {'template': getSymbbTemplateConfig('acp') ~ '::sidemenu.html.twig'}) }}
+
+<div id="jstree_demo_div">
+      <ul>
+        {{ _self.forumList(allEntries, parent) }}
+      </ul>
+  </div>
+
 {% endblock %}
 
 {% block symbb_list_header %}
+    <div class="pull-left">
     {{ 'Forummanagment'|trans }}
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreforumbundle_forum_new', { 'parent': parent}) }}'"> {{ 'new Forum'|trans() }} </button>
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreforumbundle_forum_new_category', { 'parent': parent}) }}'"> {{ 'new Category'|trans() }} </button>
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreforumbundle_forum_new_link', { 'parent': parent}) }}'"> {{ 'new Link'|trans() }} </button>
+    </div>
+    <div class="clearfix"></div>
 {% endblock %}
  
 {% block symbb_list_table %}

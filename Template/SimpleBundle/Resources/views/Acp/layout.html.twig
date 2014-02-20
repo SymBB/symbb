@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {% stylesheets 
             '@SymBBTemplateSimpleBundle/Resources/public/css/acp/theme.css' filter='?yui_css'
+            '@SymBBTemplateSimpleBundle/Resources/public/css/jstree/themes/default/style.css' filter='?yui_css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -27,9 +28,20 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
         
     {% block javascripts %} 
+        {% javascripts 
+            '@SymBBTemplateSimpleBundle/Resources/public/js/jstree/jstree.js' filter='?yui_js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         {{ executeSymbbEvent('template.global.javascripts') }}
         {{ executeSymbbEvent('template.acp.javascripts') }}
     {% endblock %}
+    <script>
+    $(function () {
+        $('#jstree_demo_div').on('select_node.jstree', function (e, data) {
+            window.location.href=data.node.a_attr.href;
+        }).jstree(); 
+    });</script>
     </head>
 
     <body>
