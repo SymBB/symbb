@@ -13,14 +13,22 @@
     <thead>
         <tr>
             <th> {{ 'Username'|trans() }} </th>
+            <th> {{ 'Beiträge'|trans() }} </th>
+            <th> {{ 'Dabei seit'|trans() }} </th>
         </tr>
     </thead>
     <tbody>
         {% for currUser in users %}
 
-        <tr>
-            <td>{{ currUser.getUsername() }}</td>
-        </tr>
+            {% if currUser.getSymbbType() == 'user' %}
+            
+            <tr>
+                <td><a href="{{ path('symbb_user_profile', { userId: currUser.getId() }) }}">{{ currUser.getUsername() }}</a></td>
+                <td>{{ getUserManager().getPostCount(currUser) }}</td>
+                <td>{{ formatIntlDate(currUser.getCreated()) }}</td>
+            </tr>
+                
+            {% endif %}
 
         {% endfor %} 
     </tbody>

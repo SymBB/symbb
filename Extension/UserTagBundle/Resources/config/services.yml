@@ -1,7 +1,7 @@
 services:
     symbb.extension.usertag.post.parse.text:
         class: SymBB\Extension\UserTagBundle\EventListener\ParseListener
-        arguments: ['@symbb.core.user.manager']
+        arguments: ['@symbb.core.user.manager', '@router']
         tags:
             - { name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText, priority: -10 }
 

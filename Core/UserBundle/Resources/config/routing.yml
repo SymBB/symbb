@@ -9,3 +9,7 @@ symbb_user_options_security:
 symbb_user_userlist:
     pattern:  /userlist
     defaults: { _controller: SymBBCoreUserBundle:Info:userlist }
+    
+symbb_user_profile:
+    pattern:  /user/{userId}
+    defaults: { _controller: SymBBCoreUserBundle:Info:profile }

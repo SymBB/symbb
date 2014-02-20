@@ -22,6 +22,7 @@
                 </div>
             </a>
             <div class="infos">
+                {% if object.hasShowSubForumList() %}
                 <div class="show_subforums">
                     <div class="subheader">{% trans %}subforums{% endtrans %}</div>
                     <div class="subforum_list">
@@ -36,6 +37,7 @@
                         </small>
                     </div>
                 </div>
+                {% endif %}
                 <div class="lastpost">
                     <div class="subheader">{% trans %}Last post{% endtrans %}</div>
                     {% if object.getLastPost() %}

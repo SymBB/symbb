@@ -34,6 +34,7 @@
 
 .symbb_category .header .text{
     margin: auto 0;
+    padding-right: 10px;
 }
 
 .symbb_category .header .image{
@@ -70,7 +71,6 @@
 
 .symbb_category.post {
     margin-right: 0;
-    width: 100%;
 }
 
 .symbb_category.post .border {
@@ -126,6 +126,7 @@
 
 .symbb_category .lastpost .user.creator {
     padding-left: 0px;
+    color: #000;
 }
 
 

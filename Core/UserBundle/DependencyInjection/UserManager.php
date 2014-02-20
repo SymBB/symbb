@@ -207,4 +207,14 @@ class UserManager
         return $avatar;
 
     }
+    
+    public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    {
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select('COUNT(p.id)');
+        $qb->where("p.author = ".$user->getId());
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return $count;
+
+    }
 }

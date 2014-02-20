@@ -25,6 +25,8 @@ interface UserInterface
     public function getGroups();
 
     public function getSymbbType();
+    
+    public function getCreated();
 
     /**
      * @return \SymBB\Core\UserBundle\Entity\User\Data 

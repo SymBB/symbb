@@ -9,13 +9,15 @@
     </div>
     <div class="symbb_action_row">
         <div class="title">
-            <a href="#{{post.getSeoName()}}-{{post.getId()}}">
+            {{ executeSymbbTemplatePostEvent('before.username', post) }}
+            <a href="{{ path('symbb_user_profile', {userId: post.getAuthor().getId()}) }}">
                 {{post.getAuthor().getUsername()}}
             </a>
+            {{ executeSymbbTemplatePostEvent('after.username', post) }}
         </div>
         <div class="arrow"></div>
         <div class="date">
-            {% trans with {'%user%': post.getAuthor().getUsername(), '%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}%user% wrote on %date% at %time%{% endtrans %}
+            {% trans with {'%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}wrote on %date% at %time%{% endtrans %}
         </div>              
         <div class="btn-group pull-right">
             {% if hasSymbbAccess('SYMBB_FORUM#CREATE_POST', post.getTopic().getForum()) %}
@@ -39,12 +41,7 @@
                     </div>
                     <div class="clear"></div>
                     {{ executeSymbbTemplatePostEvent('after.avatar', post) }}
-                    {{ executeSymbbTemplatePostEvent('before.username', post) }}
-                    <div class="username">
-                        {{post.getAuthor().getUsername()}}
-                    </div>
                     <div class="clear"></div>
-                    {{ executeSymbbTemplatePostEvent('after.username', post) }}
                     {{ executeSymbbTemplatePostEvent('before.userdata', post) }}
                     <div class="userdata">
                         <div class="text">{% trans %}posts{% endtrans %}:</div>

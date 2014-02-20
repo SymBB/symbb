@@ -18,10 +18,12 @@ class ParseListener
      */
     protected $userManager;
 
-    public function __construct($userManager)
+    protected $router;
+    
+    public function __construct($userManager, $router)
     {
         $this->userManager = $userManager;
-
+        $this->router = $router;
     }
 
     public function parsePostText(\SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
@@ -37,7 +39,8 @@ class ParseListener
             foreach ($matches[1] as $username) {
                 $userFound = $this->userManager->findByUsername($username);
                 if (\is_object($userFound)) {
-                    $text = \str_replace("@" . $username, "<a href=''>@" . $userFound->getUsername() . "</a>", $text);
+                    $uri = $this->router->generate('symbb_user_profile', array('userId' => $userFound->getId()));
+                    $text = \str_replace("@" . $username, "<a href='".$uri."'>@" . $userFound->getUsername() . "</a>", $text);
                 }
             }
         }
