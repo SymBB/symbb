@@ -1,23 +1,12 @@
 
-{% extends getSymbbTemplateConfig('forum') ~ '::layout.html.twig' %}
+{% extends  'SymBBTemplateSimpleBundle::layout.html.twig' %}
 
-{% block symbb_body_container %}
+{% block stylesheets %} 
+    {{ parent() }}
+    {% stylesheets 
+        '@SymBBTemplateTestBundle/Resources/public/css/extend.css' filter='?yui_css'
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
 
-<div class="">
-    <div class="symbb_body col-lg-10 col-md-12">
-        {% block symbb_body %}
-
-        {% endblock %}
-        <div class="clear"></div>
-    </div>
-
-    <div class="symbb_sidebar col-lg-2 col-md-12">
-        {% block symbb_sidebar %}
-
-        {% endblock %}
-        <div class="clear"></div>
-    </div>
-    <div class="clear"></div>
-</div>
-
-{% endblock %} 
+{% endblock %}
