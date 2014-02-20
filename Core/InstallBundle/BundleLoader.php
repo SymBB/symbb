@@ -30,6 +30,8 @@ class BundleLoader {
                 '\SymBB\ExtensionBundle\SymBBExtensionBundle',
                 // SymBB Templates
                 '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
+                '\SymBB\Template\TestBundle\SymBBTemplateTestBundle',
+            
                 // FOS 
                 '\FOS\UserBundle\FOSUserBundle',
                 '\FOS\RestBundle\FOSRestBundle',
