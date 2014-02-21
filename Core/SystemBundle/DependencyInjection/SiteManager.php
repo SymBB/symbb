@@ -61,7 +61,10 @@ class SiteManager
             }
 
             if ($this->site === null) {
-                $this->site = new \SymBB\Core\SystemBundle\Entity\Site();
+                $this->site = reset($sites);
+                if ($this->site === null) {
+                    $this->site = new \SymBB\Core\SystemBundle\Entity\Site();
+                }
             }
         }
 
