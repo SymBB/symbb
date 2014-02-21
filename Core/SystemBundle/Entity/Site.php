@@ -55,6 +55,11 @@ class Site
      */
     protected $templatePortal = 'DEFAULT';
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $position = 999;
+
     public function getId()
     {
         return $this->id;

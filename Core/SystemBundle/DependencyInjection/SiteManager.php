@@ -49,7 +49,7 @@ class SiteManager
             $cleanHost = $this->removeUrlPattern($host);
 
 
-            $sites = $this->em->getRepository('SymBBCoreSystemBundle:Site')->findAll();
+            $sites = $this->em->getRepository('SymBBCoreSystemBundle:Site')->findBy(array(), array('position' => 'ASC'));
             foreach ($sites as $site) {
                 $domains = $site->getDomainArray();
                 foreach ($domains as $domain) {
