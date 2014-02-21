@@ -1,0 +1,81 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Topic:show.html.twig' %}
+
+{% form_theme form getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+    {{ executeSymbbTemplateTopicEvent('stylesheets', topic) }}
+{% endblock %}
+    
+{% block javascripts %} 
+    {{ parent() }}
+    {{ executeSymbbTemplateTopicEvent('javascripts', topic) }}
+{% endblock %}
+
+{% block symbb_actions %}
+    {% if saved %}
+
+    <script type="text/javascript">
+    <!--
+    var newLocation = "{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId()} ) }}";
+    setTimeout('window.location="'+newLocation+'"', 300);
+    //–>
+    </script>
+
+    {% endif %}
+{% endblock %}
+
+{% block symbb_body %}
+
+{% if not saved %}
+<div id="symbb_bottom"></div>
+<div class="symbb_topic ">
+
+    {{ form_startbootstrap(form) }}
+
+        {{ form_errors(form) }}
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ form_widget(form.forum) }}</div>
+            <div class="panel-body">
+            {{ form_row(form.name) }}
+            {{ form_row(form.id) }}
+            {{ form_row(form.mainPost.id) }}
+            {{ form_row(form._token) }}
+    
+            {{ form_widget(form.mainPost.text) }}
+                <div class="m-top-1"></div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active"><a class="symbb_tab" data-tab="option">{{ 'Options'|trans }}</a></li>
+                            {{ executeSymbbTemplateFormTopicEvent('options.tabs', form) }}
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        {{ executeSymbbTemplateFormTopicEvent('options.tabcontents', form) }}
+                        <div class="symbb_tabcontent" data-tab="option">
+                            <div class="panel panel-default">
+                                {{ form_restbootstrap(form.mainPost) }}
+                                {{ form_restbootstrap(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                {{ executeSymbbTemplateFormTopicEvent('before.buttons', form) }}
+                <button class="btn btn-success" type="submit">{{ 'Save'|trans }}</button>
+                <button class="btn btn-danger" onclick="window.location.href='{{ path('symbb_forum_show', {'name': forum.getSeoName(), 'id': forum.getId()}) }}'; return false;">{{ 'Abort'|trans }}</button>
+                {{ executeSymbbTemplateFormTopicEvent('after.buttons', form) }}
+            </div>
+        </div>
+    
+        
+    {{ form_end(form) }}
+</div>
+
+{% endif %}
+{% endblock %}

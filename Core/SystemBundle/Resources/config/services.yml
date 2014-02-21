@@ -12,8 +12,8 @@ services:
             
     symbb.core.config.template:
         twig.extension.symbb.core.config.template:
-        class: SymBB\Core\SystemBundle\DependencyInjection\TwigTemplateConfigExtension
-        arguments: ['@service_container']
+        class: SymBB\Core\SystemBundle\Twig\TemplateExtension
+        arguments: ['@symbb.core.site.manager']
         tags:
             - { name: twig.extension }
             
@@ -24,6 +24,10 @@ services:
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
         arguments: ["@doctrine.orm.symbb_entity_manager", '@event_dispatcher']
+        
+    symbb.core.site.manager:
+        class: SymBB\Core\SystemBundle\DependencyInjection\SiteManager
+        arguments: ["@service_container"]
         
         
     symbb.listener.config.system:

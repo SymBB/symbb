@@ -1,0 +1,9 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':Acp:layout.html.twig' %}
+
+    
+{% block symbb_sidebar %}
+{{ knp_menu_render('SymBBCoreAdminBundle:Builder:accessMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
+{% endblock %}
+

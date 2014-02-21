@@ -1,0 +1,13 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+
+{% block symbb_body %}
+
+<script type="text/javascript">
+<!--
+window.location = "{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId()} ) }}";
+//–>
+</script>
+
+{% endblock %}

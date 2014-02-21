@@ -1,0 +1,24 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+    {% stylesheets 
+        '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css' filter='?yui_css'
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+    
+
+{% block symbb_body %}
+
+    {% for post in posts %}
+
+        {{ symbBBForumMacro.createPostCardFull(post) }}
+
+    {% endfor %}
+    
+{% endblock %}
+

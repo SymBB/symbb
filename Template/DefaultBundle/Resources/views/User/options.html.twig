@@ -1,0 +1,31 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':User:layoutUcp.html.twig' %}
+
+{% form_theme form getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block symbb_body %}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">{{ 'Profil'|trans }}</div>
+    <div class="panel-body">
+      {{ form_startbootstrap(form) }}
+        {{ form_row(form._token) }}
+        {{ form_rowbootstrap(form.avatar) }}
+        <div class="form-group">
+            <label class="col-sm-2">&nbsp;</label>
+            <div class="col-sm-10">
+                <div class="avatar">
+                    <img class="" src="{{getSymbbUserAvatar(app.user)}}" />
+                </div>
+            </div>
+        </div>
+            
+        {{ form_rowbootstrap(form.signature) }}
+        {{ form_rowbootstrap(form.timezone) }}
+        {{ form_row(form.save) }}
+      {{ form_end(form) }}
+    </div>
+</div>
+    
+{% endblock %}    

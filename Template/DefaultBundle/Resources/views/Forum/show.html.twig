@@ -1,0 +1,142 @@
+{% trans_default_domain "symbb_frontend" %}
+
+
+{% if getNewestPost(null) %}
+    {% set templateFile = getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+{% else %}
+    {% set templateFile = getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% endif %}
+
+{% extends templateFile %}
+
+{% block symbb_sidebar %}
+    
+    {% include getSymbbTemplate('forum') ~ ':Forum:sidebar.html.twig' with {'forum': forum} %}
+    
+{% endblock %}    
+
+{% block symbb_breadcrumb %}
+    {{ getSymbbBreadcrumb(forum) }}
+{% endblock %}
+
+
+
+{% block symbb_slider %}
+    {% if not forum %}
+        {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+
+
+{% if forum and forum.getType() == 'forum' %}
+    {% set topicPagination = getTopicPagination(forum, app.request) %}
+{% else %}
+    {% set topicPagination = false %}
+{% endif %}
+
+{% set setFirstRowId = true %}
+
+{% block symbb_body %}
+
+
+    {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+ 
+        <div>
+            
+            <div class="anker-group">
+                <div class="anker" id="category_{{ object.getId() }}"></div>
+                {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+            </div>
+            <div class="symbb_action_row">
+                <div class="title"><a href="#category_{{ object.getId() }}">{{ object.getName() }}</a></div>
+                <div class="arrow"></div>
+                <div class="clear"></div>
+            </div>
+            
+            {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
+
+                {{ symbBBForumMacro.createCard(subobject) }}
+
+            {% endfor %}
+            <div class="clear spacer-bottom"></div>
+        </div>
+
+    {% endfor %}
+    
+    {% set count = 0 %}
+    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+        {% set count = count + 1 %}
+    {% endfor %}
+    
+    <div >
+       
+        {% if count > 0 %}
+        <div class="anker-group">
+            <div class="anker" id="forums"></div>
+            {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+        </div>
+        <div class="symbb_action_row">
+            <div class="title"><a href="#forums">{{ 'Forums'|trans() }}</a></div>
+            <div class="arrow"></div>
+            <div class="clear"></div>
+        </div>
+        {% endif %}
+        
+        {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+
+            {{ symbBBForumMacro.createCard(object) }}
+
+        {% endfor %}
+        <div class="clear"></div>
+    </div>
+    {% if count > 0 %}
+    <div class="clear spacer-bottom"></div>
+    {% endif %}
+ 
+    {% if forum and forum.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', forum) %}
+
+        <div class="anker-group">
+            <div class="anker" id="topics"></div>
+            {% if setFirstRowId %} <div class="anker" id="first_header"></div> {% set setFirstRowId = false %} {% endif %}
+        </div>
+        <div class="symbb_action_row">
+            <div class="title"><a href="#topics">{{ 'Topics'|trans() }}</a></div>
+            <div class="arrow"></div>
+            {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+                <div class="btn-group pull-left">
+                    {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
+                    {% endif %}
+                    {% if app.user.getSymbbType() == 'user' %}
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_read', {'forum': forum.getId()}) }}'">{% trans %}Mark as read{% endtrans %}</button>
+                        {% if checkSymbbForForumIgnoreFlag(forum) %}
+                            <button title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_watch', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
+                            </button>
+                        {% else %}
+                            <button title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_ignore', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {{ knp_pagination_render(topicPagination) }}
+            <div class="clear"></div>
+        </div>
+        
+        <div>
+            {% for object in topicPagination %}
+
+                {{ symbBBForumMacro.createTopicCard(object) }}
+
+            {% endfor %}
+            <div class="clear"></div>
+        </div>
+    
+        {{ knp_pagination_render(topicPagination) }}
+
+    {% endif %}
+{% endblock %}
+

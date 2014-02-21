@@ -1,0 +1,24 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':User:layoutPublic.html.twig' %}
+
+{% block symbb_body %}
+
+{% block symbb_slider %}
+
+
+{% endblock %} 
+
+    <div class="symbb_action_row">
+        <div class="title">{{ user.getUsername() }}</div>
+        <div class="arrow"></div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="avatar">
+        <img src="{{getSymbbUserAvatar(user)}}" />
+    </div>
+
+    <div class="clear"></div>
+
+{% endblock %}    

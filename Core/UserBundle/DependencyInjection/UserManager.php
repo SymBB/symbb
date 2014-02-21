@@ -202,7 +202,7 @@ class UserManager
         $data = $user->getSymbbData();
         $avatar = $data->getAvatar();
         if (empty($avatar)) {
-            $avatar = '/bundles/symbbtemplatesimple/images/avatar/empty.gif';
+            $avatar = '/bundles/symbbtemplatedefault/images/avatar/empty.gif';
         }
         return $avatar;
 

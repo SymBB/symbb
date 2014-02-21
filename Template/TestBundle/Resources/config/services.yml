@@ -1,5 +1,5 @@
 services:   
-    symbb.listener.config.template.test:
-        class: SymBB\Template\TestBundle\EventListener\ConfigListener
+    symbb.listener.site.template.test:
+        class: SymBB\Template\TestBundle\EventListener\SiteListener
         tags:
-            - { name: kernel.event_listener, event: symbb.config.choices, method: choices }
+            - { name: kernel.event_listener, event: symbb.site.template.choices, method: templateChoices }

@@ -1,0 +1,21 @@
+{% extends 'FOSMessageBundle::layout.html.twig' %}
+
+{% trans_default_domain "symbb_frontend" %}
+
+{% form_theme form getSymbbTemplate('acp') ~ '::form.html.twig' %}
+
+{% block fos_message_content %}
+
+<div class="panel panel-primary">
+  <div class="panel-heading">{% trans from 'symbb_frontend' %}send_new{% endtrans %}</div>
+  <div class="panel-body">
+    {{ form_startbootstrap(form) }}
+        {{ form_row(form._token) }}
+        {{ form_restbootstrap(form) }}
+        <button type="submit" class="btn btn-success">{% trans from 'symbb_frontend' %}send{% endtrans %}</button>
+    {{ form_end(form) }}
+  </div>
+</div>
+
+
+{% endblock %}

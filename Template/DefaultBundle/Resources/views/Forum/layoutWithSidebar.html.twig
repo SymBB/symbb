@@ -1,0 +1,42 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ '::layoutWithSidebar.html.twig' %}
+
+{% import getSymbbTemplate('forum') ~ ":Forum:forumMacros.html.twig" as symbBBForumMacro %}
+{% import getSymbbTemplate('forum') ~ ":Topic:topicMacros.html.twig" as symbBBForumTopicMacro %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+    {% stylesheets 
+        '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css' filter='?yui_css'
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+    
+    
+{% block javascripts %} 
+    {{ parent() }}
+    {% javascripts 
+        '@SymBBTemplateDefaultBundle/Resources/public/js/categories.js' filter='?yui_js'
+     %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block symbb_navi %} 
+    {% include getSymbbTemplate('forum') ~ ':Forum:navi.html.twig' %}
+{% endblock %}
+
+{% block symbb_breadcrumb %}
+    {{ getSymbbBreadcrumb() }}
+{% endblock %}
+    
+
+{% block symbb_sidebar %}
+    
+    {% include getSymbbTemplate('forum') ~ ':Forum:sidebar.html.twig' with {'forum': null} %}
+    
+{% endblock %}    
+    
+   

@@ -61,22 +61,6 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('template') 
-                    ->children()
-                        ->scalarNode('acp') 
-                            ->defaultValue('SymBBTemplateAcpBundle')
-                        ->end()
-                        ->scalarNode('forum') 
-                            ->defaultValue('SymBBTemplateSimpleBundle')
-                        ->end()
-                        ->scalarNode('portal') 
-                            ->defaultValue('SymBBTemplateSimpleBundle')
-                        ->end()
-                        ->scalarNode('email') 
-                            ->defaultValue('SymBBTemplateSimpleBundle')
-                        ->end()
-                    ->end()
-                ->end()
             ->end();
 
         return $treeBuilder;

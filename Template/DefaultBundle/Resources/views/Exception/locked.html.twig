@@ -1,0 +1,8 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+
+{% block symbb_body %}
+    {% trans %}This Topic is locked{% endtrans %}
+{% endblock %}
+

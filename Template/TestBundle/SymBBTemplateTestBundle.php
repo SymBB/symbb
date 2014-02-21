@@ -16,6 +16,6 @@ class SymBBTemplateTestBundle extends Bundle
 
     public function extendBundle()
     {
-        return 'SymBBTemplateSimpleBundle';
+        return 'SymBBTemplateDefaultBundle';
     }
 }

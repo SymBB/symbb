@@ -1,0 +1,22 @@
+{% extends getSymbbTemplate('forum') ~ ':Topic:show.html.twig' %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+    {{ executeSymbbTemplatePostEvent('stylesheets', post) }}
+{% endblock %}
+    
+{% block javascripts %} 
+    {{ parent() }}
+    {% javascripts 
+        '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?yui_js'
+     %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {{ executeSymbbTemplatePostEvent('javascripts', post) }}
+{% endblock %}
+
+{% block symbb_body %}
+
+    {% include getSymbbTemplate('forum') ~ ':Post:new.html.twig' with {'form': form, 'bbcodes': bbcodes, 'topic': topic, 'edit': true} %}
+
+{% endblock %}

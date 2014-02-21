@@ -1,0 +1,35 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':Acp:Layout/access.html.twig' %}
+
+{% form_theme form getSymbbTemplate('acp') ~ '::form.html.twig' %}
+
+{% block symbb_body %}
+
+    {{ form_startbootstrap(form) }}
+    {{ form_row(form._token) }}
+
+    <div class="page-header">
+        {{ 'Step 1: Select a group'|trans }}                             
+    </div>
+    
+    {{ form_rowbootstrap(form.group) }}
+
+    <div class="page-header">
+        {{ 'Step 2: Select a forum'|trans }}                             
+    </div>
+    
+    {{ form_rowbootstrap(form.forum) }}
+
+    <div class="page-header">
+        {{ 'Step 3: Include Sub-forums ?'|trans }}                              
+    </div>
+    
+    {{ form_rowbootstrap(form.subforum) }}
+
+    {{ form_row(form.next) }}
+    {{ form_row(form.back) }}
+
+
+    {{ form_end(form) }}
+{% endblock %}

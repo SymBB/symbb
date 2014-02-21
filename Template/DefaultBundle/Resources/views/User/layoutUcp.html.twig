@@ -1,0 +1,27 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+
+{% block stylesheets %} 
+    {{ parent() }}
+    {{ executeSymbbEvent('user.template.stylesheets') }}
+{% endblock %}
+    
+{% block javascripts %} 
+    {{ parent() }}
+    {{ executeSymbbEvent('user.template.stylesheets') }}
+{% endblock %}
+
+{% block symbb_sidebar %}
+    
+    {% include getSymbbTemplate('forum') ~ ':User:sidebar.html.twig' %}
+    
+{% endblock %}    
+
+{% block symbb_slider %}
+{% endblock %} 
+
+{% block symbb_body %}
+    
+    
+{% endblock %}    

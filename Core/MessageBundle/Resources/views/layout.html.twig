@@ -1,9 +1,9 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplateConfig('forum') ~ '::layoutWithSidebar.html.twig' %}
+{% extends getSymbbTemplate('forum') ~ '::layoutWithSidebar.html.twig' %}
 
 {% block symbb_sidebar %}
-{{ knp_menu_render('SymBBCoreMessageBundle:Builder:mainMenu', {'template': getSymbbTemplateConfig('forum') ~ '::sidemenu.html.twig'}) }}
+{{ knp_menu_render('SymBBCoreMessageBundle:Builder:mainMenu', {'template': getSymbbTemplate('forum') ~ '::sidemenu.html.twig'}) }}
 {% endblock %}
 
 {% block symbb_body %}

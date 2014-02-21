@@ -152,6 +152,7 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
         foreach ($this->aclManager as $aclManager) {
 
             $prefixes = $aclManager->getPrefixes();
+
             foreach ($prefixes as $prefix) {
                 $domainObject = $aclManager->createDomainObject($prefix, $object);
                 if (is_object($domainObject)) {

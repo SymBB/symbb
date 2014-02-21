@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -18,7 +18,6 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
     {
         $name = "groupStep" . (int) $step . 'Action';
         return $this->$name($step);
-
     }
 
     public function groupStep1Action()
@@ -52,13 +51,11 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
 
         if ($form->isValid()) {
             return $this->groupStep2Action();
-        }
-        else {
+        } else {
             return $this->render(
-                    $this->getTemplateBundleName('acp') . ':Acp:Group\accessS1.html.twig', array('form' => $form->createView())
+                $this->getTemplateBundleName('acp') . ':Acp:Group\accessS1.html.twig', array('form' => $form->createView())
             );
         }
-
     }
 
     protected function groupStep2Action()
@@ -77,8 +74,7 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
             if (isset($step1Data['subforum'])) {
                 $subforum = $step1Data['subforum'];
             }
-        }
-        else if (!empty($step2Data)) {
+        } else if (!empty($step2Data)) {
             $groupId = $step2Data['group'];
             $forumIds = \explode(',', $step2Data['forum']);
             $subforum = $step2Data['subforum'];
@@ -106,15 +102,11 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
             }
 
             if ($form->isValid()) {
-
                 foreach ($forumIds as $forumId) {
                     $access = $request->get('access_' . $forumId);
                     $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
                         ->find($forumId);
-                    $this->get('symbb.core.access.manager')->removeAllAccess($forum, $group);
-                    foreach ((array) $access as $permission => $value) {
-                        $this->get('symbb.core.access.manager')->grantAccess($permission, $forum, $group);
-                    }
+                    $this->grandForumAccess($forum, $group, $access, $subforum);
                 }
             }
 
@@ -122,18 +114,31 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 ->findBy(array('id' => $forumIds));
 
             return $this->render(
-                    $this->getTemplateBundleName('acp') . ':Acp:Group\accessS2.html.twig', array(
+                $this->getTemplateBundleName('acp') . ':Acp:Group\accessS2.html.twig', array(
                     'group' => $group,
                     'forumList' => $forumList,
                     'subforum' => $subforum,
                     'form' => $form->createView(),
                     'accessManager' => $this->get('symbb.core.access.manager')
-                    )
+                )
             );
-        }
-        else {
+        } else {
             return $this->redirect($this->generateUrl('_symbbcoreuserbundle_group_access', array('step' => 1)));
         }
+    }
 
+    protected function grandForumAccess($forum, $group, $accessList, $subforum)
+    {
+        $this->get('symbb.core.access.manager')->removeAllAccess($forum, $group);
+
+        foreach ((array) $accessList as $permission => $value) {
+            $this->get('symbb.core.access.manager')->grantAccess($permission, $forum, $group);
+        }
+        if ($subforum) {
+            $childs = $forum->getChildren();
+            foreach ($childs as $child) {
+                $this->grandForumAccess($child, $group, $accessList, $subforum);
+            }
+        }
     }
 }

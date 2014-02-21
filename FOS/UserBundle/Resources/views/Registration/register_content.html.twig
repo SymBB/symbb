@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% form_theme form 'SymBBTemplateSimpleBundle::form.html.twig' %}
+{% form_theme form getSymbbTemplate('forum') ~ '::form.html.twig' %}
 
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal">
         {{ form_rowbootstrap(form.email) }}

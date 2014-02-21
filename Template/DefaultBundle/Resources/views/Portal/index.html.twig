@@ -1,0 +1,13 @@
+{% extends getSymbbTemplate('portal') ~ '::layout.html.twig' %}
+
+
+
+{% block body %}
+
+    {% for forum in forumList if forum.isActive() %}
+        <li>{{ forum.getName }}</li>
+    {% else %}
+        <li>No forum found</li>
+    {% endfor %}
+
+{% endblock %}

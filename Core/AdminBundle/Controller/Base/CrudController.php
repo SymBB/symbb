@@ -31,9 +31,8 @@ abstract class CrudController extends Controller
         $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), 'parent' => $parent);
         $params = $this->addListParams($params, $parent);
         return $this->render(
-                $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
+            $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
         );
-
     }
 
     public function getBreadcrum($parent = null)
@@ -58,7 +57,6 @@ abstract class CrudController extends Controller
             }
         }
         return '<ol class="breadcrumb">' . $breadcrum . '</ol>';
-
     }
 
     public function sortAction()
@@ -86,13 +84,11 @@ abstract class CrudController extends Controller
         $response = new \Symfony\Component\HttpFoundation\Response($json);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
-
     }
 
     public function newAction()
     {
         return $this->editAction();
-
     }
 
     public function editAction()
@@ -100,13 +96,11 @@ abstract class CrudController extends Controller
         $request = $this->getRequest();
         if ($request->isMethod('POST')) {
             return $this->saveAction();
-        }
-        else {
+        } else {
             $form = $this->getForm();
             $entity = $this->getFormEntity();
             return $this->editCallback($form, $entity);
         }
-
     }
 
     public function saveAction()
@@ -121,19 +115,18 @@ abstract class CrudController extends Controller
                 $em = $this->get('doctrine')->getManager('symbb');
                 $em->persist($entity);
                 $em->flush();
-                if($form->has('parent')){
+                $parent = null;
+                if ($form->has('parent')) {
                     $parent = $form->get('parent')->getData();
-                    if(\is_object($parent)){
+                    if (\is_object($parent)) {
                         $parent = $parent->getId();
                     }
                 }
                 return $this->listAction($parent);
-            }
-            else {
+            } else {
                 return $this->editCallback($form, $entity);
             }
         }
-
     }
 
     public function removeAction($id)
@@ -142,13 +135,14 @@ abstract class CrudController extends Controller
         $entity = $repository->findOneById($id);
         $parent = null;
         if (is_object($entity)) {
-            $parent = $entity->getParent();
+            if (\method_exists($entity, "getParent")) {
+                $parent = $entity->getParent();
+            }
             $em = $this->get('doctrine')->getManager('symbb');
             $em->remove($entity);
             $em->flush();
         }
         return $this->listAction($parent);
-
     }
 
     /**
@@ -167,8 +161,7 @@ abstract class CrudController extends Controller
             if ($entityId > 0) {
                 // edit form
                 $entity = $repository->findOneById($entityId);
-            }
-            else {
+            } else {
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
                 $entity = new $entity_class_name();
@@ -178,7 +171,6 @@ abstract class CrudController extends Controller
         }
 
         return $this->formEntity;
-
     }
 
     protected function getForm()
@@ -186,62 +178,59 @@ abstract class CrudController extends Controller
         $entity = $this->getFormEntity();
         $form = $this->createForm(new $this->formClass, $entity);
         return $form;
-
     }
 
     protected function addListParams($params, $parent = null)
     {
         return $params;
-
     }
 
     protected function addFormParams($params, $form, $entity)
     {
         return $params;
-
     }
 
     protected function getRepository()
     {
         $repo = $this->get('doctrine')->getRepository($this->entityBundle . ':' . $this->entityName, 'symbb');
         return $repo;
-
     }
 
     protected function findListEntities($parent = null)
     {
         if ($parent === null) {
             $entityList = $this->getRepository()->findAll();
-        }
-        else {
+        } else {
             $entityList = $this->getRepository()->findBy(array('parent' => $parent));
         }
         return $entityList;
-
     }
 
     protected function editCallback($form, $entity)
     {
+        $parent = null;
+        
+        if (\method_exists($entity, "getParent")) {
+            $parent = $entity->getParent();
+        }
         
         $params = array(
             'entity' => $entity,
             'form' => $form->createView(),
-            'breadcrum' => $this->getBreadcrum($entity->getParent())
+            'breadcrum' => $this->getBreadcrum($parent)
         );
-        
+
         $params = $this->addFormParams($params, $form, $entity);
 
         return $this->render($this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':edit.html.twig', $params);
-
     }
 
     protected function getTemplateBundleName()
     {
         if ($this->templateBundle === null) {
-            $config = $this->container->get('symbb.core.config.manager');
-            $this->templateBundle = $config->get('template.acp');
+            $manager = $this->container->get('symbb.core.site.manager');
+            $this->templateBundle = $manager->getTemplate('acp');
         }
         return $this->templateBundle;
-
     }
 }

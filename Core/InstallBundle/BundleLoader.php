@@ -29,7 +29,7 @@ class BundleLoader {
                 '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
                 '\SymBB\ExtensionBundle\SymBBExtensionBundle',
                 // SymBB Templates
-                '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
+                '\SymBB\Template\DefaultBundle\SymBBTemplateDefaultBundle',
                 '\SymBB\Template\TestBundle\SymBBTemplateTestBundle',
             
                 // FOS 

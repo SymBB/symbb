@@ -1,0 +1,18 @@
+{% extends getSymbbTemplate('acp') ~ ':Acp:layout.html.twig' %}
+
+{% block symbb_sidebar %}
+
+{% endblock %}
+    
+{% block symbb_body %}
+    
+    <div class="page-header">
+        {% block symbb_edit_header %}{% endblock %}                                
+    </div>
+
+    <div class="table_overflow_fix">
+    {% block symbb_edit_body %} 
+
+    {% endblock %}
+    </div>
+{% endblock %}
