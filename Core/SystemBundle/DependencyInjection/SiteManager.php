@@ -28,6 +28,8 @@ class SiteManager
      */
     protected $container;
 
+    protected $site = null;
+
     /**
      * 
      * @param type $em
@@ -41,21 +43,29 @@ class SiteManager
 
     public function getSite()
     {
-        $host = $this->container->get('request')->getHost();
+        if ($this->site === null) {
+            $host = $this->container->get('request')->getHost();
 
-        $cleanHost = $this->removeUrlPattern($host);
+            $cleanHost = $this->removeUrlPattern($host);
 
-        $sites = $this->em->getRepository('SymBBCoreSystemBundle:Site')->findAll();
-        foreach ($sites as $site) {
-            $domains = $site->getDomainArray();
-            foreach ($domains as $domain) {
-                if ($this->removeUrlPattern($domain) == $cleanHost) {
-                    return $site;
+
+            $sites = $this->em->getRepository('SymBBCoreSystemBundle:Site')->findAll();
+            foreach ($sites as $site) {
+                $domains = $site->getDomainArray();
+                foreach ($domains as $domain) {
+                    if ($this->removeUrlPattern($domain) == $cleanHost) {
+                        $this->site = $site;
+                        return $this->site;
+                    }
                 }
+            }
+
+            if ($this->site === null) {
+                $this->site = new \SymBB\Core\SystemBundle\Entity\Site();
             }
         }
 
-        return new \SymBB\Core\SystemBundle\Entity\Site();
+        return $this->site;
     }
 
     public function getTemplate($key)
@@ -77,7 +87,7 @@ class SiteManager
         }
 
         if (empty($template) || $template == "DEFAULT") {
-            $template = 'SymBBTemplateDefault';
+            $template = 'SymBBTemplateDefaultBundle';
         }
 
         return $template;
