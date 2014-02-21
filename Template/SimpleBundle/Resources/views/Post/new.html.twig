@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% form_theme form 'SymBBTemplateSimpleBundle::form.html.twig' %}
+{% form_theme form getSymbbTemplateConfig('forum') ~ '::form.html.twig' %}
 
 {% if saved %}
 

@@ -2,8 +2,8 @@
 
 {% extends getSymbbTemplateConfig('forum') ~ '::layoutWithSidebar.html.twig' %}
 
-{% import "SymBBTemplateSimpleBundle:Forum:forumMacros.html.twig" as symbBBForumMacro %}
-{% import "SymBBTemplateSimpleBundle:Topic:topicMacros.html.twig" as symbBBForumTopicMacro %}
+{% import getSymbbTemplateConfig('forum') ~ ":Forum:forumMacros.html.twig" as symbBBForumMacro %}
+{% import getSymbbTemplateConfig('forum') ~ ":Topic:topicMacros.html.twig" as symbBBForumTopicMacro %}
 
 {% block stylesheets %} 
     {{ parent() }}

@@ -2,7 +2,7 @@
 
 {% extends getSymbbTemplateConfig('forum') ~ ':Topic:show.html.twig' %}
 
-{% form_theme form 'SymBBTemplateSimpleBundle::form.html.twig' %}
+{% form_theme form getSymbbTemplateConfig('forum') ~ '::form.html.twig' %}
 
 {% block stylesheets %} 
     {{ parent() }}
