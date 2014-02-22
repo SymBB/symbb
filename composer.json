@@ -52,18 +52,10 @@
     "target-dir": "SymBB/",
     "scripts": {
         "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerInstall",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets"
+            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerInstall"
         ],
         "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerUpdate",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets"
+            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerUpdate"
         ]
     }
 }

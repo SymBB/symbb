@@ -14,7 +14,7 @@ class TopicDataExtension extends \Twig_Extension
     protected $paginator;
     protected $em;
     protected $topicFlagHandler;
-    protected $configManager;
+    protected $siteManager;
     protected $securityContext;
     protected $translator;
     protected $request;
@@ -24,7 +24,7 @@ class TopicDataExtension extends \Twig_Extension
         $this->paginator        = $container->get('knp_paginator');
         $this->em               = $container->get('doctrine.orm.symbb_entity_manager');
         $this->topicFlagHandler = $container->get('symbb.core.topic.flag');
-        $this->configManager    = $container->get('symbb.core.config.manager');
+        $this->siteManager    = $container->get('symbb.core.site.manager');
         $this->securityContext  = $container->get('security.context');
         $this->translator       = $container->get('translator');
         $this->dispatcher       = $container->get('event_dispatcher');
@@ -80,7 +80,7 @@ class TopicDataExtension extends \Twig_Extension
     }
     
     protected function getTemplateBundleName($for = 'forum'){
-        return $this->configManager->get('template.'.$for);
+        return $this->siteManager->getTemplate($for);
     }
     
     public function getLabels(\SymBB\Core\ForumBundle\Entity\Topic $element){
