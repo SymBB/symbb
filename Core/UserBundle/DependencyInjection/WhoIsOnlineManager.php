@@ -64,9 +64,10 @@ class WhoIsOnlineManager
         
         foreach($userlist as $key => $onlineUserData){
             
-            if($onlineUserData['id'] != $user->getId()){
+            if($onlineUserData['id'] !== $user->getId()){
                 $diff = $now - $onlineUserData['added'];
-                if($diff > 300){
+                // if ip in array but id is not the same than the user has logged in!
+                if($diff > 300 || in_array($ip, $onlineUserData['ips'])){
                     unset($userlist[$key]);
                 }
             } else {
@@ -85,7 +86,7 @@ class WhoIsOnlineManager
             $count      = 1;
             $ips        = array($ip);
             $userlist[] = array(
-                'id'        => $user->getId(),
+                'id'        => (int)$user->getId(),
                 'added'     => $now,
                 'username'  => $user->getUsername(),
                 'type'      => $user->getSymbbType(),
