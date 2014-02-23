@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-02-20T13:15:10Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-02-23T20:34:48Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -340,17 +340,17 @@
       </trans-unit>
       <trans-unit id="e674a81def3142bbc22d4c177c34dfc38109348e" resname="message_by">
         <source>message_by</source>
-        <target>von</target>
+        <target>Von %sender%</target>
         <jms:reference-file line="44">views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6495c125b43dcca0d66d7c1f307dc83f46ed7129" resname="message_info">
         <source>message_info</source>
-        <target>info</target>
+        <target>Von %sender%, am %date%</target>
         <jms:reference-file line="12">views/Message/thread.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b6bb76ed4ba97e24c1aaf662636776658e6e1a9e" resname="message_on">
         <source>message_on</source>
-        <target>am</target>
+        <target>Am %date%</target>
         <jms:reference-file line="42">views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="17f3467db103e03ea7354dd6da9a32c1ed2a07e8" resname="messages">

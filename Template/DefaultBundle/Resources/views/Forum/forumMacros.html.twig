@@ -82,7 +82,6 @@
                 <div class="subheader">{% trans %}Last post{% endtrans %}</div>
                     {% if object.getLastPost() %}
                         <a href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
-                            <div class="name">{{object.getLastPost().getName()}}</div>
                             <div class="user">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
                         </a>
                     {% else %}
