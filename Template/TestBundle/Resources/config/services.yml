@@ -2,4 +2,4 @@ services:
     symbb.listener.site.template.test:
         class: SymBB\Template\TestBundle\EventListener\SiteListener
         tags:
-            - { name: kernel.event_listener, event: symbb.site.template.choices, method: templateChoices }
+            - { name: kernel.event_listener, event: symbb.core.site.acp.template_choices, method: templateChoices }

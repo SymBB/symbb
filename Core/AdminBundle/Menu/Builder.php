@@ -20,7 +20,7 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttributes(array('class' => 'nav navbar-nav'));
 
-        $menu->addChild('Sites', array('route' => '_symbbcoreforumbundle_site_list'))->setExtra('translation_domain', 'symbb_backend');
+        $menu->addChild('Sites', array('route' => '_symbbcoresystembundle_site_list'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Forummanagment', array('route' => '_symbbcoreforumbundle_forum_list'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('Usermanagment', array('route' => '_symbbcoreuserbundle_group_list'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('User and Groupaccess', array('route' => '_symbbcoreuserbundle_group_access', 'routeParameters' => array('step' => 1)))->setExtra('translation_domain', 'symbb_backend');
@@ -75,8 +75,8 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->addChild('Group List', array('route' => '_symbbcoreuserbundle_group_list'))->setExtra('translation_domain', 'symbb_backend');
         $menu->addChild('New Group', array('route' => '_symbbcoreuserbundle_group_new'))->setExtra('translation_domain', 'symbb_backend');
-        $menu->addChild('User List', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
-        $menu->addChild('New User', array('route' => '_symbb_acp'))->setExtra('translation_domain', 'symbb_backend');
+        $menu->addChild('User List', array('route' => '_symbbcoreuserbundle_user_list'))->setExtra('translation_domain', 'symbb_backend');
+        $menu->addChild('New User', array('route' => '_symbbcoreuserbundle_user_new'))->setExtra('translation_domain', 'symbb_backend');
         
         return $menu;
 

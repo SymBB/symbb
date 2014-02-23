@@ -48,4 +48,8 @@ class Group extends BaseGroup implements \SymBB\Core\UserBundle\Entity\GroupInte
         return null;
 
     }
+    
+    public function __toString(){
+        return $this->getName();
+    }
 }

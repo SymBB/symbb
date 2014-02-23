@@ -8,4 +8,4 @@ services:
     symbb.listener.site.template.default:
         class: SymBB\Template\DefaultBundle\EventListener\SiteListener
         tags:
-            - { name: kernel.event_listener, event: symbb.site.template.choices, method: templateChoices }
+            - { name: kernel.event_listener, event: symbb.core.site.acp.template_choices, method: templateChoices }

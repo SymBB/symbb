@@ -38,5 +38,4 @@ class Group extends AbstractType
         return 'user_groups';
 
     }
-    
 }

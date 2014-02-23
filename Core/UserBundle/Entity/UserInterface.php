@@ -34,4 +34,11 @@ interface UserInterface
     public function getSymbbData();
 
     public function setSymbbData(\SymBB\Core\UserBundle\Entity\User\Data $value);
+    
+    /**
+     * this method need to set some other data e.g a "changed" field
+     * if not than doctrine will not save the entity if only the PW is changed ( because the postUpdate event are not called )
+     * @param string $pw
+     */
+    public function setPlainPassword($pw);
 }

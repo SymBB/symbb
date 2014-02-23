@@ -36,7 +36,7 @@ class Site extends AbstractType
     {
 
         $templateEvent = new \SymBB\Core\SystemBundle\Event\TemplateChoicesEvent();
-        $this->dispatcher->dispatch('symbb.site.template.choices', $templateEvent);
+        $this->dispatcher->dispatch('symbb.core.site.acp.template_choices', $templateEvent);
         $templateChoices = $templateEvent->getChoices();
         $templateChoices = $templateChoices->toArray();
         $builder

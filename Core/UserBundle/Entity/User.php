@@ -69,6 +69,12 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
      */
     private $created;
 
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $changed;
+
     public function __construct()
     {
         parent::__construct();
@@ -76,7 +82,7 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
         $this->posts = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->created = new \DateTime();
-
+        
     }
 
 
@@ -200,6 +206,15 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     }
 
     /**
+     * @ORM\PreUpdate
+     */
+    public function setChangedValue()
+    {
+        $this->changed = new \DateTime();
+
+    }
+
+    /**
      * 
      * @return \SymBB\Core\UserBundle\Entity\User\Data
      */
@@ -211,5 +226,10 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
         }
         return $data;
 
+    }
+    
+    public function setPlainPassword($pw){
+        parent::setPlainPassword($pw);
+        $this->changed = new \DateTime();
     }
 }

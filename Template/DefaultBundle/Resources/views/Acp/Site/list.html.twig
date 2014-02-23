@@ -13,7 +13,7 @@
     {{ 'Sites'|trans }}
     </div>
     <div class="pull-right">
-        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreforumbundle_site_new', { 'parent': parent}) }}'"> {{ 'new Site'|trans() }} </button>
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoresystembundle_site_new', { 'parent': parent}) }}'"> {{ 'new Site'|trans() }} </button>
     </div>
     <div class="clearfix"></div>
 {% endblock %}
@@ -34,15 +34,15 @@
                 <th>{{ 'Actions'|trans }}</th>
             </tr>
         </thead>
-        <tbody class="sortable_table" data-url="{{ path('_symbbcoreforumbundle_site_sort') }}">
+        <tbody class="sortable_table" data-url="{{ path('_symbbcoresystembundle_site_sort') }}">
             {% for entry in entityList %}
                 <tr id="entry_{{entry.getId()}}">
                     <th class="mover"><i class="glyphicon glyphicon-fullscreen"></i></th>
                     <td class="clickable">{{entry.getName()}}</td>
                     <td>{{entry.getDomains()}}</td>
                     <td>
-                        <a href="{{ path('_symbbcoreforumbundle_site_edit', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/pencil.png" alt="{{ 'Editieren'|trans }}" title="{{ 'Editieren'|trans }}" /> </a>
-                        <a onclick="if(!confirm('{{ 'Really delete entry?'|trans }}')) { return false; }" href="{{ path('_symbbcoreforumbundle_site_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/cross.png" alt="{{ 'Delete'|trans }}" title="{{ 'Delete'|trans }}" /> </a>
+                        <a href="{{ path('_symbbcoresystembundle_site_edit', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/pencil.png" alt="{{ 'Editieren'|trans }}" title="{{ 'Editieren'|trans }}" /> </a>
+                        <a onclick="if(!confirm('{{ 'Really delete entry?'|trans }}')) { return false; }" href="{{ path('_symbbcoresystembundle_site_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/cross.png" alt="{{ 'Delete'|trans }}" title="{{ 'Delete'|trans }}" /> </a>
                     </td>
                 </tr>
             {% endfor %}

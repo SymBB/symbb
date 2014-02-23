@@ -24,4 +24,6 @@ interface GroupInterface
 
     public function getParent();
     
+    public function __toString();
+    
 }

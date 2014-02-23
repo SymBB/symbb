@@ -79,22 +79,39 @@ _symbbcoresystembundle_maintenance:
     
     
 
-_symbbcoreforumbundle_site_list:
+_symbbcoresystembundle_site_list:
     pattern:  /site/list
     defaults: { _controller: SymBBCoreSystemBundle:AcpSite:list }
 
-_symbbcoreforumbundle_site_new:
+_symbbcoresystembundle_site_new:
     pattern:  /site/new
     defaults: { _controller: SymBBCoreSystemBundle:AcpSite:new}
     
-_symbbcoreforumbundle_site_edit:
+_symbbcoresystembundle_site_edit:
     pattern:  /site/{id}/edit
     defaults: { _controller: SymBBCoreSystemBundle:AcpSite:edit }
     
-_symbbcoreforumbundle_site_sort:
+_symbbcoresystembundle_site_sort:
     pattern:  /site/sort
     defaults: { _controller: SymBBCoreSystemBundle:AcpSite:sort }
     
-_symbbcoreforumbundle_site_remove:
+_symbbcoresystembundle_site_remove:
     pattern:  /site/{id}/remove
     defaults: { _controller: SymBBCoreSystemBundle:AcpSite:remove }
+    
+    
+_symbbcoreuserbundle_user_list:
+    pattern:  /user/list
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:list }
+
+_symbbcoreuserbundle_user_new:
+    pattern:  /user/new
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:new}
+    
+_symbbcoreuserbundle_user_edit:
+    pattern:  /user/{id}/edit
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:edit }
+    
+_symbbcoreuserbundle_user_remove:
+    pattern:  /user/{id}/remove
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:remove }
