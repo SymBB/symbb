@@ -14,18 +14,6 @@
     {% endstylesheets %}
 {% endblock %}
     
-
-{% block javascripts %} 
-    {{ parent() }}
-    {% javascripts 
-        '@SymBBTemplateDefaultBundle/Resources/public/js/categories.js' filter='?yui_js'
-     %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-{% endblock %}
-    
-    
-
 {% block symbb_breadcrumb %}
     {{ getSymbbBreadcrumb() }}
 {% endblock %}

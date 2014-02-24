@@ -15,13 +15,33 @@
     <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
             <a class="header" href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
-                <div class="image" style="background-image: url({{ categoryBackground }})"></div>
+                <div class="image" style="background-image: url({{ categoryBackground }})">
+                     <span title="{% trans %}Topics{% endtrans %}" class="badge">{{object.getTopicCount()}}</span> &nbsp;
+                     <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
+                </div>
                 <div class="text">
                     <div class="title">{{object.getName()}}</div>
                     <div class="description">{{object.getDescription()}}</div>
                 </div>
+                <div class="labels">
+                    {% for label in checkSymbbForumLabels(object) %}
+                        <span class="label label-{{label.type}}">{{label.title}}</span>
+                    {% endfor %}
+                </div>
             </a>
             <div class="infos">
+                <div class="lastpost">
+                    <div class="subheader">{% trans %}Last post{% endtrans %}</div>
+                    {% if object.getLastPost() %}
+                        <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
+                            <div class="name">{{object.getLastPost().getName()}}</div>
+                            <div class="user creator">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                        </a>
+                    {% else %}
+                        {% trans %}no Topics{% endtrans %}
+                    {% endif %}
+                </div>
+                    <!--
                 {% if object.hasShowSubForumList() %}
                 <div class="show_subforums">
                     <div class="subheader">{% trans %}subforums{% endtrans %}</div>
@@ -38,25 +58,7 @@
                     </div>
                 </div>
                 {% endif %}
-                <div class="lastpost">
-                    <div class="subheader">{% trans %}Last post{% endtrans %}</div>
-                    {% if object.getLastPost() %}
-                        <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
-                            <div class="name">{{object.getLastPost().getName()}}</div>
-                            <div class="user creator">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
-                        </a>
-                    {% else %}
-                        {% trans %}no Topics{% endtrans %}
-                    {% endif %}
-                </div>
-                <div class="subheader">{% trans %}Infos{% endtrans %}</div>
-                <div class="labels">
-                    {% trans %}Topics{% endtrans %} <span class="badge">{{object.getTopicCount()}}</span> &nbsp;
-                    {% trans %}Posts{% endtrans %} <span class="badge">{{object.getPostCount()}}</span>
-                    {% for label in checkSymbbForumLabels(object) %}
-                        <span class="label label-{{label.type}}">{{label.title}}</span>
-                    {% endfor %}
-                </div>
+                    -->
             </div>
         </div>
     </div>
@@ -69,15 +71,22 @@
     <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
             <a class="header" href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
-                <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})"></div>
+                <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})">
+                    <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
+                </div>
                 <div class="text">
                     <div class="title">{{object.getName()}}</div>
                     <div class="user creator">
                         {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getCreated().format('D d.M Y'), '%time%': object.getCreated().format('H:i')} %}by %user% on %date% at %time%{% endtrans %}
                     </div>
+                    <div class="labels">
+                    {% for label in checkSymbbTopicLabels(object) %}
+                        <span class="label label-{{label.type}}">{{label.title}}</span>
+                    {% endfor %}
+                    </div>
                 </div>
             </a>
-            <div class="infos">
+            <div class="infos topic">
                 <div class="lastpost">
                 <div class="subheader">{% trans %}Last post{% endtrans %}</div>
                     {% if object.getLastPost() %}
@@ -87,12 +96,6 @@
                     {% else %}
                         {% trans %}no Topics{% endtrans %}
                     {% endif %}
-                </div>
-                <div class="subheader">{% trans %}Infos{% endtrans %}</div>
-                <div class="labels">
-                {% for label in checkSymbbTopicLabels(object) %}
-                    <span class="label label-{{label.type}}">{{label.title}}</span>
-                {% endfor %}
                 </div>
             </div>
         </div>
@@ -117,14 +120,6 @@
             </a>
             <div class="description">
                 <blockquote>{{object.getText()|bbcode_clean|slice(0, 50)|raw}}</blockquote>
-            </div>
-            <div class="infos">
-                <div class="subheader">{% trans %}Infos{% endtrans %}</div>
-                <div class="labels">
-                    {% for label in checkSymbbTopicLabels(object.getTopic()) %}
-                        <span class="label label-{{label.type}}">{{label.title}}</span>
-                    {% endfor %}
-                </div>
             </div>
         </div>
     </div>

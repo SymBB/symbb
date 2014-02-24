@@ -286,6 +286,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
             foreach ($topics as $topic) {
                 $posts = $topic->getPosts();
                 $count += count($posts);
+                $count = $count - 1; // topic post
             }
             $childs = $this->getChildren();
             foreach ($childs as $child) {
