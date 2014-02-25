@@ -2,7 +2,10 @@
 
 {% extends getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
 
+{% block symbb_slider %}
+{% endblock %}
+
 {% block symbb_body %}
-    {% trans %}This Topic is locked{% endtrans %}
+    <div class="alert alert-warning">{% trans %}This Topic is locked{% endtrans %}</div>
 {% endblock %}
 

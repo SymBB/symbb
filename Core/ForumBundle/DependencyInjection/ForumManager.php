@@ -58,7 +58,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     public function findNewestPosts(Forum $parent = null, $limit = null)
     {
         if ($limit === null) {
-            $limit = $this->configManager->get('forum.newpost.max');
+            $limit = $this->configManager->get('newpost.max', "forum");
         }
         $posts = $this->postFlagHandler->findPostsByFlag('new', $parent, null, true, $limit);
         return $posts;

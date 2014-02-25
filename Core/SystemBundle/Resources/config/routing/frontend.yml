@@ -1,14 +1,14 @@
 symbb_login:
     pattern:  /login
-    defaults: { _controller: FOSUserBundle:Security:login }
+    defaults: { _controller: SymBBFOSUserBundle:Security:login }
     
 symbb_logout:
     pattern:  /logout
-    defaults: { _controller: FOSUserBundle:Security:logout }
+    defaults: { _controller: SymBBFOSUserBundle:Security:logout }
     
 symbb_register:
     pattern:  /register
-    defaults: { _controller: FOSUserBundle:Registration:register }
+    defaults: { _controller: SymBBFOSUserBundle:Registration:register }
     
 symbb_imprint:
     pattern:  /imprint

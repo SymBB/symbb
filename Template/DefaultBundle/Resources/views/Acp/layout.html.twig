@@ -53,29 +53,6 @@
         </div>
         
         <div class="symbb_container">
-
-            <div class="symbb_actions">
-                
-            {% if app.getUser.getSymbbType() == 'guest' %}
-                <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
-            {% endif %}
-                
-            {% for flashMessage in app.session.flashbag.get('success') %}
-                <div class="alert alert-success">
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
-                
-            {% for flashMessage in app.session.flashbag.get('error') %}
-                <div class="alert alert-danger">
-                    {{ flashMessage }}
-                </div>
-            {% endfor %}
-                
-            {% block symbb_actions %}
-                   
-            {% endblock %}
-            </div>
             
             <div class="clear"></div>
             
@@ -86,6 +63,32 @@
             </div>
             
             <div class="symbb_body">
+                
+                
+
+                <div class="symbb_actions">
+
+                {% if app.getUser.getSymbbType() == 'guest' %}
+                    <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+                {% endif %}
+
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {% block symbb_actions %}
+
+                {% endblock %}
+                </div>
+                
                 {% block symbb_body %}
 
                 {% endblock %}

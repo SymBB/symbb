@@ -33,8 +33,7 @@ services:
     symbb.listener.config.system:
         class: SymBB\Core\SystemBundle\EventListener\ConfigListener
         tags:
-            - { name: kernel.event_listener, event: symbb.config.defaults, method: defaults }
-            - { name: kernel.event_listener, event: symbb.config.type, method: type }
+            - { name: kernel.event_listener, event: symbb.config.configs, method: configs }
             
     symbb.extension.routing_loader:
         class: SymBB\ExtensionBundle\Routing\ExtraLoader

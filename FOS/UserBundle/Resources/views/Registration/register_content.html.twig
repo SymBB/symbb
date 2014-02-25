@@ -2,7 +2,7 @@
 
 {% form_theme form getSymbbTemplate('forum') ~ '::form.html.twig' %}
 
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal">
+<form action="{{ path('symbb_register') }}" {{ form_enctype(form) }} method="POST" role="form" class="form-horizontal">
         {{ form_rowbootstrap(form.email) }}
         {{ form_rowbootstrap(form.username) }}
         {{ form_rowbootstrap(form.plainPassword.first) }}

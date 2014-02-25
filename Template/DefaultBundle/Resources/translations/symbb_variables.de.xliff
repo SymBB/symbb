@@ -27,8 +27,8 @@
         <source>config.default.system.terms</source>
         <target>AGBs</target>
       </trans-unit>
-      <trans-unit resname="config.forum.forum.newpost.max">
-        <source>config.forum.forum.newpost.max</source>
+      <trans-unit resname="config.forum.newpost.max">
+        <source>config.forum.newpost.max</source>
         <target>Anzahl der neusten Beiträge</target>
       </trans-unit>
       <trans-unit resname="config.forum">

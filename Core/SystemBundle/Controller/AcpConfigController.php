@@ -23,12 +23,13 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
 
         foreach ($configData as $section => $configs) {
             foreach ($configs as $key => $value) {
-                $type = $this->get('symbb.core.config.manager')->getType($key);
+                $type = $this->get('symbb.core.config.manager')->getType($key, $section);
+        
                 $options = array(
-                    'data' => $this->get('symbb.core.config.manager')->get($key)
+                    'data' => $this->get('symbb.core.config.manager')->get($key, $section)
                 );
                 if ($type == 'choice') {
-                    $choices = $this->get('symbb.core.config.manager')->getChoices($key);
+                    $choices = $this->get('symbb.core.config.manager')->getChoices($key, $section);
                     $options['choices'] = $choices->toArray();
                 }
                 if ($type == 'bbcode') {
@@ -37,9 +38,11 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 if ($type == 'number' || $type == 'int') {
                     $type = 'integer';
                 }
+                $key = $section.':'.$key;
                 $name = \str_replace('.', '_', $key);
+                $label = \str_replace(':', '.', $key);
                 $options['attr']['section'] = $section;
-                $options['label'] = 'config.' . $section . '.' . $key;
+                $options['label'] = 'config.' . $label;
                 $form->add($name, $type, $options);
             }
         }
@@ -52,8 +55,9 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
             foreach ($configData as $section => $configs) {
                 foreach ($configs as $key => $value) {
                     $name = \str_replace('.', '_', $key);
+                    $name = $section.':'.$name;
                     $newValue = $form->get($name)->getData();
-                    $this->get('symbb.core.config.manager')->set($key, $newValue);
+                    $this->get('symbb.core.config.manager')->set($key, $section, $newValue);
                 }
             }
             $this->get('symbb.core.config.manager')->save();

@@ -63,6 +63,4 @@ services:
     symbb.core.forum.config:
         class: SymBB\Core\ForumBundle\EventListener\ConfigListener
         tags:
-            - { name: kernel.event_listener, event: symbb.config.defaults, method: defaults }
-            - { name: kernel.event_listener, event: symbb.config.type, method: type }
-            - { name: kernel.event_listener, event: symbb.config.section, method: section }
+            - { name: kernel.event_listener, event: symbb.config.configs, method: configs }

@@ -12,7 +12,7 @@ namespace SymBB\Core\SystemBundle\EventListener;
 class ConfigListener
 {
 
-    public function defaults(\SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent $event)
+    public function configs(\SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent $event)
     {
 
         $terms = "By accessing “symBB.de” (hereinafter “we”, “us”, “our”, “symBB.de”, “http://www.symBB.de”), you agree to be legally bound by the following terms. 
@@ -21,34 +21,16 @@ Our forums are powered by symBB (hereinafter “they”, “them”, “their”
 You agree not to post any abusive, obscene, vulgar, slanderous, hateful, threatening, sexually-orientated or any other material that may violate any laws be it of your country, the country where “symBB.de” is hosted or International Law. Doing so may lead to you being immediately and permanently banned, with notification of your Internet Service Provider if deemed required by us. The IP address of all posts are recorded to aid in enforcing these conditions. You agree that “symBB.de” have the right to remove, edit, move, close or put on moderation queue any topic at any time should we see fit based on the site wide rules as well as forum specific rules (published within the specific forums).
 As a user you agree to any information you have entered to being stored in a database. While this information will not be disclosed to any third party without your consent, neither “symBB.de” nor symBB Team shall be held responsible for any hacking attempt that may lead to the data being compromised.";
 
-        $event->setDefaultConfig('system.name', 'SymBB Test System');
-        $event->setDefaultConfig('system.email', 'your@email.com');
-        $event->setDefaultConfig('system.imprint', '');
-        $event->setDefaultConfig('system.terms', $terms);
-        $event->setDefaultConfig('system.registration.enabled', true);
+        $event->setDefaultConfig('system.name', 'SymBB Test System', "text", $this->getSection());
+        $event->setDefaultConfig('system.email', 'your@email.com', "email", $this->getSection());
+        $event->setDefaultConfig('system.imprint', '', "bbcode", $this->getSection());
+        $event->setDefaultConfig('system.terms', $terms, "bbcode", $this->getSection());
+        $event->setDefaultConfig('system.registration.enabled', true, "checkbox", $this->getSection());
+        
     }
 
-    public function type(\SymBB\Core\SystemBundle\Event\ConfigTypeEvent $event)
+    protected function getSection()
     {
-        $key = $event->getKey();
-
-        if (
-            $key == 'system.name'
-        ) {
-            $event->setType('text');
-        } else if (
-            $key == 'system.email'
-        ) {
-            $event->setType('email');
-        } else if (
-            $key == 'system.registration.enabled'
-        ) {
-            $event->setType('checkbox');
-        } else if (
-            $key == 'system.imprint' ||
-            $key == 'system.terms'
-        ) {
-            $event->setType('bbcode');
-        }
+        return "default";
     }
 }
