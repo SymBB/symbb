@@ -113,7 +113,7 @@ class ConfigManager
 
     public function getChoices($key, $section = "default")
     {
-        $event = new \SymBB\Core\SystemBundle\Event\ConfigChoicesEvent($key);
+        $event = new \SymBB\Core\SystemBundle\Event\ConfigChoicesEvent($key, $section);
         $this->dispatcher->dispatch('symbb.config.choices', $event);
         $options = $event->getChoices();
         return $options;
