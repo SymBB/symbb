@@ -106,7 +106,7 @@
 
 {% macro createPostCardFull(object, css) %}
 
-    <div class="symbb_category postfull {{ css }}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
+    <div class="symbb_category postfull {{ css }} col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="border">
             <a class="header" href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
                 <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})"></div>

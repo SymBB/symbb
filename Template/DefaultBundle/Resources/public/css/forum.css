@@ -17,10 +17,11 @@
 
 .symbb_category .header {
     background-color: #97CE68;
-    display: inline-block;
+    display: block;
     width: 100%;
     border-radius: 5px 5px 0 0;
     position: relative;
+    overflow: hidden;
 }
 
 .symbb_category:nth-child(odd) .header {
@@ -29,6 +30,8 @@
 
 .symbb_category .header .text{
     padding-right: 10px;
+    overflow: hidden;
+    height: 65px;
 }
 
 .symbb_category .header .image{
@@ -47,15 +50,17 @@
 
 .symbb_category .header .image .badge {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: auto;
+    top:0;
+    left: -22px;
     color: #000;
     background-color: #FFF;
 }
 
 .symbb_category .header .image .badge:last-child {
-    left: 40px;
-    top: auto;
+    left: -22px;
+    bottom: 0;
+    top: autO;
 }
 
 .symbb_category .border {
@@ -84,11 +89,6 @@
     width: 100%;
 }
 
-.symbb_category.post .description {
-    max-height: none;
-    padding-bottom: 5px;
-}
-
 .symbb_category.post .border {
     min-height: 100px;
 }
@@ -114,8 +114,14 @@
     padding-right: 10px;
     color: #fff;
     padding-top: 0;
-    max-height: 15px;
+    height: 20px;
     overflow: hidden;
+}
+
+.symbb_category.post .description,
+.symbb_category.postfull .description{
+    height: auto;
+    padding-bottom: 5px;
 }
 
 .symbb_category .show_subforums .subforum_list {
