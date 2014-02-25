@@ -2,7 +2,7 @@
 <div class="symbb_tabcontent" data-tab="files">
     <div class="panel panel-default">
         <div class="padding10">
-            <div class="collection" data-prototype='{{ form_widget(form.mainPost.files.vars.prototype) }}'>
+            <div class="collection" data-prototype='{{ form_widget(form.mainPost.files.vars.prototype) }}' data-remove-icon="glyphicon-remove-sign" data-remove-title="{{ 'remove file'|trans() }}">
                 {% for currfile in form.mainPost.files %}
                     <div class="collection_item pull-left">
                         {% set imageOriginal = vich_uploader_asset(currfile.vars.data, 'image') %}
@@ -11,10 +11,10 @@
                         <div class="hidden">
                             {{ form_widget(currfile.image) }}
                         </div>
-                        <div class="symbb_bbbcode_btn" data-tag-code="[img]{{imageOriginal}}[/img]" title="{{ 'insert file'|trans() }}">
+                        <div class="symbb_bbcode_btn" data-tag-code="[img]{{imageOriginal}}[/img]" title="{{ 'insert file'|trans() }}">
                            <span class="glyphicon glyphicon-picture"  onclick="return false;" title="{{ 'insert file'|trans() }}"></span>
                         </div>
-                        <div class="symbb_bbbcode_btn" data-tag-code="" title="{{ 'remove file'|trans() }}">
+                        <div class="symbb_bbcode_btn" data-tag-code="" title="{{ 'remove file'|trans() }}">
                            <span class="glyphicon glyphicon-remove-sign collection_item_remove" onclick="return false;" title="{{ 'remove file'|trans() }}"></span>
                         </div>
                         <div class="clear"></div>

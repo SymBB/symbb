@@ -9,7 +9,7 @@
     background-color: #F5F5F5;
     padding: 5px;
 }
-.symbb_bbbcode_btn {
+.symbb_bbcode_btn {
     background-color: #FFF;
     border: 1px solid #E4E4E4;
     text-align: center;
@@ -17,17 +17,17 @@
     padding: 3px;
     cursor: pointer;
 }
-.symbb_bbcodes_group .symbb_bbbcode_btn:first-child {
+.symbb_bbcodes_group .symbb_bbcode_btn:first-child {
     background-color: #FFF;
     border-radius: 3px 0 0 3px;
 }
 
-.symbb_bbcodes_group .symbb_bbbcode_btn:last-child {
+.symbb_bbcodes_group .symbb_bbcode_btn:last-child {
     background-color: #FFF;
     border-radius: 0 3px 3px 0;
 }
 
-.symbb_bbcodes_group .symbb_bbbcode_btn:hover {
+.symbb_bbcodes_group .symbb_bbcode_btn:hover {
     background-color: #CCC;
 }
 

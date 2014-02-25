@@ -6,7 +6,8 @@
         var obj     = this;
         var area    = $(element).find('.symbb_editor textarea');
 
-        $(element).find('.symbb_bbbcode_btn').each(function(index, button) {
+        $(element).find('.symbb_bbcode_btn').each(function(index, button) {
+            $(button).unbind('click');
             $(button).click(function() {
                 button      = $(button);
                 var tagCode   = button.data('tag-code');
@@ -41,6 +42,19 @@
             // Return early if this element already has a plugin instance
             if (element.data('bbcodeEditor'))
                 return;
+
+            var myplugin = new BBCodeEditor(this);
+
+            // Store plugin object in this element's data
+            element.data('bbcodeEditor', myplugin);
+        });
+    };
+
+    $.fn.bbcodeEditorReload = function()
+    {
+        return this.each(function()
+        {
+            var element = $(this);
 
             var myplugin = new BBCodeEditor(this);
 

@@ -52,10 +52,28 @@ form .btn {
     margin-right: 5px;
 }
 
+
 form .collection_item {
     
     margin-bottom: 5px;
+    position: relative;
     
+}
+
+form .collection_add {
+    
+    margin-bottom: 10px;
+    
+}
+
+form .collection_item_buttons {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+form .collection_item_buttons .symbb_bbcode_btn {
+    border: none;
 }
 
 form .collection_item.pull-left {
@@ -76,7 +94,7 @@ form .collection_item.hidden {
     display: none;
 }
 
-form .collection_item .symbb_bbbcode_btn {
+form .collection_item .symbb_bbcode_btn {
     cursor: pointer;
     margin-left: 5px;
 }
