@@ -74,78 +74,69 @@ class Post
 
     public function __construct()
     {
-        $this->likes    = new ArrayCollection();
+        $this->likes = new ArrayCollection();
         $this->dislikes = new ArrayCollection();
-        $this->files    = new ArrayCollection();
-        $this->flags    = new ArrayCollection();
-
+        $this->files = new ArrayCollection();
+        $this->flags = new ArrayCollection();
     }
 
     public function getId()
     {
         return $this->id;
-
     }
 
     public function setId($value)
     {
         $this->id = $value;
-
     }
 
     public function getName()
     {
         return $this->name;
-
     }
 
     public function setName($value)
     {
         $this->name = $value;
-
     }
 
     public function getText()
     {
         return $this->text;
-
     }
 
     public function setText($value)
     {
         $this->text = $value;
-
     }
 
     public function setTopic($object)
     {
         $this->topic = $object;
-
     }
 
     public function getFlags()
     {
         return $this->flags;
-
     }
 
     public function getFiles()
     {
         return $this->files;
-
     }
 
     public function addFile(\SymBB\Core\ForumBundle\Entity\Post\File $file)
     {
-        $this->files->add($file);
-        $file->setPost($this);
-
+        if ($file->getImage()) {
+            $this->files->add($file);
+            $file->setPost($this);
+        }
     }
-    
+
     public function removeFile($file)
     {
-       $this->files->removeElement($file);
-    }  
+        $this->files->removeElement($file);
+    }
 
     /**
      * 
@@ -154,31 +145,26 @@ class Post
     public function getTopic()
     {
         return $this->topic;
-
     }
 
     public function setAuthor($object)
     {
         $this->author = $object;
-
     }
 
     public function getAuthor()
     {
         return $this->author;
-
     }
 
     public function getCreated()
     {
         return $this->created;
-
     }
 
     public function getChanged()
     {
         return $this->changed;
-
     }
 
     /**
@@ -187,7 +173,6 @@ class Post
     public function setCreatedValue()
     {
         $this->created = new \DateTime();
-
     }
 
     /**
@@ -197,7 +182,6 @@ class Post
     public function setChangedValue()
     {
         $this->changed = new \DateTime();
-
     }
 
     public function getSeoName()
@@ -206,7 +190,6 @@ class Post
         $name = preg_replace('/\W+/', '-', $name);
         $name = strtolower(trim($name, '-'));
         return $name;
-
     }
 
     public static function createNew(Topic $topic, \SymBB\Core\UserBundle\Entity\UserInterface $user)
@@ -216,12 +199,10 @@ class Post
         $post->setAuthor($user);
         $post->setName($topic->getName());
         return $post;
-
     }
 
     public function getParent()
     {
         return $this->getTopic();
-
     }
 }

@@ -66,4 +66,16 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         return $text;
 
     }
+    
+    /**
+     * 
+     * @param int $postId
+     * @return \SymBB\Core\ForumBundle\Entity\Post
+     */
+    public function find($postId)
+    {
+        $post = $this->em->getRepository('SymBBCoreForumBundle:Post')->find($postId);
+        return $post;
+
+    }
 }
