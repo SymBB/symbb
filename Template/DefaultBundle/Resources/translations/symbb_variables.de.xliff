@@ -21,7 +21,7 @@
       </trans-unit>
       <trans-unit id="e36def623ccbf8bb29207139b5d748e23a754f49" resname="config.default.system.registration.enabled">
         <source>config.default.system.registration.enabled</source>
-        <target>Regisistrierung erlauben</target>
+        <target>Registrierung erlauben</target>
       </trans-unit>
       <trans-unit id="15789a4c0d6d4be750c55d544362b56c2ca71b3d" resname="config.default.system.terms">
         <source>config.default.system.terms</source>
