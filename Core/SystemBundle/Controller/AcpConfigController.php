@@ -18,7 +18,7 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
         $configData = $this->get('symbb.core.config.manager')->getConfigListGroupBySection();
 
         $defaultData = array('name' => 'config');
-        $form = $this->get('form.factory')->createNamedBuilder('config', 'form', $defaultData, array('translation_domain' => 'symbb_backend'))
+        $form = $this->get('form.factory')->createNamedBuilder('config', 'form', $defaultData, array('translation_domain' => 'symbb_variables'))
             ->setAction($this->generateUrl('_symbbcoresystembundle_config'));
 
         foreach ($configData as $section => $configs) {

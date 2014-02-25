@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-02-25T10:53:02Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-02-25T10:48:41Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
         <source>Actions</source>
-        <target>Aktionen</target>
+        <target state="new">Actions</target>
         <jms:reference-file line="58">Acp/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="34">Acp/Site/list.html.twig</jms:reference-file>
         <jms:reference-file line="22">Acp/User/list.html.twig</jms:reference-file>
@@ -16,22 +16,22 @@
       </trans-unit>
       <trans-unit id="92ef08325a4813563a3110359906076374683282" resname="Activate">
         <source>Activate</source>
-        <target>Aktivieren</target>
+        <target state="new">Activate</target>
         <jms:reference-file line="33">Acp/System/extensions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="276e2316b9517d0e33f7b33b7be4fdf705e732b6" resname="Aktion">
         <source>Aktion</source>
-        <target>Aktion</target>
+        <target state="new">Aktion</target>
         <jms:reference-file line="21">Acp/System/extensions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1ba1057370fd6efe205fc45ff196d83eef61685" resname="Deaktivate">
         <source>Deaktivate</source>
-        <target>Deaktivieren</target>
+        <target state="new">Deaktivate</target>
         <jms:reference-file line="31">Acp/System/extensions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
-        <target>Löschen</target>
+        <target state="new">Delete</target>
         <jms:reference-file line="69">Acp/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="45">Acp/Site/list.html.twig</jms:reference-file>
         <jms:reference-file line="31">Acp/User/list.html.twig</jms:reference-file>
@@ -39,12 +39,12 @@
       </trans-unit>
       <trans-unit id="a0d641b3f1afe93a0323a0128a013778c7d8ae93" resname="Domains">
         <source>Domains</source>
-        <target>Domains</target>
+        <target state="new">Domains</target>
         <jms:reference-file line="33">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f7265d405b8ca90fcaecee4fca42d325222cc88b" resname="Editieren">
         <source>Editieren</source>
-        <target>Editieren</target>
+        <target state="new">Editieren</target>
         <jms:reference-file line="68">Acp/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="44">Acp/Site/list.html.twig</jms:reference-file>
         <jms:reference-file line="30">Acp/User/list.html.twig</jms:reference-file>
@@ -52,47 +52,47 @@
       </trans-unit>
       <trans-unit id="659087d3ca23db6ae11e0a43579b5f4a260dda11" resname="Extension">
         <source>Extension</source>
-        <target>Erweiterung</target>
+        <target state="new">Extension</target>
         <jms:reference-file line="20">Acp/System/extensions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf1d2c9702ec3c2c9c19d4853cd487b92618fb0c" resname="Forum">
         <source>Forum</source>
-        <target>Forum</target>
+        <target state="new">Forum</target>
         <jms:reference-file line="56">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e43e291f7614229d24e296bd9d9257d2750da95e" resname="Forummanagment">
         <source>Forummanagment</source>
-        <target>Forenverwaltung</target>
+        <target state="new">Forummanagment</target>
         <jms:reference-file line="35">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="171a0606f7c74580fd3982cf57c49d604104120a" resname="Group">
         <source>Group</source>
-        <target>Gruppe</target>
+        <target state="new">Group</target>
         <jms:reference-file line="21">Acp/Group/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c833853304415839661ad5bafafc81a91dab127b" resname="Groupmanagment">
         <source>Groupmanagment</source>
-        <target>Gruppenverwaltung</target>
+        <target state="new">Groupmanagment</target>
         <jms:reference-file line="10">Acp/Group/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f4e8075cef9dd01c29f3d3523cd1b788e525a78b" resname="Gruppe">
         <source>Gruppe</source>
-        <target>Gruppe</target>
+        <target state="new">Gruppe</target>
         <jms:reference-file line="22">Acp/Group/accessS2.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="70f8bb9a8a5393ef080507a89e4b98d139000d65" resname="Home">
         <source>Home</source>
-        <target>Home</target>
+        <target state="new">Home</target>
         <jms:reference-file line="23">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8be3c943b1609fffbfc51aad666d0a04adf83c9d" resname="Password">
         <source>Password</source>
-        <target>Passwort</target>
+        <target state="new">Password</target>
         <jms:reference-file line="45">Form/Type/User.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8446c6cafdc85a2c90822f7d6d0e306070b4a773" resname="Really delete entry?">
         <source>Really delete entry?</source>
-        <target>Den Eintrag wirklich löschen?</target>
+        <target state="new">Really delete entry?</target>
         <jms:reference-file line="69">Acp/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="45">Acp/Site/list.html.twig</jms:reference-file>
         <jms:reference-file line="31">Acp/User/list.html.twig</jms:reference-file>
@@ -100,82 +100,82 @@
       </trans-unit>
       <trans-unit id="bab9bc458f38d4d574e5baa63c72341db6ddaa30" resname="Repeat Password">
         <source>Repeat Password</source>
-        <target>Passwort wiederholen</target>
+        <target state="new">Repeat Password</target>
         <jms:reference-file line="46">Form/Type/User.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="5b6825d3c67a35898b7b65fd986a7fe6ca47771d" resname="Site">
         <source>Site</source>
-        <target>Seite</target>
+        <target state="new">Site</target>
         <jms:reference-file line="32">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5cae88ddf5336e6a23091c01317b646467eb857e" resname="Sites">
         <source>Sites</source>
-        <target>Seiten</target>
+        <target state="new">Sites</target>
         <jms:reference-file line="13">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c2e9c2bf417e2da9bfe11c8aae5b14d112cf8d7" resname="Step 1: Select a group">
         <source>Step 1: Select a group</source>
-        <target>Schritt 1: Wähle eine Gruppe</target>
+        <target state="new">Step 1: Select a group</target>
         <jms:reference-file line="13">Acp/Group/accessS1.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2a8a5048d9dcf548e9f610712da748a93aba593b" resname="Step 2: Select a forum">
         <source>Step 2: Select a forum</source>
-        <target>Schritt 2: Wähle ein Forum</target>
+        <target state="new">Step 2: Select a forum</target>
         <jms:reference-file line="19">Acp/Group/accessS1.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4330bd72220b32bf0735f54e464c2603a4f7a184" resname="Step 3: Include Sub-forums ?">
         <source>Step 3: Include Sub-forums ?</source>
-        <target>Schritt 3: Unterforen miteinschließen?</target>
+        <target state="new">Step 3: Include Sub-forums ?</target>
         <jms:reference-file line="25">Acp/Group/accessS1.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1ec0b00d7e4a7ebd7e91c21e91a99ece12fa858a" resname="Toggle navigation">
         <source>Toggle navigation</source>
-        <target>Navigation umschalten</target>
+        <target state="new">Toggle navigation</target>
         <jms:reference-file line="8">views/Acp/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3deb7456519697ecf4eefc455516c969a3681bae" resname="Type">
         <source>Type</source>
-        <target>Art</target>
+        <target state="new">Type</target>
         <jms:reference-file line="57">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9f8a2389a20ca0752aa9e95093515517e90e194c" resname="User">
         <source>User</source>
-        <target>Benutzer</target>
+        <target state="new">User</target>
         <jms:reference-file line="21">Acp/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="93a3c0e1d21b6c530aa585a7ccbb8f94a90d7443" resname="Usermanagement">
         <source>Usermanagement</source>
-        <target>Benutzerverwaltung</target>
+        <target state="new">Usermanagement</target>
         <jms:reference-file line="10">Acp/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ac14d17e3e8a927e89aa2df9ebf36bfa0465b7bb" resname="and all subforums">
         <source>and all subforums</source>
-        <target>und alle Unterforen</target>
+        <target state="new">and all subforums</target>
         <jms:reference-file line="28">Acp/Group/accessS2.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d9c8d4cba555a31528d0d549913551de383581dc" resname="new Category">
         <source>new Category</source>
-        <target>neue Kategorie</target>
+        <target state="new">new Category</target>
         <jms:reference-file line="39">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="086fe1b5faa6184d5f47abd926742d0c7acf4266" resname="new Forum">
         <source>new Forum</source>
-        <target>neues Forum</target>
+        <target state="new">new Forum</target>
         <jms:reference-file line="38">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f12dc235aa3bcf323ad91daad98979b784eb65c8" resname="new Link">
         <source>new Link</source>
-        <target>neuer Link</target>
+        <target state="new">new Link</target>
         <jms:reference-file line="40">Acp/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a560d2a92ab23ca60ef2b07a542bb683c4adb2a6" resname="new Site">
         <source>new Site</source>
-        <target>neue Seite</target>
+        <target state="new">new Site</target>
         <jms:reference-file line="16">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13a4a11319d31c1b323d5774f44240a9ffc984d0" resname="save">
         <source>save</source>
-        <target>speichern</target>
+        <target state="new">save</target>
         <jms:reference-file line="43">Acp/System/config.html.twig</jms:reference-file>
         <jms:reference-file line="16">Acp/Forum/edit.html.twig</jms:reference-file>
         <jms:reference-file line="16">Acp/Site/edit.html.twig</jms:reference-file>
@@ -184,7 +184,7 @@
       </trans-unit>
       <trans-unit id="b45fb120e349c03a5d42803c686b9c4c572e5f76" resname="save entry">
         <source>save entry</source>
-        <target>Eintrag speichern</target>
+        <target state="new">save entry</target>
         <jms:reference-file line="7">Acp/Forum/edit.html.twig</jms:reference-file>
         <jms:reference-file line="7">Acp/Site/edit.html.twig</jms:reference-file>
         <jms:reference-file line="11">Acp/User/edit.html.twig</jms:reference-file>
@@ -192,12 +192,12 @@
       </trans-unit>
       <trans-unit id="74f29cc41603dca032d746438c067643131c682a" resname="successfully saved">
         <source>successfully saved</source>
-        <target>erfolgreich gespeichert</target>
+        <target state="new">successfully saved</target>
         <jms:reference-file line="61">SystemBundle/Controller/AcpConfigController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb27327d0207bc407a6a6bb530dca360ec49a044" resname="Übersicht">
         <source>Übersicht</source>
-        <target>Übersicht</target>
+        <target state="new">Übersicht</target>
         <jms:reference-file line="51">Controller/Base/CrudController.php</jms:reference-file>
       </trans-unit>
     </body>

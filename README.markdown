@@ -38,3 +38,7 @@ Ideensammlung:
 
 - Topics können an eine andere Person übergeben werden ( muss jedoch bestätigt werden, bzw. die neue person kann es "beantragen" )
 - "Editiert bei" historie verfügbar machen ( keine genauen infos nur wer und wann, ggf. noch "grund des editierens" als feld beim editieren anlegen )
+
+
+-------
+php app/console translation:extract de -c symbb
