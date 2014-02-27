@@ -45,14 +45,12 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->postFlagHandler = $postFlagHandler;
         $this->configManager = $configManager;
         $this->em = $em;
-
     }
 
     public function findNewestTopics(Forum $parent = null)
     {
         $topics = $this->topicFlagHandler->findTopicsByFlag('new', $parent);
         return $topics;
-
     }
 
     public function findNewestPosts(Forum $parent = null, $limit = null)
@@ -62,7 +60,54 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         }
         $posts = $this->postFlagHandler->findPostsByFlag('new', $parent, null, true, $limit);
         return $posts;
+    }
 
+    /**
+     * @todo join forum and check active
+     * @return int
+     */
+    public function countTopics()
+    {
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select('COUNT(p.id)');
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return $count;
+    }
+
+    /**
+     * @todo join forum and check active
+     * @return int
+     */
+    public function countPosts()
+    {
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select('COUNT(p.id)');
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return $count;
+    }
+
+    /**
+     * 
+     * @return array(<\SymBB\Core\ForumBundle\Entity\Forum>)
+     */
+    public function findAll($parentId = null)
+    {
+        if ($parentId === 0) {
+            $parentId = null;
+        }
+        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId));
+
+        return $forumList;
+    }
+
+    /**
+     * 
+     * @param int $forumId
+     * @return \SymBB\Core\ForumBundle\Entity\Forum
+     */
+    public function find($forumId)
+    {
+        return $this->em->getRepository('SymBBCoreForumBundle:Forum')->find($forumId);
     }
 
     public function getSelectList($types = array())
@@ -88,7 +133,6 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         }
 
         return $listFinal;
-
     }
 
     private function addSpaceForParents($forum, $name)
@@ -99,7 +143,6 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $name = $this->addSpaceForParents($parent, $name);
         }
         return $name;
-
     }
 
     private function addChildsToArray($entity, &$array)
@@ -111,6 +154,5 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
                 $this->addChildsToArray($child, $array);
             }
         }
-
     }
 }

@@ -33,6 +33,10 @@ class UserManager
 
     protected $paginator;
 
+    /**
+     *
+     * @var \Symfony\Component\Security\Core\SecurityContextInterface
+     */
     protected $securityContext;
 
     /**
@@ -40,7 +44,7 @@ class UserManager
      * @var \Symfony\Component\EventDispatcher\EventDispatcher 
      */
     protected $dispatcher;
-    
+
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
@@ -60,7 +64,6 @@ class UserManager
     public function getCurrentUser()
     {
         return $this->securityContext->getToken()->getUser();
-
     }
 
     /**
@@ -71,7 +74,6 @@ class UserManager
     {
         $this->em->persist($user);
         $this->em->flush();
-
     }
 
     /**
@@ -82,7 +84,6 @@ class UserManager
     {
         $this->em->remove($user);
         $this->em->flush();
-
     }
 
     /**
@@ -97,7 +98,6 @@ class UserManager
         $user->setPassword($password);
         $this->em->persist($user);
         $this->em->flush();
-
     }
 
     /**
@@ -109,7 +109,6 @@ class UserManager
         $userClass = $this->userClass;
         $user = new $userClass();
         return $user;
-
     }
 
     /**
@@ -121,7 +120,6 @@ class UserManager
     {
         $user = $this->em->getRepository($this->userClass)->find($userId);
         return $user;
-
     }
 
     /**
@@ -133,7 +131,6 @@ class UserManager
     {
         $user = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username));
         return $user;
-
     }
 
     /**
@@ -144,13 +141,17 @@ class UserManager
     {
         $users = $this->em->getRepository($this->userClass)->findAll();
         return $users;
+    }
 
+    public function countUsers()
+    {
+        $users = $this->findUsers();
+        return count($users);
     }
 
     public function getClass()
     {
         return $this->userClass;
-
     }
 
     public function paginateAll($request)
@@ -164,7 +165,6 @@ class UserManager
         );
 
         return $pagination;
-
     }
 
     public function getTimezone()
@@ -181,20 +181,18 @@ class UserManager
         }
 
         return $tz;
-
     }
 
     public function getSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user)
     {
         $data = $user->getSymbbData();
         $signature = $data->getSignature();
-        
+
         $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
         $this->dispatcher->dispatch("symbb.core.user.parse.signature", $event);
-        
+
         $signature = $event->getSignature();
         return $signature;
-
     }
 
     public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user)
@@ -205,16 +203,28 @@ class UserManager
             $avatar = '/bundles/symbbtemplatedefault/images/avatar/empty.gif';
         }
         return $avatar;
-
     }
-    
+
     public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user)
     {
         $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
-        $qb->where("p.author = ".$user->getId());
+        $qb->where("p.author = " . $user->getId());
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
+    }
 
+    public function login($username, $password)
+    {
+
+        $user = $this->findByUsername($username);
+
+        $encoder = $this->securityFactory->getEncoder($user);
+        $password2 = $encoder->encodePassword($password, $user->getSalt());
+
+        if ($password === $password2) {
+            $token = new UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
+            $this->securityContext->setToken($token);
+        }
     }
 }

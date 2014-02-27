@@ -98,7 +98,6 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
                 $extensionTapatalk->setBundleClass('\SymBB\Extension\TapatalkBundle\SymBBExtensionTapatalkBundle');
                 $extensionTapatalk->enable();
                 $extensionTapatalk->setPackage('symbb/extension-tapatalk');
-                $extensionTapatalk->disableComposer();
                 
                 
                 $api->remove('symbb/extension-post-upload');
