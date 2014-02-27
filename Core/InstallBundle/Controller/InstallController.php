@@ -93,18 +93,28 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
                 $extensionUserTag->setPackage('symbb/extension-user-tag');
                 $extensionUserTag->disableComposer();
 
+                $extensionTapatalk = new \SymBB\ExtensionBundle\Extension();
+                $extensionTapatalk->setName('SymBB Tapatalk');
+                $extensionTapatalk->setBundleClass('\SymBB\Extension\TapatalkBundle\SymBBExtensionTapatalkBundle');
+                $extensionTapatalk->enable();
+                $extensionTapatalk->setPackage('symbb/extension-tapatalk');
+                $extensionTapatalk->disableComposer();
+                
+                
                 $api->remove('symbb/extension-post-upload');
                 $api->remove('symbb/extension-survey');
                 $api->remove('symbb/extension-bbcode');
                 $api->remove('symbb/extension-rating');
                 $api->remove('symbb/extension-calendar');
                 $api->remove('symbb/extension-user-tag');
+                $api->remove('symbb/extension-tapatalk');
                 $api->addExtension($extensionRating);
                 $api->addExtension($extensionSurvey);
                 $api->addExtension($extensionBBCode);
                 $api->addExtension($extensionPostUpload);
                 $api->addExtension($extensionPostCalendar);
                 $api->addExtension($extensionUserTag);
+                $api->addExtension($extensionTapatalk);
                 
             } else {
                 $errors[] = 'Permission denied (/app/config/extensions.yml)';

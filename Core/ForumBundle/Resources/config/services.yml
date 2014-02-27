@@ -34,6 +34,10 @@ services:
     symbb.core.post.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\PostManager
         arguments: ['@security.context', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher']
+        
+    symbb.core.topic.manager:
+        class: SymBB\Core\ForumBundle\DependencyInjection\TopicManager
+        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher']
             
     symbb.core.forum.flag:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumFlagHandler
