@@ -183,8 +183,12 @@ class UserManager
         return $tz;
     }
 
-    public function getSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+
         $data = $user->getSymbbData();
         $signature = $data->getSignature();
 
@@ -195,8 +199,12 @@ class UserManager
         return $signature;
     }
 
-    public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+
         $data = $user->getSymbbData();
         $avatar = $data->getAvatar();
         if (empty($avatar)) {
@@ -205,8 +213,12 @@ class UserManager
         return $avatar;
     }
 
-    public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+
         $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
         $qb->where("p.author = " . $user->getId());
@@ -221,10 +233,12 @@ class UserManager
 
         $encoder = $this->securityFactory->getEncoder($user);
         $password2 = $encoder->encodePassword($password, $user->getSalt());
-
-        if ($password === $password2) {
-            $token = new UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
+        if ($user->getPassword() === $password2) {
+            $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
             $this->securityContext->setToken($token);
+            return true;
         }
+
+        return false;
     }
 }

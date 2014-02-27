@@ -27,6 +27,8 @@ interface UserInterface
     public function getSymbbType();
     
     public function getCreated();
+    
+    public function getPassword();
 
     /**
      * @return \SymBB\Core\UserBundle\Entity\User\Data 
