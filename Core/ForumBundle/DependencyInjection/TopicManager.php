@@ -27,7 +27,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @var TopicFlagHandler
      */
     protected $topicFlagHandler;
-    
+
     /**
      *
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
@@ -43,9 +43,8 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->configManager = $configManager;
         $this->em = $em;
         $this->dispatcher = $dispatcher;
-
     }
-    
+
     /**
      * 
      * @param int $topicId
@@ -55,6 +54,25 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     {
         $post = $this->em->getRepository('SymBBCoreForumBundle:Topic')->find($topicId);
         return $post;
+    }
 
+    /**
+     * 
+     * @param int $topicId
+     * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
+     */
+    public function findByForum($forumId, $limit = null, $offset = null)
+    {
+        $topics = $this->em->getRepository('SymBBCoreForumBundle:Topic')->findBy(array('forum' => $forumId), array(), $limit, $offset);
+        return $topics;
+    }
+
+    /**
+     * 
+     * @return \SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler
+     */
+    public function getFlagHandler()
+    {
+        return $this->topicFlagHandler;
     }
 }

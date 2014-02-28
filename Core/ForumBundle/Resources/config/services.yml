@@ -29,7 +29,7 @@ services:
             
     symbb.core.forum.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumManager
-        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager']
+        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@knp_paginator']
     
     symbb.core.post.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\PostManager

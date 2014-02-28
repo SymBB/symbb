@@ -45,6 +45,12 @@ class UserManager
      */
     protected $dispatcher;
 
+    /**
+     *
+     * @var \Symfony\Component\HttpFoundation\Request
+     */
+    protected $request;
+
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
@@ -55,6 +61,7 @@ class UserManager
         $this->paginator = $container->get('knp_paginator');
         $this->securityContext = $container->get('security.context');
         $this->dispatcher = $container->get('event_dispatcher');
+        $this->request = $container->get('request');
     }
 
     /**
@@ -199,6 +206,14 @@ class UserManager
         return $signature;
     }
 
+    public function getAbsoluteAvatarUrl(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    {
+        $url = $this->getAvatar($user);
+        $host = $this->request->server->get('HTTP_HOST');
+
+        return "http://" . $host . $url;
+    }
+
     public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
         if (!$user) {
@@ -226,7 +241,17 @@ class UserManager
         return $count;
     }
 
-    public function login($username, $password)
+    /**
+     * manually login e.g for Tapatalk Extension
+     * mtehod will be generate a cookie
+     * @param type $username
+     * @param type $password
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param type $providerKey
+     * @param \Symfony\Component\HttpFoundation\Response $redirectResponse
+     * @return boolean
+     */
+    public function login($username, $password, \Symfony\Component\HttpFoundation\Request $request, $providerKey, \Symfony\Component\HttpFoundation\Response $redirectResponse)
     {
 
         $user = $this->findByUsername($username);
@@ -235,7 +260,17 @@ class UserManager
         $password2 = $encoder->encodePassword($password, $user->getSalt());
         if ($user->getPassword() === $password2) {
             $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
+            
             $this->securityContext->setToken($token);
+
+            $securityKey = 'myKey';
+            $random = new \Symfony\Component\Security\Core\Util\SecureRandom();
+
+            $persistenService = new \Symfony\Component\Security\Http\RememberMe\PersistentTokenBasedRememberMeServices(array($this), $providerKey, $securityKey, array('path' => '/', 'name' => 'REMEMBERME', 'domain' => null, 'secure' => false, 'httponly' => true, 'lifetime' => 31536000, 'always_remember_me' => true, 'remember_me_parameter' => '_remember_me'), null, $random);
+            $persistenService->setTokenProvider(new \Symfony\Component\Security\Core\Authentication\RememberMe\InMemoryTokenProvider());
+
+            $persistenService->loginSuccess($request, $redirectResponse, $token);
+            
             return true;
         }
 
