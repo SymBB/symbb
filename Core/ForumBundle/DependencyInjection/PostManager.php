@@ -34,8 +34,16 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
      */
     protected $dispatcher;
 
+    /**
+     *
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+    
+    protected $paginator;
+
     public function __construct(
-    SecurityContextInterface $securityContext, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $dispatcher
+    SecurityContextInterface $securityContext, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $dispatcher, $paginator
     )
     {
         $this->securityContext = $securityContext;
@@ -43,6 +51,7 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         $this->configManager = $configManager;
         $this->em = $em;
         $this->dispatcher = $dispatcher;
+        $this->paginator = $paginator;
 
     }
 
@@ -77,5 +86,25 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         $post = $this->em->getRepository('SymBBCoreForumBundle:Post')->find($postId);
         return $post;
 
+    }
+    
+    /**
+     * 
+     * @param int $topicId
+     * @return array(<\SymBB\Core\ForumBundle\Entity\Post>)
+     */
+    public function findByTopic(\SymBB\Core\ForumBundle\Entity\Topic $topic, $limit = null, $pageNumber = 1)
+    {
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select("p");
+        $qb->where("p.topic = :topic ");
+        $qb->orderBy("p.created", "ASC");
+        $query = $qb->getQuery();
+        $query->setParameter('topic', $topic->getId());
+        $paginator = $this->paginator;
+        $pagination = $paginator->paginate(
+            $query, $pageNumber/* page number */, $limit/* limit per page */
+        );
+        return $pagination;
     }
 }

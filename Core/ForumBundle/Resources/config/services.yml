@@ -33,7 +33,7 @@ services:
     
     symbb.core.post.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\PostManager
-        arguments: ['@security.context', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher']
+        arguments: ['@security.context', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher', '@knp_paginator']
         
     symbb.core.topic.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\TopicManager
