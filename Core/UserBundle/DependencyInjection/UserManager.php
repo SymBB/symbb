@@ -45,11 +45,7 @@ class UserManager
      */
     protected $dispatcher;
 
-    /**
-     *
-     * @var \Symfony\Component\HttpFoundation\Request
-     */
-    protected $request;
+    protected $container;
 
     public function __construct($container)
     {
@@ -61,7 +57,15 @@ class UserManager
         $this->paginator = $container->get('knp_paginator');
         $this->securityContext = $container->get('security.context');
         $this->dispatcher = $container->get('event_dispatcher');
-        $this->request = $container->get('request');
+        $this->container = $container;
+    }
+    
+    /**
+     * 
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    protected function getRequest(){
+        return $this->container->get('request');
     }
 
     /**
@@ -209,7 +213,7 @@ class UserManager
     public function getAbsoluteAvatarUrl(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
         $url = $this->getAvatar($user);
-        $host = $this->request->server->get('HTTP_HOST');
+        $host = $this->getRequest()->server->get('HTTP_HOST');
 
         return "http://" . $host . $url;
     }
