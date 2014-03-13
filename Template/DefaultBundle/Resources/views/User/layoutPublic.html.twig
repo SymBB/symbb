@@ -2,15 +2,11 @@
 
 {% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
 
-{% block symbb_slider %}
-{% endblock %} 
 
 {% block symbb_body_container %}
     
-    <div class="default-content">
-        {% block symbb_body %}
+    {% block symbb_body %}
 
-        {% endblock %}
-    </div>
+    {% endblock %}
 
 {% endblock %}

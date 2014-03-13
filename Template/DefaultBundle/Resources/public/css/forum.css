@@ -77,8 +77,8 @@
 
 .symbb_category .labels {
     float: left;
-    margin-left: 20px;
-    font-size: 0.8em;
+    margin-top: 5px;
+    font-size: 11px;
 }
 
 .symbb_category.post {

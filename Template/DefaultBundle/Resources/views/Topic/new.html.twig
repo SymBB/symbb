@@ -12,9 +12,6 @@
 {% block javascripts %} 
     {{ parent() }}
     {{ executeSymbbTemplateTopicEvent('javascripts', topic) }}
-{% endblock %}
-
-{% block symbb_actions %}
     {% if saved %}
 
     <script type="text/javascript">
@@ -26,7 +23,7 @@
 
     {% endif %}
 {% endblock %}
-
+    
 {% block symbb_body %}
 
 {% if not saved %}
