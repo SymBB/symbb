@@ -17,10 +17,6 @@
     height: auto;
 }
 
-.symbb_category_block:hover {
-    background-color: #EEE;
-}
-
 .symbb_category_block .image {
     width: 150px;
     height: 100%;
