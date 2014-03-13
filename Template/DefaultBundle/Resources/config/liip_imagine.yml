@@ -1,8 +1,7 @@
 liip_imagine:
     filter_sets:
-        symbb_forum_bg:
+        symbb_forum_image:
             quality: 100
             filters:
                 strip: ~
-                relative_resize: { heighten: 218  }  
-                symbb_opacity: { opacity: 80 } 
+                thumbnail: { size: [150, 150], mode: outbound, allow_upscale: true }
