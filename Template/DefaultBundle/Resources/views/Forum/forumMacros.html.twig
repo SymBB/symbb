@@ -20,7 +20,7 @@
                         <span class="label label-{{label.type}}">{{label.title}}</span>
                     {% endfor %}
                 </div>
-                <div class="infos">
+                <div class="infos" title="{{object.getDescription()}}">
                     <div class="title">{{object.getName()}}</div>
                     <div class="badges">
                         <span title="{% trans %}Topics{% endtrans %}" class="badge">{{object.getTopicCount()}}</span> &nbsp;
@@ -31,14 +31,17 @@
             <div class="text">
                 <div class="infos">
                     <div class="lastpost">
-                        {% if object.getLastPost() %}
-                            <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
-                                <div class="name">{{ "Re:"|trans() }} {{object.getLastPost().getName()}}</div>
-                                <div class="user creator">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                        {% for post in getSymbbForumManager().findPosts(object, 4) %}
+                            <a class="block" href="{{ path('symbb_forum_topic_show', {'id': post.getTopic().getId(), 'name': post.getTopic().getSeoName()}) }}?page=last#{{post.getSeoName()}}-{{post.getId()}}">
+                                <div class="avatar_mini avatar">
+                                    <img src="{{getSymbbUserAvatar(post.getAuthor())}}" />
+                                </div>
+                                <div class="title">{{post.getName()}}</div>
+                                <div class="user">{% trans with {'%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}on %date% at %time%{% endtrans %}</div>
+                                <div class="clear"></div>
                             </a>
-                        {% endif %}
+                        {% endfor %}
                     </div>
-                    <div class="description">{{object.getDescription()}}</div>
                 </div>
             </div>
         </div>
@@ -100,7 +103,7 @@
         {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
     {% endif %}
 
-    <div class="symbb_category_block">
+    <div class="symbb_category_block {{css}}">
         <div class="image avatar" style="background-image: url({{categoryBackground}})">
             <div class="infos">
                 <div class="title">{{object.getName()}}</div>

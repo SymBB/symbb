@@ -59,7 +59,7 @@ class ManagerExtension extends \Twig_Extension
      */
     public function getForumManager()
     {
-        return $this->postManager;
+        return $this->forumManager;
 
     }
 

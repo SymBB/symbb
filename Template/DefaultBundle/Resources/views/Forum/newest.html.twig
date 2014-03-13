@@ -14,11 +14,26 @@
 
 {% block symbb_body %}
 
-    {% for post in posts %}
+    <div>
+            
+        <div class="anker-group">
+            <div class="anker"></div>
+        </div>
+        <div class="symbb_action_row">
+            <div class="title">{{"newsest Posts"|trans()}}</a></div>
+            <div class="arrow"></div>
+            <div class="clear"></div>
+        </div>
 
-        {{ symbBBForumMacro.createPostCardFull(post) }}
+        {% for post in posts %}
+
+        {{ symbBBForumMacro.createPostCardFull(post, " col-lg-3 col-md-6 col-sm-12") }}
 
     {% endfor %}
+        <div class="clear spacer-bottom"></div>
+    </div>
+    
+    
     
 {% endblock %}
 

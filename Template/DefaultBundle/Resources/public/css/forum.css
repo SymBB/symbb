@@ -1,194 +1,3 @@
-.symbb_category {
-    float: left;
-    position: relative;
-    color: #000;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    overflow: hidden;
-    padding: 0 !important;
-    font-size: 100%;
-    border-radius: 5px;
-}
-
-.symbb_category * {
-    font-size: 1em;
-}
-
-.symbb_category .header {
-    background-color: #97CE68;
-    display: block;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    height: 70px;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.symbb_category:nth-child(odd) .header {
-    background-color: #428BCA;
-}
-
-.symbb_category .header .text{
-    padding-right: 10px;
-    
-}
-
-.symbb_category .header .image{
-    background-color: #FFF;
-    height: 60px;
-    width: 0px;
-    border-radius: 60px;
-    float: left;
-    margin: 5px;
-    margin-left: 25px;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: relative;
-}
-
-.symbb_category .header .image.exist {
-    width: 60px;
-}
-
-.symbb_category .header .image .badge {
-    position: absolute;
-    bottom: auto;
-    top:0;
-    left: -22px;
-    color: #000;
-    background-color: #FFF;
-}
-
-.symbb_category .header .image .badge:last-child {
-    left: -22px;
-    bottom: 0;
-    top: autO;
-}
-
-.symbb_category .border {
-    border: 1px solid #999;
-    background-size: auto;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    margin: 5px;
-    background-color: #fff;
-}
-
-.symbb_category .border:nth-child(odd) {
-    background-color: #FAFAFA;
-}
-
-.symbb_category .labels {
-    margin-top: 5px;
-    font-size: 11px;
-    margin-left: 20px;
-}
-
-.symbb_category.post {
-    margin-right: 0;
-    width: 100%;
-}
-
-.symbb_category.post .border {
-    min-height: 100px;
-}
-
-.symbb_category a,
-.symbb_category a:link,
-.symbb_category a:visited,
-.symbb_category a:active {
-    color: #000;
-    text-decoration: none;
-}
-
-.symbb_category .title {
-    font-weight: bold;
-    padding-top: 10px;
-    margin-left: 20px;
-    text-align: left;
-    color: #fff;
-    padding-bottom: 0px;
-}
-
-.symbb_category .description {
-    padding-left: 0px;
-    padding-right: 10px;
-    margin-left: 20px;
-    color: #fff;
-    padding-top: 0;
-    height: 20px;
-    overflow: hidden;
-}
-
-.symbb_category.post .description,
-.symbb_category.postfull .description{
-    height: auto;
-    padding-bottom: 5px;
-}
-
-.symbb_category .show_subforums .subforum_list {
-    max-height: 1.8em;
-    min-height: 1.8em;
-    overflow: hidden;
-}
-
-.symbb_category .user.creator {
-    color: #FFF;
-    padding-top: 0;
-    font-size: 85%;
-    padding-left: 0px;
-    margin-left: 20px;
-}
-
-.symbb_category .lastpost .user.creator {
-    padding-left: 0px;
-    color: #000;
-    margin-left: 0px;
-}
-
-
-.symbb_category .description blockquote {
-    margin-bottom: 0;
-    max-height: 44px;
-    height: 44px;
-}
-
-.symbb_category.postfull .description blockquote {
-    margin-bottom: 0;
-    color: #000;
-}
-
-.symbb_category .subheader {
-    clear: both;
-    color: #808080;
-    font-size: 11px;
-    margin-top: 5px;
-    border-bottom: 1px solid #EEE;
-    margin-bottom: 5px;
-}
-
-.symbb_category .infos {
-    padding: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    height: 75px;
-}
-
-.symbb_category .infos.topic {
-    height: 55px;
-}
-
-
-
-.symbb_category .infos .more-infos {
-}
-
-.symbb_category small, .symbb_category .small {
-    font-size: 85%;
-}
-
 .symbb_topic .symbb_action_row {
     border-bottom: 0px solid #FFF;
 }
@@ -268,6 +77,8 @@
     position: absolute;
     left: 150px;
     top: 0px;
+    width: 100%;
+    padding-right: 150px;
 }
 
 
@@ -290,9 +101,36 @@
 
 .symbb_category_block .text .infos .lastpost {
     color: #000;
-    padding: 5px;
 }
 
 .symbb_category_block .text .infos .lastpost a{
     color: #000;
+}
+
+.symbb_category_block .text .infos .lastpost .block {
+    font-size: 11px;
+    height: 38px;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid #EEE;
+}
+
+.symbb_category_block .text .infos .lastpost .block:hover {
+    background-color: #97CE68;
+}
+
+.symbb_category_block_container:nth-child(odd) .symbb_category_block .text .infos .lastpost .block:hover {
+    background-color: #428BCA;
+}
+
+.symbb_category_block .text .infos .lastpost .block .title {
+    padding-top: 5px;
+    padding-left: 35px;
+}
+
+.symbb_category_block .text .infos .lastpost .block .user {
+    padding-left: 35px;
+}
+.symbb_category_block .text .infos .lastpost .block .avatar {
+    padding-top: 2px;
 }

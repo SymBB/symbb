@@ -96,10 +96,43 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
 
         return $pagination;
     }
+    
+    
+    public function findPosts(Forum $parent = null, $limit = null, $pageNumber = 1)
+    {
+        if ($limit === null) {
+            $limit = $this->configManager->get('newpost.max', "forum");
+        }
+
+        $childIds = array();
+
+        if ($parent) {
+            $childIds = $this->getChildIds($parent);
+        }
+
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select("p");
+        if (!empty($childIds)) {
+            $qb->join('p.topic', 't');
+            $qb->where("t.forum IN ( :forums )");
+        }
+        $qb->orderBy("p.created", "DESC");
+        $query = $qb->getQuery();
+        if (!empty($childIds)) {
+            $query->setParameter('forums', $childIds);
+        }
+        $paginator = $this->paginator;
+        $pagination = $paginator->paginate(
+            $query, $pageNumber/* page number */, $limit/* limit per page */
+        );
+
+        return $pagination;
+    }
 
     public function getChildIds(Forum $parent, $childIds = array())
     {
         $childs = $parent->getChildren();
+        $childIds[] = $parent->getId();
         foreach ($childs as $child) {
             $childIds[] = $child->getId();
             $childIds = $this->getChildIds($child, $childIds);
