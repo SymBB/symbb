@@ -59,7 +59,7 @@
                 {{ symbBBForumMacro.createCard(subobject) }}
 
             {% endfor %}
-            <div class="clear spacer-bottom"></div>
+            <div class="clear"></div>
         </div>
 
     {% endfor %}
@@ -91,7 +91,7 @@
         <div class="clear"></div>
     </div>
     {% if count > 0 %}
-    <div class="clear spacer-bottom"></div>
+    <div class="clear"></div>
     {% endif %}
  
     {% if forum and forum.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', forum) %}

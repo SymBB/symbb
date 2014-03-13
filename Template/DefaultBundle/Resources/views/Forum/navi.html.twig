@@ -2,14 +2,6 @@
 
 <nav class="navbar" role="navigation">
     <ul>
-        
-        {% if app.user.getSymbbType() == 'user' %}
-            <li class="avatar_link">
-                <div class="avatar avatar_mini">
-                    <img src="{{getSymbbUserAvatar(app.user)}}" />
-                </div>
-            </li>
-        {% endif %}
         <li>
             <a href="{{ path('symbb_forum_index') }}">
                 <span class="glyphicon glyphicon-th-list"></span>

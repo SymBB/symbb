@@ -1,4 +1,10 @@
+
 <ol class="breadcrumb">
+    <li>
+        <div class="avatar avatar_mini">
+            <img src="{{getSymbbUserAvatar(app.user)}}" />
+        </div>
+    </li>
     {% for item in breadcrumb %}
         {% spaceless %}
         {% if loop.first %}

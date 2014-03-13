@@ -7,9 +7,10 @@
     margin-bottom: 10px;
     position: relative;
     overflow: hidden;
-    border: 1px solid #EEE;
+    border: 1px solid #CCC;
     background-color: #FFF;
     cursor: pointer;
+    box-shadow: 5px 5px 5px #CCC;
 }
 
 .symbb_category_block.post {
