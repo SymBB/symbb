@@ -15,10 +15,12 @@
     <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
             <a class="header" href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
+                {% if categoryBackground %}
                 <div class="image" style="background-image: url({{ categoryBackground }})">
                      <span title="{% trans %}Topics{% endtrans %}" class="badge">{{object.getTopicCount()}}</span> &nbsp;
                      <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
                 </div>
+                {% endif %}
                 <div class="text">
                     <div class="title">{{object.getName()}}</div>
                     <div class="description">{{object.getDescription()}}</div>

@@ -1,7 +1,7 @@
 .symbb_navi {
     width: 30px;
     position: fixed;
-    top: 19px;
+    top: 29px;
     left: -5px;
     z-index: 999;
 }
@@ -33,6 +33,7 @@
     border-bottom: 1px solid #999;
     margin-bottom: 25px;
     width: 58px;
+    margin-top: 10px;
 }
 
 .symbb_navi li.avatar_link .avatar {

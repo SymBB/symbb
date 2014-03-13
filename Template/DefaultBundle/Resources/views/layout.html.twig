@@ -122,50 +122,14 @@
                         {{ getSymbbBreadcrumb() }}
                     {% endblock %}
 
-                    {% block symbb_slider %}
-                    <div class="slider">
-
-                        <div id="carousel-slider-generic" class="carousel slide" data-ride="carousel">
-
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators">
-                                <li data-target="#carousel-slider-generic" data-slide-to="0" class="active"></li>
-                                <li data-target="#carousel-slider-generic" data-slide-to="1"></li>
-                                <li data-target="#carousel-slider-generic" data-slide-to="2"></li>
-                            </ol>
-
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner">
-                                <div class="item active" style="background-image: url('/bundles/symbbtemplatedefault/images/test_slider_1.jpg'); background-size: 100% 100%;">
-
-                                </div>
-                                <div class="item">
-                                    {{ render(controller('SymBBExtensionCalendarBundle:Display:default', {})) }}
-                                </div>
-                                <div class="item">
-
-                                </div>
-                            </div>
-
-                            <!-- Controls -->
-                            <a class="left carousel-control" href="#carousel-slider-generic" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-slider-generic" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
-
-                        </div>
-
-                    </div>
-                    {% endblock %}
-
                     <div class="clear"></div>
 
-                    <div class="symbb_actions">
-
+                    <div class="symbb_flash_messages"> 
                         {% if app.getUser.getSymbbType() == 'guest' %}
-                            <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                {% trans %}You are not currently logged.{% endtrans %}
+                            </div>
                         {% endif %}
 
                         {% for flashMessage in app.session.flashbag.get('success') %}
@@ -179,6 +143,10 @@
                                 {{ flashMessage }}
                             </div>
                         {% endfor %}
+                    </div>
+                    
+                    <div class="symbb_actions">
+
 
                         {% block symbb_actions %}
 

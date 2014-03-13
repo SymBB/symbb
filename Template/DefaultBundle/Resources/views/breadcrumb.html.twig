@@ -3,16 +3,11 @@
         {% spaceless %}
         {% if loop.first %}
             <li class="first"><a href="{{item.link}}">{{item.name}}</a></li>
-            <li class="arrow"></li>
         {% elseif loop.last %}
-            <li class="active"><a href="{{item.link}}">{{item.name}}</a></li>
+                <li class="active"><a href="{{item.link}}">&rsaquo;&nbsp;&nbsp;{{item.name}}</a></li>
         {% else %}
             <li>
-                <a href="{{item.link}}">{{item.name}}</a>
-            </li>
-            <li class="arrow_box_li">
-                <span></span>
-                <div class="arrow_box"></div>
+                <a href="{{item.link}}">&rsaquo;&nbsp;&nbsp;{{item.name}}</a>
             </li>
         {% endif %}
         {% endspaceless %}

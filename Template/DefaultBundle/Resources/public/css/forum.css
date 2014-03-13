@@ -22,6 +22,7 @@
     border-radius: 5px 5px 0 0;
     position: relative;
     overflow: hidden;
+    height: 70px;
 }
 
 .symbb_category:nth-child(odd) .header {
@@ -30,8 +31,6 @@
 
 .symbb_category .header .text{
     padding-right: 10px;
-    overflow: hidden;
-    height: 65px;
 }
 
 .symbb_category .header .image{
@@ -42,7 +41,6 @@
     float: left;
     margin: 5px;
     margin-left: 25px;
-    margin-right: 20px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
     position: relative;
@@ -78,9 +76,8 @@
 }
 
 .symbb_category .labels {
-    position: absolute;
-    bottom: 10px;
-    left: 105px;
+    float: left;
+    margin-left: 20px;
     font-size: 0.8em;
 }
 
@@ -104,6 +101,7 @@
 .symbb_category .title {
     font-weight: bold;
     padding-top: 10px;
+    margin-left: 20px;
     text-align: left;
     color: #fff;
     padding-bottom: 0px;
@@ -112,6 +110,7 @@
 .symbb_category .description {
     padding-left: 0px;
     padding-right: 10px;
+    margin-left: 20px;
     color: #fff;
     padding-top: 0;
     height: 20px;
@@ -135,11 +134,13 @@
     padding-top: 0;
     font-size: 85%;
     padding-left: 0px;
+    margin-left: 20px;
 }
 
 .symbb_category .lastpost .user.creator {
     padding-left: 0px;
     color: #000;
+    margin-left: 0px;
 }
 
 

@@ -85,10 +85,6 @@
     <div class="clear"></div>
     {% endif %}
     
-    <div class="symbb_topic_bradcrumb bottom">
-        {{ getSymbbBreadcrumb(topic) }}
-    </div>
-    
     {% if not topic.isLocked() %}
     
         {% if hasSymbbAccess('SYMBB_FORUM#CREATE_POST', topic.getForum()) %}
