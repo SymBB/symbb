@@ -34,11 +34,11 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'doctrine:schema:update --force --em=symbb --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'doctrine:schema:update --force --em=symbb --env=dev', $options['process-timeout']);
         
-        static::executeCommand($event, $appDir, 'init:acl --em=symbb --env=prod', $options['process-timeout']);
-        static::executeCommand($event, $appDir, 'init:acl --em=symbb --env=dev', $options['process-timeout']);
+        static::executeCommand($event, $appDir, 'init:acl --env=prod', $options['process-timeout']);
+        static::executeCommand($event, $appDir, 'init:acl --env=dev', $options['process-timeout']);
         
-        static::executeCommand($event, $appDir, 'doctrine:fixtures:load --env=prod', $options['process-timeout']);
-        static::executeCommand($event, $appDir, 'doctrine:fixtures:load --env=dev', $options['process-timeout']);
+        static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=prod', $options['process-timeout']);
+        static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=dev', $options['process-timeout']);
         
         static::executeCommand($event, $appDir, 'cache:clear --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'cache:clear --env=dev', $options['process-timeout']);
