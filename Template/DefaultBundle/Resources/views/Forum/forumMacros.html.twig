@@ -12,55 +12,36 @@
         {% set categoryBackground = categoryBackground %}
     {% endif %}
 
-    <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
-        <div class="border">
-            <a class="header" href="{{ path('symbb_forum_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
-                {% if categoryBackground %}
-                <div class="image" style="background-image: url({{ categoryBackground }})">
-                     <span title="{% trans %}Topics{% endtrans %}" class="badge">{{object.getTopicCount()}}</span> &nbsp;
-                     <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
-                </div>
-                {% endif %}
-                <div class="text">
-                    <div class="title">{{object.getName()}}</div>
-                    <div class="description">{{object.getDescription()}}</div>
-                </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="symbb_category_block">
+            <div class="image" {% if categoryBackground %}  style="background-image: url({{ categoryBackground }})"{% endif %}>
                 <div class="labels">
                     {% for label in checkSymbbForumLabels(object) %}
                         <span class="label label-{{label.type}}">{{label.title}}</span>
                     {% endfor %}
                 </div>
-            </a>
-            <div class="infos">
-                <div class="lastpost">
-                    <div class="subheader">{% trans %}Last post{% endtrans %}</div>
-                    {% if object.getLastPost() %}
-                        <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
-                            <div class="name">{{object.getLastPost().getName()}}</div>
-                            <div class="user creator">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
-                        </a>
-                    {% else %}
-                        {% trans %}no Topics{% endtrans %}
-                    {% endif %}
-                </div>
-                    <!--
-                {% if object.hasShowSubForumList() %}
-                <div class="show_subforums">
-                    <div class="subheader">{% trans %}subforums{% endtrans %}</div>
-                    <div class="subforum_list">
-                        <small>
-                        {% for child in object.getChildren() %}
-                        <a href="{{ path('symbb_forum_show', {'id': child.getId(), 'name': child.getSeoName()}) }}#first_header">
-                            {{child.getName()}}, 
-                        </a>
-                        {% else %}
-                            {% trans %}no subforums{% endtrans %}
-                        {% endfor %}  
-                        </small>
+                <div class="infos">
+                    <div class="title">{{object.getName()}}</div>
+                    <div class="badges">
+                        <span title="{% trans %}Topics{% endtrans %}" class="badge">{{object.getTopicCount()}}</span> &nbsp;
+                        <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
                     </div>
                 </div>
-                {% endif %}
-                    -->
+            </div>
+            <div class="text">
+                <div class="infos">
+                    <div class="lastpost">
+                        {% if object.getLastPost() %}
+                            <a href="{{ path('symbb_forum_topic_show', {'id': object.getLastPost().getTopic().getId(), 'name': object.getLastPost().getTopic().getSeoName()}) }}?page=last#{{object.getLastPost().getSeoName()}}-{{object.getLastPost().getId()}}">
+                                <div class="name">{{ "Re:"|trans() }} {{object.getLastPost().getName()}}</div>
+                                <div class="user creator">{% trans with {'%user%': object.getLastPost().getAuthor().getUsername(), '%date%': object.getLastPost().getChanged()|format_date, '%time%': object.getLastPost().getChanged()|date('H:i')} %}by %user% on %date% at %time%{% endtrans %}</div>
+                            </a>
+                        {% else %}
+                            {% trans %}no Topics{% endtrans %}
+                        {% endif %}
+                    </div>
+                    <div class="description">{{object.getDescription()}}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -72,8 +53,8 @@
 
     <div class="symbb_category col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="border">
-            <a class="header" href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
-                <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})">
+            <a class="header" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})" href="{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header">
+                <div class="image">
                     <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getPostCount()}}</span>
                 </div>
                 <div class="text">
@@ -110,8 +91,8 @@
 
     <div class="symbb_category postfull {{ css }} col-lg-3 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="border">
-            <a class="header" href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
-                <div class="image" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})"></div>
+            <a class="header" style="background-image: url({{getSymbbUserAvatar(object.getAuthor())}})" href="{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName()}) }}?page=last#{{object.getSeoName()}}-{{object.getId()}}">
+                <div class="image"></div>
                 <div class="text">
                     <div class="title">{{object.getName()}}</div>
                     <div class="user creator">
