@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -82,7 +82,6 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $qb->where("t.forum IN ( :forums )");
         }
         $qb->orderBy("p.created", "DESC");
-        $qb->addGroupBy("t.id");
         $query = $qb->getQuery();
         $query->setParameter('flag', "new");
         $query->setParameter('user', $this->getUser()->getId());

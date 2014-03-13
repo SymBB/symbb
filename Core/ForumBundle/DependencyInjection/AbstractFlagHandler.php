@@ -35,6 +35,8 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
 
     protected $memcache;
 
+    protected $enviroment = 'prod';
+
     const LIFETIME = 86400; // 1day
 
     public function __construct($em, UserManager $userManager, AccessManager $accessManager, $securityContext, $memcache)
@@ -44,7 +46,11 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         $this->accessManager = $accessManager;
         $this->securityContext = $securityContext;
         $this->memcache = $memcache;
+    }
 
+    public function setEnviroment($env)
+    {
+        $this->enviroment = $env;
     }
 
     public abstract function findOne($flag, $object, \SymBB\Core\UserBundle\Entity\UserInterface $user);
@@ -54,7 +60,6 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
     public abstract function createNewFlag($object, \SymBB\Core\UserBundle\Entity\UserInterface $user, $flag);
 
     protected abstract function getMemcacheKey($flag, $object);
-
 
     public function removeFlag($object, $flag, UserInterface $user = null)
     {
@@ -72,7 +77,6 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
                 $this->removeFromMemchache($flag, $object, $user);
             }
         }
-
     }
 
     public function insertFlags($object, $flag = 'new')
@@ -95,7 +99,6 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
 
             $this->em->flush();
         }
-
     }
 
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)
@@ -110,6 +113,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
 
             $users = $this->getUsersForFlag($flag, $object);
             $userId = $user->getId();
+
             if (!isset($users[$userId])) {
 
                 // save into database
@@ -118,7 +122,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
 
                 // save into memcache
                 $users[$userId] = $flagObject->getCreated()->getTimestamp();
-                $key = $this->getMemcacheKey($flag, $object);
+                $key = $this->_getMemcacheKey($flag, $object);
                 $this->memcache->set($key, $users, self::LIFETIME);
             }
         }
@@ -126,7 +130,6 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         if ($flushEm) {
             $this->em->flush();
         }
-
     }
 
     public function checkFlag($object, $flag, UserInterface $user = null)
@@ -154,16 +157,22 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         }
 
         return $check;
+    }
 
+    protected function _getMemcacheKey($flag, $object)
+    {
+        $key = $this->getMemcacheKey($flag, $object);
+        $key = $key . "_" . $this->enviroment;
+        
+        return $key;
     }
 
     protected function fillMemcache($flag, $object)
     {
 
         $finalFlags = $this->prepareForMemcache($flag, $object);
-        $key = $this->getMemcacheKey($flag, $object);
+        $key = $this->_getMemcacheKey($flag, $object);
         $this->memcache->set($key, $finalFlags, self::LIFETIME);
-
     }
 
     protected function prepareForMemcache($flag, $object)
@@ -176,12 +185,11 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
             $finalFlags[$userId] = $userId;
         }
         return $finalFlags;
-
     }
 
     protected function removeFromMemchache($flag, $object, UserInterface $user)
     {
-        $key = $this->getMemcacheKey($flag, $object);
+        $key = $this->_getMemcacheKey($flag, $object);
         $users = $this->getUsersForFlag($flag, $object);
         if (!$user) {
             $user = $this->getUser();
@@ -189,21 +197,19 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         $userId = $user->getId();
         if (isset($users[$userId])) {
             unset($users[$userId]);
-            $key = $this->getMemcacheKey($flag, $object);
+            $key = $this->_getMemcacheKey($flag, $object);
             $this->memcache->set($key, $users, self::LIFETIME);
         }
-
     }
 
     public function getUsersForFlag($flag, $object)
     {
-        $key = $this->getMemcacheKey($flag, $object);
+        $key = $this->_getMemcacheKey($flag, $object);
         $users = $this->memcache->get($key);
         if ($users === false) {
             $this->fillMemcache($flag, $object);
             $users = (array) $this->memcache->get($key);
         }
         return $users;
-
     }
 }

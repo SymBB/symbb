@@ -12,6 +12,10 @@
     cursor: pointer;
 }
 
+.symbb_category_block.post {
+    height: auto;
+}
+
 .symbb_category_block:hover {
     background-color: #EEE;
 }
@@ -42,12 +46,17 @@
 
 
 
-.symbb_category_block .image  .labels {
+.symbb_category_block .image .labels {
     position: absolute;
     top: 5px;
     right: 5px;
-    text-align: center;
+    text-align: right;
+    opacity: 0.6;
     
+}
+
+.symbb_category_block .image:hover .labels {
+    opacity: 1;
 }
 
 .symbb_category_block .image .infos {
@@ -61,6 +70,11 @@
     opacity: 0.6;
 }
 
+.symbb_category_block.post .image .infos {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
 
 .symbb_category_block .image  .infos .badges {
 
@@ -81,22 +95,50 @@
     padding-right: 150px;
 }
 
-
-
-.symbb_category_block .text .infos {
-    position: relative;
+.symbb_category_block.post .text {
     width: 100%;
-    height: 100%;
+    padding-right: 0px;
+    left: 0px;
+    height: auto;
+    position: relative;
 }
 
+.symbb_category_block.post .text {
+    width: 100%;
+    padding-right: 0px;
+    left: 0px;
+}
+
+/**
+.symbb_category_block .text:hover {
+    background-color: #97CE68;
+}
+
+.symbb_category_block_container:nth-child(odd) .symbb_category_block .text:hover {
+    background-color: #428BCA;
+}
+*/
+.symbb_category_block .text .infos .lastpost .block:hover {
+    background-color: #97CE68;
+}
+
+.symbb_category_block_container:nth-child(odd) .symbb_category_block .text .infos .lastpost .block:hover {
+    background-color: #428BCA;
+}
+
+
+.symbb_category_block.post .text .lastpost {
+    padding: 5px;
+}
+
+
 .symbb_category_block .text .infos .description {
-    height: 60px;
     overflow: hidden;
-    border-top: 1px solid #EEE;
     padding: 5px;
     position: absolute;
     bottom: 0px;
     width: 100%;
+    padding-right: 150px;
 }
 
 .symbb_category_block .text .infos .lastpost {
@@ -109,18 +151,11 @@
 
 .symbb_category_block .text .infos .lastpost .block {
     font-size: 11px;
-    height: 38px;
+    height: 36px;
     overflow: hidden;
     display: block;
-    border-bottom: 1px solid #EEE;
-}
-
-.symbb_category_block .text .infos .lastpost .block:hover {
-    background-color: #97CE68;
-}
-
-.symbb_category_block_container:nth-child(odd) .symbb_category_block .text .infos .lastpost .block:hover {
-    background-color: #428BCA;
+    text-decoration: none;
+    margin-bottom: 1px;
 }
 
 .symbb_category_block .text .infos .lastpost .block .title {
@@ -133,4 +168,9 @@
 }
 .symbb_category_block .text .infos .lastpost .block .avatar {
     padding-top: 2px;
+}
+
+
+.symbb_category_block.post blockquote {
+    margin-bottom: 0px;
 }

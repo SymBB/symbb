@@ -12,8 +12,8 @@
     <div class="clear"></div>
 </div>
 
-{% for post in getNewestPost(null) %}
+{% for post in getSymbbForumManager().findNewestPosts() %}
 
-    {{ symbBBForumMacro.createPostCardFull(post, 'post') }}
+    {{ symbBBForumMacro.createPostCard(post) }}
 
 {% endfor %}
