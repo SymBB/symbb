@@ -205,14 +205,17 @@
     width: 50%;
     height: 100%;
     float: left;
-    background-color: #FFF;
+    background-color: #97CE68;
     position: relative;
+}
+.symbb_category_block_container:nth-child(odd) .image {
+    background-color: #428BCA;
 }
 
 
 .symbb_category_block .image  .labels {
     position: absolute;
-    top: 0;
+    top: 5px;
     right: 5px;
     text-align: center;
     
@@ -222,10 +225,11 @@
     position: absolute;
     bottom: 0;
     color: #000;
-    background-color: #FFF;
+    background-color: #fff;
     height: 60px;
     text-align: center;
     width: 100%;
+    opacity: 0.6;
 }
 
 
@@ -237,25 +241,22 @@
 .symbb_category_block .image .infos .title {
     margin-top: 10px;
     font-weight: bold;
-    border-bottom: 1px solid #EEE;
 }
 
 .symbb_category_block .text {
     width: 50%;
     height: 100%;
     float: right;    
-    background-color: #97CE68;
     position: relative;
 }
 
-.symbb_category_block .text:nth-child(odd) {
-    background-color: #428BCA;
-}
+
 
 .symbb_category_block .text .infos {
-    position: absolute;
-    bottom: 0;
+    position: relative;
     width: 100%;
+    height: 100%;
+    background-color: #fff;
 }
 
 .symbb_category_block .text .infos .description {
@@ -263,6 +264,9 @@
     overflow: hidden;
     border-top: 1px solid #EEE;
     padding: 5px;
+    background-color: #FFF;
+    position: absolute;
+    bottom: 0px;
 }
 
 .symbb_category_block .text .infos .lastpost {
