@@ -2,12 +2,13 @@
 
 {% extends getSymbbTemplate('forum') ~ ':User:layoutPublic.html.twig' %}
 
+
+
+{% block symbb_breadcrumb %}
+    {{ getSymbbBreadcrumb(user) }}
+{% endblock %}
+
 {% block symbb_body %}
-
-{% block symbb_slider %}
-
-
-{% endblock %} 
 
     <div class="symbb_action_row">
         <div class="title">{{ user.getUsername() }}</div>

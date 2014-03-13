@@ -39,7 +39,7 @@ class ParseListener
             foreach ($matches[1] as $username) {
                 $userFound = $this->userManager->findByUsername($username);
                 if (\is_object($userFound)) {
-                    $uri = $this->router->generate('symbb_user_profile', array('userId' => $userFound->getId()));
+                    $uri = $this->router->generate('symbb_user_profile', array('userId' => $userFound->getId(), 'username' => $userFound->getUsername()));
                     $text = \str_replace("@" . $username, "<a href='".$uri."'>@" . $userFound->getUsername() . "</a>", $text);
                 }
             }

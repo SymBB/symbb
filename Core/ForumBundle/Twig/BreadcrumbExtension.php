@@ -52,6 +52,10 @@ class BreadcrumbExtension extends \Twig_Extension
             $breadcrumb = $this->createForForum($object, $breadcrumb);
         } else if ($object instanceof \SymBB\Core\ForumBundle\Entity\Topic) {
             $breadcrumb = $this->createForTopic($object, $breadcrumb);
+        } else if ($object instanceof \SymBB\Core\UserBundle\Entity\UserInterface) {
+            $breadcrumb = $this->createForUser($object, $breadcrumb);
+        } else if ($object instanceof \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination && isset($object[0]) && $object[0] instanceof \SymBB\Core\UserBundle\Entity\UserInterface) {
+            $breadcrumb = $this->createForUser(null, $breadcrumb);
         }
 
         $home = $this->translator->trans('Home', array(), 'symbb_frontend');
@@ -64,6 +68,21 @@ class BreadcrumbExtension extends \Twig_Extension
         );
 
         return $html;
+    }
+
+    protected function createForUser(\SymBB\Core\UserBundle\Entity\UserInterface $object = null, $breadcrumb)
+    {
+
+        if ($object) {
+            $uri = $this->router->generate('symbb_user_profile', array('userId' => $object->getId(), 'username' => $object->getUsername()));
+            $breadcrumb[] = array('name' => $object->getUsername(), 'link' => $uri);
+        }
+
+        $uri = $this->router->generate('symbb_user_userlist', array());
+        $breadcrumb[] = array('name' => $this->translator->trans('Members', array(), 'symbb_frontend'), 'link' => $uri);
+
+
+        return $breadcrumb;
     }
 
     protected function createForForum(\SymBB\Core\ForumBundle\Entity\Forum $object, $breadcrumb)
