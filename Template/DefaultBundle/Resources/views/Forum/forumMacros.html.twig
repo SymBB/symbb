@@ -108,7 +108,7 @@
         {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
     {% endif %}
 
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12 {{css}}">
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12 {{css}}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName(), 'page': "last"}) }}#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="symbb_category_block">
             <div class="image avatar" style="background-image: url({{categoryBackground}})">
                 <div class="infos">
@@ -135,7 +135,7 @@
 
 
 
-{% macro createPostCard(object) %}
+{% macro createPostCard(object, css) %}
 
 
     {% set categoryBackground = getSymbbUserAvatar(object.getAuthor()) %}
@@ -144,7 +144,7 @@
         {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
     {% endif %}
 
-    <div class="symbb_category_block post">
+    <div class="symbb_category_block post {{css}}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName(), 'page': "last"}) }}#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="text">
             <div class="lastpost">
                 <div class="avatar_mini avatar">

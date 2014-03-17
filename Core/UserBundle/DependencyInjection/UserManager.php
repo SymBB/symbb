@@ -244,6 +244,40 @@ class UserManager
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
     }
+    
+    public function getLastPosts(\SymBB\Core\UserBundle\Entity\UserInterface $user = null, $limit = 20)
+    {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb->select('p');
+        $qb->where("p.author = " . $user->getId());
+        $qb->orderBy("p.created", "desc");
+        $dql    = $qb->getDql(); 
+        $query  = $this->em->createQuery($dql);
+        
+        $posts = $this->paginator->paginate(
+            $query,
+            1/*page number*/,
+            $limit/*limit per page*/
+        );
+        return $posts;
+    }
+
+    public function getTopicCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+
+        $qb = $this->em->getRepository('SymBBCoreForumBundle:Topic')->createQueryBuilder('p');
+        $qb->select('COUNT(p.id)');
+        $qb->where("p.author = " . $user->getId());
+        $count = $qb->getQuery()->getSingleScalarResult();
+        return $count;
+    }
 
     /**
      * manually login e.g for Tapatalk Extension
