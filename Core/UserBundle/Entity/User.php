@@ -12,14 +12,13 @@ namespace SymBB\Core\UserBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseUser implements UserInterface, ParticipantInterface
+class User extends BaseUser implements UserInterface
 {
 
     /**
