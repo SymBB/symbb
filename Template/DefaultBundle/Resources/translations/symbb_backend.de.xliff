@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-02-25T10:53:02Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-03-17T10:55:11Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -105,12 +105,12 @@
       </trans-unit>
       <trans-unit id="5b6825d3c67a35898b7b65fd986a7fe6ca47771d" resname="Site">
         <source>Site</source>
-        <target>Seite</target>
+        <target>Internetauftritt</target>
         <jms:reference-file line="32">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5cae88ddf5336e6a23091c01317b646467eb857e" resname="Sites">
         <source>Sites</source>
-        <target>Seiten</target>
+        <target>Internetauftritte</target>
         <jms:reference-file line="13">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c2e9c2bf417e2da9bfe11c8aae5b14d112cf8d7" resname="Step 1: Select a group">
@@ -170,7 +170,7 @@
       </trans-unit>
       <trans-unit id="a560d2a92ab23ca60ef2b07a542bb683c4adb2a6" resname="new Site">
         <source>new Site</source>
-        <target>neue Seite</target>
+        <target>neuer Internetauftritt</target>
         <jms:reference-file line="16">Acp/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13a4a11319d31c1b323d5774f44240a9ffc984d0" resname="save">
@@ -193,7 +193,7 @@
       <trans-unit id="74f29cc41603dca032d746438c067643131c682a" resname="successfully saved">
         <source>successfully saved</source>
         <target>erfolgreich gespeichert</target>
-        <jms:reference-file line="61">SystemBundle/Controller/AcpConfigController.php</jms:reference-file>
+        <jms:reference-file line="65">SystemBundle/Controller/AcpConfigController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb27327d0207bc407a6a6bb530dca360ec49a044" resname="Übersicht">
         <source>Übersicht</source>

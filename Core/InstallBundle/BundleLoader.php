@@ -23,6 +23,7 @@ class BundleLoader
             '\SymBB\Core\UserBundle\SymBBCoreUserBundle',
             '\SymBB\Core\AdminBundle\SymBBCoreAdminBundle',
             '\SymBB\Core\ForumBundle\SymBBCoreForumBundle',
+            '\SymBB\Core\SiteBundle\SymBBCoreSiteBundle',
             '\SymBB\Core\SystemBundle\SymBBCoreSystemBundle',
             '\SymBB\Core\InstallBundle\SymBBCoreInstallBundle',
             '\SymBB\Core\EventBundle\SymBBCoreEventBundle',

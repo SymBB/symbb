@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Form\Type;
+namespace SymBB\Core\SiteBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +26,7 @@ class Site extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\SystemBundle\Entity\Site',
+            'data_class' => '\SymBB\Core\SiteBundle\Entity\Site',
             'translation_domain' => 'symbb_backend'
         ));
 
@@ -35,7 +35,7 @@ class Site extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $templateEvent = new \SymBB\Core\SystemBundle\Event\TemplateChoicesEvent();
+        $templateEvent = new \SymBB\Core\SiteBundle\Event\TemplateChoicesEvent();
         $this->dispatcher->dispatch('symbb.core.site.acp.template_choices', $templateEvent);
         $templateChoices = $templateEvent->getChoices();
         $templateChoices = $templateChoices->toArray();

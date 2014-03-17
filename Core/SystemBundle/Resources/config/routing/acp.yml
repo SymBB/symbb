@@ -2,6 +2,10 @@ _symbb_acp:
     pattern:  /
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
     
+_symbbcoresitebundle_site_acp_routings:
+    resource: "@SymBBCoreSiteBundle/Resources/config/routing/acp.yml"
+    prefix: /
+    
 _symbbcoreforumbundle_forum_list:
     pattern:  /forum/list
     defaults: { _controller: SymBBCoreForumBundle:Acp:list }
@@ -75,30 +79,6 @@ _symbbcoresystembundle_extension_enable:
 _symbbcoresystembundle_maintenance:
     pattern:  /maintenance
     defaults: { _controller: SymBBCoreSystemBundle:AcpMaintenance:index }
-    
-    
-    
-
-_symbbcoresystembundle_site_list:
-    pattern:  /site/list
-    defaults: { _controller: SymBBCoreSystemBundle:AcpSite:list }
-
-_symbbcoresystembundle_site_new:
-    pattern:  /site/new
-    defaults: { _controller: SymBBCoreSystemBundle:AcpSite:new}
-    
-_symbbcoresystembundle_site_edit:
-    pattern:  /site/{id}/edit
-    defaults: { _controller: SymBBCoreSystemBundle:AcpSite:edit }
-    
-_symbbcoresystembundle_site_sort:
-    pattern:  /site/sort
-    defaults: { _controller: SymBBCoreSystemBundle:AcpSite:sort }
-    
-_symbbcoresystembundle_site_remove:
-    pattern:  /site/{id}/remove
-    defaults: { _controller: SymBBCoreSystemBundle:AcpSite:remove }
-    
     
 _symbbcoreuserbundle_user_list:
     pattern:  /user/list

@@ -1,0 +1,19 @@
+_symbbcoresitebundle_site_list:
+    pattern:  /site/list
+    defaults: { _controller: SymBBCoreSiteBundle:AcpSite:list }
+
+_symbbcoresitebundle_site_new:
+    pattern:  /site/new
+    defaults: { _controller: SymBBCoreSiteBundle:AcpSite:new}
+    
+_symbbcoresitebundle_site_edit:
+    pattern:  /site/{id}/edit
+    defaults: { _controller: SymBBCoreSiteBundle:AcpSite:edit }
+    
+_symbbcoresitebundle_site_sort:
+    pattern:  /site/sort
+    defaults: { _controller: SymBBCoreSiteBundle:AcpSite:sort }
+    
+_symbbcoresitebundle_site_remove:
+    pattern:  /site/{id}/remove
+    defaults: { _controller: SymBBCoreSiteBundle:AcpSite:remove }

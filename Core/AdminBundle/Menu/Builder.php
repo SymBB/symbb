@@ -21,7 +21,7 @@ class Builder extends ContainerAware
         $menu->setChildrenAttributes(array('class' => 'nav navbar-nav'));
         $menu->setExtra('translation_domain', 'symbb_acp_menu');
         
-        $menu->addChild('Sites', array('route' => '_symbbcoresystembundle_site_list'))->setExtra('translation_domain', 'symbb_acp_menu');
+        $menu->addChild('Sites', array('route' => '_symbbcoresitebundle_site_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         $menu->addChild('Forummanagment', array('route' => '_symbbcoreforumbundle_forum_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         $menu->addChild('Usermanagment', array('route' => '_symbbcoreuserbundle_group_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         $menu->addChild('User and Groupaccess', array('route' => '_symbbcoreuserbundle_group_access', 'routeParameters' => array('step' => 1)))->setExtra('translation_domain', 'symbb_acp_menu');

@@ -11,7 +11,7 @@ namespace SymBB\Template\DefaultBundle\EventListener;
 
 class SiteListener
 {
-    public function templateChoices(\SymBB\Core\SystemBundle\Event\TemplateChoicesEvent $event)
+    public function templateChoices(\SymBB\Core\SiteBundle\Event\TemplateChoicesEvent $event)
     {
         $event->addChoice('SymBBTemplateDefaultBundle', 'Default Template');
     }

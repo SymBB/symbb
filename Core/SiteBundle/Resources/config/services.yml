@@ -1,0 +1,4 @@
+services:        
+    symbb.core.site.manager:
+        class: SymBB\Core\SiteBundle\DependencyInjection\SiteManager
+        arguments: ["@service_container"]

@@ -25,10 +25,6 @@ services:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
         arguments: ["@doctrine.orm.symbb_entity_manager", '@event_dispatcher']
         
-    symbb.core.site.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\SiteManager
-        arguments: ["@service_container"]
-        
         
     symbb.listener.config.system:
         class: SymBB\Core\SystemBundle\EventListener\ConfigListener

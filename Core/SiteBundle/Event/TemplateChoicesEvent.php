@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Event;
+namespace SymBB\Core\SiteBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 

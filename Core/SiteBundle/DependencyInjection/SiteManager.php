@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\DependencyInjection;
+namespace SymBB\Core\SiteBundle\DependencyInjection;
 
 class SiteManager
 {
@@ -49,7 +49,7 @@ class SiteManager
             $cleanHost = $this->removeUrlPattern($host);
 
 
-            $sites = $this->em->getRepository('SymBBCoreSystemBundle:Site')->findBy(array(), array('position' => 'ASC'));
+            $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findBy(array(), array('position' => 'ASC'));
             foreach ($sites as $site) {
                 $domains = $site->getDomainArray();
                 foreach ($domains as $domain) {
@@ -64,7 +64,7 @@ class SiteManager
                 if (!empty($sites)) {
                     $this->site = reset($sites);
                 } else {
-                    $this->site = new \SymBB\Core\SystemBundle\Entity\Site();
+                    $this->site = new \SymBB\Core\SiteBundle\Entity\Site();
                 }
             }
         }

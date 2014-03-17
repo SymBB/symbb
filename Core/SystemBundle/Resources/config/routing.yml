@@ -35,15 +35,4 @@ _symbb_frontend_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/frontend.yml"
     prefix: /{_locale}/
     
-_symbb_core_user:
-    resource: "@SymBBCoreUserBundle/Resources/config/routing.yml"
-    prefix: /{_locale}/ucp
-    
-_symbb_core_forum:
-    resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"
-    prefix: /{_locale}/
-    
-_symbb_core_install:
-    resource: "@SymBBCoreInstallBundle/Resources/config/routing.yml"
-    prefix: /{_locale}/
  

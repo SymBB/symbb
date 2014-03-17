@@ -11,7 +11,7 @@ namespace SymBB\Template\TestBundle\EventListener;
 
 class SiteListener
 {
-    public function templateChoices(\SymBB\Core\SystemBundle\Event\TemplateChoicesEvent $event)
+    public function templateChoices(\SymBB\Core\SiteBundle\Event\TemplateChoicesEvent $event)
     {
         $event->addChoice('SymBBTemplateTestBundle', 'Test Template');
     }

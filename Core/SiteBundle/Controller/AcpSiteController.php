@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace SymBB\Core\SiteBundle\Controller;
 
 class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreSystemBundle';
+    protected $entityBundle = 'SymBBCoreSiteBundle';
 
     protected $entityName = 'Site';
 
-    protected $formClass = '\SymBB\Core\SystemBundle\Form\Type\Site';
+    protected $formClass = '\SymBB\Core\SiteBundle\Form\Type\Site';
 
     
 
