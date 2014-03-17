@@ -36,10 +36,10 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
     {
         $exception = $event->getException();
 
-        $code = $exception->getStatusCode();
-
         try {
 
+            $code = $exception->getStatusCode();
+            
             $file = $code;
             if ($this->env != "prod") {
                 //$file = $file . '.' . $this->env;
