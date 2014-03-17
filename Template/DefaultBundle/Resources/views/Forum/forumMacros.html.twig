@@ -108,19 +108,24 @@
         {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
     {% endif %}
 
-    <div class="symbb_category_block {{css}}">
-        <div class="image avatar" style="background-image: url({{categoryBackground}})">
-            <div class="infos">
-                <div class="title">{{object.getName()}}</div>
-                <div class="badges">
-                    {% trans with {'%date%': object.getChanged()|format_date, '%time%': object.getChanged()|date('H:i')} %}on %date% at %time%{% endtrans %}
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12 {{css}}">
+        <div class="symbb_category_block">
+            <div class="image avatar" style="background-image: url({{categoryBackground}})">
+                <div class="infos">
+                    <div class="title">{{object.getName()}}</div>
+                    <div class="badges">
+                        <span title="{% trans %}Posts{% endtrans %}" class="badge">{{object.getTopic().getPostCount()}}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="text">
-            <div class="infos">
-                <div class="lastpost">
-                    <blockquote>{{object.getText()|bbcode_clean|slice(0, 100)|raw}}</blockquote>
+            <div class="text">
+                <div class="infos">
+                    <div class="lastpost">
+                        <blockquote>{{object.getText()|bbcode_clean|slice(0, 100)|raw}}</blockquote>
+                    </div>
+                    <div class="description">
+                    {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getChanged()|format_date, '%time%': object.getChanged()|date('H:i')} %}created by %user% on %date% at %time%{% endtrans %}
+                    </div>
                 </div>
             </div>
         </div>

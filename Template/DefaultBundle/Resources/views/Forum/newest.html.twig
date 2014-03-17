@@ -20,14 +20,14 @@
             <div class="anker"></div>
         </div>
         <div class="symbb_action_row">
-            <div class="title">{{"newsest Posts"|trans()}}</a></div>
+            <div class="title">{{"newest Posts"|trans()}}</a></div>
             <div class="arrow"></div>
             <div class="clear"></div>
         </div>
 
         {% for post in posts %}
 
-        {{ symbBBForumMacro.createPostCardFull(post, " col-lg-3 col-md-6 col-sm-12") }}
+        {{ symbBBForumMacro.createPostCardFull(post) }}
 
     {% endfor %}
         <div class="clear spacer-bottom"></div>

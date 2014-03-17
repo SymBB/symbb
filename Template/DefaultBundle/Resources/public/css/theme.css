@@ -199,12 +199,8 @@ html, body {
     background-color: #FFF;
     margin-top: 0px;
     border: 1px solid #999;
-    opacity: 0.4;
 }
 
-.symbb_action_row:hover {
-    opacity: 1;
-}
 
 .anker {
     height: 0;
@@ -516,6 +512,18 @@ html, body {
 
 .symbb_flash_messages .close {
     line-height: 0.8;
+}
+
+.panel {
+    border-radius: 0px;
+}
+
+.panel-heading {
+    border-radius: 0px;
+}
+
+.list-group-item{
+    border-radius: 0px !important;
 }
 
 
