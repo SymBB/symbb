@@ -26,4 +26,19 @@ class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
         $form = $this->createForm(new $this->formClass($this->get('event_dispatcher')), $entity);
         return $form;
     }
+    
+    
+    protected function addListParams($params, $parent = null)
+    {
+        if ($parent) {
+            $params['parent'] = $parent;
+        } else {
+            $params['parent'] = 0;
+        }
+        
+        $allEntries = $this->findListEntities(null);
+        $params['allEntries'] = $allEntries;
+        
+        return $params;
+    }
 }

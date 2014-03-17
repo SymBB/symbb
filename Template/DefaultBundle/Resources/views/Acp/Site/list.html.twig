@@ -2,9 +2,28 @@
 
 {% trans_default_domain "symbb_backend" %}
 
+{% macro siteList(entities, parent) %}
+    {% for entry in entities %}
+
+            <li data-jstree='{"opened":true {% if parent and entry.getId() == parent %},"selected":true{% endif %}}'>
+                <a href="">{{ entry.getName() }}</a>
+            
+            </li>
+    {% endfor %}
+{% endmacro %}
+
 
 {% block symbb_sidebar %}
 
+<div id="jstree_demo_div">
+    <ul>
+        <li data-jstree='{"opened":true {% if not parent %},"selected":true{% endif %}}'>{{ 'Home'|trans }}
+        <ul>
+          {{ _self.siteList(allEntries, parent) }}
+        </ul>
+      </li>
+    </ul>
+</div>
 
 {% endblock %}
 
