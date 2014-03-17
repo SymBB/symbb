@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity;
+namespace SymBB\Core\UserBundle\Entity; 
 
-interface UserInterface
+interface UserInterface extends \Symfony\Component\Security\Core\User\AdvancedUserInterface
 {
 
     public function getId();
