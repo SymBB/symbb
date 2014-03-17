@@ -1,0 +1,5 @@
+liip_imagine:
+    resolvers:
+       # default options
+       web_path:
+           web_path: ~ 

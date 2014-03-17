@@ -1,6 +1,7 @@
 liip_imagine:
     filter_sets:
-        symbb_forum_image:
+        symbb_forum_image: 
+            cache: web_path
             quality: 100
             filters:
                 strip: ~
