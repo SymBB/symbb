@@ -1,5 +1,6 @@
 # SymBB Forum System
 
+""Currently in development! / Derzeit in Entwicklung""
 
 More detailed information and instructions can be found here (currently only in German):
 
