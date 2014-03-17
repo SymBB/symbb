@@ -49,3 +49,9 @@ services:
         arguments: ['@symbb.core.user.manager']
         tags:
             - { name: twig.extension } 
+            
+    symbb.core.system.exception.listener:
+        class: SymBB\Core\SystemBundle\EventListener\ExceptionListener
+        arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

@@ -1,0 +1,13 @@
+html, body {
+    padding: 0;
+    margin: 0px;
+    background-color: #FFF;
+}
+
+.errorImage {
+    border: 1px solid #CCC;
+    background-repeat: no-repeat;
+    background-position: top center;
+    margin: 0 auto;
+    display: block;
+}
