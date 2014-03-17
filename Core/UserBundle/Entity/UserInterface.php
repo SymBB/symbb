@@ -14,8 +14,6 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\AdvancedUs
 
     public function getId();
 
-    public function getUsername();
-
     public function getEmail();
 
     public function getTopics();
@@ -27,8 +25,6 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\AdvancedUs
     public function getSymbbType();
     
     public function getCreated();
-    
-    public function getPassword();
 
     /**
      * @return \SymBB\Core\UserBundle\Entity\User\Data 
