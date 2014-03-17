@@ -8,11 +8,12 @@
  */
 
 namespace SymBB\Core\UserBundle\Entity; 
+use \Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
-interface UserInterface extends \Symfony\Component\Security\Core\User\AdvancedUserInterface
+interface UserInterface extends AdvancedUserInterface
 {
-
-    public function getId();
+    // removed because php 5.3.3 has a error if 2 interfaces implement the same method ( FOS\MessageBundle\Model\ParticipantInterface )
+    //public function getId();
 
     public function getEmail();
 
