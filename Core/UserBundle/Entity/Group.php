@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="groups")
  */
-class Group extends BaseGroup implements \SymBB\Core\UserBundle\Entity\GroupInterface
+class Group extends BaseGroup
 {
 
     /**
