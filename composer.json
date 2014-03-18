@@ -51,11 +51,5 @@
     },
     "target-dir": "SymBB/",
     "scripts": {
-        "post-install-cmd": [
-            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerInstall"
-        ],
-        "post-update-cmd": [
-            "SymBB\\Core\\InstallBundle\\Composer\\ScriptHandler::composerUpdate"
-        ]
     }
 }
