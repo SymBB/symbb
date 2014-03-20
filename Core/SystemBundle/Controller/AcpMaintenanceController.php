@@ -15,8 +15,12 @@ class AcpMaintenanceController extends \SymBB\Core\SystemBundle\Controller\Abstr
     public function indexAction()
     {
 
+        $manager = $this->get('symbb.core.update.manager');
+        $data = $manager->collect();
+        var_dump($manager->getSymbbData());
+        
         return $this->render(
-            $this->getTemplateBundleName('acp') . ':Acp:System\maintenance.html.twig', array('form' => $form->createView())
+            $this->getTemplateBundleName('acp') . ':Acp:System\maintenance.html.twig', array()
         );
     }
 }

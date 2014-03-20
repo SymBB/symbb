@@ -55,3 +55,7 @@ services:
         arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    symbb.core.update.manager:
+        class: SymBB\Core\SystemBundle\DependencyInjection\UpdateManager
+        arguments: ['@kernel']
