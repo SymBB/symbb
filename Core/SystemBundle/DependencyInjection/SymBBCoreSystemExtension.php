@@ -26,12 +26,9 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
         $loader->load('doctrine.yml');
 
         $prefix = '';
-        foreach ($container->getExtensions() as $name => $extension) {
-            // web profiler is only activated in the dev env.
-            if ('web_profiler' == $name) {
-                $prefix = 'dev_';
-                break;
-            }
+        $env = $container->get('kernel')->getEnvironment();
+        if ($env == 'dev') {
+            $prefix = $env . '_';
         }
 
         foreach ($container->getExtensions() as $name => $extension) {
@@ -44,7 +41,6 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
                 $container->prependExtensionConfig($name, $config);
             }
         }
-
     }
 
     public function load(array $configs, ContainerBuilder $container)
