@@ -4,8 +4,5 @@ sym_bb_core_config:
     groupmanager:
       group_class: SymBB\Core\UserBundle\Entity\Group
     database:
-      table_prefix: 
-        prod: symbb_
-        dev:  symbb_dev_
-        test: symbb_test_
+      table_prefix: symbb_
     

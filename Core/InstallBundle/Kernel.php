@@ -12,10 +12,6 @@ namespace SymBB\Core\InstallBundle;
 abstract class Kernel extends \Symfony\Component\HttpKernel\Kernel
 {
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
-    {
-        $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
-    }
 
     /**
      * Initializes the data structures related to the bundle management.

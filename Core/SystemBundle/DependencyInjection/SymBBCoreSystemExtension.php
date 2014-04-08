@@ -25,12 +25,14 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
         $loader->load('services.yml');
         $loader->load('doctrine.yml');
 
-        $prefix = '';
-        $env = $container->get('kernel')->getEnvironment();
-        if ($env == 'dev') {
-            $prefix = $env . '_';
+        $prefix = "";
+        foreach ($container->getExtensions() as $name => $extension) {
+            if ($name == 'sym_bb_core_config') {
+                $configs = $container->getExtensionConfig($name);
+                $prefix = $configs[1]["database"]["table_prefix"];
+            }
         }
-
+        
         foreach ($container->getExtensions() as $name => $extension) {
             if ($name == 'security' && !empty($prefix)) {
                 $config['acl']['tables']['class'] = $prefix . 'acl_classes';
@@ -41,6 +43,7 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
                 $container->prependExtensionConfig($name, $config);
             }
         }
+
     }
 
     public function load(array $configs, ContainerBuilder $container)

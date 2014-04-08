@@ -16,8 +16,7 @@ class DoctrineNameListener
     public function __construct($container)
     {
         $config         = $container->getParameter('symbb_config');
-        $env            = $container->get('kernel')->getEnvironment();
-        $this->prefix   = $config['database']['table_prefix'][$env];
+        $this->prefix   = $config['database']['table_prefix'];
     }
     
     public function loadClassMetadata(\Doctrine\ORM\Event\LoadClassMetadataEventArgs $eventArgs)
