@@ -34,31 +34,13 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
 
     }
     
-    public function removeAction($id)
-    {
-        $repository = $this->getRepository();
-        $entity = $repository->findOneById($id);
-        
-        $parent = null;
-        if (is_object($entity)) {
-            
-            $roles = $entity->getRoles();
-
-            if(\in_array('ROLE_GUEST', $roles) || \in_array('ROLE_ADMIN', $roles)){
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'You you can not delete guest or administrator role'
-                );
-                return $this->listAction(null);
-            }
-        
-            $parent = $entity->getParent();
-            $em = $this->get('doctrine')->getManager('symbb');
-            $em->remove($entity);
-            $em->flush();
+    protected function checkIsObjectRemoveable($entity, $parent, &$errorMessage){
+        $roles = $entity->getRoles();
+        if(\in_array('ROLE_GUEST', $roles) || \in_array('ROLE_ADMIN', $roles) || $entity->getType() === "guest"){
+            $errorMessage= $this->get('translator')->trans('You you can not delete guest or administrator role', array(), 'symbb_backend');
+            return false;
         }
-        return $this->listAction($parent);
-
+        return true;
     }
     
     /**

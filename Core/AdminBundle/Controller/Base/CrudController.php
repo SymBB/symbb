@@ -138,11 +138,24 @@ abstract class CrudController extends Controller
             if (\method_exists($entity, "getParent")) {
                 $parent = $entity->getParent();
             }
-            $em = $this->get('doctrine')->getManager('symbb');
-            $em->remove($entity);
-            $em->flush();
+            $errorMessage = '';
+            if($this->checkIsObjectRemoveable($entity, $parent, $errorMessage)){
+                $em = $this->get('doctrine')->getManager('symbb');
+                $em->remove($entity);
+                $em->flush();
+            } else {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    $errorMessage
+                );
+                return $this->listAction(null);
+            }
         }
         return $this->listAction($parent);
+    }
+    
+    protected function checkIsObjectRemoveable($entity, $parent, &$errorMessage){
+        return true;
     }
 
     /**
