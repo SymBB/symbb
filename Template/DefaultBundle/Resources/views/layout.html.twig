@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
   <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{{getSymbbSite().getName()}}{% endblock %}</title>
     <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    
+    <meta name="description" content="{{getSymbbSite().getMetaDataDescription()}}">
+    <meta name="keywords" content="{{getSymbbSite().getMetaDataKeywords()}}">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     
@@ -28,7 +29,7 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-        
+    {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %} 
         {% javascripts 
             '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js' filter='?yui_js'

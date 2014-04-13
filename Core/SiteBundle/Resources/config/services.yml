@@ -2,3 +2,8 @@ services:
     symbb.core.site.manager:
         class: SymBB\Core\SiteBundle\DependencyInjection\SiteManager
         arguments: ["@service_container"]
+    symbb.core.site.twig.extension:
+        class: SymBB\Core\SiteBundle\Twig\Extension
+        arguments: ['@symbb.core.site.manager']
+        tags:
+            - { name: twig.extension } 

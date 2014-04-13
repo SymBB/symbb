@@ -41,7 +41,10 @@ class Site extends AbstractType
         $templateChoices = $templateChoices->toArray();
         $builder
             ->add('name')
+            ->add('metaDataDescription')
+            ->add('metaDataKeywords')
             ->add('domains', "textarea")
+            ->add('googleAnalyticsCode')
             ->add('templateAcp', "choice", array('choices' => $templateChoices))
             ->add('templateForum', "choice", array('choices' => $templateChoices))
             ->add('templatePortal', "choice", array('choices' => $templateChoices))

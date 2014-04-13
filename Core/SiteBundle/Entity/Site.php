@@ -26,17 +26,27 @@ class Site
     protected $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="text", unique=false)
+     * @ORM\Column(type="text")
+     */
+    protected $metaDataDescription;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $metaDataKeywords;
+
+    /**
+     * @ORM\Column(type="text")
      */
     protected $domains;
 
     /**
-     * @ORM\Column(type="string", unique=false)
+     * @ORM\Column(type="string")
      */
     protected $templateAcp = 'DEFAULT';
 
@@ -59,6 +69,11 @@ class Site
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $position = 999;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $googleAnalyticsCode = "";
 
     public function getId()
     {
@@ -73,6 +88,22 @@ class Site
     public function setName($name)
     {
         $this->name = $name;
+    }
+    
+    public function getMetaDataDescription(){
+        return $this->metaDataDescription;
+    }
+    
+    public function setMetaDataDescription($value){
+        $this->metaDataDescription = $value;
+    }
+    
+    public function getMetaDataKeywords(){
+        return $this->metaDataKeywords;
+    }
+    
+    public function setMetaDataKeywords($value){
+        $this->metaDataKeywords = $value;
     }
     
     public function getTemplateAcp()
@@ -118,6 +149,14 @@ class Site
     public function getDomains()
     {
         return $this->domains;
+    }
+    
+    public function getGoogleAnalyticsCode(){
+        return $this->googleAnalyticsCode;
+    }
+    
+    public function setGoogleAnalyticsCode($value){
+        $this->googleAnalyticsCode = $value;
     }
     
     public function getDomainArray()
