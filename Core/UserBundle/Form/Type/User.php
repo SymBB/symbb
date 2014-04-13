@@ -37,6 +37,7 @@ class User extends AbstractType
         $builder
             ->add('username', "text", array('required' => true))
             ->add('email', "email", array('required' => true))
+            ->add('enabled', "checkbox", array('required' => false, 'data' => true)) 
             ->add('plain_password', "repeated", array(
                 'type' => 'password',
                 'invalid_message' => 'The password fields must match.',
