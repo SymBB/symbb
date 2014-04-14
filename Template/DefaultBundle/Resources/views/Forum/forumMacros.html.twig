@@ -55,10 +55,6 @@
 
     {% set categoryBackground = getSymbbUserAvatar(object.getAuthor()) %}
 
-    {% if categoryBackground %}
-        {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
-    {% endif %}
-
     <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getId(), 'name': object.getSeoName()}) }}#first_header'">
         <div class="symbb_category_block">
             <div class="image avatar" style="background-image: url({{categoryBackground}})">
@@ -104,9 +100,6 @@
 
     {% set categoryBackground = getSymbbUserAvatar(object.getAuthor()) %}
 
-    {% if categoryBackground %}
-        {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
-    {% endif %}
 
     <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12 {{css}}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName(), 'page': "last"}) }}#{{object.getSeoName()}}-{{object.getId()}}'">
         <div class="symbb_category_block">

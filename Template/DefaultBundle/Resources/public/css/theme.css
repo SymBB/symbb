@@ -132,6 +132,7 @@ html, body {
 
 .avatar_mini img {
     height: 32px;
+    width: 32px;
     border: 1px solid #FFF;
 }
 
