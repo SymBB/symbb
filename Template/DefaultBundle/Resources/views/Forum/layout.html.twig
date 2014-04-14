@@ -15,7 +15,11 @@
 {% endblock %}
     
 {% block symbb_breadcrumb %}
-    {{ getSymbbBreadcrumb(forum) }}
+    {% if forum is defined %}
+        {{ getSymbbBreadcrumb(forum) }}
+    {% else %}
+        {{ getSymbbBreadcrumb() }}
+    {% endif %}
 {% endblock %}
     
     
