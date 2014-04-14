@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-03-17T10:51:33Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-04-14T11:56:11Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -23,7 +23,7 @@
         <source>Adminpanel</source>
         <target>Adminpanel</target>
         <jms:reference-file line="41">views/Forum/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="89">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="90">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a16a4eda7cb2c8e91d7edd25e809ae9d392c7498" resname="Answer">
         <source>Answer</source>
@@ -33,7 +33,7 @@
       <trans-unit id="386038b259a0a80b2083c642220b70f73d4a6ffc" resname="Beiträge">
         <source>Beiträge</source>
         <target>Beiträge</target>
-        <jms:reference-file line="17">views/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="23">views/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cce7f2f2f0dc525117a70d581d9c335212145e5b" resname="Bottom">
         <source>Bottom</source>
@@ -43,12 +43,12 @@
       <trans-unit id="2ced57f125910a9e8ab95deea86e4ad7be418b5a" resname="Chat">
         <source>Chat</source>
         <target>Chat</target>
-        <jms:reference-file line="74">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="75">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6631bd8bd1c705aa29a27180a80007a0cd310c83" resname="Dabei seit">
         <source>Dabei seit</source>
         <target>Dabei seit</target>
-        <jms:reference-file line="18">views/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="24">views/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
@@ -74,6 +74,7 @@
         <source>Forums</source>
         <target>Foren</target>
         <jms:reference-file line="80">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="67">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9360529b8e7f1ae1246f83799022645feb84eda2" resname="Give Your text here">
         <source>Give Your text here</source>
@@ -95,23 +96,33 @@
         <target>letze Beiträge</target>
         <jms:reference-file line="37">views/User/profile.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="a9588d8774f1258a78c0efd526f52ad905d06ae1" resname="Last post">
+        <source>Last post</source>
+        <target>letzter Beitrag</target>
+        <jms:reference-file line="39">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="76">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="130">views/Forum/show.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="e43d612e11f1568f2373e719d4c4b08dcecdc7cc" resname="Logout">
         <source>Logout</source>
         <target>Abmelden</target>
         <jms:reference-file line="63">views/Forum/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="102">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="103">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c1ee860bc3a94be1ae96eaa05833713b79c6634b" resname="Mark as read">
         <source>Mark as read</source>
         <target>Als gelesen markieren</target>
         <jms:reference-file line="112">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="104">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="149">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1cb449c1126609b4b41e1d87f65f0d7cd19b49b9" resname="Members">
         <source>Members</source>
         <target>Mitglieder</target>
         <jms:reference-file line="82">ForumBundle/Twig/BreadcrumbExtension.php</jms:reference-file>
         <jms:reference-file line="34">views/Forum/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="169">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="170">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1702b4686278becffc88baabe6f4b7a8355532c" resname="Messages">
         <source>Messages</source>
@@ -150,14 +161,17 @@
       <trans-unit id="8be3c943b1609fffbfc51aad666d0a04adf83c9d" resname="Password">
         <source>Password</source>
         <target>Passwort</target>
-        <jms:reference-file line="36">Form/Type/SecurityOption.php</jms:reference-file>
+        <jms:reference-file line="46">Form/Type/SecurityOption.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0ca0c3198947ded7419101f3e83d48a9cb41f2a" resname="Posts">
         <source>Posts</source>
         <target>Beiträge</target>
         <jms:reference-file line="27">views/Forum/forumMacros.html.twig</jms:reference-file>
-        <jms:reference-file line="73">views/Forum/forumMacros.html.twig</jms:reference-file>
-        <jms:reference-file line="117">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="69">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="110">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="36">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="73">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="127">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="50f94286ba30706a19070d3ec0a0c8d34d6cf6eb" resname="Previous">
         <source>Previous</source>
@@ -188,7 +202,7 @@
       <trans-unit id="bab9bc458f38d4d574e5baa63c72341db6ddaa30" resname="Repeat Password">
         <source>Repeat Password</source>
         <target>Passwort wiederholen</target>
-        <jms:reference-file line="37">Form/Type/SecurityOption.php</jms:reference-file>
+        <jms:reference-file line="47">Form/Type/SecurityOption.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="efc007a393f66cdb14d57d385822a3d9e36ef873" resname="Save">
         <source>Save</source>
@@ -205,13 +219,13 @@
         <source>Sign in</source>
         <target>Anmelden</target>
         <jms:reference-file line="50">views/Forum/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="95">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="96">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0b81497c8589af2714a1ddbeb62b3a4be679c318" resname="Sign up">
         <source>Sign up</source>
         <target>Registrieren</target>
         <jms:reference-file line="56">views/Forum/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="98">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="99">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cd4e9febd5df78059c09dd96054f499aeeb33035" resname="Statistic">
         <source>Statistic</source>
@@ -249,6 +263,11 @@
         <target>Themen</target>
         <jms:reference-file line="26">views/Forum/forumMacros.html.twig</jms:reference-file>
         <jms:reference-file line="104">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="70">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="96">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="124">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="141">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2774f844dc9e7e235fa5e6738268d17d6c4de589" resname="Total Posts">
         <source>Total Posts</source>
@@ -263,35 +282,43 @@
       <trans-unit id="84c29015de33e5d22422382a372caba5c58f8c01" resname="Username">
         <source>Username</source>
         <target>Benutzername</target>
-        <jms:reference-file line="16">views/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="22">views/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e3aea5cf4bc2d87eddfa9b56e0f70fdc7034633c" resname="Who is online?">
         <source>Who is online?</source>
         <target>Wer ist online?</target>
-        <jms:reference-file line="165">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="166">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c24e0cbf523e951628e3daed3a5524a2901da8f1" resname="You are not currently logged.">
         <source>You are not currently logged.</source>
         <target>Du bist derzeit nicht angemeldet!</target>
         <jms:reference-file line="72">views/Acp/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="131">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="132">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb16b122c52beb1832dd3199ca6773e6e8db3cd0" resname="You ignore the forum">
         <source>You ignore the forum</source>
         <target>Du ignorierst das Forum</target>
         <jms:reference-file line="114">views/Forum/show.html.twig</jms:reference-file>
         <jms:reference-file line="115">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="106">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="107">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="151">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="152">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d7a87ff595127df83dc68ca6b4396db1e7fa71c0" resname="You watch the forum">
         <source>You watch the forum</source>
         <target>Du beobachtest das Forum</target>
         <jms:reference-file line="118">views/Forum/show.html.twig</jms:reference-file>
         <jms:reference-file line="119">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="110">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="111">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="155">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="156">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8c56a116b1dcb5c6a7d2b71b5d177c241a48bfc6" resname="Your changes were saved!">
         <source>Your changes were saved!</source>
         <target>Deine Änderungen wurden gespeichert!</target>
-        <jms:reference-file line="43">UserBundle/Controller/OptionController.php</jms:reference-file>
+        <jms:reference-file line="44">UserBundle/Controller/OptionController.php</jms:reference-file>
         <jms:reference-file line="64">UserBundle/Controller/OptionController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="13111d4ec4536ff7deb830a124a47d5d83542222" resname="Your post has been deleted successfully. You will now be redirected ...">
@@ -319,8 +346,9 @@
       <trans-unit id="9214d7e19b5aaeda67a2cb3f23847f46a47e962d" resname="created by %user% on %date% at %time%">
         <source>created by %user% on %date% at %time%</source>
         <target>erstellt bei %user% am %date% um %time%</target>
-        <jms:reference-file line="92">views/Forum/forumMacros.html.twig</jms:reference-file>
-        <jms:reference-file line="127">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="88">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="120">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="71">views/Forum/forumMacros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9485989ff514b5106b7738850fd73c23e8c1e3f7" resname="delete">
         <source>delete</source>
@@ -381,6 +409,8 @@
         <source>new Topic</source>
         <target>neues Thema</target>
         <jms:reference-file line="109">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="101">views/Forum/show.html.twig</jms:reference-file>
+        <jms:reference-file line="146">views/Forum/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d56722b7ce744666a7f48b0c97ecaac86879ba38" resname="new answer">
         <source>new answer</source>
@@ -401,8 +431,10 @@
         <source>on %date% at %time%</source>
         <target>am %date% um %time%</target>
         <jms:reference-file line="40">views/Forum/forumMacros.html.twig</jms:reference-file>
-        <jms:reference-file line="86">views/Forum/forumMacros.html.twig</jms:reference-file>
-        <jms:reference-file line="155">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="82">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="148">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="41">views/Forum/forumMacros.html.twig</jms:reference-file>
+        <jms:reference-file line="85">views/Forum/forumMacros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="87e38948d5e85c16362140ded9b90d9171b5fa1b" resname="posts">
         <source>posts</source>
@@ -463,12 +495,12 @@
       <trans-unit id="4ed938daa778837314b9225b28e2f629b0494863" resname="user.online.total">
         <source>user.online.total</source>
         <target>{0} Es sind keine Besucher da|{1} Es ist ein Besucher online|]1,Inf] Es sind insgesamt %count% Besucher online</target>
-        <jms:reference-file line="167">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="168">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b5a4642c43d5114c1b15ad230b8cbdd97477a3df" resname="user.online.type">
         <source>user.online.type</source>
         <target>%member_count% registrierte und %guest_count% Gäste</target>
-        <jms:reference-file line="168">Resources/views/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="169">Resources/views/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ccd9c4528f2e5d76561f826c674667ded815acb4" resname="wrote on %date% at %time%">
         <source>wrote on %date% at %time%</source>

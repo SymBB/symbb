@@ -39,6 +39,23 @@
         <source>config.default</source>
         <target>Generelles</target>
       </trans-unit>
+      
+      <trans-unit resname="Your Password need a minimum of 1 none word character">
+        <source>Your Password need a minimum of 1 none word character</source>
+        <target>Dein Passwort muss mindestens ein Sonderzeichen enthalten</target>
+      </trans-unit>
+      <trans-unit resname="Your Password need a minimum of 1 number">
+        <source>Your Password need a minimum of 1 number</source>
+        <target>Dein Passwort muss mindestens eine Zahl enthalten</target>
+      </trans-unit>
+      <trans-unit resname="Your Password need a minimum of 1 uppercase character">
+        <source>Your Password need a minimum of 1 uppercase character</source>
+        <target>Dein Passwort muss mindestens einen Großbuchstaben enthalten</target>
+      </trans-unit>
+      <trans-unit resname="Your Password need a minimum of 1 lowercase character">
+        <source>Your Password need a minimum of 1 lowercase character</source>
+        <target>Dein Passwort muss mindestens einen Kleinbuchstaben enthalten</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

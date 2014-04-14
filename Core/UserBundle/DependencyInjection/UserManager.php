@@ -58,6 +58,7 @@ class UserManager
         $this->securityContext = $container->get('security.context');
         $this->dispatcher = $container->get('event_dispatcher');
         $this->container = $container;
+        $this->translator = $container->get("translator");
     }
 
     /**
@@ -324,7 +325,11 @@ class UserManager
             // Uppercase
             $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
                 "pattern" => "/[A-Z]/",
-                'message' => 'Your Password need a minimum of 1 uppercase character'
+                'message' => $this->translator->trans('Your Password need a minimum of 1 uppercase character', array(), 'validators')
+            ));
+            $constraints[] = new \Symfony\Component\Validator\Constraints\Length(array(
+                "min" => 6,
+                'message' => $this->translator->trans('Your Password need a minimum of 6 characters', array(), 'validators')
             ));
         }
 
@@ -332,7 +337,7 @@ class UserManager
             //lowercase
             $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
                 "pattern" => "/[a-z]/",
-                'message' => 'Your Password need a minimum of 1 lowercase character'
+                'message' => $this->translator->trans('Your Password need a minimum of 1 lowercase character', array(), 'validators')
             ));
         }
 
@@ -340,7 +345,7 @@ class UserManager
             //lowercase
             $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
                 "pattern" => "/[0-9]/",
-                'message' => 'Your Password need a minimum of 1 number'
+                'message' => $this->translator->trans('Your Password need a minimum of 1 number', array(), 'validators')
             ));
         }
 
@@ -348,7 +353,7 @@ class UserManager
             //none word characters
             $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
                 "pattern" => "/\W/",
-                'message' => 'Your Password need a minimum of 1 none word character'
+                'message' => $this->translator->trans('Your Password need a minimum of 1 none word character', array(), 'validators')
             ));
         }
 
