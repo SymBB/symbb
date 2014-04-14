@@ -33,7 +33,6 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('vich_uploader.yml');
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
-        $loader->load('symbb.yml');
 
     }
         
@@ -43,15 +42,15 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         
+        
         $config = array();
-        // reverse array
-        $configs = array_reverse($configs);
         foreach ($configs as $subConfig) {
             $config = array_merge($config, $subConfig);
         }
-      
-        $configuration = new Configuration();
+ 
+        $configuration = new \SymBB\Core\ConfigBundle\DependencyInjection\Configuration();
         $config        = $this->processConfiguration($configuration, array($config));
+  
         
         $container->setParameter('symbb_config', $config);
         $container->setParameter('twig.globals.symbb_config', $config);

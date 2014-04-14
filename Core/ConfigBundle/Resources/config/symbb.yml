@@ -1,8 +1,0 @@
-sym_bb_core_config:
-    usermanager:
-      user_class: SymBB\Core\UserBundle\Entity\User
-    groupmanager:
-      group_class: SymBB\Core\UserBundle\Entity\Group
-    database:
-      table_prefix: symbb_
-    
