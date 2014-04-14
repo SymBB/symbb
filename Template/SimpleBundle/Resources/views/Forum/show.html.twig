@@ -135,8 +135,32 @@
 
             {% endfor %}
         </table>
-    
-        {{ knp_pagination_render(topicPagination) }}
+
+        <div class="symbb_action_row">
+            <div class="title"><a href="#topics">{{ 'Topics'|trans() }}</a></div>
+            <div class="arrow"></div>
+            {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+                <div class="btn-group pull-left">
+                    {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
+                    <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
+                    {% endif %}
+                    {% if app.user.getSymbbType() == 'user' %}
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_read', {'forum': forum.getId()}) }}'">{% trans %}Mark as read{% endtrans %}</button>
+                        {% if checkSymbbForForumIgnoreFlag(forum) %}
+                            <button title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_watch', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
+                            </button>
+                        {% else %}
+                            <button title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_ignore', {'forum': forum.getId()}) }}'">
+                                <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
+            {{ knp_pagination_render(topicPagination) }}
+            <div class="clear"></div>
+        </div>
 
     {% endif %}
 {% endblock %}
