@@ -43,7 +43,8 @@
         "coresphere/console-bundle": "dev-master",
         "vich/uploader-bundle": "dev-master",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
-        "liip/imagine-bundle" : "dev-master"
+        "liip/imagine-bundle" : "dev-master",
+        "rollerworks/password-strength-bundle": "master-dev" 
     },
     "minimum-stability": "dev",
     "autoload": {

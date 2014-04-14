@@ -45,6 +45,9 @@ class User extends AbstractType
                 'required' => true,
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
+                'constraints' => array( 
+                    new Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength(6, 4)
+                )
             ))
             ->add('groups');
 
