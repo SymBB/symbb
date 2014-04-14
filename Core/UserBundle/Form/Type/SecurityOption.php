@@ -16,6 +16,16 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class SecurityOption extends AbstractType
 {
 
+    /**
+     *
+     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     */
+    protected $usermanager;
+    
+    public function __construct($usermanager)
+    {
+        $this->usermanager = $usermanager;
+    }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -35,6 +45,7 @@ class SecurityOption extends AbstractType
                     'required' => true,
                     'first_options'  => array('label' => 'Password'),
                     'second_options' => array('label' => 'Repeat Password'),
+                    'constraints' => $this->usermanager->getPasswordValidatorConstraints()
                 ))
                 ->add('save', 'submit', array('attr' => array('class' => 'btn-success')));
     }
