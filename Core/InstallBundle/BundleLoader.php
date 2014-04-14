@@ -50,8 +50,7 @@ class BundleLoader
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
             '\Vich\UploaderBundle\VichUploaderBundle',
-            '\Liip\ImagineBundle\LiipImagineBundle',
-            '\Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle' 
+            '\Liip\ImagineBundle\LiipImagineBundle' 
         );
 
         foreach ($symbbBundles as $symbbBundle) {

@@ -59,12 +59,13 @@ class UserManager
         $this->dispatcher = $container->get('event_dispatcher');
         $this->container = $container;
     }
-    
+
     /**
      * 
      * @return \Symfony\Component\HttpFoundation\Request
      */
-    protected function getRequest(){
+    protected function getRequest()
+    {
         return $this->container->get('request');
     }
 
@@ -244,7 +245,7 @@ class UserManager
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
     }
-    
+
     public function getLastPosts(\SymBB\Core\UserBundle\Entity\UserInterface $user = null, $limit = 20)
     {
         if (!$user) {
@@ -255,13 +256,11 @@ class UserManager
         $qb->select('p');
         $qb->where("p.author = " . $user->getId());
         $qb->orderBy("p.created", "desc");
-        $dql    = $qb->getDql(); 
-        $query  = $this->em->createQuery($dql);
-        
+        $dql = $qb->getDql();
+        $query = $this->em->createQuery($dql);
+
         $posts = $this->paginator->paginate(
-            $query,
-            1/*page number*/,
-            $limit/*limit per page*/
+            $query, 1/* page number */, $limit/* limit per page */
         );
         return $posts;
     }
@@ -298,7 +297,7 @@ class UserManager
         $password2 = $encoder->encodePassword($password, $user->getSalt());
         if ($user->getPassword() === $password2) {
             $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
-            
+
             $this->securityContext->setToken($token);
 
             $securityKey = 'myKey';
@@ -308,10 +307,52 @@ class UserManager
             $persistenService->setTokenProvider(new \Symfony\Component\Security\Core\Authentication\RememberMe\InMemoryTokenProvider());
 
             $persistenService->loginSuccess($request, $redirectResponse, $token);
-            
+
             return true;
         }
 
         return false;
+    }
+
+    public function getPasswordValidatorConstraints()
+    {
+        $constraints = array();
+
+        $strength = 3;
+
+        if ($strength >= 1) {
+            // Uppercase
+            $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
+                "pattern" => "/[A-Z]/",
+                'message' => 'Your Password need a minimum of 1 uppercase character'
+            ));
+        }
+
+        if ($strength >= 2) {
+            //lowercase
+            $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
+                "pattern" => "/[a-z]/",
+                'message' => 'Your Password need a minimum of 1 lowercase character'
+            ));
+        }
+
+        if ($strength >= 3) {
+            //lowercase
+            $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
+                "pattern" => "/[0-9]/",
+                'message' => 'Your Password need a minimum of 1 number'
+            ));
+        }
+
+        if ($strength >= 4) {
+            //none word characters
+            $constraints[] = new \Symfony\Component\Validator\Constraints\Regex(array(
+                "pattern" => "/\W/",
+                'message' => 'Your Password need a minimum of 1 none word character'
+            ));
+        }
+
+
+        return $constraints;
     }
 }

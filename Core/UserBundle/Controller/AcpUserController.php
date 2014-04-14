@@ -21,7 +21,7 @@ class AcpUserController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
     protected function getForm()
     {
         $entity = $this->getFormEntity();
-        $form = $this->createForm(new $this->formClass($this->get('event_dispatcher')), $entity);
+        $form = $this->createForm(new $this->formClass($this->get('event_dispatcher'), $this->get('symbb.core.user.manager')), $entity);
         return $form;
     }
 

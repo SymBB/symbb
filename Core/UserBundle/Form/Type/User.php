@@ -17,10 +17,17 @@ class User extends AbstractType
 {
 
     protected $dispatcher;
-        
-    public function __construct($dispatcher)
+    /**
+     *
+     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     */
+    protected $usermanager;
+
+
+    public function __construct($dispatcher, $usermanager)
     {
         $this->dispatcher = $dispatcher;
+        $this->usermanager = $usermanager;
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -45,9 +52,7 @@ class User extends AbstractType
                 'required' => true,
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
-                'constraints' => array( 
-                    new Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength(6, 4)
-                )
+                'constraints' => $this->usermanager->getPasswordValidatorConstraints()
             ))
             ->add('groups');
 
