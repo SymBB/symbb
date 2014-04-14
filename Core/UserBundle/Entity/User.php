@@ -82,9 +82,7 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
         $this->posts = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->created = new \DateTime();
-        
     }
-
 
     /**
      * 
@@ -93,7 +91,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getTopics()
     {
         return $this->topics;
-
     }
 
     /**
@@ -103,7 +100,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getPosts()
     {
         return $this->posts;
-
     }
 
     /**
@@ -113,7 +109,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function setSymbbData(\SymBB\Core\UserBundle\Entity\User\Data $value)
     {
         $this->symbbData = $value;
-
     }
 
     /**
@@ -123,7 +118,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getEmail()
     {
         return parent::getEmail();
-
     }
 
     /**
@@ -133,7 +127,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getId()
     {
         return parent::getId();
-
     }
 
     /**
@@ -143,7 +136,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getUsername()
     {
         return parent::getUsername();
-
     }
 
     /**
@@ -153,7 +145,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getGroups()
     {
         return $this->groups;
-
     }
 
     /**
@@ -163,7 +154,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function setGroups($value)
     {
         $this->groups = $value;
-
     }
 
     /**
@@ -173,7 +163,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function setSymbbType($value)
     {
         $this->symbbType = $value;
-
     }
 
     /**
@@ -183,7 +172,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getSymbbType()
     {
         return $this->symbbType;
-
     }
 
     /**
@@ -193,7 +181,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function getCreated()
     {
         return $this->created;
-
     }
 
     /**
@@ -202,7 +189,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function setCreatedValue()
     {
         $this->created = new \DateTime();
-
     }
 
     /**
@@ -211,7 +197,6 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function setChangedValue()
     {
         $this->changed = new \DateTime();
-
     }
 
     /**
@@ -225,11 +210,29 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
             $this->symbbData = $data = new User\Data();
         }
         return $data;
-
     }
-    
-    public function setPlainPassword($pw){
+
+    public function setPlainPassword($pw)
+    {
         parent::setPlainPassword($pw);
         $this->changed = new \DateTime();
+    }
+
+    public function isEnabled()
+    {
+        if ($this->enabled === 0 || $this->enabled === false) {
+            return false;
+        }
+        return true;
+    }
+
+    public function disable()
+    {
+        $this->enabled = 0;
+    }
+
+    public function enable()
+    {
+        $this->enabled = 1;
     }
 }

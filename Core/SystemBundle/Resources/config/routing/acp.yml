@@ -95,3 +95,11 @@ _symbbcoreuserbundle_user_edit:
 _symbbcoreuserbundle_user_remove:
     pattern:  /user/{id}/remove
     defaults: { _controller: SymBBCoreUserBundle:AcpUser:remove }
+    
+_symbbcoreuserbundle_user_enable:
+    pattern:  /user/{id}/enable
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:enable }
+    
+_symbbcoreuserbundle_user_disable:
+    pattern:  /user/{id}/disable
+    defaults: { _controller: SymBBCoreUserBundle:AcpUser:disable }

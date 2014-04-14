@@ -31,7 +31,7 @@ abstract class CrudController extends Controller
         $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), 'parent' => $parent);
         $params = $this->addListParams($params, $parent);
         return $this->render(
-            $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
+                $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
         );
     }
 
@@ -139,22 +139,22 @@ abstract class CrudController extends Controller
                 $parent = $entity->getParent();
             }
             $errorMessage = '';
-            if($this->checkIsObjectRemoveable($entity, $parent, $errorMessage)){
+            if ($this->checkIsObjectRemoveable($entity, $parent, $errorMessage)) {
                 $em = $this->get('doctrine')->getManager('symbb');
                 $em->remove($entity);
                 $em->flush();
             } else {
                 $this->get('session')->getFlashBag()->add(
-                    'error',
-                    $errorMessage
+                    'error', $errorMessage
                 );
                 return $this->listAction(null);
             }
         }
         return $this->listAction($parent);
     }
-    
-    protected function checkIsObjectRemoveable($entity, $parent, &$errorMessage){
+
+    protected function checkIsObjectRemoveable($entity, $parent, &$errorMessage)
+    {
         return true;
     }
 
@@ -222,11 +222,11 @@ abstract class CrudController extends Controller
     protected function editCallback($form, $entity)
     {
         $parent = null;
-        
+
         if (\method_exists($entity, "getParent")) {
             $parent = $entity->getParent();
         }
-        
+
         $params = array(
             'entity' => $entity,
             'form' => $form->createView(),

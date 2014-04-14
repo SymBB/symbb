@@ -18,12 +18,30 @@ class AcpUserController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
 
     protected $formClass = '\SymBB\Core\UserBundle\Form\Type\User';
 
-    
-
     protected function getForm()
     {
         $entity = $this->getFormEntity();
         $form = $this->createForm(new $this->formClass($this->get('event_dispatcher')), $entity);
         return $form;
+    }
+
+    public function enableAction($id)
+    {
+        $user = $this->getRepository()->find($id);
+        if (\is_object($user)) {
+            $user->enable();
+            $this->get('symbb.core.user.manager')->updateUser($user);
+        }
+        return $this->listAction();
+    }
+
+    public function disableAction($id)
+    {
+        $user = $this->getRepository()->find($id);
+        if (\is_object($user)) {
+            $user->disable();
+            $this->get('symbb.core.user.manager')->updateUser($user);
+        }
+        return $this->listAction();
     }
 }

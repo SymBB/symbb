@@ -40,4 +40,10 @@ interface UserInterface extends AdvancedUserInterface
      * @param string $pw
      */
     public function setPlainPassword($pw);
+    
+    public function isEnabled();
+    
+    public function enable();
+    
+    public function disable();
 }

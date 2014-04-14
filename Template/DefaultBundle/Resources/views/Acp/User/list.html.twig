@@ -19,6 +19,7 @@
         <thead>
             <tr>
                 <th>{{ 'User'|trans }}</th>
+                <th>{{ 'Enabled'|trans }}</th>
                 <th>{{ 'Actions'|trans }}</th>
             </tr>
         </thead>
@@ -26,9 +27,20 @@
             {% for entry in entityList %}
                 <tr id="entry_{{entry.getId()}}">
                     <td class="clickable" >{{entry.getUsername()}}</td>
-                    <td>
+                    <td class="clickable" >
+                        {% if entry.getSymbbType() != "guest" %}
+                            {% if entry.isEnabled() %}
+                            <input onchange="window.location.href='{{path('_symbbcoreuserbundle_user_disable', {'id': entry.getId()})}}'" type="checkbox" value="1" checked="checked" />
+                            {% else %}
+                            <input onchange="window.location.href='{{path('_symbbcoreuserbundle_user_enable', {'id': entry.getId()})}}'" type="checkbox" value="1" />
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="clickable" >
                         <a href="{{ path('_symbbcoreuserbundle_user_edit', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/pencil.png" alt="{{ 'Editieren'|trans }}" title="{{ 'Editieren'|trans }}" /> </a>
-                        <a onclick="if(!confirm('{{ 'Really delete entry?'|trans }}')) { return false; }" href="{{ path('_symbbcoreuserbundle_user_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/cross.png" alt="{{ 'Delete'|trans }}" title="{{ 'Delete'|trans }}" /> </a>
+                        {% if entry.getSymbbType() != "guest" %}
+                            <a onclick="if(!confirm('{{ 'Really delete entry?'|trans }}')) { return false; }" href="{{ path('_symbbcoreuserbundle_user_remove', {id: entry.getId()}) }}"><img class="clickable" src="/bundles/symbbtemplatedefault/images/icons/16_16/cross.png" alt="{{ 'Delete'|trans }}" title="{{ 'Delete'|trans }}" /> </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
