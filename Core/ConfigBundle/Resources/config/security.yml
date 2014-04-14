@@ -25,11 +25,11 @@ security:
         main:
             pattern: .*
             form_login:
-                login_path: fos_user_security_login
-                check_path: fos_user_security_check
+                login_path: symbb_login
+                check_path: symbb_login_check
                 provider: fos_userbundle
             logout:
-              path:   fos_user_security_logout
+              path:   symbb_logout
               target: /
             anonymous:    true
             remember_me:
