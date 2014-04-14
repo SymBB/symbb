@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Template\TestBundle\EventListener;
+namespace SymBB\Template\SimpleBundle\EventListener;
 
 class SiteListener
 {
     public function templateChoices(\SymBB\Core\SiteBundle\Event\TemplateChoicesEvent $event)
     {
-        $event->addChoice('SymBBTemplateTestBundle', 'Test Template');
+        $event->addChoice('SymBBTemplateSimpleBundle', '[Symbb] Simple Template');
     }
 }

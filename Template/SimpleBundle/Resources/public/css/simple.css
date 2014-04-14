@@ -1,0 +1,59 @@
+.simpletable {
+    width: 100%;
+    border-spacing: 1px;
+    border-collapse: separate;
+    margin-bottom: 20px;
+}
+
+.simpletable .simplerow {
+    height: 45px;
+    background-color: #FFF;
+}
+
+.simpletable .simplerow .forumimage {
+    float: left;
+    width: 32px;
+    height: 32px;
+    padding-right: 5px;
+}
+
+.simpletable .simplerow td {
+    padding: 5px;
+}
+
+.simpletable .simplerow th {
+    padding: 5px;
+    font-size: 14px;
+    background-color: #428BCA;
+    color: #FFF;
+}
+
+.simpletable .simplerow .namerow {
+    width: 40%;
+}
+
+.simpletable .simplerow .namerow .labels {
+    float: right;
+}
+.simpletable .simplerow .lastpostrow .avatar_mini {
+    padding-right: 5px;
+}
+
+.simpletable .simplerow .topicrow,
+.simpletable .simplerow .postrow{
+    width: 10%;
+    text-align: right;
+}
+
+.simpletable .simplerow th a {
+    color: #FFF;
+}
+
+.simpletable .simplerow .description {
+    font-size: 10px;
+}
+
+.simpletable .simplerow:hover {
+    background-color: #97CE68;
+    cursor: pointer;
+}

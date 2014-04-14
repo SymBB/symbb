@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Template\TestBundle;
+namespace SymBB\Template\SimpleBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBTemplateTestBundle extends Bundle
+class SymBBTemplateSimpleBundle extends Bundle
 {
 
     public function extendBundle()
