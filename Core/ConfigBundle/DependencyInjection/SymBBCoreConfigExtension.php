@@ -33,6 +33,7 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('vich_uploader.yml');
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
+        $loader->load('fosjsrouting.yml');
 
     }
         

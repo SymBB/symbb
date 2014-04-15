@@ -1,0 +1,35 @@
+<div ng-repeat="category in categoryList">
+
+    <div class="anker-group">
+        <div class="anker" id="category_[[category.id]]"></div>
+    </div>
+    <div class="symbb_action_row">
+        <div class="title"><a href="#category_[[category.id]]">[[category.name]]</a></div>
+        <div class="arrow"></div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in category.children">
+        {{ include('SymBBTemplateDefaultBundle:Angular:forumListCard.html.twig') }}
+    </div>
+
+    <div class="clear"></div>
+</div>
+
+<div ng-show="forumListCheck">
+    <div class="anker-group">
+        <div class="anker" id="forums"></div>
+    </div>
+    <div class="symbb_action_row">
+        <div class="title"><a href="#forums">{{ 'Forums'|trans() }}</a></div>
+        <div class="arrow"></div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div ng-if="">
+    
+</div>
+<div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in forumList">
+    {{ include('SymBBTemplateDefaultBundle:Angular:forumListCard.html.twig') }}
+</div>

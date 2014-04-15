@@ -1,0 +1,4 @@
+symbb_template_default_angular:
+    pattern:  /template/default/angular/{file}
+    methods:  [GET]
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:templateFile }

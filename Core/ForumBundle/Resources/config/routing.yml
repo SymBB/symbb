@@ -49,3 +49,9 @@ symbb_edit_post:
 symbb_delete_post:
     pattern:  /forum/p-{post}/delete
     defaults: { _controller: SymBBCoreForumBundle:FrontendPost:delete}
+    
+    
+    
+symbb_api_forum:
+    resource: "@SymBBCoreForumBundle/Controller"
+    type: annotation

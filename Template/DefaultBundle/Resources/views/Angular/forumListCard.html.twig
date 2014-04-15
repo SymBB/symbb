@@ -1,0 +1,33 @@
+
+<div class="symbb_category_block">
+    <div class="image" style="background-image: url([[object.backgroundImage]])">
+        <div class="labels">
+            <div ng-repeat="flag in object.flags">
+                <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+            </div>
+        </div>
+        <div class="infos symbb_tooltip" title="[[object.description]]">
+            <div class="title">[[object.name]]</div>
+            <div class="badges">
+                <span title="{% trans %}Topics{% endtrans %}" class="badge">[[object.topicCount]]</span> &nbsp;
+                <span title="{% trans %}Posts{% endtrans %}" class="badge">[[object.postCount]]</span>
+            </div>
+        </div>
+    </div>
+    <div class="text">
+        <div class="infos">
+            <div class="lastpost">
+                <div ng-repeat="post in object.lastPosts">
+                    <a class="block" href="">
+                        <div class="avatar_mini avatar">
+                            <img src="[[post.author.avatar]]" />
+                        </div>
+                        <div class="title">[[post.name]]</div>
+                        <div class="user">{% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}</div>
+                        <div class="clear"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

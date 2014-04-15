@@ -3,5 +3,8 @@ lsw_memcache:
         client: default
     clients:
         default:
+            options:
+                # important if we have more than one symbb installations!
+                prefix_key: %secret% 
             hosts:
               - { dsn: localhost, port: 11211 }
