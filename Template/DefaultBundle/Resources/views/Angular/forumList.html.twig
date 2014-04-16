@@ -1,15 +1,16 @@
+{% trans_default_domain "symbb_frontend" %}
 <div ng-repeat="category in categoryList">
 
     <div class="anker-group">
         <div class="anker" id="category_[[category.id]]"></div>
     </div>
     <div class="symbb_action_row">
-        <div class="title"><a href="#category_[[category.id]]">[[category.name]]</a></div>
+        <div class="title" symbb-link="forum_list" param-id="[[category.id]]">[[category.name]]</div>
         <div class="arrow"></div>
         <div class="clear"></div>
     </div>
 
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in category.children">
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in category.children" symbb-link="forum_list" param-id="[[object.id]]">
         {{ include('SymBBTemplateDefaultBundle:Angular:forumListCard.html.twig') }}
     </div>
 
@@ -30,6 +31,6 @@
 <div ng-if="">
     
 </div>
-<div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in forumList">
+<div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in forumList" symbb-link="forum_list" param-id="[[object.id]]">
     {{ include('SymBBTemplateDefaultBundle:Angular:forumListCard.html.twig') }}
 </div>

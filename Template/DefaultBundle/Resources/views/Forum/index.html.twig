@@ -1,12 +1,3 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
-
-{% block symbb_body %}
-
-    <div class="symbb_list">
-        {{ symbBBForumMacro.showForumList(forumList, 1) }}
-    </div>
-    
-{% endblock %}
-
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}

@@ -14,7 +14,7 @@ html, body {
 
 #wrap {
     height: auto;
-    margin: 0 auto -150px;
+    margin: 0 auto;
     min-height: 100%;
     padding: 0 0 60px;
 }
@@ -269,8 +269,7 @@ html, body {
 }
 
 .breadcrumb li:first-child {
-    padding-right: 20px;
-    margin-top: 2px;
+    padding-left: 20px;
 }
 
 .breadcrumb li a {
@@ -349,7 +348,7 @@ html, body {
     background-color: #232323;
     color: #FFF;
     height: 150px;
-    margin-top: 170px;
+    margin-top: 50px;
 }
 
 #footer .container {

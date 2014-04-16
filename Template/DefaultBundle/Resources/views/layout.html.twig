@@ -16,13 +16,11 @@
             '@SymBBTemplateDefaultBundle/Resources/public/css/form.css' filter='?yui_css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css' filter='?yui_css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/datepicker/jquery.datetimepicker.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/angular/loading-bar.css' filter='?yui_css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {{ executeSymbbEvent('template.global.stylesheets') }}
-        {{ executeSymbbEvent('template.forum.stylesheets') }}
     {% endblock %}
         
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -35,20 +33,12 @@
         {% javascripts 
             '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js' filter='?yui_js'
             '@FOSJsRoutingBundle/Resources/public/js/router.js' filter='?yui_js'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         {{ executeSymbbEvent('template.global.javascripts') }}
-        {{ executeSymbbEvent('template.forum.javascripts') }}
     {% endblock %}
     <script>
         $(function() {

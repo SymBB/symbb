@@ -54,7 +54,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             };
         }
         
-        $params = array('categoryList' => $categoryList, 'forumList' => $forumList, 'forum' => null, 'forumListCheck' => $forumListCheck);
+        if($parent > 0){
+            $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($parent);
+        }
+        
+        $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
+        
+        $params = array('categoryList' => $categoryList, 'forumList' => $forumList, 'forum' => $this->getForumAsArray($parent), 'forumListCheck' => $forumListCheck, 'breadcrumbItems' => $breadcrumbItems);
         $response = new Response(json_encode($params));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -67,28 +73,30 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      */
     protected function getForumAsArray($forum){
         $array = array();
-        $array['id'] = $forum->getId();
-        $array['name'] = $forum->getName();
-        $array['description'] = $forum->getDescription();
-        $array['topicCount'] = $forum->getTopicCount();
-        $array['postCount'] = $forum->getPostCount();
-        $array['backgroundImage'] = "";
-        $array['flags'] = array();
-        foreach($forum->getFlags() as $flag){
-            $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
-        }
-        $array['children'] = array();
-        foreach($forum->getChildren() as $child){
-            $array['children'][] = $this->getForumAsArray($child);
-        }
-        $array['lastPosts'] = array();
-        $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
-        foreach($lastPosts as $post){
-            $array['lastPosts'][] = $this->getPostAsArray($post);
-        }
-        $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-        if($forum->getImageName()){
-            $array['backgroundImage'] = $helper->asset($forum, 'image');
+        if(is_object($forum)){
+            $array['id'] = $forum->getId();
+            $array['name'] = $forum->getName();
+            $array['description'] = $forum->getDescription();
+            $array['topicCount'] = $forum->getTopicCount();
+            $array['postCount'] = $forum->getPostCount();
+            $array['backgroundImage'] = "";
+            $array['flags'] = array();
+            foreach($forum->getFlags() as $flag){
+                $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+            }
+            $array['children'] = array();
+            foreach($forum->getChildren() as $child){
+                $array['children'][] = $this->getForumAsArray($child);
+            }
+            $array['lastPosts'] = array();
+            $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
+            foreach($lastPosts as $post){
+                $array['lastPosts'][] = $this->getPostAsArray($post);
+            }
+            $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+            if($forum->getImageName()){
+                $array['backgroundImage'] = $helper->asset($forum, 'image');
+            }
         }
         return $array;
     }

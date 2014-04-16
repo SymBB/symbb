@@ -43,9 +43,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     protected $em;
     
     protected $paginator;
+    
+    protected $translator;
 
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $paginator
+    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $paginator, $translator
     )
     {
         $this->securityContext = $securityContext;
@@ -54,6 +56,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->configManager = $configManager;
         $this->em = $em;
         $this->paginator = $paginator;
+        $this->translator = $translator;
     }
 
     public function findNewestTopics(Forum $parent = null)
@@ -232,5 +235,23 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
                 $this->addChildsToArray($child, $array);
             }
         }
+    }
+    
+    public function getBreadcrumbData($object){
+        $breadcrumb = array();
+        
+        while (is_object($object)) {
+            $breadcrumb[] = array(
+                'type' => 'forum',
+                'name' => $object->getName(),
+                'id' => $object->getId()
+            );
+            $object = $object->getParent();
+        };
+        $home = $this->translator->trans('Home', array(), 'symbb_frontend');
+        $breadcrumb[] = array('name' => $home, 'type' => 'home');
+        $breadcrumb = array_reverse($breadcrumb);
+        
+        return $breadcrumb;
     }
 }
