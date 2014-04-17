@@ -87,12 +87,23 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                 if(attrs.paramName){
                     params.name = attrs.paramName;
                 }
-                console.debug(params);
                 angularConfig.goTo(attrs.symbbJsLink, params);
             });
         }
     };
-});
+}).directive('symbbTooltip', ['$timeout', function(timer) {
+    return {
+        restrict: 'A',
+        transclude: false,
+        replace: false,
+        link: function(scope, element, attrs) {
+            var tooltip = function(){
+                $(element).tooltip();
+            }
+            timer(tooltip, 0)
+        }
+    };
+}]);
 
 
 
