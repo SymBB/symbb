@@ -61,10 +61,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @param int $topicId
      * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
      */
-    public function findByForum($forumId, $limit = null, $offset = null)
+    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $limit = null, $offset = 0, $orderDir = 'desc')
     {
-        $topics = $this->em->getRepository('SymBBCoreForumBundle:Topic')->findBy(array('forum' => $forumId), array(), $limit, $offset);
-        return $topics;
+        if($limit === null){
+            $limit = $topic->getForum()->getEntriesPerPage();
+        }
+        
+        $posts = $this->em->getRepository('SymBBCoreForumBundle:Post')->findBy(array('topic' => $topic->getId()), array('created' => $orderDir), $limit, $offset);
+        
+        return $posts;
     }
 
     /**

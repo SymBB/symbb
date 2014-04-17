@@ -17,6 +17,30 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 {
 
     /**
+     * @Route("/api/forum/{forum}/ignore", name="symbb_api_forum_ignore")
+     * @Method({"GET"})
+     */
+    public function forumIgnore($forum){
+        
+    }
+    
+    /**
+     * @Route("/api/forum/{forum}/unignore", name="symbb_api_forum_unignore")
+     * @Method({"GET"})
+     */
+    public function forumUnignore($forum){  
+        
+    }
+    
+    /**
+     * @Route("/api/forum/{forum}/markAsRead", name="symbb_api_forum_mark_as_read")
+     * @Method({"GET"})
+     */
+    public function forumMarkAsRead($forum){  
+        
+    }
+    
+    /**
      * @Route("/api/forum/list/{parent}", name="symbb_api_forum_list", defaults={"parent" = 0})
      * @Method({"GET"})
      */
@@ -31,13 +55,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         
         $forumList = array();
         
-        $forumListCheck = false;
+        $hasForumList = false;
         foreach ($forumEnityList as $key => $forum) {
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
             $access = $this->get('symbb.core.access.manager')->hasAccess();
             if ($access) {
                 $forumList[] = $this->getForumAsArray($forum);
-                $forumListCheck = true;
+                $hasForumList = true;
             };
         }
         
@@ -45,22 +69,49 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             ->findBy(array('parent' => $parent, 'type' => 'category'), array('position' => 'asc', 'id' => 'asc'));
 
         $categoryList = array();
-        
+        $hasCategoryList = false;
         foreach ($categoryEnityList as $key => $forum) {
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
             $access = $this->get('symbb.core.access.manager')->hasAccess();
             if ($access) {
                 $categoryList[] = $this->getForumAsArray($forum);
+                $hasCategoryList = true;
             };
         }
         
+        
+        $topicList = array();
+        $hasTopicList = false;
+        $writeAccess = false;
         if($parent > 0){
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($parent);
+            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
+            foreach($topics as $topic){
+                $topicList[] = $this->getTopicAsArray($topic);
+                $hasTopicList = true;
+            }
+        
+            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $parent, $this->getUser());
+            $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
         }
+        
         
         $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
         
-        $params = array('categoryList' => $categoryList, 'forumList' => $forumList, 'forum' => $this->getForumAsArray($parent), 'forumListCheck' => $forumListCheck, 'breadcrumbItems' => $breadcrumbItems);
+        $params = array(
+            'forum' => $this->getForumAsArray($parent),
+            'categoryList' => $categoryList, 
+            'forumList' => $forumList, 
+            'topicList' => $topicList,
+            'hasForumList' => $hasForumList, 
+            'hasCategoryList' => $hasCategoryList, 
+            'hasTopicList' => $hasTopicList, 
+            'breadcrumbItems' => $breadcrumbItems,
+            'access' => array(
+                'write' => $writeAccess
+            )
+         );
+        
         $response = new Response(json_encode($params));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -68,10 +119,36 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     
     /**
      * 
+     * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
+     * @return array
+     */
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null){
+        $array = array();
+        if(is_object($topic)){
+            $array['id'] = $topic->getId();
+            $array['name'] = $topic->getName();
+            $array['postCount'] = $topic->getPostCount();
+            $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
+            $array['flags'] = array();
+            foreach($topic->getFlags() as $flag){
+                $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+            }
+            $array['posts'] = array();
+            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic);
+            foreach($lastPosts as $post){
+                $array['posts'][] = $this->getPostAsArray($post);
+            }
+            $array['seo']['name'] = $topic->getSeoName();
+        }
+        return $array;
+    }
+    
+    /**
+     * 
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
-    protected function getForumAsArray($forum){
+    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null){
         $array = array();
         if(is_object($forum)){
             $array['id'] = $forum->getId();
@@ -97,6 +174,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             if($forum->getImageName()){
                 $array['backgroundImage'] = $helper->asset($forum, 'image');
             }
+            $array['seo']['name'] = $forum->getSeoName();
         }
         return $array;
     }
@@ -111,6 +189,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $flagName = $flag->getFlag();
         if($flagName == 'new'){
             $array['type'] = 'success';
+        } else if($flagName == 'answered'){
+            $array['type'] = 'warning';
         } else {
             $array['type'] = $flagName;
         }
@@ -123,13 +203,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Post $post
      * @return array
      */
-    protected function getPostAsArray($post){
+    protected function getPostAsArray(\SymBB\Core\ForumBundle\Entity\Post $post = null){
         
         $array = array();
         $array['id'] = $post->getId();
         $array['name'] = $post->getName();
         $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
         $array['author'] = $this->getAuthorAsArray($post->getAuthor());
+        $array['seo']['name'] = $post->getSeoName();
         return $array;
     }
     

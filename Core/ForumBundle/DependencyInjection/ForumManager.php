@@ -100,6 +100,26 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     }
     
     
+    /**
+     * 
+     * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
+     * @param type $limit
+     * @param type $offset
+     * @param type $orderDir
+     * @return array
+     */
+    public function findTopics(Forum $forum, $limit = null, $offset = 0, $orderDir = 'desc')
+    {
+        if($limit === null){
+            $limit = $forum->getEntriesPerPage();
+        }
+        
+        $topics = $this->em->getRepository('SymBBCoreForumBundle:Topic')->findBy(array('forum' => $forum->getId()), array('created' => $orderDir), $limit, $offset);
+        
+        return $topics;
+    }
+    
+    
     public function findPosts(Forum $parent = null, $limit = null, $pageNumber = 1)
     {
         if ($limit === null) {
