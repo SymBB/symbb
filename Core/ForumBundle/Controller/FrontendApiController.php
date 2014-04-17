@@ -17,26 +17,26 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 {
 
     /**
-     * @Route("/api/forum/{forum}/ignore", name="symbb_api_forum_ignore")
+     * @Route("/api/forum/{id}/ignore", name="symbb_api_forum_ignore")
      * @Method({"GET"})
      */
-    public function forumIgnore($forum){
+    public function forumIgnore($id){
         
     }
     
     /**
-     * @Route("/api/forum/{forum}/unignore", name="symbb_api_forum_unignore")
+     * @Route("/api/forum/{id}/unignore", name="symbb_api_forum_unignore")
      * @Method({"GET"})
      */
-    public function forumUnignore($forum){  
+    public function forumUnignore($id){  
         
     }
     
     /**
-     * @Route("/api/forum/{forum}/markAsRead", name="symbb_api_forum_mark_as_read")
+     * @Route("/api/forum/{id}/markAsRead", name="symbb_api_forum_mark_as_read")
      * @Method({"GET"})
      */
-    public function forumMarkAsRead($forum){  
+    public function forumMarkAsRead($id){  
         
     }
     

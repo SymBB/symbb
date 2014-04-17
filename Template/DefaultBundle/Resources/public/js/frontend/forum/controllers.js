@@ -7,8 +7,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams',
         if($routeParams && $routeParams.id){
             forumId = $routeParams.id
         }
-        var route = Routing.generate('symbb_api_forum_list', { parent: forumId, '_locale': symbbUserLang });
-        
+        var route = angularConfig.getSymfonyApiRoute('forum_list', { parent: forumId });
         $http.get(route).success(function(data) {
             $scope.forum = data.forum;
             $scope.forumList = data.forumList;
@@ -22,8 +21,23 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams',
         });
         
     }
-]);
+]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams',
+    function($scope, $http, $routeParams) {
+        var forumId = $routeParams.id
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_list', { forum: forumId });
+        $http.get(route).success(function(data) {
 
+        });
+    }
+]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams',
+    function($scope, $http, $routeParams) {
+        var forumId = $routeParams.id
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_list', { forum: forumId });
+        $http.get(route).success(function(data) {
+
+        });
+    }
+]);
 symbbControllers.directive('symbbBreadcrumb', function() {
     return {
         restrict: 'E',
@@ -103,7 +117,28 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             timer(tooltip, 0)
         }
     };
-}]);
+}]).directive('symbbRequest', ['$http', function($http) {
+    return {
+        restrict: 'A',
+        transclude: false,
+        replace: false,
+        link: function(scope, element, attrs) {
+            $(element[0]).click(function() {
+                var params = {};
+                if(attrs.paramId){
+                    params.id = attrs.paramId;
+                }
+                if(attrs.paramName){
+                    params.name = attrs.paramName;
+                }
+                console.debug(attrs.symbbRequest);
+                $http.get(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
+                    console.debug(data);
+                });
+            });
+        }
+    };
+}]);   ;
 
 
 

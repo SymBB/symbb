@@ -9,52 +9,60 @@ var angularConfig = {
     routingData: {
         index: {
             'url': ['/forum', '/:lang/forum', '/:lang', '/'],
+            'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
         forum_list_main: {
             'url': ['/forum'],
+            'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
         forum_list:  {
             'url': ['/forum/:id/:name'],
+            'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
         forum_ignore:  {
-            'url': ['topic/:id/ignore'],
-            'controller': 'ForumIgnoreCtrl'
+            'api': 'symbb_api_forum_ignore'
         },
         forum_unignore:  {
-            'url': ['topic/:id/unignore'],
-            'controller': 'ForumUnignoreCtrl'
+            'api': 'symbb_api_forum_unignore'
         },
-        forum_topic_list:  {
-            'url': ['/forum/:id/:name/topics/:page'],
-            'template': 'symbb_template_default_angular',
-            'templateParam': { file: 'forumTopicList'},
-            'controller': 'ForumTopicListCtrl'
+        forum_mark_as_read:  {
+            'api': 'symbb_api_forum_mark_as_read'
         },
         forum_topic_show:  {
             'url': ['/topic/:id/:name'],
+            'api': 'symbb_api_forum_topic_show',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumTopicShow'},
             'controller': 'ForumTopicShowCtrl'
         },
         forum_topic_create:  {
             'url': ['/forum/:id/topic/new'],
+            'api': 'symbb_api_forum_topic_create',
             'template': 'symbb_template_default_angular',
-            'templateParam': { file: 'forumTopicShow'},
+            'templateParam': { file: 'forumTopicCreate'},
             'controller': 'ForumTopicCreateCtrl'
-        },
-        forum_topic_delete:  {
-            'url': ['topic/:id/delete'],
-            'controller': 'ForumTopicDeleteCtrl'
         }
+    },
+  
+    getSymfonyApiRoute: function(route, params){
+        var routePath =  '';
+        if(this.routingData[route] && this.routingData[route]['api']){
+            if(!params){
+                params = {};
+            }
+            params._locale = symbbUserLang;
+            routePath = Routing.generate(this.routingData[route]['api'], params);
+        }
+        return routePath;
     },
   
     getSymfonyTemplateRoute: function(route, params){
@@ -99,15 +107,16 @@ var angularConfig = {
     createAngularRouting: function($routeProvider){
 
         $.each(this.routingData, function(key, value){
-            $.each(value.url, function(urlKey, urlValue){
-                if(key){
-                    $routeProvider.when(angularConfig.getAngularRoute(key, {}, urlKey), { 
-                    templateUrl: angularConfig.getSymfonyTemplateRoute(key),
-                    controller: angularConfig.getAngularController(key)
-                  }); 
-                } 
-            });
-            
+            if(value.url){
+                $.each(value.url, function(urlKey, urlValue){
+                    if(value.controller){
+                        $routeProvider.when(angularConfig.getAngularRoute(key, {}, urlKey), { 
+                            templateUrl: angularConfig.getSymfonyTemplateRoute(key),
+                            controller: angularConfig.getAngularController(key)
+                        }); 
+                    }
+                });
+            }
         });
         
     }

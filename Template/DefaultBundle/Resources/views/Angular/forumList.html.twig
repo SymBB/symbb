@@ -46,11 +46,11 @@
         <div class="arrow"></div>
         <div class="btn-group pull-left">
             <button ng-show="access.write" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">{% trans %}new Topic{% endtrans %}</button>
-            <button type="button" class="btn btn-default btn-sm" symbb-js-link="forum_mark_as_read" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">{% trans %}Mark as read{% endtrans %}</button>
-            <button ng-show="ignoreForum" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_unignore" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">
+            <button type="button" class="btn btn-default btn-sm" symbb-request="forum_mark_as_read" param-id="[[forum.id]]">{% trans %}Mark as read{% endtrans %}</button>
+            <button ng-show="ignoreForum" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-request="forum_unignore" param-id="[[forum.id]]">
                 <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
             </button>
-            <button  ng-hide="ignoreForum" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_ignore" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">
+            <button  ng-hide="ignoreForum" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-request="forum_ignore" param-id="[[forum.id]]">
                 <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
             </button>
         </div>
