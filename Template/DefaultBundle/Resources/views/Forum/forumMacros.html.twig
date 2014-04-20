@@ -137,7 +137,7 @@
         {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
     {% endif %}
 
-    <div class="symbb_category_block post {{css}}" onclick="window.location.href='{{ path('symbb_forum_topic_show', {'id': object.getTopic().getId(), 'name': object.getTopic().getSeoName(), 'page': "last"}) }}#{{object.getSeoName()}}-{{object.getId()}}'">
+    <div class="symbb_category_block post {{css}}"  symbb-link="forum_topic_show" param-id="{{object.getTopic().getId()}}" param-name="{{object.getTopic().getSeoName()}}">
         <div class="text">
             <div class="lastpost">
                 <div class="avatar_mini avatar">

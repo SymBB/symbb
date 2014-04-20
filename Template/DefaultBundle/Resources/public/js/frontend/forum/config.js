@@ -1,28 +1,24 @@
-var symbbUserLang = navigator.language || navigator.userLanguage; 
 
-var angularConfig = {
-    
-    goTo: function(route, params, urlKey){
-        window.location.href='#'+this.getAngularRoute(route, params, urlKey);
-    },
+var angularForumRouting = {
     
     routingData: {
-        index: {
-            'url': ['/forum', '/:lang/forum', '/:lang', '/'],
+        
+        forum_index: {
+            'url': ['/forum/', '/'],
             'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
         forum_list_main: {
-            'url': ['/forum'],
+            'url': ['/forum/'],
             'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
         forum_list:  {
-            'url': ['/forum/:id/:name'],
+            'url': ['/forum/:id/:name/'],
             'api': 'symbb_api_forum_list',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
@@ -38,7 +34,7 @@ var angularConfig = {
             'api': 'symbb_api_forum_mark_as_read'
         },
         forum_topic_show:  {
-            'url': ['/topic/:id/:name'],
+            'url': ['/topic/:id/:name/'],
             'api': 'symbb_api_forum_topic_show',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumTopicShow'},
@@ -48,70 +44,13 @@ var angularConfig = {
             'api': 'symbb_api_forum_topic_post_list',
         },
         forum_topic_create:  {
-            'url': ['/forum/:id/topic/new'],
+            'url': ['/forum/:id/topic/new/'],
             'api': 'symbb_api_forum_topic_create',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumTopicCreate'},
             'controller': 'ForumTopicCreateCtrl'
-        },
+        }
                 
-    },
-  
-    getSymfonyApiRoute: function(route, params){
-        var routePath =  '';
-        if(this.routingData[route] && this.routingData[route]['api']){
-            if(!params){
-                params = {};
-            }
-            params._locale = symbbUserLang;
-            routePath = Routing.generate(this.routingData[route]['api'], params);
-        }
-        return routePath;
-    },
-  
-    getSymfonyRoute: function(route, params){
-        params._locale = symbbUserLang;
-        var routePath =  Routing.generate(route, params);
-        return routePath;
-    },
-  
-    getSymfonyTemplateRoute: function(route, params){
-        var routePath =  '';
-        if(this.routingData[route] && this.routingData[route]['template']){
-            if(!params){
-                params = {};
-            }
-            var realParams = this.routingData[route]['templateParam'];
-            if(!realParams){
-                realParams = {};
-            }
-            $.each(params, function(key, value){
-                realParams[key] = value;
-            });
-            realParams._locale = symbbUserLang;
-            routePath = Routing.generate(this.routingData[route]['template'], realParams);
-        }
-        return routePath;
-    },
-  
-    getAngularController: function(route){
-        return this.routingData[route]['controller'];
-    },
-  
-    getAngularRoute: function(route, params, urlKey){
-
-        if(!params){
-            params = {};
-        }
-        if(!urlKey){
-            urlKey = 0;    
-        }
-        var routePath = this.routingData[route]['url'];
-        routePath = routePath[urlKey];
-        $.each(params, function(key, value){
-            routePath = routePath.replace(':'+key, value);
-        });
-        return routePath;
     },
     
     createAngularRouting: function($routeProvider){
@@ -130,4 +69,42 @@ var angularConfig = {
         });
         
     }
+    
 };
+
+// add routing to main routing
+$.each(angularForumRouting.routingData, function(key, value){
+    angularConfig.routingData[key] = value;
+});
+
+// Topic constructor function to encapsulate HTTP and pagination logic
+symbbApp.factory('Topics', function($http) {
+    
+  var Topics = function() {
+    this.posts = [];
+    this.busy = false;
+    this.page = 1;
+    this.id = 0;
+    this.end = false;
+  };
+
+  Topics.prototype.nextPage = function() {
+    if (this.busy || this.end) return;
+    this.busy = true;
+
+    var url = angularConfig.getSymfonyApiRoute('forum_topic_post_list',  {id: this.id, page: this.page + 1});
+    $http.get(url).success(function(data) {
+      var posts = data;
+      for (var i = 0; i < posts.length; i++) {
+        this.posts.push(posts[i]);
+      }
+      if(posts.length <= 0){
+          this.end = true;
+      }
+      this.page = this.page + 1;
+      this.busy = false;
+    }.bind(this));
+  };
+
+  return Topics;
+});

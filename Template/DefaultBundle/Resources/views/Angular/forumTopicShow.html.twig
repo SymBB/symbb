@@ -5,7 +5,6 @@
     <div class="title">[[ topic.name ]]</div>
     <div class="btn-group pull-left">
         <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
-        <button type="button" class="btn btn-default btn-sm">{{ 'Bottom'|trans }}</button>
     </div> 
     <div class="clear"></div>
 </div>
@@ -82,14 +81,6 @@
     </div>
 </div>
     
-<div class="symbb_action_row topic_end">
-    <div class="title">&nbsp;</div>
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href = '#top'">{{ 'Top'|trans }}</button>
-    </div>
-    <div class="clear"></div>
-</div>
-
 <div class="" ng-show="topic.closed">
     <div class="m-top-1"></div>
     <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>

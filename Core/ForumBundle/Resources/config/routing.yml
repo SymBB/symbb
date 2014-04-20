@@ -1,5 +1,5 @@
 _symbb_index:
-    pattern:  /portal/
+    pattern:  /forum/
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
     
 symbb_forum_index:
