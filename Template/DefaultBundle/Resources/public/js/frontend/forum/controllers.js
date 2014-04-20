@@ -2,7 +2,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
     function($scope, $http, $routeParams, $timeout) {
         var forumId = 0
         if($routeParams && $routeParams.id){
-            forumId = $routeParams.id
+            forumId = $routeParams.id;
         }
         var route = angularConfig.getSymfonyApiRoute('forum_list', { parent: forumId });
         $http.get(route).success(function(data) {
@@ -14,8 +14,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $scope.hasCategoryList = data.hasCategoryList;
             $scope.hasTopicList = data.hasTopicList;
             $scope.access = data.access;
-            $scope.createBreadcrumb(data.breadcrumbItems);
-            $timeout(textMatchOneLine, 0)
+            $timeout(textMatchOneLine, 0);
         });
         
     }
@@ -27,7 +26,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $.each(data, function(key, value){
                 $scope[key] = value;
             });
-            $scope.createBreadcrumb(data.breadcrumbItems);
             $scope.topics = new Topics();
             $scope.topics.id = $scope.topic.id;
             $scope.topics.posts = $scope.topic.posts;
@@ -37,11 +35,30 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 ]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams',
     function($scope, $http, $routeParams) {
         var forumId = $routeParams.id
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_create', { forum: forumId });
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_create', { id: forumId });
         $http.get(route).success(function(data) {
+            
+            $scope.topic = {};
+            $scope.forum = {};
+            
             $.each(data, function(key, value){
                 $scope[key] = value;
             });
+            
+            $scope.master = {};
+
+            $scope.update = function(topic) {
+                $scope.master = angular.copy(topic);
+                $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {forumId: $scope.forum.id}), $scope.master).success(function(data) {
+                    if(data.success){
+                        angularConfig.goTo('forum_topic_show', {id: data.id, name: $scope.master.name});
+                    }
+                });
+            };
+
+            $scope.reset = function() {
+                $scope.topic = angular.copy($scope.master);
+            };
         });
     }
 ]);

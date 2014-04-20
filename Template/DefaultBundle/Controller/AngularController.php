@@ -28,4 +28,17 @@ class AngularController extends Controller
         
         return $response;
     }
+    
+    public function formFileAction($file)
+    {
+        $response = $this->render(
+            'SymBBTemplateDefaultBundle:Angular:Form/'.$file.'.html.twig',
+            array()
+        );
+        
+        $response->setPrivate();
+        
+        return $response;
+    }
+    
 }

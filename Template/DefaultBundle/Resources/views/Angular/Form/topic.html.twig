@@ -1,0 +1,53 @@
+{% trans_default_domain "symbb_frontend" %}
+
+<div class="symbb_topic ">
+    <form name="form" class="css-form">
+        <div class="panel panel-default">
+            <div class="panel-heading">[[forum.name]]</div>
+            <div class="panel-body">
+            
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <label class="required" for="topic_name">{{'Title'|trans}}</label>
+                    </span>
+                    <input type="text" ng-model="topic.name" name="topic[name]" required class="form-control" placeholder="{{'Enter a name here'|trans}}" required="required">
+                </div>
+                <input type="hidden" ng-model="topic.id"  name="topic[id]">
+                <input type="hidden" ng-model="topic.mainPost.id" name="topic[mainPost][id]">
+                <input type="hidden" ng-model="forum.id" required name="forum[id]" required>
+          
+                <div class="symbb_bbcodes symbb_header_bg">
+                    {% for key, groups in getSymbbBBCodes('default') %}
+                    <div class="symbb_bbcodes_group">
+                        {% for bbcode in groups %}
+                            <div class="symbb_bbcode_btn" data-tag-code="{{ bbcode.code }}" class="btn btn-default btn-sm symbb_bbcode_code" title="{{ bbcode.tag }}"><img alt="{{ bbcode.tag }}" title="{{ bbcode.tag }}" src="{{ bbcode.image }}" /></div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <div class="clear"></div>
+                </div>
+                <div class="symbb_editor">
+                    <textarea ng-model="topic.mainPost.text" required placeholder="{{'Give Your text here'|trans}}" required="required" name="topic[mainPost][text]" class="form-control"></textarea>
+                </div>
+    
+                <div class="m-top-1"></div>
+                <div ng-show="tabCheck" class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li ng-repeat="tab in tabs">
+                                <a class="symbb_tab" data-tab="[[tab.key]]">[[tab.name]]</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="symbb_tabcontent" ng-repeat="tab in tabs" data-tab="[[tab.key]]">
+                            <div class="panel panel-default" ng-bin-html="tab.content"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success" type="submit" ng-click="update(topic)" ng-disabled="form.$invalid">{{ 'Save'|trans }}</button>
+                <button class="btn btn-danger" symbb-js-link="forum_list" param-id="[[forum.id]]" param-name="[[forum.name]]">{{ 'Abort'|trans }}</button>
+            </div>
+        </div>
+    </form>
+</div>

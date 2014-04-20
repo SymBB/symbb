@@ -46,9 +46,12 @@ var angularForumRouting = {
         forum_topic_create:  {
             'url': ['/forum/:id/topic/new/'],
             'api': 'symbb_api_forum_topic_create',
-            'template': 'symbb_template_default_angular',
-            'templateParam': { file: 'forumTopicCreate'},
+            'template': 'symbb_template_default_angular_form',
+            'templateParam': { file: 'topic'},
             'controller': 'ForumTopicCreateCtrl'
+        },
+        forum_topic_save:  {
+            'api': 'symbb_api_forum_topic_save'
         }
                 
     },
@@ -98,9 +101,11 @@ symbbApp.factory('Topics', function($http) {
       for (var i = 0; i < posts.length; i++) {
         this.posts.push(posts[i]);
       }
-      if(posts.length <= 0){
+ 
+      if(!posts.length || posts.length <= 0){
           this.end = true;
       }
+
       this.page = this.page + 1;
       this.busy = false;
     }.bind(this));
