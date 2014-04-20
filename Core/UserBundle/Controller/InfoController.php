@@ -26,10 +26,10 @@ class InfoController extends \SymBB\Core\SystemBundle\Controller\AbstractControl
         );
     }
 
-    public function profileAction($userId)
+    public function profileAction($id)
     {
 
-        $user = $this->get('symbb.core.user.manager')->find($userId);
+        $user = $this->get('symbb.core.user.manager')->find($id);
 
         return $this->render(
             $this->getTemplateBundleName('forum') . ':User:profile.html.twig', array('user' => $user)

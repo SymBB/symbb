@@ -6,6 +6,7 @@
     {{ parent() }}
     {% stylesheets 
         '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css' filter='?yui_css'
+        '@SymBBTemplateDefaultBundle/Resources/public/css/topic.css' filter='?yui_css'
         '@SymBBTemplateDefaultBundle/Resources/public/css/angular/loading-bar.css' filter='?yui_css'
      %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -23,6 +24,7 @@
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js' filter='?yui_js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js' filter='?yui_js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js' filter='?yui_js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js' filter='?yui_js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js' filter='?yui_js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js' filter='?yui_js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/forum/*.js' filter='?yui_js'

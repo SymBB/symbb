@@ -78,11 +78,11 @@ class EventExtension extends \Twig_Extension
         return $html;
     }
 
-    public function executeSymbbTemplatePostEvent($eventName, \SymBB\Core\ForumBundle\Entity\Post $post)
+    public function executeSymbbTemplatePostEvent($eventName)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new TemplatePostEvent($this->env, $post);
+        $event      = new TemplatePostEvent($this->env);
         $dispatcher->dispatch('symbb.post.template.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;

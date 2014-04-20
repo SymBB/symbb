@@ -43,16 +43,17 @@ class TemplateListener
         $event->render('SymBBExtensionSurveyBundle:Topic:tabcontent.html.twig', array('form' => $event->getForm()));
 
     }
-
-    public function addSurveyBlock($event)
-    {
+    
+    public function addSurveyBlockData($event){
         $post = $event->getPost();
         $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
         $survey = $repo->findOneBy(array('post' => $post));
-        if (is_object($survey)) {
-            $event->render('SymBBExtensionSurveyBundle:Post:survey.html.twig', array('post' => $post, 'survey' => $survey));
-        }
+        return array('post' => $post, 'survey' => $survey);
+    }
 
+    public function addSurveyBlock($event)
+    {
+        $event->render('SymBBExtensionSurveyBundle:Post:survey.html.twig', array('post' => array(), 'survey' => array()));
     }
 
     public function topicStylesheets($event)

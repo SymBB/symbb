@@ -55,17 +55,19 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $post = $this->em->getRepository('SymBBCoreForumBundle:Topic')->find($topicId);
         return $post;
     }
-
+    
     /**
      * 
      * @param int $topicId
      * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
      */
-    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $limit = null, $offset = 0, $orderDir = 'desc')
+    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
         if($limit === null){
             $limit = $topic->getForum()->getEntriesPerPage();
         }
+        
+        $offset = (($page - 1) * $limit);
         
         $posts = $this->em->getRepository('SymBBCoreForumBundle:Post')->findBy(array('topic' => $topic->getId()), array('created' => $orderDir), $limit, $offset);
         
@@ -79,5 +81,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     public function getFlagHandler()
     {
         return $this->topicFlagHandler;
+    }
+    
+    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Topic $object, ForumManager $forumManager){
+        $breadcrumb = $forumManager->getBreadcrumbData($object->getForum());
+        $breadcrumb[] = array(
+                'type' => 'topic',
+                'name' => $object->getName(),
+                'id' => $object->getId()
+            );
+        return $breadcrumb;
     }
 }

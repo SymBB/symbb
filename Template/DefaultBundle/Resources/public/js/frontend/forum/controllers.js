@@ -21,20 +21,29 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams',
         });
         
     }
-]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams',
-    function($scope, $http, $routeParams) {
-        var forumId = $routeParams.id
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_list', { forum: forumId });
+]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'Topics',
+    function($scope, $http, $routeParams, Topics) {
+        var id = $routeParams.id
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_show', { id: id });
         $http.get(route).success(function(data) {
-
+            $.each(data, function(key, value){
+                $scope[key] = value;
+            });
+            $scope.createBreadcrumb(data.breadcrumbItems);
+            $scope.topics = new Topics();
+            $scope.topics.id = $scope.topic.id;
+            $scope.topics.posts = $scope.topic.posts;
+            $scope.topics.page = $scope.page;
         });
     }
 ]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams',
     function($scope, $http, $routeParams) {
         var forumId = $routeParams.id
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_list', { forum: forumId });
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_create', { forum: forumId });
         $http.get(route).success(function(data) {
-
+            $.each(data, function(key, value){
+                $scope[key] = value;
+            });
         });
     }
 ]);
@@ -61,12 +70,32 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                     if(value.type === 'forum'){
                         route = 'forum_list';
                         params = {id: value.id, name: value.name};
+                    } else if(value.type === 'topic'){
+                        route = 'forum_topic_show';
+                        params = {id: value.id, name: value.name};
                     }
                     var path = angularConfig.getAngularRoute(route, params);
                     $('<li><a href="#'+path+'">'+value.name+'</a>'+spacer+'</li>').appendTo($(elm[0]));
                     i++;
                 });
             };
+        }
+    };
+}).directive('symbbSfLink', function() {
+    return {
+        restrict: 'A',
+        transclude: true,
+        template: '<a href="" ng-transclude></a>',
+        link: function(scope, element, attrs) {
+            var params = {};
+            if(attrs.paramId){
+                params.id = attrs.paramId;
+            }
+            if(attrs.paramName){
+                params.name = attrs.paramName;
+            }
+            var path = angularConfig.getSymfonyRoute(attrs.symbbSfLink, params);
+            $(element[0]).children('a').attr('href', path);
         }
     };
 }).directive('symbbLink', function() {
@@ -84,7 +113,6 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             }
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
             $(element[0]).children('a').attr('href', '#'+path);
-            element.href = path;
         }
     };
 }).directive('symbbJsLink', function() {

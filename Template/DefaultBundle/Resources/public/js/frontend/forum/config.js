@@ -44,13 +44,17 @@ var angularConfig = {
             'templateParam': { file: 'forumTopicShow'},
             'controller': 'ForumTopicShowCtrl'
         },
+        forum_topic_post_list:  {
+            'api': 'symbb_api_forum_topic_post_list',
+        },
         forum_topic_create:  {
             'url': ['/forum/:id/topic/new'],
             'api': 'symbb_api_forum_topic_create',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumTopicCreate'},
             'controller': 'ForumTopicCreateCtrl'
-        }
+        },
+                
     },
   
     getSymfonyApiRoute: function(route, params){
@@ -62,6 +66,12 @@ var angularConfig = {
             params._locale = symbbUserLang;
             routePath = Routing.generate(this.routingData[route]['api'], params);
         }
+        return routePath;
+    },
+  
+    getSymfonyRoute: function(route, params){
+        params._locale = symbbUserLang;
+        var routePath =  Routing.generate(route, params);
         return routePath;
     },
   

@@ -1,0 +1,97 @@
+{% trans_default_domain "symbb_frontend" %}
+
+<div class="anker-group"><div class="anker" id="first_header"></div></div>
+<div class="symbb_action_row topic_start">
+    <div class="title">[[ topic.name ]]</div>
+    <div class="btn-group pull-left">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
+        <button type="button" class="btn btn-default btn-sm">{{ 'Bottom'|trans }}</button>
+    </div> 
+    <div class="clear"></div>
+</div>
+
+<div ng-show="topic.closed">
+    <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
+    <div class="clear"></div>
+</div>
+
+<div class="symbb_topic" infinite-scroll='topics.nextPage()' infinite-scroll-disabled='topics.busy' infinite-scroll-distance='1'>
+
+    <div ng-repeat='post in topics.posts'>
+
+        <div class="anker-group">
+            <div class="anker" id="[[post.seo.name]]-[[post.id]]"></div>
+        </div>
+        <div class="symbb_action_row">
+            <div class="title">
+            {{ executeSymbbTemplatePostEvent('before.username') }}
+                <span symbb-sf-link="symbb_user_profile" param-id="[[post.author.id]]" param-name="[[post.author.username]]">
+                    [[post.author.username]]
+                </span>
+            {{ executeSymbbTemplatePostEvent('after.username') }}
+            </div>
+            <div class="arrow"></div>
+            <div class="date">
+            {% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+            </div>              
+            <div class="btn-group pull-right">
+                <button ng-show="topic.access.createPost" type="button" class="btn quote btn-info" data-user="[[post.author.username]]" data-quote="[[post.rawText]]" >{% trans %}Quote{% endtrans %}</button>
+                <button ng-show="post.access.edit" type="button" class="btn btn-primary">{% trans %}Edit{% endtrans %}</button>
+                <button ng-show="post.access.delete" type="button" class="btn btn-danger" symbb-delete-link="symbb_delete_post" param-id="[[post.id]]" param-text="{% trans %}you really want to delete the entry?{% endtrans %}">{% trans %}Delete{% endtrans %}</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="row body">
+            <div class="media">
+                <div class="pull-left userblock">
+                    {{ executeSymbbTemplatePostEvent('before.avatar') }}
+                    <div class="avatar">
+                        <img src="[[post.author.avatar]]" />
+                    </div>
+                    <div class="clear"></div>
+                    {{ executeSymbbTemplatePostEvent('after.avatar') }}
+                    <div class="clear"></div>
+                    {{ executeSymbbTemplatePostEvent('before.userdata') }}
+                    <div class="userdata">
+                        <div class="text">{% trans %}posts{% endtrans %}:</div>
+                        <div class="data">[[post.author.count.post]]</div>
+                        <div class="clear"></div>
+                        <div class="text">{% trans %}Join Date{% endtrans %}:</div>
+                        <div class="data">[[ post.author.created | date:'dd.MM.yyyy']]</div>
+                        <div class="clear"></div>
+                    </div>
+                     {{ executeSymbbTemplatePostEvent('after.userdata') }}
+                </div>
+                <div class="media-body textblock">
+                    <div class="clear"></div>
+                    {{ executeSymbbTemplatePostEvent('before.text') }}
+                    <div class="text" id="symbb_post_body_[[post.id]]" ng-bind-html="post.text"></div>
+                    {{ executeSymbbTemplatePostEvent('after.text') }}
+                    {{ executeSymbbTemplatePostEvent('before.signature') }}
+                    <div ng-bind-html="post.signature"></div>
+                    {{ executeSymbbTemplatePostEvent('after.signature') }}
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div ng-show='topics.busy' class="" ng-show="topic.closed">
+        <div class="m-top-1"></div>
+        <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
+        <div class="clear"></div>
+    </div>
+</div>
+    
+<div class="symbb_action_row topic_end">
+    <div class="title">&nbsp;</div>
+    <div class="btn-group pull-left">
+        <button type="button" class="btn btn-default btn-sm" onclick="window.location.href = '#top'">{{ 'Top'|trans }}</button>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="" ng-show="topic.closed">
+    <div class="m-top-1"></div>
+    <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
+    <div class="clear"></div>
+</div>
