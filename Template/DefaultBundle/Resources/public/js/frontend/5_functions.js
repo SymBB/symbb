@@ -1,4 +1,4 @@
-var refesh = function(scope, route){
+var refesh = function(data, route){
     route.reload();
 };
 
@@ -18,8 +18,9 @@ var symbbAngularUtils = {
     
     breadcrumbElement: null,
     
-    checkResponse: function(response){
+    checkResponse: function(response, $injector){
 
+        var $route = $injector.get('$route');
         var data = response.data;
         var errors = false;
         
@@ -40,9 +41,9 @@ var symbbAngularUtils = {
                 var fn = window[value];
 
                 // is object a function?
-                if (typeof fn === "function") fn(scope, $route);
+                if (typeof fn === "function") fn(data, $route);
             });
-        }  
+        } 
 
         if(data.breadcrumbItems && data.breadcrumbItems.length > 0){
             this.createBreadcrumnb(data.breadcrumbItems);
