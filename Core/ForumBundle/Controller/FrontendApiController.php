@@ -21,7 +21,37 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Method({"POST"})
      */
     public function forumIgnore($id){
-        
+       
+        try {
+            $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+                ->find($id);
+            $this->get('symbb.core.forum.manager')->ignoreForum($forum, $this->get('symbb.core.forum.flag'));
+
+            $params = array(
+                'messages' => array(
+                    array(
+                        'type' => 'success',
+                        'message' => $this->get('translator')->trans('You are now ignoring the Forum')
+                    )
+                ),
+                'callbacks' => array(
+                    'refesh'
+                )
+            );
+        } catch (Exception $exc) {
+            $params = array(
+                'messages' => array(
+                    array(
+                        'type' => 'danger',
+                        'message' => $this->get('translator')->trans('An error has occurred')
+                    )
+                )
+            );
+        }
+
+        $response = new Response(json_encode($params));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
     
     /**
@@ -30,6 +60,37 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      */
     public function forumUnignore($id){  
         
+        try {
+            $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+                ->find($id);
+
+            $this->get('symbb.core.forum.manager')->watchForum($forum, $this->get('symbb.core.forum.flag'));
+
+            $params = array(
+                'messages' => array(
+                    array(
+                        'type' => 'success',
+                        'message' => $this->get('translator')->trans('You are now watching the forum again')
+                    )
+                ),
+                'callbacks' => array(
+                    'refesh'
+                )
+            );
+        } catch (Exception $exc) {
+            $params = array(
+                'messages' => array(
+                    array(
+                        'type' => 'danger',
+                        'message' => $this->get('translator')->trans('An error has occurred')
+                    )
+                )
+            );
+        }
+
+        $response = new Response(json_encode($params));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
     
     /**
@@ -37,7 +98,24 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Method({"POST"})
      */
     public function forumMarkAsRead($id){  
+        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->find($id);
+        $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
         
+        $params = array(
+            'messages' => array(
+                array(
+                    'type' => 'success',
+                    'message' => $this->get('translator')->trans('The forum has been marked as read')
+                )
+            ),
+            'callbacks' => array(
+                'refesh'
+            )
+        );
+        $response = new Response(json_encode($params));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
     
     /**
@@ -191,7 +269,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['count']['post'] = $topic->getPostCount();
             $array['closed'] = $topic->isLocked();
             $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
-            foreach($topic->getFlags() as $flag){
+            foreach($this->get('symbb.core.topic.flag')->findAll($topic) as $flag){
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
             $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic);
@@ -230,6 +308,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['id'] = 0;
         $array['name'] = '';
         $array['description'] = '';
+        $array['ignore'] = false;
         $array['count']['topic'] = 0;
         $array['count']['post'] = 0;
         $array['backgroundImage'] = "";
@@ -248,7 +327,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['description'] = $forum->getDescription();
             $array['count']['topic'] = $forum->getTopicCount();
             $array['count']['post'] = $forum->getPostCount();
-            foreach($forum->getFlags() as $flag){
+            foreach($this->get('symbb.core.forum.flag')->findAll($forum) as $flag){
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
             foreach($forum->getChildren() as $child){
@@ -274,6 +353,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 'createTopic' => $writeAccess,
                 'createPost' => $writePostAccess
             );
+            
+            $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
             
         }
         

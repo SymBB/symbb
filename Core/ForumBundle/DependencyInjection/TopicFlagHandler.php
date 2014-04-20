@@ -62,6 +62,20 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
 
         return $flagObject;
     }
+    
+    public function findAll($object, UserInterface $user = null)
+    {
+        if (!$user) {
+            $user = $this->getUser();
+        }
+
+        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Topic\Flag', 'symbb')->findBy(array(
+            'topic' => $object,
+            'user' => $user
+        ));
+
+        return $flagObject;
+    }
 
     public function createNewFlag($object, UserInterface $user, $flag)
     {

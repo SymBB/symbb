@@ -1,5 +1,5 @@
-symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams',
-    function($scope, $http, $routeParams) {
+symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout',
+    function($scope, $http, $routeParams, $timeout) {
         var forumId = 0
         if($routeParams && $routeParams.id){
             forumId = $routeParams.id
@@ -15,6 +15,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams',
             $scope.hasTopicList = data.hasTopicList;
             $scope.access = data.access;
             $scope.createBreadcrumb(data.breadcrumbItems);
+            $timeout(textMatchOneLine, 0)
         });
         
     }

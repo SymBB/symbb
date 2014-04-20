@@ -3,7 +3,7 @@ var symbbUserLang = navigator.language || navigator.userLanguage;
 var angularConfig = {
     
     goTo: function(route, params, urlKey){
-        window.location.href=this.getSymfonyRoute('forum_index')+'#'+this.getAngularRoute(route, params, urlKey);
+        window.location.href=this.getSymfonyRoute('symbb_forum_index')+'#'+this.getAngularRoute(route, params, urlKey);
     },
     
     routingData: {},

@@ -74,8 +74,11 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div ng-show='topics.busy' class="" ng-show="topic.closed">
-        <div class="m-top-1"></div>
+    <div ng-hide='topics.end'>
+        <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
+        <div class="clear"></div>
+    </div>
+    <div ng-show='topics.busy'>
         <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
         <div class="clear"></div>
     </div>

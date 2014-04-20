@@ -100,7 +100,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             timer(tooltip, 0)
         }
     };
-}]).directive('symbbRequest', ['$http', function($http) {
+}]).directive('symbbRequest', ['$http', '$route', function($http, $route) {
     return {
         restrict: 'A',
         transclude: false,
@@ -114,9 +114,21 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                 if(attrs.paramName){
                     params.name = attrs.paramName;
                 }
-                console.debug(attrs.symbbRequest);
-                $http.get(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
-                    console.debug(data);
+                $http.post(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
+                    if(data.messages){
+                        $.each(data.messages, function(key, value){
+                            $('<div class="alert alert-'+value.type+'"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+value.message+'</div>').appendTo($('#symbbMessages'));
+                        });
+                    } 
+                    if(data.callbacks){
+                        $.each(data.callbacks, function(key, value){
+                            // find object
+                            var fn = window[value];
+
+                            // is object a function?
+                            if (typeof fn === "function") fn(scope, $route);
+                        });
+                    }
                 });
             });
         }

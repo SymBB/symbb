@@ -55,6 +55,8 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
 
     public abstract function findOne($flag, $object, \SymBB\Core\UserBundle\Entity\UserInterface $user);
 
+    public abstract function findAll($object, \SymBB\Core\UserBundle\Entity\UserInterface $user);
+
     public abstract function findFlagsByObjectAndFlag($object, $flag);
 
     public abstract function createNewFlag($object, \SymBB\Core\UserBundle\Entity\UserInterface $user, $flag);

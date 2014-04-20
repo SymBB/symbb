@@ -274,4 +274,48 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         
         return $breadcrumb;
     }
+    
+    public function isIgnored(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $check = $flagHandler->checkFlag($forum, 'ignore');
+        return $check;
+    }
+    
+    public function ignoreForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $flagHandler->insertFlag($forum, 'ignore');
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->ignoreForum($subForm, $flagHandler);
+        }
+        return true;
+    }
+
+    public function watchForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $flagHandler->removeFlag($forum, 'ignore');
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->watchForum($subForm, $flagHandler);
+        }
+        return true;
+    }
+    
+    public function markAsRead(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        
+        $flagHandler->removeFlag($forum, 'new');
+
+        $topics = $forum->getTopics();
+        foreach ($topics as $topic) {
+            $this->topicFlagHandler->removeFlag($topic, 'new');
+        }
+
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->markAsRead($subForm, $flagHandler);
+        }
+        
+        return true;
+    }
 }
