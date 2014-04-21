@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    
+    symbbTabs();
+});
+
+
+var symbbTabs = function(){
     var activeTab = new Array();
     var lastActivTab = new Array(); 
     var groups = new Array();
@@ -40,9 +44,9 @@ $(document).ready(function() {
             }
             if(groupkey === tabgroupKey){
                 if(currentKey !== tabContentKey){
-                    $(content).hide();
+                    $(content).removeClass('active');
                 } else {
-                    $(content).show();
+                    $(content).addClass('active');
                 }
                 $(content).find('.alert-danger').each(function(key, element){
                     $('.symbb_tab').each(function(key, tab){
@@ -56,5 +60,4 @@ $(document).ready(function() {
             }
         });
     }
-    
-});
+}

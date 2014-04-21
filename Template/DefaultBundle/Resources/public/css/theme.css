@@ -566,6 +566,13 @@ html, body {
     border-radius: 0px !important;
 }
 
+.symbb_tabcontent {
+    display: none;
+}
+
+.symbb_tabcontent.active {
+    display: inherit;
+}
 
 @media (max-width: 992px) { 
     .symbb_action_row .title{

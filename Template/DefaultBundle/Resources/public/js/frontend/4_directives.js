@@ -71,6 +71,15 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             timer(tooltip, 0)
         }
     };
+}]).directive('symbbFormTabs', ['$timeout', function(timer) {
+    return {
+        restrict: 'A',
+        transclude: false,
+        replace: false,
+        link: function(scope, element, attrs) {
+            timer(symbbTabs, 0)
+        }
+    };
 }]).directive('symbbRequest', ['$http', '$route', function($http, $route) {
     return {
         restrict: 'A',

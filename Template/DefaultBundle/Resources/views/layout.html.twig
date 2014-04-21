@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}" ng-app="symbbApp">
+<html lang="{{ app.request.locale }}" ng-app="app">
   <head>
     <title>{% block title %}{{getSymbbSite().getName()}}{% endblock %}</title>
     <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
@@ -34,6 +34,7 @@
         {% javascripts 
             '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js' filter='?yui_js'
@@ -42,6 +43,9 @@
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js' filter='?yui_js'
             '@FOSJsRoutingBundle/Resources/public/js/router.js' filter='?yui_js'

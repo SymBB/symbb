@@ -55,8 +55,10 @@ var angularForumRouting = {
         },
         forum_topic_save:  {
             'api': 'symbb_api_forum_topic_save'
-        }
-                
+        },
+        forum_topic_upload_image:  {
+            'api': 'symbb_api_forum_topic_upload_image'
+        } 
     },
     
     createAngularRouting: function($routeProvider){
@@ -84,7 +86,7 @@ $.each(angularForumRouting.routingData, function(key, value){
 });
 
 // Topic constructor function to encapsulate HTTP and pagination logic
-symbbApp.factory('ScrollPagination', function($http) {
+app.factory('ScrollPagination', function($http) {
     
   var ScrollPagination = function(route, routeParams, items, page, total) {
       

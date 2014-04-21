@@ -19,6 +19,15 @@ use SymBB\Core\ForumBundle\Entity\Post;
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
 
+    
+    /**
+     * @Route("/api/topic/{id}/upload/image", name="symbb_api_forum_topic_upload_image")
+     * @Method({"PUT"})
+     */
+    public function topicUploadImageAction($id){
+        
+    }
+    
     /**
      * @Route("/api/forum/{forumId}/topic/save", name="symbb_api_forum_topic_save")
      * @Method({"POST"})

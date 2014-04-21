@@ -1,14 +1,16 @@
-var symbbApp = angular.module('symbbApp', [
+var app = angular.module('app', [
     'ngRoute',
     'ngCookies',
     'ngAnimate',
     'ngSanitize',
     'chieffancypants.loadingBar',
     'infinite-scroll',
-    'symbbControllers'
+    'symbbControllers',
+    'angularFileUpload',
+    'angularTumb'
 ]);
 
-symbbApp.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$provide',
+app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$provide',
     function($routeProvider, $interpolateProvider, $httpProvider, $provide) {
         
         //changeing because of twig
@@ -27,7 +29,7 @@ symbbApp.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$pr
     }]
 );
 
-symbbApp.factory('symbbApiHttpInterceptor', function($q, $injector) {
+app.factory('symbbApiHttpInterceptor', function($q, $injector) {
     return {
         // On request success
         request: function(config) {
