@@ -65,11 +65,6 @@
 
 })(jQuery);
 
-
-$(document).ready(function() {
-   
-});
-
 if(symbbControllers){
     symbbControllers.directive('symbbBbcodeEditor', ['$timeout', function(timer) {
         return {

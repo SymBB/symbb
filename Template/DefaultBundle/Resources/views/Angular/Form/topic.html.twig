@@ -87,6 +87,9 @@
                                                 <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                                             </td>
                                             <td nowrap>
+                                                <button type="button" class="btn btn-success btn-xs" ng-disabled="!item.isSuccess ">
+                                                    <span class=" glyphicon glyphicon-paperclip"></span> {{'Insert'|trans}}
+                                                </button>
                                                 <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                                                     <span class="glyphicon glyphicon-upload"></span> {{'Upload'|trans}}
                                                 </button>
