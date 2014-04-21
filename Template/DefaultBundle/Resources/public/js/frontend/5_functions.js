@@ -69,7 +69,7 @@ var symbbAngularUtils = {
                 var route = 'forum_index';
                 var params = {};
                 if(value.type === 'forum'){
-                    route = 'forum_list';
+                    route = 'forum_show';
                     params = {id: value.id, name: value.name};
                 } else if(value.type === 'topic'){
                     route = 'forum_topic_show';

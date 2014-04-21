@@ -14,9 +14,9 @@
     <div class="clear"></div>
 </div>
 
-<div class="symbb_topic" infinite-scroll='topics.nextPage()' infinite-scroll-disabled='topics.busy' infinite-scroll-distance='1'>
+<div class="symbb_topic" infinite-scroll='postPagination.nextPage()' infinite-scroll-disabled='postPagination.busy' infinite-scroll-distance='1'>
 
-    <div ng-repeat='post in topics.posts'>
+    <div ng-repeat='post in postPagination.items'>
 
         <div class="anker-group">
             <div class="anker" id="[[post.seo.name]]-[[post.id]]"></div>
@@ -74,11 +74,11 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div ng-hide='topics.end'>
+    <div ng-hide='postPagination.end'>
         <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
         <div class="clear"></div>
     </div>
-    <div ng-show='topics.busy'>
+    <div ng-show='postPagination.busy'>
         <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
         <div class="clear"></div>
     </div>

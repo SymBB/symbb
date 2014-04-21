@@ -5,24 +5,27 @@ var angularForumRouting = {
         
         forum_index: {
             'url': ['/forum/', '/'],
-            'api': 'symbb_api_forum_list',
+            'api': 'symbb_api_forum_data',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
-        forum_list_main: {
+        forum_show_main: {
             'url': ['/forum/'],
-            'api': 'symbb_api_forum_list',
+            'api': 'symbb_api_forum_data',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
-        forum_list:  {
+        forum_show:  {
             'url': ['/forum/:id/:name/'],
-            'api': 'symbb_api_forum_list',
+            'api': 'symbb_api_forum_data',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
+        },
+        forum_topic_list:  {
+            'api': 'symbb_api_forum_topic_list',
         },
         forum_ignore:  {
             'api': 'symbb_api_forum_ignore'
@@ -35,7 +38,7 @@ var angularForumRouting = {
         },
         forum_topic_show:  {
             'url': ['/topic/:id/:name/'],
-            'api': 'symbb_api_forum_topic_show',
+            'api': 'symbb_api_forum_topic_data',
             'template': 'symbb_template_default_angular',
             'templateParam': { file: 'forumTopicShow'},
             'controller': 'ForumTopicShowCtrl'
@@ -81,35 +84,59 @@ $.each(angularForumRouting.routingData, function(key, value){
 });
 
 // Topic constructor function to encapsulate HTTP and pagination logic
-symbbApp.factory('Topics', function($http) {
+symbbApp.factory('ScrollPagination', function($http) {
     
-  var Topics = function() {
-    this.posts = [];
+  var ScrollPagination = function(route, routeParams, items, page, total) {
+      
+    if(!page){
+        page = 1;
+    }
+      
+    this.items = items;
     this.busy = false;
-    this.page = 1;
-    this.id = 0;
+    this.page = page;
+    this.routeParams = routeParams;
     this.end = false;
+    this.count = items.length;
+    this.totalCount = total;
+    this.route = route;
+    
+    if(this.count >= this.totalCount) {
+       this.end = true;
+    }
+    
   };
 
-  Topics.prototype.nextPage = function() {
+  ScrollPagination.prototype.nextPage = function() {
+      
     if (this.busy || this.end) return;
+    
     this.busy = true;
+        
+    this.page = this.page + 1;
 
-    var url = angularConfig.getSymfonyApiRoute('forum_topic_post_list',  {id: this.id, page: this.page + 1});
+    this.routeParams.page = this.page;
+
+    var url = angularConfig.getSymfonyApiRoute(this.route, this.routeParams);
     $http.get(url).success(function(data) {
-      var posts = data;
-      for (var i = 0; i < posts.length; i++) {
-        this.posts.push(posts[i]);
+      
+      var items = data.items;
+      
+      this.totalCount = data.total;
+      
+      for (var i = 0; i < items.length; i++) {
+        this.items.push(items[i]);
+        this.count++;
       }
- 
-      if(!posts.length || posts.length <= 0){
+
+      if(!items.length || items.length <= 0 || this.count >= this.totalCount ){
           this.end = true;
       }
 
-      this.page = this.page + 1;
       this.busy = false;
+      
     }.bind(this));
   };
 
-  return Topics;
+  return ScrollPagination;
 });

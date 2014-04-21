@@ -158,16 +158,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         
         $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
         
-        $params = array();
+        $params = array('items' => array(), 'total' => count($lastPosts));
         foreach($lastPosts as $post){
-            $params[] = $this->getPostAsArray($post);
+            $params['items'][] = $this->getPostAsArray($post);
         }
         
         return $this->getJsonResponse($params);
     }
     
+    
+    
     /**
-     * @Route("/api/topic/{id}/data", name="symbb_api_forum_topic_show")
+     * @Route("/api/topic/{id}/data", name="symbb_api_forum_topic_data")
      * @Method({"GET"})
      */
     public function topicShowAction($id){  
@@ -188,7 +190,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         
         $params = array(
             'topic' => $this->getTopicAsArray($topic),
-            'page' => 1,
             'access' => array(
                 'create' => $writeAccess,
                 'edit' => $editAccess,
@@ -200,19 +201,37 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         
     }
     
-    
     /**
-     * @Route("/api/forum/{parent}/data", name="symbb_api_forum_list", defaults={"parent" = 0})
+     * @Route("/api/forum/{id}/topics/{page}", name="symbb_api_forum_topic_list")
      * @Method({"GET"})
      */
-    public function forumListAction($parent){
+    public function forumTopicListAction($id, $page){ 
         
-        if((int)$parent === 0){
-            $parent = null;
+        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->find($id);
+        
+        $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
+        
+        $params = array('items' => array(), 'total' => count($topics));
+        foreach($topics as $topic){
+            $params['items'][] = $this->getTopicAsArray($topic);
+        }
+        
+        return $this->getJsonResponse($params);
+    }
+    
+    /**
+     * @Route("/api/forum/{id}/data", name="symbb_api_forum_data", defaults={"id" = 0})
+     * @Method({"GET"})
+     */
+    public function forumDataAction($id){
+        
+        if((int)$id === 0){
+            $id = null;
         }
    
         $forumEnityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => $parent, 'type' => 'forum'), array('position' => 'asc', 'id' => 'asc'));
+            ->findBy(array('parent' => $id, 'type' => 'forum'), array('position' => 'asc', 'id' => 'asc'));
         
         $forumList = array();
         
@@ -227,7 +246,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
         
         $categoryEnityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => $parent, 'type' => 'category'), array('position' => 'asc', 'id' => 'asc'));
+            ->findBy(array('parent' => $id, 'type' => 'category'), array('position' => 'asc', 'id' => 'asc'));
 
         $categoryList = array();
         $hasCategoryList = false;
@@ -242,10 +261,12 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         
         
         $topicList = array();
+        $topicCountTotal = 0;
         $hasTopicList = false;
-        if($parent > 0){
-            $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($parent);
+        if($id > 0){
+            $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
             $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
+            $topicCountTotal = count($topics);
             foreach($topics as $topic){
                 $topicList[] = $this->getTopicAsArray($topic);
                 $hasTopicList = true;
@@ -261,6 +282,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'categoryList' => $categoryList, 
             'forumList' => $forumList, 
             'topicList' => $topicList,
+            'topicTotalCount' => $topicCountTotal,
             'hasForumList' => $hasForumList, 
             'hasCategoryList' => $hasCategoryList, 
             'hasTopicList' => $hasTopicList
@@ -293,14 +315,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if(is_object($topic)){
             $array['id'] = $topic->getId();
             $array['name'] = $topic->getName();
-            $array['count']['post'] = $topic->getPostCount();
             $array['closed'] = $topic->isLocked();
             $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
             foreach($this->get('symbb.core.topic.flag')->findAll($topic) as $flag){
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
-            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic);
-            foreach($lastPosts as $post){
+            $posts = $this->get('symbb.core.topic.manager')->findPosts($topic);
+            $array['count']['post'] = count($posts);
+            foreach($posts as $post){
                 $array['posts'][] = $this->getPostAsArray($post);
             }
             $array['seo']['name'] = $topic->getSeoName();

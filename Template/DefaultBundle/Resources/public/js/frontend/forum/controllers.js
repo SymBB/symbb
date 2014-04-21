@@ -1,35 +1,28 @@
-symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout',
-    function($scope, $http, $routeParams, $timeout) {
+symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', 'ScrollPagination',
+    function($scope, $http, $routeParams, $timeout, ScrollPagination) {
         var forumId = 0
         if($routeParams && $routeParams.id){
             forumId = $routeParams.id;
         }
-        var route = angularConfig.getSymfonyApiRoute('forum_list', { parent: forumId });
+        var route = angularConfig.getSymfonyApiRoute('forum_show', { id: forumId });
         $http.get(route).success(function(data) {
-            $scope.forum = data.forum;
-            $scope.forumList = data.forumList;
-            $scope.categoryList = data.categoryList;
-            $scope.topicList = data.topicList;
-            $scope.hasForumList = data.hasForumList;
-            $scope.hasCategoryList = data.hasCategoryList;
-            $scope.hasTopicList = data.hasTopicList;
-            $scope.access = data.access;
             $timeout(textMatchOneLine, 0);
+            $.each(data, function(key, value){
+                $scope[key] = value;
+            });
+            $scope.topicPagination = new ScrollPagination('forum_topic_list', {id: $scope.forum.id}, $scope.topicList, 1, $scope.topicTotalCount);
         });
         
     }
-]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'Topics',
-    function($scope, $http, $routeParams, Topics) {
+]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination',
+    function($scope, $http, $routeParams, ScrollPagination) {
         var id = $routeParams.id
         var route = angularConfig.getSymfonyApiRoute('forum_topic_show', { id: id });
         $http.get(route).success(function(data) {
             $.each(data, function(key, value){
                 $scope[key] = value;
             });
-            $scope.topics = new Topics();
-            $scope.topics.id = $scope.topic.id;
-            $scope.topics.posts = $scope.topic.posts;
-            $scope.topics.page = $scope.page;
+            $scope.postPagination = new ScrollPagination('forum_topic_post_list', {id: $scope.topic.id}, $scope.topic.posts, 1, $scope.topic.count.post);
         });
     }
 ]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams',

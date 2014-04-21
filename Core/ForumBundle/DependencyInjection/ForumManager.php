@@ -14,6 +14,7 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
@@ -108,15 +109,28 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @param type $orderDir
      * @return array
      */
-    public function findTopics(Forum $forum, $limit = null, $offset = 0, $orderDir = 'desc')
+    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
     {
         if($limit === null){
             $limit = $forum->getEntriesPerPage();
         }
         
-        $topics = $this->em->getRepository('SymBBCoreForumBundle:Topic')->findBy(array('forum' => $forum->getId()), array('created' => $orderDir), $limit, $offset);
+        $offset = (($page - 1) * $limit);
         
-        return $topics;
+        $qb = $this->em->createQueryBuilder('');
+        $qb->add('select', 't')
+        ->add('from', 'SymBBCoreForumBundle:Topic t')
+        ->add('where', 't.forum = ?1')
+        ->add('orderBy', 't.created '.strtoupper($orderDir))
+        ->setParameter(1, $forum);
+        
+        $query = $qb->getQuery();
+        $query->setFirstResult($offset);
+        $query->setMaxResults($limit);
+
+        $paginator = new Paginator($query, false);
+        
+        return $paginator;
     }
     
     

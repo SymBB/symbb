@@ -12,6 +12,7 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
@@ -69,9 +70,20 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         
         $offset = (($page - 1) * $limit);
         
-        $posts = $this->em->getRepository('SymBBCoreForumBundle:Post')->findBy(array('topic' => $topic->getId()), array('created' => $orderDir), $limit, $offset);
+        $qb = $this->em->createQueryBuilder('');
+        $qb->add('select', 'p')
+        ->add('from', 'SymBBCoreForumBundle:Post p')
+        ->add('where', 'p.topic = ?1')
+        ->add('orderBy', 'p.created '.strtoupper($orderDir))
+        ->setParameter(1, $topic);
         
-        return $posts;
+        $query = $qb->getQuery();
+        $query->setFirstResult($offset);
+        $query->setMaxResults($limit);
+
+        $paginator = new Paginator($query, false);
+        
+        return $paginator;
     }
 
     /**
