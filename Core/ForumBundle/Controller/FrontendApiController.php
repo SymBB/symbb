@@ -60,12 +60,19 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $mainPostData = $request->get('mainPost');
                     
                     $topic->setName($request->get('name'));
+                    $topic->setLocked($request->get('locked'));
                     $mainPost->setText($mainPostData['text']);
                     
                     $em = $this->getDoctrine()->getManager('symbb');
                     $em->persist($topic);
                     $em->persist($mainPost);
                     $em->flush();
+     
+                    if($request->get('notifyMe')){
+                        $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
+                    } else {
+                        $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+                    }
                     
                     $this->addSuccessMessage('saved successfully.');
                     
@@ -301,7 +308,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array = array();
         $array['id'] = 0;
         $array['name'] = '';
-        $array['closed'] = false;
+        $array['locked'] = false;
+        $array['notifyMe'] = false;
         $array['count']['post'] = 0;
         $array['backgroundImage'] = '';
         $array['flags'] = array();
@@ -316,7 +324,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if(is_object($topic)){
             $array['id'] = $topic->getId();
             $array['name'] = $topic->getName();
-            $array['closed'] = $topic->isLocked();
+            $array['locked'] = $topic->isLocked();
             $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
             foreach($this->get('symbb.core.topic.flag')->findAll($topic) as $flag){
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
@@ -328,6 +336,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
             $array['seo']['name'] = $topic->getSeoName();
             
+            $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
+            
+            $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
             $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
         
@@ -343,6 +354,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 'delete' => $deleteAccess
             );
             
+        } else {
+            $array['mainPost'] = $this->getPostAsArray();
         }
         return $array;
     }

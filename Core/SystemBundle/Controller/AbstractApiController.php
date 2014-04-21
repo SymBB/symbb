@@ -46,7 +46,7 @@ abstract class AbstractApiController extends AbstractController
         $this->messages[] = array(
             'type' => 'error',
             'bootstrapType' => 'danger',
-            'message' => $this->get('translator')->trans($message)
+            'message' => $this->trans($message)
         );
         $this->success = false;
     }
@@ -55,7 +55,7 @@ abstract class AbstractApiController extends AbstractController
         $this->messages[] = array(
             'type' => 'success',
             'bootstrapType' => 'success',
-            'message' => $this->get('translator')->trans($message)
+            'message' => $this->trans($message)
         );
     }
     
@@ -63,7 +63,7 @@ abstract class AbstractApiController extends AbstractController
         $this->messages[] = array(
             'type' => 'info',
             'bootstrapType' => 'info',
-            'message' => $this->get('translator')->trans($message)
+            'message' => $this->trans($message)
         );
     }
     
@@ -71,7 +71,11 @@ abstract class AbstractApiController extends AbstractController
         $this->messages[] = array(
             'type' => 'warning',
             'bootstrapType' => 'warning',
-            'message' => $this->get('translator')->trans($message)
+            'message' => $this->trans($message)
         );
+    }
+    
+    protected function trans($msg, $param = array()){
+        return $this->get("translator")->trans($msg, $param, 'symbb_frontend');
     }
 }

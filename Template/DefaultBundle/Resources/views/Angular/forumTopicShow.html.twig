@@ -1,18 +1,19 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<div class="anker-group"><div class="anker" id="first_header"></div></div>
-<div class="symbb_action_row topic_start">
-    <div class="title">[[ topic.name ]]</div>
-    <div class="btn-group pull-left">
-        <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
-    </div> 
-    <div class="clear"></div>
-</div>
 
-<div ng-show="topic.closed">
+<div ng-show="topic.locked" class="clear m-top-1">
     <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
     <div class="clear"></div>
 </div>
+
+<div class="anker-group"><div class="anker" id="first_header"></div></div>
+<div class="symbb_action_row topic_start">
+    <div class="title">[[ topic.name ]]</div>
+    <div class="btn-group pull-left" ng-hide="topic.locked">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
+    </div> 
+</div>
+<div class="clear"></div>
 
 <div class="symbb_topic" infinite-scroll='postPagination.nextPage()' infinite-scroll-disabled='postPagination.busy' infinite-scroll-distance='1'>
 
@@ -34,7 +35,7 @@
             {% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
             </div>              
             <div class="btn-group pull-right">
-                <button ng-show="topic.access.createPost" type="button" class="btn quote btn-info" data-user="[[post.author.username]]" data-quote="[[post.rawText]]" >{% trans %}Quote{% endtrans %}</button>
+                <button ng-show="topic.access.createPost" ng-hide="topic.locked" type="button" class="btn quote btn-info" data-user="[[post.author.username]]" data-quote="[[post.rawText]]" >{% trans %}Quote{% endtrans %}</button>
                 <button ng-show="post.access.edit" type="button" class="btn btn-primary">{% trans %}Edit{% endtrans %}</button>
                 <button ng-show="post.access.delete" type="button" class="btn btn-danger" symbb-delete-link="symbb_delete_post" param-id="[[post.id]]" param-text="{% trans %}you really want to delete the entry?{% endtrans %}">{% trans %}Delete{% endtrans %}</button>
             </div>
@@ -74,17 +75,17 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div ng-hide='postPagination.end'>
+    <div ng-hide='postPagination.end || postPagination.busy' class="clear m-top-1">
         <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
         <div class="clear"></div>
     </div>
-    <div ng-show='postPagination.busy'>
+    <div ng-show='postPagination.busy' class="clear m-top-1">
         <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
         <div class="clear"></div>
     </div>
 </div>
     
-<div class="" ng-show="topic.closed">
+<div  class="clear m-top-1" ng-show="topic.locked">
     <div class="m-top-1"></div>
     <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
     <div class="clear"></div>

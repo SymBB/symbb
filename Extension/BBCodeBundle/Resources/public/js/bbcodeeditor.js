@@ -67,5 +67,21 @@
 
 
 $(document).ready(function() {
-    $('.symbb_editor').bbcodeEditor();
+   
 });
+
+if(symbbControllers){
+    symbbControllers.directive('symbbBbcodeEditor', ['$timeout', function(timer) {
+        return {
+            restrict: 'A',
+            transclude: false,
+            replace: false,
+            link: function(scope, element, attrs) {
+                var tooltip = function(){
+                     $('.symbb_editor').bbcodeEditor();
+                }
+                timer(tooltip, 0)
+            }
+        };
+    }]);
+}
