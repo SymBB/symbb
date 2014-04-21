@@ -263,6 +263,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $topicList = array();
         $topicCountTotal = 0;
         $hasTopicList = false;
+        $parent = null;
         if($id > 0){
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
             $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
