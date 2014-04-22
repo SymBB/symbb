@@ -127,7 +127,7 @@ class Post
 
     public function addFile(\SymBB\Core\ForumBundle\Entity\Post\File $file)
     {
-        if ($file->getImage()) {
+        if ($file->getPath()) {
             $this->files->add($file);
             $file->setPost($this);
         }

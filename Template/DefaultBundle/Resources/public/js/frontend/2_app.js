@@ -47,7 +47,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
         // On response success
         response: function(response) {
             if(typeof response.data  === 'object'){
-                response = symbbAngularUtils.checkResponse(response, $injector);
+                response.data = symbbAngularUtils.checkResponse(response.data, $injector);
             }
             // Return the response or promise.
             return response || $q.when(response);

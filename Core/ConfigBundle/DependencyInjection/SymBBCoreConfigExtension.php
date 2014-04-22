@@ -34,6 +34,7 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
         $loader->load('fosjsrouting.yml');
+        $loader->load('symbb.yml');
 
     }
         
@@ -51,8 +52,7 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
  
         $configuration = new \SymBB\Core\ConfigBundle\DependencyInjection\Configuration();
         $config        = $this->processConfiguration($configuration, array($config));
-  
-        
+ 
         $container->setParameter('symbb_config', $config);
         $container->setParameter('twig.globals.symbb_config', $config);
     }

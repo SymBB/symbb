@@ -18,10 +18,9 @@ var symbbAngularUtils = {
     
     breadcrumbElement: null,
     
-    checkResponse: function(response, $injector){
+    checkResponse: function(data, $injector){
 
         var $route = $injector.get('$route');
-        var data = response.data;
         var errors = false;
         
         if(data.messages){
@@ -49,7 +48,7 @@ var symbbAngularUtils = {
             this.createBreadcrumnb(data.breadcrumbItems);
         }
         
-        return response;
+        return data;
     },
             
     createBreadcrumnb: function(items){

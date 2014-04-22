@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 <div class="symbb_category_block">
-    <div class="image" style="background-image: url('[[object.backgroundImage]]')" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+    <div class="image" ng-style="object.backgroundImage != '' && {'background-image':'url('+object.backgroundImage+')'}" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
         <div class="labels">
             <div ng-repeat="flag in object.flags">
                 <span  class="label label-[[flag.type]]">[[flag.title]]</span>
