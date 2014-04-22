@@ -446,44 +446,48 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'delete' => false
         );
 
-        if (is_object($topic) && $topic->getId() > 0) {
-            $array['id'] = $topic->getId();
-            $array['name'] = $topic->getName();
-            $array['locked'] = $topic->isLocked();
-            $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
-            foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
-                $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
-            }
-            $posts = $this->get('symbb.core.topic.manager')->findPosts($topic);
-            $array['count']['post'] = count($posts);
-            foreach ($posts as $post) {
-                $array['posts'][] = $this->getPostAsArray($post);
-            }
-            $array['seo']['name'] = $topic->getSeoName();
+        if (is_object($topic)) {
+
 
             $array['forum']['id'] = $topic->getForum()->getId();
             $array['forum']['seo']['name'] = $topic->getForum()->getSeoName();
 
-            $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
-            if ($array['notifyMe'] > 0) {
-                $array['notifyMe'] = true;
+            if ($topic->getId() > 0) {
+                $array['id'] = $topic->getId();
+                $array['name'] = $topic->getName();
+                $array['locked'] = $topic->isLocked();
+                $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
+                foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
+                    $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+                }
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic);
+                $array['count']['post'] = count($posts);
+                foreach ($posts as $post) {
+                    $array['posts'][] = $this->getPostAsArray($post);
+                }
+                $array['seo']['name'] = $topic->getSeoName();
+
+                $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
+                if ($array['notifyMe'] > 0) {
+                    $array['notifyMe'] = true;
+                }
+
+                $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
+                $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
+                $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#DELETE', $topic, $this->getUser());
+                $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $array['access'] = array(
+                    'createPost' => $writePostAccess,
+                    'edit' => $editAccess,
+                    'delete' => $deleteAccess
+                );
             }
-
-            $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
-            $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
-            $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#DELETE', $topic, $this->getUser());
-            $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $array['access'] = array(
-                'createPost' => $writePostAccess,
-                'edit' => $editAccess,
-                'delete' => $deleteAccess
-            );
         } else {
             $array['mainPost'] = $this->getPostAsArray();
         }
@@ -515,41 +519,44 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'createPost' => false
         );
 
-        if (is_object($forum) && $forum->getId() > 0) {
-            $array['id'] = $forum->getId();
-            $array['name'] = $forum->getName();
-            $array['description'] = $forum->getDescription();
-            $array['count']['topic'] = $forum->getTopicCount();
-            $array['count']['post'] = $forum->getPostCount();
+        if (is_object($forum)) {
+            
+            if ($forum->getId() > 0) {
+                $array['id'] = $forum->getId();
+                $array['name'] = $forum->getName();
+                $array['description'] = $forum->getDescription();
+                $array['count']['topic'] = $forum->getTopicCount();
+                $array['count']['post'] = $forum->getPostCount();
 
-            foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
-                $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+                foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
+                    $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+                }
+                foreach ($forum->getChildren() as $child) {
+                    $array['children'][] = $this->getForumAsArray($child);
+                }
+                $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
+                foreach ($lastPosts as $post) {
+                    $array['lastPosts'][] = $this->getPostAsArray($post);
+                }
+                $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+                if ($forum->getImageName()) {
+                    $array['backgroundImage'] = $helper->asset($forum, 'image');
+                }
+                $array['seo']['name'] = $forum->getSeoName();
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
+                $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $forum, $this->getUser());
+                $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $array['access'] = array(
+                    'createTopic' => $writeAccess,
+                    'createPost' => $writePostAccess
+                );
+
+                $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
             }
-            foreach ($forum->getChildren() as $child) {
-                $array['children'][] = $this->getForumAsArray($child);
-            }
-            $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
-            foreach ($lastPosts as $post) {
-                $array['lastPosts'][] = $this->getPostAsArray($post);
-            }
-            $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-            if ($forum->getImageName()) {
-                $array['backgroundImage'] = $helper->asset($forum, 'image');
-            }
-            $array['seo']['name'] = $forum->getSeoName();
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
-            $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $forum, $this->getUser());
-            $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $array['access'] = array(
-                'createTopic' => $writeAccess,
-                'createPost' => $writePostAccess
-            );
-
-            $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
         }
 
         return $array;
@@ -599,37 +606,42 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['access']['delete'] = false;
         $array['notifyMe'] = false;
 
-        if (is_object($post) && $post->getId() > 0) {
-            $array['id'] = (int)$post->getId();
+        if (is_object($post)) {
+            
+            $array['name'] = $post->getTopic()->getName();
             $array['topic']['id'] = $post->getTopic()->getId();
             $array['topic']['name'] = $post->getTopic()->getName();
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
-            $array['name'] = $post->getName();
-            $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
-            $array['author'] = $this->getAuthorAsArray($post->getAuthor());
-            $array['seo']['name'] = $post->getSeoName();
-            $array['rawText'] = $post->getText();
-            $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
-            $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
-            $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
-            if ($array['notifyMe'] > 0) {
-                $array['notifyMe'] = true;
+
+            if ($post->getId() > 0) {
+                $array['id'] = (int) $post->getId();
+                $array['name'] = $post->getName();
+                $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
+                $array['author'] = $this->getAuthorAsArray($post->getAuthor());
+                $array['seo']['name'] = $post->getSeoName();
+                $array['rawText'] = $post->getText();
+                $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
+                $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
+                $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
+                if ($array['notifyMe'] > 0) {
+                    $array['notifyMe'] = true;
+                }
+
+                foreach ($post->getFiles() as $file) {
+                    $array['files'][] = $file->getPath();
+                }
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#EDIT', $post, $this->getUser());
+                $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
+                $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                $array['access'] = array(
+                    'edit' => $editAccess,
+                    'delete' => $deleteAccess
+                );
             }
-
-            foreach ($post->getFiles() as $file) {
-                $array['files'][] = $file->getPath();
-            }
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#EDIT', $post, $this->getUser());
-            $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
-            $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            $array['access'] = array(
-                'edit' => $editAccess,
-                'delete' => $deleteAccess
-            );
         } else {
             $array['author'] = $this->getAuthorAsArray();
         }
@@ -677,8 +689,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     }
                 }
                 if (!$found) {
+                    $newName = $this->get('symbb.core.upload.manager')->moveToSet('post', $file);
+                    $text = \str_replace($file, $newName, $post->getText());
+                    $post->setText($text);
                     $newFile = new \SymBB\Core\ForumBundle\Entity\Post\File();
-                    $newFile->setPath($file);
+                    $newFile->setPath($newName);
                     $newFile->setPost($post);
                     $post->addFile($newFile);
                 }

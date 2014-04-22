@@ -109,9 +109,10 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         $breadcrumb = $topicManager->getBreadcrumbData($object->getTopic(), $forumManager);
         if ($object->getId() > 0) {
             $breadcrumb[] = array(
-                'type' => 'post',
-                'name' => $object->getName(),
-                'id' => $object->getId()
+                'type' => 'topic',
+                'name' => $object->getTopic()->getName(),
+                'seoName' => $object->getTopic()->getSeoName(),
+                'id' => $object->getTopic()->getid()
             );
         }
         return $breadcrumb;

@@ -21,7 +21,15 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
     public function __construct(SecurityContextInterface $securityContext, $symbbConfig, $rootDir)
     {
         parent::__construct($securityContext);
-        $this->config = $symbbConfig['upload'];
+        foreach ($symbbConfig['upload'] as $set => $config) {
+            if (!\strpos($config['directory'], '/') === 0) {
+                $config['directory'] = '/' . $config['directory'];
+            }
+            if (substr($config['directory'], -1) !== '/') {
+                $config['directory'] = $config['directory'] . '/';
+            }
+            $this->config[$set] = $config;
+        }
         $this->rootDir = $rootDir;
     }
 
@@ -30,18 +38,12 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
         $fileData = array();
         if (isset($this->config[$set])) {
             $config = $this->config[$set];
-            if (!\strpos($config['directory'], '/') === 0) {
-                $config['directory'] = '/' . $config['directory'];
-            }
-            if (substr($config['directory'], -1)  !== '/') {
-                $config['directory'] = $config['directory'] . '/';
-            }
+
             $files = $request->files;
             if (\is_object($files)) {
                 foreach ($files as $file) {
-                    $now = new \DateTime();
-                    $dir = $config['directory'] . $now->format('Y-m') . '/';
-                    $newDir = $this->rootDir . '/../web' . $dir;
+                    $dir = $config['directory'] . $this->getCurrentSubDirectory();
+                    $newDir = $this->addRootDir($dir);
                     $originalName = $file->getClientOriginalName();
                     $extData = \explode('.', $originalName);
                     $ext = end($extData);
@@ -50,7 +52,7 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
                     $fileData[] = array(
                         'originalFilename' => $originalName,
                         'filename' => $name,
-                        'url' => $dir.$name
+                        'url' => $dir . $name
                     );
                 }
                 return $fileData;
@@ -59,5 +61,36 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
             }
         }
         return $fileData;
+    }
+
+    public function addRootDir($path)
+    {
+        $rootPart = $this->rootDir . '/../web';
+        if (\strpos($path, $rootPart) === false) {
+            $path = $this->rootDir . '/../web' . $path;
+        }
+        
+        return $path;
+    }
+
+    public function getCurrentSubDirectory()
+    {
+        $now = new \DateTime();
+        return $now->format('Y-m') . '/';
+    }
+
+    public function moveToSet($set, $file)
+    {
+        if (isset($this->config[$set])) {
+            $config = $this->config[$set];
+            if (\strpos($file, $config['directory']) === false) {
+                $temp = \explode('/', $file);
+                $filename = end($temp);
+                $newPath = $config['directory'] . $this->getCurrentSubDirectory() . $filename;
+                \rename($this->addRootDir($file), $this->addRootDir($newPath));
+                return $newPath;
+            }
+        }
+        return $file;
     }
 }

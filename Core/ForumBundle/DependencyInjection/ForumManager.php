@@ -278,6 +278,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $breadcrumb[] = array(
                 'type' => 'forum',
                 'name' => $object->getName(),
+                'seoName' => $object->getSeoName(),
                 'id' => $object->getId()
             );
             $object = $object->getParent();

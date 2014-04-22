@@ -108,6 +108,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $breadcrumb[] = array(
                 'type' => 'topic',
                 'name' => $object->getName(),
+                'seoName' => $object->getSeoName(),
                 'id' => $object->getId()
             );
         }
