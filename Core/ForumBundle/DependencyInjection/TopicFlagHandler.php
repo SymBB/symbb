@@ -70,7 +70,7 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
         }
 
         $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Topic\Flag', 'symbb')->findBy(array(
-            'topic' => $object,
+            'topic' => $object->getId(),
             'user' => $user
         ));
 
@@ -177,9 +177,9 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
     public function findFlagsByObjectAndFlag($object, $flag)
     {
         $flags = $this->em->getRepository('SymBBCoreForumBundle:Topic\Flag', 'symbb')->findBy(array(
-            'topic' => $object,
+            'topic' => $object->getId(),
             'flag' => $flag
-        ));
+        )); 
         return $flags;
     }
 }

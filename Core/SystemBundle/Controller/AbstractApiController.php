@@ -11,22 +11,27 @@ namespace SymBB\Core\SystemBundle\Controller;
 
 abstract class AbstractApiController extends AbstractController
 {
-    
+
     protected $messages = array();
+
     protected $callbacks = array();
+
     protected $breadcrumbItems = array();
+
     protected $success = true;
 
-
-    protected function addCallback($callbackName){
+    protected function addCallback($callbackName)
+    {
         $this->callbacks[] = $callbackName;
     }
-    
-    protected function addBreadcrumbItems($breadbrumb){
+
+    protected function addBreadcrumbItems($breadbrumb)
+    {
         $this->breadcrumbItems = $breadbrumb;
     }
 
-    protected function getJsonResponse($params){
+    protected function getJsonResponse($params)
+    {
         $params['messages'] = $this->messages;
         $params['callbacks'] = $this->callbacks;
         $params['breadcrumbItems'] = $this->breadcrumbItems;
@@ -36,13 +41,18 @@ abstract class AbstractApiController extends AbstractController
         return $response;
     }
 
+    protected function getCorrectTimestamp(\DateTime $datetime = null)
+    {
+        if ($datetime) {
+            $datetime->setTimezone($this->get('symbb.core.user.manager')->getTimezone());
+            return $datetime->format(\DateTime::ISO8601);
+        }
 
-    protected function getCorrectTimestamp(\DateTime $datetime){
-        $datetime->setTimezone($this->get('symbb.core.user.manager')->getTimezone());
-        return $datetime->format(\DateTime::ISO8601);
+        return 0;
     }
-    
-    protected function addErrorMessage($message){
+
+    protected function addErrorMessage($message)
+    {
         $this->messages[] = array(
             'type' => 'error',
             'bootstrapType' => 'danger',
@@ -50,32 +60,46 @@ abstract class AbstractApiController extends AbstractController
         );
         $this->success = false;
     }
-    
-    protected function addSuccessMessage($message){
+
+    protected function addSuccessMessage($message)
+    {
         $this->messages[] = array(
             'type' => 'success',
             'bootstrapType' => 'success',
             'message' => $this->trans($message)
         );
     }
-    
-    protected function addInfoMessage($message){
+
+    protected function addInfoMessage($message)
+    {
         $this->messages[] = array(
             'type' => 'info',
             'bootstrapType' => 'info',
             'message' => $this->trans($message)
         );
     }
-    
-    protected function addWarningMessage($message){
+
+    protected function addWarningMessage($message)
+    {
         $this->messages[] = array(
             'type' => 'warning',
             'bootstrapType' => 'warning',
             'message' => $this->trans($message)
         );
     }
-    
-    protected function trans($msg, $param = array()){
+
+    public function hasError()
+    {
+        foreach ($this->messages as $message) {
+            if ($message['type'] === 'error') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function trans($msg, $param = array())
+    {
         return $this->get("translator")->trans($msg, $param, 'symbb_frontend');
     }
 }

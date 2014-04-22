@@ -24,9 +24,44 @@ var angularForumRouting = {
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
-        forum_topic_list:  {
-            'api': 'symbb_api_forum_topic_list',
+        forum_topic_show:  {
+            'url': ['/topic/:id/:name/'],
+            'api': 'symbb_api_topic_data',
+            'template': 'symbb_template_default_angular',
+            'templateParam': { file: 'forumTopicShow'},
+            'controller': 'ForumTopicShowCtrl'
         },
+        forum_topic_create:  {
+            'url': ['/forum/:id/topic/new/'],
+            'api': 'symbb_api_topic_data',
+            'template': 'symbb_template_default_angular_form',
+            'templateParam': { file: 'topic'},
+            'controller': 'ForumTopicCreateCtrl'
+        },
+        forum_post_create:  {
+            'url': ['/topic/:topic/post/new'],
+            'api': 'symbb_api_post_data',
+            'template': 'symbb_template_default_angular_form',
+            'templateParam': { file: 'post'},
+            'controller': 'ForumPostEditCtrl'
+        },
+        forum_post_quote:  {
+            'url': ['/post/:topic/post/quote/:quoteId'],
+            'api': 'symbb_api_post_data',
+            'template': 'symbb_template_default_angular_form',
+            'templateParam': { file: 'post'},
+            'controller': 'ForumPostEditCtrl'
+        },
+        forum_post_edit:  {
+            'url': ['/post/:id/edit'],
+            'api': 'symbb_api_post_data',
+            'template': 'symbb_template_default_angular_form',
+            'templateParam': { file: 'post'},
+            'controller': 'ForumPostEditCtrl'
+        },
+             
+             
+        // only API Calls! ( not frontend! )
         forum_ignore:  {
             'api': 'symbb_api_forum_ignore'
         },
@@ -35,30 +70,22 @@ var angularForumRouting = {
         },
         forum_mark_as_read:  {
             'api': 'symbb_api_forum_mark_as_read'
-        },
-        forum_topic_show:  {
-            'url': ['/topic/:id/:name/'],
-            'api': 'symbb_api_forum_topic_data',
-            'template': 'symbb_template_default_angular',
-            'templateParam': { file: 'forumTopicShow'},
-            'controller': 'ForumTopicShowCtrl'
-        },
-        forum_topic_post_list:  {
-            'api': 'symbb_api_forum_topic_post_list',
-        },
-        forum_topic_create:  {
-            'url': ['/forum/:id/topic/new/'],
-            'api': 'symbb_api_forum_topic_create',
-            'template': 'symbb_template_default_angular_form',
-            'templateParam': { file: 'topic'},
-            'controller': 'ForumTopicCreateCtrl'
-        },
+        },  
         forum_topic_save:  {
-            'api': 'symbb_api_forum_topic_save'
+            'api': 'symbb_api_topic_save'
         },
-        forum_topic_upload_image:  {
-            'api': 'symbb_api_forum_topic_upload_image'
-        } 
+        forum_topic_list:  {
+            'api': 'symbb_api_topic_list',
+        }, 
+        forum_post_list:  {
+            'api': 'symbb_api_post_list',
+        }, 
+        forum_post_upload_image:  {
+            'api': 'symbb_api_post_upload_image'
+        },
+        forum_post_save:  {
+            'api': 'symbb_api_post_save'
+        }
     },
     
     createAngularRouting: function($routeProvider){
@@ -119,7 +146,9 @@ app.factory('ScrollPagination', function($http) {
 
     this.routeParams.page = this.page;
 
-    var url = angularConfig.getSymfonyApiRoute(this.route, this.routeParams);
+    var url = angularConfig.getSymfonyApiRoute(this.route);
+    url = url + '?id='+this.routeParams.id;
+    url = url + '&page='+this.routeParams.page;
     $http.get(url).success(function(data) {
       
       var items = data.items;

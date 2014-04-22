@@ -56,34 +56,38 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $post = $this->em->getRepository('SymBBCoreForumBundle:Topic')->find($topicId);
         return $post;
     }
-    
+
     /**
      * 
      * @param int $topicId
      * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
      */
-    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
+    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'asc')
     {
-        if($limit === null){
-            $limit = $topic->getForum()->getEntriesPerPage();
-        }
-        
-        $offset = (($page - 1) * $limit);
-        
-        $qb = $this->em->createQueryBuilder('');
-        $qb->add('select', 'p')
-        ->add('from', 'SymBBCoreForumBundle:Post p')
-        ->add('where', 'p.topic = ?1')
-        ->add('orderBy', 'p.created '.strtoupper($orderDir))
-        ->setParameter(1, $topic);
-        
-        $query = $qb->getQuery();
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
 
-        $paginator = new Paginator($query, false);
-        
-        return $paginator;
+        if ($topic->getId() > 0) {
+            if ($limit === null) {
+                $limit = $topic->getForum()->getEntriesPerPage();
+            }
+
+            $offset = (($page - 1) * $limit);
+
+            $qb = $this->em->createQueryBuilder('');
+            $qb->add('select', 'p')
+                ->add('from', 'SymBBCoreForumBundle:Post p')
+                ->add('where', 'p.topic = ?1')
+                ->add('orderBy', 'p.created ' . strtoupper($orderDir))
+                ->setParameter(1, $topic);
+
+            $query = $qb->getQuery();
+            $query->setFirstResult($offset);
+            $query->setMaxResults($limit);
+
+            $paginator = new Paginator($query, false);
+            return $paginator;
+        }
+
+        return array();
     }
 
     /**
@@ -94,14 +98,19 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     {
         return $this->topicFlagHandler;
     }
-    
-    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Topic $object, ForumManager $forumManager){
-        $breadcrumb = $forumManager->getBreadcrumbData($object->getForum());
-        $breadcrumb[] = array(
+
+    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Topic $object, ForumManager $forumManager)
+    {
+        $breadcrumb = array();
+        $forum = $object->getForum();
+        if (\is_object($forum) && $forum->getId() > 0) {
+            $breadcrumb = $forumManager->getBreadcrumbData($forum);
+            $breadcrumb[] = array(
                 'type' => 'topic',
                 'name' => $object->getName(),
                 'id' => $object->getId()
             );
+        }
         return $breadcrumb;
     }
 }

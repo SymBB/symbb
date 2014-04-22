@@ -16,11 +16,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 {
 
     /**
-     * @Route("/api/topic/{id}/upload/image", name="symbb_api_forum_topic_upload_image")
+     * @Route("/api/post/upload/image", name="symbb_api_post_upload_image")
      * @Method({"POST"})
      */
-    public function topicUploadImageAction($id)
+    public function postUploadImageAction()
     {
+
+        $id = (int) $this->get('request')->get('id');
+
         $params = array();
 
         $files = $this->get('request')->files;
@@ -40,184 +43,102 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
-     * @Route("/api/forum/{forumId}/topic/save", name="symbb_api_forum_topic_save")
+     * @Route("/api/post/save", name="symbb_api_post_save")
      * @Method({"POST"})
      */
-    public function topicSaveAction($forumId)
+    public function postSaveAction()
     {
-
         $request = $this->get('request');
-        $topicId = $request->get('id');
-
+        $id = (int) $request->get('id');
+        $topicData = (array) $request->get('topic');
         $params = array();
 
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
-
-        if (is_object($forum)) {
-
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
-            $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-            if ($writeAccess) {
-
-                if ($topicId > 0) {
-                    $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
-                    $mainPost = $topic->getMainPost();
-                    $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
-                    $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
-                } else {
-                    $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
-                    $topic->setAuthor($this->getUser());
-                    $mainPost = new \SymBB\Core\ForumBundle\Entity\Post();
-                    $mainPost->setTopic($topic);
-                    $mainPost->setAuthor($this->getUser());
-                    $topic->setMainPost($mainPost);
-                    $topic->setForum($forum);
-                    $editAccess = true;
-                }
-
-                if ($editAccess) {
-
-                    $em = $this->getDoctrine()->getManager('symbb');
-
-                    $mainPostData = $request->get('mainPost');
-
-                    $topic->setName($request->get('name'));
-                    $topic->setLocked($request->get('locked'));
-                    $mainPost->setText($mainPostData['text']);
-
-                    if (isset($mainPostData['files'])) {
-                        $currentFiles = $mainPost->getFiles();
-                        // check for new stuff
-                        foreach ($mainPostData['files'] as $file) {
-                            $found = false;
-                            foreach ($currentFiles as $currentFile) {
-                                if ($currentFile->getPath() == $file) {
-                                    $found = true;
-                                }
-                            }
-                            if (!$found) {
-                                $newFile = new \SymBB\Core\ForumBundle\Entity\Post\File();
-                                $newFile->setPath($file);
-                                $newFile->setPost($mainPost);
-                                $mainPost->addFile($newFile);
-                            }
-                        }
-                        // check for old stuff
-                        foreach ($currentFiles as $currentFile) {
-                            $found = false;
-                            foreach ($mainPostData['files'] as $file) {
-                                if ($currentFile->getPath() == $file) {
-                                    $found = true;
-                                }
-                            }
-                            if (!$found) {
-                                $em->remove($currentFile);
-                                $mainPost->removeFile($currentFile);
-                            }
-                        }
-                    }
-
-
-
-                    $em->persist($topic);
-                    $em->persist($mainPost);
-                    $em->flush();
-
-                    if ($request->get('notifyMe')) {
-                        $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
-                    } else {
-                        $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
-                    }
-
-                    $this->addSuccessMessage('saved successfully.');
-
-                    $params['id'] = $topic->getId();
-                } else {
-                    $this->addErrorMessage('access denied (edit topic)');
-                }
-            } else {
-                $this->addErrorMessage('access denied (create topic)');
-            }
+        if ($id > 0) {
+            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
         } else {
-            $this->addErrorMessage('forum not found');
+            $post = new \SymBB\Core\ForumBundle\Entity\Post();
+            if (isset($topicData['id']) && $topicData['id'] > 0) {
+                $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
+                $post->setTopic($topic);
+            } else {
+                $this->addErrorMessage("Topic not found!");
+            }
+        }
+
+        if (!$this->hasError()) {
+
+
+            $em = $this->getDoctrine()->getManager('symbb');
+
+            $post->setName($request->get('name'));
+            $post->setText($request->get('rawText'));
+            if ($id <= 0) {
+                $post->setAuthor($this->getUser());
+            }
+
+            $this->handlePostImages($post, (array) $request->get('files'), $em);
+
+            $em->persist($post);
+            $em->flush();
+
+            $params['id'] = $post->getId();
+            if ($request->get('notifyMe')) {
+                $this->get('symbb.core.topic.flag')->insertFlag($post->getTopic(), 'notify');
+            } else {
+                $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
+            }
         }
 
         return $this->getJsonResponse($params);
     }
 
     /**
-     * @Route("/api/forum/{id}/topic/create", name="symbb_api_forum_topic_create")
+     * @Route("/api/post/data", name="symbb_api_post_data")
      * @Method({"GET"})
      */
-    public function topicCreateAction($id)
+    public function postDataAction()
     {
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
+        $id = (int) $this->get('request')->get('id');
+        $topicId = (int) $this->get('request')->get('topic');
+        $quoteId = (int) $this->get('request')->get('quoteId');
         $params = array();
-        $params['forum'] = $this->getForumAsArray($forum);
-        $params['topic'] = $this->getTopicAsArray();
-        $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($forum);
+
+        $post = new \SymBB\Core\ForumBundle\Entity\Post();
+        if ($id > 0) {
+            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+        } else {
+            if ($topicId > 0) {
+                $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+                $post->setTopic($topic);
+                $post->setName($topic->getName());
+                if ($quoteId > 0) {
+                    $qoutePost = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($quoteId);
+                    $post->setText('[quote="' . $qoutePost->getAuthor()->getUsername() . '"]' . $qoutePost->getText() . '[/quote]');
+                }
+            } else {
+                $this->addErrorMessage("Topic not found!");
+            }
+        }
+
+        if (!$this->hasError()) {
+            $params['post'] = $this->getPostAsArray($post);
+        }
+
+        $breadcrumbItems = $this->get('symbb.core.post.manager')->getBreadcrumbData($post, $this->get('symbb.core.topic.manager'), $this->get('symbb.core.forum.manager'));
         $this->addBreadcrumbItems($breadcrumbItems);
+
         return $this->getJsonResponse($params);
     }
 
     /**
-     * @Route("/api/forum/{id}/ignore", name="symbb_api_forum_ignore")
-     * @Method({"POST"})
-     */
-    public function forumIgnore($id)
-    {
-
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-        $this->get('symbb.core.forum.manager')->ignoreForum($forum, $this->get('symbb.core.forum.flag'));
-
-        $this->addSuccessMessage('You are now ignoring the Forum');
-        $this->addCallback('refesh');
-
-        return $this->getJsonResponse(array());
-    }
-
-    /**
-     * @Route("/api/forum/{id}/unignore", name="symbb_api_forum_unignore")
-     * @Method({"POST"})
-     */
-    public function forumUnignore($id)
-    {
-
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-
-        $this->get('symbb.core.forum.manager')->watchForum($forum, $this->get('symbb.core.forum.flag'));
-
-        $this->addSuccessMessage('You are now watching the forum again');
-        $this->addCallback('refesh');
-
-        return $this->getJsonResponse(array());
-    }
-
-    /**
-     * @Route("/api/forum/{id}/markAsRead", name="symbb_api_forum_mark_as_read")
-     * @Method({"POST"})
-     */
-    public function forumMarkAsRead($id)
-    {
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-        $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
-
-        $this->addSuccessMessage('The forum has been marked as read');
-        $this->addCallback('refesh');
-
-        return $this->getJsonResponse(array());
-    }
-
-    /**
-     * @Route("/api/topic/{id}/posts/{page}", name="symbb_api_forum_topic_post_list")
+     * @Route("/api/post/list", name="symbb_api_post_list")
      * @Method({"GET"})
      */
-    public function topicPostListAction($id, $page)
+    public function postListAction()
     {
+        $id = (int) $this->get('request')->get('id');
+        $page = (int) $this->get('request')->get('page');
+
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
             ->find($id);
 
@@ -232,44 +153,128 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
-     * @Route("/api/topic/{id}/data", name="symbb_api_forum_topic_data")
-     * @Method({"GET"})
+     * @Route("/api/topic/save", name="symbb_api_topic_save")
+     * @Method({"POST"})
      */
-    public function topicShowAction($id)
+    public function topicSaveAction()
     {
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
-            ->find($id);
 
-        $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
-        $this->addBreadcrumbItems($breadcrumbItems);
+        $request = $this->get('request');
+        $topicId = (int) $request->get('id');
+        $forumData = (array) $request->get('forum');
 
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
-        $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
+        if (isset($forumData['id'])) {
+            $params = array();
 
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
-        $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
+            $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#DELETE', $topic, $this->getUser());
-        $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
+            if (is_object($forum)) {
 
-        $params = array(
-            'topic' => $this->getTopicAsArray($topic),
-            'access' => array(
-                'create' => $writeAccess,
-                'edit' => $editAccess,
-                'delete' => $deleteAccess
-            )
-        );
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
+                $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
+
+                if ($writeAccess) {
+
+                    if ($topicId > 0) {
+                        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+                        $mainPost = $topic->getMainPost();
+                        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
+                        $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                    } else {
+                        $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
+                        $topic->setAuthor($this->getUser());
+                        $mainPost = new \SymBB\Core\ForumBundle\Entity\Post();
+                        $mainPost->setTopic($topic);
+                        $mainPost->setAuthor($this->getUser());
+                        $topic->setMainPost($mainPost);
+                        $topic->setForum($forum);
+                        $editAccess = true;
+                    }
+
+                    if ($editAccess) {
+
+                        $em = $this->getDoctrine()->getManager('symbb');
+
+                        $mainPostData = $request->get('mainPost');
+
+                        $topic->setName($request->get('name'));
+                        $topic->setLocked($request->get('locked'));
+                        $mainPost->setText($mainPostData['rawText']);
+
+
+                        $this->handlePostImages($mainPost, $mainPostData['files'], $em);
+
+
+                        $em->persist($topic);
+                        $em->persist($mainPost);
+                        $em->flush();
+
+                        if ($request->get('notifyMe')) {
+                            $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
+                        } else {
+                            $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+                        }
+
+                        $this->addSuccessMessage('saved successfully.');
+
+                        $params['id'] = $topic->getId();
+                    } else {
+                        $this->addErrorMessage('access denied (edit topic)');
+                    }
+                } else {
+                    $this->addErrorMessage('access denied (create topic)');
+                }
+            } else {
+                $this->addErrorMessage('forum not found');
+            }
+        } else {
+            $this->addErrorMessage("Forum not found!");
+        }
 
         return $this->getJsonResponse($params);
     }
 
     /**
-     * @Route("/api/forum/{id}/topics/{page}", name="symbb_api_forum_topic_list")
+     * @Route("/api/topic/data", name="symbb_api_topic_data")
      * @Method({"GET"})
      */
-    public function forumTopicListAction($id, $page)
+    public function topicDataAction()
     {
+        $id = (int) $this->get('request')->get('id');
+        $forumId = (int) $this->get('request')->get('forum');
+        $params = array();
+
+        $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
+        if ($id > 0) {
+            $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($id);
+        } else {
+            if ($forumId > 0) {
+                $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
+                $topic->setForum($forum);
+            } else {
+                $this->addErrorMessage("Forum not found!");
+            }
+        }
+
+        if (!$this->hasError()) {
+            $params['topic'] = $this->getTopicAsArray($topic);
+        }
+
+        $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
+        $this->addBreadcrumbItems($breadcrumbItems);
+
+        return $this->getJsonResponse($params);
+    }
+
+    /**
+     * @Route("/api/topic/list", name="symbb_api_topic_list")
+     * @Method({"GET"})
+     */
+    public function forumTopicListAction()
+    {
+
+        $id = (int) $this->get('request')->get('id');
+        $page = (int) $this->get('request')->get('page');
 
         $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -285,12 +290,70 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
-     * @Route("/api/forum/{id}/data", name="symbb_api_forum_data", defaults={"id" = 0})
-     * @Method({"GET"})
+     * @Route("/api/forum/ignore", name="symbb_api_forum_ignore")
+     * @Method({"POST"})
      */
-    public function forumDataAction($id)
+    public function forumIgnore()
     {
 
+        $id = (int) $this->get('request')->get('id');
+
+        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->find($id);
+        $this->get('symbb.core.forum.manager')->ignoreForum($forum, $this->get('symbb.core.forum.flag'));
+
+        $this->addSuccessMessage('You are now ignoring the Forum');
+        $this->addCallback('refesh');
+
+        return $this->getJsonResponse(array());
+    }
+
+    /**
+     * @Route("/api/forum/unignore", name="symbb_api_forum_unignore")
+     * @Method({"POST"})
+     */
+    public function forumUnignore()
+    {
+
+        $id = (int) $this->get('request')->get('id');
+
+        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->find($id);
+
+        $this->get('symbb.core.forum.manager')->watchForum($forum, $this->get('symbb.core.forum.flag'));
+
+        $this->addSuccessMessage('You are now watching the forum again');
+        $this->addCallback('refesh');
+
+        return $this->getJsonResponse(array());
+    }
+
+    /**
+     * @Route("/api/forum/markAsRead", name="symbb_api_forum_mark_as_read")
+     * @Method({"POST"})
+     */
+    public function forumMarkAsRead()
+    {
+        $id = (int) $this->get('request')->get('id');
+
+        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->find($id);
+        $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
+
+        $this->addSuccessMessage('The forum has been marked as read');
+        $this->addCallback('refesh');
+
+        return $this->getJsonResponse(array());
+    }
+
+    /**
+     * @Route("/api/forum/data", name="symbb_api_forum_data")
+     * @Method({"GET"})
+     */
+    public function forumDataAction()
+    {
+
+        $id = (int) $this->get('request')->get('id');
         if ((int) $id === 0) {
             $id = null;
         }
@@ -374,6 +437,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['flags'] = array();
         $array['posts'] = array();
         $array['seo']['name'] = '';
+        $array['forum']['id'] = 0;
+        $array['forum']['seo']['name'] = '';
         $array['access'] = array(
             'createPost' => false,
             'edit' => false,
@@ -395,7 +460,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
             $array['seo']['name'] = $topic->getSeoName();
 
+            $array['forum']['id'] = $topic->getForum()->getId();
+            $array['forum']['seo']['name'] = $topic->getForum()->getSeoName();
+
             $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
+            if ($array['notifyMe'] > 0) {
+                $array['notifyMe'] = true;
+            }
 
             $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
@@ -514,6 +585,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array = array();
         $array['id'] = 0;
         $array['topic']['id'] = 0;
+        $array['topic']['name'] = '';
+        $array['topic']['seo']['name'] = '';
         $array['name'] = '';
         $array['changed'] = 0;
         $array['text'] = '';
@@ -523,10 +596,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['seo']['name'] = '';
         $array['access']['edit'] = false;
         $array['access']['delete'] = false;
+        $array['notifyMe'] = false;
 
         if (is_object($post)) {
             $array['id'] = $post->getId();
             $array['topic']['id'] = $post->getTopic()->getId();
+            $array['topic']['name'] = $post->getTopic()->getName();
+            $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
             $array['name'] = $post->getName();
             $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
             $array['author'] = $this->getAuthorAsArray($post->getAuthor());
@@ -534,6 +610,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['rawText'] = $post->getText();
             $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
             $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
+            $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
+            if ($array['notifyMe'] > 0) {
+                $array['notifyMe'] = true;
+            }
 
             foreach ($post->getFiles() as $file) {
                 $array['files'][] = $file->getPath();
@@ -581,5 +661,40 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         return $array;
+    }
+
+    protected function handlePostImages(\SymBB\Core\ForumBundle\Entity\Post $post, $files, $em)
+    {
+        if (!empty($files)) {
+            $currentFiles = $post->getFiles();
+            // check for new stuff
+            foreach ($files as $file) {
+                $found = false;
+                foreach ($currentFiles as $currentFile) {
+                    if ($currentFile->getPath() == $file) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $newFile = new \SymBB\Core\ForumBundle\Entity\Post\File();
+                    $newFile->setPath($file);
+                    $newFile->setPost($post);
+                    $post->addFile($newFile);
+                }
+            }
+            // check for old stuff
+            foreach ($currentFiles as $currentFile) {
+                $found = false;
+                foreach ($mainPostData['files'] as $file) {
+                    if ($currentFile->getPath() == $file) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $em->remove($currentFile);
+                    $post->removeFile($currentFile);
+                }
+            }
+        }
     }
 }

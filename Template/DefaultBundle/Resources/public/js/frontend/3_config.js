@@ -12,11 +12,16 @@ var angularConfig = {
     getSymfonyApiRoute: function(route, params){
         var routePath =  '';
         if(this.routingData[route] && this.routingData[route]['api']){
-            if(!params){
-                params = {};
+            routePath = Routing.generate(this.routingData[route]['api'], {_locale: symbbUserLang});
+            if(params){
+                var temp = '?';
+                $.each(params, function(key, value){
+                    if(value !== "undefined") {
+                        routePath = routePath + temp + key + '=' + value;
+                        temp = '&';
+                    }
+                });
             }
-            params._locale = symbbUserLang;
-            routePath = Routing.generate(this.routingData[route]['api'], params);
         }
         return routePath;
     },

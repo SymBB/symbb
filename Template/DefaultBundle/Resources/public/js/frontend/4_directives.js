@@ -31,12 +31,13 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         template: '<a href="" ng-transclude></a>',
         link: function(scope, element, attrs) {
             var params = {};
-            if(attrs.paramId){
-                params.id = attrs.paramId;
-            }
-            if(attrs.paramName){
-                params.name = attrs.paramName;
-            }
+            $.each(attrs, function(key, value){
+                if(key.match(/^param/)){
+                        var newKey = key.replace('param', '');
+                        var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
+                        params[newKey] = value;
+                    }
+            });
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
             $(element[0]).children('a').attr('href', angularConfig.getSymfonyRoute('symbb_forum_index')+'#'+path);
         }
@@ -49,12 +50,13 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         link: function(scope, element, attrs) {
             $(element[0]).click(function() {
                 var params = {};
-                if(attrs.paramId){
-                    params.id = attrs.paramId;
-                }
-                if(attrs.paramName){
-                    params.name = attrs.paramName;
-                }
+                $.each(attrs, function(key, value){
+                    if(key.match(/^param/)){
+                        var newKey = key.replace('param', '');
+                        var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
+                        params[newKey] = value;
+                    }
+                });
                 angularConfig.goTo(attrs.symbbJsLink, params);
             });
         }
@@ -88,12 +90,13 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         link: function(scope, element, attrs) {
             $(element[0]).click(function() {
                 var params = {};
-                if(attrs.paramId){
-                    params.id = attrs.paramId;
-                }
-                if(attrs.paramName){
-                    params.name = attrs.paramName;
-                }
+                $.each(attrs, function(key, value){
+                    if(key.match(/^param/)){
+                        var newKey = key.replace('param', '');
+                        var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
+                        params[newKey] = value;
+                    }
+                });
                 $http.post(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
                     
                 });
