@@ -27,6 +27,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $params = array();
 
         $files = $this->get('request')->files;
+
         if (\is_object($files)) {
             $uploadManager = $this->get('symbb.core.upload.manager');
             $uploadSet = 'tmp';
@@ -445,7 +446,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'delete' => false
         );
 
-        if (is_object($topic)) {
+        if (is_object($topic) && $topic->getId() > 0) {
             $array['id'] = $topic->getId();
             $array['name'] = $topic->getName();
             $array['locked'] = $topic->isLocked();
@@ -514,7 +515,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'createPost' => false
         );
 
-        if (is_object($forum)) {
+        if (is_object($forum) && $forum->getId() > 0) {
             $array['id'] = $forum->getId();
             $array['name'] = $forum->getName();
             $array['description'] = $forum->getDescription();
@@ -598,8 +599,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['access']['delete'] = false;
         $array['notifyMe'] = false;
 
-        if (is_object($post)) {
-            $array['id'] = $post->getId();
+        if (is_object($post) && $post->getId() > 0) {
+            $array['id'] = (int)$post->getId();
             $array['topic']['id'] = $post->getTopic()->getId();
             $array['topic']['name'] = $post->getTopic()->getName();
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
@@ -685,7 +686,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             // check for old stuff
             foreach ($currentFiles as $currentFile) {
                 $found = false;
-                foreach ($mainPostData['files'] as $file) {
+                foreach ($files as $file) {
                     if ($currentFile->getPath() == $file) {
                         $found = true;
                     }

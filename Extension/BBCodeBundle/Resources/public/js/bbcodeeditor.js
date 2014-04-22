@@ -73,7 +73,7 @@ if(symbbControllers){
             replace: false,
             link: function(scope, element, attrs) {
                 var tooltip = function(){
-                     $('.symbb_editor').bbcodeEditor();
+                     $('.symbb_editor').bbcodeEditor()[0];
                 }
                 timer(tooltip, 0)
             }

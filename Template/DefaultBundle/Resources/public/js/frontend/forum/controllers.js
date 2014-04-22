@@ -53,46 +53,8 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.topic = angular.copy($scope.master);
             };
             
-            // Creates a uploader
-            var uploader = $scope.uploader = $fileUploader.create({
-                scope: $scope,
-                url: angularConfig.getSymfonyApiRoute('forum_post_upload_image'),
-                method: 'POST',
-                formData: {id: 0}
-            });
             
-            $.each($scope.topic.mainPost.files, function(key, value) {
-                var item = {
-                    file: {
-                        name: value
-                    },
-                    progress: 100,
-                    isUploaded: true,
-                    isSuccess: true
-                };
-                uploader.queue.push(item);
-                item.remove = function() {
-                    uploader.removeFromQueue(this);
-                };
-                uploader.progress = 100;
-            });
-            
-            // ADDING FILTERS
-            // Images only
-            uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-                var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-                type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            });
-            
-            uploader.bind('complete', function (event, xhr, item, response) {
-                response = symbbAngularUtils.checkResponse(response, $injector);
-                if(response.files){
-                    $.each(response.files, function(key, value) {
-                        $scope.topic.mainPost.files[$scope.topic.mainPost.files.length] = value.url;
-                    });
-                }
-            }); 
+            symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.post, $injector)
             
         });
 
@@ -124,47 +86,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.post = angular.copy($scope.master);
             };
             
-            // Creates a uploader
-            var uploader = $scope.uploader = $fileUploader.create({
-                scope: $scope,
-                url: angularConfig.getSymfonyApiRoute('forum_post_upload_image'),
-                method: 'POST',
-                formData: {id: $scope.post.id}
-            });
-            
-            $.each($scope.post.files, function(key, value) {
-                var item = {
-                    file: {
-                        name: value
-                    },
-                    progress: 100,
-                    isUploaded: true,
-                    isSuccess: true
-                };
-                uploader.queue.push(item);
-                item.remove = function() {
-                    uploader.removeFromQueue(this);
-                };
-                uploader.progress = 100;
-            });
-            
-            // ADDING FILTERS
-            // Images only
-            uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
-                var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
-                type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-            });
-            
-            uploader.bind('complete', function (event, xhr, item, response) {
-                response = symbbAngularUtils.checkResponse(response, $injector);
-                if(response.files){
-                    $.each(response.files, function(key, value) {
-                        $scope.post.files[$scope.post.files.length] = value.url;
-                    });
-                }
-            }); 
-            
+            symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.post, $injector)
         });
 
     }

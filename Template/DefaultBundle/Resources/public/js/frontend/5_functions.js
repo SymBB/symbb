@@ -84,6 +84,78 @@ var symbbAngularUtils = {
                 i++;
             });
         }
+    },
+            
+    createPostUploader: function($scope, $fileUploader, $scopeObject, $injector){
+
+        // Creates a uploader
+        var uploader = $scope.uploader = $fileUploader.create({
+            scope: $scope,
+            url: angularConfig.getSymfonyApiRoute('forum_post_upload_image'),
+            method: 'POST',
+            formData: [{id: $scope.post.id}]
+        });
+
+        $.each($scopeObject.files, function(key, value) {                
+            var item = {
+                file: {
+                    name: value,
+                    path: value,
+                    url: 'http://'+window.location.host+value
+                },
+                progress: 100,
+                isUploaded: true,
+                isSuccess: true
+            };
+            uploader.queue.push(item);
+            item.remove = function() {
+                uploader.removeFromQueue(this);
+            };
+            uploader.progress = 100;
+        });
+
+        // ADDING FILTERS
+        // Images only
+        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+            var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        });
+
+        uploader.bind('complete', function (event, xhr, item, response) {
+            response = symbbAngularUtils.checkResponse(response, $injector);
+            if(response.files){
+                $.each(response.files, function(key, value) {
+                    $scopeObject.files[$scopeObject.files.length] = value.url;
+                    item.file.path = value.url;
+                    item.file.url = 'http://'+window.location.host+value.url;
+                });
+            }
+        }); 
+
+
+        $scope.bbcode = {
+            insertUploadImage: function(item){
+                var element = $('.symbb_editor textarea')[0];
+                var tagCode = '[IMG]'+item.file.path+'[/IMG]';
+                if (document.selection) {
+                    element.focus();
+                    var sel = document.selection.createRange();
+                    sel.text = tagCode.replace('{0}', sel.text);
+                    $scopeObject.rawText = element.value;
+                } else if (element.selectionStart || element.selectionStart == '0') {
+                    element.focus();
+                    var startPos = element.selectionStart;
+                    var endPos = element.selectionEnd;
+                    element.value = element.value.substring(0, startPos) + tagCode.replace('{0}', element.value.substring(startPos, endPos)) + element.value.substring(endPos, element.value.length);
+                    $scopeObject.rawText = element.value;
+                } else {
+                    element.value += tagCode.replace('{0}', '');
+                    $scopeObject.rawText = element.value;
+                }
+                 
+           }
+        };
     }
     
 };

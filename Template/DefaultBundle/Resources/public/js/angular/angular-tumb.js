@@ -18,10 +18,15 @@
             var helper = {
                 support: !!($window.FileReader && $window.CanvasRenderingContext2D),
                 isFile: function(item) {
-                    return angular.isObject(item) && item instanceof $window.File;
+                    return true;//return angular.isObject(item) && item instanceof $window.File;
                 },
                 isImage: function(file) {
-                    var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                    if(file.type){
+                        var type = '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                    } else if(file.url){
+                        var type = file.name.split('.');
+                        type = type[type.length - 1];
+                    }
                     return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
                 }
             };
@@ -37,9 +42,15 @@
                     if (!helper.isImage(params.file))
                         return;
                     var canvas = element.find('canvas');
-                    var reader = new FileReader();
-                    reader.onload = onLoadFile;
-                    reader.readAsDataURL(params.file);
+                    if(params.file.url){
+                        var img = new Image();
+                        img.onload = onLoadImage;
+                        img.src = params.file.url;
+                    } else {
+                        var reader = new FileReader();
+                        reader.onload = onLoadFile;
+                        reader.readAsDataURL(params.file);
+                    }
                     function onLoadFile(event) {
                         var img = new Image();
                         img.onload = onLoadImage;
