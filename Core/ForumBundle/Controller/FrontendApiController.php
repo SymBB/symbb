@@ -53,14 +53,25 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $id = (int) $request->get('id');
         $topicData = (array) $request->get('topic');
         $params = array();
+        $accessCheck = false;
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#EDIT', $post, $this->getUser());
+            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (edit post)');
+            }
         } else {
             $post = new \SymBB\Core\ForumBundle\Entity\Post();
             if (isset($topicData['id']) && $topicData['id'] > 0) {
                 $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
                 $post->setTopic($topic);
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
+                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+                if (!$accessCheck) {
+                    $this->addErrorMessage('access denied (create post)');
+                }
             } else {
                 $this->addErrorMessage("Topic not found!");
             }
@@ -107,6 +118,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $post = new \SymBB\Core\ForumBundle\Entity\Post();
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $post->getTopic()->getForum(), $this->getUser());
+            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (show forum)');
+            }
         } else {
             if ($topicId > 0) {
                 $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
@@ -116,6 +132,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $qoutePost = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($quoteId);
                     $post->setText('[quote="' . $qoutePost->getAuthor()->getUsername() . '"]' . $qoutePost->getText() . '[/quote]');
                 }
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
+                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+                if (!$accessCheck) {
+                    $this->addErrorMessage('access denied (show forum)');
+                }
             } else {
                 $this->addErrorMessage("Topic not found!");
             }
@@ -123,10 +144,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
             $params['post'] = $this->getPostAsArray($post);
-        }
 
-        $breadcrumbItems = $this->get('symbb.core.post.manager')->getBreadcrumbData($post, $this->get('symbb.core.topic.manager'), $this->get('symbb.core.forum.manager'));
-        $this->addBreadcrumbItems($breadcrumbItems);
+            $breadcrumbItems = $this->get('symbb.core.post.manager')->getBreadcrumbData($post, $this->get('symbb.core.topic.manager'), $this->get('symbb.core.forum.manager'));
+            $this->addBreadcrumbItems($breadcrumbItems);
+        }
 
         return $this->getJsonResponse($params);
     }
@@ -142,12 +163,20 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
             ->find($id);
+        
+        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
+        $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+        if (!$accessCheck) {
+            $this->addErrorMessage('access denied (show forum)');
+        }
 
-        $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
+        if (!$this->hasError()) {
+            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
 
-        $params = array('items' => array(), 'total' => count($lastPosts));
-        foreach ($lastPosts as $post) {
-            $params['items'][] = $this->getPostAsArray($post);
+            $params = array('items' => array(), 'total' => count($lastPosts));
+            foreach ($lastPosts as $post) {
+                $params['items'][] = $this->getPostAsArray($post);
+            }
         }
 
         return $this->getJsonResponse($params);
@@ -248,10 +277,20 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
         if ($id > 0) {
             $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($id);
+            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
+            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (show forum)');
+            }
         } else {
             if ($forumId > 0) {
                 $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
                 $topic->setForum($forum);
+                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
+                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+                if (!$accessCheck) {
+                    $this->addErrorMessage('access denied (show forum)');
+                }
             } else {
                 $this->addErrorMessage("Forum not found!");
             }
@@ -259,10 +298,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
             $params['topic'] = $this->getTopicAsArray($topic);
+            $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
+            $this->addBreadcrumbItems($breadcrumbItems);
         }
-
-        $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
-        $this->addBreadcrumbItems($breadcrumbItems);
 
         return $this->getJsonResponse($params);
     }
@@ -520,7 +558,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         );
 
         if (is_object($forum)) {
-            
+
             if ($forum->getId() > 0) {
                 $array['id'] = $forum->getId();
                 $array['name'] = $forum->getName();
@@ -607,21 +645,21 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['notifyMe'] = false;
 
         if (is_object($post)) {
-            
+            $array['id'] = (int) $post->getId();
+            $array['name'] = $post->getName();
+            $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
+            $array['seo']['name'] = $post->getSeoName();
+            $array['rawText'] = $post->getText();
+            $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
+            $array['author'] = $this->getAuthorAsArray($post->getAuthor());
             $array['name'] = $post->getTopic()->getName();
             $array['topic']['id'] = $post->getTopic()->getId();
             $array['topic']['name'] = $post->getTopic()->getName();
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
+            $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
 
             if ($post->getId() > 0) {
-                $array['id'] = (int) $post->getId();
-                $array['name'] = $post->getName();
-                $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
-                $array['author'] = $this->getAuthorAsArray($post->getAuthor());
-                $array['seo']['name'] = $post->getSeoName();
-                $array['rawText'] = $post->getText();
-                $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
-                $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
+                
                 $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
                 if ($array['notifyMe'] > 0) {
                     $array['notifyMe'] = true;
