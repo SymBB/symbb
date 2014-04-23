@@ -61,7 +61,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
         }
     };
-}).directive('symbbDeleteLink', ['$http', function($http) {
+}).directive('symbbDeleteRequest', ['$http', function($http) {
     return {
         restrict: 'A',
         transclude: false,
@@ -78,7 +78,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                         }
                     });
                     console.debug(params);
-                    $http.delete(angularConfig.getSymfonyApiRoute(attrs.symbbDeleteLink, params)).success(function(data) {
+                    $http.delete(angularConfig.getSymfonyApiRoute(attrs.symbbDeleteRequest, params)).success(function(data) {
                         
                     });
                 }
