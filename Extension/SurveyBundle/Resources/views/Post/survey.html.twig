@@ -1,62 +1,30 @@
-<div class="survey">
+<div class="survey" ng-show="post.extension.survey.question">
     
     <div class="answers">
-        <form action="{{ path('_symbb_post_survey_vote', {'name': post.getSeoName(), 'post': post.getId()}) }}" method="post">
+
             <ul class="list-group">
-                <li class="list-group-item active">{{ survey.getQuestion() }}</li>
-            {% for key, answer in survey.getAnswersArray() %}
-
-                {% if survey.getChoices() > 1 %}
-
-                <li class="list-group-item">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{survey.getAnswerPercent(key)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{survey.getAnswerPercent(key)}}%;">
-                            <span class="sr-only">{{survey.getAnswerPercent(key)}}% : {{ answer }} </span>
-                        </div>
-                    </div>
-                        <div class="answer">
-                            {% if survey.checkIfVoteable(app.user) %}
-                                <input type="checkbox" name="surveyAnswer[]" value="{{ key }}" {% if survey.checkForVote(key, app.user) %} checked="checked"{% endif %} >
-                            {% endif %}
-                            {{ answer }} ( {{survey.getAnswerPercent(key)}}% )
-                        </div>
-                    <div class="clear"></div>
-                </li>
-
-                {% else %}
+                <li class="list-group-item active">[[post.extension.survey.question]]</li>
+                <div ng-repeat='answer in post.extension.survey.answersArray'>
+ 
 
                 <li class="list-group-item">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{survey.getAnswerPercent(key)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{survey.getAnswerPercent(key)}}%;">
-                            <span class="sr-only">{{survey.getAnswerPercent(key)}}% : {{ answer }} </span>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="[[answer.percent]]" aria-valuemin="0" aria-valuemax="100" style="width: [[answer.percent]]%;">
+                            <span class="sr-only">[[answer.percent]]% : [[answer.name]] </span>
                         </div>
                     </div>
                         <div class="answer">
-                            {% if survey.checkIfVoteable(app.user) %}
-                                <input type="radio" name="surveyAnswer" value="{{ key }}" {% if survey.checkForVote(key, app.user) %} checked="checked"{% endif %} >
-                            {% endif %}
-                            {{ answer }} ( {{survey.getAnswerPercent(key)}}% )
+                            <input ng-show="answer.votable" type="[[answer.type]]" name="surveyAnswer[]" value="[[answer.key]]">
+                            [[answer.name]] ( [[answer.percent]]% )
                         </div>
                     <div class="clear"></div>
                 </li>
 
-                {% endif %}
-
-            {% endfor %}
-            {% if survey.checkIfVoteable(app.user) and not isSymbbGuest(app.user) %}
-                <li class="list-group-item">
-                    {% for flashMessage in app.session.flashbag.get('symbb-extension-survey-error') %}
-                        <div class="alert alert-danger">
-                            {{ flashMessage }}
-                        </div>
-                    {% endfor %}
-                    
-                    <button type="button" onclick="submit();" class="btn btn-default">{{ 'vote'|trans}}</button>
+                <li ng-show="answer.votable" class="list-group-item">                    
+                    <button type="button"  class="btn btn-default">{{ 'vote'|trans}}</button>
                     <div class="clear"></div>
                 </li>
-            {% endif %}
             </ul>
-        </form>
     </div>
 
 </div>

@@ -56,23 +56,33 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
             $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
- 
+
             if (!$accessCheck) {
                 $this->addErrorMessage('access denied (delete post)');
             } else {
 
                 $em = $this->getDoctrine()->getManager('symbb');
 
-                $topic = $post->getTopic();
-                if ($topic->getMainPost()->getId() === $post->getId()) {
-                    foreach ($topic->getPosts() as $currPost) {
-                        $em->remove($currPost);
+                $event = new \SymBB\Core\EventBundle\Event\ApiDeleteEvent($post);
+                $this->handleEvent('symbb.api.post.before.delete', $event);
+
+                if (!$this->hasError()) {
+                    $topic = $post->getTopic();
+                    if ($topic->getMainPost()->getId() === $post->getId()) {
+                        foreach ($topic->getPosts() as $currPost) {
+                            $em->remove($currPost);
+                        }
+                        $em->remove($topic);
+                    } else {
+                        $em->remove($post);
                     }
-                    $em->remove($topic);
-                } else {
-                    $em->remove($post);
+
+                    $em->flush();
                 }
-                $em->flush();
+
+                $event = new \SymBB\Core\EventBundle\Event\ApiDeleteEvent($post);
+                $this->handleEvent('symbb.api.post.after.delete', $event);
+
                 $this->addSuccessMessage('successfully deleted');
                 $this->addCallback('refesh');
             }
@@ -81,6 +91,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         return $this->getJsonResponse($params);
+    }
+
+    protected function handleEvent($eventName, $eventObject)
+    {
+        $this->get('event_dispatcher')->dispatch($eventName, $eventObject);
+        $messages = (array) $eventObject->getMessages();
+        $callbacks = (array) $eventObject->getCallbacks();
+        $this->messages = array_merge($this->messages, $messages);
+        $this->callbacks = array_merge($this->callbacks, $callbacks);
     }
 
     /**
@@ -119,7 +138,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
 
-
+            
             $em = $this->getDoctrine()->getManager('symbb');
 
             $post->setName($request->get('name'));
@@ -130,8 +149,16 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $this->handlePostImages($post, (array) $request->get('files'), $em);
 
-            $em->persist($post);
-            $em->flush();
+            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $this->get('request')->get('extension'));
+            $this->handleEvent('symbb.api.post.before.save', $event);
+            
+            if (!$this->hasError()) { 
+                $em->persist($post);
+                $em->flush();
+            }
+
+            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $this->get('request')->get('extension'));
+            $this->handleEvent('symbb.api.post.after.save', $event);
 
             $params['id'] = $post->getId();
             if ($request->get('notifyMe')) {
@@ -274,20 +301,27 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                         $this->handlePostImages($mainPost, $mainPostData['files'], $em);
 
+                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
+                        $this->handleEvent('symbb.api.topic.before.save', $event);
 
-                        $em->persist($topic);
-                        $em->persist($mainPost);
-                        $em->flush();
+                        if ( !$this->hasError() ) {
+                            $em->persist($topic);
+                            $em->persist($mainPost);
+                            $em->flush();
 
-                        if ($request->get('notifyMe')) {
-                            $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
-                        } else {
-                            $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+                            if ($request->get('notifyMe')) {
+                                $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
+                            } else {
+                                $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+                            }
+
+                            $this->addSuccessMessage('saved successfully.');
+
+                            $params['id'] = $topic->getId();
                         }
 
-                        $this->addSuccessMessage('saved successfully.');
-
-                        $params['id'] = $topic->getId();
+                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
+                        $this->handleEvent('symbb.api.topic.after.save', $event);
                     } else {
                         $this->addErrorMessage('access denied (edit topic)');
                     }
@@ -569,6 +603,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         } else {
             $array['mainPost'] = $this->getPostAsArray();
         }
+
+        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($topic);
+        $this->handleEvent('symbb.api.topic.data', $event);
+        $array['extension'] = $event->getExtensionData();
+
         return $array;
     }
 
@@ -636,6 +675,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
             }
         }
+
+        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($forum);
+        $this->handleEvent('symbb.api.forum.data', $event);
+        $array['extension'] = $event->getExtensionData();
 
         return $array;
     }
@@ -723,6 +766,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         } else {
             $array['author'] = $this->getAuthorAsArray();
         }
+
+        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($post);
+        $this->handleEvent('symbb.api.post.data', $event);
+        $array['extension'] = $event->getExtensionData();
+
 
         return $array;
     }
