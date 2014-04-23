@@ -85,6 +85,9 @@ var angularForumRouting = {
         },
         forum_post_save:  {
             'api': 'symbb_api_post_save'
+        },
+        forum_post_delete:  {
+            'api': 'symbb_api_post_delete'
         }
     },
     

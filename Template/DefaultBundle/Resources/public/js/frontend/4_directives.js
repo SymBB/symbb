@@ -61,7 +61,31 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
         }
     };
-}).directive('symbbTooltip', ['$timeout', function(timer) {
+}).directive('symbbDeleteLink', ['$http', function($http) {
+    return {
+        restrict: 'A',
+        transclude: false,
+        replace: false,
+        link: function(scope, element, attrs) {
+            $(element[0]).click(function() {
+                if(confirm(attrs.message)){
+                    var params = {};
+                    $.each(attrs, function(key, value){
+                        if(key.match(/^param/)){
+                            var newKey = key.replace('param', '');
+                            var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
+                            params[newKey] = value;
+                        }
+                    });
+                    console.debug(params);
+                    $http.delete(angularConfig.getSymfonyApiRoute(attrs.symbbDeleteLink, params)).success(function(data) {
+                        
+                    });
+                }
+            });
+        }
+    };
+}]).directive('symbbTooltip', ['$timeout', function(timer) {
     return {
         restrict: 'A',
         transclude: false,

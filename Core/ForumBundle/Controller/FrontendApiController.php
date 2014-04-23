@@ -44,6 +44,46 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
+     * @Route("/api/post/delete", name="symbb_api_post_delete")
+     * @Method({"DELETE"})
+     */
+    public function postDeleteAction()
+    {
+        $id = (int) $this->get('request')->get('id');
+        $params = array();
+
+        if ($id > 0) {
+            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
+            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+ 
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (delete post)');
+            } else {
+
+                $em = $this->getDoctrine()->getManager('symbb');
+
+                $topic = $post->getTopic();
+                if ($topic->getMainPost()->getId() === $post->getId()) {
+                    foreach ($topic->getPosts() as $currPost) {
+                        $em->remove($currPost);
+                    }
+                    $em->remove($topic);
+                } else {
+                    $em->remove($post);
+                }
+                $em->flush();
+                $this->addSuccessMessage('successfully deleted');
+                $this->addCallback('refesh');
+            }
+        } else {
+            $this->addErrorMessage("Post not found");
+        }
+
+        return $this->getJsonResponse($params);
+    }
+
+    /**
      * @Route("/api/post/save", name="symbb_api_post_save")
      * @Method({"POST"})
      */
@@ -163,7 +203,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
             ->find($id);
-        
+
         $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
         $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
         if (!$accessCheck) {
@@ -659,7 +699,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
 
             if ($post->getId() > 0) {
-                
+
                 $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
                 if ($array['notifyMe'] > 0) {
                     $array['notifyMe'] = true;

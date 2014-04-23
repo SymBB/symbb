@@ -37,7 +37,7 @@
             <div class="btn-group pull-right">
                 <button ng-show="topic.access.createPost" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[post.id]]" ng-hide="topic.locked" type="button" class="btn quote btn-info">{% trans %}Quote{% endtrans %}</button>
                 <button ng-show="post.access.edit" symbb-js-link="forum_post_edit" param-id="[[post.id]]" type="button" class="btn btn-primary">{% trans %}Edit{% endtrans %}</button>
-                <button ng-show="post.access.delete" type="button" class="btn btn-danger" symbb-delete-link="symbb_delete_post" param-id="[[post.id]]" param-text="{% trans %}you really want to delete the entry?{% endtrans %}">{% trans %}Delete{% endtrans %}</button>
+                <button ng-show="post.access.delete" symbb-delete-link="forum_post_delete" param-id="[[post.id]]" message="{{'you really want to delete the entry?'|trans}}" type="button" class="btn btn-danger" >{% trans %}Delete{% endtrans %}</button>
             </div>
             <div class="clear"></div>
         </div>
