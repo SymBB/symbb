@@ -2,11 +2,11 @@
 
 <div class="symbb_tabcontent" data-tab="survey">
     <div class="panel panel-default">
-        <div class="padding10">
+        <div class="padding10">   
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="surveyQuestion">{{'The answers'|trans}}</label>
                 <div class="col-sm-10">
-                <input type="text" ng-model="topic.extension.survey.question" class="form-control" placeholder="{{'The question'|trans}}" id="surveyQuestion">
+                    <input type="text" ng-model="topic.extension.survey.question" class="form-control" placeholder="{{'The question'|trans}}" id="surveyQuestion">
                 </div>
                 <div class="clear"></div>
             </div> 
@@ -36,13 +36,19 @@
                 <div class="col-sm-10">
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown">
-                          <div class="input-group"><input type="text" class="form-control" data-ng-model="topic.extension.survey.end"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                          </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="topic.extension.survey.end">
+                                <input type="text" class="form-control" ng-model="topic.extension.survey.date">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar">
+                                    </i>
+                                </span>
+                            </div>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                          <datetimepicker data-ng-model="topic.extension.survey.end" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" id="surveyEnd"/>
+                            <datetimepicker data-ng-model="topic.extension.survey.end" data-datetimepicker-config="{ dropdownSelector: '#dropdown2', viewModel: 'topic.extension.survey.date' }" id="surveyEnd"/>
                         </ul>
-                      </div>
+                    </div>
                 </div>
                 <div class="clear"></div>
             </div> 
