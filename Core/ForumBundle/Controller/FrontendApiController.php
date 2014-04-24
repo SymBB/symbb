@@ -84,7 +84,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $this->handleEvent('symbb.api.post.after.delete', $event);
 
                 $this->addSuccessMessage('successfully deleted');
-                $this->addCallback('refesh');
+                $this->addCallback('refresh');
             }
         } else {
             $this->addErrorMessage("Post not found");
@@ -138,7 +138,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
 
-            
+
             $em = $this->getDoctrine()->getManager('symbb');
 
             $post->setName($request->get('name'));
@@ -151,8 +151,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $this->get('request')->get('extension'));
             $this->handleEvent('symbb.api.post.before.save', $event);
-            
-            if (!$this->hasError()) { 
+
+            if (!$this->hasError()) {
                 $em->persist($post);
                 $em->flush();
             }
@@ -304,7 +304,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                         $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
                         $this->handleEvent('symbb.api.topic.before.save', $event);
 
-                        if ( !$this->hasError() ) {
+                        if (!$this->hasError()) {
                             $em->persist($topic);
                             $em->persist($mainPost);
                             $em->flush();
@@ -416,7 +416,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->get('symbb.core.forum.manager')->ignoreForum($forum, $this->get('symbb.core.forum.flag'));
 
         $this->addSuccessMessage('You are now ignoring the Forum');
-        $this->addCallback('refesh');
+        $this->addCallback('refresh');
 
         return $this->getJsonResponse(array());
     }
@@ -436,7 +436,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->get('symbb.core.forum.manager')->watchForum($forum, $this->get('symbb.core.forum.flag'));
 
         $this->addSuccessMessage('You are now watching the forum again');
-        $this->addCallback('refesh');
+        $this->addCallback('refresh');
 
         return $this->getJsonResponse(array());
     }
@@ -454,7 +454,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
 
         $this->addSuccessMessage('The forum has been marked as read');
-        $this->addCallback('refesh');
+        $this->addCallback('refresh');
 
         return $this->getJsonResponse(array());
     }
@@ -599,6 +599,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     'edit' => $editAccess,
                     'delete' => $deleteAccess
                 );
+
+                if ($topic->isLocked()) {
+                    $array['access']['createPost'] = false;
+                }
             }
         } else {
             $array['mainPost'] = $this->getPostAsArray();

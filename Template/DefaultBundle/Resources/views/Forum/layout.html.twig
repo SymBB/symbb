@@ -10,7 +10,7 @@
      %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
-    {{ executeSymbbEvent('template.forum.stylesheets') }}
+    {{ executeSymbbEvent('forum.template.stylesheets') }}
 {% endblock %}
     
 {% block javascripts %} 
@@ -23,7 +23,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {{ executeSymbbEvent('template.forum.javascripts') }}
+    {{ executeSymbbEvent('forum.template.javascripts') }}
     <script>
     // init user data for frontend
     symbbUser.id = {{app.user.id}};

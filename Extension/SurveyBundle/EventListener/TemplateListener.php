@@ -52,8 +52,13 @@ class TemplateListener
         $event->render('SymBBExtensionSurveyBundle:Post:survey.html.twig', array('post' => array(), 'survey' => array()));
     }
 
-    public function topicStylesheets($event)
+    public function stylesheets($event)
     {
         $event->render('SymBBExtensionSurveyBundle::stylesheets.html.twig', array());
+    }
+
+    public function javascripts($event)
+    {
+        $event->render('SymBBExtensionSurveyBundle::javascripts.html.twig', array());
     }
 }

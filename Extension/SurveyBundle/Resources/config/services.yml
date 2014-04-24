@@ -8,7 +8,8 @@ services:
             - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabs, method: addTopicTab }
             - { name: kernel.event_listener, event: symbb.topic.template.form.options.tabcontents, method: addTopicTabContent }
             - { name: kernel.event_listener, event: symbb.post.template.before.text, method: addSurveyBlock }
-            - { name: kernel.event_listener, event: symbb.topic.template.stylesheets, method: topicStylesheets }
+            - { name: kernel.event_listener, event: symbb.forum.template.stylesheets, method: stylesheets }
+            - { name: kernel.event_listener, event: symbb.forum.template.javascripts, method: javascripts }
             
     symbb.listener.post.survey.save:
         class: SymBB\Extension\SurveyBundle\EventListener\SaveListener

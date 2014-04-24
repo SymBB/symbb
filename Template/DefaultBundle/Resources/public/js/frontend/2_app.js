@@ -7,11 +7,12 @@ var app = angular.module('app', [
     'infinite-scroll',
     'symbbControllers',
     'angularFileUpload',
-    'angularTumb'
+    'angularTumb',
+    'ui.bootstrap.datetimepicker'
 ]);
 
-app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$provide',
-    function($routeProvider, $interpolateProvider, $httpProvider, $provide) {
+app.config(['$routeProvider', '$interpolateProvider', '$httpProvider',
+    function($routeProvider, $interpolateProvider, $httpProvider) {
         
         //changeing because of twig
         $interpolateProvider.startSymbol('[[').endSymbol(']]');

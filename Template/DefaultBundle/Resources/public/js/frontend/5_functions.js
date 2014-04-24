@@ -1,4 +1,4 @@
-var refesh = function(data, route){
+var refresh = function(data, route){
     route.reload();
 };
 

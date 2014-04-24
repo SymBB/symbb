@@ -361,4 +361,21 @@ class UserManager
 
         return $constraints;
     }
+    
+    public function getDateFormater($format ){
+        
+        if (\is_string($format)) {
+            $format = \constant('\IntlDateFormatter::' . \strtoupper($format));
+        } else if (!\is_numeric($format)) {
+            throw new Exception('Format must be an string or IntlDateFormater Int Value');
+        }
+
+        $locale = \Symfony\Component\Locale\Locale::getDefault();
+        $tz = $this->getTimezone();
+
+        $fmt = new \IntlDateFormatter(
+            $locale, $format, $format, $tz->getName(), \IntlDateFormatter::GREGORIAN
+        );
+        return $fmt;
+    }
 }

@@ -39,7 +39,6 @@ class SaveListener
         $surveyChoices = (int) $data['survey']['choices'];
         $surveyChoicesChangeable = (boolean) $data['survey']['choicesChangeable'];
         $surveyEnd = $data['survey']['end'];
-
         if (!empty($surveyQuestion) && !empty($surveyAnswers)) {
 
             $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
@@ -64,7 +63,7 @@ class SaveListener
             $survey->setChoicesChangeable($surveyChoicesChangeable);
             $survey->setPost($post);
             $survey->setEnd($surveyEnd);
-
+            
             $this->em->persist($survey);
             $this->em->flush();
         }
@@ -77,12 +76,15 @@ class SaveListener
         $post = $event->getObject();
 
         $data = array(
+            'id' => 0,
             'question' => '',
             'answers' => '',
             'answersArray' => array(),
             'choices' => 1,
             'choicesChangeable' => true,
-            'end' => ''
+            'end' => 0,
+            'votable' => false,
+            'myVote' => array()
         );
 
         if ($post->getId() > 0) {
@@ -92,13 +94,18 @@ class SaveListener
 
             if (is_object($survey)) {
                 $data = array(
+                    'id' => $survey->getId(),
                     'question' => $survey->getQuestion(),
                     'answers' => $survey->getAnswers(),
                     'answersArray' => $this->getAnswerArray($survey),
                     'choices' => $survey->getChoices(),
                     'choicesChangeable' => $survey->getChoicesChangeable(),
-                    'end' => $survey->getEnd()
+                    'end' => $survey->getEnd(),
+                    'votable' => $survey->checkIfVoteable($this->userManager->getCurrentUser())
                 );
+                foreach ($data['answersArray'] as $key => $value) {
+                    $data['myVote'][$key] = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
+                }
             }
         }
 
@@ -111,14 +118,13 @@ class SaveListener
 
         $return = array();
         foreach ($answerList as $key => $answer) {
-            $type = 'checkbox';
-            if ($survey->getChoices() > 0) {
-                $type = 'radio';
+            $type = 'radio';
+            if ($survey->getChoices() > 1) {
+                $type = 'checkbox';
             }
             $return[] = array(
                 'name' => $answer,
                 'percent' => $survey->getAnswerPercent($key),
-                'votable' => $survey->checkIfVoteable($this->userManager->getCurrentUser()),
                 'key' => $key,
                 'type' => $type
             );
@@ -181,7 +187,8 @@ class SaveListener
             'answersArray' => array(),
             'choices' => 1,
             'choicesChangeable' => true,
-            'end' => ''
+            'end' => 0,
+            'myVote' => array()
         );
 
         if ($post->getId() > 0) {
@@ -190,14 +197,19 @@ class SaveListener
             $survey = $repo->findOneBy(array('post' => $post));
 
             if (is_object($survey)) {
+                $dateFormater = $this->userManager->getDateFormater('FULL');
+ 
                 $data = array(
                     'question' => $survey->getQuestion(),
                     'answers' => $survey->getAnswers(),
                     'answersArray' => $this->getAnswerArray($survey),
                     'choices' => $survey->getChoices(),
                     'choicesChangeable' => $survey->getChoicesChangeable(),
-                    'end' => $survey->getEnd()
+                    'end' => 0,
                 );
+                foreach ($data['answersArray'] as $key => $value) {
+                    $data['myVote'][$key] = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
+                }
             }
         }
 

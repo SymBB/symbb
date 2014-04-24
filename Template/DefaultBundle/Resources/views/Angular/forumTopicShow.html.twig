@@ -9,8 +9,8 @@
 <div class="anker-group"><div class="anker" id="first_header"></div></div>
 <div class="symbb_action_row topic_start">
     <div class="title">[[ topic.name ]]</div>
-    <div class="btn-group pull-left" ng-hide="topic.locked">
-        <button symbb-js-link="forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
+    <div class="btn-group pull-left" ng-show="topic.access.createPost">
+        <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
     </div> 
 </div>
 <div class="clear"></div>
@@ -35,7 +35,7 @@
             {% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
             </div>              
             <div class="btn-group pull-right">
-                <button ng-show="topic.access.createPost" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[post.id]]" ng-hide="topic.locked" type="button" class="btn quote btn-info">{% trans %}Quote{% endtrans %}</button>
+                <button ng-show="topic.access.createPost" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[post.id]]" type="button" class="btn quote btn-info">{% trans %}Quote{% endtrans %}</button>
                 <button ng-show="post.access.edit" symbb-js-link="forum_post_edit" param-id="[[post.id]]" type="button" class="btn btn-primary">{% trans %}Edit{% endtrans %}</button>
                 <button ng-show="post.access.delete" symbb-delete-request="forum_post_delete" param-id="[[post.id]]" message="{{'you really want to delete the entry?'|trans}}" type="button" class="btn btn-danger" >{% trans %}Delete{% endtrans %}</button>
             </div>
@@ -78,7 +78,7 @@
     <div class="symbb_action_row topic_start">
         <div class="title">[[ topic.name ]]</div>
         <div class="btn-group pull-left" ng-hide="topic.locked">
-            <button symbb-js-link="forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
+            <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer">{{ 'Answer'|trans }}</button>
             <div ng-hide='postPagination.end || postPagination.busy' class="m-top-1 pull-left">
                 <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
                 <div class="clear"></div>

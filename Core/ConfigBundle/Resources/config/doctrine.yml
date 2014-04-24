@@ -1,5 +1,7 @@
 doctrine:
     dbal:
+      types:
+        timestamp: SymBB\Core\SystemBundle\Doctrine\TimestampType
       default_connection: default
       connections:
         symbb:
