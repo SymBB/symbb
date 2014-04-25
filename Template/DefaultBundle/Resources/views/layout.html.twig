@@ -51,6 +51,12 @@
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+        {% javascripts
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
         <script src="{{asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
         {{ executeSymbbEvent('template.global.javascripts') }}
