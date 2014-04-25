@@ -585,6 +585,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
 
                 $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
+                $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
+            
                 $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
                 $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
 
@@ -606,6 +608,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
         } else {
             $array['mainPost'] = $this->getPostAsArray();
+            $array['author'] = $this->getAuthorAsArray();
         }
 
         $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($topic);
@@ -627,6 +630,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['id'] = 0;
         $array['name'] = '';
         $array['description'] = '';
+        $array['isForum'] = false;
+        $array['isCategory'] = false;
+        $array['isLink'] = false;
         $array['ignore'] = false;
         $array['count']['topic'] = 0;
         $array['count']['post'] = 0;
@@ -677,6 +683,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 );
 
                 $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
+
+                if ($forum->getType() === 'link') {
+                    $array['isLink'] = true;
+                } else if ($forum->getType() === 'forum') {
+                    $array['isForum'] = true;
+                } else {
+                    $array['isCategory'] = true;
+                }
             }
         }
 

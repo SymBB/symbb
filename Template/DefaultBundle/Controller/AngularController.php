@@ -9,15 +9,13 @@
 
 namespace SymBB\Template\DefaultBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class AngularController extends Controller
+class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
     public function templateFileAction($file)
     {
         $response = $this->render(
-            'SymBBTemplateDefaultBundle:Angular:'.$file.'.html.twig',
+            $this->getTemplateBundleName('forum').':Angular:'.$file.'.html.twig',
             array()
         );
         
@@ -32,7 +30,7 @@ class AngularController extends Controller
     public function formFileAction($file)
     {
         $response = $this->render(
-            'SymBBTemplateDefaultBundle:Angular:Form/'.$file.'.html.twig',
+            $this->getTemplateBundleName('forum').':Angular:Form/'.$file.'.html.twig',
             array()
         );
         

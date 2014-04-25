@@ -1,0 +1,88 @@
+{% trans_default_domain "symbb_frontend" %}
+<div ng-repeat="category in categoryList">
+    <div class="anker-group">
+        <div class="anker" id="category_[[category.id]]"></div>
+    </div>
+    <table class="simpletable">
+        <tr class="simplerow">
+            <th class="namerow">
+                <a href="#category_[[category.id]]">[[category.name]]</a>
+            </th>
+            <th class="topicrow">
+                {{"Topics"|trans()}}
+            </th>
+            <th class="postrow">
+                {{"Posts"|trans()}}
+            </th>
+            <th class="lastpostrow">
+                {{"Last post"|trans()}}
+            </th>
+        </tr>
+        <tr class="simplerow" ng-repeat="object in category.children" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+            {{ include('SymBBTemplateSimpleBundle:Angular:forumListCard.html.twig') }}
+        </tr>
+    </table>
+    <div class="clear"></div>
+</div>
+
+<div class="anker-group" ng-show="hasForumList">
+    <div class="anker" id="forums"></div>
+</div>
+<table class="simpletable" ng-show="hasForumList">
+    <tr class="simplerow">
+        <th class="namerow">
+            <a href="#forums">{{ 'Forums'|trans() }}</a>
+        </th>
+        <th class="topicrow">
+            {{"Topics"|trans()}}
+        </th>
+        <th class="postrow">
+            {{"Posts"|trans()}}
+        </th>
+        <th class="lastpostrow">
+            {{"Last post"|trans()}}
+        </th>
+    </tr>
+    <tr class="simplerow" ng-repeat="object in forumList" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+        {{ include('SymBBTemplateSimpleBundle:Angular:forumListCard.html.twig') }}
+    </tr>
+</table>
+
+
+<div ng-show="forum.isForum">
+    <div class="anker-group">
+        <div class="anker" id="topics"></div>
+    </div>
+    <table ng-show="hasTopicList" class="simpletable" infinite-scroll='topicPagination.nextPage()' infinite-scroll-disabled='topicPagination.busy' infinite-scroll-distance='1'>
+        <tr class="simplerow">
+            <th class="namerow">
+                <a href="#topics">{{ 'Topics'|trans() }}</a>
+                <div class="btn-group pull-right">
+                    <button ng-show="forum.access.createTopic" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">{% trans %}new Topic{% endtrans %}</button>
+                    <button type="button" class="btn btn-default btn-sm" symbb-request="forum_mark_as_read" param-id="[[forum.id]]">{% trans %}Mark as read{% endtrans %}</button>
+                    <button ng-show="forum.ignored" id="symbbForumIgnoreButton" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-request="forum_unignore" param-id="[[forum.id]]">
+                        <span class="glyphicon glyphicon-eye-close" ></span> {{ 'You ignore the forum'|trans }}
+                    </button>
+                    <button  ng-hide="forum.ignored" id="symbbForumWatchButton" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-default btn-sm" symbb-request="forum_ignore" param-id="[[forum.id]]">
+                        <span class="glyphicon glyphicon glyphicon-eye-open" ></span> {{ 'You watch the forum'|trans }}
+                    </button>
+                </div>
+            </th>
+            <th class="postrow">
+                {{"Posts"|trans()}}
+            </th>
+            <th class="lastpostrow">
+                {{"Last post"|trans()}}
+            </th>
+        </tr>
+        <tr class="simplerow" ng-repeat="object in topicPagination.items" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+            {{ include('SymBBTemplateSimpleBundle:Angular:forumTopicListCard.html.twig') }}
+        </tr>
+        <tr class="simplerow" ng-hide='topicPagination.end'>
+            <td colspan="3" class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</td>
+        </tr>
+        <tr class="simplerow" ng-show='topicPagination.busy'>
+            <td colspan="3" class="alert alert-info">{% trans %}Loading ...{% endtrans %}</td>
+        </tr>
+    </table>        
+</div>
