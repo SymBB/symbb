@@ -8,12 +8,12 @@
     {% for item in breadcrumb %}
         {% spaceless %}
         {% if loop.first %}
-            <li class="first"><a href="{{item.link}}">{{item.name}}</a></li>
+            <li class="first"><a href="{{item.link}}">{{item.name}}</a><span class="spacer">/</span></li>
         {% elseif loop.last %}
-                <li class="active"><a href="{{item.link}}">&rsaquo;&nbsp;&nbsp;{{item.name}}</a></li>
+                <li class="active"><a href="{{item.link}}">{{item.name}}</a></li>
         {% else %}
             <li>
-                <a href="{{item.link}}">&rsaquo;&nbsp;&nbsp;{{item.name}}</a>
+                <a href="{{item.link}}">{{item.name}}</a><span class="spacer">/</span></a>
             </li>
         {% endif %}
         {% endspaceless %}

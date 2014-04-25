@@ -142,6 +142,8 @@
 
 .symbb_category_block .text .infos .lastpost {
     color: #000;
+    overflow-y: auto;
+    height: 150px;
 }
 
 .symbb_category_block .text .infos .lastpost a{

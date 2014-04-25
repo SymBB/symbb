@@ -1,8 +1,0 @@
-liip_imagine:
-    filter_sets:
-        symbb_post_file:
-            cache: web_path 
-            quality: 50
-            filters:
-                strip: ~
-                relative_resize: { heighten: 150  } 

@@ -14,6 +14,7 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
@@ -43,9 +44,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     protected $em;
     
     protected $paginator;
+    
+    protected $translator;
 
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $paginator
+    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $paginator, $translator
     )
     {
         $this->securityContext = $securityContext;
@@ -54,6 +57,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->configManager = $configManager;
         $this->em = $em;
         $this->paginator = $paginator;
+        $this->translator = $translator;
     }
 
     public function findNewestTopics(Forum $parent = null)
@@ -94,6 +98,39 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         );
 
         return $pagination;
+    }
+    
+    
+    /**
+     * 
+     * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
+     * @param type $limit
+     * @param type $offset
+     * @param type $orderDir
+     * @return array
+     */
+    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
+    {
+        if($limit === null){
+            $limit = $forum->getEntriesPerPage();
+        }
+        
+        $offset = (($page - 1) * $limit);
+        
+        $qb = $this->em->createQueryBuilder('');
+        $qb->add('select', 't')
+        ->add('from', 'SymBBCoreForumBundle:Topic t')
+        ->add('where', 't.forum = ?1')
+        ->add('orderBy', 't.created '.strtoupper($orderDir))
+        ->setParameter(1, $forum);
+        
+        $query = $qb->getQuery();
+        $query->setFirstResult($offset);
+        $query->setMaxResults($limit);
+
+        $paginator = new Paginator($query, false);
+        
+        return $paginator;
     }
     
     
@@ -232,5 +269,68 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
                 $this->addChildsToArray($child, $array);
             }
         }
+    }
+    
+    public function getBreadcrumbData($object){
+        $breadcrumb = array();
+        
+        while (is_object($object)) {
+            $breadcrumb[] = array(
+                'type' => 'forum',
+                'name' => $object->getName(),
+                'seoName' => $object->getSeoName(),
+                'id' => $object->getId()
+            );
+            $object = $object->getParent();
+        };
+        $home = $this->translator->trans('Home', array(), 'symbb_frontend');
+        $breadcrumb[] = array('name' => $home, 'type' => 'home');
+        $breadcrumb = array_reverse($breadcrumb);
+        
+        return $breadcrumb;
+    }
+    
+    public function isIgnored(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $check = $flagHandler->checkFlag($forum, 'ignore');
+        return $check;
+    }
+    
+    public function ignoreForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $flagHandler->insertFlag($forum, 'ignore');
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->ignoreForum($subForm, $flagHandler);
+        }
+        return true;
+    }
+
+    public function watchForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        $flagHandler->removeFlag($forum, 'ignore');
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->watchForum($subForm, $flagHandler);
+        }
+        return true;
+    }
+    
+    public function markAsRead(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    {
+        
+        $flagHandler->removeFlag($forum, 'new');
+
+        $topics = $forum->getTopics();
+        foreach ($topics as $topic) {
+            $this->topicFlagHandler->removeFlag($topic, 'new');
+        }
+
+        $subForms = $forum->getChildren();
+        foreach ($subForms as $subForm) {
+            $this->markAsRead($subForm, $flagHandler);
+        }
+        
+        return true;
     }
 }

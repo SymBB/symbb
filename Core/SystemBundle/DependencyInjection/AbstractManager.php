@@ -10,7 +10,6 @@
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use \Symfony\Component\Security\Core\SecurityContextInterface;
-use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
 abstract class AbstractManager
 {

@@ -12,16 +12,8 @@ class TemplateFormTopicEvent extends BaseTemplateEvent
 {
     
 
-    protected $form;
-
-
-    public function __construct($env, $form) {
-        $this->form = $form;
+    public function __construct($env) {
         $this->env = $env;
-    }
-    
-    public function getForm(){
-        return $this->form;
     }
     
 }

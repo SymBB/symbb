@@ -53,9 +53,9 @@ class Survey
     private $choicesChangeable = true;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="timestamp")
      */
-    private $end;
+    private $end = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="SymBB\Extension\SurveyBundle\Entity\Vote", mappedBy="survey")
@@ -99,7 +99,7 @@ class Survey
 
     }
 
-    public function setEnd(\DateTime $value = null)
+    public function setEnd($value = null)
     {
         $this->end = $value;
 
@@ -107,7 +107,7 @@ class Survey
 
     /**
      * 
-     * @return \DateTime
+     * @return int
      */
     public function getEnd()
     {
@@ -236,6 +236,7 @@ class Survey
 
         $end = $this->getEnd();
         $now = new \DateTime();
+        $now = $now->getTimestamp();
 
         // if the time is over, no new Votes are allowed
         if ($end && $now > $end) {

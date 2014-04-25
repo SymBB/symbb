@@ -1,0 +1,6 @@
+sym_bb_core_config:
+    upload:
+        tmp:
+            directory: /symbb/upload/tmp/
+        post:
+            directory: /symbb/upload/post/

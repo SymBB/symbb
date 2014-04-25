@@ -11,10 +11,10 @@ namespace SymBB\Extension\RatingBundle\EventListener;
 
 class TemplateListener
 {
+    
     public function afterText(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
     {
-        $post = $event->getPost();
-        $event->render('SymBBExtensionRatingBundle:Post:rating.html.twig', array('object' => $post));
+        $event->render('SymBBExtensionRatingBundle:Post:rating.html.twig', array());
     }
     
     public function topicStylesheets(\SymBB\Core\EventBundle\Event\TemplateTopicEvent $event){

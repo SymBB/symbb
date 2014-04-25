@@ -10,7 +10,7 @@
     <div class="symbb_action_row">
         <div class="title">
             {{ executeSymbbTemplatePostEvent('before.username', post) }}
-            <a href="{{ path('symbb_user_profile', {userId: post.getAuthor().getId(), 'username': post.getAuthor().getUsername()}) }}">
+            <a href="{{ path('symbb_user_profile', {id: post.getAuthor().getId(), 'name': post.getAuthor().getUsername()}) }}">
                 {{post.getAuthor().getUsername()}}
             </a>
             {{ executeSymbbTemplatePostEvent('after.username', post) }}

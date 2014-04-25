@@ -10,14 +10,10 @@
 namespace SymBB\Core\ForumBundle\Entity\Post;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File as BaseFile;
-use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="forum_topic_post_files")
  * @ORM\Entity()
- * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
 class File
@@ -42,22 +38,11 @@ class File
     private $post;
 
     /**
-     * @Assert\File(
-     *     maxSize="1M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
-     * )
-     * @Vich\UploadableField(mapping="symbb_post_file", fileNameProperty="imageName")
+     * @ORM\Column(type="string", length=255, name="path", nullable=true)
      *
-     * @var BaseFile $image
+     * @var string $url
      */
-    protected $image;
-
-    /**
-     * @ORM\Column(type="string", length=255, name="image_name", nullable=true)
-     *
-     * @var string $imageName
-     */
-    protected $imageName;
+    protected $path;
 
     public function getId()
     {
@@ -65,33 +50,21 @@ class File
 
     }
 
-    public function getImage()
+    public function getPath()
     {
-        return $this->image;
+        return $this->path;
 
     }
 
-    public function setImage($image)
+    public function setPath($image)
     {
-        $this->image = $image;
-        if ($this->image) {
+        $this->path = $image;
+        if ($this->path) {
             $this->changed = new \DateTime();
         }
 
     }
-
-    public function getImageName()
-    {
-        return $this->imageName;
-
-    }
-
-    public function setImageName($name)
-    {
-        $this->imageName = $name;
-
-    }
-
+    
     public function setPost(\SymBB\Core\ForumBundle\Entity\Post $object)
     {
         $this->post = $object;

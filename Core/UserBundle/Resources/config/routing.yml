@@ -11,5 +11,5 @@ symbb_user_userlist:
     defaults: { _controller: SymBBCoreUserBundle:Info:userlist }
     
 symbb_user_profile:
-    pattern:  /user/{userId}/{username}
+    pattern:  /user/{id}/{name}
     defaults: { _controller: SymBBCoreUserBundle:Info:profile }
