@@ -31,23 +31,21 @@
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %} 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.6/angular.min.js"></script>
+        <script src="/bundles/symbbtemplatedefault/js/angular/angular-animate.js"></script>
+        <script src="/bundles/symbbtemplatedefault/js/angular/angular-cookies.js"></script>
+        <script src="/bundles/symbbtemplatedefault/js/angular/angular-mocks.js"></script>
+        <script src="/bundles/symbbtemplatedefault/js/angular/angular-routing.js"></script>
+        <script src="/bundles/symbbtemplatedefault/js/angular/angular-sanitize.js"></script>
         {% javascripts filter='?yui_js' 
             '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' 
             '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' 
             '@FOSJsRoutingBundle/Resources/public/js/router.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
