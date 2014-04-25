@@ -11,7 +11,7 @@ namespace SymBB\Core\EventBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-class ApiSaveEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
+class ApiDeleteEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
 {
 
 

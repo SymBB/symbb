@@ -25,11 +25,13 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
         $loader->load('services.yml');
         $loader->load('doctrine.yml');
 
-        $prefix = "";
+        $prefix = "symbb_";
         foreach ($container->getExtensions() as $name => $extension) {
             if ($name == 'sym_bb_core_config') {
                 $configs = $container->getExtensionConfig($name);
-                $prefix = $configs[1]["database"]["table_prefix"];
+                if(isset($configs[1]["database"])){
+                    $prefix = $configs[1]["database"]["table_prefix"]; 
+                }
             }
         }
         

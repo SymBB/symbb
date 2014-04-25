@@ -77,8 +77,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                             params[newKey] = value;
                         }
                     });
-                    console.debug(params);
-                    $http.delete(angularConfig.getSymfonyApiRoute(attrs.symbbDeleteRequest, params)).success(function(data) {
+                    $http({method: 'delete', url: angularConfig.getSymfonyApiRoute(attrs.symbbDeleteRequest, params)}).success(function(data) {
                         
                     });
                 }
@@ -103,7 +102,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         transclude: false,
         replace: false,
         link: function(scope, element, attrs) {
-            timer(symbbTabs, 0)
+            timer(symbbTabs, 0);
         }
     };
 }]).directive('symbbRequest', ['$http', '$route', function($http, $route) {
@@ -127,7 +126,4 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
         }
     };
-}]);   ;
-
-
-
+}]);

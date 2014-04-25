@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     
     {% block stylesheets %} 
-        {% stylesheets 
-            '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/form.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/angular/*.css' filter='?yui_css'
+        {% stylesheets filter='?yui_css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
+            '@SymBBTemplateDefaultBundle/Resources/public/css/form.css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/angular/*.css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -30,15 +30,19 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %} 
-        {% javascripts 
-            '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/*.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js' filter='?yui_js'
-            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js' filter='?yui_js'
-            '@FOSJsRoutingBundle/Resources/public/js/router.js' filter='?yui_js'
+        {% javascripts
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/*.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% javascripts filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' 
+            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' 
+            '@FOSJsRoutingBundle/Resources/public/js/router.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
@@ -52,6 +56,7 @@
         $(function() {            
             $( ".symbb_tooltip" ).tooltip();
         });
+        //test
     </script>
     </head>
 
