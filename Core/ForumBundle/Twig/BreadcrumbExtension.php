@@ -74,7 +74,7 @@ class BreadcrumbExtension extends \Twig_Extension
     {
 
         if ($object) {
-            $uri = $this->router->generate('symbb_user_profile', array('userId' => $object->getId(), 'username' => $object->getUsername()));
+            $uri = $this->router->generate('symbb_user_profile', array('id' => $object->getId(), 'name' => $object->getUsername()));
             $breadcrumb[] = array('name' => $object->getUsername(), 'link' => $uri);
         }
 

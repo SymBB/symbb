@@ -1,0 +1,10 @@
+symbb_template_default_angular:
+    pattern:  /template/default/angular/{file}
+    methods:  [GET]
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:templateFile }
+    
+symbb_template_default_angular_form:
+    pattern:  /template/default/angular/form/{file}
+    methods:  [GET]
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:formFile }  
+    

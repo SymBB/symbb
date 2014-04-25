@@ -57,7 +57,7 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
             $user = $this->getUser();
         }
 
-        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Post\Flag', 'symbb')->findOneBy(array(
+        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Post\Flag', 'symbb')->findBy(array(
             'post' => $object,
             'user' => $user,
             'flag' => $flag
@@ -67,6 +67,22 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
 
     }
 
+    public function findAll($object, UserInterface $user = null)
+    {
+
+        if (!$user) {
+            $user = $this->getUser();
+        }
+
+        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Post\Flag', 'symbb')->findOneBy(array(
+            'post' => $object,
+            'user' => $user
+        ));
+
+        return $flagObject;
+
+    }
+    
     public function createNewFlag($object, UserInterface $user, $flag)
     {
         $flagObject = new \SymBB\Core\ForumBundle\Entity\Post\Flag();

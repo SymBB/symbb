@@ -1,0 +1,28 @@
+{% trans_default_domain "symbb_frontend" %}
+<td class="namerow">
+    <img ng-show="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]"/>
+    <div class="name">
+        [[object.name]]
+        <div class="labels">
+            <div ng-repeat="flag in object.flags">
+                <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+            </div>
+        </div>
+    </div>
+    <div class="description">
+        [[object.author.username]]: {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+    </div>
+</td>
+<td class="postrow">
+    [[object.count.post]]
+</td>
+<td class="lastpostrow">
+    <div ng-repeat="post in object.posts.slice(0,1)" class="block" symbb-link="forum_topic_show" param-id="[[post.topic.id]]" param-name="[[post.seo.name]]">
+        <div class="avatar_mini avatar">
+            <img ng-src="[[post.author.avatar]]" />
+        </div>
+        <div class="title">[[post.name]]</div>
+        <div class="user">{% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}</div>
+        <div class="clear"></div>
+    </div>
+</td>

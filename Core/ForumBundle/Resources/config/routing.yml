@@ -1,15 +1,11 @@
 _symbb_index:
-    pattern:  /portal
+    pattern:  /forum/
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
     
 symbb_forum_index:
-    pattern:  /forum
+    pattern:  /forum/
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
-    
-symbb_forum_show:
-    pattern:  /forum/f-{name}/{id}/show
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:forumShow }
-    
+        
 symbb_forum_newest:
     pattern:  /forum/newest
     defaults: { _controller: SymBBCoreForumBundle:Frontend:newest }
@@ -49,3 +45,9 @@ symbb_edit_post:
 symbb_delete_post:
     pattern:  /forum/p-{post}/delete
     defaults: { _controller: SymBBCoreForumBundle:FrontendPost:delete}
+    
+    
+    
+symbb_api_forum:
+    resource: "@SymBBCoreForumBundle/Controller"
+    type: annotation

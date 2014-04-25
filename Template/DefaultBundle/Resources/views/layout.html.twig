@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}" ng-app="app">
   <head>
     <title>{% block title %}{{getSymbbSite().getName()}}{% endblock %}</title>
     <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
@@ -8,20 +8,19 @@
     <meta name="description" content="{{getSymbbSite().getMetaDataDescription()}}">
     <meta name="keywords" content="{{getSymbbSite().getMetaDataKeywords()}}">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     
     {% block stylesheets %} 
         {% stylesheets 
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' filter='?yui_css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/form.css' filter='?yui_css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/datepicker/jquery.datetimepicker.css' filter='?yui_css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/angular/*.css' filter='?yui_css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {{ executeSymbbEvent('template.global.stylesheets') }}
-        {{ executeSymbbEvent('template.forum.stylesheets') }}
     {% endblock %}
         
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -32,24 +31,25 @@
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %} 
         {% javascripts 
-            '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js' filter='?yui_js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/*.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*/config.js' filter='?yui_js'
+            '@FOSJsRoutingBundle/Resources/public/js/router.js' filter='?yui_js'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+        <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        <script src="{{asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
         {{ executeSymbbEvent('template.global.javascripts') }}
-        {{ executeSymbbEvent('template.forum.javascripts') }}
     {% endblock %}
     <script>
-        $(function() {
-
-            $('input[type="datetime"]').datetimepicker({
-              format: '{{ getIntlDatePattern('MEDIUM', true) }}'
-            });  
-
-            $('.datetime').datetimepicker({
-              format: '{{ getIntlDatePattern('MEDIUM', true) }}'
-            }); 
+        symbbUserLang = '{{ app.request.locale }}'
+        moment.lang('{{ app.request.locale }}');
+        $(function() {            
             $( ".symbb_tooltip" ).tooltip();
         });
     </script>
@@ -119,13 +119,24 @@
                 <div class="symbb_content">
 
 
-                    {% block symbb_breadcrumb %}
-                        {{ getSymbbBreadcrumb() }}
-                    {% endblock %}
+                    <div class="topnavi">
+                        {% block symbb_breadcrumb %}
+                            {{ getSymbbBreadcrumb() }}
+                        {% endblock %}
+                        <ul class="language">
+                            {% if app.request.locale == 'de' %}
+                                <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/de.png" title="Deutsch" title="Deutsch"/></a></li>
+                                <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/europeanunion.png" title="English" title="English"/></a></li>
+                            {% else %}
+                                <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/europeanunion.png" title="English" title="English"/></a></li>
+                                <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/de.png" title="Deutsch" title="Deutsch"/></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
 
                     <div class="clear"></div>
 
-                    <div class="symbb_flash_messages"> 
+                    <div class="symbb_flash_messages" id="symbbMessages"> 
                         {% if app.getUser.getSymbbType() == 'guest' %}
                             <div class="alert alert-danger">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -147,6 +158,7 @@
                     </div>
 
                     <div class="clear"></div>
+                    <div ng-view></div>
                     {% block symbb_body_container %}
                         <div class="symbb_body">
                             {% block symbb_body %}

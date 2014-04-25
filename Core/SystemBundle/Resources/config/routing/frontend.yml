@@ -41,3 +41,7 @@ _symbb_core_forum:
 _symbb_core_install:
     resource: "@SymBBCoreInstallBundle/Resources/config/routing.yml"
     prefix: /
+    
+_symbb_template_default_frontend:
+    resource: "@SymBBTemplateDefaultBundle/Resources/config/routing/frontend.yml"
+    prefix: /

@@ -15,57 +15,16 @@ class FrontendController extends \SymBB\Core\SystemBundle\Controller\AbstractCon
     public function indexAction()
     {
         return $this->portalAction();
-
     }
 
     public function portalAction()
     {
-        $forumList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => null), array('position' => 'asc', 'id' => 'asc'));
-
-        foreach ($forumList as $key => $forum) {
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
-            $access = $this->get('symbb.core.access.manager')->hasAccess();
-            if (!$access) {
-                unset($forumList[$key]);
-            }
-        }
-
-        $params = array('forumList' => $forumList);
-        return $this->render($this->getTemplateBundleName('portal') . ':Portal:index.html.twig', $params);
-
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
     }
 
     public function forumAction()
     {
-
-        $forumList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => null), array('position' => 'asc', 'id' => 'asc'));
-
-        foreach ($forumList as $key => $forum) {
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
-            $access = $this->get('symbb.core.access.manager')->hasAccess();
-            if (!$access) {
-                unset($forumList[$key]);
-            }
-        }
-
-        $params = array('forumList' => $forumList, 'forum' => null);
-        return $this->render($this->getTemplateBundleName('forum') . ':Forum:show.html.twig', $params);
-
-    }
-
-    public function forumShowAction($name, $id)
-    {
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
-        $this->get('symbb.core.access.manager')->checkAccess();
-
-        $params = array('forum' => $forum, 'forumList' => $forum->getChildren());
-        return $this->render($this->getTemplateBundleName('forum') . ':Forum:show.html.twig', $params);
-
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
     }
 
     public function newestAction()

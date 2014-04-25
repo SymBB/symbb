@@ -2,24 +2,37 @@
 
 {% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
 
-{% import getSymbbTemplate('forum') ~ ":Forum:forumMacros.html.twig" as symbBBForumMacro %}
-{% import getSymbbTemplate('forum') ~ ":Topic:topicMacros.html.twig" as symbBBForumTopicMacro %}
-
 {% block stylesheets %} 
     {{ parent() }}
     {% stylesheets 
         '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css' filter='?yui_css'
+        '@SymBBTemplateDefaultBundle/Resources/public/css/topic.css' filter='?yui_css'
      %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    {{ executeSymbbEvent('forum.template.stylesheets') }}
+{% endblock %}
+    
+{% block javascripts %} 
+    {{ parent() }}
+    {% javascripts 
+        '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js' filter='?yui_js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/forum/app.js' filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/forum/controllers.js' filter='?yui_js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {{ executeSymbbEvent('forum.template.javascripts') }}
+    <script>
+    // init user data for frontend
+    symbbUser.id = {{app.user.id}};
+    symbbUser.avatar = '{{getSymbbUserAvatar(app.user)}}';
+    </script>
 {% endblock %}
     
 {% block symbb_breadcrumb %}
-    {% if forum is defined %}
-        {{ getSymbbBreadcrumb(forum) }}
-    {% else %}
-        {{ getSymbbBreadcrumb() }}
-    {% endif %}
+    <symbb-breadcrumb></symbb-breadcrumb>
 {% endblock %}
     
     

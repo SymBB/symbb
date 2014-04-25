@@ -62,6 +62,20 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
 
         return $flagObject;
     }
+    
+    public function findAll($object, UserInterface $user = null)
+    {
+        if (!$user) {
+            $user = $this->getUser();
+        }
+
+        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Topic\Flag', 'symbb')->findBy(array(
+            'topic' => $object->getId(),
+            'user' => $user
+        ));
+
+        return $flagObject;
+    }
 
     public function createNewFlag($object, UserInterface $user, $flag)
     {
@@ -163,9 +177,9 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
     public function findFlagsByObjectAndFlag($object, $flag)
     {
         $flags = $this->em->getRepository('SymBBCoreForumBundle:Topic\Flag', 'symbb')->findBy(array(
-            'topic' => $object,
+            'topic' => $object->getId(),
             'flag' => $flag
-        ));
+        )); 
         return $flags;
     }
 }

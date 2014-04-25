@@ -27,7 +27,7 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
      * @var PostFlagHandler
      */
     protected $postFlagHandler;
-    
+
     /**
      *
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
@@ -39,7 +39,7 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
-    
+
     protected $paginator;
 
     public function __construct(
@@ -52,18 +52,16 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         $this->em = $em;
         $this->dispatcher = $dispatcher;
         $this->paginator = $paginator;
-
     }
 
     public function parseText(\SymBB\Core\ForumBundle\Entity\Post $post)
     {
         $text = $post->getText();
-        $event = new \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent($post, $text);
+        $event = new \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent($post, (string)$text);
         $this->dispatcher->dispatch('symbb.post.manager.parse.text', $event);
         $text = $event->getText();
-        
-        return $text;
 
+        return $text;
     }
 
     public function cleanText(\SymBB\Core\ForumBundle\Entity\Post $post)
@@ -73,9 +71,8 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         $this->dispatcher->dispatch('symbb.post.manager.clean.text', $event);
         $text = $event->getText();
         return $text;
-
     }
-    
+
     /**
      * 
      * @param int $postId
@@ -85,9 +82,8 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
     {
         $post = $this->em->getRepository('SymBBCoreForumBundle:Post')->find($postId);
         return $post;
-
     }
-    
+
     /**
      * 
      * @param int $topicId
@@ -106,5 +102,19 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
             $query, $pageNumber/* page number */, $limit/* limit per page */
         );
         return $pagination;
+    }
+
+    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Post $object, TopicManager $topicManager, ForumManager $forumManager)
+    {
+        $breadcrumb = $topicManager->getBreadcrumbData($object->getTopic(), $forumManager);
+        if ($object->getId() > 0) {
+            $breadcrumb[] = array(
+                'type' => 'topic',
+                'name' => $object->getTopic()->getName(),
+                'seoName' => $object->getTopic()->getSeoName(),
+                'id' => $object->getTopic()->getid()
+            );
+        }
+        return $breadcrumb;
     }
 }

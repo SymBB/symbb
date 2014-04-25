@@ -1,6 +1,4 @@
 .symbb_topic {
-    margin-top: 5px;
-    margin-bottom: 5px;
     clear: both;
 }
 
@@ -26,7 +24,7 @@
     margin-bottom: 0px;
     height: 43px;
     opacity: 1;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 .symbb_topic .symbb_action_row .title{

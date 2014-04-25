@@ -12,19 +12,9 @@ use \SymBB\Core\ForumBundle\Entity\Post;
 
 class TemplatePostEvent extends BaseTemplateEvent
 {
-    
-    /**
-     * @var Post 
-     */
-    protected $post;
 
 
-    public function __construct($env, Post $post) {
-        $this->post = $post;
+    public function __construct($env) {
         $this->env = $env;
-    }
-    
-    public function getPost(){
-        return $this->post;
     }
 }

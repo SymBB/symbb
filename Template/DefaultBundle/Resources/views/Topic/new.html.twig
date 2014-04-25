@@ -48,11 +48,11 @@
                     <div class="panel-heading">
                         <ul class="nav nav-tabs nav-justified">
                             <li class="active"><a class="symbb_tab" data-tab="option">{{ 'Options'|trans }}</a></li>
-                            {{ executeSymbbTemplateFormTopicEvent('options.tabs', form) }}
+                            {{ executeSymbbTemplateFormTopicEvent('options.tabs') }}
                         </ul>
                     </div>
                     <div class="panel-body">
-                        {{ executeSymbbTemplateFormTopicEvent('options.tabcontents', form) }}
+                        {{ executeSymbbTemplateFormTopicEvent('options.tabcontents') }}
                         <div class="symbb_tabcontent" data-tab="option">
                             <div class="panel panel-default">
                                 {{ form_restbootstrap(form.mainPost) }}
@@ -63,10 +63,10 @@
                 </div>
                 
                 
-                {{ executeSymbbTemplateFormTopicEvent('before.buttons', form) }}
+                {{ executeSymbbTemplateFormTopicEvent('before.buttons') }}
                 <button class="btn btn-success" type="submit">{{ 'Save'|trans }}</button>
                 <button class="btn btn-danger" onclick="window.location.href='{{ path('symbb_forum_show', {'name': forum.getSeoName(), 'id': forum.getId()}) }}'; return false;">{{ 'Abort'|trans }}</button>
-                {{ executeSymbbTemplateFormTopicEvent('after.buttons', form) }}
+                {{ executeSymbbTemplateFormTopicEvent('after.buttons') }}
             </div>
         </div>
     

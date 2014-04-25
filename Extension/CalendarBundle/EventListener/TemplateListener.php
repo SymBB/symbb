@@ -58,15 +58,19 @@ class TemplateListener
         $event->render('SymBBExtensionCalendarBundle:Topic:tabcontent.html.twig', array('form' => $event->getForm()));
 
     }
-
-    public function addPostEventBox(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    
+    public function addPostEventBoxData(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
     {
-
         $post = $event->getPost();
         $repo = $this->em->getRepository('SymBBExtensionCalendarBundle:Event');
         $calendarEvent = $repo->findOneBy(array('post' => $post));
         
-        $event->render('SymBBExtensionCalendarBundle:Post:event.html.twig', array('calendarEvent' => $calendarEvent));
-
+        return $calendarEvent;
+    }
+    
+    
+    public function addPostEventBox(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    {
+        $event->render('SymBBExtensionCalendarBundle:Post:event.html.twig', array('calendarEvent' => array()));
     }
 }

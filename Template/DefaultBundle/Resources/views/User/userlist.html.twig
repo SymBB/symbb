@@ -30,7 +30,7 @@
                     {% if currUser.getSymbbType() == 'user' %}
 
                     <tr>
-                        <td><a href="{{ path('symbb_user_profile', { userId: currUser.getId(), 'username': currUser.getUsername() }) }}">{{ currUser.getUsername() }}</a></td>
+                        <td><a href="{{ path('symbb_user_profile', { id: currUser.getId(), 'name': currUser.getUsername() }) }}">{{ currUser.getUsername() }}</a></td>
                         <td>{{ getUserManager().getPostCount(currUser) }}</td>
                         <td>{{ formatIntlDate(currUser.getCreated()) }}</td>
                     </tr>

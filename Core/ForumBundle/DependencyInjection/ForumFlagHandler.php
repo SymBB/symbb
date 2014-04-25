@@ -29,6 +29,21 @@ class ForumFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
 
         return $flagObject;
     }
+    
+    public function findAll($object, UserInterface $user = null)
+    {
+
+        if (!$user) {
+            $user = $this->getUser();
+        }
+
+        $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Forum\Flag', 'symbb')->findBy(array(
+            'forum' => $object,
+            'user' => $user
+        ));
+
+        return $flagObject;
+    }
 
     public function createNewFlag($object, UserInterface $user, $flag)
     {
