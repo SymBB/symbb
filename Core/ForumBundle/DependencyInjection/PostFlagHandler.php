@@ -58,8 +58,8 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
         }
 
         $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Post\Flag', 'symbb')->findOneBy(array(
-            'post' => $object,
-            'user' => $user,
+            'post' => $object->getId(),
+            'user' => $user->getId(),
             'flag' => $flag
         ));
 

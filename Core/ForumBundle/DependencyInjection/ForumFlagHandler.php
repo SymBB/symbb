@@ -22,8 +22,8 @@ class ForumFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
         }
 
         $flagObject = $this->em->getRepository('SymBBCoreForumBundle:Forum\Flag', 'symbb')->findOneBy(array(
-            'forum' => $object,
-            'user' => $user,
+            'forum' => $object->getId(),
+            'user' => $user->getId(),
             'flag' => $flag
         ));
 

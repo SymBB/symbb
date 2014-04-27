@@ -20,6 +20,9 @@ sym_bb_extension_bb_code:
         h2:
           code: "[h2]{0}[/h2]"
           image: /bundles/symbbextensionbbcode/images/text_heading_2.png
+        list:
+          code: "[list][*]{0}[/*][/list]"
+          image: /bundles/symbbextensionbbcode/images/text_list_bullets.png
       -
         left: 
           code: "[left]{0}[/left]"
