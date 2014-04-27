@@ -87,7 +87,7 @@ class SaveListener
             'myVote' => array()
         );
 
-        if ($post->getId() > 0) {
+        if (is_object($post) && $post->getId() > 0) {
 
             $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post));
@@ -136,7 +136,7 @@ class SaveListener
     {
 
         $topic = $event->getObject();
-        $post = $topic->getMainObject();
+        $post = $topic->getMainPost();
         $data = $event->getExtensionData();
         $surveyQuestion = $data['survey']['question'];
         $surveyAnswers = $data['survey']['answers'];
@@ -191,14 +191,12 @@ class SaveListener
             'myVote' => array()
         );
 
-        if ($post->getId() > 0) {
+        if (is_object($post) && $post->getId() > 0) {
 
             $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post));
 
-            if (is_object($survey)) {
-                $dateFormater = $this->userManager->getDateFormater('FULL');
- 
+            if (is_object($survey)) { 
                 $data = array(
                     'question' => $survey->getQuestion(),
                     'answers' => $survey->getAnswers(),
