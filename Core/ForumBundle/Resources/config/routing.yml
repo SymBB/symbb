@@ -7,7 +7,7 @@ symbb_forum_index:
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
         
 symbb_forum_newest:
-    pattern:  /forum/newest
+    pattern:  /forum/newest/
     defaults: { _controller: SymBBCoreForumBundle:Frontend:newest }
     
 symbb_forum_topic_new:

@@ -93,7 +93,7 @@ var symbbAngularUtils = {
             scope: $scope,
             url: angularConfig.getSymfonyApiRoute('forum_post_upload_image'),
             method: 'POST',
-            formData: [{id: $scope.post.id}]
+            formData: [{id: $scopeObject.id}]
         });
 
         $.each($scopeObject.files, function(key, value) {                

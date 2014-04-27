@@ -24,6 +24,13 @@ var angularForumRouting = {
             'templateParam': { file: 'forumList'},
             'controller': 'ForumCtrl'
         },
+        forum_newest:  {
+            'url': ['/forum/newest/'],
+            'api': 'symbb_api_post_newest',
+            'template': 'symbb_template_default_angular',
+            'templateParam': { file: 'forumNewestPosts'},
+            'controller': 'ForumNewestShowCtrl'
+        },
         forum_topic_show:  {
             'url': ['/topic/:id/:name/'],
             'api': 'symbb_api_topic_data',
@@ -118,10 +125,14 @@ $.each(angularForumRouting.routingData, function(key, value){
 // Topic constructor function to encapsulate HTTP and pagination logic
 app.factory('ScrollPagination', function($http) {
     
-  var ScrollPagination = function(route, routeParams, items, page, total) {
+  var ScrollPagination = function(route, routeParams, items, page, total, itemsKey) {
       
     if(!page){
         page = 1;
+    }
+    
+    if(!itemsKey){
+        itemsKey = 'items';
     }
       
     this.items = items;
@@ -132,6 +143,7 @@ app.factory('ScrollPagination', function($http) {
     this.count = items.length;
     this.totalCount = total;
     this.route = route;
+    this.itemsKey = itemsKey;
     
     if(this.count >= this.totalCount) {
        this.end = true;
@@ -154,7 +166,7 @@ app.factory('ScrollPagination', function($http) {
     url = url + '&page='+this.routeParams.page;
     $http.get(url).success(function(data) {
       
-      var items = data.items;
+      var items = data[this.itemsKey];
       
       this.totalCount = data.total;
       

@@ -12,6 +12,17 @@ html, body {
     height: 100%;
 }
 
+blockquote {
+    margin-bottom: 0px;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+blockquote .decoda-quote-author {
+    text-decoration: underline;
+}
+
 #wrap {
     height: auto;
     margin: 0 auto;

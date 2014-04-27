@@ -215,9 +215,13 @@ class UserManager
     public function getAbsoluteAvatarUrl(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
         $url = $this->getAvatar($user);
-        $host = $this->getRequest()->server->get('HTTP_HOST');
+        $host = '';
+        
+        if(strpos($url, 'http') === false){
+            $host = "http://".$this->getRequest()->server->get('HTTP_HOST');
+        }
 
-        return "http://" . $host . $url;
+        return  $host . $url;
     }
 
     public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)

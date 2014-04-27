@@ -51,9 +51,9 @@
     float: left;
 }
 
-.symbb_topic .row.signature {
+.symbb_topic .signature {
     padding-top: 10px;
-    margin-top: 0px;
+    margin-top: 10px;
     border-top: 1px solid #CCC;
     clear: both;
 }

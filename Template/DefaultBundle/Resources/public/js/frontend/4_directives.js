@@ -58,6 +58,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                     }
                 });
                 angularConfig.goTo(attrs.symbbJsLink, params);
+                return false;
             });
         }
     };
@@ -81,6 +82,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                         
                     });
                 }
+                return false;
             });
         }
     };
