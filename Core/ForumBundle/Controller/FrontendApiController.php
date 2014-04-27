@@ -142,6 +142,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             if (!$accessCheck) {
                 $this->addErrorMessage('access denied (edit post)');
             }
+            $topic = $post->getTopic();
         } else {
             $post = new \SymBB\Core\ForumBundle\Entity\Post();
             if (isset($topicData['id']) && $topicData['id'] > 0) {
