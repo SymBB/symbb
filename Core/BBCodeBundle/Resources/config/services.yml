@@ -1,0 +1,27 @@
+services:
+    symbb.core.bbcode.listener.template:
+        class: SymBB\Core\BBCodeBundle\EventListener\TemplateListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
+            - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
+            
+    symbb.core.bbcode.listener.parse:
+        class: SymBB\Core\BBCodeBundle\EventListener\ParseListener
+        arguments: ['@symbb.core.bbcode.manager']
+        tags:
+            - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText }
+            - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.clean.text, method: cleanPostText }
+            - { priority: 0, name: kernel.event_listener, event: symbb.core.user.parse.signature, method: parseUserSignature }
+           
+    symbb.core.bbcode.manager:
+        class: SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager
+        arguments: ['@doctrine.orm.symbb_entity_manager']
+        
+    symbb.core.bbcode.manager.twig:
+        class: SymBB\Core\BBCodeBundle\Twig\BBCodeManagerExtension
+        arguments: ['@symbb.core.bbcode.manager']
+        tags:
+            - { name: twig.extension } 
+            
+        
+            

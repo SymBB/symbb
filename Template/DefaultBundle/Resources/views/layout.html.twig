@@ -47,7 +47,7 @@
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
         %}
-        <script src="{{ asset_url }}"></script>
+        <script src="{{ asset_url }}"></script> 
         {% endjavascripts %}
         {% javascripts
             '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/*.js'
@@ -60,8 +60,13 @@
         {{ executeSymbbEvent('template.global.javascripts') }}
     {% endblock %}
     <script>
+        // init user data for frontend
+        symbbUser.id = {{app.user.id}};
+        symbbUser.avatar = '{{getSymbbUserAvatar(app.user)}}';
+
         symbbUserLang = '{{ app.request.locale }}'
         moment.lang('{{ app.request.locale }}');
+        
         $(function() {            
             $( ".symbb_tooltip" ).tooltip();
         });

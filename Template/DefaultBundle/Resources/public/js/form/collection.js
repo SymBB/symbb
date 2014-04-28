@@ -49,8 +49,6 @@ jQuery(document).ready(function() {
                 collectionHolder.append(newItem);
                 collectionHolder.data('index', (index+1));
                 setObservers(collectionHolder);
-                
-                $('.symbb_editor').bbcodeEditorReload();
             });
 
         });

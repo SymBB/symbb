@@ -6,15 +6,11 @@
             <div class="panel-heading">[[post.topic.name]]</div>
             <div class="panel-body">
             
-                <input type="hidden" ng-model="post.id"  name="post[id]">
+                <input type="hidden" ng-model="post.id"  name="post[id]"> 
                 <input type="hidden" ng-model="post.topic.id" name="post[topic][id]" required>
                 <input type="hidden" ng-model="post.name" name="post[name]" required>
-          
-                {% include 'SymBBExtensionBBCodeBundle:Form:bbeditor.html.twig' with {'bbcodeset': 'default'} %}
                 
-                <div class="symbb_editor">
-                    <textarea ng-model="post.rawText" required placeholder="{{'Give Your text here'|trans}}" required="required" name="post[rawText]" class="form-control"></textarea>
-                </div>
+                <textarea symbb-editor ng-model="post.rawText" required placeholder="{{'Give Your text here'|trans}}" required="required" name="post[rawText]" class="form-control"></textarea>
     
                 <div class="m-top-1"></div>
                 <div class="panel panel-default" symbb-form-tabs>

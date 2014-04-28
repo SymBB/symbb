@@ -1,0 +1,6 @@
+symbb_bbcode_template_angular:
+    pattern:  /angular/bbcode/{file}/{set}
+    methods:  [GET]
+    defaults: { _controller: SymBBCoreBBCodeBundle:Angular:templateFile, set: default }
+    
+    

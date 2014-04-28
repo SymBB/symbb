@@ -123,7 +123,7 @@ var symbbAngularUtils = {
         });
 
         uploader.bind('complete', function (event, xhr, item, response) {
-            response = symbbAngularUtils.checkResponse(response, $injector);
+            response = symbbAngularUtils.checkResponse(response, $injector); 
             if(response.files){
                 $.each(response.files, function(key, value) {
                     $scopeObject.files[$scopeObject.files.length] = value.url;

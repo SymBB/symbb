@@ -77,7 +77,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.topic = angular.copy($scope.master);
             };
             
-            console.debug($scope.topic);
             symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.topic.mainPost, $injector)
             
         });

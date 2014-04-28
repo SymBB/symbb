@@ -15,12 +15,10 @@
                 <input type="hidden" ng-model="topic.id"  name="topic[id]">
                 <input type="hidden" ng-model="topic.mainPost.id" name="topic[mainPost][id]">
                 <input type="hidden" ng-model="topic.forum.id" required name="topic[forum][id]" required>
-          
-                {% include 'SymBBExtensionBBCodeBundle:Form:bbeditor.html.twig' with {'bbcodeset': 'default'} %}
                 
-                <div class="symbb_editor">
+                <div class="symbb_editor"> 
                     <textarea ng-model="topic.mainPost.rawText" required placeholder="{{'Give Your text here'|trans}}" required="required" name="topic[mainPost][rawText]" class="form-control"></textarea>
-                </div>
+                </div> 
     
                 <div class="m-top-1"></div>
                 <div class="panel panel-default" symbb-form-tabs>
