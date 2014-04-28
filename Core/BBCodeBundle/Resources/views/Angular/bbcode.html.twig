@@ -1,10 +1,11 @@
 <div symbb-bbcode-editor class="symbb_bbcodes symbb_header_bg">
-    {% for key, groups in getSymbbBBCodeManager()->getBBCodes(bbcodeset) %}
     <div class="symbb_bbcodes_group">
-        {% for bbcode in groups %}
-            <div class="symbb_bbcode_btn" data-tag-code="{{ bbcode.code }}" class="btn btn-default btn-sm symbb_bbcode_code" title="{{ bbcode.tag }}"><img alt="{{ bbcode.tag }}" title="{{ bbcode.tag }}" src="{{ bbcode.image }}" /></div>
-        {% endfor %}
+        {% for key, bbcode in getSymBBBBCodes(bbcodeset) %}
+            <div class="symbb_bbcode_btn" data-tag-code="{{ bbcode.getButtonRegex() }}" class="btn btn-default btn-sm symbb_bbcode_code" title="{{ bbcode.getName() }}"><img alt="{{ bbcode.getName() }}" title="{{ bbcode.getName() }}" src="{{ bbcode.getImage() }}" /></div>
+        {% endfor %} 
     </div>
-    {% endfor %}
     <div class="clear"></div>
+</div>
+<div class="symbb_editor" ng-transclude>
+    
 </div>

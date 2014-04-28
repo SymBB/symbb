@@ -50,12 +50,18 @@ class BBCode
     /**
      * @ORM\Column(type="string", length=255)
      */
+    protected $buttonRegex;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     protected $image;
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
-    
+
     public function getSet()
     {
         return $this->set;
@@ -94,6 +100,16 @@ class BBCode
     public function setReplaceRegex($replaceRegex)
     {
         $this->replaceRegex = $replaceRegex;
+    }
+
+    public function getButtonRegex()
+    {
+        return $this->buttonRegex;
+    }
+
+    public function setButtonRegex($buttonRegex)
+    {
+        $this->buttonRegex = $buttonRegex;
     }
 
     public function getImage()

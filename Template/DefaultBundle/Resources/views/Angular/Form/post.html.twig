@@ -9,8 +9,11 @@
                 <input type="hidden" ng-model="post.id"  name="post[id]"> 
                 <input type="hidden" ng-model="post.topic.id" name="post[topic][id]" required>
                 <input type="hidden" ng-model="post.name" name="post[name]" required>
+            
+                <symbb-editor-default>
+                    <textarea ng-model="post.rawText" required placeholder="{{'Give Your text here'|trans}}" name="post[rawText]" class="form-control"></textarea>
+                </symbb-editor-default>
                 
-                <textarea symbb-editor ng-model="post.rawText" required placeholder="{{'Give Your text here'|trans}}" required="required" name="post[rawText]" class="form-control"></textarea>
     
                 <div class="m-top-1"></div>
                 <div class="panel panel-default" symbb-form-tabs>

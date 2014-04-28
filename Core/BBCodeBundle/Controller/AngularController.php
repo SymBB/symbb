@@ -12,11 +12,11 @@ namespace SymBB\Core\BBCodeBundle\Controller;
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function templateFileAction($file)
+    public function templateFileAction($file, $set = 1)
     {
         $response = $this->render(
             'SymBBCoreBBCodeBundle:Angular:'.$file.'.html.twig',
-            array()
+            array('bbcodeset' => $set)
         );
         
         $response->setPublic();

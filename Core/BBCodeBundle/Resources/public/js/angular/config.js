@@ -2,8 +2,12 @@
 var angularBBCodeRouting = {
     
     routingData: {
-        bbcode: {
-            'template': 'symbb_bbcode_template_angular',
+        bbcode_default: {
+            'template': 'symbb_bbcode_template_angular_default',
+            'templateParam': { file: 'bbcode'}
+        },
+        bbcode_signature: {
+            'template': 'symbb_bbcode_template_angular_signature',
             'templateParam': { file: 'bbcode'}
         }
     }
@@ -11,6 +15,6 @@ var angularBBCodeRouting = {
 };
 
 // add routing to main routing
-$.each(angularForumRouting.routingData, function(key, value){
+$.each(angularBBCodeRouting.routingData, function(key, value){
     angularConfig.routingData[key] = value;
 });

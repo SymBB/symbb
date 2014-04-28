@@ -27,9 +27,9 @@ class BBCodeManagerExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('getSymbbBBCodeManager', array($this, 'getSymbbBBCodeManager')),
-            new \Twig_SimpleFunction('cleanSymbbBBCodes', array($this, 'cleanSymbbBBCodes')),
-            new \Twig_SimpleFunction('parseSymbbBBCodes', array($this, 'parseSymbbBBCodes')),
-            new \Twig_SimpleFunction('getSymbbBBCodes', array($this, 'getSymbbBBCodes'))
+            new \Twig_SimpleFunction('cleanSymBBBBCodes', array($this, 'cleanSymBBBBCodes')),
+            new \Twig_SimpleFunction('parseSymbBBBCodes', array($this, 'parseSymbBBBCodes')),
+            new \Twig_SimpleFunction('getSymBBBBCodes', array($this, 'getSymBBBBCodes'))
         );
     }
 
@@ -38,17 +38,17 @@ class BBCodeManagerExtension extends \Twig_Extension
         return $this->bbcodeManager;
     }
 
-    public function cleanSymbbBBCodes($text)
+    public function cleanSymBBBBCodes($text)
     {
         return $this->bbcodeManager->clean($text);
     }
 
-    public function parseSymbbBBCodes($text)
+    public function parseSymbBBBCodes($text)
     {
         return $this->bbcodeManager->parse($text, 1);
     }
 
-    public function getSymbbBBCodes()
+    public function getSymBBBBCodes()
     {
         return $this->bbcodeManager->getBBCodes();
     }

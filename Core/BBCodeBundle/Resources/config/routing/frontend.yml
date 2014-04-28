@@ -1,6 +1,11 @@
-symbb_bbcode_template_angular:
-    pattern:  /angular/bbcode/{file}/{set}
+symbb_bbcode_template_angular_default:
+    pattern:  /angular/bbcode/{file}/default
     methods:  [GET]
-    defaults: { _controller: SymBBCoreBBCodeBundle:Angular:templateFile, set: default }
+    defaults: { _controller: SymBBCoreBBCodeBundle:Angular:templateFile, set: 1 }
+    
+symbb_bbcode_template_angular_signature:
+    pattern:  /angular/bbcode/{file}/signature
+    methods:  [GET]
+    defaults: { _controller: SymBBCoreBBCodeBundle:Angular:templateFile, set: 2 }
     
     

@@ -21,7 +21,6 @@ class BBCodeManager
 
     public function parse($text, $setId = null)
     {
-        
         $text = strip_tags($text);
         
         if (!$setId) {
@@ -38,34 +37,26 @@ class BBCodeManager
         return $text;
     }
 
-    public function clean($text)
+    public function clean($text, $setId = null)
     {
+        
+        
+        
         return $text;
     }
 
-    public function getEmoticons($set = "defauult")
+    public function getEmoticons($set = 1)
     {
         return array();
     }
 
     /**
      * get a list of grouped BBCodes
-     * @return array
+     * @return \SymBB\Core\BBCodeBundle\Entity\BBCode
      */
-    public function getBBCodes($set = 'default')
+    public function getBBCodes($set = 1)
     {
-        $bbcodes = array();
-
-        foreach ($this->config['bbcodes'][$set] as $group => $bbcodeGroups) {
-            foreach ($bbcodeGroups as $tag => $bbcode) {
-                $bbcodes[$group][$tag] = $bbcode;
-                $bbcodes[$group][$tag]['tag'] = $tag;
-                if (!isset($bbcodes[$group][$tag]['image']) || !$bbcodes[$group][$tag]['image']) {
-                    $bbcodes[$group][$tag]['image'] = '/bundles/symbbextensionbbcode/images/default.png';
-                }
-            }
-        }
-
+        $bbcodes = $this->em->getRepository('SymBBCoreBBCodeBundle:BBCode')->findBy(array('set' => $set));
         return $bbcodes;
     }
 }
