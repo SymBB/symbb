@@ -7,7 +7,13 @@
 {% endblock %}
 
 {% block symbb_list_header %}
+    <div class="pull-left">
     {{ 'Usermanagement'|trans }}
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreuserbundle_user_new') }}'"> {{ 'new User'|trans() }} </button>
+    </div>
+    <div class="clearfix"></div>
 {% endblock %}
 
 {% block symbb_list_table %}

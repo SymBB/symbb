@@ -33,7 +33,7 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                     $options['choices'] = $choices->toArray();
                 }
                 if ($type == 'bbcode') {
-                    $type = new \SymBB\Extension\BBCodeBundle\Form\Type\BBEditorType();
+                    $type = "textarea";
                 }
                 if ($type == 'number' || $type == 'int') {
                     $type = 'integer';

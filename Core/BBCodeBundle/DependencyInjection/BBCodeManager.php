@@ -25,14 +25,14 @@ class BBCodeManager
         $text = strip_tags($text);
         
         if (!$setId) {
-            $set = $this->em->getRepository('SymBBCoreBBCode:Set')->findOne();
+            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOne();
             $setId = $set->getId();
         }
 
-        $bbcodes = $this->em->getRepository('SymBBCoreBBCode:BBCode')->findBy(array('set' => $setId));
+        $bbcodes = $this->em->getRepository('SymBBCoreBBCodeBundle:BBCode')->findBy(array('set' => $setId));
 
         foreach ($bbcodes as $bbcode) {
-            $text = \preg_replace($bbcode->getReplaceRegex(), $bbcode->getReplaceReqex(), $text);
+            $text = \preg_replace($bbcode->getSearchRegex(), $bbcode->getReplaceRegex(), $text);
         }
         
         return $text;

@@ -43,6 +43,11 @@ class Set
         $this->codes = new ArrayCollection();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getCodes()
     {
         return $this->codes;
@@ -66,5 +71,10 @@ class Set
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

@@ -30,7 +30,7 @@ class Option extends AbstractType
     {
 
         $builder->add('avatar', 'text', array('required' => false ,'attr' => array('placeholder' => 'http://deine-avatar.url')))
-                ->add('signature', new BBEditorType(), array('required' => false, 'attr' => array('bbcodeset' => 'signature')))
+                ->add('signature', 'text', array('required' => false, 'attr' => array('symbbEditor' => '2')))
                 ->add('timezone', 'timezone', array('required' => true))
                 ->add('save', 'submit', array('attr' => array('class' => 'btn-success')));
 

@@ -52,7 +52,10 @@ class BBCode
      */
     protected $image;
 
-
+    public function getId(){
+        return $this->id;
+    }
+    
     public function getSet()
     {
         return $this->set;

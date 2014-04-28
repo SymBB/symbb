@@ -28,7 +28,7 @@ class ParseListener
     {
         $text = $event->getText();
 
-        $text = $this->bbcodeManager->parse($text, "default");
+        $text = $this->bbcodeManager->parse($text, 1);
 
         $event->setText($text);
 
@@ -38,7 +38,7 @@ class ParseListener
     {
         $text = $event->getText();
 
-        $text = $this->bbcodeManager->clean($text, "default");
+        $text = $this->bbcodeManager->clean($text, 1);
 
         $event->setText($text);
 
@@ -48,7 +48,7 @@ class ParseListener
     {
         $text = $event->getSignature();
 
-        $text = $this->bbcodeManager->parse($text, "signature");
+        $text = $this->bbcodeManager->parse($text, 2);
 
         $event->setSignature($text);
 

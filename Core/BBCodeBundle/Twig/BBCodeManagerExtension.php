@@ -45,7 +45,7 @@ class BBCodeManagerExtension extends \Twig_Extension
 
     public function parseSymbbBBCodes($text)
     {
-        return $this->bbcodeManager->parse($text);
+        return $this->bbcodeManager->parse($text, 1);
     }
 
     public function getSymbbBBCodes()
