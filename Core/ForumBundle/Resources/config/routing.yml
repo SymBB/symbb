@@ -1,53 +1,11 @@
 _symbb_index:
-    pattern:  /forum/
+    pattern:  /
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
     
 symbb_forum_index:
-    pattern:  /forum/
+    pattern:  /
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
         
-symbb_forum_newest:
-    pattern:  /forum/newest/
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:newest }
-    
-symbb_forum_topic_new:
-    pattern:  /forum/f-{forum}/new
-    defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:new }
-    
-symbb_forum_topic_edit:
-    pattern:  /forum/t-{topic}/edit
-    defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:edit }
-    
-symbb_forum_topic_show:
-    pattern:  /forum/t-{name}/{id}/show
-    defaults: { _controller: SymBBCoreForumBundle:FrontendTopic:show}
-    
-symbb_forum_ignore:
-    pattern:  /forum/f-{forum}/ignore
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:ignore}
-    
-symbb_forum_watch:
-    pattern:  /forum/f-{forum}/watch
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:watch}
-
-symbb_forum_read:
-    pattern:  /forum/f-{forum}/read
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:read}
-
-symbb_new_post:
-    pattern:  /forum/t-{topic}/new
-    defaults: { _controller: SymBBCoreForumBundle:FrontendPost:new}
-    
-symbb_edit_post:
-    pattern:  /forum/p-{post}/edit
-    defaults: { _controller: SymBBCoreForumBundle:FrontendPost:edit}
-    
-symbb_delete_post:
-    pattern:  /forum/p-{post}/delete
-    defaults: { _controller: SymBBCoreForumBundle:FrontendPost:delete}
-    
-    
-    
 symbb_api_forum:
     resource: "@SymBBCoreForumBundle/Controller"
     type: annotation
