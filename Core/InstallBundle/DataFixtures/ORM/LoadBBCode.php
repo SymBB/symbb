@@ -97,6 +97,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeLink->setButtonRegex('[link]{0}[/link]');
         $bbcodeLink->setImage('/bundles/symbbcorebbcode/images/link_add.png');
         $bbcodeLink->setPosition($pos);
+        $bbcodeLink->setRemoveNewLines(true);
         $manager->persist($bbcodeLink);
         $pos++;
         
@@ -107,6 +108,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeImage->setButtonRegex('[img]{0}[/img]');
         $bbcodeImage->setImage('/bundles/symbbcorebbcode/images/image_add.png');
         $bbcodeImage->setPosition($pos);
+        $bbcodeImage->setRemoveNewLines(true);
         $manager->persist($bbcodeImage);
         $pos++;
         
@@ -132,9 +134,9 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeListItem = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeListItem->setName('List Item');
-        $bbcodeListItem->setSearchRegex('#\[\*\](.+?)#iU');
+        $bbcodeListItem->setSearchRegex('#\[\*\](.+?)\s#iU');
         $bbcodeListItem->setReplaceRegex('<li>$1</li>');
-        $bbcodeListItem->setButtonRegex('[*]{0}');
+        $bbcodeListItem->setButtonRegex('[*] {0}');
         $bbcodeListItem->setImage('/bundles/symbbcorebbcode/images/list-item.png');
         $bbcodeListItem->setPosition($pos);
         $manager->persist($bbcodeListItem);

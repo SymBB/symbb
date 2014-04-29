@@ -21,7 +21,17 @@
             </div>
         </div>
             
-        {{ form_rowbootstrap(form.signature) }}
+        
+        <div class="form-group ng-scope">
+            <label class="col-sm-2 control-label" for="user_options_signature">{{'Signature'|trans}}</label>
+            <div class="col-sm-10">
+                <symbb-editor-default>
+                {{ form_widget(form.signature) }}
+                </symbb-editor-default>
+            </div>
+        </div>
+        
+        
         {{ form_rowbootstrap(form.timezone) }}
         {{ form_row(form.save) }}
       {{ form_end(form) }}

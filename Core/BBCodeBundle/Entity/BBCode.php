@@ -25,13 +25,9 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
-     * @ORM\ManyToMany(targetEntity="Set", inversedBy="codes")
-     * @ORM\JoinTable(name="bbcode_set_to_bbcode",
-     *      joinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Set", mappedBy="codes")
      * @var ArrayCollection 
      */
     protected $sets;
@@ -40,6 +36,11 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $removeNewLines = false;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -104,6 +105,16 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     public function setSearchRegex($searchRegex)
     {
         $this->searchRegex = $searchRegex;
+    }
+
+    public function getRemoveNewLines()
+    {
+        return $this->removeNewLines;
+    }
+
+    public function setRemoveNewLines($value)
+    {
+        $this->removeNewLines = $value;
     }
 
     public function getReplaceRegex()

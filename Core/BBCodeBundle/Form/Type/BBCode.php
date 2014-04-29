@@ -49,6 +49,7 @@ class BBCode extends AbstractType
             ))
             ->add('searchRegex', 'text')
             ->add('replaceRegex', 'text')
+            ->add('removeNewLines', 'checkbox')
             ->add('buttonRegex', 'text')
             ->add('image', 'text');
     }

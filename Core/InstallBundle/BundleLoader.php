@@ -47,7 +47,6 @@ class BundleLoader
             // Sonata
             '\Sonata\IntlBundle\SonataIntlBundle',
             //
-            '\FM\BbcodeBundle\FMBbcodeBundle',
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
             '\Vich\UploaderBundle\VichUploaderBundle',
