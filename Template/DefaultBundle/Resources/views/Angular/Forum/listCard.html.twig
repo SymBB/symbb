@@ -7,7 +7,7 @@
     <div class="symbb_action_row">
         <div class="title">
             <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_list.png" ng-click="changeView()"/>
-            <span symbb-link="forum_show" param-id="[[category.id]]">[[category.name]]</span>
+            <span symbb-link="forum_show" param-id="[[category.id]]" param-name="[[category.name]]">[[category.name]]</span>
         </div>
         <div class="arrow"></div>
         <div class="clear"></div>
@@ -29,7 +29,7 @@
     <div class="symbb_action_row">
         <div class="title">
             <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_list.png" ng-click="changeView()"/>
-            <a href="#forums">{{ 'Forums'|trans() }}</a>
+            <a>{{ 'Forums'|trans() }}</a>
         </div>
         <div class="arrow"></div>
         <div class="clear"></div>
@@ -50,7 +50,7 @@
     <div class="symbb_action_row">
         <div class="title">
             <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_list.png" ng-click="changeView()"/>
-            <a href="#forums">{{ 'Topics'|trans() }}</a>
+            <a>{{ 'Topics'|trans() }}</a>
         </div>
         <div class="arrow"></div>
         <div class="btn-group pull-left">

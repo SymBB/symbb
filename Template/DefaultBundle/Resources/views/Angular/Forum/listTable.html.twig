@@ -7,7 +7,7 @@
         <tr class="simplerow">
             <th class="namerow">
                 <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_icons.png" ng-click="changeView()"/>
-                <a href="#category_[[category.id]]">[[category.name]]</a>
+                <a param-id="[[category.id]]" param-name="[[category.name]]">[[category.name]]</a>
             </th>
             <th class="topicrow">
                 {{"Topics"|trans()}}
@@ -33,7 +33,7 @@
     <tr class="simplerow">
         <th class="namerow">
             <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_icons.png" ng-click="changeView()"/>
-            <a href="#forums">{{ 'Forums'|trans() }}</a>
+            <a>{{ 'Forums'|trans() }}</a>
         </th>
         <th class="topicrow">
             {{"Topics"|trans()}}
@@ -59,7 +59,7 @@
         <tr class="simplerow">
             <th class="namerow">
                 <img class="viewSwitcher" src="/bundles/symbbtemplatedefault/images/icons/16_16/application_view_icons.png" ng-click="changeView()"/>
-                <a href="#topics">{{ 'Topics'|trans() }}</a>
+                <a>{{ 'Topics'|trans() }}</a>
                 <div class="btn-group pull-right">
                     <button ng-show="forum.access.createTopic" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">{% trans %}new Topic{% endtrans %}</button>
                     <button type="button" class="btn btn-default btn-sm" symbb-request="forum_mark_as_read" param-id="[[forum.id]]">{% trans %}Mark as read{% endtrans %}</button>
