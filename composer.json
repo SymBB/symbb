@@ -37,7 +37,6 @@
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "sonata-project/intl-bundle": "2.2.*@dev",
-        "helios-ag/fm-bbcode-bundle": "6.*@dev",
         "leaseweb/memcache-bundle": "1.1.*@dev",
         "symbb/extension-bundle": "dev-master",
         "coresphere/console-bundle": "dev-master",
