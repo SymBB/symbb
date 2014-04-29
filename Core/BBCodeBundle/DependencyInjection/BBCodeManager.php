@@ -29,6 +29,8 @@ class BBCodeManager
             $text = \preg_replace($bbcode->getSearchRegex(), $bbcode->getReplaceRegex(), $text);
         }
         
+        $text = \nl2br($text);
+        
         return $text;
     }
 
