@@ -97,7 +97,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeLink->setButtonRegex('[link]{0}[/link]');
         $bbcodeLink->setImage('/bundles/symbbcorebbcode/images/link_add.png');
         $bbcodeLink->setPosition($pos);
-        $bbcodeImage->setRemoveNewLines(true);
+        $bbcodeLink->setRemoveNewLines(true);
         $manager->persist($bbcodeLink);
         $pos++;
         
