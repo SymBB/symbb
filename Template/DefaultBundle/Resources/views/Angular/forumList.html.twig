@@ -10,7 +10,7 @@
         <div class="clear"></div>
     </div>
 
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in category.children" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in category.children">
         {{ include('SymBBTemplateDefaultBundle:Angular:forumListCard.html.twig') }}
     </div>
 
@@ -37,7 +37,7 @@
 
 
 
-<div ng-show="hasTopicList">
+<div ng-show="forum.isForum">
     <div class="anker-group">
         <div class="anker" id="topics"></div>
     </div>

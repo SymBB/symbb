@@ -6,9 +6,17 @@
 {{ knp_menu_render('SymBBCoreAdminBundle:Builder:userManagmentMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
 {% endblock %}
 
+
 {% block symbb_list_header %}
+    <div class="pull-left">
     {{ 'Groupmanagment'|trans }}
+    </div>
+    <div class="pull-right">
+        <button class="btn btn-default" onclick="window.location.href='{{ path('_symbbcoreuserbundle_group_new') }}'"> {{ 'new Group'|trans() }} </button>
+    </div>
+    <div class="clearfix"></div>
 {% endblock %}
+
 
 {% block symbb_list_table %}
     <table class="table table-striped table-bordered table-sortable responsive">

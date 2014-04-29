@@ -103,3 +103,30 @@ _symbbcoreuserbundle_user_enable:
 _symbbcoreuserbundle_user_disable:
     pattern:  /user/{id}/disable
     defaults: { _controller: SymBBCoreUserBundle:AcpUser:disable }
+    
+    
+    
+_symbbcorebbcodebundle_bbcode_list:
+    pattern:  /bbcode/list
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:list }
+
+_symbbcorebbcodebundle_bbcode_new:
+    pattern:  /bbcode/new
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:new}
+    
+_symbbcorebbcodebundle_bbcode_edit:
+    pattern:  /bbcode/{id}/edit
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:edit }
+    
+_symbbcorebbcodebundle_bbcode_remove:
+    pattern:  /bbcode/{id}/remove
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:remove }
+    
+_symbbcorebbcodebundle_bbcode_sort:
+    pattern:  /bbcode/sort
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:sort }
+    
+_symbbcorebbcodebundle_bbcode_restore:
+    pattern:  /bbcode/restore
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:restore }
+    

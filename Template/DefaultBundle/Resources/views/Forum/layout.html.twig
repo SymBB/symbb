@@ -24,11 +24,6 @@
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {{ executeSymbbEvent('forum.template.javascripts') }}
-    <script>
-    // init user data for frontend
-    symbbUser.id = {{app.user.id}};
-    symbbUser.avatar = '{{getSymbbUserAvatar(app.user)}}';
-    </script>
 {% endblock %}
     
 {% block symbb_breadcrumb %}

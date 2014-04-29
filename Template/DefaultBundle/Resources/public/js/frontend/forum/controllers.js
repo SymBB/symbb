@@ -1,5 +1,5 @@
-symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', 'ScrollPagination',
-    function($scope, $http, $routeParams, $timeout, ScrollPagination) {
+symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', 'ScrollPagination', '$location', '$anchorScroll',
+    function($scope, $http, $routeParams, $timeout, ScrollPagination, $location, $anchorScroll) {
         var forumId = 0
         if ($routeParams && $routeParams.id) {
             forumId = $routeParams.id;
@@ -13,9 +13,11 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $scope.topicPagination = new ScrollPagination('forum_topic_list', {id: $scope.forum.id}, $scope.topicList, 1, $scope.topicTotalCount);
         });
 
+        $location.hash('top');
+        $anchorScroll();
     }
-]).controller('ForumNewestShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout',
-    function($scope, $http, $routeParams, ScrollPagination, $timeout) {
+]).controller('ForumNewestShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$location', '$anchorScroll',
+    function($scope, $http, $routeParams, ScrollPagination, $timeout, $location, $anchorScroll) {
         var route = angularConfig.getSymfonyApiRoute('forum_newest');
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
@@ -30,9 +32,12 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             }, 0);
             
         });
+        
+        $location.hash('top');
+        $anchorScroll();
     }
-]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout',
-    function($scope, $http, $routeParams, ScrollPagination, $timeout) {
+]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$location', '$anchorScroll',
+    function($scope, $http, $routeParams, ScrollPagination, $timeout, $location, $anchorScroll) {
         var id = $routeParams.id
         var route = angularConfig.getSymfonyApiRoute('forum_topic_show', {id: id});
         $http.get(route).success(function(data) {
@@ -48,9 +53,12 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             }, 0);
             
         });
+        
+        $location.hash('top');
+        $anchorScroll();
     }
-]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector',
-    function($scope, $http, $routeParams, $fileUploader, $injector) {
+]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
+    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll) {
         var forumId = $routeParams.id
         var route = angularConfig.getSymfonyApiRoute('forum_topic_create', {forum: forumId});
         $http.get(route).success(function(data) {
@@ -77,14 +85,15 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.topic = angular.copy($scope.master);
             };
             
-            console.debug($scope.topic);
             symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.topic.mainPost, $injector)
             
         });
 
+        $location.hash('top');
+        $anchorScroll();
     }
-]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector',
-    function($scope, $http, $routeParams, $fileUploader, $injector) {
+]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
+    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll) {
 
         var route = angularConfig.getSymfonyApiRoute('forum_post_edit', $routeParams);
         $http.get(route).success(function(data) {
@@ -113,6 +122,8 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.post, $injector)
         });
 
+        $location.hash('top');
+        $anchorScroll();
     }
 ]);
 

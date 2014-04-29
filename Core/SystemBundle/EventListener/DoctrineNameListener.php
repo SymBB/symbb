@@ -25,7 +25,7 @@ class DoctrineNameListener
         $classMetadata->setTableName($this->prefix . $classMetadata->getTableName());
 
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-            if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY) {
+            if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY && !empty($classMetadata->associationMappings[$fieldName]['joinTable'])) {
                 $mappedTableName = $classMetadata->associationMappings[$fieldName]['joinTable']['name'];
                 $classMetadata->associationMappings[$fieldName]['joinTable']['name'] = $this->prefix . $mappedTableName;
             }
