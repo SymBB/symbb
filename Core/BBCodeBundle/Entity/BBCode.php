@@ -25,13 +25,9 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
-     * @ORM\ManyToMany(targetEntity="Set", inversedBy="codes")
-     * @ORM\JoinTable(name="bbcode_set_to_bbcode",
-     *      joinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")}
-     *      )
+     * @ORM\ManyToMany(targetEntity="Set", mappedBy="codes")
      * @var ArrayCollection 
      */
     protected $sets;

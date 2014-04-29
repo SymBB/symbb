@@ -30,9 +30,13 @@ class Set
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
-
+    
     /**
-     * @ORM\ManyToMany(targetEntity="BBCode", mappedBy="sets")
+     * @ORM\ManyToMany(targetEntity="BBCode", inversedBy="sets")
+     * @ORM\JoinTable(name="bbcode_set_to_bbcode",
+     *      joinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")}
+     *      )
      * @var ArrayCollection 
      */
     protected $codes;
