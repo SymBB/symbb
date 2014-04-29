@@ -32,7 +32,7 @@ class Set
     protected $name;
     
     /**
-     * @ORM\ManyToMany(targetEntity="BBCode", inversedBy="sets")
+     * @ORM\ManyToMany(targetEntity="BBCode", inversedBy="sets", cascade={"persist","remove"})
      * @ORM\JoinTable(name="bbcode_set_to_bbcode",
      *      joinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")}

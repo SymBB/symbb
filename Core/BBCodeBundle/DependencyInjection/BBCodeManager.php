@@ -19,6 +19,15 @@ class BBCodeManager
         $this->em = $em;
     }
 
+    public function getSet($setId)
+    {
+        $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
+        if (!\is_object($set) || $set->getId() <= 0) {
+            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOneBy(array());
+        }
+        return $set;
+    }
+
     public function parse($text, $setId = null)
     {
         $text = strip_tags($text);
@@ -41,7 +50,7 @@ class BBCodeManager
 
     public function clean($text, $setId = null)
     {
-        
+
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
@@ -68,14 +77,7 @@ class BBCodeManager
      */
     public function getBBCodes($setId = 1)
     {
-
-        if (!$setId) {
-            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOne();
-            $setId = $set->getId();
-        } else {
-            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
-        }
-
+        $set = $this->getSet($setId);
         $bbcodes = $set->getCodes();
         return $bbcodes;
     }
