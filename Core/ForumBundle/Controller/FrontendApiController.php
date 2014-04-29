@@ -14,22 +14,24 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
+
     /**
      * @Route("/api/post/newest", name="symbb_api_post_newest")
      * @Method({"GET"})
      */
-    public function newestPostsAction(){
+    public function newestPostsAction()
+    {
         $limit = (int) $this->get('request')->get('limit');
-        if($limit <= 0){
+        if ($limit <= 0) {
             $limit = 20;
         }
         $page = (int) $this->get('request')->get('page');
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
         $params['posts'] = array();
         $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
-        foreach($posts as $post){
+        foreach ($posts as $post) {
             $params['posts'][] = $this->getPostAsArray($post);
         }
         $params['count']['post'] = count($posts);
@@ -188,7 +190,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
             }
-            
+
             $this->get('symbb.core.forum.flag')->insertFlags($topic->getForum(), 'new');
             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
             $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
@@ -340,7 +342,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             } else {
                                 $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
                             }
-                            
+
                             $this->get('symbb.core.forum.flag')->insertFlags($forum, 'new');
                             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
                             $this->get('symbb.core.post.flag')->insertFlags($mainPost, 'new');
@@ -593,6 +595,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'edit' => false,
             'delete' => false
         );
+        $array['mainPost'] = $this->getPostAsArray();
+        $array['author'] = $this->getAuthorAsArray();
 
         if (is_object($topic)) {
 
@@ -623,7 +627,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
                 $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
-            
+
                 $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
                 $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
 
@@ -642,9 +646,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 if ($topic->isLocked()) {
                     $array['access']['createPost'] = false;
                 }
-            } else {
-                $array['mainPost'] = $this->getPostAsArray();
-                $array['author'] = $this->getAuthorAsArray();
             }
         }
 
