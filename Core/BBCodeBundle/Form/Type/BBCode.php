@@ -41,10 +41,11 @@ class BBCode extends AbstractType
 
         $builder
             ->add('name')
-            ->add('set', 'entity', array(
+            ->add('sets', 'entity', array(
                 'class' => 'SymBBCoreBBCodeBundle:Set',
                 'choices' => $this->getParentList(),
-                'required' => true
+                'required' => true,
+                'multiple' => true
             ))
             ->add('searchRegex', 'text')
             ->add('replaceRegex', 'text')

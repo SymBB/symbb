@@ -32,8 +32,7 @@ class Set
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="BBCode", mappedBy="set", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
+     * @ORM\ManyToMany(targetEntity="BBCode", mappedBy="sets")
      * @var ArrayCollection 
      */
     protected $codes;
@@ -50,7 +49,13 @@ class Set
 
     public function getCodes()
     {
-        return $this->codes;
+        $finalList = array();
+        $codes = $this->codes;
+        foreach ($codes as $code) {
+            $finalList[$code->getPosition()] = $code;
+        }
+        ksort($finalList);
+        return $finalList;
     }
 
     public function addCode($code)

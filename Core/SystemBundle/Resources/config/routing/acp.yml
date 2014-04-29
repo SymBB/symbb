@@ -122,3 +122,11 @@ _symbbcorebbcodebundle_bbcode_remove:
     pattern:  /bbcode/{id}/remove
     defaults: { _controller: SymBBCoreBBCodeBundle:Acp:remove }
     
+_symbbcorebbcodebundle_bbcode_sort:
+    pattern:  /bbcode/sort
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:sort }
+    
+_symbbcorebbcodebundle_bbcode_restore:
+    pattern:  /bbcode/restore
+    defaults: { _controller: SymBBCoreBBCodeBundle:Acp:restore }
+    

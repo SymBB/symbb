@@ -13,10 +13,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="bbcode_set_codes")
+ * @ORM\Table(name="bbcode_codes")
  * @ORM\Entity()
  */
-class BBCode
+class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
 {
 
     /**
@@ -27,10 +27,14 @@ class BBCode
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Set", inversedBy="children")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     * @ORM\ManyToMany(targetEntity="Set", inversedBy="codes")
+     * @ORM\JoinTable(name="bbcode_set_to_bbcode",
+     *      joinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")}
+     *      )
+     * @var ArrayCollection 
      */
-    protected $set;
+    protected $sets;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -57,19 +61,29 @@ class BBCode
      */
     protected $image;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $position = 999;
+    
+    public function __construct()
+    {
+        $this->sets = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function getSet()
+    public function getSets()
     {
-        return $this->set;
+        return $this->sets;
     }
 
-    public function setSet($set)
+    public function addSet($set)
     {
-        $this->set = $set;
+        $this->sets->add($set);
     }
 
     public function getName()

@@ -22,13 +22,8 @@ class BBCodeManager
     public function parse($text, $setId = null)
     {
         $text = strip_tags($text);
-        
-        if (!$setId) {
-            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOne();
-            $setId = $set->getId();
-        }
-
-        $bbcodes = $this->em->getRepository('SymBBCoreBBCodeBundle:BBCode')->findBy(array('set' => $setId));
+       
+        $bbcodes = $this->getBBCodes($setId);
 
         foreach ($bbcodes as $bbcode) {
             $text = \preg_replace($bbcode->getSearchRegex(), $bbcode->getReplaceRegex(), $text);
@@ -39,8 +34,6 @@ class BBCodeManager
 
     public function clean($text, $setId = null)
     {
-        
-        
         
         return $text;
     }
@@ -54,9 +47,17 @@ class BBCodeManager
      * get a list of grouped BBCodes
      * @return \SymBB\Core\BBCodeBundle\Entity\BBCode
      */
-    public function getBBCodes($set = 1)
+    public function getBBCodes($setId = 1)
     {
-        $bbcodes = $this->em->getRepository('SymBBCoreBBCodeBundle:BBCode')->findBy(array('set' => $set));
+        
+        if (!$setId) {
+            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOne();
+            $setId = $set->getId();
+        } else {
+            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
+        }
+        
+        $bbcodes = $set->getCodes();
         return $bbcodes;
     }
 }
