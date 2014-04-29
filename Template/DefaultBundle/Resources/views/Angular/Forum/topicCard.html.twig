@@ -1,0 +1,30 @@
+{% trans_default_domain "symbb_frontend" %}
+<div class="symbb_category_block">
+    <div class="image" ng-style="object.backgroundImage != '' && {'background-image':'url('+object.backgroundImage+')'}">
+        <div class="labels">
+            <div ng-repeat="flag in object.flags">
+                <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+            </div>
+        </div>
+        <div class="infos">
+            <div class="title textMatchOneLine">[[object.name]]</div>
+            <div class="badges">
+                <span title="{% trans %}Posts{% endtrans %}" class="badge">[[object.count.post]]</span>
+            </div>
+        </div>
+    </div>
+    <div class="text">
+        <div class="infos">
+            <div class="lastpost">
+                <div ng-repeat="post in object.posts" class="block" symbb-link="forum_topic_show" param-id="[[post.topic.id]]" param-name="[[post.seo.name]]">
+                    <div class="avatar_mini avatar">
+                        <img ng-src="[[post.author.avatar]]" />
+                    </div>
+                    <div class="title">[[post.name]]</div>
+                    <div class="user">{% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]", '%user%': '[[post.author.username]]'} %}by %user% on %date% at %time%{% endtrans %}</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
