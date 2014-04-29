@@ -38,6 +38,11 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     protected $name;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $removeNewLines = false;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     protected $searchRegex;
@@ -100,6 +105,16 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     public function setSearchRegex($searchRegex)
     {
         $this->searchRegex = $searchRegex;
+    }
+
+    public function getRemoveNewLines()
+    {
+        return $this->removeNewLines;
+    }
+
+    public function setRemoveNewLines($value)
+    {
+        $this->removeNewLines = $value;
     }
 
     public function getReplaceRegex()
