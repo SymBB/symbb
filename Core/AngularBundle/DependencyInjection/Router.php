@@ -49,7 +49,7 @@ class Router
                 if (isset($data['pattern'])) {
                     $dataLocale = $data;
                     $dataLocale['pattern'] = '/{_locale}' . $data['pattern'];
-                    $this->frontend['angular_local_' . $key] = new AngularRoute($dataLocale);
+                    $this->frontend['angular_locale_' . $key] = new AngularRoute($dataLocale);
                 }
                 $this->frontend['angular_' . $key] = new AngularRoute($data);
                 
@@ -70,7 +70,7 @@ class Router
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
 
-            $key = \str_replace(array('angular_local_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
 
             if (!isset($data[$key])) {
                 $data[$key] = array();
@@ -91,7 +91,7 @@ class Router
     {
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
-            $key = \str_replace(array('angular_local_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
             if (!isset($data[$key])) {
                 $data[$key] = array();
             }
@@ -106,7 +106,7 @@ class Router
     {
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
-            $key = \str_replace(array('angular_local_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
             if (!isset($data[$key])) {
                 $data[$key] = array();
             }

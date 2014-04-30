@@ -3,40 +3,40 @@
 <nav class="navbar" role="navigation">
     <ul>
         <li>
-            <a href="{{ path('symbb_forum_index') }}">
+            <a href="{{ path('symbb_forum_index') }}" target="_self">
                 <span class="glyphicon glyphicon-th-list"></span>
                 <span class="text">{% trans %}Forum{% endtrans %}</span>
             </a>
         </li>
         {% if app.user.getSymbbType != 'guest' %}
         <li>
-            <a href="{{ path('fos_message_inbox') }}">
+            <a href="{{ path('fos_message_inbox') }}" target="_self">
                 <span class="glyphicon glyphicon-comment {% if fos_message_nb_unread() %} glyphicon-danger {% endif %}"></span>
                 <span class="text">{{ fos_message_nb_unread() }} {% trans %}Messages{% endtrans %}</span>
             </a>
         </li>
         <li>
-            <a href="{{ path('symbb_user_options') }}">
+            <a href="{{ path('symbb_user_options') }}" target="_self">
                 <span class="glyphicon glyphicon-cog"></span>
                 <span class="text">{% trans %}Options{% endtrans %}</span>
             </a>
         </li>
         <li>
-            <a href="{{ path('symbb_forum_index') }}#/newest" symbb-js-link="forum_newest">
+            <a href="{{ path('angular_locale_forum_newest') }}" target="_self">
                 <span class="glyphicon glyphicon-fire"></span>
                 <span class="text">{% trans %}Newest Posts{% endtrans %}</span>
             </a>
         </li>
         {% endif %}
         <li>
-            <a href="{{ path('symbb_user_userlist') }}">
+            <a href="{{ path('symbb_user_userlist') }}" target="_self">
                 <span class="glyphicon glyphicon-user"></span>
                 <span class="text">{% trans %}Members{% endtrans %}</span>
             </a>
         </li>
         {% if is_granted('ROLE_ADMIN') %}
         <li>
-            <a href="{{ path('_symbb_acp') }}">
+            <a href="{{ path('_symbb_acp') }}" target="_self">
                 <span class="glyphicon glyphicon-tasks glyphicon-warning"></span>
                 <span class="text">{% trans %}Adminpanel{% endtrans %}</span>
             </a>
@@ -45,20 +45,20 @@
 
         {% if app.user.getSymbbType == 'guest' %}
         <li>
-            <a href="{{ path('symbb_login') }}">
+            <a href="{{ path('symbb_login') }}" target="_self">
                 <span class="glyphicon glyphicon-off glyphicon-success"></span>
                 <span class="text">{% trans %}Sign in{% endtrans %}</span>
             </a>
         </li>
         <li>
-            <a href="{{ path('symbb_register') }}">
+            <a href="{{ path('symbb_register') }}" target="_self">
                 <span class="glyphicon glyphicon-plus-sign glyphicon-success"></span>
                 <span class="text">{% trans %}Sign up{% endtrans %}</span>
             </a>
         </li>
         {% else %}
         <li>
-            <a href="{{ path('symbb_logout') }}">
+            <a href="{{ path('symbb_logout') }}" target="_self">
                 <span class="glyphicon glyphicon-off glyphicon-warning"></span>
                 <span class="text">{% trans %}Logout{% endtrans %}</span>
             </a>
