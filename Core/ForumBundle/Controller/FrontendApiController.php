@@ -754,6 +754,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['type'] = 'success';
         } else if ($flagName == 'answered') {
             $array['type'] = 'warning';
+        } else if ($flagName == 'ignore') {
+            $array['type'] = 'info';
+        } else if ($flagName == 'locked') {
+            $array['type'] = 'warning';
         } else {
             $array['type'] = $flagName;
         }
