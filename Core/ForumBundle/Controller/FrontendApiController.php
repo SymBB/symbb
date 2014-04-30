@@ -346,7 +346,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             $this->get('symbb.core.forum.flag')->insertFlags($forum, 'new');
                             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
                             $this->get('symbb.core.post.flag')->insertFlags($mainPost, 'new');
-
+                            if ($topic->isLocked()) {
+                                $this->get('symbb.core.topic.flag')->insertFlags($topic, 'locked');
+                            }
                             $this->addSuccessMessage('saved successfully.');
 
                             $params['id'] = $topic->getId();

@@ -1,5 +1,5 @@
-symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', 'ScrollPagination', '$location', '$anchorScroll', '$cookieStore',
-    function($scope, $http, $routeParams, $timeout, ScrollPagination, $location, $anchorScroll, $cookieStore) {
+symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', 'ScrollPagination', '$anchorScroll', '$cookieStore',
+    function($scope, $http, $routeParams, $timeout, ScrollPagination, $anchorScroll, $cookieStore) {
         var forumId = 0
         if ($routeParams && $routeParams.id) {
             forumId = $routeParams.id;
@@ -12,10 +12,10 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             });
             $scope.topicPagination = new ScrollPagination('forum_topic_list', {id: $scope.forum.id}, $scope.topicList, 1, $scope.topicTotalCount);
         });
-        defaultForumListStuff($scope, $cookieStore, $location, $anchorScroll);
+        defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
-]).controller('ForumNewestShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$location', '$anchorScroll', '$cookieStore',
-    function($scope, $http, $routeParams, ScrollPagination, $timeout, $location, $anchorScroll, $cookieStore) {
+]).controller('ForumNewestShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$anchorScroll', '$cookieStore',
+    function($scope, $http, $routeParams, ScrollPagination, $timeout, $anchorScroll, $cookieStore) {
         var route = angularConfig.getSymfonyApiRoute('forum_newest');
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
@@ -30,10 +30,10 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             }, 0);
             
         });
-        defaultForumListStuff($scope, $cookieStore, $location, $anchorScroll);
+        defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
-]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$location', '$anchorScroll',
-    function($scope, $http, $routeParams, ScrollPagination, $timeout, $location, $anchorScroll) {
+]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', 'ScrollPagination', '$timeout', '$anchorScroll',
+    function($scope, $http, $routeParams, ScrollPagination, $timeout, $anchorScroll) {
         var id = $routeParams.id
         var route = angularConfig.getSymfonyApiRoute('forum_topic_show', {id: id});
         $http.get(route).success(function(data) {
@@ -122,7 +122,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 
 
 
-function defaultForumListStuff($scope, $cookieStore, $location, $anchorScroll){
+function defaultForumListStuff($scope, $cookieStore, $anchorScroll){
     
     var view = $cookieStore.get('symbb_forum_view');
   
