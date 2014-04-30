@@ -583,6 +583,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array = array();
         $array['id'] = 0;
         $array['name'] = '';
+        $array['changed'] = 0;
+        $array['created'] = 0;
         $array['locked'] = false;
         $array['notifyMe'] = false;
         $array['count']['post'] = 0;
@@ -611,6 +613,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['id'] = $topic->getId();
                 $array['name'] = $topic->getName();
                 $array['locked'] = $topic->isLocked();
+                $array['changed'] = $this->getCorrectTimestamp($topic->getChanged());
+                $array['created'] = $this->getCorrectTimestamp($topic->getCreated());
                 $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
@@ -780,6 +784,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['topic']['seo']['name'] = '';
         $array['name'] = '';
         $array['changed'] = 0;
+        $array['created'] = 0;
         $array['text'] = '';
         $array['rawText'] = '';
         $array['signature'] = '';
@@ -793,6 +798,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['id'] = (int) $post->getId();
             $array['name'] = $post->getName();
             $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
+            $array['created'] = $this->getCorrectTimestamp($post->getCreated());
             $array['seo']['name'] = $post->getSeoName();
             $array['rawText'] = $post->getText();
             $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);

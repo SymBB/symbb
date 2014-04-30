@@ -21,7 +21,7 @@
                         <img ng-src="[[post.author.avatar]]" />
                     </div>
                     <div class="title">[[post.name]]</div>
-                    <div class="user">{% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}</div>
+                    <div class="user">{% trans with {'%date%': "[[ post.created | date:'dd.MM.yyyy']]", '%time%': "[[ post.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}</div>
                     <div class="clear"></div>
                 </div>
             </div>

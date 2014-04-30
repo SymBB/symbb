@@ -32,7 +32,7 @@
             </div>
             <div class="arrow"></div>
             <div class="date">
-            {% trans with {'%date%': "[[ post.changed | date:'dd.MM.yyyy']]", '%time%': "[[ post.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+            {% trans with {'%date%': "[[ post.created | date:'dd.MM.yyyy']]", '%time%': "[[ post.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
             </div>              
             <div class="btn-group pull-right">
                 <button ng-show="topic.access.createPost" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[post.id]]" type="button" class="btn quote btn-info">{% trans %}Quote{% endtrans %}</button>
