@@ -50,7 +50,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             
         });
         
-        $location.hash('top');
         $anchorScroll();
     }
 ]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
@@ -72,7 +71,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.master = angular.copy(topic);
                 $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {forumId: $scope.topic.forum.id}), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo('forum_topic_show', {id: data.id, name: $scope.master.name});
+                        angularConfig.goTo($location, 'forum_topic_show', {id: data.id, name: $scope.master.name});
                     }
                 });
             };
@@ -85,7 +84,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             
         });
 
-        $location.hash('top');
         $anchorScroll();
     }
 ]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
@@ -106,7 +104,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.master = angular.copy(post);
                 $http.post(angularConfig.getSymfonyApiRoute('forum_post_save'), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo('forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.name});
+                        angularConfig.goTo($location, 'forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.name});
                     }
                 });
             };
@@ -118,7 +116,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.post, $injector)
         });
 
-        $location.hash('top');
         $anchorScroll();
     }
 ]);
@@ -143,8 +140,6 @@ function defaultForumListStuff($scope, $cookieStore, $location, $anchorScroll){
         }
         $cookieStore.put('symbb_forum_view', $scope.currListView);
     };
-    
-    $location.hash('top');
     
     $anchorScroll();
 }

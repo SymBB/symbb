@@ -11,18 +11,15 @@ var app = angular.module('app', [
     'ui.bootstrap.datetimepicker'
 ]);
 
-app.config(['$routeProvider', '$interpolateProvider', '$httpProvider',
-    function($routeProvider, $interpolateProvider, $httpProvider) {
+app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$locationProvider',
+    function($routeProvider, $interpolateProvider, $httpProvider, $locationProvider) {
         
         //changeing because of twig
         $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        //html5 pushState
+        $locationProvider.html5Mode(true);
         
-        $.each(angularConfig.routingListener, function(key, listener){
-            listener($routeProvider);
-        });
-        
-            // Intercept http calls.
-        
+        angularConfig.createAngularRouting($routeProvider);
 
         // Add the interceptor to the $httpProvider.
         $httpProvider.interceptors.push('symbbApiHttpInterceptor');

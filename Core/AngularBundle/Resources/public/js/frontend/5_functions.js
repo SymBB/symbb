@@ -80,7 +80,7 @@ var symbbAngularUtils = {
                 }
 
                 var path = angularConfig.getAngularRoute(route, params);
-                $('<li><a href="#'+path+'">'+value.name+'</a>'+spacer+'</li>').appendTo($(that.breadcrumbElement));
+                $('<li><a href="'+path+'">'+value.name+'</a>'+spacer+'</li>').appendTo($(that.breadcrumbElement));
                 i++;
             });
         }
@@ -159,3 +159,68 @@ var symbbAngularUtils = {
     }
     
 };
+
+// Topic constructor function to encapsulate HTTP and pagination logic
+app.factory('ScrollPagination', function($http) {
+    
+  var ScrollPagination = function(route, routeParams, items, page, total, itemsKey) {
+      
+    if(!page){
+        page = 1;
+    }
+    
+    if(!itemsKey){
+        itemsKey = 'items';
+    }
+      
+    this.items = items;
+    this.busy = false;
+    this.page = page;
+    this.routeParams = routeParams;
+    this.end = false;
+    this.count = items.length;
+    this.totalCount = total;
+    this.route = route;
+    this.itemsKey = itemsKey;
+    
+    if(this.count >= this.totalCount) {
+       this.end = true;
+    }
+    
+  };
+
+  ScrollPagination.prototype.nextPage = function() {
+      
+    if (this.busy || this.end) return;
+    
+    this.busy = true;
+        
+    this.page = this.page + 1;
+
+    this.routeParams.page = this.page;
+
+    var url = angularConfig.getSymfonyApiRoute(this.route);
+    url = url + '?id='+this.routeParams.id;
+    url = url + '&page='+this.routeParams.page;
+    $http.get(url).success(function(data) {
+      
+      var items = data[this.itemsKey];
+      
+      this.totalCount = data.total;
+      
+      for (var i = 0; i < items.length; i++) {
+        this.items.push(items[i]);
+        this.count++;
+      }
+
+      if(!items.length || items.length <= 0 || this.count >= this.totalCount ){
+          this.end = true;
+      }
+
+      this.busy = false;
+      
+    }.bind(this));
+  };
+
+  return ScrollPagination;
+});

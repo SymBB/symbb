@@ -39,10 +39,10 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                     }
             });
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
-            $(element[0]).children('a').attr('href', angularConfig.getSymfonyRoute('symbb_forum_index')+'#'+path);
+            $(element[0]).children('a').attr('href', path);
         }
     };
-}).directive('symbbJsLink', function() {
+}).directive('symbbJsLink', ['$location', function($location) {
     return {
         restrict: 'A',
         transclude: false,
@@ -57,12 +57,12 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                         params[newKey] = value;
                     }
                 });
-                angularConfig.goTo(attrs.symbbJsLink, params);
+                angularConfig.goTo($location, attrs.symbbJsLink, params);
                 return false;
             });
         }
     };
-}).directive('symbbDeleteRequest', ['$http', function($http) {
+}]).directive('symbbDeleteRequest', ['$http', function($http) {
     return {
         restrict: 'A',
         transclude: false,

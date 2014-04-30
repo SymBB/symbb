@@ -1,0 +1,115 @@
+forum_index:
+    pattern:  /
+    controller: ForumCtrl
+    api: 
+        route: symbb_api_forum_data
+    template: 
+        route: symbb_template_default_angular
+        params: 
+            file: 'forumList'
+        
+forum_show:
+    pattern:  /f/{id}/{name}/
+    controller: ForumCtrl
+    api: 
+        route: symbb_api_forum_data
+    template: 
+        route: symbb_template_default_angular
+        params: 
+            file: 'forumList'
+        
+forum_newest:
+    pattern:  /f/newest/
+    controller: ForumNewestShowCtrl
+    api: 
+        route: symbb_api_post_newest
+    template: 
+        route: symbb_template_default_angular
+        params: 
+            file: 'forumNewestPosts'
+        
+forum_topic_show:
+    pattern:  /topic/{id}/{name}/
+    controller: ForumTopicShowCtrl
+    api: 
+        route: symbb_api_topic_data
+    template: 
+        route: symbb_template_default_angular
+        params: 
+            file: 'forumTopicShow'
+        
+forum_topic_create:
+    pattern:  /f/{id}/topic/new/
+    controller: ForumTopicCreateCtrl
+    api: 
+        route: symbb_api_topic_data
+    template: 
+        route: symbb_template_default_angular_form
+        params: 
+            file: 'topic'
+        
+forum_post_create:
+    pattern:  /t/{topic}/post/new
+    controller: ForumPostEditCtrl
+    api: 
+        route: symbb_api_post_data
+    template: 
+        route: symbb_template_default_angular_form
+        params: 
+            file: 'post'
+        
+forum_post_quote:
+    pattern:  /post/{topic}/post/quote/{quoteId}
+    controller: ForumPostEditCtrl
+    api: 
+        route: symbb_api_post_data
+    template: 
+        route: symbb_template_default_angular_form
+        params: 
+            file: 'post'
+        
+forum_post_edit:
+    pattern:  /post/{id}/edit
+    controller: ForumPostEditCtrl
+    api: 
+        route: symbb_api_post_data
+    template: 
+        route: symbb_template_default_angular_form
+        params: 
+            file: 'post'
+        
+forum_ignore:
+    api: 
+        route: symbb_api_forum_ignore
+        
+forum_unignore:
+    api: 
+        route: symbb_api_forum_unignore
+        
+forum_mark_as_read:
+    api: 
+        route: symbb_api_forum_mark_as_read
+        
+forum_topic_save:
+    api: 
+        route: symbb_api_topic_save
+        
+forum_topic_list:
+    api: 
+        route: symbb_api_topic_list
+        
+forum_post_list:
+    api: 
+        route: symbb_api_post_list
+        
+forum_post_upload_image:
+    api: 
+        route: symbb_api_post_upload_image
+        
+forum_post_save:
+    api: 
+        route: symbb_api_post_save
+        
+forum_post_delete:
+    api: 
+        route: symbb_api_post_delete

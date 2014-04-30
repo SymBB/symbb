@@ -29,6 +29,8 @@ class BundleLoader
             '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
             '\SymBB\Core\MessageBundle\SymBBCoreMessageBundle',
             '\SymBB\Core\BBCodeBundle\SymBBCoreBBCodeBundle',
+            '\SymBB\Core\AngularBundle\SymBBCoreAngularBundle',
+            
             // SymBB optional bundles
             '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
             '\SymBB\ExtensionBundle\SymBBExtensionBundle',

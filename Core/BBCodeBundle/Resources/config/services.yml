@@ -23,5 +23,9 @@ services:
         tags:
             - { name: twig.extension } 
             
+    symbb.core.bbcode.angular.router.files:
+        class: SymBB\Core\BBCodeBundle\EventListener\AngularListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
         
             
