@@ -51,7 +51,7 @@
 {%- if classes is not empty %}
     {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
 {%- endif %}
-<a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }}>{{ block('label') }}</a>{% endblock %}
+<a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }} target="_self">{{ block('label') }}</a>{% endblock %}
 
 
 {% macro attributes(attributes) %}
