@@ -619,7 +619,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic);
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, null, 'asc');
                 $array['count']['post'] = count($posts);
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
