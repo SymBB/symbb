@@ -36,10 +36,6 @@
 
     {% set categoryBackground = getSymbbUserAvatar(object.getAuthor()) %}
 
-    {% if categoryBackground %}
-        {% set categoryBackground = categoryBackground | imagine_filter('symbb_forum_image') %}
-    {% endif %}
-
     <div class="symbb_category_block post {{css}}"  symbb-link="forum_topic_show" target="_self" param-id="{{object.getTopic().getId()}}" param-name="{{object.getTopic().getSeoName()}}">
         <div class="text">
             <div class="lastpost">
