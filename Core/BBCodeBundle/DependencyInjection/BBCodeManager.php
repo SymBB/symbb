@@ -56,8 +56,8 @@ class BBCodeManager
         $bbcodes = $this->getBBCodes($setId);
 
         foreach ($bbcodes as $bbcode) {
-            if ($bbcode->getCleanRegex() != "") {
-                $text = \preg_replace($bbcode->getCleanRegex(), '$1', $text);
+            if ($bbcode->getSearchRegex() != "") {
+                $text = \preg_replace($bbcode->getSearchRegex(), '$1', $text);
             }
         }
 

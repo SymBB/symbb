@@ -266,7 +266,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
+            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
 
             $params = array('items' => array(), 'total' => count($lastPosts));
             foreach ($lastPosts as $post) {

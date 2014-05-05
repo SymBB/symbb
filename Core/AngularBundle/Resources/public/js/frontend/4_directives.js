@@ -11,7 +11,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
     return {
         restrict: 'A',
         transclude: true,
-        template: '<a href="" ng-transclude></a>',
+        template: '<a href="" target="_self" ng-transclude></a>',
         link: function(scope, element, attrs) {
             var params = {};
             if(attrs.paramId){
@@ -40,6 +40,9 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
             $(element[0]).children('a').attr('href', path);
+            if(attrs.target){
+                $(element[0]).children('a').attr('target', attrs.target);
+            }
         }
     };
 }).directive('symbbJsLink', ['$location', function($location) {

@@ -114,9 +114,9 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeQuote = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeQuote->setName('Quote');
-        $bbcodeQuote->setSearchRegex('#\[quote(?|=[\'"]?+([^]"\']++)[\'"]?+]([^[]++)|](([^[]++)))\[/quote]#iUs');
+        $bbcodeQuote->setSearchRegex('#\[quote(?|=[\'"]?+([^]"\']*+)[\'"]?+]([^[]++)|](([^[]++)))\[/quote]#iUs');
         $bbcodeQuote->setReplaceRegex('<blockquote cite="$1" ><p>$2</p><footer><cite>$1</cite></footer></blockquote>');
-        $bbcodeQuote->setButtonRegex('[quote]{0}[/quote]');
+        $bbcodeQuote->setButtonRegex('[quote=""]{0}[/quote]');
         $bbcodeQuote->setImage('/bundles/symbbcorebbcode/images/comment.png');
         $bbcodeQuote->setPosition($pos);
         $manager->persist($bbcodeQuote);
