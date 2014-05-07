@@ -69,7 +69,7 @@ class BundleLoader
         }
 
         if (in_array($kernel->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
+            //$bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
         }
 
         \SymBB\ExtensionBundle\KernelPlugin::addBundles($bundles);
