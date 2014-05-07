@@ -20,10 +20,6 @@ fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /{_locale}/resetting
  
-fos_message:
-    resource: "@FOSMessageBundle/Resources/config/routing.xml"
-    prefix: /{_locale}/messages
- 
 _symbb_acp_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
     prefix: /{_locale}/acp

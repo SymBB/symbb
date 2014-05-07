@@ -27,7 +27,6 @@ class BundleLoader
             '\SymBB\Core\SystemBundle\SymBBCoreSystemBundle',
             '\SymBB\Core\InstallBundle\SymBBCoreInstallBundle',
             '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
-            '\SymBB\Core\MessageBundle\SymBBCoreMessageBundle',
             '\SymBB\Core\BBCodeBundle\SymBBCoreBBCodeBundle',
             '\SymBB\Core\AngularBundle\SymBBCoreAngularBundle',
             
@@ -39,9 +38,7 @@ class BundleLoader
             '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
-            '\FOS\RestBundle\FOSRestBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
-            '\FOS\MessageBundle\FOSMessageBundle',
             // KNP
             '\Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',
