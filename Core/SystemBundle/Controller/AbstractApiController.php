@@ -33,10 +33,15 @@ abstract class AbstractApiController extends AbstractController
     protected function getJsonResponse($params)
     {
         $user = $this->getUser();
+        $authenticated = false;
+        if ($user->getSymbbType() === 'user') {
+            $authenticated = true;
+        }
         $params['user'] = array(
             'id' => $user->getId(),
             'name' => $user->getUsername(),
-            'type' => $user->getSymbbType()
+            'type' => $user->getSymbbType(),
+            'authenticated' => $authenticated
         );
         $params['messages'] = $this->messages;
         $params['callbacks'] = $this->callbacks;
