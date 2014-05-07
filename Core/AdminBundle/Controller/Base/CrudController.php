@@ -31,8 +31,13 @@ abstract class CrudController extends Controller
         $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), 'parent' => $parent);
         $params = $this->addListParams($params, $parent);
         return $this->render(
-                $this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':list.html.twig', $params
+            $this->getTemplateBundleName() . ':Acp/' . $this->getTemplateDirectory() . ':list.html.twig', $params
         );
+    }
+
+    protected function getTemplateDirectory()
+    {
+        return $this->entityName;
     }
 
     public function getBreadcrum($parent = null)
@@ -235,7 +240,7 @@ abstract class CrudController extends Controller
 
         $params = $this->addFormParams($params, $form, $entity);
 
-        return $this->render($this->getTemplateBundleName() . ':Acp/' . $this->entityName . ':edit.html.twig', $params);
+        return $this->render($this->getTemplateBundleName() . ':Acp/' . $this->getTemplateDirectory() . ':edit.html.twig', $params);
     }
 
     protected function getTemplateBundleName()

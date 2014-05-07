@@ -22,6 +22,9 @@
                     <th> {{ 'Username'|trans() }} </th>
                     <th> {{ 'Beiträge'|trans() }} </th>
                     <th> {{ 'Dabei seit'|trans() }} </th>
+                    {% for field in getUserManager().findFields({displayInMemberlist: true}) %}
+                        <th> {{ field.getLabel() |trans }} </th>
+                    {% endfor %}
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +36,9 @@
                         <td><a target="_self" href="{{ path('symbb_user_profile', { id: currUser.getId(), 'name': currUser.getUsername() }) }}">{{ currUser.getUsername() }}</a></td>
                         <td>{{ getUserManager().getPostCount(currUser) }}</td>
                         <td>{{ formatIntlDate(currUser.getCreated()) }}</td>
+                        {% for field in getUserManager().findFields({displayInMemberlist: true}) %}
+                            <th> {{currUser.getFieldValue(field)}} </th>
+                        {% endfor %}
                     </tr>
 
                     {% endif %}

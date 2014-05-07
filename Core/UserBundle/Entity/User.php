@@ -64,6 +64,12 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     private $symbbData;
 
     /**
+     * @ORM\OneToMany(targetEntity="\SymBB\Core\UserBundle\Entity\User\FieldValue", cascade={"persist"}, mappedBy="user")
+     * @var array(<"\SymBB\Core\UserBundle\Entity\User\Field">)
+     */
+    private $symbbFieldValues;
+
+    /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
@@ -82,6 +88,7 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
         $this->posts = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->created = new \DateTime();
+        $this->symbbFieldValues = new ArrayCollection();
     }
 
     /**
@@ -234,5 +241,28 @@ class User extends BaseUser implements UserInterface, ParticipantInterface
     public function enable()
     {
         $this->enabled = 1;
+    }
+
+    public function getFieldValues()
+    {
+        return $this->symbbFieldValues;
+    }
+
+    public function getFieldValue(\SymBB\Core\UserBundle\Entity\Field $field)
+    {
+        $values = $this->getFieldValues();
+        $found = null;
+        foreach ($values as $value) {
+            if ($value->getField()->getId() === $field->getId()) {
+                $found = $value;
+            }
+        }
+        if (!$found) {
+            $found = new \SymBB\Core\UserBundle\Entity\User\FieldValue();
+            $found->setField($field);
+            $found->setUser($this);
+        }
+
+        return $found->getValue();
     }
 }

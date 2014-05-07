@@ -382,4 +382,15 @@ class UserManager
         );
         return $fmt;
     }
+
+    /**
+     * 
+     * @param string $username
+     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     */
+    public function findFields($criteria)
+    {
+        $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy($criteria);
+        return $fields;
+    }
 }

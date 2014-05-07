@@ -25,6 +25,10 @@ interface UserInterface extends AdvancedUserInterface
 
     public function getSymbbType();
     
+    public function getFieldValues();
+    
+    public function getFieldValue(\SymBB\Core\UserBundle\Entity\Field $field);
+    
     public function getCreated();
 
     /**
