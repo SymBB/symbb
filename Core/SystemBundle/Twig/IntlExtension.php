@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\systemBundle\Twig;
+namespace SymBB\Core\SystemBundle\Twig;
 
 class IntlExtension extends \Twig_Extension
 {
