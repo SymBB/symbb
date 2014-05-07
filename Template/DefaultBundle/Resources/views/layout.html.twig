@@ -47,60 +47,6 @@
                 {% block symbb_header %}
                 {% endblock %}
             </div>
-            
-            <div class="symbb_user_panel">
-                {% block symbb_user_panel %}
-                    <div class="brand">SymBB</div>
-                    <div class="arrow"></div>
-                    <div class="content">
-                    {% block symbb_userinfob %}
-                        {% if app.user.getSymbbType() == 'user' %}
-                        <div class="avatar avatar_mini">
-                            <img src="{{getSymbbUserAvatar(app.user)}}" />
-                        </div>
-                        {% endif %}
-                        <div class="username">{{app.user.getUsername()}}</div>
-                        {% if app.user.getSymbbType == 'user' %}
-                        <div class="usermenu">
-                               <!--
-                            <button type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-comment"></span> XX {{ 'Chat'|trans }} 
-                            </button>
-
-                            <div class="chatbox">
-                                <div class="lastMessage"><marquee>TODO: Chat einbauen und letzte Chat-Nachricht hier anzeigen</marquee></div>
-                                <div class="text">
-                                    <input value="" placeholder="...hier kannst du antworten">
-                                </div>
-                            </div>
-                               -->
-                        </div>
-                        {% endif %}
-                        <div class="f-right usermenu">
-                            {% if is_granted('ROLE_ADMIN') %}
-                            <button onclick="window.location.href='{{ path('_symbb_acp') }}'" type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-list-alt"></span> {{ 'Adminpanel'|trans }}
-                            </button>
-                            {% endif %}
-
-                            {% if app.user.getSymbbType == 'guest' %}
-                            <button onclick="window.location.href='{{ path('symbb_login') }}'" type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-off"></span> {{ 'Sign in'|trans }}
-                            </button>
-                            <button onclick="window.location.href='{{ path('symbb_register') }}'" type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-plus-sign"></span> {{ 'Sign up'|trans }}
-                            </button>
-                            {% else %}
-                            <button onclick="window.location.href='{{ path('symbb_logout') }}'" type="button" class="btn btn-default btn-xs">
-                                <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}
-                            </button>
-                            {% endif %}
-                        </div>
-                    {% endblock %}
-                        <div class="clear"></div>
-                    </div>
-                {% endblock %}
-            </div>
 
             <div class="symbb_navi">
                 {% block symbb_navi %} 
