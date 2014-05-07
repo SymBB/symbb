@@ -69,7 +69,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 
             $scope.update = function(topic) {
                 $scope.master = angular.copy(topic);
-                $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {forumId: $scope.topic.forum.id}), $scope.master).success(function(data) {
+                $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {}), $scope.master).success(function(data) {
                     if (data.success) {
                         angularConfig.goTo($location, 'forum_topic_show', {id: data.id, name: $scope.master.name});
                     }

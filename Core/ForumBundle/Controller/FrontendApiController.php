@@ -133,7 +133,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $request = $this->get('request');
         $id = (int) $request->get('id');
-        $topicData = (array) $request->get('topic');
+        $topicData = $request->get('topic');
         $params = array();
         $accessCheck = false;
 
@@ -288,8 +288,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $topicId = (int) $request->get('id');
         $forumData = (array) $request->get('forum');
 
+        $params = array();
+            
         if (isset($forumData['id'])) {
-            $params = array();
 
             $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
