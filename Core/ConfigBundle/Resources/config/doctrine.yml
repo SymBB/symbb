@@ -2,6 +2,7 @@ doctrine:
     dbal:
       types:
         timestamp: SymBB\Core\SystemBundle\Doctrine\TimestampType
+        enum: string
       default_connection: default
       connections:
         symbb:
