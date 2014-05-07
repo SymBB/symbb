@@ -1,5 +1,5 @@
 forum_index:
-    pattern:  /
+    pattern:  /forum/
     controller: ForumCtrl
     api: 
         route: symbb_api_forum_data
