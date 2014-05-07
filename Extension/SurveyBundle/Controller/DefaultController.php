@@ -45,10 +45,14 @@ class DefaultController extends \SymBB\Core\SystemBundle\Controller\AbstractApiC
 
                     $currentVotes = array();
 
-                    foreach ($answers as $key => $answer) {
-                        if ((int) $answer !== 1) {
-                            unset($answers[$key]);
+                    if($survey->getChoices() > 1){
+                        foreach ($answers as $key => $answer) {
+                            if ((int) $answer !== 1) {
+                                unset($answers[$key]);
+                            }
                         }
+                    } else {
+                        $answers = array_flip($answers);
                     }
 
                     if (count($answers) <= $survey->getChoices()) {

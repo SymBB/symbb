@@ -114,7 +114,7 @@
             <div class="text">
                 <div class="infos">
                     <div class="lastpost">
-                        <blockquote>{{object.getText()|bbcode_clean|slice(0, 100)|raw}}</blockquote>
+                        <blockquote>{{cleanSymBBBBCodes(object.getText())|slice(0, 100)|raw}}</blockquote>
                     </div>
                     <div class="description">
                     {% trans with {'%user%': object.getAuthor().getUsername(), '%date%': object.getChanged()|format_date, '%time%': object.getChanged()|date('H:i')} %}created by %user% on %date% at %time%{% endtrans %}
@@ -150,7 +150,7 @@
             </div>
             <div class="infos">
                 <div class="lastpost">
-                    <blockquote>{{object.getText()|bbcode_clean|slice(0, 50)|raw}}...</blockquote>
+                    <blockquote>{{cleanSymBBBBCodes(object.getText())|slice(0, 50)|raw}}...</blockquote>
                 </div>
             </div>
         </div>

@@ -1,6 +1,5 @@
 <div class="survey" ng-show="post.extension.survey.question">
     <div class="answers">
-
             <ul class="list-group">
                 <li class="list-group-item active">[[post.extension.survey.question]]</li>
                 <li class="list-group-item" ng-repeat='answer in post.extension.survey.answersArray'>
@@ -10,7 +9,14 @@
                         </div>
                     </div>
                         <div class="answer">
-                            <input ng-show="post.extension.survey.votable" type="[[answer.type]]" ng-model="post.extension.survey.myVote[answer.key]" ng-checked="post.extension.survey.myVote[answer.key]"  name="surveyAnswer[]" ng-true-value="1" ng-false-value="0">
+                            <div class="animate-switch-container"  ng-switch on="answer.type">
+                                <div class="animate-switch" ng-switch-when="checkbox">
+                                    <input ng-show="post.extension.survey.votable" type="checkbox" ng-model="post.extension.survey.myVote[answer.key]" ng-checked="post.extension.survey.myVote[answer.key]"  name="surveyAnswer[]" ng-true-value="1" ng-false-value="0">
+                                </div>
+                                <div class="animate-switch" ng-switch-default>
+                                    <input ng-show="post.extension.survey.votable" type="radio" ng-model="post.extension.survey.myVote" ng-value="answer.key" name="surveyAnswer">
+                                </div>
+                            </div>
                             [[answer.name]] ( [[answer.percent]]% )
                         </div>
                     <div class="clear"></div>

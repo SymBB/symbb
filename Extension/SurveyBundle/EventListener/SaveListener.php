@@ -75,47 +75,17 @@ class SaveListener
 
         $post = $event->getObject();
 
-        $data = array(
-            'id' => 0,
-            'question' => '',
-            'answers' => '',
-            'answersArray' => array(),
-            'choices' => 1,
-            'choicesChangeable' => true,
-            'end' => 0,
-            'votable' => false,
-            'myVote' => array()
-        );
-
-        if (is_object($post) && $post->getId() > 0) {
-
-            $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
-            $survey = $repo->findOneBy(array('post' => $post));
-
-            if (is_object($survey)) {
-                $data = array(
-                    'id' => $survey->getId(),
-                    'question' => $survey->getQuestion(),
-                    'answers' => $survey->getAnswers(),
-                    'answersArray' => $this->getAnswerArray($survey),
-                    'choices' => $survey->getChoices(),
-                    'choicesChangeable' => $survey->getChoicesChangeable(),
-                    'end' => $survey->getEnd(),
-                    'votable' => $survey->checkIfVoteable($this->userManager->getCurrentUser())
-                );
-                foreach ($data['answersArray'] as $key => $value) {
-                    $data['myVote'][$key] = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
-                }
-            }
-        }
-
+        $data = $this->getData($post);
+        
         $event->addExtensionData('survey', $data);
     }
 
     protected function getAnswerArray(\SymBB\Extension\SurveyBundle\Entity\Survey $survey)
     {
-        $answerList = \explode(',', $survey->getAnswers());
-
+        $answers = $survey->getAnswers();
+        $answers = nl2br($answers, true);
+        $answers = str_replace(array('<br />', '<br>'), ',', $answers);
+        $answerList = \explode(',', $answers);
         $return = array();
         foreach ($answerList as $key => $answer) {
             $type = 'radio';
@@ -181,6 +151,13 @@ class SaveListener
         $topic = $event->getObject();
         $post = $topic->getMainPost();
 
+        $data = $this->getData($post);
+
+        $event->addExtensionData('survey', $data);
+    }
+    
+    protected function getData(\SymBB\Core\ForumBundle\Entity\Post $post = null){
+        
         $data = array(
             'question' => '',
             'answers' => '',
@@ -188,7 +165,8 @@ class SaveListener
             'choices' => 1,
             'choicesChangeable' => true,
             'end' => 0,
-            'myVote' => array()
+            'myVote' => array(),
+            'votable' => false
         );
 
         if (is_object($post) && $post->getId() > 0) {
@@ -197,20 +175,36 @@ class SaveListener
             $survey = $repo->findOneBy(array('post' => $post));
 
             if (is_object($survey)) { 
+                
                 $data = array(
+                    'id' => $survey->getId(),
                     'question' => $survey->getQuestion(),
                     'answers' => $survey->getAnswers(),
                     'answersArray' => $this->getAnswerArray($survey),
                     'choices' => $survey->getChoices(),
                     'choicesChangeable' => $survey->getChoicesChangeable(),
-                    'end' => 0,
+                    'end' => $survey->getEnd(),
+                    'votable' => $survey->checkIfVoteable($this->userManager->getCurrentUser())
                 );
-                foreach ($data['answersArray'] as $key => $value) {
-                    $data['myVote'][$key] = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
+                
+                
+                if($survey->getChoices() <= 1){
+                    $data['myVote'] = null;
+                    foreach ($data['answersArray'] as $key => $value) {
+                        $vote = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
+                        if($vote === true){
+                            $data['myVote'] = $key;
+                            break;
+                        }
+                    }
+                } else {
+                    foreach ($data['answersArray'] as $key => $value) {
+                        $data['myVote'][$key] = (int) $survey->checkForVote($key, $this->userManager->getCurrentUser());
+                    }
                 }
             }
         }
-
-        $event->addExtensionData('survey', $data);
+        
+        return $data;
     }
 }

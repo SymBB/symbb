@@ -10,12 +10,6 @@
         </li>
         {% if app.user.getSymbbType != 'guest' %}
         <li>
-            <a href="{{ path('fos_message_inbox') }}" target="_self">
-                <span class="glyphicon glyphicon-comment {% if fos_message_nb_unread() %} glyphicon-danger {% endif %}"></span>
-                <span class="text">{{ fos_message_nb_unread() }} {% trans %}Messages{% endtrans %}</span>
-            </a>
-        </li>
-        <li>
             <a href="{{ path('symbb_user_options') }}" target="_self">
                 <span class="glyphicon glyphicon-cog"></span>
                 <span class="text">{% trans %}Options{% endtrans %}</span>
