@@ -9,23 +9,23 @@ JMSTranslationBundle_ui:
 
 SymBBExtensionBundle_Extra:
     resource: .
-    prefix: /{_locale}/
+    prefix: /
     type: extra
     
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
-    prefix: /{_locale}/
+    prefix: /
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /{_locale}/resetting
+    prefix: /resetting
  
 _symbb_acp_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
-    prefix: /{_locale}/acp
+    prefix: /acp
     
 _symbb_frontend_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/frontend.yml"
-    prefix: /{_locale}/
+    prefix: /
     
  

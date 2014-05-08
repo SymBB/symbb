@@ -46,12 +46,7 @@ class Router
         foreach ($this->getFiles() as $file) {
             $frontend = $yaml->parse(file_get_contents($file));
             foreach ($frontend as $key => $data) {
-                if (isset($data['pattern'])) {
-                    $dataLocale = $data;
-                    $dataLocale['pattern'] = '/{_locale}' . $data['pattern'];
-                    $this->frontend['angular_locale_' . $key] = new AngularRoute($dataLocale);
-                }
-                $this->frontend['angular_' . $key] = new AngularRoute($data);
+                $this->frontend['angular_locale_' . $key] = new AngularRoute($data);
                 
             }
         }
