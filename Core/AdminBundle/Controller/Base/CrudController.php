@@ -216,9 +216,12 @@ abstract class CrudController extends Controller
         return $repo;
     }
 
-    protected function getEntityManager()
+    protected function getEntityManager($managerName = '')
     {
-        $em = $this->get('doctrine')->getManager($this->entityManagerName);
+        if (empty($managerName)) {
+            $managerName = $this->entityManagerName;
+        }
+        $em = $this->get('doctrine')->getManager($managerName);
         return $em;
     }
 
