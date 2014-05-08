@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -23,6 +23,8 @@ abstract class CrudController extends Controller
     protected $entityName = '';
 
     protected $formClass = '';
+    
+    protected $entityManagerName = 'symbb';
 
     public function listAction($parent = null)
     {
@@ -70,7 +72,7 @@ abstract class CrudController extends Controller
         $return = array('success' => 0);
         if ($request->isMethod('POST')) {
             $repository = $this->getRepository();
-            $em = $this->get('doctrine')->getManager('symbb');
+            $em = $this->get('doctrine')->getManager($this->entityManagerName);
             $entries = (array) $request->get('entry');
             $i = 0;
             foreach ($entries as $entry) {
@@ -117,7 +119,7 @@ abstract class CrudController extends Controller
             $form->bind($request);
             $entity = $this->getFormEntity();
             if ($form->isValid()) {
-                $em = $this->get('doctrine')->getManager('symbb');
+                $em = $this->get('doctrine')->getManager($this->entityManagerName);
                 $em->persist($entity);
                 $em->flush();
                 $parent = null;
@@ -145,7 +147,7 @@ abstract class CrudController extends Controller
             }
             $errorMessage = '';
             if ($this->checkIsObjectRemoveable($entity, $parent, $errorMessage)) {
-                $em = $this->get('doctrine')->getManager('symbb');
+                $em = $this->get('doctrine')->getManager($this->entityManagerName);
                 $em->remove($entity);
                 $em->flush();
             } else {
@@ -210,7 +212,7 @@ abstract class CrudController extends Controller
 
     protected function getRepository()
     {
-        $repo = $this->get('doctrine')->getRepository($this->entityBundle . ':' . $this->entityName, 'symbb');
+        $repo = $this->get('doctrine')->getRepository($this->entityBundle . ':' . $this->entityName, $this->entityManagerName);
         return $repo;
     }
 
