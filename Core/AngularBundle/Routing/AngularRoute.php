@@ -22,7 +22,9 @@ class AngularRoute
 
     protected $template = array('route' => '', 'params' => array());
 
-    public function __construct($data)
+    protected $router;
+    
+    public function __construct($data, $router)
     {
         if (isset($data['pattern'])) {
             $this->pattern = $data['pattern'];
@@ -36,6 +38,8 @@ class AngularRoute
         if (isset($data['template'])) {
             $this->template = $data['template'];
         }
+        
+        $this->router = $router;
     }
 
     public function getPattern()
@@ -45,8 +49,11 @@ class AngularRoute
 
     public function getAngularPattern()
     {
+        $prefix = $this->router->generate('_symbb_index', array());
         $pattern = $this->getPattern();
         $pattern = \str_replace(array('{', '}'), array(':', ''), $pattern);
+        $prefix = \rtrim($prefix, '/');
+        $pattern = $prefix.$pattern;
         return $pattern;
     }
 

@@ -23,9 +23,10 @@ class Router
 
     protected $eventDispatcher;
 
-    public function __construct($eventDispatcher)
+    public function __construct($eventDispatcher, $router)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->router = $router;
         $this->loadData();
     }
 
@@ -46,7 +47,7 @@ class Router
         foreach ($this->getFiles() as $file) {
             $frontend = $yaml->parse(file_get_contents($file));
             foreach ($frontend as $key => $data) {
-                $this->frontend['angular_locale_' . $key] = new AngularRoute($data);
+                $this->frontend['angular_locale_' . $key] = new AngularRoute($data, $this->router);
             }
         }
     }

@@ -28,4 +28,6 @@ _symbb_frontend_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/frontend.yml"
     prefix: /
     
- 
+_symbb_index:
+    pattern:  /
+    defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }

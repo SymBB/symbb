@@ -7,7 +7,7 @@ services:
             
     symbb.core.angular.router:
         class: SymBB\Core\AngularBundle\DependencyInjection\Router
-        arguments: ['@event_dispatcher']
+        arguments: ['@event_dispatcher', '@router']
         
     symbb.core.angular.routing_loader:
         class: SymBB\Core\AngularBundle\Routing\AdvancedLoader

@@ -1,7 +1,3 @@
-_symbb_index:
-    pattern:  /
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
-    
 symbb_forum_index:
     pattern:  /forum/
     defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
