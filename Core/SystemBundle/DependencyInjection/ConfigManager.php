@@ -36,7 +36,7 @@ class ConfigManager
     public function __construct($container)
     {
         $this->em = $container->get("doctrine.orm.symbb_entity_manager");
-        $this->dispatcher = $container->get('@event_dispatcher');
+        $this->dispatcher = $container->get('event_dispatcher');
         $this->container = $container;
         $this->defaults = new \Doctrine\Common\Collections\ArrayCollection();
         $event = new \SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent($this->defaults);
