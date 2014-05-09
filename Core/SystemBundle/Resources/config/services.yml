@@ -16,6 +16,12 @@ services:
         tags:
             - { name: twig.extension }
             
+    symbb.core.config.ext:
+        class: SymBB\Core\SystemBundle\Twig\ConfigExtension
+        arguments: ['@symbb.core.config.manager']
+        tags:
+            - { name: twig.extension }
+            
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
         arguments: ["@doctrine.orm.symbb_entity_manager", "@security.context", "@security.acl.provider"]
