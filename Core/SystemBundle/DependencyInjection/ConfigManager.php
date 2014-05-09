@@ -86,8 +86,9 @@ class ConfigManager
         $config = $this->em->getRepository('SymBBCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
 
         if (!$config) {
-            $config = new \SymBB\Core\SystemBundle\Entity\Config();
+            $config = new \SymBB\Core\SystemBundle\Entity\Config(); 
             $config->setKey($key);
+            $config->setSection($section);
         }
 
         if ($type === null) {
