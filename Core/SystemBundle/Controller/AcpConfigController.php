@@ -11,16 +11,14 @@ namespace SymBB\Core\SystemBundle\Controller;
 
 class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
+    
+    protected $translatonDomain = "symbb_variables";
+    protected $route = "_symbbcoresystembundle_config";
 
-    public function indexAction()
-    {
 
+    protected function getConfigData(){
         $configData = $this->get('symbb.core.config.manager')->getConfigListGroupBySection();
-
-        $defaultData = array('name' => 'config');
-        $form = $this->get('form.factory')->createNamedBuilder('config', 'form', $defaultData, array('translation_domain' => 'symbb_variables'))
-            ->setAction($this->generateUrl('_symbbcoresystembundle_config'));
-
+        $formConfigData = array();
         foreach ($configData as $section => $configs) {
             foreach ($configs as $key => $value) {
                 $type = $this->get('symbb.core.config.manager')->getType($key, $section);
@@ -43,8 +41,31 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 $label = \str_replace(':', '.', $key);
                 $options['attr']['section'] = $section;
                 $options['label'] = 'config.' . $label;
-                $form->add($name, $type, $options);
+                $formConfigData[] = array(
+                    'name' => $name,
+                    'type' => $type,
+                    'options' => $options,
+                    'section' => $section,
+                    'key' => $key
+                );
             }
+        }
+        
+        return $formConfigData;
+    }
+
+
+    public function indexAction()
+    {
+
+        $configData = $this->getConfigData();
+
+        $defaultData = array('name' => 'config');
+        $form = $this->get('form.factory')->createNamedBuilder('config', 'form', $defaultData, array('translation_domain' => $this->translatonDomain))
+            ->setAction($this->generateUrl($this->route));
+
+        foreach ($configData as $formConfg) {
+            $form->add($formConfg['name'], $formConfg['type'], $formConfg['options']);
         }
 
         $form = $form->getForm();
@@ -52,13 +73,13 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
         $form->handleRequest($this->get('request'));
 
         if ($form->isValid()) {
-            foreach ($configData as $section => $configs) {
-                foreach ($configs as $key => $value) {
-                    $name = \str_replace('.', '_', $key);
-                    $name = $section.':'.$name;
-                    $newValue = $form->get($name)->getData();
-                    $this->get('symbb.core.config.manager')->set($key, $section, $newValue);
-                }
+            foreach ($configData as $formConfig) {
+                $section    = $formConfig['section'];
+                $key        = $formConfig['key'];
+                $name = \str_replace('.', '_', $key);
+                $name = $section.':'.$name;
+                $newValue = $form->get($name)->getData();
+                $this->get('symbb.core.config.manager')->set($key, $section, $newValue);
             }
             $this->get('symbb.core.config.manager')->save();
             $this->get('session')->getFlashBag()->add(
