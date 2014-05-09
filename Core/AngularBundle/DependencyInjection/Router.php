@@ -47,7 +47,6 @@ class Router
             $frontend = $yaml->parse(file_get_contents($file));
             foreach ($frontend as $key => $data) {
                 $this->frontend['angular_locale_' . $key] = new AngularRoute($data);
-                
             }
         }
     }
@@ -65,7 +64,7 @@ class Router
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
 
-            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_'), '', $key);
 
             if (!isset($data[$key])) {
                 $data[$key] = array();
@@ -86,7 +85,7 @@ class Router
     {
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
-            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_'), '', $key);
             if (!isset($data[$key])) {
                 $data[$key] = array();
             }
@@ -101,7 +100,7 @@ class Router
     {
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
-            $key = \str_replace(array('angular_locale_', 'angular_'), '', $key);
+            $key = \str_replace(array('angular_locale_'), '', $key);
             if (!isset($data[$key])) {
                 $data[$key] = array();
             }
