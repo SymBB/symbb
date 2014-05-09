@@ -28,7 +28,7 @@ services:
         
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", '@event_dispatcher']
+        arguments: ['@service_container']
         
     symbb.core.upload.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager

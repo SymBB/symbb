@@ -26,16 +26,18 @@ class ConfigManager
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $defaults;
+    
+    protected $container;
 
     /**
      * 
      * @param type $em
      */
-    public function __construct($em, $dispatcher)
+    public function __construct($container)
     {
-        $this->em = $em;
-        $this->dispatcher = $dispatcher;
-
+        $this->em = $container->get("doctrine.orm.symbb_entity_manager");
+        $this->dispatcher = $container->get('@event_dispatcher');
+        $this->container = $container;
         $this->defaults = new \Doctrine\Common\Collections\ArrayCollection();
         $event = new \SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent($this->defaults);
         $this->dispatcher->dispatch('symbb.config.configs', $event);
@@ -113,7 +115,7 @@ class ConfigManager
 
     public function getChoices($key, $section = "default")
     {
-        $event = new \SymBB\Core\SystemBundle\Event\ConfigChoicesEvent($key, $section);
+        $event = new \SymBB\Core\SystemBundle\Event\ConfigChoicesEvent($key, $section, $this->container);
         $this->dispatcher->dispatch('symbb.config.choices', $event);
         $options = $event->getChoices();
         return $options;
