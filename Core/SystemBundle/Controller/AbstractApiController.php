@@ -39,7 +39,7 @@ abstract class AbstractApiController extends AbstractController
         }
         $params['user'] = array(
             'id' => $user->getId(),
-            'name' => $user->getUsername(),
+            'username' => $user->getUsername(),
             'type' => $user->getSymbbType(),
             'authenticated' => $authenticated
         );
