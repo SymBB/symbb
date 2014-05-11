@@ -247,6 +247,10 @@ class User extends BaseUser implements UserInterface
         return $this->symbbFieldValues;
     }
 
+    /**
+     * @param Field $field
+     * @return null|User\FieldValue
+     */
     public function getFieldValue(\SymBB\Core\UserBundle\Entity\Field $field)
     {
         $values = $this->getFieldValues();
@@ -256,12 +260,12 @@ class User extends BaseUser implements UserInterface
                 $found = $value;
             }
         }
-        if (!$found) {
+        if (!$found || !is_object($found)) {
             $found = new \SymBB\Core\UserBundle\Entity\User\FieldValue();
             $found->setField($field);
             $found->setUser($this);
         }
 
-        return $found->getValue();
+        return $found;
     }
 }

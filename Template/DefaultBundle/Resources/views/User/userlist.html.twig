@@ -37,7 +37,7 @@
                         <td>{{ getUserManager().getPostCount(currUser) }}</td>
                         <td>{{ formatIntlDate(currUser.getCreated()) }}</td>
                         {% for field in getUserManager().findFields({displayInMemberlist: true}) %}
-                            <th> {{currUser.getFieldValue(field)}} </th>
+                            <th> {{currUser.getFieldValue(field).getValue()}} </th>
                         {% endfor %}
                     </tr>
 

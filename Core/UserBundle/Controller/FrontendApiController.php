@@ -23,6 +23,19 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $params['user'] = array();
         $params['user']['data']['avatar'] = $data->getAvatar();
         $params['user']['data']['signature'] = $data->getSignature();
+        $params['user']['fields'] = array();
+        $em = $this->getDoctrine()->getManager('symbb');
+        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+        foreach ($allFields as $field) {
+            $value = $user->getFieldValue($field)->getValue();
+            $params['user']['fields'][] = array(
+                'id' => $field->getId(),
+                'value' => $value,
+                'dataType' => $field->getDataType(),
+                'formType' => $field->getFormType(),
+                'label' => $field->getLabel()
+            );
+        }
         $params['user']['passwordChange']['password'] = '';
         $params['user']['passwordChange']['repeat'] = '';
         return $this->getJsonResponse($params);
@@ -33,6 +46,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $user       = $this->getUser();
         $request    = $this->get('request');
         $userData   = $request->get('data');
+        $fields     = $request->get('fields');
         $avatar     = $userData['avatar'];
         $signature  = $userData['signature'];
 
@@ -43,11 +57,26 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if($signature){
             $symbbData->setSignature($signature);
         }
-        $passwordRepeat = $request->get('passwordRepeat');
 
+        $em = $this->getDoctrine()->getManager('symbb');
+        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+        foreach ($allFields as $field) {
+            $currFieldValue = $user->getFieldValue($field);
+            foreach($fields as $fieldValue){
+                if($fieldValue['id'] == $field->getId()){
+                    $value = $fieldValue['value'];
+                    $currFieldValue->setValue($value);
+                    $em->persist($currFieldValue);
+                    break;
+                }
+            }
+        }
+
+        $passwordRepeat = $request->get('passwordRepeat');
         if(!empty($passwordRepeat['repeat']) and $passwordRepeat['password'] === $passwordRepeat['repeat']){
             $this->get('symbb.core.user.manager')->changeUserPassword($user, $passwordRepeat['password']);
         }
+
 
         $this->get('symbb.core.user.manager')->updateUserData($symbbData);
 

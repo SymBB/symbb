@@ -34,7 +34,7 @@
             
             {% for field in getUserManager().findFields({displayInMemberlist: true}) %}
                 <div>
-                    <label>{{ field.getLabel() |trans }}:</label> {{user.getFieldValue(field)}}
+                    <label>{{ field.getLabel() |trans }}:</label> {{user.getFieldValue(field).getValue()}}
                 </div>
             {% endfor %}
         </div>
