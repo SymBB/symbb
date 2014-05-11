@@ -28,4 +28,32 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         return $this->getJsonResponse($params);
     }
 
+    public function ucpSaveAction()
+    {
+        $user       = $this->getUser();
+        $request    = $this->get('request');
+        $userData   = $request->get('data');
+        $avatar     = $userData['avatar'];
+        $signature  = $userData['signature'];
+
+        $symbbData = $user->getSymbbData();
+        if($avatar){
+            $symbbData->setAvatar($avatar);
+        }
+        if($signature){
+            $symbbData->setSignature($signature);
+        }
+        $passwordRepeat = $request->get('passwordRepeat');
+
+        if(!empty($passwordRepeat['repeat']) and $passwordRepeat['password'] === $passwordRepeat['repeat']){
+            $this->get('symbb.core.user.manager')->changeUserPassword($user, $passwordRepeat['password']);
+        }
+
+        $this->get('symbb.core.user.manager')->updateUserData($symbbData);
+
+        $this->addSuccessMessage("saved successfully.");
+
+        return $this->getJsonResponse(array());
+    }
+
 }

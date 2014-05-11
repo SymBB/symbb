@@ -1,5 +1,5 @@
-symbbControllers.controller('UcpCtrl', ['$scope', '$http',
-    function($scope, $http) {
+symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
+    function($scope, $http, $location) {
         var route = angularConfig.getSymfonyApiRoute('user_ucp', {});
         $http.get(route).success(function(data) {
 
@@ -13,7 +13,6 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http',
                 $scope.master = angular.copy(user);
                 $http.post(angularConfig.getSymfonyApiRoute('user_ucp_save', {}), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo($location, 'user_ucp', {id: data.id, name: $scope.master.name});
                     }
                 });
             };

@@ -30,7 +30,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-success btn btn-default" onclick="update();">{{'Save'|trans}}</button>
+            <button class="btn btn-success" type="submit" ng-click="update(user)" ng-disabled="form.$invalid">{{ 'Save'|trans }}</button>
+            <button class="btn btn-danger" symbb-js-link="user_ucp">{{ 'Abort'|trans }}</button>
 
         </div>
     </div>
@@ -51,7 +52,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-success btn btn-default" onclick="update();">{{'Save'|trans}}</button>
+            <button class="btn btn-success" type="submit" ng-click="update(user)" ng-disabled="form.$invalid">{{ 'Save'|trans }}</button>
+            <button class="btn btn-danger" symbb-js-link="user_ucp">{{ 'Abort'|trans }}</button>
         </div>
     </div>
 
