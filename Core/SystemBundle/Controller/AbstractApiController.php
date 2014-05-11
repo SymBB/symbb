@@ -37,12 +37,13 @@ abstract class AbstractApiController extends AbstractController
         if ($user->getSymbbType() === 'user') {
             $authenticated = true;
         }
-        $params['user'] = array(
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'type' => $user->getSymbbType(),
-            'authenticated' => $authenticated
-        );
+        if(!isset($params['user'])){
+            $params['user'] = array();
+        }
+        $params['user']['id'] = $user->getId();
+        $params['user']['username'] = $user->getUsername();
+        $params['user']['type'] = $user->getSymbbType();
+        $params['user']['authenticated'] = $authenticated;
         $params['messages'] = $this->messages;
         $params['callbacks'] = $this->callbacks;
         $params['breadcrumbItems'] = $this->breadcrumbItems;

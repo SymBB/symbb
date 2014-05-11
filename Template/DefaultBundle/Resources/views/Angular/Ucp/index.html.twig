@@ -1,0 +1,58 @@
+{% trans_default_domain "symbb_frontend" %}
+<form class="form-horizontal">
+
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ 'Profil'|trans }}</div>
+        <div class="panel-body">
+
+            <div class="form-group ng-scope">
+                <label class="col-sm-2 control-label" for="user_options_signature">{{'Avatar'|trans}}</label>
+                <div class="col-sm-10">
+                    <input class="form-control" ng-model="user.data.avatar" ng-value="[[user.data.avatar]]">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2">&nbsp;</label>
+                <div class="col-sm-10">
+                    <div class="avatar">
+                        <img class="" ng-src="[[user.data.avatar]]" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group ng-scope">
+                <label class="col-sm-2 control-label" >{{'Signature'|trans}}</label>
+                <div class="col-sm-10">
+                    <symbb-editor-default>
+                        <textarea class="form-control" ng-model="user.data.signature"></textarea>
+                    </symbb-editor-default>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-success btn btn-default" onclick="update();">{{'Save'|trans}}</button>
+
+        </div>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ 'Security'|trans }}</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{ 'Password'|trans }}</label>
+                <div class="col-sm-10">
+                    <input type="password" class="password-field form-control" ng-model="user.changePassword.password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{ 'repeat Password'|trans }}</label>
+                <div class="col-sm-10">
+                    <input type="password" class="password-field form-control" ng-model="user.changePassword.repeat">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-success btn btn-default" onclick="update();">{{'Save'|trans}}</button>
+        </div>
+    </div>
+
+</form>

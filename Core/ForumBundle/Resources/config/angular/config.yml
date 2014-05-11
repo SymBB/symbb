@@ -44,7 +44,7 @@ forum_topic_create:
     api: 
         route: symbb_api_topic_data
     template: 
-        route: symbb_template_default_angular_form
+        route: symbb_template_default_angular
         params: 
             file: 'topic'
         
@@ -54,7 +54,7 @@ forum_post_create:
     api: 
         route: symbb_api_post_data
     template: 
-        route: symbb_template_default_angular_form
+        route: symbb_template_default_angular
         params: 
             file: 'post'
         
@@ -64,7 +64,7 @@ forum_post_quote:
     api: 
         route: symbb_api_post_data
     template: 
-        route: symbb_template_default_angular_form
+        route: symbb_template_default_angular
         params: 
             file: 'post'
         
@@ -74,7 +74,7 @@ forum_post_edit:
     api: 
         route: symbb_api_post_data
     template: 
-        route: symbb_template_default_angular_form
+        route: symbb_template_default_angular
         params: 
             file: 'post'
         

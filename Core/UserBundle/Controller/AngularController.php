@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Template\DefaultBundle\Controller;
+namespace SymBB\Core\UserBundle\Controller;
 
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
@@ -15,7 +15,7 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
     public function templateFileAction($file)
     {
         $response = $this->render(
-            $this->getTemplateBundleName('forum').':Angular:'.$file.'.html.twig',
+            $this->getTemplateBundleName('forum').':Angular:Ucp/'.$file.'.html.twig',
             array()
         );
         

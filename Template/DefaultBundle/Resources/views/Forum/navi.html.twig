@@ -1,22 +1,22 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<nav class="navbar" role="navigation">
+<nav class="navbar">
     <ul>
         <li>
-            <a href="{{ path('symbb_forum_index') }}" target="_self">
+            <a href="{{ path('symbb_forum_index') }}">
                 <span class="glyphicon glyphicon-th-list"></span>
                 <span class="text">{% trans %}Forum{% endtrans %}</span>
             </a>
         </li>
         {% if app.user.getSymbbType != 'guest' %}
         <li>
-            <a href="{{ path('symbb_user_options') }}" target="_self">
+            <a href="{{ path('angular_locale_user_ucp') }}">
                 <span class="glyphicon glyphicon-cog"></span>
                 <span class="text">{% trans %}Options{% endtrans %}</span>
             </a>
         </li>
         <li>
-            <a href="{{ path('angular_locale_forum_newest') }}" target="_self">
+            <a href="{{ path('angular_locale_forum_newest') }}">
                 <span class="glyphicon glyphicon-fire"></span>
                 <span class="text">{% trans %}Newest Posts{% endtrans %}</span>
             </a>

@@ -33,7 +33,7 @@ class Router
     public function getFiles()
     {
         $files = array();
-        $files[] = __DIR__ . '/../Resources/config/routing/frontend.yml';
+        //$files[] = __DIR__ . '/../Resources/config/angular/config.yml';
 
         $event = new \SymBB\Core\AngularBundle\Event\RouterFilesEvent($files);
         $this->eventDispatcher->dispatch('symbb.core.angular.router.files', $event);
