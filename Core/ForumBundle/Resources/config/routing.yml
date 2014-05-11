@@ -5,3 +5,7 @@ symbb_forum_index:
 symbb_api_forum:
     resource: "@SymBBCoreForumBundle/Controller"
     type: annotation
+
+symbb_forum_angular_template:
+    pattern:  /angular/template/forum/{file}
+    defaults: { _controller: SymBBCoreForumBundle:Angular:templateFile }
