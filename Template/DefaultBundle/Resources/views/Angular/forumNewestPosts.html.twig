@@ -13,7 +13,7 @@
                         <blockquote>[[object.text.slice(0, 100)]]</blockquote>
                     </div>
                     <div class="description">
-                    {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                    {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                     </div>
                 </div>
             </div>

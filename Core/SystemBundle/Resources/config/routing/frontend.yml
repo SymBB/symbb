@@ -32,7 +32,7 @@ _symbbcoresitebundle_site_frontend_routings:
 
 _symbb_core_user:
     resource: "@SymBBCoreUserBundle/Resources/config/routing.yml"
-    prefix: /ucp
+    prefix: /
     
 _symbb_core_forum:
     resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"

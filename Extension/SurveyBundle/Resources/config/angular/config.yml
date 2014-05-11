@@ -1,0 +1,3 @@
+extension_survey_vote:
+    api: 
+        route: symbb_api_extension_survey_vote

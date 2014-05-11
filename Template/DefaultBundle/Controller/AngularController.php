@@ -27,16 +27,4 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
         return $response;
     }
     
-    public function formFileAction($file)
-    {
-        $response = $this->render(
-            $this->getTemplateBundleName('forum').':Angular:Form/'.$file.'.html.twig',
-            array()
-        );
-        
-        $response->setPrivate();
-        
-        return $response;
-    }
-    
 }

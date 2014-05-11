@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
 use \SymBB\Core\UserBundle\DependencyInjection\GroupManager;
 
-class FormPostEvent extends Event
+class FormPostEvent extends Event 
 {
 
     /**

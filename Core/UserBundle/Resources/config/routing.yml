@@ -1,11 +1,3 @@
-symbb_user_options:
-    pattern:  /options
-    defaults: { _controller: SymBBCoreUserBundle:Option:index }
-    
-symbb_user_options_security:
-    pattern:  /options/security
-    defaults: { _controller: SymBBCoreUserBundle:Option:security }
-    
 symbb_user_userlist:
     pattern:  /userlist
     defaults: { _controller: SymBBCoreUserBundle:Info:userlist }
@@ -13,3 +5,15 @@ symbb_user_userlist:
 symbb_user_profile:
     pattern:  /user/{id}/{name}
     defaults: { _controller: SymBBCoreUserBundle:Info:profile }
+
+symbb_ucp_angular_template:
+    pattern:  /angular/template/ucp/{file}
+    defaults: { _controller: SymBBCoreUserBundle:Angular:templateFile }
+
+symbb_api_ucp_data:
+    pattern:  /api/ucp/data
+    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpData }
+
+symbb_api_user_ucp_save:
+    pattern:  /api/ucp/save
+    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpSave }

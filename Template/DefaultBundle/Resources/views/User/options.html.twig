@@ -31,9 +31,12 @@
             </div>
         </div>
         
-        
         {{ form_rowbootstrap(form.timezone) }}
-        {{ form_row(form.save) }}
+        
+        {{ form_restbootstrap(form) }}
+            
+        <button type="submit" id="user_options_save" name="user_options[save]" class="btn-success btn btn-default" onclick="submit();">{{'speichern'|trans}}</button>
+        
       {{ form_end(form) }}
     </div>
 </div>

@@ -62,7 +62,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @param int $topicId
      * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
      */
-    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'asc')
+    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
 
         if ($topic->getId() > 0) {

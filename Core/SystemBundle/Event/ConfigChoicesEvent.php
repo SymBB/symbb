@@ -22,12 +22,19 @@ class ConfigChoicesEvent extends Event
     protected $options;
 
     protected $section = "default";
+    
+    protected $container;
 
-    public function __construct($key, $section)
+    public function __construct($key, $section, $container)
     {
         $this->key = $key;
         $this->section = $section;
+        $this->container = $container;
         $this->options = new \Doctrine\Common\Collections\ArrayCollection;
+    }
+    
+    public function getContainer(){
+        return $this->container;
     }
 
     public function getKey()

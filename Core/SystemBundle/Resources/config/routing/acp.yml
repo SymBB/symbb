@@ -38,27 +38,6 @@ _symbbcoreforumbundle_forum_remove:
     pattern:  /forum/{id}/remove
     defaults: { _controller: SymBBCoreForumBundle:Acp:remove }
     
-_symbbcoreuserbundle_group_access:
-    pattern:  /access/group/{step}
-    defaults: { _controller: SymBBCoreUserBundle:AcpAccess:group }
-    
-    
-_symbbcoreuserbundle_group_list:
-    pattern:  /group/list
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:list }
-    
-_symbbcoreuserbundle_group_new:
-    pattern:  /group/new
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:new }
-
-_symbbcoreuserbundle_group_edit:
-    pattern:  /group/{id}/edit
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:edit }
-    
-_symbbcoreuserbundle_group_remove:
-    pattern:  /group/{id}/remove
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:remove }
-    
     
 _symbbcoresystembundle_config:
     pattern:  /config
@@ -79,30 +58,6 @@ _symbbcoresystembundle_extension_enable:
 _symbbcoresystembundle_maintenance:
     pattern:  /maintenance
     defaults: { _controller: SymBBCoreSystemBundle:AcpMaintenance:index }
-    
-_symbbcoreuserbundle_user_list:
-    pattern:  /user/list
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:list }
-
-_symbbcoreuserbundle_user_new:
-    pattern:  /user/new
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:new}
-    
-_symbbcoreuserbundle_user_edit:
-    pattern:  /user/{id}/edit
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:edit }
-    
-_symbbcoreuserbundle_user_remove:
-    pattern:  /user/{id}/remove
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:remove }
-    
-_symbbcoreuserbundle_user_enable:
-    pattern:  /user/{id}/enable
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:enable }
-    
-_symbbcoreuserbundle_user_disable:
-    pattern:  /user/{id}/disable
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:disable }
     
     
     
@@ -130,3 +85,7 @@ _symbbcorebbcodebundle_bbcode_restore:
     pattern:  /bbcode/restore
     defaults: { _controller: SymBBCoreBBCodeBundle:Acp:restore }
     
+    
+_symbb_core_user_acp:
+    resource: "@SymBBCoreUserBundle/Resources/config/routing/acp.yml"
+    prefix: /

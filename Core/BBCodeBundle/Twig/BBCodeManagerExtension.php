@@ -38,19 +38,19 @@ class BBCodeManagerExtension extends \Twig_Extension
         return $this->bbcodeManager;
     }
 
-    public function cleanSymBBBBCodes($text)
+    public function cleanSymBBBBCodes($text, $setId = 1)
     {
-        return $this->bbcodeManager->clean($text);
+        return $this->bbcodeManager->clean($text, $setId);
     }
 
-    public function parseSymbBBBCodes($text)
+    public function parseSymbBBBCodes($text, $setId = 1)
     {
-        return $this->bbcodeManager->parse($text, 1);
+        return $this->bbcodeManager->parse($text, $setId);
     }
 
-    public function getSymBBBBCodes()
+    public function getSymBBBBCodes($setId = 1)
     {
-        return $this->bbcodeManager->getBBCodes();
+        return $this->bbcodeManager->getBBCodes($setId);
     }
 
 

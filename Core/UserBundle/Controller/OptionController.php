@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -32,12 +32,23 @@ class OptionController extends \SymBB\Core\SystemBundle\Controller\AbstractContr
             }
         }
 
-        $form = $this->createForm(new Option(), $data);
+        $form = $this->createForm(new Option($this->getDoctrine()->getManager('symbb'), $user), $data);
 
         $form->handleRequest($this->get('request'));
 
         if ($form->isValid()) {
+
             $em = $this->getDoctrine()->getManager('symbb');
+
+            $fields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+            foreach ($fields as $field) {
+                $fieldData = $form->get('field:' . $field->getId());
+                $value = $fieldData->getData();
+                $currFieldValue = $user->getFieldValue($field);
+                $currFieldValue->setValue($value);
+                $em->persist($currFieldValue);
+            }
+
             $em->persist($data);
             $em->flush();
             $this->get('session')->getFlashBag()->add(

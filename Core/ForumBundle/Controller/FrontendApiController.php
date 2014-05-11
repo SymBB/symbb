@@ -14,22 +14,24 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
+
     /**
      * @Route("/api/post/newest", name="symbb_api_post_newest")
      * @Method({"GET"})
      */
-    public function newestPostsAction(){
+    public function newestPostsAction()
+    {
         $limit = (int) $this->get('request')->get('limit');
-        if($limit <= 0){
+        if ($limit <= 0) {
             $limit = 20;
         }
         $page = (int) $this->get('request')->get('page');
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
         $params['posts'] = array();
         $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
-        foreach($posts as $post){
+        foreach ($posts as $post) {
             $params['posts'][] = $this->getPostAsArray($post);
         }
         $params['count']['post'] = count($posts);
@@ -131,7 +133,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $request = $this->get('request');
         $id = (int) $request->get('id');
-        $topicData = (array) $request->get('topic');
+        $topicData = $request->get('topic');
         $params = array();
         $accessCheck = false;
 
@@ -188,7 +190,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
             }
-            
+
             $this->get('symbb.core.forum.flag')->insertFlags($topic->getForum(), 'new');
             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
             $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
@@ -264,7 +266,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
+            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
 
             $params = array('items' => array(), 'total' => count($lastPosts));
             foreach ($lastPosts as $post) {
@@ -286,8 +288,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $topicId = (int) $request->get('id');
         $forumData = (array) $request->get('forum');
 
+        $params = array();
+            
         if (isset($forumData['id'])) {
-            $params = array();
 
             $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
@@ -340,11 +343,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             } else {
                                 $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
                             }
-                            
+
                             $this->get('symbb.core.forum.flag')->insertFlags($forum, 'new');
                             $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
                             $this->get('symbb.core.post.flag')->insertFlags($mainPost, 'new');
-
+                            if ($topic->isLocked()) {
+                                $this->get('symbb.core.topic.flag')->insertFlags($topic, 'locked');
+                            }
                             $this->addSuccessMessage('saved successfully.');
 
                             $params['id'] = $topic->getId();
@@ -579,6 +584,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array = array();
         $array['id'] = 0;
         $array['name'] = '';
+        $array['changed'] = 0;
+        $array['created'] = 0;
         $array['locked'] = false;
         $array['notifyMe'] = false;
         $array['count']['post'] = 0;
@@ -593,6 +600,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'edit' => false,
             'delete' => false
         );
+        $array['mainPost'] = $this->getPostAsArray();
+        $array['author'] = $this->getAuthorAsArray();
 
         if (is_object($topic)) {
 
@@ -605,11 +614,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['id'] = $topic->getId();
                 $array['name'] = $topic->getName();
                 $array['locked'] = $topic->isLocked();
+                $array['changed'] = $this->getCorrectTimestamp($topic->getChanged());
+                $array['created'] = $this->getCorrectTimestamp($topic->getCreated());
                 $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic);
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, null, 'asc');
                 $array['count']['post'] = count($posts);
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
@@ -623,7 +634,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
                 $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
-            
+
                 $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
                 $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
 
@@ -642,9 +653,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 if ($topic->isLocked()) {
                     $array['access']['createPost'] = false;
                 }
-            } else {
-                $array['mainPost'] = $this->getPostAsArray();
-                $array['author'] = $this->getAuthorAsArray();
             }
         }
 
@@ -751,6 +759,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['type'] = 'success';
         } else if ($flagName == 'answered') {
             $array['type'] = 'warning';
+        } else if ($flagName == 'ignore') {
+            $array['type'] = 'info';
+        } else if ($flagName == 'locked') {
+            $array['type'] = 'warning';
         } else {
             $array['type'] = $flagName;
         }
@@ -773,6 +785,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['topic']['seo']['name'] = '';
         $array['name'] = '';
         $array['changed'] = 0;
+        $array['created'] = 0;
         $array['text'] = '';
         $array['rawText'] = '';
         $array['signature'] = '';
@@ -786,6 +799,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['id'] = (int) $post->getId();
             $array['name'] = $post->getName();
             $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
+            $array['created'] = $this->getCorrectTimestamp($post->getCreated());
             $array['seo']['name'] = $post->getSeoName();
             $array['rawText'] = $post->getText();
             $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);

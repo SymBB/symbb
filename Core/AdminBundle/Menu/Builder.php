@@ -76,6 +76,7 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->addChild('Group List', array('route' => '_symbbcoreuserbundle_group_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         $menu->addChild('User List', array('route' => '_symbbcoreuserbundle_user_list'))->setExtra('translation_domain', 'symbb_acp_menu');
+        $menu->addChild('Custom Fields', array('route' => '_symbbcoreuserbundle_field_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         $menu->addChild('BBCode List', array('route' => '_symbbcorebbcodebundle_bbcode_list'))->setExtra('translation_domain', 'symbb_acp_menu');
         
         return $menu;

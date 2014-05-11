@@ -27,8 +27,9 @@ class BundleLoader
             '\SymBB\Core\SystemBundle\SymBBCoreSystemBundle',
             '\SymBB\Core\InstallBundle\SymBBCoreInstallBundle',
             '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
-            '\SymBB\Core\MessageBundle\SymBBCoreMessageBundle',
             '\SymBB\Core\BBCodeBundle\SymBBCoreBBCodeBundle',
+            '\SymBB\Core\AngularBundle\SymBBCoreAngularBundle',
+            
             // SymBB optional bundles
             '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
             '\SymBB\ExtensionBundle\SymBBExtensionBundle',
@@ -37,9 +38,7 @@ class BundleLoader
             '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
-            '\FOS\RestBundle\FOSRestBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
-            '\FOS\MessageBundle\FOSMessageBundle',
             // KNP
             '\Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',
@@ -50,7 +49,10 @@ class BundleLoader
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
             '\Vich\UploaderBundle\VichUploaderBundle',
-            '\Liip\ImagineBundle\LiipImagineBundle' 
+            '\Liip\ImagineBundle\LiipImagineBundle' ,
+            
+            //important! need for json post request from angular
+            '\FOS\RestBundle\FOSRestBundle',
         );
 
         foreach ($symbbBundles as $symbbBundle) {
@@ -67,7 +69,7 @@ class BundleLoader
         }
 
         if (in_array($kernel->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
+            //$bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
         }
 
         \SymBB\ExtensionBundle\KernelPlugin::addBundles($bundles);

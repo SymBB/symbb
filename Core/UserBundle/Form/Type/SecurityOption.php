@@ -47,7 +47,7 @@ class SecurityOption extends AbstractType
                     'second_options' => array('label' => 'Repeat Password'),
                     'constraints' => $this->usermanager->getPasswordValidatorConstraints()
                 ))
-                ->add('save', 'submit', array('attr' => array('class' => 'btn-success')));
+                ->add('save', 'submit', array('attr' => array('class' => 'btn-success', 'onclick' => 'submit();')));
     }
 
 

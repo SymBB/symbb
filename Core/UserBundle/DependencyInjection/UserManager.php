@@ -9,6 +9,7 @@
 
 namespace SymBB\Core\UserBundle\DependencyInjection;
 
+use SymBB\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \SymBB\Core\UserBundle\Entity\UserInterface;
@@ -86,6 +87,16 @@ class UserManager
     public function updateUser(UserInterface $user)
     {
         $this->em->persist($user);
+        $this->em->flush();
+    }
+
+    /**
+     * update the given user data
+     * @param \SymBB\Core\UserBundle\Entity\User\Data $user
+     */
+    public function updateUserData(Data $data)
+    {
+        $this->em->persist($data);
         $this->em->flush();
     }
 
@@ -381,5 +392,16 @@ class UserManager
             $locale, $format, $format, $tz->getName(), \IntlDateFormatter::GREGORIAN
         );
         return $fmt;
+    }
+
+    /**
+     * 
+     * @param string $username
+     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     */
+    public function findFields($criteria)
+    {
+        $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy($criteria);
+        return $fields;
     }
 }

@@ -1,0 +1,151 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
+<script src="/bundles/symbbcoreangular/js/angular/angular-animate.js"></script>
+<script src="/bundles/symbbcoreangular/js/angular/angular-cookies.js"></script>
+<script src="/bundles/symbbcoreangular/js/angular/angular-mocks.js"></script>
+<script src="/bundles/symbbcoreangular/js/angular/angular-routing.js"></script>
+<script src="/bundles/symbbcoreangular/js/angular/angular-sanitize.js"></script>
+{% javascripts filter='?yui_js' 
+    '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-file-upload.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-tumb.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/angular/datetimepicker.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/angular/loading-bar.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/angular/ng-infinite-scroll.js'
+%}
+<script src="{{ asset_url }}"></script> 
+{% endjavascripts %}
+{% javascripts
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/1_user.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/2_app.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script>
+var symbbUserLang = navigator.language || navigator.userLanguage; 
+
+var angularConfig = {
+    
+    goTo: function($location, route, params, urlKey){
+        var routing = this.getAngularRoute(route, params, urlKey, true);
+        $location.path(routing);
+        $scope = angular.element(document).scope(); // this is the came as $rootScope
+        $scope.$apply(); // so this also has no effect
+    },
+    
+    sfApiRoutes: {{angularRouter.createSfApiRouteJson() | raw}},
+    sfTemplateRoutes: {{angularRouter.createSfTemplateRouteJson() | raw}},
+    angularRoutes: {{angularRouter.createAngularRouteJson() | raw}},
+        
+    getSymfonyApiRoute: function(route, params){
+        var routePath =  '';
+        if(this.sfApiRoutes[route] && this.sfApiRoutes[route]['route']){
+            routePath = Routing.generate(this.sfApiRoutes[route]['route'], {_locale: symbbUserLang});
+            if(params){
+                var temp = '?';
+                $.each(params, function(key, value){
+                    if(value !== "undefined") {
+                        routePath = routePath + temp + key + '=' + value;
+                        temp = '&';
+                    }
+                });
+            }
+        }
+        return routePath;
+    },
+  
+    getSymfonyRoute: function(route, params){
+        if(!params){
+            params = {};
+        }
+        params._locale = symbbUserLang;
+        var routePath =  Routing.generate(route, params);
+        return routePath;
+    },
+  
+    getSymfonyTemplateRoute: function(route, params){
+        var routePath =  '';
+        if(this.sfTemplateRoutes[route] && this.sfTemplateRoutes[route]['route']){
+            if(!params){
+                params = {};
+            }
+            var realParams = this.sfTemplateRoutes[route]['params'];
+            if(!realParams){
+                realParams = {};
+            }
+            $.each(params, function(key, value){
+                realParams[key] = value;
+            });
+            realParams._locale = symbbUserLang;
+            routePath = Routing.generate(this.sfTemplateRoutes[route]['route'], realParams);
+        }
+        return routePath;
+    },
+  
+    getAngularController: function(route){
+        return this.angularRoutes[route]['controller'];
+    },
+  
+    getAngularRoute: function(route, params, urlKey, removeHost){
+
+        if(!params){
+            params = {};
+        }
+        
+        params._locale = symbbUserLang;
+        
+        if(!urlKey){
+            urlKey = 0;    
+        }
+        var routePath = this.angularRoutes[route]['pattern'];
+        routePath = routePath[urlKey];
+        $.each(params, function(key, value){
+            routePath = routePath.replace(':'+key, value);
+        });
+        if(!removeHost){
+            routePath = 'http://'+window.location.host+routePath;
+        }
+        return routePath;
+    },
+            
+    createAngularRouting: function($routeProvider){
+
+        $.each(this.angularRoutes, function(key, value){
+            if(value.pattern){
+                $.each(value.pattern, function(urlKey, urlValue){
+                    if(value.controller){
+                        $routeProvider.when(urlValue, { 
+                            templateUrl: angularConfig.getSymfonyTemplateRoute(key),
+                            controller: angularConfig.getAngularController(key)
+                        }); 
+                    }
+                });
+            }
+        });
+        
+    }
+};
+    
+</script>
+{% javascripts
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/4_directives.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/5_functions.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/forum/*.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script src="{{asset('/bundles/symbbcoreangular/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
+<script>
+    // init user data for frontend
+    symbbUser.id = {{app.user.id}};
+    symbbUser.avatar = '{{getSymbbUserAvatar(app.user)}}';
+
+    symbbUserLang = '{{ app.request.locale }}'
+    moment.lang('{{ app.request.locale }}');
+
+    $(function() {            
+        $( ".symbb_tooltip" ).tooltip();
+    });
+    //test
+</script>

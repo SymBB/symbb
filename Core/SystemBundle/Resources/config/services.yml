@@ -11,9 +11,14 @@ services:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: symbb }
             
     symbb.core.config.template:
-        twig.extension.symbb.core.config.template:
         class: SymBB\Core\SystemBundle\Twig\TemplateExtension
         arguments: ['@symbb.core.site.manager']
+        tags:
+            - { name: twig.extension }
+            
+    symbb.core.config.ext:
+        class: SymBB\Core\SystemBundle\Twig\ConfigExtension
+        arguments: ['@symbb.core.config.manager']
         tags:
             - { name: twig.extension }
             
@@ -23,16 +28,11 @@ services:
         
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", '@event_dispatcher']
+        arguments: ['@service_container']
         
     symbb.core.upload.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager
         arguments: ["@security.context", "%symbb_config%", '%kernel.root_dir%']
-        
-    symbb.listener.config.system:
-        class: SymBB\Core\SystemBundle\EventListener\ConfigListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.config.configs, method: configs }
             
     symbb.extension.routing_loader:
         class: SymBB\ExtensionBundle\Routing\ExtraLoader
