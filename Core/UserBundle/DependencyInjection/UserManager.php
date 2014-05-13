@@ -178,6 +178,32 @@ class UserManager
         return $this->userClass;
     }
 
+    public function findBy($criteria, $limit, $page = 1)
+    {
+        $offset = (($page - 1) * $limit);
+
+        $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
+        $qb->select("u");
+        $countField = 1;
+        $countValue = 1;
+        foreach ($criteria as $field => $value) {
+            $qb->where("u.?" . $countField . " = ?" . $countValue . "");
+            $qb->setParameter($countField, $field);
+            $qb->setParameter($countValue, $value);
+            $countField++;
+            $countValue++;
+        }
+        $qb->orderBy("u.username", "ASC");
+        $query = $qb->getQuery();
+
+        $query->setFirstResult($offset);
+        $query->setMaxResults($limit);
+
+        $paginator = new Paginator($query, false);
+        
+        return $paginator;
+    }
+
     public function paginateAll($request)
     {
         $dql = "SELECT u FROM SymBBCoreUserBundle:User u";
@@ -227,12 +253,12 @@ class UserManager
     {
         $url = $this->getAvatar($user);
         $host = '';
-        
-        if(strpos($url, 'http') === false){
-            $host = "http://".$this->getRequest()->server->get('HTTP_HOST');
+
+        if (strpos($url, 'http') === false) {
+            $host = "http://" . $this->getRequest()->server->get('HTTP_HOST');
         }
 
-        return  $host . $url;
+        return $host . $url;
     }
 
     public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
@@ -376,9 +402,10 @@ class UserManager
 
         return $constraints;
     }
-    
-    public function getDateFormater($format ){
-        
+
+    public function getDateFormater($format)
+    {
+
         if (\is_string($format)) {
             $format = \constant('\IntlDateFormatter::' . \strtoupper($format));
         } else if (!\is_numeric($format)) {

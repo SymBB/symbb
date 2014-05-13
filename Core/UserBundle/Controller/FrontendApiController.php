@@ -14,6 +14,51 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
+    public function memberlistAction()
+    {
+        $page = $this->get('request')->get('page');
+        if (!$page || $page < 1) {
+            $page = 1;
+        }
+        $em = $this->getDoctrine()->getManager('symbb');
+        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+        $usermanager = $this->get('symbb.core.user.manager');
+        $users = $usermanager->findBy(array(), $page, 20);
+        
+        
+        $params = array();
+        $params['user']['fields'] = array();
+        foreach ($allFields as $field) {
+            $params['user']['fields'][] =  array(
+                'id' => $field->getId(),
+                'label' => $field->getLabel(),
+                'dataType' => $field->getDataType(),
+                'formType' => $field->getFormType()
+            );
+        }
+        
+        
+        foreach ($users as $user) {
+            $userdata = array(
+                'username' => $user->getUsername(),
+                'created' => $user->getCreated()->getTimestamp(),
+                'lastLogin' => $user->getLastLogin()->getTimestamp(),
+                'count' => array(
+                    'post' => $usermanager->getPostCount(),
+                    'topic' => $usermanager->getTopicCount()
+                )
+            );
+            foreach ($allFields as $field) {
+                $value = $user->getFieldValue($field)->getValue();
+                $userdata['fields'][] = array(
+                    'id' => $field->getId(),
+                    'value' => $value
+                );
+            }
+            $params['list'][] =  $userdata;
+        }
+        return $this->getJsonResponse($params);
+    }
 
     public function ucpDataAction()
     {
