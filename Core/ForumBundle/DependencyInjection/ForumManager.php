@@ -120,10 +120,9 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('from', 'SymBBCoreForumBundle:Topic t')
             ->add('where', 't.forum = ?1')
             ->add('orderBy', 't.created ' . strtoupper($orderDir))
-            ->setParameter(1, $forum);
-
+            ->setParameter(1, $forum->getId());
         $query = $qb->getQuery();
-
+        
         $pagination = $this->paginator->paginate(
             $query, $page, $limit
         );
