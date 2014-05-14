@@ -31,10 +31,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
         $params['posts'] = array();
         $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
+        $this->addPaginationData($posts);
         foreach ($posts as $post) {
             $params['posts'][] = $this->getPostAsArray($post);
         }
-        $params['count']['post'] = count($posts);
+        $params['count']['post'] = $this->paginationData['totalCount'];
         return $this->getJsonResponse($params);
     }
 
@@ -267,10 +268,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
             $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
-
-            $params = array('items' => array(), 'total' => count($lastPosts));
+            $this->addPaginationData($lastPosts);
+            $params = array('entries' => array());
             foreach ($lastPosts as $post) {
-                $params['items'][] = $this->getPostAsArray($post);
+                $params['entries'][] = $this->getPostAsArray($post);
             }
         }
 
@@ -434,10 +435,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             ->find($id);
 
         $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
-
-        $params = array('items' => array(), 'total' => count($topics));
+        $this->addPaginationData($topics);
+        $params = array('entries' => array());
         foreach ($topics as $topic) {
-            $params['items'][] = $this->getTopicAsArray($topic);
+            $params['entries'][] = $this->getTopicAsArray($topic);
         }
 
         return $this->getJsonResponse($params);
@@ -549,7 +550,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
             $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
-            $topicCountTotal = count($topics);
+            $this->addPaginationData($topics);
+            $topicCountTotal = $this->paginationData['totalCount'];
             foreach ($topics as $topic) {
                 $topicList[] = $this->getTopicAsArray($topic);
                 $hasTopicList = true;
@@ -614,14 +616,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['id'] = $topic->getId();
                 $array['name'] = $topic->getName();
                 $array['locked'] = $topic->isLocked();
-                $array['changed'] = $this->getCorrectTimestamp($topic->getChanged());
-                $array['created'] = $this->getCorrectTimestamp($topic->getCreated());
+                $array['changed'] = $this->getISO8601ForUser($topic->getChanged());
+                $array['created'] = $this->getISO8601ForUser($topic->getCreated());
                 $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
                 $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, null, 'asc');
-                $array['count']['post'] = count($posts);
+                $this->addPaginationData($lastPosts);
+                $array['count']['post'] = $this->paginationData['totalCount'];
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
                 }
@@ -798,8 +801,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if (is_object($post)) {
             $array['id'] = (int) $post->getId();
             $array['name'] = $post->getName();
-            $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
-            $array['created'] = $this->getCorrectTimestamp($post->getCreated());
+            $array['changed'] = $this->getISO8601ForUser($post->getChanged());
+            $array['created'] = $this->getISO8601ForUser($post->getCreated());
             $array['seo']['name'] = $post->getSeoName();
             $array['rawText'] = $post->getText();
             $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
@@ -865,7 +868,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['avatar'] = $this->get('symbb.core.user.manager')->getAbsoluteAvatarUrl($author);
             $array['count']['topic'] = $this->get('symbb.core.user.manager')->getTopicCount($author);
             $array['count']['post'] = $this->get('symbb.core.user.manager')->getPostCount($author);
-            $array['created'] = $this->getCorrectTimestamp($author->getCreated());
+            $array['created'] = $this->getISO8601ForUser($author->getCreated());
         }
 
         return $array;

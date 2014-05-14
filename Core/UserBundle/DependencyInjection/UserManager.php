@@ -13,6 +13,7 @@ use SymBB\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \SymBB\Core\UserBundle\Entity\UserInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserManager
 {
@@ -180,28 +181,29 @@ class UserManager
 
     public function findBy($criteria, $limit, $page = 1)
     {
-        $offset = (($page - 1) * $limit);
 
         $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
         $qb->select("u");
-        $countField = 1;
         $countValue = 1;
         foreach ($criteria as $field => $value) {
-            $qb->where("u.?" . $countField . " = ?" . $countValue . "");
-            $qb->setParameter($countField, $field);
+            if (\is_array($value)) {
+                $qb->where("u." . $field . " " . key($value) . " ?" . reset($countValue) . "");
+                $value = reset($value);
+            } else {
+                $qb->where("u." . $field . " = ?" . $countValue . "");
+            }
             $qb->setParameter($countValue, $value);
-            $countField++;
             $countValue++;
         }
         $qb->orderBy("u.username", "ASC");
         $query = $qb->getQuery();
+        $pagination = $this->paginator->paginate(
+            $query,
+            $page,
+            $limit
+        );
 
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
-
-        $paginator = new Paginator($query, false);
-        
-        return $paginator;
+        return $pagination;
     }
 
     public function paginateAll($request)

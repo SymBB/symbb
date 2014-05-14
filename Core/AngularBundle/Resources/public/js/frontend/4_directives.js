@@ -131,4 +131,56 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
         }
     };
+}]).directive('pagination', ['$http', '$route', '$location', '$timeout', function($http, $route, $location, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<ul class="pagination"><li><a href="#" ng-click="paginateBack()">«</a></li><li ng-repeat="page in paginationData.pagesInRange"><a href="#" ng-click="paginate(page)">[[page]]</a></li><li><a href="#" ng-click="paginateNext()">»</a></li></ul>',
+        link: function(scope, element, attrs) {
+    
+            scope.paginate = function(pagenumber){
+                if(!pagenumber){
+                    pagenumber = 1;
+                } else {
+                    pagenumber = parseInt(pagenumber);
+                }
+                var startPage = scope.paginationData.startPage;
+                var endPage = scope.paginationData.endPage;
+                if(pagenumber < startPage){
+                    pagenumber = startPage;
+                }
+                if(pagenumber > endPage){
+                    pagenumber = endPage;
+                }
+                $timeout(function(){
+                   angularConfig.goTo($location, attrs.route, {page: pagenumber}); 
+                }, 0 );
+
+            };
+            scope.paginateNext = function(){
+                var current = scope.paginationData.current;
+                var endPage = scope.paginationData.endPage;
+                var next = parseInt(current) + 1;
+                if(next > endPage){
+                    next = endPage;
+                }
+                $timeout(function(){
+                   angularConfig.goTo($location, attrs.route, {page: next});
+                }, 0 );
+
+            };
+            scope.paginateBack = function(){
+                var current = scope.paginationData.current;
+                var startPage = scope.paginationData.startPage;
+                var back = parseInt(current) - 1;
+                if(back < startPage){
+                    back = startPage;
+                }
+                $timeout(function(){
+                   angularConfig.goTo($location, attrs.route, {page: back});
+                }, 0 );
+
+            };
+        }
+    };
 }]);
