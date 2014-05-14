@@ -25,15 +25,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if ($limit <= 0) {
             $limit = 20;
         }
-        $page = (int) $this->get('request')->get('page');
-        if ($page <= 0) {
-            $page = 1;
-        }
-        $params['posts'] = array();
+        $page = $this->get('request')->get('page');
+
+        $params['entries'] = array();
         $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
         $this->addPaginationData($posts);
         foreach ($posts as $post) {
-            $params['posts'][] = $this->getPostAsArray($post);
+            $params['entries'][] = $this->getPostAsArray($post);
         }
         $params['count']['post'] = $this->paginationData['totalCount'];
         return $this->getJsonResponse($params);

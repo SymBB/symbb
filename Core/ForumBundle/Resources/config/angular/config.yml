@@ -21,7 +21,9 @@ forum_show:
             file: 'forumList'
         
 forum_newest:
-    pattern:  /forum/newest/
+    pattern:  /forum/newest/{page}/
+    defaults:
+        page: 1
     controller: ForumNewestShowCtrl
     api: 
         route: symbb_api_post_newest

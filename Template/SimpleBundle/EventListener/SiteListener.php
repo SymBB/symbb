@@ -13,6 +13,6 @@ class SiteListener
 {
     public function templateChoices(\SymBB\Core\SiteBundle\Event\TemplateChoicesEvent $event)
     {
-        $event->addChoice('SymBBTemplateSimpleBundle', '[Symbb] Simple Template');
+        //$event->addChoice('SymBBTemplateSimpleBundle', '[Symbb] Simple Template');
     }
 }
