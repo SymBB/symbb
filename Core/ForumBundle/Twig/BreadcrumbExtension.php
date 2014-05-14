@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * @package symBB
@@ -100,7 +100,7 @@ class BreadcrumbExtension extends \Twig_Extension
     protected function createForTopic(\SymBB\Core\ForumBundle\Entity\Topic $object, $breadcrumb)
     {
         if ($object->getId() > 0) {
-            $uri = $this->router->generate('symbb_forum_topic_show', array('id' => $object->getId(), 'name' => $object->getSeoName()));
+            $uri = $this->router->generate('symbb_forum_topic_show', array('id' => $object->getId(), 'name' => $object->getSeoName(), 'page'=> 1));
             $breadcrumb[] = array('name' => $object->getName(), 'link' => $uri);
         }
         $forum = $object->getForum();

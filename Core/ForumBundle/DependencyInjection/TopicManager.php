@@ -33,9 +33,11 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
+    
+    protected $paginator;
 
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $em, $dispatcher
+    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $em, $dispatcher, $paginator
     )
     {
         $this->securityContext = $securityContext;
@@ -43,6 +45,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->configManager = $configManager;
         $this->em = $em;
         $this->dispatcher = $dispatcher;
+        $this->paginator = $paginator;
     }
 
     /**

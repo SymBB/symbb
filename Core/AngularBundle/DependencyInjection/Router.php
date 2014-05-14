@@ -77,6 +77,7 @@ class Router
                 }
                 $data[$key]['pattern'][] = $routing->getAngularPattern();
                 $data[$key]['controller'] = $routing->getAngularController();
+                $data[$key]['defaults'] = $routing->getDefaults();
             }
         }
         return \json_encode($data);

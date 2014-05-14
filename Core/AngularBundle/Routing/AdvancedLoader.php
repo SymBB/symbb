@@ -37,9 +37,8 @@ class AdvancedLoader extends Loader
             if ($routing->hasPattern()) {
                 // prepare a new route
                 $pattern = $routing->getPattern();
-                $defaults = array(
-                    '_controller' => 'SymBBCoreForumBundle:Frontend:index',
-                );
+                $defaults = $routing->getDefaults();
+                $defaults['_controller'] = 'SymBBCoreForumBundle:Frontend:index';
                 $requirements = array();
                 $route = new Route($pattern, $defaults, $requirements);
                 // add the new route to the route collection:

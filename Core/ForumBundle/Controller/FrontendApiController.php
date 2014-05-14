@@ -247,37 +247,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         return $this->getJsonResponse($params);
     }
-
-    /**
-     * @Route("/api/post/list", name="symbb_api_post_list")
-     * @Method({"GET"})
-     */
-    public function postListAction()
-    {
-        $id = (int) $this->get('request')->get('id');
-        $page = (int) $this->get('request')->get('page');
-
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
-            ->find($id);
-
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
-        $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
-        if (!$accessCheck) {
-            $this->addErrorMessage('access denied (show forum)');
-        }
-
-        if (!$this->hasError()) {
-            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
-            $this->addPaginationData($lastPosts);
-            $params = array('entries' => array());
-            foreach ($lastPosts as $post) {
-                $params['entries'][] = $this->getPostAsArray($post);
-            }
-        }
-
-        return $this->getJsonResponse($params);
-    }
-
+    
     /**
      * @Route("/api/topic/save", name="symbb_api_topic_save")
      * @Method({"POST"})
@@ -407,7 +377,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $params['topic'] = $this->getTopicAsArray($topic);
+            $page = $this->get('request')->get('page');
+            $params['topic'] = $this->getTopicAsArray($topic, $page);
             $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
             $this->addBreadcrumbItems($breadcrumbItems);
             // remove "new" flags off forum/topic and posts for the current user
@@ -416,29 +387,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             foreach ($topic->getPosts() as $post) {
                 $this->get('symbb.core.post.flag')->removeFlag($post, 'new');
             }
-        }
-
-        return $this->getJsonResponse($params);
-    }
-
-    /**
-     * @Route("/api/topic/list", name="symbb_api_topic_list")
-     * @Method({"GET"})
-     */
-    public function forumTopicListAction()
-    {
-
-        $id = (int) $this->get('request')->get('id');
-        $page = (int) $this->get('request')->get('page');
-
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-
-        $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
-        $this->addPaginationData($topics);
-        $params = array('entries' => array());
-        foreach ($topics as $topic) {
-            $params['entries'][] = $this->getTopicAsArray($topic);
         }
 
         return $this->getJsonResponse($params);
@@ -549,7 +497,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
-            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
+            $page = $this->get('request')->get('page');
+            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
             $this->addPaginationData($topics);
             $topicCountTotal = $this->paginationData['totalCount'];
             foreach ($topics as $topic) {
@@ -581,7 +530,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null)
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1)
     {
         $array = array();
         $array['id'] = 0;
@@ -622,8 +571,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, null, 'asc');
-                $this->addPaginationData($lastPosts);
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
+                $this->addPaginationData($posts);
                 $array['count']['post'] = $this->paginationData['totalCount'];
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);

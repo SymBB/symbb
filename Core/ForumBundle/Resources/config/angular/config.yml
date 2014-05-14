@@ -9,7 +9,9 @@ forum_index:
             file: 'forumList'
         
 forum_show:
-    pattern:  /f/{id}/{name}/
+    pattern:  /f-{id}-{name}/show/{page}/
+    defaults:
+        page: 1
     controller: ForumCtrl
     api: 
         route: symbb_api_forum_data
@@ -19,7 +21,7 @@ forum_show:
             file: 'forumList'
         
 forum_newest:
-    pattern:  /f/newest/
+    pattern:  /forum/newest/
     controller: ForumNewestShowCtrl
     api: 
         route: symbb_api_post_newest
@@ -29,7 +31,9 @@ forum_newest:
             file: 'forumNewestPosts'
         
 forum_topic_show:
-    pattern:  /topic/{id}/{name}/
+    pattern:  /t-{id}-{name}/{page}/
+    defaults:
+        page: 1
     controller: ForumTopicShowCtrl
     api: 
         route: symbb_api_topic_data
@@ -39,7 +43,7 @@ forum_topic_show:
             file: 'forumTopicShow'
         
 forum_topic_create:
-    pattern:  /f/{id}/topic/new/
+    pattern:  /f-{id}/topic/new/
     controller: ForumTopicCreateCtrl
     api: 
         route: symbb_api_topic_data
@@ -49,7 +53,7 @@ forum_topic_create:
             file: 'topic'
         
 forum_post_create:
-    pattern:  /t/{topic}/post/new
+    pattern:  /t-{topic}/post/new
     controller: ForumPostEditCtrl
     api: 
         route: symbb_api_post_data
@@ -59,7 +63,7 @@ forum_post_create:
             file: 'post'
         
 forum_post_quote:
-    pattern:  /post/{topic}/post/quote/{quoteId}
+    pattern:  /p-{topic}/quote/{quoteId}
     controller: ForumPostEditCtrl
     api: 
         route: symbb_api_post_data
@@ -69,7 +73,7 @@ forum_post_quote:
             file: 'post'
         
 forum_post_edit:
-    pattern:  /post/{id}/edit
+    pattern:  /p-{id}/edit
     controller: ForumPostEditCtrl
     api: 
         route: symbb_api_post_data
@@ -93,14 +97,6 @@ forum_mark_as_read:
 forum_topic_save:
     api: 
         route: symbb_api_topic_save
-        
-forum_topic_list:
-    api: 
-        route: symbb_api_topic_list
-        
-forum_post_list:
-    api: 
-        route: symbb_api_post_list
         
 forum_post_upload_image:
     api: 

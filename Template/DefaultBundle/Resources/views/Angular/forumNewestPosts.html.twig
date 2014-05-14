@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 <div infinite-scroll='newestPagination.nextPage()' infinite-scroll-disabled='newestPagination.busy' infinite-scroll-distance='1'>
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in newestPagination.items" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]">
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in newestPagination.items" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
         <div class="symbb_category_block">
             <div class="image avatar"  ng-style="object.backgroundImage != '' && {'background-image':'url('+object.backgroundImage+')'}">
                 <div class="infos">

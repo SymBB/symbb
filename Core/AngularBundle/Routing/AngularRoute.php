@@ -23,7 +23,9 @@ class AngularRoute
     protected $template = array('route' => '', 'params' => array());
 
     protected $router;
-    
+
+    protected $defaults = array();
+
     public function __construct($data, $router)
     {
         if (isset($data['pattern'])) {
@@ -38,8 +40,15 @@ class AngularRoute
         if (isset($data['template'])) {
             $this->template = $data['template'];
         }
-        
+        if (isset($data['defaults'])) {
+            $this->defaults = $data['defaults'];
+        }
         $this->router = $router;
+    }
+
+    public function getDefaults()
+    {
+        return $this->defaults;
     }
 
     public function getPattern()
@@ -53,7 +62,7 @@ class AngularRoute
         $pattern = $this->getPattern();
         $pattern = \str_replace(array('{', '}'), array(':', ''), $pattern);
         $prefix = \rtrim($prefix, '/');
-        $pattern = $prefix.$pattern;
+        $pattern = $prefix . $pattern;
         return $pattern;
     }
 
