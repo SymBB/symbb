@@ -115,16 +115,15 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $limit = $forum->getEntriesPerPage();
         }
 
-        $qb = $this->em->createQueryBuilder('');
+        $qb = $this->em->createQueryBuilder();
         $qb->add('select', 't')
             ->add('from', 'SymBBCoreForumBundle:Topic t')
             ->add('where', 't.forum = ?1')
             ->add('orderBy', 't.created ' . strtoupper($orderDir))
             ->setParameter(1, $forum->getId());
-        $query = $qb->getQuery();
         
         $pagination = $this->paginator->paginate(
-            $query, $page, $limit
+            $qb, $page, $limit
         );
 
         return $pagination;

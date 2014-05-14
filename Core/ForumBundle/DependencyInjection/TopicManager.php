@@ -70,17 +70,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $limit = $topic->getForum()->getEntriesPerPage();
         }
 
-        $qb = $this->em->createQueryBuilder('');
+        $qb = $this->em->createQueryBuilder();
         $qb->add('select', 'p')
             ->add('from', 'SymBBCoreForumBundle:Post p')
             ->add('where', 'p.topic = ?1')
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic);
 
-        $query = $qb->getQuery();
-
         $pagination = $this->paginator->paginate(
-            $query,
+            $qb,
             $page,
             $limit
         );
