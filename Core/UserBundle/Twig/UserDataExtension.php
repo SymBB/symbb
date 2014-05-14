@@ -42,7 +42,7 @@ class UserDataExtension extends \Twig_Extension
 
     public function getSymbbUserData(\SymBB\Core\UserBundle\Entity\UserInterface $user)
     {
-        $data = $user->getSymbbData();
+        $data = $this->userManager->getSymbbData($user);
         return $data;
     }
 

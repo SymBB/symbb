@@ -49,6 +49,10 @@ class UserManager
 
     protected $container;
 
+    protected $postCountCache = array();
+    
+    protected $symbbDataCache = array();
+
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
@@ -198,9 +202,7 @@ class UserManager
         $qb->orderBy("u.username", "ASC");
         $query = $qb->getQuery();
         $pagination = $this->paginator->paginate(
-            $query,
-            $page,
-            $limit
+            $query, $page, $limit
         );
 
         return $pagination;
@@ -222,7 +224,7 @@ class UserManager
     public function getTimezone()
     {
         $user = $this->getCurrentUser();
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $tz = $data->getTimezone();
 
         if (!empty($tz)) {
@@ -241,7 +243,7 @@ class UserManager
             $user = $this->getCurrentUser();
         }
 
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $signature = $data->getSignature();
 
         $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
@@ -269,7 +271,7 @@ class UserManager
             $user = $this->getCurrentUser();
         }
 
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $avatar = $data->getAvatar();
         if (empty($avatar)) {
             $avatar = '/bundles/symbbtemplatedefault/images/avatar/empty.gif';
@@ -279,14 +281,19 @@ class UserManager
 
     public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
-        if (!$user) {
-            $user = $this->getCurrentUser();
-        }
+        if (!isset($this->postCountCache[$user->getId()])) {
+            if (!$user) {
+                $user = $this->getCurrentUser();
+            }
 
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
-        $qb->select('COUNT(p.id)');
-        $qb->where("p.author = " . $user->getId());
-        $count = $qb->getQuery()->getSingleScalarResult();
+            $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+            $qb->select('COUNT(p.id)');
+            $qb->where("p.author = " . $user->getId());
+            $count = $qb->getQuery()->getSingleScalarResult();
+            $this->postCountCache[$user->getId()] = $count;
+        } else {
+            $count = $this->postCountCache[$user->getId()];
+        }
         return $count;
     }
 
@@ -432,5 +439,13 @@ class UserManager
     {
         $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy($criteria);
         return $fields;
+    }
+
+    public function getSymbbData(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    {
+        if (!isset($this->symbbDataCache[$user->getId()])) {
+            $this->symbbDataCache[$user->getId()] = $user->getSymbbData();
+        }
+        return $this->symbbDataCache[$user->getId()];
     }
 }

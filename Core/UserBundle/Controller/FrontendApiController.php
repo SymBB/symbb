@@ -65,7 +65,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     public function ucpDataAction()
     {
         $user = $this->getUser();
-        $data = $user->getSymbbData();
+        $data = $this->get('symbb.core.user.manager')->getSymbbData($user);
         $params = array();
         $params['user'] = array();
         $params['user']['data']['avatar'] = $data->getAvatar();
@@ -97,7 +97,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $avatar = $userData['avatar'];
         $signature = $userData['signature'];
 
-        $symbbData = $user->getSymbbData();
+        $symbbData = $this->get('symbb.core.user.manager')->getSymbbData($user);
         if ($avatar) {
             $symbbData->setAvatar($avatar);
         }

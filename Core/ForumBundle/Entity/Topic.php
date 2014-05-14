@@ -74,6 +74,7 @@ class Topic
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->flags = new ArrayCollection();
 
     }
 
