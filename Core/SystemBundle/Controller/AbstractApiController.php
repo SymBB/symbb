@@ -24,7 +24,9 @@ abstract class AbstractApiController extends AbstractController
 
     protected function addPaginationData(\Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination)
     {
-        $this->paginationData = $pagination->getPaginationData();
+        if (empty($this->paginationData)) {
+            $this->paginationData = $pagination->getPaginationData();
+        }
     }
 
     protected function addCallback($callbackName)

@@ -554,7 +554,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['mainPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
 
-        if (is_object($topic)) {
+        if (is_object($topic) && \is_object($topic->getForum())) {
 
 
             $array['forum']['id'] = $topic->getForum()->getId();
