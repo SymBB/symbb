@@ -19,13 +19,8 @@ services:
         
     symbb.core.bbcode.manager.twig:
         class: SymBB\Core\BBCodeBundle\Twig\BBCodeManagerExtension
-        arguments: ['@symbb.core.bbcode.manager']
+        arguments: ['@symbb.core.bbcode.manager', '@jms_serializer']
         tags:
             - { name: twig.extension } 
-            
-    symbb.core.bbcode.angular.router.files:
-        class: SymBB\Core\BBCodeBundle\EventListener\AngularListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
         
             

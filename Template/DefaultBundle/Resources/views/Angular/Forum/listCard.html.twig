@@ -53,6 +53,9 @@
             <a>{{ 'Topics'|trans() }}</a>
         </div>
         <div class="arrow"></div>
+        <div class="pull-left">
+            <pagination route="forum_show" param-id="[[forum.id]]" param-name="[[forum.seo.name]]"></pagination>
+        </div>
         <div class="btn-group pull-left">
             <button ng-show="forum.access.createTopic" type="button" class="btn btn-default btn-sm" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">{% trans %}new Topic{% endtrans %}</button>
             <button type="button" class="btn btn-default btn-sm" symbb-request="forum_mark_as_read" param-id="[[forum.id]]">{% trans %}Mark as read{% endtrans %}</button>
@@ -66,17 +69,9 @@
         <div class="clear"></div>
     </div>
 </div>
-<div infinite-scroll='topicPagination.nextPage()' infinite-scroll-disabled='topicPagination.busy' infinite-scroll-distance='1'>
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in topicPagination.items" symbb-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+<div>
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in topicList" symbb-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">
         {{ include('SymBBTemplateDefaultBundle:Angular:Forum/topicCard.html.twig') }}
     </div>
-    <div class="clear"></div>
-</div>
-<div ng-hide='topicPagination.end'>
-    <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
-    <div class="clear"></div>
-</div>
-<div ng-show='topicPagination.busy'>
-    <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
     <div class="clear"></div>
 </div>

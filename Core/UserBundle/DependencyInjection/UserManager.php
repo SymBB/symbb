@@ -13,6 +13,7 @@ use SymBB\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \SymBB\Core\UserBundle\Entity\UserInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserManager
 {
@@ -47,6 +48,10 @@ class UserManager
     protected $dispatcher;
 
     protected $container;
+
+    protected $postCountCache = array();
+    
+    protected $symbbDataCache = array();
 
     public function __construct($container)
     {
@@ -178,6 +183,31 @@ class UserManager
         return $this->userClass;
     }
 
+    public function findBy($criteria, $limit, $page = 1)
+    {
+
+        $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
+        $qb->select("u");
+        $countValue = 1;
+        foreach ($criteria as $field => $value) {
+            if (\is_array($value)) {
+                $qb->where("u." . $field . " " . key($value) . " ?" . reset($countValue) . "");
+                $value = reset($value);
+            } else {
+                $qb->where("u." . $field . " = ?" . $countValue . "");
+            }
+            $qb->setParameter($countValue, $value);
+            $countValue++;
+        }
+        $qb->orderBy("u.username", "ASC");
+        $query = $qb->getQuery();
+        $pagination = $this->paginator->paginate(
+            $query, $page, $limit
+        );
+
+        return $pagination;
+    }
+
     public function paginateAll($request)
     {
         $dql = "SELECT u FROM SymBBCoreUserBundle:User u";
@@ -194,7 +224,7 @@ class UserManager
     public function getTimezone()
     {
         $user = $this->getCurrentUser();
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $tz = $data->getTimezone();
 
         if (!empty($tz)) {
@@ -213,7 +243,7 @@ class UserManager
             $user = $this->getCurrentUser();
         }
 
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $signature = $data->getSignature();
 
         $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
@@ -227,12 +257,12 @@ class UserManager
     {
         $url = $this->getAvatar($user);
         $host = '';
-        
-        if(strpos($url, 'http') === false){
-            $host = "http://".$this->getRequest()->server->get('HTTP_HOST');
+
+        if (strpos($url, 'http') === false) {
+            $host = "http://" . $this->getRequest()->server->get('HTTP_HOST');
         }
 
-        return  $host . $url;
+        return $host . $url;
     }
 
     public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
@@ -241,7 +271,7 @@ class UserManager
             $user = $this->getCurrentUser();
         }
 
-        $data = $user->getSymbbData();
+        $data = $this->getSymbbData($user);
         $avatar = $data->getAvatar();
         if (empty($avatar)) {
             $avatar = '/bundles/symbbtemplatedefault/images/avatar/empty.gif';
@@ -254,11 +284,16 @@ class UserManager
         if (!$user) {
             $user = $this->getCurrentUser();
         }
-
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
-        $qb->select('COUNT(p.id)');
-        $qb->where("p.author = " . $user->getId());
-        $count = $qb->getQuery()->getSingleScalarResult();
+        
+        if (!isset($this->postCountCache[$user->getId()])) {
+            $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+            $qb->select('COUNT(p.id)');
+            $qb->where("p.author = " . $user->getId());
+            $count = $qb->getQuery()->getSingleScalarResult();
+            $this->postCountCache[$user->getId()] = $count;
+        } else {
+            $count = $this->postCountCache[$user->getId()];
+        }
         return $count;
     }
 
@@ -376,9 +411,10 @@ class UserManager
 
         return $constraints;
     }
-    
-    public function getDateFormater($format ){
-        
+
+    public function getDateFormater($format)
+    {
+
         if (\is_string($format)) {
             $format = \constant('\IntlDateFormatter::' . \strtoupper($format));
         } else if (!\is_numeric($format)) {
@@ -403,5 +439,13 @@ class UserManager
     {
         $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy($criteria);
         return $fields;
+    }
+
+    public function getSymbbData(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    {
+        if (!isset($this->symbbDataCache[$user->getId()])) {
+            $this->symbbDataCache[$user->getId()] = $user->getSymbbData();
+        }
+        return $this->symbbDataCache[$user->getId()];
     }
 }

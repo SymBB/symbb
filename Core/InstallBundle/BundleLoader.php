@@ -16,6 +16,18 @@ class BundleLoader
     {
 
         $symbbBundles = array(
+            '\Symfony\Bundle\FrameworkBundle\FrameworkBundle',
+            '\Symfony\Bundle\SecurityBundle\SecurityBundle',
+            '\Symfony\Bundle\TwigBundle\TwigBundle',
+            '\Symfony\Bundle\MonologBundle\MonologBundle',
+            '\Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle',
+            '\Symfony\Bundle\AsseticBundle\AsseticBundle',
+            '\Doctrine\Bundle\DoctrineBundle\DoctrineBundle',
+            '\Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle',
+            '\JMS\DiExtraBundle\JMSDiExtraBundle',
+            '\JMS\SecurityExtraBundle\JMSSecurityExtraBundle',
+            '\JMS\SerializerBundle\JMSSerializerBundle',
+            '\JMS\AopBundle\JMSAopBundle',
             // none Default Bundles
             '\Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle',
             // SymBB, befor other Bundles
@@ -29,7 +41,6 @@ class BundleLoader
             '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
             '\SymBB\Core\BBCodeBundle\SymBBCoreBBCodeBundle',
             '\SymBB\Core\AngularBundle\SymBBCoreAngularBundle',
-            
             // SymBB optional bundles
             '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
             '\SymBB\ExtensionBundle\SymBBExtensionBundle',
@@ -49,8 +60,7 @@ class BundleLoader
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
             '\Vich\UploaderBundle\VichUploaderBundle',
-            '\Liip\ImagineBundle\LiipImagineBundle' ,
-            
+            '\Liip\ImagineBundle\LiipImagineBundle',
             //important! need for json post request from angular
             '\FOS\RestBundle\FOSRestBundle',
         );
@@ -58,13 +68,17 @@ class BundleLoader
         foreach ($symbbBundles as $symbbBundle) {
             $found = false;
             foreach ($bundles as $bundle) {
-                if ($bundle instanceof $symbbBundle) {
+                if ($bundle instanceof $symbbBundle) { 
                     $found = true;
                     break;
                 }
             }
             if (!$found) {
-                $bundles[] = new $symbbBundle();
+                if ($symbbBundle === '\JMS\DiExtraBundle\JMSDiExtraBundle') {
+                    $bundles[] = new $symbbBundle($kernel);
+                } else {
+                    $bundles[] = new $symbbBundle();
+                }
             }
         }
 

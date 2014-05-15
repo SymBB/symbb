@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
-<div infinite-scroll='newestPagination.nextPage()' infinite-scroll-disabled='newestPagination.busy' infinite-scroll-distance='1'>
-    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in newestPagination.items" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]">
+<div>
+    <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in entries" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
         <div class="symbb_category_block">
             <div class="image avatar"  ng-style="object.backgroundImage != '' && {'background-image':'url('+object.backgroundImage+')'}">
                 <div class="infos">
@@ -21,14 +21,7 @@
     </div>
     <div class="clear"></div>
 </div>
-<div ng-hide='newestPagination.end'>
-    <div class="alert alert-info">{% trans %}Scroll to get the next entries{% endtrans %}</div>
-    <div class="clear"></div>
-</div>
-<div ng-show='newestPagination.busy'>
-    <div class="alert alert-info">{% trans %}Loading ...{% endtrans %}</div>
-    <div class="clear"></div>
-</div>
+<pagination route="forum_newest"></pagination>
 <div ng-hide="count.post">
     <div class="alert alert-warning">{% trans %}There are no other new entries.{% endtrans %}</div>
     <div class="clear"></div>

@@ -17,3 +17,11 @@ symbb_api_ucp_data:
 symbb_api_user_ucp_save:
     pattern:  /api/ucp/save
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpSave }
+
+symbb_api_userlist:
+    pattern:  /api/userlist/{page}
+    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:userlist, page: 1 }
+    
+    
+    
+    

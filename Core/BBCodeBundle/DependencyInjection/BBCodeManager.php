@@ -14,18 +14,42 @@ class BBCodeManager
 
     protected $em;
 
+    protected $setCache = array();
+
     public function __construct($em)
     {
         $this->em = $em;
     }
 
+    /**
+     * 
+     * @param type $setId
+     * @return \SymBB\Core\BBCodeBundle\Entity\Set
+     */
     public function getSet($setId)
     {
-        $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
-        if (!\is_object($set) || $set->getId() <= 0) {
-            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOneBy(array());
+
+        if (!isset($this->setCache[$setId])) {
+            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
+            if (!\is_object($set) || $set->getId() <= 0) {
+                $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOneBy(array());
+            }
+            $this->setCache[$setId] = $set;
+        } else {
+            $set = $this->setCache[$setId];
         }
+
         return $set;
+    }
+
+    /**
+     * 
+     * @return \SymBB\Core\BBCodeBundle\Entity\Set[]
+     */
+    public function getSets()
+    {
+        $sets = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findAll();
+        return $sets;
     }
 
     public function parse($text, $setId = null)

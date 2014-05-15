@@ -99,6 +99,11 @@ var angularConfig = {
         }
         var routePath = this.angularRoutes[route]['pattern'];
         routePath = routePath[urlKey];
+        $.each(this.angularRoutes[route]['defaults'], function(key, value){
+            if(!params[key]){
+                params[key] = value;
+            } 
+        });
         $.each(params, function(key, value){
             routePath = routePath.replace(':'+key, value);
         });

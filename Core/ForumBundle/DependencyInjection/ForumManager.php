@@ -14,7 +14,6 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
@@ -42,9 +41,9 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
-    
+
     protected $paginator;
-    
+
     protected $translator;
 
     public function __construct(
@@ -73,8 +72,6 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         }
 
         $childIds = array();
-        
-        $offset = (($page - 1) * $limit);
 
         if ($parent) {
             $childIds = $this->getChildIds($parent);
@@ -96,16 +93,14 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         if (!empty($childIds)) {
             $query->setParameter('forums', $childIds);
         }
-        
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
 
-        $paginator = new Paginator($query, false);
+        $pagination = $this->paginator->paginate(
+            $query, $page, $limit
+        );
 
-        return $paginator;
+        return $pagination;
     }
-    
-    
+
     /**
      * 
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
@@ -116,29 +111,23 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      */
     public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
     {
-        if($limit === null){
+        if ($limit === null) {
             $limit = $forum->getEntriesPerPage();
         }
         
-        $offset = (($page - 1) * $limit);
+        $qb = $this->em->createQueryBuilder();
+        $qb->select('t')
+        ->from('SymBBCoreForumBundle:Topic', 't')
+        ->where('t.forum = ?1')
+        ->orderby('t.created', $orderDir)
+        ->setParameter(1, $forum->getId());
         
-        $qb = $this->em->createQueryBuilder('');
-        $qb->add('select', 't')
-        ->add('from', 'SymBBCoreForumBundle:Topic t')
-        ->add('where', 't.forum = ?1')
-        ->add('orderBy', 't.created '.strtoupper($orderDir))
-        ->setParameter(1, $forum);
-        
-        $query = $qb->getQuery();
-        $query->setFirstResult($offset);
-        $query->setMaxResults($limit);
-
-        $paginator = new Paginator($query, false);
-        
-        return $paginator;
+        $pagination = $this->paginator->paginate(
+            $qb, $page, $limit
+        );
+        return $pagination;
     }
-    
-    
+
     public function findPosts(Forum $parent = null, $limit = null, $pageNumber = 1)
     {
         if ($limit === null) {
@@ -275,10 +264,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             }
         }
     }
-    
-    public function getBreadcrumbData($object){
+
+    public function getBreadcrumbData($object)
+    {
         $breadcrumb = array();
-        
+
         while (is_object($object)) {
             $breadcrumb[] = array(
                 'type' => 'forum',
@@ -291,16 +281,16 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $home = $this->translator->trans('Home', array(), 'symbb_frontend');
         $breadcrumb[] = array('name' => $home, 'type' => 'home');
         $breadcrumb = array_reverse($breadcrumb);
-        
+
         return $breadcrumb;
     }
-    
+
     public function isIgnored(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $check = $flagHandler->checkFlag($forum, 'ignore');
         return $check;
     }
-    
+
     public function ignoreForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->insertFlag($forum, 'ignore');
@@ -320,10 +310,10 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         }
         return true;
     }
-    
+
     public function markAsRead(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
-        
+
         $flagHandler->removeFlag($forum, 'new');
 
         $topics = $forum->getTopics();
@@ -335,7 +325,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         foreach ($subForms as $subForm) {
             $this->markAsRead($subForm, $flagHandler);
         }
-        
+
         return true;
     }
 }

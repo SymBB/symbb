@@ -12,7 +12,6 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
 {
@@ -34,9 +33,11 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
+    
+    protected $paginator;
 
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $em, $dispatcher
+    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $em, $dispatcher, $paginator
     )
     {
         $this->securityContext = $securityContext;
@@ -44,6 +45,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         $this->configManager = $configManager;
         $this->em = $em;
         $this->dispatcher = $dispatcher;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -64,30 +66,24 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      */
     public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
-
-        if ($topic->getId() > 0) {
-            if ($limit === null) {
-                $limit = $topic->getForum()->getEntriesPerPage();
-            }
-
-            $offset = (($page - 1) * $limit);
-
-            $qb = $this->em->createQueryBuilder('');
-            $qb->add('select', 'p')
-                ->add('from', 'SymBBCoreForumBundle:Post p')
-                ->add('where', 'p.topic = ?1')
-                ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-                ->setParameter(1, $topic);
-
-            $query = $qb->getQuery();
-            $query->setFirstResult($offset);
-            $query->setMaxResults($limit);
-
-            $paginator = new Paginator($query, false);
-            return $paginator;
+        if ($limit === null) {
+            $limit = $topic->getForum()->getEntriesPerPage();
         }
 
-        return array();
+        $qb = $this->em->createQueryBuilder();
+        $qb->add('select', 'p')
+            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('where', 'p.topic = ?1')
+            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
+            ->setParameter(1, $topic);
+
+        $pagination = $this->paginator->paginate(
+            $qb,
+            $page,
+            $limit
+        );
+
+        return $pagination;
     }
 
     /**

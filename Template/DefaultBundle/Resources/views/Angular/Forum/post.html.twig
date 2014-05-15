@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <button class="btn btn-success" type="submit" ng-click="update(post)" ng-disabled="form.$invalid">{{ 'Save'|trans }}</button>
-                <button class="btn btn-danger" symbb-js-link="forum_topic_show" param-id="[[post.topic.id]]" param-name="[[post.topic.seo.name]]">{{ 'Abort'|trans }}</button>
+                <button class="btn btn-danger" symbb-js-link="forum_topic_show" param-id="[[post.topic.id]]" param-name="[[post.topic.seo.name]]" param-page="last">{{ 'Abort'|trans }}</button>
             </div>
         </div>
     </form>

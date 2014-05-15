@@ -25,16 +25,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if ($limit <= 0) {
             $limit = 20;
         }
-        $page = (int) $this->get('request')->get('page');
-        if ($page <= 0) {
-            $page = 1;
-        }
-        $params['posts'] = array();
+        $page = $this->get('request')->get('page');
+
+        $params['entries'] = array();
         $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
+        $this->addPaginationData($posts);
         foreach ($posts as $post) {
-            $params['posts'][] = $this->getPostAsArray($post);
+            $params['entries'][] = $this->getPostAsArray($post);
         }
-        $params['count']['post'] = count($posts);
+        $params['count']['post'] = $this->paginationData['totalCount'];
         return $this->getJsonResponse($params);
     }
 
@@ -246,37 +245,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         return $this->getJsonResponse($params);
     }
-
-    /**
-     * @Route("/api/post/list", name="symbb_api_post_list")
-     * @Method({"GET"})
-     */
-    public function postListAction()
-    {
-        $id = (int) $this->get('request')->get('id');
-        $page = (int) $this->get('request')->get('page');
-
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
-            ->find($id);
-
-        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
-        $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
-        if (!$accessCheck) {
-            $this->addErrorMessage('access denied (show forum)');
-        }
-
-        if (!$this->hasError()) {
-            $lastPosts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
-
-            $params = array('items' => array(), 'total' => count($lastPosts));
-            foreach ($lastPosts as $post) {
-                $params['items'][] = $this->getPostAsArray($post);
-            }
-        }
-
-        return $this->getJsonResponse($params);
-    }
-
+    
     /**
      * @Route("/api/topic/save", name="symbb_api_topic_save")
      * @Method({"POST"})
@@ -406,7 +375,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $params['topic'] = $this->getTopicAsArray($topic);
+            $page = $this->get('request')->get('page');
+            $params['topic'] = $this->getTopicAsArray($topic, $page);
             $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
             $this->addBreadcrumbItems($breadcrumbItems);
             // remove "new" flags off forum/topic and posts for the current user
@@ -415,29 +385,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             foreach ($topic->getPosts() as $post) {
                 $this->get('symbb.core.post.flag')->removeFlag($post, 'new');
             }
-        }
-
-        return $this->getJsonResponse($params);
-    }
-
-    /**
-     * @Route("/api/topic/list", name="symbb_api_topic_list")
-     * @Method({"GET"})
-     */
-    public function forumTopicListAction()
-    {
-
-        $id = (int) $this->get('request')->get('id');
-        $page = (int) $this->get('request')->get('page');
-
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->find($id);
-
-        $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
-
-        $params = array('items' => array(), 'total' => count($topics));
-        foreach ($topics as $topic) {
-            $params['items'][] = $this->getTopicAsArray($topic);
         }
 
         return $this->getJsonResponse($params);
@@ -548,8 +495,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
-            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent);
-            $topicCountTotal = count($topics);
+            $page = $this->get('request')->get('page');
+            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
+            $this->addPaginationData($topics);
+            $topicCountTotal = $this->paginationData['totalCount'];
             foreach ($topics as $topic) {
                 $topicList[] = $this->getTopicAsArray($topic);
                 $hasTopicList = true;
@@ -579,7 +528,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null)
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1)
     {
         $array = array();
         $array['id'] = 0;
@@ -603,7 +552,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['mainPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
 
-        if (is_object($topic)) {
+        if (is_object($topic) && \is_object($topic->getForum())) {
 
 
             $array['forum']['id'] = $topic->getForum()->getId();
@@ -614,14 +563,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['id'] = $topic->getId();
                 $array['name'] = $topic->getName();
                 $array['locked'] = $topic->isLocked();
-                $array['changed'] = $this->getCorrectTimestamp($topic->getChanged());
-                $array['created'] = $this->getCorrectTimestamp($topic->getCreated());
+                $array['changed'] = $this->getISO8601ForUser($topic->getChanged());
+                $array['created'] = $this->getISO8601ForUser($topic->getCreated());
                 $array['backgroundImage'] = $this->get('symbb.core.user.manager')->getAvatar($topic->getAuthor());
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, null, 'asc');
-                $array['count']['post'] = count($posts);
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
+                $this->addPaginationData($posts);
+                $array['count']['post'] = $this->paginationData['totalCount'];
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
                 }
@@ -798,8 +748,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if (is_object($post)) {
             $array['id'] = (int) $post->getId();
             $array['name'] = $post->getName();
-            $array['changed'] = $this->getCorrectTimestamp($post->getChanged());
-            $array['created'] = $this->getCorrectTimestamp($post->getCreated());
+            $array['changed'] = $this->getISO8601ForUser($post->getChanged());
+            $array['created'] = $this->getISO8601ForUser($post->getCreated());
             $array['seo']['name'] = $post->getSeoName();
             $array['rawText'] = $post->getText();
             $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
@@ -865,7 +815,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['avatar'] = $this->get('symbb.core.user.manager')->getAbsoluteAvatarUrl($author);
             $array['count']['topic'] = $this->get('symbb.core.user.manager')->getTopicCount($author);
             $array['count']['post'] = $this->get('symbb.core.user.manager')->getPostCount($author);
-            $array['created'] = $this->getCorrectTimestamp($author->getCreated());
+            $array['created'] = $this->getISO8601ForUser($author->getCreated());
         }
 
         return $array;

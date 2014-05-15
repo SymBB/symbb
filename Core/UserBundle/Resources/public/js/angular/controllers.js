@@ -22,4 +22,17 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
             };
         });
     }
+]).controller('UserlistCtrl', ['$scope', '$http', '$location', '$routeParams',
+    function($scope, $http, $location, $routeParams) {
+        var pagenumber = 1
+        if ($routeParams && $routeParams.page) {
+            pagenumber = $routeParams.page;
+        }
+        var route = angularConfig.getSymfonyApiRoute('userlist', {page: pagenumber});
+        $http.get(route).success(function(data) {
+            $.each(data, function(key, value) {
+                $scope[key] = value;
+            });
+        });
+    }
 ]);

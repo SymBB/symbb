@@ -26,7 +26,7 @@ class FieldValue
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User", inversedBy="symbbFieldValues")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private $user;

@@ -18,7 +18,16 @@ abstract class AbstractApiController extends AbstractController
 
     protected $breadcrumbItems = array();
 
+    protected $paginationData = array();
+
     protected $success = true;
+
+    protected function addPaginationData(\Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination)
+    {
+        if (empty($this->paginationData)) {
+            $this->paginationData = $pagination->getPaginationData();
+        }
+    }
 
     protected function addCallback($callbackName)
     {
@@ -37,7 +46,7 @@ abstract class AbstractApiController extends AbstractController
         if ($user->getSymbbType() === 'user') {
             $authenticated = true;
         }
-        if(!isset($params['user'])){
+        if (!isset($params['user'])) {
             $params['user'] = array();
         }
         $params['user']['id'] = $user->getId();
@@ -48,19 +57,22 @@ abstract class AbstractApiController extends AbstractController
         $params['callbacks'] = $this->callbacks;
         $params['breadcrumbItems'] = $this->breadcrumbItems;
         $params['success'] = $this->success;
+        if (!empty($this->paginationData)) {
+            $params['paginationData'] = $this->paginationData;
+        }
         $response = new \Symfony\Component\HttpFoundation\Response(json_encode($params));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
-    protected function getCorrectTimestamp(\DateTime $datetime = null)
+    protected function getISO8601ForUser(\DateTime $datetime = null)
     {
         if ($datetime) {
             $datetime->setTimezone($this->get('symbb.core.user.manager')->getTimezone());
             return $datetime->format(\DateTime::ISO8601);
         }
 
-        return 0;
+        return null;
     }
 
     protected function addErrorMessage($message)

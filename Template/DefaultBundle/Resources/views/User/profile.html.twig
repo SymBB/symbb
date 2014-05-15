@@ -32,9 +32,9 @@
                 <label>{{ "Total Posts"|trans()  }}:</label> {{getUserManager().getPostCount(user)}}
             </div>
             
-            {% for field in getUserManager().findFields({displayInMemberlist: true}) %}
+            {% for field in getUserManager().findFields({}) %}
                 <div>
-                    <label>{{ field.getLabel() |trans }}:</label> {{user.getFieldValue(field)}}
+                    <label>{{ field.getLabel() |trans }}:</label> {{user.getFieldValue(field).getValue()}}
                 </div>
             {% endfor %}
         </div>

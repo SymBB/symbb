@@ -19,7 +19,7 @@ class OptionController extends \SymBB\Core\SystemBundle\Controller\AbstractContr
     {
 
         $user = $this->getUser();
-        $data = $user->getSymbbData();
+        $data = $this->get('symbb.core.user.manager')->getSymbbData($user);
 
         $avatar = $data->getAvatar();
 

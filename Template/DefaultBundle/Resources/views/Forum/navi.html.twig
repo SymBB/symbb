@@ -16,14 +16,14 @@
             </a>
         </li>
         <li>
-            <a href="{{ path('angular_locale_forum_newest') }}">
+            <a href="{{ path('angular_locale_forum_newest', {page: 1}) }}">
                 <span class="glyphicon glyphicon-fire"></span>
                 <span class="text">{% trans %}Newest Posts{% endtrans %}</span>
             </a>
         </li>
         {% endif %}
         <li>
-            <a href="{{ path('symbb_user_userlist') }}" target="_self">
+            <a href="{{ path('angular_locale_userlist', {page: 1}) }}">
                 <span class="glyphicon glyphicon-user"></span>
                 <span class="text">{% trans %}Members{% endtrans %}</span>
             </a>

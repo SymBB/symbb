@@ -11,3 +11,13 @@ user_ucp:
 user_ucp_save:
     api: 
         route: symbb_api_user_ucp_save
+        
+userlist:
+    pattern:  /users/{page}
+    controller: UserlistCtrl
+    api: 
+        route: symbb_api_userlist
+    template: 
+        route: symbb_template_default_angular
+        params: 
+            file: 'userlist'

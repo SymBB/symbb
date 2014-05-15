@@ -37,7 +37,7 @@ services:
         
     symbb.core.topic.manager:
         class: SymBB\Core\ForumBundle\DependencyInjection\TopicManager
-        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher']
+        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher', '@knp_paginator']
   
             
             
