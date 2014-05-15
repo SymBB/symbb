@@ -34,7 +34,7 @@ class LoadBBCode extends AbstractFixture
         $pos = 0;
         $bbcodeSize = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeSize->setName('Font Size');
-        $bbcodeSize->setSearchRegex('#\[size=(.+)\]([\s\S]+)\[\/size\]#iUs');
+        $bbcodeSize->setSearchRegex('#\[size=(.+?)\]([\s\S]+?)\[\/size\]#');
         $bbcodeSize->setReplaceRegex('<span class="fontsize-$1">$2</span>');
         $bbcodeSize->setButtonRegex('[size={1}]{text}[/size]');
         $bbcodeSize->setImage('/bundles/symbbcorebbcode/images/font.png');
@@ -45,7 +45,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeB = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeB->setName('Bold');
-        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+)\[\/b\]#iUs');
+        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#iUs');
         $bbcodeB->setReplaceRegex('<b>$1</b>');
         $bbcodeB->setButtonRegex('[b]{text}[/b]');
         $bbcodeB->setImage('/bundles/symbbcorebbcode/images/text_bold.png');
@@ -55,7 +55,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeU = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeU->setName('U');
-        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+)\[\/u\]#iUs');
+        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#iUs');
         $bbcodeU->setReplaceRegex('<u>$1</u>');
         $bbcodeU->setButtonRegex('[u]{text}[/u]');
         $bbcodeU->setImage('/bundles/symbbcorebbcode/images/text_underline.png');
@@ -65,7 +65,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeI = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeI->setName('I');
-        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+)\[\/i\]#iUs');
+        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#iUs');
         $bbcodeI->setReplaceRegex('<i>$1</i>');
         $bbcodeI->setButtonRegex('[i]{text}[/i]');
         $bbcodeI->setImage('/bundles/symbbcorebbcode/images/text_italic.png');
@@ -75,7 +75,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeH1 = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeH1->setName('H1');
-        $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+)\[\/h([0-9]+)\]#iUs');
+        $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+?)\[\/h([0-9]+)\]#');
         $bbcodeH1->setReplaceRegex('<h$1>$2</h$1>');
         $bbcodeH1->setButtonRegex('[h{1}]{text}[/h{1}]');
         $bbcodeH1->setImage('/bundles/symbbcorebbcode/images/text_heading_1.png');
@@ -86,7 +86,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeHr = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeHr->setName('Hr');
-        $bbcodeHr->setSearchRegex('#\[hr\]#iUs');
+        $bbcodeHr->setSearchRegex('#\[hr\]#');
         $bbcodeHr->setReplaceRegex('<hr>');
         $bbcodeHr->setButtonRegex('{text}[hr]');
         $bbcodeHr->setImage('/bundles/symbbcorebbcode/images/text_horizontalrule.png');
