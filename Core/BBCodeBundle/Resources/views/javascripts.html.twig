@@ -5,3 +5,15 @@
  %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
+{% spaceless %}
+<script>
+{% for setId, codes in getSymbbBBCodeDataForJs() %}
+{% for key, code in codes %}
+{% spaceless %}
+BBCodeEditor.addBBCode('{{setId}}', {{code |raw}});
+{% endspaceless %}
+{% endfor %}
+{% endfor %} 
+</script>
+{% endspaceless %}
+<!-- /Symbb Core BBCode -->

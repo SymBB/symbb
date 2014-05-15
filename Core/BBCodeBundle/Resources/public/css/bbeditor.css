@@ -35,3 +35,28 @@
     float: left;
     margin-right: 5px;
 }
+
+.symbb_bbcodes .symbb_bbcodes_group .btn {
+    margin-right: 0;
+}
+
+.fontsize-verysmall {
+    font-size: 60%;
+}
+.fontsize-small {
+    font-size: 80%;
+}
+.fontsize-big {
+    font-size: 120%;
+}
+.fontsize-verybig {
+    font-size: 140%;
+}
+
+.preview {
+    border: 1px solid #CCC;
+    border-radius: 3px;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #EEE;
+}

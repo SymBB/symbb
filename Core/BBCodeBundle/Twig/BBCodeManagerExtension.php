@@ -14,13 +14,16 @@ class BBCodeManagerExtension extends \Twig_Extension
 
     /**
      *
-     * @var \SymBB\Extension\BBCodeBundle\DependencyInjection\BBCodeManager 
+     * @var \SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager 
      */
     protected $bbcodeManager;
 
-    public function __construct($bbcodeManager)
+    protected $serializer;
+
+    public function __construct($bbcodeManager, $serializer)
     {
         $this->bbcodeManager = $bbcodeManager;
+        $this->serializer = $serializer;
     }
 
     public function getFunctions()
@@ -29,7 +32,8 @@ class BBCodeManagerExtension extends \Twig_Extension
             new \Twig_SimpleFunction('getSymbbBBCodeManager', array($this, 'getSymbbBBCodeManager')),
             new \Twig_SimpleFunction('cleanSymBBBBCodes', array($this, 'cleanSymBBBBCodes')),
             new \Twig_SimpleFunction('parseSymbBBBCodes', array($this, 'parseSymbBBBCodes')),
-            new \Twig_SimpleFunction('getSymBBBBCodes', array($this, 'getSymBBBBCodes'))
+            new \Twig_SimpleFunction('getSymBBBBCodes', array($this, 'getSymBBBBCodes')),
+            new \Twig_SimpleFunction('getSymbbBBCodeDataForJs', array($this, 'getSymbbBBCodeDataForJs'))
         );
     }
 
@@ -53,6 +57,18 @@ class BBCodeManagerExtension extends \Twig_Extension
         return $this->bbcodeManager->getBBCodes($setId);
     }
 
+    public function getSymbbBBCodeDataForJs()
+    {
+        $data = array();
+        $sets = $this->bbcodeManager->getSets();
+        foreach ($sets as $set) {
+            $data[$set->getId()] = array();
+            foreach ($set->getCodes() as $code) {
+                $data[$set->getId()][] = $this->serializer->serialize($code, 'json');
+            }
+        }
+        return $data;
+    }
 
     public function getName()
     {

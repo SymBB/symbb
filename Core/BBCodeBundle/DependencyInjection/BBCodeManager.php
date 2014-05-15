@@ -21,6 +21,11 @@ class BBCodeManager
         $this->em = $em;
     }
 
+    /**
+     * 
+     * @param type $setId
+     * @return \SymBB\Core\BBCodeBundle\Entity\Set
+     */
     public function getSet($setId)
     {
 
@@ -35,6 +40,16 @@ class BBCodeManager
         }
 
         return $set;
+    }
+
+    /**
+     * 
+     * @return \SymBB\Core\BBCodeBundle\Entity\Set[]
+     */
+    public function getSets()
+    {
+        $sets = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findAll();
+        return $sets;
     }
 
     public function parse($text, $setId = null)

@@ -20,9 +20,8 @@ class Set
 {
 
     /**
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Column(type="string", unique=true, length=20)
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -30,7 +29,7 @@ class Set
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="BBCode", inversedBy="sets", cascade={"persist","remove"})
      * @ORM\JoinTable(name="bbcode_set_to_bbcode",
@@ -46,8 +45,12 @@ class Set
         $this->codes = new ArrayCollection();
     }
 
-    public function getId()
+    public function setId($value)
     {
+        $this->id = $value;
+    }
+    
+    public function getId(){
         return $this->id;
     }
 

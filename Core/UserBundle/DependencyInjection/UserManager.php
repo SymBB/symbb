@@ -281,11 +281,11 @@ class UserManager
 
     public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
     {
+        if (!$user) {
+            $user = $this->getCurrentUser();
+        }
+        
         if (!isset($this->postCountCache[$user->getId()])) {
-            if (!$user) {
-                $user = $this->getCurrentUser();
-            }
-
             $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
             $qb->where("p.author = " . $user->getId());

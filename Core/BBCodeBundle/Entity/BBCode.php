@@ -11,6 +11,7 @@ namespace SymBB\Core\BBCodeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Table(name="bbcode_codes")
@@ -25,9 +26,10 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Set", mappedBy="codes")
+     * @Exclude
      * @var ArrayCollection 
      */
     protected $sets;
@@ -36,6 +38,11 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $jsFunction = 'BBCodeEditor.prepareDefaultBtn';
 
     /**
      * @ORM\Column(type="boolean")
@@ -58,7 +65,7 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     protected $buttonRegex;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $image;
 
@@ -66,7 +73,7 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $position = 999;
-    
+
     public function __construct()
     {
         $this->sets = new ArrayCollection();
@@ -145,5 +152,15 @@ class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     public function setImage($image)
     {
         $this->image = $image;
+    }
+
+    public function setJsFunction($value)
+    {
+        $this->jsFunction = $value;
+    }
+
+    public function getJsFunction()
+    {
+        return $this->jsFunction;
     }
 }

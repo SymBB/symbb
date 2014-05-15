@@ -3,10 +3,10 @@ symbbControllers.directive('symbbEditorDefault', ['$timeout', function($timeout)
         restrict: 'E',
         transclude: true,
         replace: false,
-        templateUrl: angularConfig.getSymfonyTemplateRoute('bbcode_default'),
+        template: '<div class="symbb_bbcodes symbb_header_bg"><div class="symbb_bbcodes_group btn-group"></div><div class="clear"></div></div><div class="symbb_editor" ng-transclude></div><div class="preview"></div>',
         link: function(scope, elm, attrs) {
             $timeout(function(){
-                createBBEditor(elm);
+                BBCodeEditor.createEditor(elm);
             }, 0);
         }
     };
