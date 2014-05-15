@@ -45,7 +45,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeB = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeB->setName('Bold');
-        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#iUs');
+        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#');
         $bbcodeB->setReplaceRegex('<b>$1</b>');
         $bbcodeB->setButtonRegex('[b]{text}[/b]');
         $bbcodeB->setImage('/bundles/symbbcorebbcode/images/text_bold.png');
