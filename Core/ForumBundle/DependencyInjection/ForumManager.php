@@ -114,13 +114,29 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         if ($limit === null) {
             $limit = $forum->getEntriesPerPage();
         }
-        
+
+        if ($page === 'last') {
+            
+        }
+
         $qb = $this->em->createQueryBuilder();
         $qb->select('t')
-        ->from('SymBBCoreForumBundle:Topic', 't')
-        ->where('t.forum = ?1')
-        ->orderby('t.created', $orderDir)
-        ->setParameter(1, $forum->getId());
+            ->from('SymBBCoreForumBundle:Topic', 't')
+            ->where('t.forum = ?1')
+            ->orderby('t.created', $orderDir)
+            ->setParameter(1, $forum->getId());
+
+        if ($page === 'last') {
+            $qbPage = $this->em->createQueryBuilder();
+            $qbPage->select('count(t)')
+            ->from('SymBBCoreForumBundle:Topic', 't')
+            ->where('t.forum = ?1')
+            ->orderby('t.created', $orderDir)
+            ->setParameter(1, $forum->getId());
+            $queryPage = $qbPage->getQuery();
+            $count = $queryPage->getSingleScalarResult();
+            $page = round($count / $limit);
+        }
         
         $pagination = $this->paginator->paginate(
             $qb, $page, $limit

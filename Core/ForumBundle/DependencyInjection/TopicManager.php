@@ -77,6 +77,20 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic);
 
+        
+
+        if ($page === 'last') {
+            $qbPage = $this->em->createQueryBuilder();
+            $qbPage->add('select', 'count(p)')
+            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('where', 'p.topic = ?1')
+            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
+            ->setParameter(1, $topic);
+            $queryPage = $qbPage->getQuery();
+            $count = $queryPage->getSingleScalarResult();
+            $page = round($count / $limit);
+        }
+        
         $pagination = $this->paginator->paginate(
             $qb,
             $page,
