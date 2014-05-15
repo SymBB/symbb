@@ -138,7 +138,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeListItem = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeListItem->setName('List Item');
-        $bbcodeListItem->setSearchRegex('#^\[\*\]([\s\S^\[]+?)$#iUs');
+        $bbcodeListItem->setSearchRegex('#\[\*\](.*)#');
         $bbcodeListItem->setReplaceRegex('<li>$1</li>');
         $bbcodeListItem->setButtonRegex('[*] {text}');
         $bbcodeListItem->setImage('/bundles/symbbcorebbcode/images/list-item.png');
