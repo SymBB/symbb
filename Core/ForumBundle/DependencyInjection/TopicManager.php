@@ -88,7 +88,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->setParameter(1, $topic);
             $queryPage = $qbPage->getQuery();
             $count = $queryPage->getSingleScalarResult();
-            $page = round($count / $limit);
+            $page = \ceil($count / $limit);
         }
         
         $pagination = $this->paginator->paginate(

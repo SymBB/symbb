@@ -135,7 +135,7 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->setParameter(1, $forum->getId());
             $queryPage = $qbPage->getQuery();
             $count = $queryPage->getSingleScalarResult();
-            $page = round($count / $limit);
+            $page = \ceil($count / $limit);
         }
         
         $pagination = $this->paginator->paginate(
