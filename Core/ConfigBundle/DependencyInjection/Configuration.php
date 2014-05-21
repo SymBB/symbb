@@ -64,6 +64,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->variableNode('access')
+                    ->isRequired()
+                ->end()
             ->end();
 
         return $treeBuilder;

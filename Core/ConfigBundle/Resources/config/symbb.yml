@@ -4,3 +4,4 @@ sym_bb_core_config:
             directory: /symbb/upload/tmp/
         post:
             directory: /symbb/upload/post/
+

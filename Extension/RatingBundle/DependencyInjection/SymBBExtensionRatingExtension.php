@@ -24,6 +24,7 @@ class SymBBExtensionRatingExtension extends Extension implements PrependExtensio
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('doctrine.yml');
+        $loader->load('symbb.yml');
     }
         
     public function load(array $configs, ContainerBuilder $container)

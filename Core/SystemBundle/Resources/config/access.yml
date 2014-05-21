@@ -1,0 +1,11 @@
+SymBB\Core\ForumBundle\Entity\Forum:
+    CoreUser:
+        - VIEW
+        - CREATE_TOPIC
+        - CREATE_POST
+    CoreMod:
+        - MOVE_TOPIC
+        - MOVE_POST
+        - DELETE_TOPIC
+        - DELETE_POST
+        - SPLIT_TOPIC

@@ -1,3 +1,7 @@
+parmaeters:
+    symbb.core.access.files:
+        SymBBCoreSystemBundle: access.yml
+
 services:
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
@@ -24,7 +28,7 @@ services:
             
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", "@security.context", "@security.acl.provider"]
+        arguments: ["@doctrine.orm.symbb_entity_manager", "@security.context", "%symbb_config%"]
         
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
@@ -58,6 +62,10 @@ services:
         arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    symbb.core.access.loader:
+        class: SymBB\Core\SystemBundle\DependencyInjection\AccessLoader
+        arguments: [%symbb.core.access.files%]
 
     symbb.core.update.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UpdateManager

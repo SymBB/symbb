@@ -115,32 +115,35 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $limit = $forum->getEntriesPerPage();
         }
 
-        if ($page === 'last') {
-            
-        }
+        $qbPage = $this->em->createQueryBuilder();
+        $qbPage->select('count(t)')
+            ->from('SymBBCoreForumBundle:Topic', 't')
+            ->where('t.forum = ?1')
+            ->orderby('t.created', $orderDir)
+            ->setParameter(1, $forum->getId());
+        $queryPage = $qbPage->getQuery();
+        $count = $queryPage->getSingleScalarResult();
 
         $qb = $this->em->createQueryBuilder();
         $qb->select('t')
             ->from('SymBBCoreForumBundle:Topic', 't')
+            ->leftJoin('SymBBCoreForumBundle:Topic\Tag', 'tag')
             ->where('t.forum = ?1')
-            ->orderby('t.created', $orderDir)
+            ->add('orderBy', 'tag.priority DESC, t.created '.$orderDir)
+            ->addGroupBy('t.id')
             ->setParameter(1, $forum->getId());
 
+        $query = $qb->getQuery();
+        $query->setHint('knp_paginator.count', $count);
+
         if ($page === 'last') {
-            $qbPage = $this->em->createQueryBuilder();
-            $qbPage->select('count(t)')
-            ->from('SymBBCoreForumBundle:Topic', 't')
-            ->where('t.forum = ?1')
-            ->orderby('t.created', $orderDir)
-            ->setParameter(1, $forum->getId());
-            $queryPage = $qbPage->getQuery();
-            $count = $queryPage->getSingleScalarResult();
             $page = \ceil($count / $limit);
         }
         
         $pagination = $this->paginator->paginate(
-            $qb, $page, $limit
+            $query, $page, $limit, array('distinct' => false)
         );
+
         return $pagination;
     }
 

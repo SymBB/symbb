@@ -472,8 +472,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             ->findBy(array('parent' => $id, 'type' => 'forum'), array('position' => 'asc', 'id' => 'asc'));
 
         $forumList = array();
-
         $hasForumList = false;
+
         foreach ($forumEnityList as $key => $forum) {
             $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
             $access = $this->get('symbb.core.access.manager')->hasAccess();
@@ -504,8 +504,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
+
             $page = $this->get('request')->get('page');
             $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
+
             $this->addPaginationData($topics);
             $topicCountTotal = $this->paginationData['totalCount'];
             foreach ($topics as $topic) {
@@ -517,6 +519,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
         $this->addBreadcrumbItems($breadcrumbItems);
+
+
+        $this->get('symbb.core.access.manager')->preloadAcl(array_merge($forumEnityList, $categoryEnityList, array($parent)));
 
         $params = array(
             'forum' => $this->getForumAsArray($parent),

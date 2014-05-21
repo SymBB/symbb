@@ -1,3 +1,7 @@
+parmaeters:
+    symbb.core.access.files:
+        SymBBExtensionRatingBundle: access.yml
+
 services:
     symbb.listener.post.rating:
         class: SymBB\Extension\RatingBundle\EventListener\TemplateListener
@@ -10,9 +14,4 @@ services:
         class: SymBB\Extension\RatingBundle\Twig\UtilExtension
         arguments: ['@doctrine', '@security.context']
         tags:
-            - { name: twig.extension } 
-            
-    symbb.extensionrating.acl.manager:
-        class: SymBB\Extension\RatingBundle\Acl\Manager
-        tags:
-            - { name: symbb.acl.manager }
+            - { name: twig.extension }

@@ -1,3 +1,7 @@
+parmaeters:
+    symbb.core.access.files:
+        SymBBExtensionSurveyBundle: access.yml
+
 services:
     symbb.listener.post.survey.template:
         class: SymBB\Extension\SurveyBundle\EventListener\TemplateListener

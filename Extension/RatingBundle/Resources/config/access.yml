@@ -1,0 +1,4 @@
+SymBB\Core\ForumBundle\Entity\Forum:
+    CoreUser:
+        - EXTENSION_RATING_VIEW
+        - EXTENSION_RATING_RATE

@@ -1,0 +1,3 @@
+SymBB\Core\ForumBundle\Entity\Forum:
+    CoreUser:
+        - EXTENSION_SURVEY_CREATE

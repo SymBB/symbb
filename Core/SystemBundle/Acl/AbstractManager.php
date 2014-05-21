@@ -11,7 +11,7 @@
 namespace SymBB\Core\SystemBundle\Acl;
 
 abstract class AbstractManager  {
-    
+
     
     protected $maskBuilders     = array();
     protected $permissionMaps    = array();
