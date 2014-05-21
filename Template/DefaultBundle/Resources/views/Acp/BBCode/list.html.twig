@@ -3,7 +3,7 @@
 {% trans_default_domain "symbb_backend" %}
 
 {% block symbb_sidebar %}
-{{ knp_menu_render('SymBBCoreAdminBundle:Builder:userManagmentMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
+{{ knp_menu_render('SymBBCoreAdminBundle:Builder:systemMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
 {% endblock %}
 
 {% block symbb_list_header %}

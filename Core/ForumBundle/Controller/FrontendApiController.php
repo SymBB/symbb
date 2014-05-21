@@ -296,6 +296,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                         $topic->setLocked($request->get('locked'));
                         $mainPost->setText($mainPostData['rawText']);
 
+                        $topic->removeTags();
+                        foreach($request->get('tags') as $tagId => $tag){
+                            if($tag['status'] === true){
+                                $myTag = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\tag', 'symbb')->find($tag['id']);
+                                if(is_object($myTag)){
+                                    $topic->addTag($myTag);
+                                }
+                            }
+                        }
 
                         $this->handlePostImages($mainPost, $mainPostData['files'], $em);
 
@@ -530,6 +539,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      */
     protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1)
     {
+
+        $tags = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\Tag', 'symbb')->findAll();
+
         $array = array();
         $array['id'] = 0;
         $array['name'] = '';
@@ -551,7 +563,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         );
         $array['mainPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
-
+        $array['tags'] = array();
+        foreach($tags as $tag){
+            $array['tags'][$tag->getId()] = array(
+                'id' => $tag->getId(),
+                'priority' => $tag->getPriority(),
+                'name' => $this->get('translator')->trans($tag->getName(), array(), 'symbb_variables'),
+                'status' => 0
+            );
+        }
         if (is_object($topic) && \is_object($topic->getForum())) {
 
 
@@ -584,6 +604,17 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
                 $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
+                foreach($tags as $tag){
+                    $status = false;
+                    foreach($topic->getTags() as $currTag){
+                        if($tag->getId() == $currTag->getId()){
+                            $status = true;
+                            break;
+                        }
+                    }
+                    $array['tags'][$tag->getId()]['status'] = $status;
+                }
+
 
                 $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
                 $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();

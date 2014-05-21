@@ -5,7 +5,7 @@
 {% form_theme form getSymbbTemplate('acp') ~ '::form.html.twig' %}
 
 {% block symbb_sidebar %}
-{{ knp_menu_render('SymBBCoreAdminBundle:Builder:userManagmentMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
+{{ knp_menu_render('SymBBCoreAdminBundle:Builder:systemMenu', {'template': getSymbbTemplate('acp') ~ '::sidemenu.html.twig'}) }}
 {% endblock %}
 
 {% block symbb_edit_header %}{{ 'save entry'|trans }}{% endblock %}
