@@ -68,7 +68,7 @@
                 <div class="media-body textblock">
                     <div class="clear"></div>
                     {{ executeSymbbTemplatePostEvent('before.text') }}
-                    <div class="text" id="symbb_post_body_[[post.id]]" ng-bind-html="post.text"></div>
+                    <div class="text" id="symbb_post_body_[[post.id]]" ng-bind-html-unsafe="post.text"></div>
                     {{ executeSymbbTemplatePostEvent('after.text') }}
                     {{ executeSymbbTemplatePostEvent('before.signature') }}
                     <div ng-bind-html="post.signature" class="signature"></div>

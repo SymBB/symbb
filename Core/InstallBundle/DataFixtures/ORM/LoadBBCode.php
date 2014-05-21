@@ -30,6 +30,10 @@ class LoadBBCode extends AbstractFixture
         $setSignature = new \SymBB\Core\BBCodeBundle\Entity\Set();
         $setSignature->setId('signature');
         $setSignature->setName("Signature");
+
+        $setPm = new \SymBB\Core\BBCodeBundle\Entity\Set();
+        $setPm->setId('pm');
+        $setPm->setName("Private Message");
         
         $pos = 0;
         $bbcodeSize = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
@@ -83,7 +87,18 @@ class LoadBBCode extends AbstractFixture
         $bbcodeH1->setJsFunction('BBCodeEditor.prepareHeaderBtn');
         $manager->persist($bbcodeH1);
         $pos++;
-        
+
+        $bbcodeColor = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeColor->setName('Color');
+        $bbcodeColor->setSearchRegex('#\[color=(.+?)\]([\s\S]+?)\[\/color\]#');
+        $bbcodeColor->setReplaceRegex('<span style="color:$1;">$2</span>');
+        $bbcodeColor->setButtonRegex('[color={color}]{text}[/color]');
+        $bbcodeColor->setImage('/bundles/symbbcorebbcode/images/color_wheel.png');
+        $bbcodeColor->setPosition($pos);
+        $bbcodeColor->setJsFunction('BBCodeEditor.prepareColorBtn');
+        $manager->persist($bbcodeColor);
+        $pos++;
+
         $bbcodeHr = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeHr->setName('Hr');
         $bbcodeHr->setSearchRegex('#\[hr\]#');
@@ -158,7 +173,22 @@ class LoadBBCode extends AbstractFixture
         $setDefault->addCode($bbcodeQuote);
         $setDefault->addCode($bbcodeList);
         $setDefault->addCode($bbcodeListItem);
-        
+        $setDefault->addCode($bbcodeColor);
+
+
+        $setPm->addCode($bbcodeSize);
+        $setPm->addCode($bbcodeB);
+        $setPm->addCode($bbcodeU);
+        $setPm->addCode($bbcodeI);
+        $setPm->addCode($bbcodeH1);
+        $setPm->addCode($bbcodeHr);
+        $setPm->addCode($bbcodeLink);
+        $setPm->addCode($bbcodeImage);
+        $setPm->addCode($bbcodeQuote);
+        $setPm->addCode($bbcodeList);
+        $setPm->addCode($bbcodeListItem);
+        $setPm->addCode($bbcodeColor);
+
         $setSignature->addCode($bbcodeB);
         $setSignature->addCode($bbcodeU);
         $setSignature->addCode($bbcodeI);
@@ -171,6 +201,7 @@ class LoadBBCode extends AbstractFixture
         
         $manager->persist($setDefault);
         $manager->persist($setSignature);
+        $manager->persist($setPm);
         
         $manager->flush();
         
