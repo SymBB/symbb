@@ -20,13 +20,13 @@
             {% trans with {'%date%': post.getChanged()|format_date, '%time%': post.getChanged()|date('H:i')} %}wrote on %date% at %time%{% endtrans %}
         </div>              
         <div class="btn-group pull-right">
-            {% if hasSymbbAccess('SYMBB_FORUM#CREATE_POST', post.getTopic().getForum()) %} 
+            {% if is_granted('CREATE_POST', post.getTopic().getForum()) %}
             <button type="button" class="btn quote btn-info" data-user="{{post.getAuthor().getUsername()}}" data-quote="{{post.getText()}}" >{% trans %}Quote{% endtrans %}</button>
             {% endif %}
-            {% if hasSymbbAccess('SYMBB_POST#EDIT', post) %}
+            {% if is_granted('EDIT', post) %}
             <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('symbb_edit_post', {'post': post.getId()}) }}'">{% trans %}Edit{% endtrans %}</button>
             {% endif %}
-            {% if hasSymbbAccess('SYMBB_POST#DELETE', post) %}
+            {% if is_granted('DELETE', post) %}
             <button type="button" class="btn btn-danger" onclick="if (confirm('{% trans %}you really want to delete the entry?{% endtrans %}')) { window.location.href='{{ path('symbb_delete_post', {'post': post.getId()}) }}' };" >{% trans %}Delete{% endtrans %}</button>
             {% endif %}
         </div>

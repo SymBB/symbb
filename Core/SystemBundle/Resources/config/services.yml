@@ -35,6 +35,9 @@ services:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
         arguments: ["%symbb_config%", '@service_container']
 
+    symbb.core.access.voter.manager:
+        class: SymBB\Core\SystemBundle\DependencyInjection\AccessVoterManager
+
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
         arguments: ['@service_container']

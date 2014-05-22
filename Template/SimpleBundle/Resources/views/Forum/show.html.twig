@@ -16,7 +16,7 @@
 {% block symbb_body %}
 
 
-    {% for object in forumList if object.isActive() and object.getType() == 'category' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+    {% for object in forumList if object.isActive() and object.getType() == 'category' and is_granted('VIEW', object) %}
  
         <div>
             
@@ -39,7 +39,7 @@
                         {{"Last post"|trans()}}
                     </th>
                 </tr>
-                {% for subobject in object.getChildren() if subobject.isActive() and hasSymbbAccess('SYMBB_FORUM#VIEW', subobject) %}
+                {% for subobject in object.getChildren() if subobject.isActive() and is_granted('VIEW', subobject) %}
 
                     {{ symbBBForumMacro.createRow(subobject) }}
 
@@ -51,7 +51,7 @@
     {% endfor %}
     
     {% set count = 0 %}
-    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+    {% for object in forumList if object.isActive() and object.getType() == 'forum' and is_granted('VIEW', object) %}
         {% set count = count + 1 %}
     {% endfor %}
     
@@ -77,7 +77,7 @@
             </th>
         </tr>
     {% endif %}
-    {% for object in forumList if object.isActive() and object.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', object) %}
+    {% for object in forumList if object.isActive() and object.getType() == 'forum' and is_granted('VIEW', object) %}
 
         {{ symbBBForumMacro.createRow(object) }}
 
@@ -86,7 +86,7 @@
     </table>
     {% endif %}
  
-    {% if forum and forum.getType() == 'forum' and hasSymbbAccess('SYMBB_FORUM#VIEW', forum) %}
+    {% if forum and forum.getType() == 'forum' and is_granted('VIEW', forum) %}
 
         <div class="anker-group">
             <div class="anker" id="topics"></div>
@@ -95,9 +95,9 @@
         <div class="symbb_action_row">
             <div class="title"><a href="#topics">{{ 'Topics'|trans() }}</a></div>
             <div class="arrow"></div>
-            {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+            {% if forum and forum.getType() == 'forum' and ( is_granted('CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
                 <div class="btn-group pull-left">
-                    {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
+                    {% if is_granted('CREATE_TOPIC', forum) %}
                     <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
                     {% endif %}
                     {% if app.user.getSymbbType() == 'user' %}
@@ -140,9 +140,9 @@
         <div class="symbb_action_row">
             <div class="title"><a href="#topics">{{ 'Topics'|trans() }}</a></div>
             <div class="arrow"></div>
-            {% if forum and forum.getType() == 'forum' and ( hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
+            {% if forum and forum.getType() == 'forum' and ( is_granted('CREATE_TOPIC', forum) or app.user.getSymbbType() == 'user') %}
                 <div class="btn-group pull-left">
-                    {% if hasSymbbAccess('SYMBB_FORUM#CREATE_TOPIC', forum) %}
+                    {% if is_granted('CREATE_TOPIC', forum) %}
                     <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='{{ path('symbb_forum_topic_new', {'forum': forum.getId()}) }}'">{% trans %}new Topic{% endtrans %}</button>
                     {% endif %}
                     {% if app.user.getSymbbType() == 'user' %}

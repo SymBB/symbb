@@ -76,9 +76,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
-            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
-
+            $accessCheck = $this->get('security.context')->isGranted('DELETE', $post);
             if (!$accessCheck) {
                 $this->addErrorMessage('access denied (delete post)');
             } else {
@@ -138,8 +136,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#EDIT', $post, $this->getUser());
-            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+            $accessCheck = $this->get('security.context')->isGranted('EDIT', $post);
             if (!$accessCheck) {
                 $this->addErrorMessage('access denied (edit post)');
             }
@@ -149,8 +146,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             if (isset($topicData['id']) && $topicData['id'] > 0) {
                 $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
                 $post->setTopic($topic);
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
-                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+                $accessCheck = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
                 if (!$accessCheck) {
                     $this->addErrorMessage('access denied (create post)');
                 }
@@ -212,8 +208,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $post = new \SymBB\Core\ForumBundle\Entity\Post();
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $post->getTopic()->getForum(), $this->getUser());
-            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+            $accessCheck = $this->get('security.context')->isGranted('VIEW', $post->getTopic()->getForum());
             if (!$accessCheck) {
                 $this->addErrorMessage('access denied (show forum)');
             }
@@ -226,8 +221,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $qoutePost = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($quoteId);
                     $post->setText('[quote="' . $qoutePost->getAuthor()->getUsername() . '"]' . $qoutePost->getText() . '[/quote]');
                 }
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
-                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
+                $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
                 if (!$accessCheck) {
                     $this->addErrorMessage('access denied (show forum)');
                 }
@@ -264,17 +258,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
             if (is_object($forum)) {
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
-                $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
 
                 if ($writeAccess) {
 
                     if ($topicId > 0) {
                         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
                         $mainPost = $topic->getMainPost();
-                        $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
-                        $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                        $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
                     } else {
                         $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
                         $topic->setAuthor($this->getUser());
@@ -364,23 +355,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
         if ($id > 0) {
             $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($id);
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
-            $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
-            if (!$accessCheck) {
-                $this->addErrorMessage('access denied (show forum)');
-            }
         } else {
             if ($forumId > 0) {
                 $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
                 $topic->setForum($forum);
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum(), $this->getUser());
-                $accessCheck = $this->get('symbb.core.access.manager')->hasAccess();
-                if (!$accessCheck) {
-                    $this->addErrorMessage('access denied (show forum)');
-                }
             } else {
                 $this->addErrorMessage("Forum not found!");
             }
+        }
+
+        $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
+        if (!$accessCheck) {
+            $this->addErrorMessage('access denied (show forum)');
         }
 
         if (!$this->hasError()) {
@@ -475,9 +461,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $hasForumList = false;
 
         foreach ($forumEnityList as $key => $forum) {
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
-            $access = $this->get('symbb.core.access.manager')->hasAccess();
-            if ($access) {
+            if (true === $this->get('security.context')->isGranted('VIEW', $forum)) {
                 $forumList[] = $this->getForumAsArray($forum);
                 $hasForumList = true;
             };
@@ -489,9 +473,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $categoryList = array();
         $hasCategoryList = false;
         foreach ($categoryEnityList as $key => $forum) {
-            $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#VIEW', $forum, $this->getUser());
-            $access = $this->get('symbb.core.access.manager')->hasAccess();
-            if ($access) {
+            if (true === $this->get('security.context')->isGranted('VIEW', $forum)) {
                 $categoryList[] = $this->getForumAsArray($forum);
                 $hasCategoryList = true;
             };
@@ -504,24 +486,22 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
+            if (true === $this->get('security.context')->isGranted('VIEW', $parent)) {
+                $page = $this->get('request')->get('page');
+                $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
 
-            $page = $this->get('request')->get('page');
-            $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
-
-            $this->addPaginationData($topics);
-            $topicCountTotal = $this->paginationData['totalCount'];
-            foreach ($topics as $topic) {
-                $topicList[] = $this->getTopicAsArray($topic);
-                $hasTopicList = true;
+                $this->addPaginationData($topics);
+                $topicCountTotal = $this->paginationData['totalCount'];
+                foreach ($topics as $topic) {
+                    $topicList[] = $this->getTopicAsArray($topic);
+                    $hasTopicList = true;
+                }
             }
         }
 
 
         $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
         $this->addBreadcrumbItems($breadcrumbItems);
-
-
-        $this->get('symbb.core.access.manager')->preloadAcl(array_merge($forumEnityList, $categoryEnityList, array($parent)));
 
         $params = array(
             'forum' => $this->getForumAsArray($parent),
@@ -624,14 +604,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
 
 
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $topic->getForum(), $this->getUser());
-                $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#EDIT', $topic, $this->getUser());
-                $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_TOPIC#DELETE', $topic, $this->getUser());
-                $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
+                $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
+                $deleteAccess = $this->get('security.context')->isGranted('DELETE', $topic);
 
                 $array['access'] = array(
                     'createPost' => $writePostAccess,
@@ -705,11 +680,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
                 $array['seo']['name'] = $forum->getSeoName();
 
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum, $this->getUser());
-                $writeAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_FORUM#CREATE_POST', $forum, $this->getUser());
-                $writePostAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
+                $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $forum);
 
                 $array['access'] = array(
                     'createTopic' => $writeAccess,
@@ -810,12 +782,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($post->getFiles() as $file) {
                     $array['files'][] = $file->getPath();
                 }
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#EDIT', $post, $this->getUser());
-                $editAccess = $this->get('symbb.core.access.manager')->hasAccess();
-
-                $this->get('symbb.core.access.manager')->addAccessCheck('SYMBB_POST#DELETE', $post, $this->getUser());
-                $deleteAccess = $this->get('symbb.core.access.manager')->hasAccess();
+                
+                $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
+                $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
 
                 $array['access'] = array(
                     'edit' => $editAccess,

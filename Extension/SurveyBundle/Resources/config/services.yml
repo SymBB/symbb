@@ -34,6 +34,13 @@ services:
         class: SymBB\Extension\SurveyBundle\EventListener\AngularListener
         tags:
             - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
+
+    symbb.extension.survey.security.access.survey_voter:
+        class:      SymBB\Extension\SurveyBundle\Security\Authorization\SurveyVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }
             
             
             

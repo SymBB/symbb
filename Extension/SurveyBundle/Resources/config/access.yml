@@ -1,5 +1,0 @@
-sym_bb_core_config:
-    access:
-        SymBB\Core\ForumBundle\Entity\Forum:
-            CoreUser:
-                - EXTENSION_SURVEY_CREATE

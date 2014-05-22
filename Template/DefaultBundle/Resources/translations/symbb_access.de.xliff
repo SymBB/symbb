@@ -6,56 +6,60 @@
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
-      <trans-unit resname="CoreUser#EXTENSION_SURVEY_CREATE">
-        <source>CoreUser#EXTENSION_SURVEY_CREATE</source>
+      <trans-unit resname="EXTENSION_SURVEY_CREATE">
+        <source>EXTENSION_SURVEY_CREATE</source>
         <target>Umfrage erzeugen</target>
       </trans-unit>
-      <trans-unit resname="CoreUser#VIEW">
-        <source>CoreUser#VIEW</source>
+      <trans-unit resname="view">
+        <source>view</source>
         <target>Lesen</target>
       </trans-unit>
-      <trans-unit resname="CoreUser#CREATE_TOPIC">
-        <source>CoreUser#CREATE_TOPIC</source>
+      <trans-unit resname="create_topic">
+        <source>create_topic</source>
         <target>Thema erstellen</target>
       </trans-unit>
-      <trans-unit resname="CoreUser#CREATE_POST">
-        <source>CoreUser#CREATE_POST</source>
+      <trans-unit resname="create_post">
+        <source>create_post</source>
         <target>Beitrag erstellen</target>
       </trans-unit>
-      <trans-unit resname="CoreUser">
-        <source>CoreUser</source>
+      <trans-unit resname="UserAccess">
+        <source>UserAccess</source>
         <target>Benutzer Rechte</target>
       </trans-unit>
-      <trans-unit resname="CoreMod">
-        <source>CoreMod</source>
+      <trans-unit resname="ModAccess">
+        <source>ModAccess</source>
         <target>Moderator Rechte</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#MOVE_TOPIC">
-        <source>CoreMod#MOVE_TOPIC</source>
+      <trans-unit resname="DefaultAccess">
+        <source>DefaultAccess</source>
+        <target>Rechte</target>
+      </trans-unit>
+      <trans-unit resname="move_topic">
+        <source>move_topic</source>
         <target>Thema verschieben</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#MOVE_POST">
-        <source>CoreMod#MOVE_POST</source>
+      <trans-unit resname="move_post">
+        <source>move_post</source>
         <target>Beitrag verschieben</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#DELETE_TOPIC">
-        <source>CoreMod#DELETE_TOPIC</source>
+      <trans-unit resname="delete_topic">
+        <source>delete_topic</source>
         <target>Thema löschen</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#DELETE_POST">
-        <source>CoreMod#DELETE_POST</source>
+      <trans-unit resname="delete_post">
+        <source>delete_post</source>
         <target>Beitrag löschen</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#SPLIT_TOPIC">
-        <source>CoreMod#SPLIT_TOPIC</source>
+      <trans-unit resname="split_topic">
+        <source>split_topic</source>
         <target>Thema trennen</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#EDIT_TOPIC">
-        <source>CoreMod#EDIT_TOPIC</source>
+      <trans-unit resname="edit_topic">
+        <source>edit_topic</source>
         <target>Thema bearbeiten</target>
       </trans-unit>
-      <trans-unit resname="CoreMod#EDIT_POST">
-        <source>CoreMod#EDIT_POST</source>
+      <trans-unit resname="edit_post">
+        <source>edit_post</source>
         <target>Beitrag bearbeiten</target>
       </trans-unit>
     </body>

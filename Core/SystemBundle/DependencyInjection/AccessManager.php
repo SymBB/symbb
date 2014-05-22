@@ -10,11 +10,9 @@
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use SymBB\Core\SystemBundle\Entity\Access;
+use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
 use SymBB\Core\UserBundle\Entity\UserInterface;
-use \Symfony\Component\Security\Core\SecurityContextInterface;
 use \Symfony\Component\Security\Core\Util\ClassUtils;
-use \Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
-use \Symfony\Component\Security\Acl\Model\AclProviderInterface;
 
 class AccessManager
 {
@@ -31,11 +29,21 @@ class AccessManager
 
     protected $container;
 
+    /**
+     * @var AbstractVoter[]
+     */
+    protected $voterList = array();
+
+    protected $memcache;
+
+    const CACHE_LIFETIME = 86400; // 1day
+
     public function __construct($symbbConfig, $container)
     {
         $this->container = $container;
         $this->symbbConfig = $symbbConfig;
         $this->em =  $this->container->get('doctrine.orm.symbb_entity_manager');
+        $this->memcache = $container->get('memcache.acl');
     }
 
     /**
@@ -57,7 +65,7 @@ class AccessManager
      * @param object $identity
      * @throws Exception
      */
-    public function grantAccess($extension, $access, $object, $identity = null)
+    public function grantAccess($access, $object, $identity = null)
     {
         if ($identity === null) {
             $identity = $this->getUser();
@@ -74,11 +82,14 @@ class AccessManager
         $accessObj->setObjectId($objectId);
         $accessObj->setIdentity($identityClass);
         $accessObj->setIdentityId($identityId);
-        $accessObj->setExtension($extension);
         $accessObj->setAccess($access);
         $this->em->persist($accessObj);
 
         $this->em->flush();
+
+
+        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
+        $this->memcache->delete ($checkKey);
     }
 
     public function removeAllAccess($object, $identity)
@@ -108,7 +119,7 @@ class AccessManager
      * @param array|null $indentityObject
      * @return bool
      */
-    public function addAccessCheck($extension, $access, $object, $identity = null)
+    public function addAccessCheck($access, $object, $identity = null)
     {
         if ($identity === null) {
             $identity = $this->getUser();
@@ -117,26 +128,40 @@ class AccessManager
         $objectClass = ClassUtils::getRealClass($object);
         $objectId = $object->getId();
 
-        $identityClass = ClassUtils::getRealClass($identity);
-        $identityId = $identity->getId();
+        $identityList = array($identity);
 
-        $this->accessChecks[] = array(
-            'object' => $objectClass,
-            'objectId' => $objectId,
-            'identity' => $identityClass,
-            'identityId' => $identityId,
-            'extension' => $extension,
-            'access' => $access
-        );
+        if($identity instanceof UserInterface){
+            $groups = $identity->getGroups();
+            $identityList = array_merge($identityList, $groups->toArray());
+        }
+
+        foreach($identityList as $currIdentity){
+
+            $identityClass = ClassUtils::getRealClass($currIdentity);
+            $identityId = $currIdentity->getId();
+
+            $this->accessChecks[] = array(
+                'object' => $objectClass,
+                'objectId' => $objectId,
+                'identity' => $identityClass,
+                'identityId' => $identityId,
+                'access' => $access
+            );
+
+        }
+
+
     }
 
+    /**
+     * @return bool
+     */
     public function hasAccess()
     {
         $access = false;
         foreach ($this->accessChecks as $data) {
-
-            $accessObj = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findOneBy($data);
-            if (is_object($accessObj)) {
+            $accessList = $this->checkCache($data['object'], $data['objectId'], $data['identity'], $data['identityId']);
+            if (in_array(strtolower($data['access']), $accessList)) {
                 $access = true;
                 break;
             }
@@ -145,25 +170,73 @@ class AccessManager
         return $access;
     }
 
-    public function getAccessList($object){
-        $list = array();
-        $objectClass = ClassUtils::getRealClass($object);
-        if(isset($this->symbbConfig['access'][$objectClass])){
-            $list = $this->symbbConfig['access'][$objectClass];
+    /**
+     * @param $objectClass
+     * @param $objectId
+     * @param $identityClass
+     * @param $identityId
+     * @return array
+     */
+    public function checkCache($objectClass, $objectId, $identityClass, $identityId){
+
+        $accessData = array();
+
+        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
+
+        if(!$this->memcache->get($checkKey)){
+
+            $findBy = array(
+                'object' => $objectClass,
+                'objectId' => $objectId
+            );
+
+            $cache = array();
+
+            $accessList = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findBy($findBy);
+            foreach($accessList as $access){
+                $currIdentityClass = $access->getIdentity();
+                $currIdentityId = $access->getIdentityId();
+                $accessKey = $access->getAccess();
+                $cache[$currIdentityClass][$currIdentityId][] = $accessKey;
+            }
+
+            foreach($cache as $currIdentityClass => $accessList){
+                foreach($accessList as $currIdentityId => $access){
+                    $key = $this->generateCacheKey($objectClass, $objectId, $currIdentityClass, $currIdentityId);
+                    $this->memcache->set($key, $access, self::CACHE_LIFETIME);
+                }
+            }
+
+            $this->memcache->set($checkKey, true, self::CACHE_LIFETIME);
         }
-        return $list;
+
+        $key = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
+        $accessData =  $this->memcache->get($key);
+
+        if(!$accessData){
+            $accessData = array();
+        }
+
+        return $accessData;
     }
 
+    /**
+     * @param $objectClass
+     * @param $objectId
+     * @param $identityClass
+     * @param $identityId
+     * @return string
+     */
+    protected function generateCacheKey($objectClass, $objectId, $identityClass, $identityId){
+        $key = 'acl_'.md5($objectClass.$objectId.$identityClass.$identityId);
+        return $key;
+    }
     /**
      *
      * @return UserInterface
      */
     public function getUser()
     {
-        if (!is_object($this->user)) {
-            $this->user = $this->container->get('security.context')->getToken()->getUser();
-        }
-        return $this->user;
-
+        return $this->container->get('security.context')->getToken()->getUser();
     }
 }

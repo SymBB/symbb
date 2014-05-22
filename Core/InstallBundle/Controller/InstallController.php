@@ -33,9 +33,6 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
             $result = $executer->execute('doctrine:schema:update --force --em=symbb --env=' . $env);
             $output[] = $result['output'];
 
-            $result = $executer->execute('init:acl --env=' . $env);
-            $output[] = $result['output'];
-
             $result = $executer->execute('doctrine:fixtures:load --em=symbb --env=' . $env);
             $output[] = $result['output'];
 

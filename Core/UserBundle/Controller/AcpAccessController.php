@@ -119,7 +119,8 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                     'forumList' => $forumList,
                     'subforum' => $subforum,
                     'form' => $form->createView(),
-                    'accessManager' => $this->get('symbb.core.access.manager')
+                    'accessManager' => $this->get('symbb.core.access.manager'),
+                    'accessVoterManager' => $this->get('symbb.core.access.voter.manager')
                 )
             );
         } else {
@@ -127,13 +128,19 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
         }
     }
 
+    /**
+     * @param object $forum
+     * @param object $group
+     * @param array $accessList
+     * @param bool $subforum
+     */
     protected function grandForumAccess($forum, $group, $accessList, $subforum)
     {
         $this->get('symbb.core.access.manager')->removeAllAccess($forum, $group);
 
-        foreach ((array) $accessList as $extension => $extensionData) {
-            foreach ((array) $extensionData as $access => $value) {
-                $this->get('symbb.core.access.manager')->grantAccess($extension, $access, $forum, $group);
+        foreach ((array) $accessList as $access => $value) {
+            if($value){
+                $this->get('symbb.core.access.manager')->grantAccess($access, $forum, $group);
             }
         }
         if ($subforum) {

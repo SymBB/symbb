@@ -29,9 +29,9 @@ class AccessExtension extends \Twig_Extension
         );
     }
     
-    public function hasSymbbAccess($permissionString, $element, $user = null)
+    public function hasSymbbAccess( $access, $element, $user = null)
     {
-        $this->accessManager->addAccessCheck($permissionString, $element, $user);
+        $this->accessManager->addAccessCheck($access, $element, $user);
         $access             = $this->accessManager->hasAccess();
         return $access;
     }

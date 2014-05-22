@@ -34,8 +34,7 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
         // if we add a post "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
         if ($flag === 'new') {
-            $this->accessManager->addAccessCheck('SYMBB_FORUM#VIEW', $object->getTopic()->getForum(), $user);
-            $access = $this->accessManager->hasAccess();
+            $access = $this->securityContext->isGranted('VIEW', $object->getTopic()->getForum(), $user);
             if ($access) {
                 $ignore = $this->forumFlagHandler->checkFlag($object->getTopic()->getForum(), 'ignore', $user);
             }

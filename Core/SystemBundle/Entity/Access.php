@@ -47,11 +47,6 @@ class Access
     /**
      * @ORM\Column(type="string")
      */
-    protected $extension;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     protected $access;
 
     /**
@@ -68,22 +63,6 @@ class Access
     public function getAccess()
     {
         return $this->access;
-    }
-
-    /**
-     * @param string $extension
-     */
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtension()
-    {
-        return $this->extension;
     }
 
     /**

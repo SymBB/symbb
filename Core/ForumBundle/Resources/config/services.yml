@@ -81,14 +81,21 @@ services:
             - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
 
     symbb.core.forum.security.access.post_voter:
-        class:      SymBB\Core\ForumBundle\\Security\Authorization\Voter\PostVoter
+        class:      SymBB\Core\ForumBundle\Security\Authorization\PostVoter
         public:     false
         arguments: ['@symbb.core.access.manager']
         tags:
            - { name: security.voter }
 
     symbb.core.forum.security.access.topic_voter:
-        class:      SymBB\Core\ForumBundle\\Security\Authorization\Voter\TopicVoter
+        class:      SymBB\Core\ForumBundle\Security\Authorization\TopicVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }
+
+    symbb.core.forum.security.access.forum_voter:
+        class:      SymBB\Core\ForumBundle\Security\Authorization\ForumVoter
         public:     false
         arguments: ['@symbb.core.access.manager']
         tags:

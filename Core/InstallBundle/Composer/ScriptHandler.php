@@ -33,10 +33,7 @@ class ScriptHandler
 
         static::executeCommand($event, $appDir, 'doctrine:schema:update --force --em=symbb --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'doctrine:schema:update --force --em=symbb --env=dev', $options['process-timeout']);
-        
-        static::executeCommand($event, $appDir, 'init:acl --env=prod', $options['process-timeout']);
-        static::executeCommand($event, $appDir, 'init:acl --env=dev', $options['process-timeout']);
-        
+
         static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=dev', $options['process-timeout']);
         

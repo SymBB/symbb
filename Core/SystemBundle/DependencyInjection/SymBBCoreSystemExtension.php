@@ -20,31 +20,8 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
 
     public function prepend(ContainerBuilder $container)
     {
-
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('doctrine.yml');
-
-        $prefix = "symbb_";
-        foreach ($container->getExtensions() as $name => $extension) {
-            if ($name == 'sym_bb_core_config') {
-                $configs = $container->getExtensionConfig($name);
-                if(isset($configs[1]["database"])){
-                    $prefix = $configs[1]["database"]["table_prefix"];
-                }
-            }
-        }
-
-        foreach ($container->getExtensions() as $name => $extension) {
-            if ($name == 'security' && !empty($prefix)) {
-                $config['acl']['tables']['class'] = $prefix . 'acl_classes';
-                $config['acl']['tables']['entry'] = $prefix . 'acl_entries';
-                $config['acl']['tables']['object_identity'] = $prefix . 'acl_object_identities';
-                $config['acl']['tables']['object_identity_ancestors'] = $prefix . 'acl_object_identity_ancestors';
-                $config['acl']['tables']['security_identity'] = $prefix . 'acl_security_identities';
-                $container->prependExtensionConfig($name, $config);
-            }
-        }
-
     }
 
     public function load(array $configs, ContainerBuilder $container)
