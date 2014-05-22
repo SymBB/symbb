@@ -10,18 +10,14 @@
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use SymBB\Core\SystemBundle\Entity\Access;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use \Symfony\Component\Security\Core\Util\ClassUtils;
 use \Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
 use \Symfony\Component\Security\Acl\Model\AclProviderInterface;
 
-class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class AccessManager
 {
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $em;
 
     /**
      * @var array
@@ -31,18 +27,15 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
     /**
      * @var array
      */
-    protected $symbBConfig = array();
+    protected $symbbConfig = array();
 
-    /**
-     *
-     * @param type $em
-     * @param \Symfony\Component\Security\Core\SecurityContextInterface $securityContext
-     */
-    public function __construct($em, SecurityContextInterface $securityContext, $symbbConfig)
+    protected $container;
+
+    public function __construct($symbbConfig, $container)
     {
-        $this->em = $em;
-        $this->securityContext = $securityContext;
+        $this->container = $container;
         $this->symbbConfig = $symbbConfig;
+        $this->em =  $this->container->get('doctrine.orm.symbb_entity_manager');
     }
 
     /**
@@ -58,13 +51,13 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
     }
 
     /**
-     * 
+     *
      * @param array $mask
      * @param object $object
      * @param object $identity
      * @throws Exception
      */
-    public function grantAccess($masks, $object, $identity = null)
+    public function grantAccess($extension, $access, $object, $identity = null)
     {
         if ($identity === null) {
             $identity = $this->getUser();
@@ -76,19 +69,14 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
         $identityClass = ClassUtils::getRealClass($identity);
         $identityId = $identity->getId();
 
-        foreach ((array) $masks as $mask) {
-            $maskData = explode('#', $mask);
-            $extension = reset($maskData);
-            $access = end($maskData);
-            $accessObj = new Access();
-            $accessObj->setObject($objectClass);
-            $accessObj->setObjectId($objectId);
-            $accessObj->setIdentity($identityClass);
-            $accessObj->setIdentityId($identityId);
-            $accessObj->setExtension($extension);
-            $accessObj->setAccess($access);
-            $this->em->persist($accessObj);
-        }
+        $accessObj = new Access();
+        $accessObj->setObject($objectClass);
+        $accessObj->setObjectId($objectId);
+        $accessObj->setIdentity($identityClass);
+        $accessObj->setIdentityId($identityId);
+        $accessObj->setExtension($extension);
+        $accessObj->setAccess($access);
+        $this->em->persist($accessObj);
 
         $this->em->flush();
     }
@@ -103,12 +91,12 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
         $identityId = $identity->getId();
 
         $qb = $this->em->getRepository('SymBBCoreSystemBundle:Access')->createQueryBuilder('a');
-        $qb->delete('a')
-            ->where('object = ?object AND objectId = ?objectId AND indentity = ?identity AND indentityId = ?indentityId ')
+        $qb->delete('SymBBCoreSystemBundle:Access a')
+            ->where('a.object = :object AND a.objectId = :objectId AND a.identity = :identity AND a.identityId = :identityId ')
             ->setParameter('object', $objectClass)
             ->setParameter('objectId', $objectId)
-            ->setParameter('indentity', $identityClass)
-            ->setParameter('indentityId', $identityId);
+            ->setParameter('identity', $identityClass)
+            ->setParameter('identityId', $identityId);
         $query = $qb->getQuery();
         $query->execute();
 
@@ -118,35 +106,28 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
      * @param array|string $masks
      * @param object $object
      * @param array|null $indentityObject
-     * @param bool $checkAdditional
      * @return bool
      */
-    public function addAccessCheck($masks, $object, $identity = null, $checkAdditional = true)
+    public function addAccessCheck($extension, $access, $object, $identity = null)
     {
         if ($identity === null) {
             $identity = $this->getUser();
         }
 
-        foreach((array)$masks as $mask){
-            $maskData = explode('#', $mask);
-            $extension = reset($maskData);
-            $access = end($maskData);
+        $objectClass = ClassUtils::getRealClass($object);
+        $objectId = $object->getId();
 
-            $objectClass = ClassUtils::getRealClass($object);
-            $objectId = $object->getId();
+        $identityClass = ClassUtils::getRealClass($identity);
+        $identityId = $identity->getId();
 
-            $identityClass = ClassUtils::getRealClass($identity);
-            $identityId = $identity->getId();
-
-            $this->accessChecks[] = array(
-                'object' => $objectClass,
-                'objectId' => $objectId,
-                'identity' => $identityClass,
-                'identityId' => $identityId,
-                'extension' => $extension,
-                'access' => $access
-            );
-        }
+        $this->accessChecks[] = array(
+            'object' => $objectClass,
+            'objectId' => $objectId,
+            'identity' => $identityClass,
+            'identityId' => $identityId,
+            'extension' => $extension,
+            'access' => $access
+        );
     }
 
     public function hasAccess()
@@ -164,16 +145,6 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
         return $access;
     }
 
-    public function checkAccess()
-    {
-        $access = $this->hasAccess();
-        if (false === $access) {
-            throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
-        }
-        return $access;
-
-    }
-
     public function getAccessList($object){
         $list = array();
         $objectClass = ClassUtils::getRealClass($object);
@@ -181,5 +152,18 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
             $list = $this->symbbConfig['access'][$objectClass];
         }
         return $list;
+    }
+
+    /**
+     *
+     * @return UserInterface
+     */
+    public function getUser()
+    {
+        if (!is_object($this->user)) {
+            $this->user = $this->container->get('security.context')->getToken()->getUser();
+        }
+        return $this->user;
+
     }
 }

@@ -1,7 +1,3 @@
-parmaeters:
-    symbb.core.access.files:
-        SymBBExtensionRatingBundle: access.yml
-
 services:
     symbb.listener.post.rating:
         class: SymBB\Extension\RatingBundle\EventListener\TemplateListener

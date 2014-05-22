@@ -1,7 +1,20 @@
-sym_bb_core_config:
-    upload:
-        tmp:
-            directory: /symbb/upload/tmp/
-        post:
-            directory: /symbb/upload/post/
+upload:
+    tmp:
+        directory: /symbb/upload/tmp/
+    post:
+        directory: /symbb/upload/post/
 
+access:
+    SymBB\Core\ForumBundle\Entity\Forum:
+        CoreUser:
+            - VIEW
+            - CREATE_TOPIC
+            - CREATE_POST
+        CoreMod:
+            - EDIT_TOPIC
+            - EDIT_POST
+            - MOVE_TOPIC
+            - MOVE_POST
+            - DELETE_TOPIC
+            - DELETE_POST
+            - SPLIT_TOPIC

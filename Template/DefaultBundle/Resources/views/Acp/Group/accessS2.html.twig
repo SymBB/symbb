@@ -51,7 +51,7 @@
                     <div class="tab-pane {% if loop.first %} active {% else %} fade {% endif %}" id="tabX{{ forum.getId() }}X{{ tabCount }}">
                         {% for access in accessList %}
                             <div>
-                                <input {% if hasSymbbAccess(access, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ access }}]" id="access-{{ forum.getId() }}-{{count}}" > <label for="access-{{ forum.getId() }}-{{count}}">{{ access|trans({}, 'symbb_access') }}</label>
+                                <input {% if hasSymbbAccess((extension ~ '#' ~ access), forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ extension }}][{{ access }}]" id="access-{{ forum.getId() }}-{{count}}" > <label for="access-{{ forum.getId() }}-{{count}}">{{ (extension ~ '#' ~ access)|trans({}, 'symbb_access') }}</label>
                             </div>
                             {% set count = count + 1%}
                         {% endfor %}

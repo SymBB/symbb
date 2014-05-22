@@ -1,4 +1,4 @@
-parmaeters:
+parameters:
     symbb.core.access.files:
         SymBBExtensionSurveyBundle: access.yml
 

@@ -22,7 +22,6 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
     {
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
         $loader->load('doctrine.yml');
 
         $prefix = "symbb_";
@@ -30,11 +29,11 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
             if ($name == 'sym_bb_core_config') {
                 $configs = $container->getExtensionConfig($name);
                 if(isset($configs[1]["database"])){
-                    $prefix = $configs[1]["database"]["table_prefix"]; 
+                    $prefix = $configs[1]["database"]["table_prefix"];
                 }
             }
         }
-        
+
         foreach ($container->getExtensions() as $name => $extension) {
             if ($name == 'security' && !empty($prefix)) {
                 $config['acl']['tables']['class'] = $prefix . 'acl_classes';
@@ -50,6 +49,7 @@ class SymBBCoreSystemExtension extends Extension implements PrependExtensionInte
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
     }
 }

@@ -55,7 +55,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('upload') 
+                ->arrayNode('upload')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
                     ->prototype('array')

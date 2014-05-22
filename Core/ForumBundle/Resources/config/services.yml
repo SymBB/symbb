@@ -25,20 +25,23 @@ services:
         class: SymBB\Core\ForumBundle\Twig\ManagerExtension
         arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager']
         tags:
-            - { name: twig.extension } 
-            
+            - { name: twig.extension }
+
     symbb.core.forum.manager:
+        parent:  symbb.core.abstract.manager
         class: SymBB\Core\ForumBundle\DependencyInjection\ForumManager
-        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@knp_paginator', '@translator']
-    
+        arguments: ['@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager']
+
     symbb.core.post.manager:
+        parent:  symbb.core.abstract.manager
         class: SymBB\Core\ForumBundle\DependencyInjection\PostManager
-        arguments: ['@security.context', '@symbb.core.post.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher', '@knp_paginator']
-        
+        arguments: ['@symbb.core.post.flag', '@symbb.core.config.manager', '@event_dispatcher']
+
     symbb.core.topic.manager:
+        parent:  symbb.core.abstract.manager
         class: SymBB\Core\ForumBundle\DependencyInjection\TopicManager
-        arguments: ['@security.context', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@doctrine.orm.symbb_entity_manager', '@event_dispatcher', '@knp_paginator']
-  
+        arguments: ['@symbb.core.topic.flag', '@symbb.core.config.manager', '@event_dispatcher']
+
             
             
     symbb.core.abstract.flag:
@@ -66,11 +69,6 @@ services:
     symbb.core.forum.notify:
         class: SymBB\Core\ForumBundle\DependencyInjection\NotifyHandler
         arguments: ['@service_container']
-        
-    symbb.core.forum.acl.manager:
-        class: SymBB\Core\ForumBundle\Acl\Manager
-        tags:
-            - { name: symbb.acl.manager }
             
     symbb.core.forum.config:
         class: SymBB\Core\ForumBundle\EventListener\ConfigListener
@@ -81,3 +79,17 @@ services:
         class: SymBB\Core\ForumBundle\EventListener\AngularListener
         tags:
             - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
+
+    symbb.core.forum.security.access.post_voter:
+        class:      SymBB\Core\ForumBundle\\Security\Authorization\Voter\PostVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }
+
+    symbb.core.forum.security.access.topic_voter:
+        class:      SymBB\Core\ForumBundle\\Security\Authorization\Voter\TopicVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }

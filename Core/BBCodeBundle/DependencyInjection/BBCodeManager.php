@@ -23,7 +23,7 @@ class BBCodeManager
 
     /**
      * 
-     * @param type $setId
+     * @param string $setId
      * @return \SymBB\Core\BBCodeBundle\Entity\Set
      */
     public function getSet($setId)

@@ -1,7 +1,3 @@
-parmaeters:
-    symbb.core.access.files:
-        SymBBCoreSystemBundle: access.yml
-
 services:
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
@@ -25,15 +21,24 @@ services:
         arguments: ['@symbb.core.config.manager']
         tags:
             - { name: twig.extension }
-            
+
+    symbb.core.abstract.manager:
+        abstract: true
+        calls:
+            - [setSecurityContext, ['@security.context']]
+            - [setAccessManager, ['@symbb.core.access.manager']]
+            - [setPaginator, ['@knp_paginator']]
+            - [setTranslator, ['@translator']]
+            - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", "@security.context", "%symbb_config%"]
-        
+        arguments: ["%symbb_config%", '@service_container']
+
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
         arguments: ['@service_container']
-        
+
     symbb.core.upload.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager
         arguments: ["@security.context", "%symbb_config%", '%kernel.root_dir%']
@@ -62,10 +67,6 @@ services:
         arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-
-    symbb.core.access.loader:
-        class: SymBB\Core\SystemBundle\DependencyInjection\AccessLoader
-        arguments: [%symbb.core.access.files%]
 
     symbb.core.update.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UpdateManager

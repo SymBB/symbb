@@ -570,10 +570,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['author'] = $this->getAuthorAsArray();
         $array['tags'] = array();
         foreach($tags as $tag){
+
+            $translation = $this->get('translator')->trans($tag->getName(), array(), 'symbb_variables');
+
             $array['tags'][$tag->getId()] = array(
                 'id' => $tag->getId(),
                 'priority' => $tag->getPriority(),
-                'name' => $this->get('translator')->trans($tag->getName(), array(), 'symbb_variables'),
+                'name' => $translation,
                 'status' => 0
             );
         }
@@ -752,6 +755,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         } else {
             $array['type'] = $flagName;
         }
+
         $array['title'] = $this->get('translator')->trans($flagName, array(), 'symbb_frontend');
         return $array;
     }

@@ -131,8 +131,10 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
     {
         $this->get('symbb.core.access.manager')->removeAllAccess($forum, $group);
 
-        foreach ((array) $accessList as $permission => $value) {
-            $this->get('symbb.core.access.manager')->grantAccess($permission, $forum, $group);
+        foreach ((array) $accessList as $extension => $extensionData) {
+            foreach ((array) $extensionData as $access => $value) {
+                $this->get('symbb.core.access.manager')->grantAccess($extension, $access, $forum, $group);
+            }
         }
         if ($subforum) {
             $childs = $forum->getChildren();
