@@ -65,6 +65,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $limit = $topic->getForum()->getEntriesPerPage();
         }
 
+        $qbPage = $this->em->createQueryBuilder();
+        $qbPage->add('select', 'count(p)')
+            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('where', 'p.topic = ?1')
+            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
+            ->setParameter(1, $topic);
+        $queryPage = $qbPage->getQuery();
+        $count = $queryPage->getSingleScalarResult();
+
         $qb = $this->em->createQueryBuilder();
         $qb->add('select', 'p')
             ->add('from', 'SymBBCoreForumBundle:Post p')
@@ -72,24 +81,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic);
 
-        
+        $query = $qb->getQuery();
+        $query->setHint('knp_paginator.count', $count);
 
         if ($page === 'last') {
-            $qbPage = $this->em->createQueryBuilder();
-            $qbPage->add('select', 'count(p)')
-            ->add('from', 'SymBBCoreForumBundle:Post p')
-            ->add('where', 'p.topic = ?1')
-            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic);
-            $queryPage = $qbPage->getQuery();
-            $count = $queryPage->getSingleScalarResult();
             $page = \ceil($count / $limit);
         }
-        
+
         $pagination = $this->paginator->paginate(
-            $qb,
-            $page,
-            $limit
+            $query, $page, $limit, array('distinct' => false)
         );
 
         return $pagination;

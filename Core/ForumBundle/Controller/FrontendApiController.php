@@ -578,8 +578,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
                 $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
-                $this->addPaginationData($posts);
-                $array['count']['post'] = $this->paginationData['totalCount'];
+                $paginationData = $posts->getPaginationData();
+                $array['count']['post'] = $paginationData['totalCount'];
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
                 }
