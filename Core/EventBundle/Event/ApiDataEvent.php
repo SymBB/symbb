@@ -17,7 +17,12 @@ class ApiDataEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
     /**
      * @var array
      */
-    protected $extensionData;
+    protected $extensionData = array();
+
+    /**
+     * @var array
+     */
+    protected $accessData = array();
 
     public function __construct($object)
     {
@@ -37,5 +42,13 @@ class ApiDataEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
     public function addExtensionData($key, $data)
     {
         $this->extensionData[$key] = $data;
+    }
+
+    public function addAccessData($key, $access){
+        $this->accessData[$key] = $access;
+    }
+
+    public function getAccessData(){
+        return $this->accessData;
     }
 }

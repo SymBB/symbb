@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<div class="symbb_tabcontent" data-tab="survey">
+<div ng-show="post.access.createSurvey" class="symbb_tabcontent" data-tab="survey">
     <div class="panel panel-default">
         <div class="padding10">   
             <div class="form-group">
@@ -37,7 +37,7 @@
                     <div class="dropdown">
                         <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown">
                             <div class="input-group">
-                                <input type="text" class="form-control" ng-model="post.extension.survey.end">
+                                <input type="hidden" class="form-control" ng-model="post.extension.survey.end">
                                 <input type="text" class="form-control" ng-model="post.extension.survey.date">
                                 <span class="input-group-addon">
                                     <i class="glyphicon glyphicon-calendar">

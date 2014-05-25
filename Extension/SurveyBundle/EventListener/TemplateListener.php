@@ -31,7 +31,7 @@ class TemplateListener
 
     public function addTopicTab($event)
     {
-        $this->addPostTab($event);
+        $event->render('SymBBExtensionSurveyBundle:Topic:tab.html.twig', array());
     }
 
     public function addTopicTabContent($event)

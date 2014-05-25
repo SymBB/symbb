@@ -624,6 +624,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->handleEvent('symbb.api.topic.data', $event);
         $array['extension'] = $event->getExtensionData();
 
+        $extensionAccess = $event->getAccessData();
+        $array['access'] = array_merge($array['access'], $extensionAccess);
+
         return $array;
     }
 
@@ -703,6 +706,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($forum);
         $this->handleEvent('symbb.api.forum.data', $event);
         $array['extension'] = $event->getExtensionData();
+
+        $extensionAccess = $event->getAccessData();
+        $array['access'] = array_merge($array['access'], $extensionAccess);
 
         return $array;
     }
@@ -798,6 +804,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->handleEvent('symbb.api.post.data', $event);
         $array['extension'] = $event->getExtensionData();
 
+        $extensionAccess = $event->getAccessData();
+        $array['access'] = array_merge($array['access'], $extensionAccess);
 
         return $array;
     }

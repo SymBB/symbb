@@ -1,2 +1,2 @@
 {% trans_default_domain "symbb_frontend" %}
-<li><a class="symbb_tab" data-tab="survey">{{ 'Survey'|trans }}</a></li>
+<li ng-show="post.access.createSurvey"><a class="symbb_tab" data-tab="survey">{{ 'Survey'|trans }}</a></li>
