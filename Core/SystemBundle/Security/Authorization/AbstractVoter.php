@@ -90,7 +90,7 @@ abstract class AbstractVoter implements VoterInterface
         }
 
         // set the attribute to check against
-        $attribute = $attributes[0];
+        $attribute = strtolower($attributes[0]);
 
         // get current logged in user
         $user = $token->getUser();
@@ -113,7 +113,5 @@ abstract class AbstractVoter implements VoterInterface
                 }
                 break;
         }
-
-        return VoterInterface::ACCESS_ABSTAIN;
     }
 }

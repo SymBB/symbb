@@ -782,7 +782,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($post->getFiles() as $file) {
                     $array['files'][] = $file->getPath();
                 }
-                
                 $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
                 $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
 

@@ -47,7 +47,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $check = parent::vote($token, $object, $attributes);
-        if($check === self::ACCESS_GRANTED){
+        if($check !== null){
             return $check;
         }
 
@@ -55,7 +55,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
         $user = $token->getUser();
 
         // set the attribute to check against
-        $attribute = $attributes[0];
+        $attribute = strtolower($attributes[0]);
 
         switch($attribute) {
             case 'view':

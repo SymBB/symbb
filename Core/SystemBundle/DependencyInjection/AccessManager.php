@@ -147,7 +147,6 @@ class AccessManager
                 'identityId' => $identityId,
                 'access' => $access
             );
-
         }
 
 
