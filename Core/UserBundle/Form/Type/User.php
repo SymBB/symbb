@@ -56,12 +56,12 @@ class User extends AbstractType
                     )
                 )
             )
-            ->add('enabled', "checkbox", array('required' => false, 'data' => true))
+            ->add('enabled', "checkbox", array('required' => false))
             ->add('plain_password', "repeated", array(
                 'type' => 'password',
                 'invalid_message' => 'The password fields must match.',
                 'options' => array('attr' => array('class' => 'password-field')),
-                'required' => true,
+                'required' => false,
                 'first_options' => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
                 'constraints' => $this->usermanager->getPasswordValidatorConstraints()

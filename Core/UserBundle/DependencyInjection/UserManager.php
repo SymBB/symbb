@@ -381,7 +381,6 @@ class UserManager
                 "min" => 6,
                 'minMessage' => $this->translator->trans('Your Password need a minimum of 6 characters', array(), 'validators')
             ));
-            $constraints[] = new \Symfony\Component\Validator\Constraints\NotBlank();
         }
 
         if ($strength >= 2) {

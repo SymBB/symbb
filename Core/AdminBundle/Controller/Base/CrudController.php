@@ -116,7 +116,7 @@ abstract class CrudController extends Controller
         $form = $this->getForm();
 
         if ($request->isMethod('POST')) {
-            $form->bind($request);
+            $form->handleRequest($request);
             $entity = $this->getFormEntity();
             if ($form->isValid()) {
                 $em = $this->getEntityManager();
