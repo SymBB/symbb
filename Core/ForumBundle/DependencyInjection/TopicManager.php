@@ -33,19 +33,14 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
-    
-    protected $paginator;
 
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $em, $dispatcher, $paginator
+    TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $dispatcher
     )
     {
-        $this->securityContext = $securityContext;
         $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
-        $this->em = $em;
         $this->dispatcher = $dispatcher;
-        $this->paginator = $paginator;
     }
 
     /**
@@ -70,6 +65,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             $limit = $topic->getForum()->getEntriesPerPage();
         }
 
+        $qbPage = $this->em->createQueryBuilder();
+        $qbPage->add('select', 'count(p)')
+            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('where', 'p.topic = ?1')
+            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
+            ->setParameter(1, $topic);
+        $queryPage = $qbPage->getQuery();
+        $count = $queryPage->getSingleScalarResult();
+
         $qb = $this->em->createQueryBuilder();
         $qb->add('select', 'p')
             ->add('from', 'SymBBCoreForumBundle:Post p')
@@ -77,10 +81,15 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic);
 
+        $query = $qb->getQuery();
+        $query->setHint('knp_paginator.count', $count);
+
+        if ($page === 'last') {
+            $page = \ceil($count / $limit);
+        }
+
         $pagination = $this->paginator->paginate(
-            $qb,
-            $page,
-            $limit
+            $query, $page, $limit, array('distinct' => false)
         );
 
         return $pagination;

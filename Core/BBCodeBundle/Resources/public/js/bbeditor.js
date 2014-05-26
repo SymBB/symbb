@@ -52,6 +52,22 @@ var BBCodeEditor = {
         
         return btngroup;
     },
+
+    prepareColorBtn: function(btn, parentDiv, bbcode){
+
+        var regex = bbcode.button_regex;
+
+        $(btn).colpick({
+            flat: false,
+            layout: 'hex',
+            onSubmit: function(HSBObject, HEXString){
+                bbcode.button_regex = regex.replace('{color}', '#'+HEXString);
+                BBCodeEditor.executeBtn(bbcode.button_regex, parentDiv, bbcode);
+            }
+        });
+
+        return btn;
+    },
     
     
     prepareHeaderBtn: function(btn, parentDiv, bbcode){
@@ -94,29 +110,33 @@ var BBCodeEditor = {
     prepareDefaultBtn: function(btn, parentDiv, bbcode){
         var regex = bbcode.button_regex;
         btn.click(function(){
-            var element = $(parentDiv).find('textarea')[0];
-
-                var tagCode = regex;
-
-                if (document.selection) {
-                    var sel = document.selection.createRange();
-                    sel.text = tagCode.replace(/\{text\}/g, sel.text);
-                } else if (element.selectionStart || element.selectionStart == '0') {
-                    var startPos = element.selectionStart;
-                    var endPos = element.selectionEnd;
-                    var insert = tagCode.replace(/\{text\}/g, element.value.substring(startPos, endPos));
-                    element.value = element.value.substring(0, startPos) + insert + element.value.substring(endPos, element.value.length);
-                    element.focus();
-                    element.selectionStart = endPos + tagCode.length - 3;
-                } else {
-                    element.focus();
-                    element.value += tagCode.replace(/\{text\}/g, '');
-                }
-                $(element).change();
-                
-                BBCodeEditor.updatePreview(parentDiv, bbcode.set);
+            BBCodeEditor.executeBtn(regex, parentDiv, bbcode);
         });
         return btn;
+    },
+
+    executeBtn: function(regex, parentDiv, bbcode){
+        var element = $(parentDiv).find('textarea')[0];
+
+        var tagCode = regex;
+
+        if (document.selection) {
+            var sel = document.selection.createRange();
+            sel.text = tagCode.replace(/\{text\}/g, sel.text);
+        } else if (element.selectionStart || element.selectionStart == '0') {
+            var startPos = element.selectionStart;
+            var endPos = element.selectionEnd;
+            var insert = tagCode.replace(/\{text\}/g, element.value.substring(startPos, endPos));
+            element.value = element.value.substring(0, startPos) + insert + element.value.substring(endPos, element.value.length);
+            element.focus();
+            element.selectionStart = endPos + tagCode.length - 3;
+        } else {
+            element.focus();
+            element.value += tagCode.replace(/\{text\}/g, '');
+        }
+        $(element).change();
+
+        BBCodeEditor.updatePreview(parentDiv, bbcode.set);
     },
     
     createEditor: function(parentDiv){

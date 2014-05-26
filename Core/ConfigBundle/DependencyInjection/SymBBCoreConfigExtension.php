@@ -13,19 +13,19 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\Yaml\Parser;
 
 class SymBBCoreConfigExtension extends Extension implements PrependExtensionInterface
 {
     
     public function prepend(ContainerBuilder $container) 
     {
-        
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine.yml');
         $loader->load('twig.yml');
         $loader->load('fos_user.yml');
         $loader->load('fos_rest.yml');
-        //$loader->load('fos_messages.yml');
         $loader->load('knp.yml');
         $loader->load('lsw_memcache.yml');
         $loader->load('swiftmailer.yml');
@@ -34,22 +34,24 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
         $loader->load('fosjsrouting.yml');
-        $loader->load('symbb.yml');
 
     }
         
     public function load(array $configs, ContainerBuilder $container)
-    {        
-        
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+    {
+        $locator = new FileLocator(__DIR__.'/../Resources/config');
+        $yaml = new Parser();
+        $myConfig = $yaml->parse(file_get_contents(($locator->locate('symbb.yml'))));
+
+        $loader = new YamlFileLoader($container, $locator);
         $loader->load('services.yml');
-        
-        
         $config = array();
         foreach ($configs as $subConfig) {
             $config = array_merge($config, $subConfig);
         }
- 
+
+        $config = array_merge_recursive($config, $myConfig);
+
         $configuration = new \SymBB\Core\ConfigBundle\DependencyInjection\Configuration();
         $config        = $this->processConfiguration($configuration, array($config));
  

@@ -56,6 +56,14 @@
         <source>Your Password need a minimum of 1 lowercase character</source>
         <target>Dein Passwort muss mindestens einen Kleinbuchstaben enthalten</target>
       </trans-unit>
+      <trans-unit resname="Announcement">
+        <source>Announcement</source>
+        <target>Ankündigung</target>
+      </trans-unit>
+      <trans-unit resname="Important">
+        <source>Important</source>
+        <target>Wichtig</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

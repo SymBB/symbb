@@ -21,15 +21,27 @@ services:
         arguments: ['@symbb.core.config.manager']
         tags:
             - { name: twig.extension }
-            
+
+    symbb.core.abstract.manager:
+        abstract: true
+        calls:
+            - [setSecurityContext, ['@security.context']]
+            - [setAccessManager, ['@symbb.core.access.manager']]
+            - [setPaginator, ['@knp_paginator']]
+            - [setTranslator, ['@translator']]
+            - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", "@security.context", "@security.acl.provider"]
-        
+        arguments: ["%symbb_config%", '@service_container']
+
+    symbb.core.access.voter.manager:
+        class: SymBB\Core\SystemBundle\DependencyInjection\AccessVoterManager
+
     symbb.core.config.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
         arguments: ['@service_container']
-        
+
     symbb.core.upload.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager
         arguments: ["@security.context", "%symbb_config%", '%kernel.root_dir%']

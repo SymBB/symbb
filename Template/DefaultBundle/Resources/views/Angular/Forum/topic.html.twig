@@ -47,6 +47,15 @@
                                     </div>
                                     <div class="clear"></div>
                                 </div>
+                                <div ng-repeat="tag in topic.tags">
+                                    <div class="form-group">
+                                        <label for="topic_locked" class="col-sm-2 control-label">[[tag.name]]</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" value="1" ng-model="topic.tags[tag.id].status">
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="symbb_tabcontent" data-tab="files">

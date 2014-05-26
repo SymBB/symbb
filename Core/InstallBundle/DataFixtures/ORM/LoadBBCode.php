@@ -30,11 +30,15 @@ class LoadBBCode extends AbstractFixture
         $setSignature = new \SymBB\Core\BBCodeBundle\Entity\Set();
         $setSignature->setId('signature');
         $setSignature->setName("Signature");
+
+        $setPm = new \SymBB\Core\BBCodeBundle\Entity\Set();
+        $setPm->setId('pm');
+        $setPm->setName("Private Message");
         
         $pos = 0;
         $bbcodeSize = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeSize->setName('Font Size');
-        $bbcodeSize->setSearchRegex('#\[size=(.+)\]([\s\S]+)\[\/size\]#iUs');
+        $bbcodeSize->setSearchRegex('#\[size=(.+?)\]([\s\S]+?)\[\/size\]#');
         $bbcodeSize->setReplaceRegex('<span class="fontsize-$1">$2</span>');
         $bbcodeSize->setButtonRegex('[size={1}]{text}[/size]');
         $bbcodeSize->setImage('/bundles/symbbcorebbcode/images/font.png');
@@ -45,7 +49,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeB = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeB->setName('Bold');
-        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+)\[\/b\]#iUs');
+        $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#');
         $bbcodeB->setReplaceRegex('<b>$1</b>');
         $bbcodeB->setButtonRegex('[b]{text}[/b]');
         $bbcodeB->setImage('/bundles/symbbcorebbcode/images/text_bold.png');
@@ -55,7 +59,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeU = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeU->setName('U');
-        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+)\[\/u\]#iUs');
+        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#iUs');
         $bbcodeU->setReplaceRegex('<u>$1</u>');
         $bbcodeU->setButtonRegex('[u]{text}[/u]');
         $bbcodeU->setImage('/bundles/symbbcorebbcode/images/text_underline.png');
@@ -65,7 +69,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeI = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeI->setName('I');
-        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+)\[\/i\]#iUs');
+        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#iUs');
         $bbcodeI->setReplaceRegex('<i>$1</i>');
         $bbcodeI->setButtonRegex('[i]{text}[/i]');
         $bbcodeI->setImage('/bundles/symbbcorebbcode/images/text_italic.png');
@@ -75,7 +79,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeH1 = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeH1->setName('H1');
-        $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+)\[\/h([0-9]+)\]#iUs');
+        $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+?)\[\/h([0-9]+)\]#');
         $bbcodeH1->setReplaceRegex('<h$1>$2</h$1>');
         $bbcodeH1->setButtonRegex('[h{1}]{text}[/h{1}]');
         $bbcodeH1->setImage('/bundles/symbbcorebbcode/images/text_heading_1.png');
@@ -83,10 +87,21 @@ class LoadBBCode extends AbstractFixture
         $bbcodeH1->setJsFunction('BBCodeEditor.prepareHeaderBtn');
         $manager->persist($bbcodeH1);
         $pos++;
-        
+
+        $bbcodeColor = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeColor->setName('Color');
+        $bbcodeColor->setSearchRegex('#\[color=(.+?)\]([\s\S]+?)\[\/color\]#');
+        $bbcodeColor->setReplaceRegex('<span style="color:$1;">$2</span>');
+        $bbcodeColor->setButtonRegex('[color={color}]{text}[/color]');
+        $bbcodeColor->setImage('/bundles/symbbcorebbcode/images/color_wheel.png');
+        $bbcodeColor->setPosition($pos);
+        $bbcodeColor->setJsFunction('BBCodeEditor.prepareColorBtn');
+        $manager->persist($bbcodeColor);
+        $pos++;
+
         $bbcodeHr = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeHr->setName('Hr');
-        $bbcodeHr->setSearchRegex('#\[hr\]#iUs');
+        $bbcodeHr->setSearchRegex('#\[hr\]#');
         $bbcodeHr->setReplaceRegex('<hr>');
         $bbcodeHr->setButtonRegex('{text}[hr]');
         $bbcodeHr->setImage('/bundles/symbbcorebbcode/images/text_horizontalrule.png');
@@ -126,6 +141,18 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeQuote);
         $pos++;
         
+        
+        $bbcodeCode = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeCode->setName('Code');
+        $bbcodeCode->setSearchRegex('#\[code\]([\s\S]+)\[\/code\]#iUs');
+        $bbcodeCode->setReplaceRegex('<pre class="prettyprint linenums lang-html" >$1</pre><script>prettyPrint()</script>');
+        $bbcodeCode->setButtonRegex('[code]{text}[/code]');
+        $bbcodeCode->setImage('/bundles/symbbcorebbcode/images/page_white_code.png');
+        $bbcodeCode->setPosition($pos);
+        $manager->persist($bbcodeCode); 
+        $pos++;
+        
+        
         $bbcodeList = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeList->setName('List');
         $bbcodeList->setSearchRegex('#\[list\]([\s\S]+)\[\/list\]#iUs');
@@ -138,7 +165,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeListItem = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeListItem->setName('List Item');
-        $bbcodeListItem->setSearchRegex('#^\[\*\]([\s\S^\[]+?)$#iUs');
+        $bbcodeListItem->setSearchRegex('#\[\*\](.*)#');
         $bbcodeListItem->setReplaceRegex('<li>$1</li>');
         $bbcodeListItem->setButtonRegex('[*] {text}');
         $bbcodeListItem->setImage('/bundles/symbbcorebbcode/images/list-item.png');
@@ -158,7 +185,23 @@ class LoadBBCode extends AbstractFixture
         $setDefault->addCode($bbcodeQuote);
         $setDefault->addCode($bbcodeList);
         $setDefault->addCode($bbcodeListItem);
-        
+        $setDefault->addCode($bbcodeColor);
+        $setDefault->addCode($bbcodeCode);
+
+
+        $setPm->addCode($bbcodeSize);
+        $setPm->addCode($bbcodeB);
+        $setPm->addCode($bbcodeU);
+        $setPm->addCode($bbcodeI);
+        $setPm->addCode($bbcodeH1);
+        $setPm->addCode($bbcodeHr);
+        $setPm->addCode($bbcodeLink);
+        $setPm->addCode($bbcodeImage);
+        $setPm->addCode($bbcodeQuote);
+        $setPm->addCode($bbcodeList);
+        $setPm->addCode($bbcodeListItem);
+        $setPm->addCode($bbcodeColor);
+
         $setSignature->addCode($bbcodeB);
         $setSignature->addCode($bbcodeU);
         $setSignature->addCode($bbcodeI);
@@ -171,6 +214,7 @@ class LoadBBCode extends AbstractFixture
         
         $manager->persist($setDefault);
         $manager->persist($setSignature);
+        $manager->persist($setPm);
         
         $manager->flush();
         

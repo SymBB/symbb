@@ -9,53 +9,42 @@
 
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
-use \Symfony\Component\Security\Core\SecurityContextInterface;
-use \SymBB\Core\UserBundle\Entity\UserInterface;
-use \Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use \Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use \Symfony\Component\Security\Acl\Exception\AclNotFoundException;
-use \Symfony\Component\Security\Acl\Exception\NoAceFoundException;
+use SymBB\Core\SystemBundle\Entity\Access;
+use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\Util\ClassUtils;
-use \Symfony\Component\Security\Acl\Model\SecurityIdentityInterface;
-use \Symfony\Component\Security\Acl\Model\AclProviderInterface;
 
-class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class AccessManager
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager 
+     * @var array
      */
-    protected $em;
-
-    /**
-     *
-     * @var AclProviderInterface 
-     */
-    protected $aclProvider;
-
     protected $accessChecks = array();
 
-    protected $aclManager = array();
+    /**
+     * @var array
+     */
+    protected $symbbConfig = array();
+
+    protected $container;
 
     /**
-     * 
-     * @param type $em
-     * @param \Symfony\Component\Security\Core\SecurityContextInterface $securityContext
+     * @var AbstractVoter[]
      */
-    public function __construct($em, SecurityContextInterface $securityContext, $aclProvider)
+    protected $voterList = array();
+
+    protected $memcache;
+
+    const CACHE_LIFETIME = 86400; // 1day
+
+    public function __construct($symbbConfig, $container)
     {
-        $this->em = $em;
-        $this->securityContext = $securityContext;
-        $this->aclProvider = $aclProvider;
-
+        $this->container = $container;
+        $this->symbbConfig = $symbbConfig;
+        $this->em =  $this->container->get('doctrine.orm.symbb_entity_manager');
+        $this->memcache = $container->get('memcache.acl');
     }
-
-    public function addAclManager($aclManager)
-    {
-        $this->aclManager[] = $aclManager;
-
-    }
-
 
     /**
      * check if the user are logged in or not
@@ -63,246 +52,190 @@ class AccessManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
      */
     public function isAnonymous()
     {
-        if (!is_object($this->user)) {
+        if (!is_object($this->getUser())) {
             return true;
         }
         return false;
-
     }
 
     /**
-     * 
+     *
      * @param array $mask
      * @param object $object
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $identity
+     * @param object $identity
      * @throws Exception
      */
-    public function grantAccess($masks, $object, $identity = null)
+    public function grantAccess($access, $object, $identity = null)
     {
-
-        $objects = array();
-        foreach ((array) $masks as $mask) {
-            foreach ($this->aclManager as $aclManager) {
-                $maskData = explode('#', $mask);
-                $prefix = reset($maskData) . '#';
-                $finalMask = end($maskData);
-                if ($aclManager->checkPrefix($prefix)) {
-                    $domainObject = $aclManager->createDomainObject($prefix, $object);
-                    if (is_object($domainObject)) {
-                        if (!isset($objects[$prefix])) {
-                            $objects[$prefix]['object'] = $domainObject;
-                            $objects[$prefix]['maskBuilder'] = $aclManager->getMaskBuilder($prefix);
-                        }
-                        $objects[$prefix]['masks'][] = $finalMask;
-                    }
-                    break;
-                }
-            }
+        if ($identity === null) {
+            $identity = $this->getUser();
         }
 
+        $objectClass = ClassUtils::getRealClass($object);
+        $objectId = $object->getId();
 
-        foreach ($objects as $objectData) {
+        $identityClass = ClassUtils::getRealClass($identity);
+        $identityId = $identity->getId();
 
-            $masks = (array) $objectData['masks'];
-            $builder = $objectData['maskBuilder'];
-            $object = $objectData['object'];
-            $objectIdentity = ObjectIdentity::fromDomainObject($object);
+        $accessObj = new Access();
+        $accessObj->setObject($objectClass);
+        $accessObj->setObjectId($objectId);
+        $accessObj->setIdentity($identityClass);
+        $accessObj->setIdentityId($identityId);
+        $accessObj->setAccess($access);
+        $this->em->persist($accessObj);
 
-            try {
-                $acl = $this->aclProvider->findAcl($objectIdentity);
-            } catch (AclNotFoundException $exc) {
-                $acl = $this->aclProvider->createAcl($objectIdentity);
-            }
+        $this->em->flush();
 
-            if ($identity === null) {
-                $identity = $this->getUser();
-            }
 
-            if ($identity instanceof UserInterface) {
-                $securityIdentity = $this->getUserIdentity($identity);
-            } else if ($identity instanceof \SymBB\Core\UserBundle\Entity\Group) {
-                $securityIdentity = $this->getUserGroupIdentity($identity);
-            } else {
-                throw new Exception('Unknown Security Indentity for ' . ClassUtils::getRealClass($identity));
-            }
-
-            foreach ((array) $masks as $currMask) {
-                $builder->add($currMask);
-            }
-
-            $finalMask = $builder->get();
-            $acl->insertObjectAce($securityIdentity, $finalMask);
-
-            $this->aclProvider->updateAcl($acl);
-        }
-
+        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
+        $this->memcache->delete ($checkKey);
     }
 
     public function removeAllAccess($object, $identity)
     {
 
-        if ($identity instanceof UserInterface) {
-            $securityIdentity = $this->getUserIdentity($identity);
-        } else if ($identity instanceof \SymBB\Core\UserBundle\Entity\Group) {
-            $securityIdentity = $this->getUserGroupIdentity($identity);
-        } else {
-            throw new Exception('Unknown Security Indentity for ' . ClassUtils::getRealClass($identity));
-        }
+        $objectClass = ClassUtils::getRealClass($object);
+        $objectId = $object->getId();
 
-        foreach ($this->aclManager as $aclManager) {
+        $identityClass = ClassUtils::getRealClass($identity);
+        $identityId = $identity->getId();
 
-            $prefixes = $aclManager->getPrefixes();
-
-            foreach ($prefixes as $prefix) {
-                $domainObject = $aclManager->createDomainObject($prefix, $object);
-                if (is_object($domainObject)) {
-                    $objectIdentity = ObjectIdentity::fromDomainObject($domainObject);
-                    try {
-                        $acl = $this->aclProvider->findAcl($objectIdentity);
-
-                        // For some reason we need to use an index to update an 
-                        // ACE, so we need to use an index, so start looping
-                        foreach ($acl->getObjectAces() as $index => $ace) {
-                            $aceSecurityId = $ace->getSecurityIdentity();
-                            if ($aceSecurityId->equals($securityIdentity)) {
-                                try {
-                                    $acl->deleteObjectAce($index);
-                                } catch (\OutOfBoundsException $exc) {
-                                    
-                                }
-                            }
-                        }
-
-                        $this->aclProvider->updateAcl($acl);
-                    } catch (AclNotFoundException $exc) {
-                        
-                    }
-                }
-            }
-        }
+        $qb = $this->em->getRepository('SymBBCoreSystemBundle:Access')->createQueryBuilder('a');
+        $qb->delete('SymBBCoreSystemBundle:Access a')
+            ->where('a.object = :object AND a.objectId = :objectId AND a.identity = :identity AND a.identityId = :identityId ')
+            ->setParameter('object', $objectClass)
+            ->setParameter('objectId', $objectId)
+            ->setParameter('identity', $identityClass)
+            ->setParameter('identityId', $identityId);
+        $query = $qb->getQuery();
+        $query->execute();
 
     }
 
     /**
-     * 
+     * @param array|string $masks
      * @param object $object
-     * @param int $mask PermissionMap::PERMISSION_EDIT, MaskBuilder::PERMISSION_VIEW,...
-     * @param SecurityIdentityInterface $indentity
+     * @param array|null $indentityObject
+     * @return bool
      */
-    public function addAccessCheck($permission, $object, $indentityObject = null, $checkAdditional = true)
+    public function addAccessCheck($access, $object, $identity = null)
     {
-
-        $indentity = null;
-
-        if (!is_object($indentityObject)) {
-            $indentityObject = $this->getUser();
+        if ($identity === null) {
+            $identity = $this->getUser();
         }
 
-        if ($indentityObject instanceof UserInterface) {
-            $indentity = $this->getUserIdentity($indentityObject);
-            $groups = $indentityObject->getGroups();
-            foreach ($groups as $group) {
-                $this->addAccessCheck($permission, $object, $group);
-            }
-        } else if ($indentityObject instanceof \SymBB\Core\UserBundle\Entity\Group) {
-            $indentity = $this->getUserGroupIdentity($indentityObject);
-        } else {
-            return false;
+        $objectClass = ClassUtils::getRealClass($object);
+        $objectId = $object->getId();
+
+        $identityList = array($identity);
+
+        if($identity instanceof UserInterface){
+            $groups = $identity->getGroups();
+            $identityList = array_merge($identityList, $groups->toArray());
         }
 
-        foreach ($this->aclManager as $aclManager) {
-            $checks = $aclManager->createAccessChecks($permission, $object, $indentity);
-            $this->accessChecks = array_merge($this->accessChecks, $checks);
-            // check if we need some additional acces checks for the given access
-            if ($checkAdditional) {
-                $additionalChecks = $aclManager->getAdditionalAccessCheck($permission, $object);
-                foreach ($additionalChecks as $additional) {
-                    $this->addAccessCheck($additional['permission'], $additional['object'], $indentityObject, false);
-                }
-            }
+        foreach($identityList as $currIdentity){
+
+            $identityClass = ClassUtils::getRealClass($currIdentity);
+            $identityId = $currIdentity->getId();
+
+            $this->accessChecks[] = array(
+                'object' => $objectClass,
+                'objectId' => $objectId,
+                'identity' => $identityClass,
+                'identityId' => $identityId,
+                'access' => $access
+            );
         }
+
 
     }
 
-    protected function getUserIdentity(\SymBB\Core\UserBundle\Entity\UserInterface $identity)
-    {
-        $indentity = new UserSecurityIdentity($identity->getId(), ClassUtils::getRealClass($identity));
-        return $indentity;
-
-    }
-
-    protected function getUserGroupIdentity($group)
-    {
-        $indentity = new UserSecurityIdentity($group->getId(), ClassUtils::getRealClass($group));
-        return $indentity;
-
-    }
-
+    /**
+     * @return bool
+     */
     public function hasAccess()
     {
         $access = false;
         foreach ($this->accessChecks as $data) {
-            $object = $data['object'];
-            $indentity = $data['indentity'];
-            $permissionMap = $data['permissionMap'];
-            $permission = strtoupper($data['permission']);
-            $objectIdentity = ObjectIdentity::fromDomainObject($object);
-
-            try {
-                $masks = $permissionMap->getMasks($permission, $object);
-                if (!empty($masks)) {
-                    $acl = $this->aclProvider->findAcl($objectIdentity);
-                    $access = $acl->isGranted($masks, array($indentity));
-                }
-            } catch (NoAceFoundException $exc) {
-                //$access             = false;
-            } catch (AclNotFoundException $exc) {
-                //$access             = false;
-            }
-            if ($access === true) {
+            $accessList = $this->checkCache($data['object'], $data['objectId'], $data['identity'], $data['identityId']);
+            if (in_array(strtolower($data['access']), $accessList)) {
+                $access = true;
                 break;
             }
         }
         $this->accessChecks = array();
         return $access;
-
     }
 
-    public function checkAccess()
-    {
-        $access = $this->hasAccess();
-        if (false === $access) {
-            $this->throwExceptionForLastCheck();
-        }
-        return $access;
+    /**
+     * @param $objectClass
+     * @param $objectId
+     * @param $identityClass
+     * @param $identityId
+     * @return array
+     */
+    public function checkCache($objectClass, $objectId, $identityClass, $identityId){
 
-    }
+        $accessData = array();
 
-    public function throwExceptionForLastCheck()
-    {
-        throw new \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException();
+        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
 
-    }
+        if(!$this->memcache->get($checkKey)){
 
-    public function getPrefixDataObject($object)
-    {
-        $prefixData = array();
-        foreach ($this->aclManager as $aclManager) {
-            $prefixes = $aclManager->getPrefixes();
-            foreach ($prefixes as $prefix) {
-                if ($aclManager->validateObject($prefix, $object)) {
-                    $permissionMap = $aclManager->getPermissionMap($prefix);
-                    $class = new \ReflectionClass($permissionMap);
-                    $constants = $class->getConstants();
-                    foreach ($constants as $constant) {
-                        if ($constant !== 'MASTER' && $constant !== 'OWNER') {
-                            $prefixData[$prefix]['permissions'][] = $prefix . $constant;
-                        }
-                    }
+            $findBy = array(
+                'object' => $objectClass,
+                'objectId' => $objectId
+            );
+
+            $cache = array();
+
+            $accessList = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findBy($findBy);
+            foreach($accessList as $access){
+                $currIdentityClass = $access->getIdentity();
+                $currIdentityId = $access->getIdentityId();
+                $accessKey = $access->getAccess();
+                $cache[$currIdentityClass][$currIdentityId][] = $accessKey;
+            }
+
+            foreach($cache as $currIdentityClass => $accessList){
+                foreach($accessList as $currIdentityId => $access){
+                    $key = $this->generateCacheKey($objectClass, $objectId, $currIdentityClass, $currIdentityId);
+                    $this->memcache->set($key, $access, self::CACHE_LIFETIME);
                 }
             }
-        }
-        return $prefixData;
 
+            $this->memcache->set($checkKey, true, self::CACHE_LIFETIME);
+        }
+
+        $key = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
+        $accessData =  $this->memcache->get($key);
+
+        if(!$accessData){
+            $accessData = array();
+        }
+
+        return $accessData;
+    }
+
+    /**
+     * @param $objectClass
+     * @param $objectId
+     * @param $identityClass
+     * @param $identityId
+     * @return string
+     */
+    protected function generateCacheKey($objectClass, $objectId, $identityClass, $identityId){
+        $key = 'acl_'.md5($objectClass.$objectId.$identityClass.$identityId);
+        return $key;
+    }
+    /**
+     *
+     * @return UserInterface
+     */
+    public function getUser()
+    {
+        return $this->container->get('security.context')->getToken()->getUser();
     }
 }

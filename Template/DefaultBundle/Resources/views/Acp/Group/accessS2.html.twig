@@ -33,10 +33,10 @@
             <ul class="nav nav-tabs">
 
                 {% set tabCount = 0%}
-                {% for key, permissionData in accessManager.getPrefixDataObject(forum) %}
+                {% for extension, accessList in accessVoterManager.getAccessList(forum) %}
                     <li {% if loop.first %} class="active" {% endif %}>
                         <a data-toggle="tab" href="#tabX{{ forum.getId() }}X{{ tabCount }}">
-                            {{ key|trans({}, 'symbb_access') }}
+                            {{ extension|trans({}, 'symbb_access') }}
                         </a>
                     </li>
                     {% set tabCount = tabCount + 1%}
@@ -47,11 +47,11 @@
             <div class="tab-content">
                 {% set count = 0%}
                 {% set tabCount = 0%}
-                {% for key, permissionData in accessManager.getPrefixDataObject(forum) %}
+                {% for extension, accessList in accessVoterManager.getAccessList(forum) %}
                     <div class="tab-pane {% if loop.first %} active {% else %} fade {% endif %}" id="tabX{{ forum.getId() }}X{{ tabCount }}">
-                        {% for permission in permissionData.permissions %}
+                        {% for access in accessList %}
                             <div>
-                                <input {% if hasSymbbAccess(permission, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ permission }}]" id="permission-{{ forum.getId() }}-{{count}}" > <label for="permission-{{ forum.getId() }}-{{count}}">{{ permission|trans({}, 'symbb_access') }}</label>
+                                <input {% if hasSymbbAccess(access, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ access }}]" id="access-{{ forum.getId() }}-{{count}}" > <label for="access-{{ forum.getId() }}-{{count}}">{{ access|trans({}, 'symbb_access') }}</label>
                             </div>
                             {% set count = count + 1%}
                         {% endfor %}

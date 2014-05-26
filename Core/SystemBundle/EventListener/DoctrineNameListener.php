@@ -22,7 +22,7 @@ class DoctrineNameListener
     public function loadClassMetadata(\Doctrine\ORM\Event\LoadClassMetadataEventArgs $eventArgs)
     {
         $classMetadata = $eventArgs->getClassMetadata();
-        $classMetadata->setTableName($this->prefix . $classMetadata->getTableName());
+        $classMetadata->setPrimaryTable(array('name' => $this->prefix . $classMetadata->getTableName()));
 
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['type'] == \Doctrine\ORM\Mapping\ClassMetadataInfo::MANY_TO_MANY && !empty($classMetadata->associationMappings[$fieldName]['joinTable'])) {

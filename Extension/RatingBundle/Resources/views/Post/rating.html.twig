@@ -1,11 +1,11 @@
-{% if hasSymbbAccess('SYMBB_FORUM_RATING#VIEW', object.getTopic().getForum()) %}
+{% if hasSymbbAccess('CoreUser', 'VIEW_RATING', object.getTopic().getForum()) %}
 <div class="raiting">
     <div class="like_dislike">
-        <button type="button" class="btn btn-default btn-sm {{ getDislikeCssClass(object) }}"{% if hasSymbbAccess('SYMBB_FORUM_RATING#EDIT', object.getTopic().getForum()) %} onclick="window.location.href='{{ path('_symbb_post_rating_like', {'name': object.getSeoName() , 'id': object.getId() , 'like': 'dislike'}) }}'{% endif %}">
+        <button type="button" class="btn btn-default btn-sm {{ getDislikeCssClass(object) }}"{% if hasSymbbAccess('CoreUser', 'RATE', object.getTopic().getForum()) %} onclick="window.location.href='{{ path('_symbb_post_rating_like', {'name': object.getSeoName() , 'id': object.getId() , 'like': 'dislike'}) }}'{% endif %}">
             <div class="glyphicon glyphicon-thumbs-down"></div>
             {{ getSymbbDislikeCount(object) }}
         </button>
-            <button type="button" class="btn btn-default btn-sm {{ getLikeCssClass(object) }}"{% if hasSymbbAccess('SYMBB_FORUM_RATING#EDIT', object.getTopic().getForum()) %} onclick="window.location.href='{{ path('_symbb_post_rating_like', {'name': object.getSeoName() , 'id': object.getId() , 'like': 'like'}) }}'{% endif %}">
+            <button type="button" class="btn btn-default btn-sm {{ getLikeCssClass(object) }}"{% if hasSymbbAccess('CoreUser', 'RATE', object.getTopic().getForum()) %} onclick="window.location.href='{{ path('_symbb_post_rating_like', {'name': object.getSeoName() , 'id': object.getId() , 'like': 'like'}) }}'{% endif %}">
             <div class="glyphicon glyphicon-thumbs-up"></div>
             {{ getSymbbLikeCount(object) }}
         </button>

@@ -13,4 +13,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SymBBExtensionSurveyBundle extends Bundle
 {
+
 }

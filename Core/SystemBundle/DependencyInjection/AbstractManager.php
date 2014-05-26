@@ -10,13 +10,14 @@
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use \Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Translation\Translator;
 
 abstract class AbstractManager
 {
 
     /**
      *
-     * @var SecurityContextInterface 
+     * @var SecurityContextInterface
      */
     protected $securityContext;
 
@@ -25,14 +26,64 @@ abstract class AbstractManager
      */
     protected $user;
 
-    public function __construct(SecurityContextInterface $securityContext)
-    {
-        $this->securityContext = $securityContext;
+    /**
+     * @var AccessManager
+     */
+    protected $accessManager;
 
+    /**
+     * @var
+     */
+    protected $paginator;
+
+    /**
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     *
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    /**
+     * @param SecurityContextInterface $securityContext
+     */
+    public function setSecurityContext(SecurityContextInterface $securityContext){
+        $this->securityContext = $securityContext;
     }
 
     /**
-     * 
+     * @param AccessManager $manager
+     */
+    public function setAccessManager(AccessManager $manager){
+        $this->accessManager = $manager;
+    }
+
+    /**
+     * @param $paginator
+     */
+    public function setPaginator($paginator){
+        $this->paginator = $paginator;
+    }
+
+    /**
+     * @param Translator $translator
+     */
+    public function setTranslator(Translator $translator){
+        $this->translator = $translator;
+    }
+
+    /**
+     * @param \Doctrine\ORM\EntityManager $em
+     */
+    public function setEntityManager(\Doctrine\ORM\EntityManager $em){
+        $this->em = $em;
+    }
+
+    /**
+     *
      * @return type
      */
     public function getUser()
@@ -42,5 +93,10 @@ abstract class AbstractManager
         }
         return $this->user;
 
+    }
+
+    public function checkAccess($extension, $access, $identity){
+        $this->accessManager->addAccessCheck($extension, $access, $identity);
+        return $this->accessManager->hasAccess();
     }
 }

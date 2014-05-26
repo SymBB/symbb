@@ -10,9 +10,4 @@ services:
         class: SymBB\Extension\RatingBundle\Twig\UtilExtension
         arguments: ['@doctrine', '@security.context']
         tags:
-            - { name: twig.extension } 
-            
-    symbb.extensionrating.acl.manager:
-        class: SymBB\Extension\RatingBundle\Acl\Manager
-        tags:
-            - { name: symbb.acl.manager }
+            - { name: twig.extension }

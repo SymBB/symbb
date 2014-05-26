@@ -220,8 +220,10 @@ class User extends BaseUser implements UserInterface
 
     public function setPlainPassword($pw)
     {
-        parent::setPlainPassword($pw);
-        $this->changed = new \DateTime();
+        if(!empty($pw)){
+            parent::setPlainPassword($pw);
+            $this->changed = new \DateTime();
+        }
     }
 
     public function isEnabled()

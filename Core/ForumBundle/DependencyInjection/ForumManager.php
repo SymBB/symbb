@@ -10,12 +10,10 @@
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use \SymBB\Core\ForumBundle\Entity\Forum;
-use \Symfony\Component\Security\Core\SecurityContextInterface;
-use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
-use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
+use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
-class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class ForumManager extends AbstractManager
 {
 
     /**
@@ -36,27 +34,13 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      */
     protected $configManager;
 
-    /**
-     *
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $em;
-
-    protected $paginator;
-
-    protected $translator;
-
     public function __construct(
-    SecurityContextInterface $securityContext, TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $paginator, $translator
+    TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager
     )
     {
-        $this->securityContext = $securityContext;
         $this->topicFlagHandler = $topicFlagHandler;
         $this->postFlagHandler = $postFlagHandler;
         $this->configManager = $configManager;
-        $this->em = $em;
-        $this->paginator = $paginator;
-        $this->translator = $translator;
     }
 
     public function findNewestTopics(Forum $parent = null)
@@ -104,9 +88,9 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     /**
      * 
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
-     * @param type $limit
-     * @param type $offset
-     * @param type $orderDir
+     * @param int page
+     * @param int $limit
+     * @param string $orderDir
      * @return array
      */
     public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
@@ -114,20 +98,45 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         if ($limit === null) {
             $limit = $forum->getEntriesPerPage();
         }
-        
+
+        $qbPage = $this->em->createQueryBuilder();
+        $qbPage->select('count(t)')
+            ->from('SymBBCoreForumBundle:Topic', 't')
+            ->where('t.forum = ?1')
+            ->orderby('t.created', $orderDir)
+            ->setParameter(1, $forum->getId());
+        $queryPage = $qbPage->getQuery();
+        $count = $queryPage->getSingleScalarResult();
+
         $qb = $this->em->createQueryBuilder();
         $qb->select('t')
-        ->from('SymBBCoreForumBundle:Topic', 't')
-        ->where('t.forum = ?1')
-        ->orderby('t.created', $orderDir)
-        ->setParameter(1, $forum->getId());
+            ->from('SymBBCoreForumBundle:Topic', 't')
+            ->leftJoin('SymBBCoreForumBundle:Topic\Tag', 'tag')
+            ->where('t.forum = ?1')
+            ->add('orderBy', 'tag.priority DESC, t.created '.$orderDir)
+            ->addGroupBy('t.id')
+            ->setParameter(1, $forum->getId());
+
+        $query = $qb->getQuery();
+        $query->setHint('knp_paginator.count', $count);
+
+        if ($page === 'last') {
+            $page = \ceil($count / $limit);
+        }
         
         $pagination = $this->paginator->paginate(
-            $qb, $page, $limit
+            $query, $page, $limit, array('distinct' => false)
         );
+
         return $pagination;
     }
 
+    /**
+     * @param Forum $parent
+     * @param null $limit
+     * @param int $pageNumber
+     * @return mixed
+     */
     public function findPosts(Forum $parent = null, $limit = null, $pageNumber = 1)
     {
         if ($limit === null) {
@@ -159,6 +168,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return $pagination;
     }
 
+    /**
+     * @param Forum $parent
+     * @param array $childIds
+     * @return array
+     */
     public function getChildIds(Forum $parent, $childIds = array())
     {
         $childs = $parent->getChildren();
@@ -195,7 +209,9 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
     }
 
     /**
-     * 
+     * @param null $parentId
+     * @param null $limit
+     * @param null $offset
      * @return array(<\SymBB\Core\ForumBundle\Entity\Forum>)
      */
     public function findAll($parentId = null, $limit = null, $offset = null)
@@ -219,6 +235,10 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return $this->em->getRepository('SymBBCoreForumBundle:Forum')->find($forumId);
     }
 
+    /**
+     * @param array $types
+     * @return array
+     */
     public function getSelectList($types = array())
     {
         $repo = $this->em->getRepository('SymBBCoreForumBundle:Forum');
@@ -244,6 +264,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return $listFinal;
     }
 
+    /**
+     * @param $forum
+     * @param $name
+     * @return string
+     */
     private function addSpaceForParents($forum, $name)
     {
         $parent = $forum->getParent();
@@ -254,6 +279,10 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return $name;
     }
 
+    /**
+     * @param $entity
+     * @param $array
+     */
     private function addChildsToArray($entity, &$array)
     {
         $childs = $entity->getChildren();
@@ -265,6 +294,10 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         }
     }
 
+    /**
+     * @param $object
+     * @return array
+     */
     public function getBreadcrumbData($object)
     {
         $breadcrumb = array();
@@ -285,12 +318,22 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return $breadcrumb;
     }
 
+    /**
+     * @param Forum $forum
+     * @param ForumFlagHandler $flagHandler
+     * @return bool
+     */
     public function isIgnored(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $check = $flagHandler->checkFlag($forum, 'ignore');
         return $check;
     }
 
+    /**
+     * @param Forum $forum
+     * @param ForumFlagHandler $flagHandler
+     * @return bool
+     */
     public function ignoreForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->insertFlag($forum, 'ignore');
@@ -301,6 +344,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return true;
     }
 
+    /**
+     * @param Forum $forum
+     * @param ForumFlagHandler $flagHandler
+     * @return bool
+     */
     public function watchForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->removeFlag($forum, 'ignore');
@@ -311,6 +359,11 @@ class ForumManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
         return true;
     }
 
+    /**
+     * @param Forum $forum
+     * @param ForumFlagHandler $flagHandler
+     * @return bool
+     */
     public function markAsRead(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
 

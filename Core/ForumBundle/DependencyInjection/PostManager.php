@@ -9,16 +9,17 @@
 
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
-use \Symfony\Component\Security\Core\SecurityContextInterface;
-use SymBB\Core\ForumBundle\DependencyInjection\PostFlagHandler;
+use SymBB\Core\ForumBundle\Entity\Post;
+use SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent;
+use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
 
-class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class PostManager extends AbstractManager
 {
 
     /**
      *
-     * @var ConfigManager 
+     * @var ConfigManager
      */
     protected $configManager;
 
@@ -34,47 +35,36 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
      */
     protected $dispatcher;
 
-    /**
-     *
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $em;
-
-    protected $paginator;
-
     public function __construct(
-    SecurityContextInterface $securityContext, PostFlagHandler $postFlagHandler, ConfigManager $configManager, $em, $dispatcher, $paginator
+        PostFlagHandler $postFlagHandler, ConfigManager $configManager, $dispatcher
     )
     {
-        $this->securityContext = $securityContext;
         $this->postFlagHandler = $postFlagHandler;
         $this->configManager = $configManager;
-        $this->em = $em;
         $this->dispatcher = $dispatcher;
-        $this->paginator = $paginator;
     }
 
-    public function parseText(\SymBB\Core\ForumBundle\Entity\Post $post)
+    public function parseText(Post $post)
     {
         $text = $post->getText();
-        $event = new \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent($post, (string)$text);
+        $event = new PostManagerParseTextEvent($post, (string)$text);
         $this->dispatcher->dispatch('symbb.post.manager.parse.text', $event);
         $text = $event->getText();
 
         return $text;
     }
 
-    public function cleanText(\SymBB\Core\ForumBundle\Entity\Post $post)
+    public function cleanText(Post $post)
     {
         $text = $post->getText();
-        $event = new \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent($post, $text);
+        $event = new PostManagerParseTextEvent($post, $text);
         $this->dispatcher->dispatch('symbb.post.manager.clean.text', $event);
         $text = $event->getText();
         return $text;
     }
 
     /**
-     * 
+     *
      * @param int $postId
      * @return \SymBB\Core\ForumBundle\Entity\Post
      */
@@ -85,11 +75,11 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
     }
 
     /**
-     * 
+     *
      * @param int $topicId
      * @return array(<\SymBB\Core\ForumBundle\Entity\Post>)
      */
-    public function findByTopic(\SymBB\Core\ForumBundle\Entity\Topic $topic, $limit = null, $pageNumber = 1)
+    public function findByTopic(Topic $topic, $limit = null, $pageNumber = 1)
     {
         $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select("p");
@@ -104,7 +94,7 @@ class PostManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractM
         return $pagination;
     }
 
-    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Post $object, TopicManager $topicManager, ForumManager $forumManager)
+    public function getBreadcrumbData(Post $object, TopicManager $topicManager, ForumManager $forumManager)
     {
         $breadcrumb = $topicManager->getBreadcrumbData($object->getTopic(), $forumManager);
         if ($object->getId() > 0) {

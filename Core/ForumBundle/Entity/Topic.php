@@ -11,6 +11,7 @@ namespace SymBB\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SymBB\Core\ForumBundle\Entity\Topic\Tag;
 
 /**
  * @ORM\Table(name="forum_topics")
@@ -55,6 +56,15 @@ class Topic
     private $flags;
 
     /**
+     * @ORM\ManyToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics")
+     * @ORM\JoinTable(name="forum_topics_to_tags",
+     *      joinColumns={@ORM\JoinColumn(name="topic_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
+     *      )
+     */
+    private $tags;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Forum", inversedBy="topics")
      * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -75,6 +85,7 @@ class Topic
     {
         $this->posts = new ArrayCollection();
         $this->flags = new ArrayCollection();
+        $this->tags = new ArrayCollection();
 
     }
 
@@ -230,6 +241,30 @@ class Topic
     {
         return $this->getPosts()->last();
 
+    }
+
+    /**
+     * @param Tag[] $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag){
+        $this->tags->add($tag);
+    }
+
+    public function removeTags(){
+        $this->tags->clear();
     }
 
     public function getPostCount()

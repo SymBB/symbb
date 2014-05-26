@@ -84,6 +84,31 @@ _symbbcorebbcodebundle_bbcode_sort:
 _symbbcorebbcodebundle_bbcode_restore:
     pattern:  /bbcode/restore
     defaults: { _controller: SymBBCoreBBCodeBundle:Acp:restore }
+
+
+_symbbcoreforumbundle_topictag_list:
+    pattern:  /topic/tag/list
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:list }
+
+_symbbcoreforumbundle_topictag_new:
+    pattern:  /topic/tag/new
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:new}
+
+_symbbcoreforumbundle_topictag_edit:
+    pattern:  /topic/tag/{id}/edit
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:edit }
+
+_symbbcoreforumbundle_topictag_remove:
+    pattern:  /topic/tag/{id}/remove
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:remove }
+
+_symbbcoreforumbundle_topictag_sort:
+    pattern:  /topic/tag/sort
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:sort }
+
+_symbbcoreforumbundle_topictag_restore:
+    pattern:  /topic/tag/restore
+    defaults: { _controller: SymBBCoreForumBundle:AcpTopicTag:restore }
     
     
 _symbb_core_user_acp:

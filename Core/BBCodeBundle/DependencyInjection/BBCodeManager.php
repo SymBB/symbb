@@ -23,7 +23,7 @@ class BBCodeManager
 
     /**
      * 
-     * @param type $setId
+     * @param string $setId
      * @return \SymBB\Core\BBCodeBundle\Entity\Set
      */
     public function getSet($setId)
@@ -54,6 +54,7 @@ class BBCodeManager
 
     public function parse($text, $setId = null)
     {
+        $text = htmlspecialchars($text, ENT_HTML5, 'UTF-8');
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
@@ -68,13 +69,13 @@ class BBCodeManager
         }
 
         $text = \nl2br($text);
-
         return $text;
     }
 
     public function clean($text, $setId = null)
     {
 
+        $text = htmlspecialchars($text, ENT_HTML5, 'UTF-8');
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
