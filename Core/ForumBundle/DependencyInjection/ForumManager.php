@@ -12,6 +12,7 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 use \SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use \Doctrine\ORM\Query\Expr\Join;
 
 class ForumManager extends AbstractManager
 {
@@ -108,22 +109,21 @@ class ForumManager extends AbstractManager
         $queryPage = $qbPage->getQuery();
         $count = $queryPage->getSingleScalarResult();
 
-        $qb = $this->em->createQueryBuilder();
-        $qb->select('t')
-            ->from('SymBBCoreForumBundle:Topic', 't')
-            ->leftJoin('SymBBCoreForumBundle:Topic\Tag', 'tag')
-            ->where('t.forum = ?1')
-            ->add('orderBy', 'tag.priority DESC, t.created '.$orderDir)
-            ->addGroupBy('t.id')
+        $query = $this->em->createQuery('
+                SELECT t FROM SymBBCoreForumBundle:Topic t
+                LEFT JOIN t.tags tag
+                WHERE t.forum = ?1
+                GROUP BY t.id
+                ORDER BY tag.priority DESC, t.created '.$orderDir.'
+                '
+            )
             ->setParameter(1, $forum->getId());
-
-        $query = $qb->getQuery();
         $query->setHint('knp_paginator.count', $count);
 
         if ($page === 'last') {
             $page = \ceil($count / $limit);
         }
-        
+
         $pagination = $this->paginator->paginate(
             $query, $page, $limit, array('distinct' => false)
         );
