@@ -141,6 +141,18 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeQuote);
         $pos++;
         
+        
+        $bbcodeCode = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeCode->setName('Code');
+        $bbcodeCode->setSearchRegex('#\[code\]([\s\S]+)\[\/code\]#iUs');
+        $bbcodeCode->setReplaceRegex('<pre class="prettyprint linenums lang-html" >$1</pre><script>prettyPrint()</script>');
+        $bbcodeCode->setButtonRegex('[code]{text}[/code]');
+        $bbcodeCode->setImage('/bundles/symbbcorebbcode/images/page_white_code.png');
+        $bbcodeCode->setPosition($pos);
+        $manager->persist($bbcodeCode); 
+        $pos++;
+        
+        
         $bbcodeList = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeList->setName('List');
         $bbcodeList->setSearchRegex('#\[list\]([\s\S]+)\[\/list\]#iUs');
@@ -174,6 +186,7 @@ class LoadBBCode extends AbstractFixture
         $setDefault->addCode($bbcodeList);
         $setDefault->addCode($bbcodeListItem);
         $setDefault->addCode($bbcodeColor);
+        $setDefault->addCode($bbcodeCode);
 
 
         $setPm->addCode($bbcodeSize);

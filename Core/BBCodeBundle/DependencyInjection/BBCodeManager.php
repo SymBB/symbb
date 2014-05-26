@@ -69,7 +69,6 @@ class BBCodeManager
         }
 
         $text = \nl2br($text);
-
         return $text;
     }
 
