@@ -36,6 +36,8 @@ class AccessManager
 
     protected $memcache;
 
+    protected $accessCache = array();
+
     const CACHE_LIFETIME = 86400; // 1day
 
     public function __construct($symbbConfig, $container)
@@ -87,9 +89,7 @@ class AccessManager
 
         $this->em->flush();
 
-
-        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
-        $this->memcache->delete ($checkKey);
+        $this->memcache->delete('symbb_acl_cache');
     }
 
     public function removeAllAccess($object, $identity)
@@ -178,39 +178,32 @@ class AccessManager
      */
     public function checkCache($objectClass, $objectId, $identityClass, $identityId){
 
-        $accessData = array();
+        $key    = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
+        $cache  = $this->accessCache;
 
-        $checkKey = 'acl_check_'.md5($objectClass.$objectId);
+        if(empty($cache)){
 
-        if(!$this->memcache->get($checkKey)){
+            $cache = $this->memcache->get('symbb_acl_cache');
 
-            $findBy = array(
-                'object' => $objectClass,
-                'objectId' => $objectId
-            );
-
-            $cache = array();
-
-            $accessList = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findBy($findBy);
-            foreach($accessList as $access){
-                $currIdentityClass = $access->getIdentity();
-                $currIdentityId = $access->getIdentityId();
-                $accessKey = $access->getAccess();
-                $cache[$currIdentityClass][$currIdentityId][] = $accessKey;
-            }
-
-            foreach($cache as $currIdentityClass => $accessList){
-                foreach($accessList as $currIdentityId => $access){
-                    $key = $this->generateCacheKey($objectClass, $objectId, $currIdentityClass, $currIdentityId);
-                    $this->memcache->set($key, $access, self::CACHE_LIFETIME);
+            if(!$cache){
+                $accessList = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findAll();
+                $cache = array();
+                foreach($accessList as $access){
+                    $currKey = $this->generateCacheKey($access->getObject(), $access->getObjectId(), $access->getIdentity(), $access->getIdentityId());
+                    $accessKey = $access->getAccess();
+                    $cache[$currKey][$accessKey] = $accessKey;
                 }
+                $this->memcache->set('symbb_acl_cache', $cache, self::CACHE_LIFETIME);
             }
 
-            $this->memcache->set($checkKey, true, self::CACHE_LIFETIME);
+            $this->accessCache = $cache;
         }
 
-        $key = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
-        $accessData =  $this->memcache->get($key);
+        $accessData = array();
+
+        if(isset($cache[$key])){
+            $accessData =  $cache[$key];
+        }
 
         if(!$accessData){
             $accessData = array();
@@ -227,7 +220,7 @@ class AccessManager
      * @return string
      */
     protected function generateCacheKey($objectClass, $objectId, $identityClass, $identityId){
-        $key = 'acl_'.md5($objectClass.$objectId.$identityClass.$identityId);
+        $key = 'acl_'.($objectClass.$objectId.$identityClass.$identityId);
         return $key;
     }
     /**

@@ -31,12 +31,12 @@ class ForumManager extends AbstractManager
 
     /**
      *
-     * @var ConfigManager 
+     * @var ConfigManager
      */
     protected $configManager;
 
     public function __construct(
-    TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager
+        TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
@@ -87,7 +87,7 @@ class ForumManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
      * @param int page
      * @param int $limit
@@ -116,7 +116,7 @@ class ForumManager extends AbstractManager
                 GROUP BY t.id
                 ORDER BY tag.priority DESC, t.created '.$orderDir.'
                 '
-            )
+        )
             ->setParameter(1, $forum->getId());
         $query->setHint('knp_paginator.count', $count);
 
@@ -226,7 +226,7 @@ class ForumManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $forumId
      * @return \SymBB\Core\ForumBundle\Entity\Forum
      */
