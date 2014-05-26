@@ -454,31 +454,31 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $id = null;
         }
 
-        $forumEnityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => $id, 'type' => 'forum'), array('position' => 'asc', 'id' => 'asc'));
+        $entityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            ->findBy(array('parent' => $id), array('position' => 'asc', 'id' => 'asc'));
 
         $forumList = array();
-        $hasForumList = false;
-
-        foreach ($forumEnityList as $key => $forum) {
-            if (true === $this->get('security.context')->isGranted('VIEW', $forum)) {
-                $forumList[] = $this->getForumAsArray($forum);
-                $hasForumList = true;
-            };
-        }
-
-        $categoryEnityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => $id, 'type' => 'category'), array('position' => 'asc', 'id' => 'asc'));
-
+        $linkList = array();
         $categoryList = array();
-        $hasCategoryList = false;
-        foreach ($categoryEnityList as $key => $forum) {
-            if (true === $this->get('security.context')->isGranted('VIEW', $forum)) {
-                $categoryList[] = $this->getForumAsArray($forum);
-                $hasCategoryList = true;
-            };
-        }
 
+        $hasForumList = false;
+        $hasLinkList = false;
+        $hasCategoryList = false;
+
+        foreach($entityList as $entry){
+            if (true === $this->get('security.context')->isGranted('VIEW', $entry)) {
+                if($entry->getType() === 'forum'){
+                    $forumList[] = $this->getForumAsArray($entry);
+                    $hasForumList = true;
+                } else if($entry->getType() === 'link'){
+                    $linkList[] = $this->getForumAsArray($entry);
+                    $hasLinkList = true;
+                } else if($entry->getType() === 'category'){
+                    $categoryList[] = $this->getForumAsArray($entry);
+                    $hasCategoryList = true;
+                }
+            }
+        }
 
         $topicList = array();
         $topicCountTotal = 0;
@@ -507,10 +507,12 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'forum' => $this->getForumAsArray($parent),
             'categoryList' => $categoryList,
             'forumList' => $forumList,
+            'linkList' => $linkList,
             'topicList' => $topicList,
             'topicTotalCount' => $topicCountTotal,
             'hasForumList' => $hasForumList,
             'hasCategoryList' => $hasCategoryList,
+            'hasLinkList' => $hasLinkList,
             'hasTopicList' => $hasTopicList
         );
 
@@ -680,6 +682,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
                 if ($forum->getImageName()) {
                     $array['backgroundImage'] = $helper->asset($forum, 'image');
+                } elseif($forum->getType() === 'link'){
+                    $array['backgroundImage'] = '/bundles/symbbtemplatedefault/images/link.jpg';
                 }
                 $array['seo']['name'] = $forum->getSeoName();
 
@@ -694,7 +698,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
 
                 if ($forum->getType() === 'link') {
+                    $link = $forum->getLink();
+                    if(strpos($link, 'http') !== 0){
+                        $link = 'http://'.$link;
+                    }
                     $array['isLink'] = true;
+                    $array['link'] = $link;
+                    $array['linkCalls'] = $forum->getCountLinkCalls();
                 } else if ($forum->getType() === 'forum') {
                     $array['isForum'] = true;
                 } else {

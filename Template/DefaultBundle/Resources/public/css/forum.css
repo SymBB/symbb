@@ -179,15 +179,14 @@
 }
 
 .simpletable .simplerow {
-    height: 45px;
+    height: 35px;
     background-color: #FFF;
 }
 
 .simpletable .simplerow .forumimage {
     float: left;
-    width: 32px;
-    height: 32px;
     padding-right: 5px;
+    max-height: 32px;
 }
 
 .simpletable .simplerow td {

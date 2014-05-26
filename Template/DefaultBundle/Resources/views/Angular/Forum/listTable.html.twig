@@ -45,6 +45,9 @@
             {{"Last post"|trans()}}
         </th>
     </tr>
+    <tr class="simplerow" ng-repeat="object in linkList" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+        {{ include('SymBBTemplateDefaultBundle:Angular:Forum/linkRow.html.twig') }}
+    </tr>
     <tr class="simplerow" ng-repeat="object in forumList" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
         {{ include('SymBBTemplateDefaultBundle:Angular:Forum/row.html.twig') }}
     </tr>

@@ -74,7 +74,7 @@ class AddForumFieldSubscriber implements EventSubscriberInterface
         }
         $form->add('link', $type);
         $form->add('countLinkCalls', $type);
-        $form->remove('description');
+        $form->add('description');
         $form->remove('showSubForumList');
         $form->remove('entriesPerPage');
 

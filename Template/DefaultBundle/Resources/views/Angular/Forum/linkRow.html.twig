@@ -1,0 +1,16 @@
+{% trans_default_domain "symbb_frontend" %}
+
+<td class="namerow" colspan="4">
+    <img ng-show="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]"/>
+    <div class="name">
+        [[object.name]]
+        <div class="labels">
+            <div ng-repeat="flag in object.flags">
+                <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+            </div>
+        </div>
+    </div>
+    <div class="description">
+        [[object.derscription]]
+    </div>
+</td>

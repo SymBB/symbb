@@ -36,10 +36,13 @@
     </div>
 </div>
 
+<div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in linkList">
+    {{ include('SymBBTemplateDefaultBundle:Angular:Forum/linkCard.html.twig') }}
+</div>
 <div class="symbb_category_block_container col-lg-4 col-md-6 col-sm-12" ng-repeat="object in forumList">
     {{ include('SymBBTemplateDefaultBundle:Angular:Forum/card.html.twig') }}
 </div>
-    <div class="clear"></div>
+<div class="clear"></div>
 
 
 
