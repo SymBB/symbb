@@ -493,7 +493,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $this->addPaginationData($topics);
                 $topicCountTotal = $this->paginationData['totalCount'];
                 foreach ($topics as $topic) {
-                    $topicList[] = $this->getTopicAsArray($topic);
+                    $topicList[] = $this->getTopicAsArray($topic, 1, 'desc');
                     $hasTopicList = true;
                 }
             }
@@ -524,7 +524,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1)
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1, $postSorting = 'asc')
     {
 
         $tags = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\Tag', 'symbb')->findAll();
@@ -579,7 +579,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, $postSorting);
                 $paginationData = $posts->getPaginationData();
                 $array['count']['post'] = $paginationData['totalCount'];
                 foreach ($posts as $post) {
