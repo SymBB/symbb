@@ -579,7 +579,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page);
                 $paginationData = $posts->getPaginationData();
                 $array['count']['post'] = $paginationData['totalCount'];
                 foreach ($posts as $post) {
@@ -637,7 +637,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
-    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null)
+    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null, $childs = true)
     {
 
         $array = array();
@@ -655,6 +655,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['children'] = array();
         $array['lastPosts'] = array();
         $array['seo']['name'] = '';
+
         $array['access'] = array(
             'createTopic' => false,
             'createPost' => false
@@ -673,11 +674,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
                 foreach ($forum->getChildren() as $child) {
-                    $array['children'][] = $this->getForumAsArray($child);
+                    $array['children'][] = $this->getForumAsArray($child, false);
                 }
                 $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
                 foreach ($lastPosts as $post) {
-                    $array['lastPosts'][] = $this->getPostAsArray($post);
+                    $array['lastPosts'][] = $this->getPostAsArray($post, true);
                 }
                 $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
                 if ($forum->getImageName()) {
@@ -753,25 +754,28 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Post $post
      * @return array
      */
-    protected function getPostAsArray(\SymBB\Core\ForumBundle\Entity\Post $post = null)
+    protected function getPostAsArray(\SymBB\Core\ForumBundle\Entity\Post $post = null, $bshort = false)
     {
 
         $array = array();
         $array['id'] = 0;
-        $array['topic']['id'] = 0;
-        $array['topic']['name'] = '';
-        $array['topic']['seo']['name'] = '';
         $array['name'] = '';
         $array['changed'] = 0;
         $array['created'] = 0;
-        $array['text'] = '';
-        $array['rawText'] = '';
-        $array['signature'] = '';
         $array['files'] = array();
         $array['seo']['name'] = '';
-        $array['access']['edit'] = false;
-        $array['access']['delete'] = false;
-        $array['notifyMe'] = false;
+        $array['topic']['id'] = 0;
+        $array['topic']['name'] = '';
+        $array['topic']['seo']['name'] = '';
+
+        if(!$bshort){
+            $array['text'] = '';
+            $array['rawText'] = '';
+            $array['signature'] = '';
+            $array['access']['edit'] = false;
+            $array['access']['delete'] = false;
+            $array['notifyMe'] = false;
+        }
 
         if (is_object($post)) {
             $array['id'] = (int) $post->getId();
@@ -779,44 +783,50 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['changed'] = $this->getISO8601ForUser($post->getChanged());
             $array['created'] = $this->getISO8601ForUser($post->getCreated());
             $array['seo']['name'] = $post->getSeoName();
-            $array['rawText'] = $post->getText();
-            $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
+
             $array['author'] = $this->getAuthorAsArray($post->getAuthor());
             $array['name'] = $post->getTopic()->getName();
+
             $array['topic']['id'] = $post->getTopic()->getId();
             $array['topic']['name'] = $post->getTopic()->getName();
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
-            $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
 
-            if ($post->getId() > 0) {
+            if(!$bshort){
+                $array['rawText'] = $post->getText();
+                $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
+                $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
 
-                $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
-                if ($array['notifyMe'] > 0) {
-                    $array['notifyMe'] = true;
+                if ($post->getId() > 0) {
+
+                    $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
+                    if ($array['notifyMe'] > 0) {
+                        $array['notifyMe'] = true;
+                    }
+
+                    foreach ($post->getFiles() as $file) {
+                        $array['files'][] = $file->getPath();
+                    }
+                    $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
+                    $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
+
+                    $array['access'] = array(
+                        'edit' => $editAccess,
+                        'delete' => $deleteAccess
+                    );
                 }
-
-                foreach ($post->getFiles() as $file) {
-                    $array['files'][] = $file->getPath();
-                }
-                $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
-                $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
-
-                $array['access'] = array(
-                    'edit' => $editAccess,
-                    'delete' => $deleteAccess
-                );
             }
         } else {
             $array['author'] = $this->getAuthorAsArray();
         }
 
-        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($post);
-        $this->handleEvent('symbb.api.post.data', $event);
-        $array['extension'] = $event->getExtensionData();
+        if(!$bshort){
+            $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($post);
+            $this->handleEvent('symbb.api.post.data', $event);
+            $array['extension'] = $event->getExtensionData();
 
-        $extensionAccess = $event->getAccessData();
-        $array['access'] = array_merge($array['access'], $extensionAccess);
-
+            $extensionAccess = $event->getAccessData();
+            $array['access'] = array_merge($array['access'], $extensionAccess);
+        }
         return $array;
     }
 
