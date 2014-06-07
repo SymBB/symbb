@@ -119,7 +119,6 @@ var symbbAngularUtils = {
         uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
             var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-            console.debug(type);
             return '|jpg|png|jpeg|bmp|gif|txt|pdf|doc|plain|'.indexOf(type) !== -1;
         });
 
@@ -127,11 +126,9 @@ var symbbAngularUtils = {
             response = symbbAngularUtils.checkResponse(response, $injector); 
             if(response.files){
                 $.each(response.files, function(key, value) {
-                    console.debug(value);
                     $scopeObject.files[$scopeObject.files.length] = value.url;
                     item.path = value.url;
                     item.url = 'http://'+window.location.host+value.url;
-                    console.debug(item);
                 });
             }
         }); 
@@ -139,7 +136,6 @@ var symbbAngularUtils = {
 
         $scope.bbcode = {
             insertUploadImage: function(item){
-                console.debug(item);
                 var element = $('.symbb_editor textarea')[0];
                 if(
                     item.file.type === 'image/jpeg' ||

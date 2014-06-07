@@ -371,7 +371,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (!$this->hasError()) {
             $page = $this->get('request')->get('page');
-            $params['topic'] = $this->getTopicAsArray($topic, $page);
+            $params['topic'] = $this->getTopicAsArray($topic, $page, null, true);
             $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
             $this->addBreadcrumbItems($breadcrumbItems);
             // remove "new" flags off forum/topic and posts for the current user
@@ -524,7 +524,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1, $postSorting = 'asc')
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1, $postSorting = 'asc', $addPaginationData = false)
     {
 
         $tags = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\Tag', 'symbb')->findAll();
@@ -551,6 +551,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['mainPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
         $array['tags'] = array();
+        $array['paginationData'] = array();
         foreach($tags as $tag){
 
             $translation = $this->get('translator')->trans($tag->getName(), array(), 'symbb_variables');
@@ -581,6 +582,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
                 $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, $postSorting);
                 $paginationData = $posts->getPaginationData();
+                if($addPaginationData){
+                    $this->addPaginationData($posts);
+                }
                 $array['count']['post'] = $paginationData['totalCount'];
                 foreach ($posts as $post) {
                     $array['posts'][] = $this->getPostAsArray($post);
@@ -802,7 +806,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     if ($array['notifyMe'] > 0) {
                         $array['notifyMe'] = true;
                     }
-
                     foreach ($post->getFiles() as $file) {
                         $array['files'][] = $file->getPath();
                     }

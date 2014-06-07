@@ -123,7 +123,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeImage = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeImage->setName('Image');
         $bbcodeImage->setSearchRegex('#\[img\](.+)\[\/img\]#iUs');
-        $bbcodeImage->setReplaceRegex('<img src="$1" />');
+        $bbcodeImage->setReplaceRegex('<a href="$1" target="_blank" class="symbb_post_embeded_image_link"><img src="$1"></img></a>');
         $bbcodeImage->setButtonRegex('[img]{text}[/img]');
         $bbcodeImage->setImage('/bundles/symbbcorebbcode/images/image_add.png');
         $bbcodeImage->setPosition($pos);

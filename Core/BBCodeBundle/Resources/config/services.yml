@@ -15,7 +15,7 @@ services:
            
     symbb.core.bbcode.manager:
         class: SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager
-        arguments: ['@doctrine.orm.symbb_entity_manager']
+        arguments: ['@doctrine.orm.symbb_entity_manager', '@symbb.core.site.manager']
         
     symbb.core.bbcode.manager.twig:
         class: SymBB\Core\BBCodeBundle\Twig\BBCodeManagerExtension

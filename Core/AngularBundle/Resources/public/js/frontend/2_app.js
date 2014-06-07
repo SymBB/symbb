@@ -20,9 +20,11 @@ app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$locatio
         $locationProvider.html5Mode(true);
         
         angularConfig.createAngularRouting($routeProvider);
+        //angularConfig.configHook($routeProvider, $interpolateProvider, $httpProvider, $locationProvider);
 
         // Add the interceptor to the $httpProvider.
         $httpProvider.interceptors.push('symbbApiHttpInterceptor');
+        $httpProvider.interceptors.push('symbbTemplateHttpInterceptor');
         
     }]
 );
@@ -31,6 +33,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
     return {
         // On request success
         request: function(config) {
+            $('.symbb_body').remove();
             // console.log(config); // Contains the data about the request before it is sent.
 
             // Return the config or wrap it in a promise if blank.

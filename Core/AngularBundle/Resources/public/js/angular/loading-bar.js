@@ -58,7 +58,6 @@ angular.module('chieffancypants.loadingBar', [])
         cfpLoadingBar.complete();
         reqsCompleted = 0;
         reqsTotal = 0;
-        $('.symbb_body').remove();
       }
 
       /**

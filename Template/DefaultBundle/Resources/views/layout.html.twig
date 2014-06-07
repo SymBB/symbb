@@ -12,6 +12,7 @@
     
     {% block stylesheets %} 
         {% stylesheets filter='?yui_css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
             '@SymBBTemplateDefaultBundle/Resources/public/css/form.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css'
@@ -32,11 +33,19 @@
     {% block javascripts %}  
         {% javascripts filter='?yui_js' 
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' 
-            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' 
+            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
         %}
         <script src="{{ asset_url }}"></script> 
         {% endjavascripts %}
+
         {{ executeSymbbEvent('template.global.javascripts') }}
+
+        {% javascripts filter='?yui_js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/httpInterceptor.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     {% endblock %}
     </head>
 

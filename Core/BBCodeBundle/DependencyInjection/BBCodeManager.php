@@ -9,6 +9,9 @@
 
 namespace SymBB\Core\BBCodeBundle\DependencyInjection;
 
+use SymBB\Core\BBCodeBundle\Form\Type\BBCode;
+use SymBB\Core\SiteBundle\DependencyInjection\SiteManager;
+
 class BBCodeManager
 {
 
@@ -16,9 +19,15 @@ class BBCodeManager
 
     protected $setCache = array();
 
-    public function __construct($em)
+    /**
+     * @var SiteManager
+     */
+    protected $siteManager;
+
+    public function __construct($em, SiteManager $siteManager)
     {
         $this->em = $em;
+        $this->siteManager = $siteManager;
     }
 
     /**
@@ -59,6 +68,8 @@ class BBCodeManager
 
         $bbcodes = $this->getBBCodes($setId);
 
+        $this->handleSpecialCasesByRef($text, $bbcodes);
+
         foreach ($bbcodes as $bbcode) {
             if ($bbcode->getRemoveNewLines()) {
                 $regex = $bbcode->getSearchRegex();
@@ -70,6 +81,32 @@ class BBCodeManager
 
         $text = \nl2br($text);
         return $text;
+    }
+
+    /**
+     * @param $text
+     * @param BBCode[] $bbcodes
+     */
+    public function handleSpecialCasesByRef(&$text, $bbcodes){
+
+        foreach($bbcodes as $bbcode){
+            if($bbcode->getName() === "Image"){
+                $text = preg_replace_callback('#\[img\](.+)\[\/img\]#iUs', function($matches){
+                    $completeBBCode = $matches[0];
+                    $newUrl = $url = $matches[1];
+                    if(strpos($newUrl, 'http') !== 0){
+                        $domain = $this->siteManager->getSite()->getMediaDomain();
+                        if(substr($domain, 1 , -1) === "/"){
+                            $domain = rtrim($domain, '/');
+                        }
+                        $newUrl = $domain.$url;
+                    }
+                    return str_replace($url, $newUrl, $completeBBCode);
+                }, $text);
+            }
+        }
+
+
     }
 
     public function clean($text, $setId = null)
