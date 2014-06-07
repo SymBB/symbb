@@ -1,6 +1,10 @@
 # SymBB Forum System
+----
+http://symbb.blogspot.de/
+----
 
-""Currently in development! / Derzeit in Entwicklung""
+## Currently in development! / Derzeit in Entwicklung
+
 
 More detailed information and instructions can be found here (currently only in German):
 
