@@ -1,6 +1,10 @@
 # SymBB Forum System
+----
+http://symbb.blogspot.de/
+----
 
-""Currently in development! / Derzeit in Entwicklung""
+## Currently in development! / Derzeit in Entwicklung
+
 
 More detailed information and instructions can be found here (currently only in German):
 
@@ -9,6 +13,8 @@ https://github.com/seyon/symbb/wiki/
 For a "finished" Symfony version you can use the Sandbox :
 
 https://github.com/seyon/symbb_sandbox
+
+But i will be not easy to install/config it ;)
 
 [![Build Status](https://travis-ci.org/seyon/symbb.png?branch=master)](https://travis-ci.org/seyon/symbb)
 [![Latest Stable Version](https://poser.pugx.org/symbb/symbb/v/stable.png)](https://packagist.org/packages/symbb/symbb)
@@ -20,19 +26,23 @@ https://github.com/seyon/symbb_sandbox
 - FOSUserBundle ( optional, but recommended )
 - FOSRestBundle ( for future api )
 - FOSJsRoutingBundle 
-- FOSMessageBundle (PM System)
 - KnpMenuBundle
 - KnpPaginatorBundle
 - SonataIntlBundle ( Date formating )
-- FMBbcodeBundle (BBCodes)
 - LswMemcacheBundle (Memcache Manager)
 
 # Demo
 
-A demo of the latest features can be found here :
+currently i dont have a dome :(
+Not for you ;).
 
-http://symbb.de/
+But read my Blog!
+I have started it today and i try to write all ideas and progress that i will make from now on.
+http://symbb.blogspot.de/
 
+
+-------
+Notices for me ;) so yout dont need to read that stuff below
 
 -------
 Ideensammlung:
