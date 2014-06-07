@@ -119,16 +119,19 @@ var symbbAngularUtils = {
         uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
             var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            console.debug(type);
+            return '|jpg|png|jpeg|bmp|gif|txt|pdf|doc|plain|'.indexOf(type) !== -1;
         });
 
         uploader.bind('complete', function (event, xhr, item, response) {
             response = symbbAngularUtils.checkResponse(response, $injector); 
             if(response.files){
                 $.each(response.files, function(key, value) {
+                    console.debug(value);
                     $scopeObject.files[$scopeObject.files.length] = value.url;
-                    item.file.path = value.url;
-                    item.file.url = 'http://'+window.location.host+value.url;
+                    item.path = value.url;
+                    item.url = 'http://'+window.location.host+value.url;
+                    console.debug(item);
                 });
             }
         }); 
@@ -136,8 +139,20 @@ var symbbAngularUtils = {
 
         $scope.bbcode = {
             insertUploadImage: function(item){
+                console.debug(item);
                 var element = $('.symbb_editor textarea')[0];
-                var tagCode = '[IMG]'+item.file.path+'[/IMG]';
+                if(
+                    item.file.type === 'image/jpeg' ||
+                    item.file.type === 'image/jpg' ||
+                    item.file.type === 'image/png' ||
+                    item.file.type === 'image/gif' ||
+                    item.file.type === 'image/bmp'
+                ){
+                    var tagCode = '[IMG]'+item.path+'[/IMG]';
+                } else {
+                    var tagCode = '[LINK=http://'+item.path+']'+item.file.name+'[/LINK]';
+                }
+
                 if (document.selection) {
                     element.focus();
                     var sel = document.selection.createRange();
@@ -153,7 +168,6 @@ var symbbAngularUtils = {
                     element.value += tagCode.replace('{0}', '');
                     $scopeObject.rawText = element.value;
                 }
-                 
            }
         };
     }
