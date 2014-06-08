@@ -19,27 +19,28 @@ use Symfony\Component\Security\Core\Util\ClassUtils;
  */
 class Flag
 {
+    /**
+     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
-     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     */
+    private $objectId;
+    /**
      * @ORM\Column(type="string")
      */
     private $objectClass;
 
     /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
-     */
-    private $objectId;
-
-    /**
-     * @ORM\Id()
      * @ORM\Column(type="string", length=10)
      */
     private $flag = 'ignore';
 
     /**
-     * @ORM\Id()
      * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */

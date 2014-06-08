@@ -59,6 +59,7 @@ class Topic
      */
     private $tags;
 
+
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Forum", inversedBy="topics")
      * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
