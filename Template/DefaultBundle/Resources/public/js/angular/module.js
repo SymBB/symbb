@@ -1,10 +1,5 @@
 var symbbTemplateModule = angular.module('symbbTemplateModule', [])
 
-symbbTemplateModule.config(['$httpProvider',
-    function($httpProvider) {
-        $httpProvider.interceptors.push('symbbTemplateHttpInterceptor');
-    }]
-);
 
 symbbTemplateModule.factory('symbbTemplateHttpInterceptor', function($q, $injector, $timeout) {
     return {
@@ -18,3 +13,9 @@ symbbTemplateModule.factory('symbbTemplateHttpInterceptor', function($q, $inject
         }
     }
 });
+
+symbbTemplateModule.config(['$httpProvider',
+    function($httpProvider) {
+        $httpProvider.interceptors.push('symbbTemplateHttpInterceptor');
+    }]
+);
