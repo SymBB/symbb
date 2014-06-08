@@ -1,7 +1,7 @@
-var symbbTemplateModule = angular.module('symbbTemplateModule', [])
+var mod = angular.module('symbbTemplateModule', [])
 
 
-symbbTemplateModule.factory('symbbTemplateHttpInterceptor', function($q, $injector, $timeout) {
+mod.factory('symbbTemplateHttpInterceptor', function($q, $injector, $timeout) {
     return {
         // On response success
         response: function(response) {
@@ -14,7 +14,7 @@ symbbTemplateModule.factory('symbbTemplateHttpInterceptor', function($q, $inject
     }
 });
 
-symbbTemplateModule.config(['$httpProvider',
+mod.config(['$httpProvider',
     function($httpProvider) {
         $httpProvider.interceptors.push('symbbTemplateHttpInterceptor');
     }]
