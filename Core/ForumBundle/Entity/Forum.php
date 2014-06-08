@@ -95,12 +95,6 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     protected $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Forum\Flag", mappedBy="forum")
-     * @var ArrayCollection 
-     */
-    private $flags;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $active = true;
@@ -135,7 +129,6 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     {
         $this->children = new ArrayCollection();
         $this->topics = new ArrayCollection();
-        $this->flags = new ArrayCollection();
 
     }
 
@@ -256,12 +249,6 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     public function getTopics()
     {
         return $this->topics;
-
-    }
-
-    public function getFlags()
-    {
-        return $this->flags;
 
     }
 

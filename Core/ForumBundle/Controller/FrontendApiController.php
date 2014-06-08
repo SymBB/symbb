@@ -187,8 +187,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
             }
 
-            $this->get('symbb.core.forum.flag')->insertFlags($topic->getForum(), 'new');
-            $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
             $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
         }
 
@@ -314,8 +312,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                                 $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
                             }
 
-                            $this->get('symbb.core.forum.flag')->insertFlags($forum, 'new');
-                            $this->get('symbb.core.topic.flag')->insertFlags($topic, 'new');
                             $this->get('symbb.core.post.flag')->insertFlags($mainPost, 'new');
                             if ($topic->isLocked()) {
                                 $this->get('symbb.core.topic.flag')->insertFlags($topic, 'locked');
@@ -402,12 +398,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $params['topic'] = $this->getTopicAsArray($topic, $page, null, true);
             $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
             $this->addBreadcrumbItems($breadcrumbItems);
-            // remove "new" flags off forum/topic and posts for the current user
-            $this->get('symbb.core.forum.flag')->removeFlag($topic->getForum(), 'new');
             $this->get('symbb.core.topic.flag')->removeFlag($topic, 'new');
-            foreach ($topic->getPosts() as $post) {
-                $this->get('symbb.core.post.flag')->removeFlag($post, 'new');
-            }
         }
 
         return $this->getJsonResponse($params);

@@ -74,8 +74,16 @@
     margin-right: 5px;
 }
 
-.symbbForumRow .symbbTopicList .description  {
+.symbbForumRow .symbbTopicList .name  {
     float: left;
+}
+
+.symbbForumRow .symbbTopicList .labels  {
+    float: left;
+}
+
+.symbbForumRow .symbbTopicList .description  {
+    float: right;
 }
 
 .symbbForumRow .symbbTopicList:hover {
