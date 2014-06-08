@@ -64,6 +64,19 @@
                 {% block symbb_header %}
                 {% endblock %}
             </div>
+            <div class="symbb_view_menu">
+                <ul class=row">
+                    <li class="col-md-2">
+                        <span class="glyphicon glyphicon-search"></span> {{ 'Newest Posts' }}
+                    </li>
+                    <li class="col-md-2">
+                        <span class="glyphicon glyphicon-pencil"></span> {{ 'Browse/Write' }}
+                    </li>
+                    <li class="col-md-8">
+                        <input placeholder="{{ 'Search'|trans }}"/>
+                    </li>
+                </ul>
+            </div>
 
             <div class="symbb_navi">
                 {% block symbb_navi %} 
@@ -87,10 +100,6 @@
                                 <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/de.png" title="Deutsch" title="Deutsch"/></a></li>
                             {% endif %}
                         </ul>
-                    </div>
-
-                    <div class="search">
-
                     </div>
 
                     <div class="clear"></div>

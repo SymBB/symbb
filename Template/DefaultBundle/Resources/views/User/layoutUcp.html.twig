@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplate('forum') ~ '::layoutWithSidebar.html.twig' %}
+{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
 
 {% block stylesheets %} 
     {{ parent() }}
@@ -11,12 +11,6 @@
     {{ parent() }}
     {{ executeSymbbEvent('user.template.stylesheets') }}
 {% endblock %}
-
-{% block symbb_sidebar %}
-    
-    {% include getSymbbTemplate('forum') ~ ':User:sidebar.html.twig' %}
-    
-{% endblock %}    
 
 {% block symbb_body %}
     

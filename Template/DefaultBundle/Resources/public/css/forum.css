@@ -11,6 +11,10 @@
     box-shadow: 5px 5px 5px #BBBBBB;
 }
 
+.symbbForumRow:hover {
+    background-color: #EEE;
+}
+
 .symbbForumSubrow {
     margin-left: 25px;
 }
@@ -75,5 +79,40 @@
 }
 
 .symbbForumRow .symbbTopicList:hover {
-    background-color: #CCC;
+    background-color: #FFF;
+}
+
+.symbb_view_menu {
+    background-color: #000000;
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    margin-left: -500px;
+    width: 1000px;
+    color: #FFF;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.symbb_view_menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.symbb_view_menu ul li {
+    padding: 8px;
+    margin: 0px;
+    float: left;
+}
+
+.symbb_view_menu ul li:last-child {
+    padding-top: 5px
+}
+
+.symbb_view_menu ul li:last-child input {
+    width: 100%;
+    padding: 3px;
+    background-color: #EEE;
+    border: 1px solid #CCC;
+    color: #000000;
 }

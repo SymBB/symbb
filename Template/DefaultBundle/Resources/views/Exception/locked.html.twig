@@ -1,9 +1,7 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplate('forum') ~ ':Forum:layoutWithSidebar.html.twig' %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
 
-{% block symbb_slider %}
-{% endblock %}
 
 {% block symbb_body %}
     <div class="alert alert-warning">{% trans %}This Topic is locked{% endtrans %}</div>
