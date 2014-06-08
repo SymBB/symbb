@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     
     {% block stylesheets %} 
-        {% stylesheets filter='?yui_css'
+        {% stylesheets filter='?uglifycss'
             '@SymBBTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
             '@SymBBTemplateDefaultBundle/Resources/public/css/form.css'
@@ -33,7 +33,7 @@
     <script src="/bundles/symbbcoreangular/js/angular/angular-mocks.js"></script>
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %}  
-        {% javascripts filter='?yui_js'
+        {% javascripts filter='?uglifyjs2'
             '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-animate.js'
             '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-cookies.js'
             '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-routing.js'

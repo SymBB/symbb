@@ -12,8 +12,8 @@
     {% block stylesheets %} 
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {% stylesheets 
-            '@SymBBTemplateDefaultBundle/Resources/public/css/acp/theme.css' filter='?yui_css'
-            '@SymBBTemplateDefaultBundle/Resources/public/css/jstree/themes/default/style.css' filter='?yui_css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/acp/theme.css' filter='?uglifycss'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/jstree/themes/default/style.css' filter='?uglifycss'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
