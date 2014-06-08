@@ -31,7 +31,15 @@ forum_newest:
         route: symbb_template_default_angular
         params: 
             file: 'forumNewestPosts'
-        
+
+forum_topic_list:
+    api:
+        route: symbb_api_forum_topic_list
+    template:
+        route: symbb_forum_angular_template
+        params:
+            file: 'topicList'
+
 forum_topic_show:
     pattern:  /t-{id}-{name}/{page}/
     defaults:

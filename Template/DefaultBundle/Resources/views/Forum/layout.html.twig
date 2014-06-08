@@ -4,9 +4,9 @@
 
 {% block stylesheets %} 
     {{ parent() }}
-    {% stylesheets 
-        '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css' filter='?uglifycss'
-        '@SymBBTemplateDefaultBundle/Resources/public/css/topic.css' filter='?uglifycss'
+    {% stylesheets filter='?uglifycss'
+        '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css'
+        '@SymBBTemplateDefaultBundle/Resources/public/css/topic.css'
      %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}

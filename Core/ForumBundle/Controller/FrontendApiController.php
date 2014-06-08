@@ -11,6 +11,7 @@ namespace SymBB\Core\ForumBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use SymBB\Core\ForumBundle\Entity\Forum;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
@@ -343,6 +344,33 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
+     * @Route("/api/forum/topic/list", name="symbb_api_forum_topic_list")
+     * @Method({"GET"})
+     */
+    public function forumTopicListAction()
+    {
+        $list = array();
+        $forumId = (int) $this->get('request')->get('forum');
+        $page = $this->get('request')->get('page');
+        if($forumId > 0){
+            $forum = $this->get('symbb.core.forum.manager')->find($forumId);
+            $accessCheck = $this->get('security.context')->isGranted('VIEW', $forum);
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (show forum)');
+            }
+
+            if (!$this->hasError()) {
+                $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
+                $this->addPaginationData($topics);
+                foreach($topics as $topic){
+                    $list[] = $this->getTopicAsArray($topic);
+                }
+            }
+        }
+        return $this->getJsonResponse(array('topics' => $list));
+    }
+
+    /**
      * @Route("/api/topic/data", name="symbb_api_topic_data")
      * @Method({"GET"})
      */
@@ -454,66 +482,20 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $id = null;
         }
 
-        $entityList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
-            ->findBy(array('parent' => $id), array('position' => 'asc', 'id' => 'asc'));
-
-        $forumList = array();
-        $linkList = array();
-        $categoryList = array();
-
-        $hasForumList = false;
-        $hasLinkList = false;
-        $hasCategoryList = false;
-
-        foreach($entityList as $entry){
-            if (true === $this->get('security.context')->isGranted('VIEW', $entry)) {
-                if($entry->getType() === 'forum'){
-                    $forumList[] = $this->getForumAsArray($entry);
-                    $hasForumList = true;
-                } else if($entry->getType() === 'link'){
-                    $linkList[] = $this->getForumAsArray($entry);
-                    $hasLinkList = true;
-                } else if($entry->getType() === 'category'){
-                    $categoryList[] = $this->getForumAsArray($entry);
-                    $hasCategoryList = true;
-                }
-            }
-        }
-
-        $topicList = array();
-        $topicCountTotal = 0;
-        $hasTopicList = false;
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
-            if (true === $this->get('security.context')->isGranted('VIEW', $parent)) {
-                $page = $this->get('request')->get('page');
-                $topics = $this->get('symbb.core.forum.manager')->findTopics($parent, $page);
-
-                $this->addPaginationData($topics);
-                $topicCountTotal = $this->paginationData['totalCount'];
-                foreach ($topics as $topic) {
-                    $topicList[] = $this->getTopicAsArray($topic, 1, 'desc');
-                    $hasTopicList = true;
-                }
-            }
+        } else {
+            $parent = new Forum();
+            $childs = $this->get('symbb.core.forum.manager')->findAll();
+            $parent->setChildren($childs);
         }
-
 
         $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
         $this->addBreadcrumbItems($breadcrumbItems);
 
         $params = array(
-            'forum' => $this->getForumAsArray($parent),
-            'categoryList' => $categoryList,
-            'forumList' => $forumList,
-            'linkList' => $linkList,
-            'topicList' => $topicList,
-            'topicTotalCount' => $topicCountTotal,
-            'hasForumList' => $hasForumList,
-            'hasCategoryList' => $hasCategoryList,
-            'hasLinkList' => $hasLinkList,
-            'hasTopicList' => $hasTopicList
+            'forum' => $this->getForumAsArray($parent)
         );
 
         return $this->getJsonResponse($params);
@@ -641,7 +623,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
-    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null, $childs = true)
+    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null)
     {
 
         $array = array();
@@ -667,54 +649,51 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if (is_object($forum)) {
 
-            if ($forum->getId() > 0) {
-                $array['id'] = $forum->getId();
-                $array['name'] = $forum->getName();
-                $array['description'] = $forum->getDescription();
-                $array['count']['topic'] = $forum->getTopicCount();
-                $array['count']['post'] = $forum->getPostCount();
+            $array['id'] = $forum->getId();
+            $array['name'] = $forum->getName();
+            $array['description'] = $forum->getDescription();
+            $array['count']['topic'] = $forum->getTopicCount();
+            $array['count']['post'] = $forum->getPostCount();
 
-                foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
-                    $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
-                }
-                foreach ($forum->getChildren() as $child) {
-                    $array['children'][] = $this->getForumAsArray($child, false);
-                }
-                $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
-                foreach ($lastPosts as $post) {
-                    $array['lastPosts'][] = $this->getPostAsArray($post, true);
-                }
-                $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-                if ($forum->getImageName()) {
-                    $array['backgroundImage'] = $helper->asset($forum, 'image');
-                } elseif($forum->getType() === 'link'){
-                    $array['backgroundImage'] = '/bundles/symbbtemplatedefault/images/link.jpg';
-                }
-                $array['seo']['name'] = $forum->getSeoName();
+            foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
+                $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+            }
+            foreach ($forum->getChildren() as $child) {
+                $array['children'][] = $this->getForumAsArray($child, false);
+            }
+            $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
+            foreach ($lastPosts as $post) {
+                $array['lastPosts'][] = $this->getPostAsArray($post, true);
+            }
+            $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
+            if ($forum->getImageName()) {
+                $array['backgroundImage'] = $helper->asset($forum, 'image');
+            }
 
-                $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
-                $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $forum);
+            $array['seo']['name'] = $forum->getSeoName();
 
-                $array['access'] = array(
-                    'createTopic' => $writeAccess,
-                    'createPost' => $writePostAccess
-                );
+            $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
+            $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $forum);
 
-                $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
+            $array['access'] = array(
+                'createTopic' => $writeAccess,
+                'createPost' => $writePostAccess
+            );
 
-                if ($forum->getType() === 'link') {
-                    $link = $forum->getLink();
-                    if(strpos($link, 'http') !== 0){
-                        $link = 'http://'.$link;
-                    }
-                    $array['isLink'] = true;
-                    $array['link'] = $link;
-                    $array['linkCalls'] = $forum->getCountLinkCalls();
-                } else if ($forum->getType() === 'forum') {
-                    $array['isForum'] = true;
-                } else {
-                    $array['isCategory'] = true;
+            $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
+
+            if ($forum->getType() === 'link') {
+                $link = $forum->getLink();
+                if(strpos($link, 'http') !== 0){
+                    $link = 'http://'.$link;
                 }
+                $array['isLink'] = true;
+                $array['link'] = $link;
+                $array['linkCalls'] = $forum->getCountLinkCalls();
+            } else if ($forum->getType() === 'forum') {
+                $array['isForum'] = true;
+            } else {
+                $array['isCategory'] = true;
             }
         }
 

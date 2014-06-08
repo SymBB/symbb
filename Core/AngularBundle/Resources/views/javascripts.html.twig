@@ -1,4 +1,4 @@
-{% javascripts
+{% javascripts filter='?uglifycss'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/1_user.js'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/2_app.js'
 %}
@@ -125,7 +125,7 @@ $(function() {
     $( ".symbb_tooltip" ).tooltip();
 });
 </script>
-{% javascripts
+{% javascripts filter='?uglifycss'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/4_directives.js'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/5_functions.js'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/forum/*.js'

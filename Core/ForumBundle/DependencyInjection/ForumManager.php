@@ -220,7 +220,7 @@ class ForumManager extends AbstractManager
             $parentId = null;
         }
 
-        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId), array(), $limit, $offset);
+        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId), array('position' => 'asc'), $limit, $offset);
 
         return $forumList;
     }
@@ -302,7 +302,7 @@ class ForumManager extends AbstractManager
     {
         $breadcrumb = array();
 
-        while (is_object($object)) {
+        while (is_object($object) && $object->getId() > 0) {
             $breadcrumb[] = array(
                 'type' => 'forum',
                 'name' => $object->getName(),

@@ -249,6 +249,10 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
         return false;
     }
 
+    public function setChildren($children){
+        $this->children = $children;
+    }
+
     public function getTopics()
     {
         return $this->topics;

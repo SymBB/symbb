@@ -156,6 +156,53 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             element.html(value || '');
         });
     }
+}]).directive('symbbTopicList', ['$http', '$timeout', function($http, $timeout) {
+    return {
+        restrict: 'E',
+        replace: false,
+        transclude: true,
+        templateUrl: angularConfig.getSymfonyTemplateRoute('forum_topic_list'),
+        link: function(scope, element, attrs) {
+            if(!scope.topicListStatus){
+                scope.topicListStatus = [];
+            }
+            if(!scope.emptyTopicList){
+                scope.emptyTopicList = [];
+            }
+            if(!scope.topicList){
+                scope.topicList = [];
+            }
+
+            scope.topicListLoading = false;
+
+            $timeout(function(){
+                $('#symbbShowTopicList_'+attrs.paramForum).click(function(){
+
+                    if(!scope.topicListStatus[attrs.paramForum]){
+                        scope.topicListStatus[attrs.paramForum] = true;
+                        scope.topicListLoading = true;
+                        scope.emptyTopicList[attrs.paramForum] = 0;
+                        $http.get(angularConfig.getSymfonyApiRoute('forum_topic_list', {forum: attrs.paramForum, page:attrs.paramPage})).success(function(data) {
+
+                            scope.topicList[attrs.paramForum] = data.topics;
+
+                            if(data.topics.length <= 0){
+                                scope.emptyTopicList[attrs.paramForum] = 1;
+                            } else {
+                                scope.emptyTopicList[attrs.paramForum] = 0;
+                            }
+                            scope.topicListLoading = false;
+                        });
+                    } else {
+                        $timeout(function(){
+                            scope.topicList[attrs.paramForum] = [];
+                            scope.topicListStatus[attrs.paramForum] = false;
+                        })
+                    }
+                });
+            });
+        }
+    };
 }]);
 
 
