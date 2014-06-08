@@ -38,7 +38,10 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
 
         try {
 
-            $code = $exception->getCode(); 
+            $code = $exception->getCode();
+            if($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException){
+                $code = 404;
+            }
             
             $file = $code;
             if ($this->env != "prod") {
