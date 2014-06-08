@@ -44,8 +44,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 'created' => $this->getISO8601ForUser($user->getCreated()),
                 'lastLogin' => $this->getISO8601ForUser($user->getLastLogin()),
                 'count' => array(
-                    'post' => $usermanager->getPostCount(),
-                    'topic' => $usermanager->getTopicCount()
+                    'post' => $usermanager->getPostCount($user),
+                    'topic' => $usermanager->getTopicCount($user)
                 )
             );
             foreach ($allFields as $field) {
