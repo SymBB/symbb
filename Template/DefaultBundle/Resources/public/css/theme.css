@@ -40,6 +40,13 @@ blockquote .decoda-quote-author {
     margin: 0px auto;
 }
 
+.symbb_container .search {
+    padding: 10px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    margin-bottom: 10px;
+}
+
 .symbb_content {
     margin-top: 50px;
 }
