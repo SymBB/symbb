@@ -203,8 +203,28 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             });
         }
     };
+}]).directive('symbbBreadcrumbMini', ['$http', '$route', function($http, $route) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<ol class="breadcrumb_mini"></ol>',
+        link: function(scope, element, attrs) {
+            var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
+            var elementWithBreadcrumbName = attrs.objectname;
+            if(scope[elementWithBreadcrumbName] && scope[elementWithBreadcrumbName].breadcrumb){
+                var count = scope[elementWithBreadcrumbName].breadcrumb.length;
+                var i = 1;
+                $(scope[elementWithBreadcrumbName].breadcrumb).each(function(key, entry){
+                    if(i === count){
+                        spacer = "";
+                    }
+                    symbbAngularUtils.createBreadcrumbLi(entry, spacer).appendTo($(element));
+                    i++;
+                });
+            }
+        }
+    };
 }]);
-
 
 function prepareParams(attrs){
     var params = {};

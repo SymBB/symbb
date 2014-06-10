@@ -17,13 +17,13 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
         });
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
-]).controller('ForumNewestShowCtrl', ['$scope', '$http', '$timeout', '$anchorScroll', '$cookieStore', '$routeParams',
+]).controller('ForumSearchCtrl', ['$scope', '$http', '$timeout', '$anchorScroll', '$cookieStore', '$routeParams',
     function($scope, $http, $timeout, $anchorScroll, $cookieStore, $routeParams) {
         var pagenumber = 1;
         if ($routeParams && $routeParams.page) {
             pagenumber = $routeParams.page;
         }
-        var route = angularConfig.getSymfonyApiRoute('forum_newest', {page: pagenumber});
+        var route = angularConfig.getSymfonyApiRoute('forum_search', {page: pagenumber});
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
                 $scope[key] = value;

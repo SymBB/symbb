@@ -50,6 +50,24 @@ var symbbAngularUtils = {
         
         return data;
     },
+
+    createBreadcrumbLi: function(item, spacer){
+        var route = 'forum_index';
+        var params = {};
+        if(item.type === 'forum'){
+            route = 'forum_show';
+            params = {id: item.id, name: item.seoName};
+        } else if(item.type === 'topic'){
+            route = 'forum_topic_show';
+            params = {id: item.id, name: item.seoName};
+        }  else if(item.type === 'home'){
+            route = 'forum_index';
+        } else {
+            console.debug(item);
+        }
+        var path = angularConfig.getAngularRoute(route, params);
+        return $('<li><a href="'+path+'">'+item.name+'</a>'+spacer+'</li>');
+    },
             
     createBreadcrumnb: function(items){
         if(this.breadcrumbElement){
@@ -65,22 +83,7 @@ var symbbAngularUtils = {
                 if(i === count - 1){
                     spacer = '';
                 }
-                var route = 'forum_index';
-                var params = {};
-                if(value.type === 'forum'){
-                    route = 'forum_show';
-                    params = {id: value.id, name: value.seoName};
-                } else if(value.type === 'topic'){
-                    route = 'forum_topic_show';
-                    params = {id: value.id, name: value.seoName};
-                }  else if(value.type === 'home'){
-                    route = 'forum_index';
-                } else {
-                    console.debug(value);
-                }
-
-                var path = angularConfig.getAngularRoute(route, params);
-                $('<li><a href="'+path+'">'+value.name+'</a>'+spacer+'</li>').appendTo($(that.breadcrumbElement));
+                symbbAngularUtils.createBreadcrumbLi(spacer).appendTo($(that.breadcrumbElement));
                 i++;
             });
         }

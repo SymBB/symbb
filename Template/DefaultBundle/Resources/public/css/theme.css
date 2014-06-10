@@ -224,7 +224,6 @@ blockquote .decoda-quote-author {
     border: 1px solid #999;
 }
 
-
 .anker {
     height: 0;
 }
@@ -262,6 +261,7 @@ blockquote .decoda-quote-author {
  margin: 0;   
  margin-top: 5px;
  margin-right: 5px;
+ margin-left: 5px;
 }
 
 .symbb_action_row .btn-group {
@@ -385,8 +385,7 @@ blockquote .decoda-quote-author {
     content: " "; 
     height: 0; 
     width: 0; 
-    position: absolute; 
-    pointer-events: none; 
+    position: absolute;
 } 
 .arrow_box:after {
     border-color: rgba(213, 213, 213, 0); 

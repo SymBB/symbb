@@ -20,17 +20,17 @@ forum_show:
         params: 
             file: 'forumList'
         
-forum_newest:
-    pattern:  /forum/newest/{page}/
+forum_search:
+    pattern:  /forum/search/{page}/
     defaults:
         page: 1
-    controller: ForumNewestShowCtrl
+    controller: ForumSearchCtrl
     api: 
-        route: symbb_api_post_newest
+        route: symbb_api_post_search
     template: 
         route: symbb_template_default_angular
         params: 
-            file: 'forumNewestPosts'
+            file: 'forumSearch'
 
 forum_topic_list:
     api:

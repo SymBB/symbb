@@ -97,14 +97,6 @@ class PostManager extends AbstractManager
     public function getBreadcrumbData(Post $object, TopicManager $topicManager, ForumManager $forumManager)
     {
         $breadcrumb = $topicManager->getBreadcrumbData($object->getTopic(), $forumManager);
-        if ($object->getId() > 0) {
-            $breadcrumb[] = array(
-                'type' => 'topic',
-                'name' => $object->getTopic()->getName(),
-                'seoName' => $object->getTopic()->getSeoName(),
-                'id' => $object->getTopic()->getid()
-            );
-        }
         return $breadcrumb;
     }
 }

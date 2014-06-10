@@ -71,19 +71,15 @@ class ForumManager extends AbstractManager
             $wherePart .= " AND t.forum IN ( :forums )";
         }
 
-        $postTable = 'SymBBCoreForumBundle:Post'; //$this->em->getClassMetadata('SymBBCoreForumBundle:Post')->getTableName();
-        $topicTable ='SymBBCoreForumBundle:Topic'; // $this->em->getClassMetadata('SymBBCoreForumBundle:Topic')->getTableName();
-        $flagTable = 'SymBBCoreSystemBundle:Flag'; //$this->em->getClassMetadata('SymBBCoreSystemBundle:Flag')->getTableName();
-
         $sql = "SELECT
                     p
                 FROM
-                    ".$postTable." p
+                    SymBBCoreForumBundle:Post p
                 INNER JOIN
-                    ".$topicTable." t WITH
+                    SymBBCoreForumBundle:Topic t WITH
                     t.id = p.topic
                 LEFT JOIN
-                    ".$flagTable." f WITH
+                    SymBBCoreSystemBundle:Flag f WITH
                         f.objectClass = 'SymBB\Core\ForumBundle\Entity\Post' AND
                         f.objectId = p.id AND
                         f.user = :user AND
@@ -424,5 +420,9 @@ class ForumManager extends AbstractManager
         }
 
         return true;
+    }
+
+    public function search(){
+        return $this->findNewestPosts();
     }
 }

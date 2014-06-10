@@ -17,10 +17,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 {
 
     /**
-     * @Route("/api/post/newest", name="symbb_api_post_newest")
+     * @Route("/api/post/search", name="symbb_api_post_search")
      * @Method({"GET"})
      */
-    public function newestPostsAction()
+    public function searchPostsAction()
     {
         $limit = (int) $this->get('request')->get('limit');
         if ($limit <= 0) {
@@ -29,7 +29,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $page = $this->get('request')->get('page');
 
         $params['entries'] = array();
-        $posts = $this->get('symbb.core.forum.manager')->findNewestPosts(null, $limit, $page);
+        $posts = $this->get('symbb.core.forum.manager')->search(null, $limit, $page);
         $this->addPaginationData($posts);
         foreach ($posts as $post) {
             $params['entries'][] = $this->getPostAsArray($post);
@@ -749,6 +749,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['access']['edit'] = false;
             $array['access']['delete'] = false;
             $array['notifyMe'] = false;
+            $array['flags'] = array();
         }
 
         if (is_object($post)) {
@@ -769,7 +770,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['rawText'] = $post->getText();
                 $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
                 $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
-
+                foreach ($this->get('symbb.core.post.flag')->findAll($post) as $flag) {
+                    $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
+                }
                 if ($post->getId() > 0) {
 
                     $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($post->getTopic(), 'notify');
@@ -792,13 +795,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['author'] = $this->getAuthorAsArray();
         }
 
-        if(!$bshort){
+        if(!$bshort && is_object($post)){
             $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($post);
             $this->handleEvent('symbb.api.post.data', $event);
             $array['extension'] = $event->getExtensionData();
 
             $extensionAccess = $event->getAccessData();
             $array['access'] = array_merge($array['access'], $extensionAccess);
+            $breadcrumbItems = $this->get('symbb.core.post.manager')->getBreadcrumbData($post, $this->get('symbb.core.topic.manager'), $this->get('symbb.core.forum.manager'));
+            $array['breadcrumb'] = $breadcrumbItems;
         }
         return $array;
     }
