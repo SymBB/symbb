@@ -385,9 +385,15 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
         }
 
-        $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
-        if (!$accessCheck) {
-            $this->addErrorMessage('access denied (show forum)');
+        if(!is_object($topic)){
+            $this->addErrorMessage("Topic not found!");
+        }
+
+        if (!$this->hasError()) {
+            $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (show forum)');
+            }
         }
 
         if (!$this->hasError()) {

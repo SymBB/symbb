@@ -73,31 +73,27 @@
             </div>
 
             <div class="topnavi">
-                {% block symbb_breadcrumb %}
-                    {{ getSymbbBreadcrumb() }}
-                {% endblock %}
+                <div class="symbb_search_menu">
+                    <ul>
+                        <li>
+                            <a href="{{path('angular_locale_forum_search')}}">{{ 'Newest Posts'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{path('angular_locale_forum_index')}}">{{ 'Browse/Write'|trans }}</a>
+                        </li>
+                        <li>
+                            <input placeholder="{{ 'Search'|trans }} (TODO: Funktion noch nicht eingebaut ;P )"/>
+                        </li>
+                    </ul>
+                </div>
                 <ul class="language">
                     {% if app.request.locale == 'de' %}
-                        <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
-                        <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
                     {% else %}
-                        <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
-                        <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
                     {% endif %}
-                </ul>
-            </div>
-
-            <div class="symbb_search_menu">
-                <ul class=row">
-                    <li class="col-md-2">
-                        <a href="{{path('angular_locale_forum_search')}}"><span class="glyphicon glyphicon-search"></span> {{ 'Newest Posts' }}</a>
-                    </li>
-                    <li class="col-md-2">
-                        <a href="{{path('angular_locale_forum_index')}}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Browse/Write' }}</a>
-                    </li>
-                    <li class="col-md-8">
-                        <input placeholder="{{ 'Search'|trans }} (TODO: Funktion noch nicht eingebaut ;P )"/>
-                    </li>
                 </ul>
             </div>
 

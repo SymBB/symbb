@@ -71,10 +71,14 @@
     </div>
 </script>
 
+<symbb-breadcrumb></symbb-breadcrumb>
+
+<div class="clear"></div>
+
 <div ng-repeat="object in forum.children" ng-include="'symbbForumRow.html'">
 </div>
 
 {{ include(
-'SymBBTemplateDefaultBundle:Angular:Forum/search.html.twig',
+'SymBBTemplateDefaultBundle:Angular:Forum/topicEntry.html.twig',
 { }
 ) }}

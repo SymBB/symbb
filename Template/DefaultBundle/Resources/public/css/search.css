@@ -1,19 +1,12 @@
 /* search bar */
 
 .symbb_search_menu {
-    background-color: #006699;
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    margin-left: -500px;
-    width: 1000px;
-    color: #fff;
-    border: 1px solid #fff;
-    box-shadow: 5px 5px 5px #CCC;
+    margin-left: 50px;
 }
 
 .symbb_search_menu a {
     color: #FFFFFF;
+    text-decoration: none;
 }
 
 .symbb_search_menu + .symbb_container {
@@ -27,9 +20,17 @@
 }
 
 .symbb_search_menu ul li {
-    padding: 9px 0px 5px 10px;
+    padding: 10px 10px 8px 10px;
     margin: 0px;
     float: left;
+    border-right: 1px solid #2B2B2B;
+}
+.symbb_search_menu ul li:hover {
+    background-color: #006699;
+}
+
+.symbb_search_menu ul li:last-child {
+    border-right: 0;
 }
 
 .symbb_search_menu ul li:last-child {
@@ -37,146 +38,9 @@
 }
 
 .symbb_search_menu ul li:last-child input {
-    width: 100%;
-    width: calc(100% - 5px);
+    width: 300px;
     padding: 3px;
-    background-color: #EEE;
+    background-color: #FFF;
     border: 1px solid #CCC;
     color: #000000;
-}
-
-
-/* search results */
-
-.symbb_post_block {
-    position: relative;
-    width: 100%;
-    clear: both;
-    margin-bottom: 15px;
-}
-
-.symbb_post_block + .symbb_search_result_seperator {
-
-}
-
-.symbb_post_block + .symbb_search_result_seperator ~ .symbb_search_result_seperator {
-    display: none;
-}
-
-.symbb_post_block .userinfo {
-    float: left;
-    background-color: #FFFFFF;
-    border: 1px solid #999;
-    box-shadow: 5px 5px 5px #CCC;
-    padding: 10px;
-}
-
-.symbb_post_block .userinfo label {
-    margin-top: 3px;
-    margin-right: 5px;
-    margin-bottom: 0;
-    padding: 0;
-    text-decoration: underline;
-}
-
-.symbb_post_block .userinfo label+div {
-}
-
-.symbb_post_block .avatar {
-    width: 150px;
-    height: 150px;
-    cursor: pointer;
-}
-
-.symbb_post_block .avatar img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.symbb_post_block .infos {
-    position: relative;
-    background-color: #FFFFFF;
-    float: left;
-    width: 800px;
-    width: calc(100% - 200px);
-    min-height: 170px;
-    left: 30px;
-    border: 1px solid #999;
-    box-shadow: 5px 5px 5px #CCC;
-    cursor: pointer;
-}
-
-
-.symbb_post_block .infos .breadcrumb_mini {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    height: 26px;
-    width: 100%;
-    border-bottom: 1px solid #CCC;
-}
-
-.symbb_post_block .infos .date {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    height: 20px;
-    padding: 5px;
-}
-
-.symbb_post_block .infos .date .glyphicon {
-    margin-left: 10px;
-}
-
-.symbb_post_block .infos .labels {
-    float: left;
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-.symbb_post_block .infos .labels .label {
-    float: left;
-    margin-left: 5px;
-}
-
-.symbb_post_block .infos .text {
-    margin-top: 25px;
-    min-height: 120px;
-    max-height: 120px;
-    clear: both;
-    overflow: hidden;
-}
-
-.symbb_post_block .infos .text.full {
-    max-height: none;
-    min-height: 0;
-    padding: 10px;
-}
-
-.symbb_post_block .infos .signature {
-    border-top: 1px solid #999999;
-    bottom: 0;
-    margin-top: 5px;
-    padding: 10px;
-}
-
-.symbb_post_block .infos blockquote {
-    height: 100%;
-    margin: 0px;
-}
-
-.symbb_post_block .breadcrumb_mini {
-    padding: 0;
-    margin: 0;
-}
-
-.symbb_post_block .breadcrumb_mini li {
-    padding: 5px;
-    margin: 0;
-    list-style: none;
-    float: left;
-}
-
-.symbb_post_block .breadcrumb_mini li span {
-    margin-left: 10px;
 }
