@@ -10,12 +10,12 @@
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use \Doctrine\ORM\Query\Lexer;
+use Symfony\Component\Security\Core\Util\ClassUtils;
 use \SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post;
 use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
-use \Doctrine\ORM\Query\Lexer;
-use Symfony\Component\Security\Core\Util\ClassUtils;
 
 class ForumManager extends AbstractManager
 {
@@ -420,9 +420,5 @@ class ForumManager extends AbstractManager
         }
 
         return true;
-    }
-
-    public function search(){
-        return $this->findNewestPosts();
     }
 }

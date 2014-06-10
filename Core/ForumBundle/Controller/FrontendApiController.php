@@ -22,14 +22,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      */
     public function searchPostsAction()
     {
-        $limit = (int) $this->get('request')->get('limit');
-        if ($limit <= 0) {
-            $limit = 20;
-        }
-        $page = $this->get('request')->get('page');
 
         $params['entries'] = array();
-        $posts = $this->get('symbb.core.forum.manager')->search(null, $limit, $page);
+        $posts = $this->get('symbb.core.post.manager')->search($this->get('request'));
         $this->addPaginationData($posts);
         foreach ($posts as $post) {
             $params['entries'][] = $this->getPostAsArray($post);

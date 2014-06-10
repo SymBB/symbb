@@ -176,29 +176,27 @@ var symbbAngularUtils = {
 // Topic constructor function to encapsulate HTTP and pagination logic
 app.factory('ScrollPagination', function($http) {
     
-  var ScrollPagination = function(route, routeParams, items, page, total, itemsKey) {
-      
-    if(!page){
-        page = 1;
-    }
-    
+  var ScrollPagination = function(route, routeParams, itemsKey) {
+
     if(!itemsKey){
         itemsKey = 'items';
     }
       
-    this.items = items;
+    this.items = [];
     this.busy = false;
-    this.page = page;
+    this.page = 0;
     this.routeParams = routeParams;
     this.end = false;
-    this.count = items.length;
-    this.totalCount = total;
+    this.count = 0;
+    this.lastPage = 99;
     this.route = route;
     this.itemsKey = itemsKey;
     
-    if(this.count >= this.totalCount) {
+    if(this.page == this.lastPage) {
        this.end = true;
     }
+
+    this.nextPage();
     
   };
 
@@ -208,25 +206,25 @@ app.factory('ScrollPagination', function($http) {
     
     this.busy = true;
         
-    this.page = this.page + 1;
+    this.page = parseInt(this.page) + 1;
 
     this.routeParams.page = this.page;
 
-    var url = angularConfig.getSymfonyApiRoute(this.route);
-    url = url + '?id='+this.routeParams.id;
-    url = url + '&page='+this.routeParams.page;
+    var url = angularConfig.getSymfonyApiRoute(this.route, this.routeParams);
+
     $http.get(url).success(function(data) {
       
       var items = data[this.itemsKey];
-      
-      this.totalCount = data.total;
-      
+
+      this.page = data.paginationData.current;
+      this.lastPage = data.paginationData.endPage;
+
       for (var i = 0; i < items.length; i++) {
         this.items.push(items[i]);
         this.count++;
       }
 
-      if(!items.length || items.length <= 0 || this.count >= this.totalCount ){
+      if(!items.length || items.length <= 0 || this.page == this.lastPage ){
           this.end = true;
       }
 

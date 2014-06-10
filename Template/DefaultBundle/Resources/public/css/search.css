@@ -45,6 +45,14 @@
     margin-bottom: 15px;
 }
 
+.symbb_search_post_block + .symbb_search_result_seperator {
+
+}
+
+.symbb_search_post_block + .symbb_search_result_seperator ~ .symbb_search_result_seperator {
+    display: none;
+}
+
 .symbb_search_post_block .avatar {
     width: 150px;
     height: 150px;
