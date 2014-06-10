@@ -25,7 +25,9 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         template: '<a href="" ng-transclude></a>',
         link: function(scope, element, attrs) {
             var params = prepareParams(attrs);
+            console.debug(attrs);
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
+            console.debug(path);
             $(element[0]).children('a').attr('href', path);
             if(attrs.target){
                 $(element[0]).children('a').attr('target', attrs.target);

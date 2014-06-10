@@ -14,7 +14,9 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $.each(data, function(key, value) {
                 $scope[key] = value;
             });
-            $scope.searchPagination = new ScrollPagination('forum_topic_list', {forum: forumId}, 'topics');
+            if(data.forum.isForum){
+                $scope.searchPagination = new ScrollPagination('forum_topic_list', {forum: forumId}, 'topics');
+            }
         });
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }

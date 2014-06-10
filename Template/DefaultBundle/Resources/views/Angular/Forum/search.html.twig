@@ -1,9 +1,11 @@
 {% trans_default_domain "symbb_frontend" %}
 <div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
-    <div ng-repeat="object in searchPagination.items" >
-        <div class="symbb_search_post_block" >
-            <div class="avatar" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
-                <img ng-src="[[object.author.avatar]]" />
+    <div ng-repeat="object in searchPagination.items"  ng-init="{true: linkObject = object.topic, false: linkObject=object}[object.topic.id > 0]">
+        <div class="symbb_post_block">
+            <div class="userinfo">
+                <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[linkObject.author.id]]" param-name="[[linkObject.author.username]]">
+                    <img ng-src="[[object.author.avatar]]" />
+                </div>
             </div>
             <div class="infos">
                 <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
@@ -16,7 +18,7 @@
                     <span ng-if="!object.temp.showFullPostTextClass" class="glyphicon glyphicon-chevron-down" ng-click="object.temp.showFullPostTextClass='full'"></span>
                     <span ng-if="object.temp.showFullPostTextClass" class="glyphicon glyphicon-chevron-up" ng-click="object.temp.showFullPostTextClass=null"></span>
                 </div>
-                <div class="text" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
+                <div class="text" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[linkObject.id]]" param-name="[[linkObject.seo.name]]" param-page="last">
                     <blockquote ng-bind-html="object.text"></blockquote>
                 </div>
             </div>
@@ -28,5 +30,8 @@
     </div>
     <div class="simplerow" ng-show='searchPagination.busy'>
         <div class="alert alert-info"><img src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}</div>
+    </div>
+    <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>
+        <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
     </div>
 </div>

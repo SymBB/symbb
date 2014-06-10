@@ -52,7 +52,7 @@ class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\Column(type="string", length=10))
      */
-    protected $type = 'forum';
+    protected $type = 'category';
 
     /**
      * @ORM\Column(type="string", length=255)
