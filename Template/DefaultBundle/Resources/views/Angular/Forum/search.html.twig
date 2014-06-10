@@ -3,8 +3,10 @@
     <div ng-repeat="object in searchPagination.items">
         <div class="symbb_post_block">
             <div class="userinfo">
-                <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.topic.author.id]]" param-name="[[object.topic.author.username]]">
-                    <img ng-src="[[object.author.avatar]]" />
+                <div class="padding10">
+                    <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.topic.author.id]]" param-name="[[object.topic.author.username]]">
+                        <img ng-src="[[object.author.avatar]]" />
+                    </div>
                 </div>
             </div>
             <div class="infos">

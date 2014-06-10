@@ -169,7 +169,6 @@
     background-color: #FFFFFF;
     border: 1px solid #999;
     box-shadow: 5px 5px 5px #CCC;
-    padding: 10px;
 }
 
 .symbb_post_block .userinfo label {
@@ -256,9 +255,10 @@
 
 .symbb_post_block .infos .signature {
     border-top: 1px solid #999999;
-    bottom: 0;
-    margin-top: 5px;
+    bottom: 10px;
     padding: 10px;
+    position: absolute;
+    width: 100%;
 }
 
 .symbb_post_block .infos blockquote {

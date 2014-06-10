@@ -19,23 +19,25 @@
 <div ng-repeat="object in topic.posts" >
     <div class="symbb_post_block" >
         <div class="userinfo">
-            {{ executeSymbbTemplatePostEvent('before.username') }}
-            <div class="username" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">[[object.author.username]]</div>
-            {{ executeSymbbTemplatePostEvent('after.username') }}
-            {{ executeSymbbTemplatePostEvent('before.avatar') }}
-            <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
-                <img ng-src="[[object.author.avatar]]" />
+            <div class="padding10">
+                {{ executeSymbbTemplatePostEvent('before.username') }}
+                <div class="username" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">[[object.author.username]]</div>
+                {{ executeSymbbTemplatePostEvent('after.username') }}
+                {{ executeSymbbTemplatePostEvent('before.avatar') }}
+                <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
+                    <img ng-src="[[object.author.avatar]]" />
+                </div>
+                {{ executeSymbbTemplatePostEvent('after.avatar') }}
+                <div class="clear"></div>
+                {{ executeSymbbTemplatePostEvent('before.userdata') }}
+                <label>{% trans %}posts{% endtrans %}:</label>
+                <div>[[object.author.count.post]]</div>
+                <div class="clear"></div>
+                <label>{% trans %}Join Date{% endtrans %}:</label>
+                <div>[[ object.author.created | date:'dd.MM.yyyy']]</div>
+                <div class="clear"></div>
+                {{ executeSymbbTemplatePostEvent('after.userdata') }}
             </div>
-            {{ executeSymbbTemplatePostEvent('after.avatar') }}
-            <div class="clear"></div>
-            {{ executeSymbbTemplatePostEvent('before.userdata') }}
-            <label>{% trans %}posts{% endtrans %}:</label>
-            <div>[[object.author.count.post]]</div>
-            <div class="clear"></div>
-            <label>{% trans %}Join Date{% endtrans %}:</label>
-            <div>[[ object.author.created | date:'dd.MM.yyyy']]</div>
-            <div class="clear"></div>
-            {{ executeSymbbTemplatePostEvent('after.userdata') }}
         </div>
         <div class="infos big">
             <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
@@ -53,7 +55,7 @@
             <div class="text full" ng-bind-html-unsafe="object.text"></div>
             {{ executeSymbbTemplatePostEvent('after.text') }}
             {{ executeSymbbTemplatePostEvent('before.signature') }}
-            <div ng-bind-html="object.signature" class="signature"></div>
+            <div ng-if="object.signature" ng-bind-html="object.signature" class="signature"></div>
             {{ executeSymbbTemplatePostEvent('after.signature') }}
         </div>
         <div class="clear"></div>
