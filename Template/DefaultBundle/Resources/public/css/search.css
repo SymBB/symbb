@@ -1,14 +1,23 @@
 /* search bar */
 
 .symbb_search_menu {
-    background-color: #000000;
-    position: fixed;
-    top: 30px;
+    background-color: #006699;
+    position: absolute;
+    top: 80px;
     left: 50%;
     margin-left: -500px;
     width: 1000px;
-    color: #FFF;
-    border-radius: 0px 0px 5px 5px;
+    color: #fff;
+    border: 1px solid #fff;
+    box-shadow: 5px 5px 5px #CCC;
+}
+
+.symbb_search_menu a {
+    color: #FFFFFF;
+}
+
+.symbb_search_menu + .symbb_container {
+    margin-top: 150px;
 }
 
 .symbb_search_menu ul {
@@ -18,7 +27,7 @@
 }
 
 .symbb_search_menu ul li {
-    padding: 8px;
+    padding: 10px 0px 5px 5px;
     margin: 0px;
     float: left;
 }
@@ -29,6 +38,7 @@
 
 .symbb_search_menu ul li:last-child input {
     width: 100%;
+    width: calc(100% - 5px);
     padding: 3px;
     background-color: #EEE;
     border: 1px solid #CCC;
@@ -110,6 +120,7 @@
 
 .symbb_search_post_block .infos .labels .label {
     float: left;
+    margin-left: 5px;
 }
 
 .symbb_search_post_block .infos .text {

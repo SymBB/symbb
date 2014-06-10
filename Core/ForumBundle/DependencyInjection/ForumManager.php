@@ -338,7 +338,7 @@ class ForumManager extends AbstractManager
      * @param $object
      * @return array
      */
-    public function getBreadcrumbData($object)
+    public function getBreadcrumbData($object = null)
     {
         $breadcrumb = array();
 

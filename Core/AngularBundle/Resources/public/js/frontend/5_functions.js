@@ -65,8 +65,10 @@ var symbbAngularUtils = {
         } else {
             console.debug(item);
         }
-        var path = angularConfig.getAngularRoute(route, params);
-        return $('<li><a href="'+path+'">'+item.name+'</a>'+spacer+'</li>');
+        if(item){
+            var path = angularConfig.getAngularRoute(route, params);
+            return $('<li><a href="'+path+'">'+item.name+'</a>'+spacer+'</li>');
+        }
     },
             
     createBreadcrumnb: function(items){
@@ -83,7 +85,10 @@ var symbbAngularUtils = {
                 if(i === count - 1){
                     spacer = '';
                 }
-                symbbAngularUtils.createBreadcrumbLi(spacer).appendTo($(that.breadcrumbElement));
+                var item = symbbAngularUtils.createBreadcrumbLi(value, spacer);
+                if(item){
+                    item.appendTo($(that.breadcrumbElement));
+                }
                 i++;
             });
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-04-29T16:03:05Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-06-10T15:37:02Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -17,6 +17,11 @@
         <target>Gast</target>
         <jms:reference-file line="38">DataFixtures/ORM/LoadUserData.php</jms:reference-file>
         <jms:reference-file line="38">DataFixtures/ORM/LoadUserGroupData.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0719708d1cc814839bd818fdc27d446652f03383" resname="Passwort">
+        <source>Passwort</source>
+        <target>Passwort</target>
+        <jms:reference-file line="113">UserBundle/Controller/FrontendApiController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="9f8a2389a20ca0752aa9e95093515517e90e194c" resname="User">
         <source>User</source>

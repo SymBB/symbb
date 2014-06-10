@@ -25,6 +25,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $params['entries'] = array();
         $posts = $this->get('symbb.core.post.manager')->search($this->get('request'));
+        $breadcrumb = $this->get('symbb.core.forum.manager')->getBreadcrumbData();
+        $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($posts);
         foreach ($posts as $post) {
             $params['entries'][] = $this->getPostAsArray($post);
@@ -565,6 +567,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
 
                 $array['mainPost'] = $this->getPostAsArray($topic->getMainPost());
+                $array['text'] = $array['mainPost']['text'];
+                $array['rawText'] = $array['mainPost']['rawText'];
+                $array['breadcrumb'] = $array['mainPost']['breadcrumb'];
                 $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
                 foreach($tags as $tag){
                     $status = false;

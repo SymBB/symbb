@@ -73,3 +73,8 @@
 
 <div ng-repeat="object in forum.children" ng-include="'symbbForumRow.html'">
 </div>
+
+{{ include(
+'SymBBTemplateDefaultBundle:Angular:Forum/search.html.twig',
+{ }
+) }}

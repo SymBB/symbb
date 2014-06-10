@@ -1,5 +1,5 @@
-symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$anchorScroll', '$cookieStore',
-    function($scope, $http, $routeParams, $timeout, $anchorScroll, $cookieStore) {
+symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$anchorScroll', '$cookieStore', 'ScrollPagination',
+    function($scope, $http, $routeParams, $timeout, $anchorScroll, $cookieStore, ScrollPagination) {
         var forumId = 0
         if ($routeParams && $routeParams.id) {
             forumId = $routeParams.id;
@@ -14,12 +14,13 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $.each(data, function(key, value) {
                 $scope[key] = value;
             });
+            $scope.searchPagination = new ScrollPagination('forum_topic_list', {forum: forumId}, 'topics');
         });
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
 ]).controller('ForumSearchCtrl', ['$scope', '$http', '$timeout', '$anchorScroll', '$cookieStore', '$routeParams', 'ScrollPagination',
     function($scope, $http, $timeout, $anchorScroll, $cookieStore, $routeParams, ScrollPagination) {
-        $scope.searchPagination = ScrollPagination = new ScrollPagination('forum_search', {}, 'entries');
+        $scope.searchPagination = new ScrollPagination('forum_search', {}, 'entries');
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
 ]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$anchorScroll',

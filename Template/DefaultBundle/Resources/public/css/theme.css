@@ -37,6 +37,7 @@ blockquote .decoda-quote-author {
 
 .symbb_container {
     width: 95%;
+    width: calc(100% - 100px);
     margin: 0px auto;
 }
 
@@ -285,16 +286,19 @@ blockquote .decoda-quote-author {
 .topnavi .language {
     position: fixed;
     right: 10px;
-    height: 20px;
+    height: 26px;
     overflow: hidden;
     list-style: none;
-    top: 8px;
+    top: 5px;
 }
 
 .topnavi .language li {
     background-color: #333;    
-    padding: 0 0 0 5px;
-    width: 25px;
+    padding: 5px;
+}
+
+.topnavi .language li a {
+    color: #FFFFFF;
 }
 
 .topnavi .language:hover {

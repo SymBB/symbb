@@ -28,9 +28,9 @@ forum_search:
     api: 
         route: symbb_api_post_search
     template: 
-        route: symbb_template_default_angular
+        route: symbb_forum_angular_template
         params: 
-            file: 'forumSearch'
+            file: 'search'
 
 forum_topic_list:
     api:

@@ -9,21 +9,21 @@
                 <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
                 <div class="date">
                     <div class="labels">
+                        <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">[[tag.name]]</span>
                         <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
                     </div>
                     {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
-                    <span ng-if="!object.showFullPostTextClass" class="glyphicon glyphicon-chevron-down" ng-click="object.temp.showFullPostTextClass='full'"></span>
-                    <span ng-if="object.showFullPostTextClass" class="glyphicon glyphicon-chevron-up" ng-click="object.temp..showFullPostTextClass=null"></span>
-                    <span class="glyphicon glyphicon-remove"></span>
+                    <span ng-if="!object.temp.showFullPostTextClass" class="glyphicon glyphicon-chevron-down" ng-click="object.temp.showFullPostTextClass='full'"></span>
+                    <span ng-if="object.temp.showFullPostTextClass" class="glyphicon glyphicon-chevron-up" ng-click="object.temp.showFullPostTextClass=null"></span>
                 </div>
-                <div class="text" ng-class="object.temp..showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
+                <div class="text" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="last">
                     <blockquote ng-bind-html="object.text"></blockquote>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
         <div class="symbb_search_result_seperator" ng-if="object.flags.new">
-            <div class="alert alert-warning">{{ 'read posts' }}</div>
+            <div class="alert alert-warning">{{ 'read posts'|trans }}</div>
         </div>
     </div>
     <div class="simplerow" ng-show='searchPagination.busy'>
