@@ -15,9 +15,9 @@ var textMatchOneLine = function(){
 };
 
 var symbbAngularUtils = {
-    
+
     breadcrumbElement: null,
-    
+
     checkResponse: function(data, $injector){
 
         var $route = $injector.get('$route');
@@ -72,26 +72,25 @@ var symbbAngularUtils = {
     },
             
     createBreadcrumnb: function(items){
-        if(this.breadcrumbElement){
-            $(this.breadcrumbElement).html('<li><div class="avatar avatar_mini"><img src="'+symbbUser.avatar+'" /></div></li>');
-            var spacer = '<span class="spacer">/</span>';
-            var count = 0;
-            $.each(items, function(key, value){
-                count++;
-            });
-            var i = 0;
-            var that = this;
-            $.each(items, function(key, value){
-                if(i === count - 1){
-                    spacer = '';
-                }
-                var item = symbbAngularUtils.createBreadcrumbLi(value, spacer);
-                if(item){
-                    item.appendTo($(that.breadcrumbElement));
-                }
-                i++;
-            });
-        }
+
+        $(symbbAngularUtils.breadcrumbElement).prepend($('<li><div class="avatar avatar_mini"><img src="'+symbbUser.avatar+'" /></div></li>'));
+        var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
+        var count = 0;
+        $.each(items, function(key, value){
+            count++;
+        });
+        var i = 0;
+        var that = this;
+        $.each(items, function(key, value){
+            if(i === count - 1){
+                spacer = '';
+            }
+            var item = symbbAngularUtils.createBreadcrumbLi(value, spacer);
+            if(item){
+                $(symbbAngularUtils.breadcrumbElement).append(item);
+            }
+            i++;
+        });
     },
             
     createPostUploader: function($scope, $fileUploader, $scopeObject, $injector){

@@ -340,12 +340,6 @@ blockquote .decoda-quote-author {
     margin-top: -30px; 
 }
 
-.breadcrumb > li + li:before {
-    content: initial;
-}
-
-
-
 #footer {
     background-color: #232323;
     color: #FFF;
@@ -533,17 +527,6 @@ blockquote .decoda-quote-author {
 
 .symbb_tabcontent.active {
     display: inherit;
-}
-
-@media (max-width: 992px) { 
-    .symbb_action_row .title{
-        padding-left: 40px;
-    }
-    .breadcrumb li:first-child {
-        background-color: #428BCA;
-        color: #FFF;
-        padding-left: 40px;
-    }
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

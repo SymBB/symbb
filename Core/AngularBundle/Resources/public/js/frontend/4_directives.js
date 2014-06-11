@@ -2,9 +2,10 @@ symbbControllers.directive('symbbBreadcrumb', function() {
     return {
         restrict: 'E',
         replace: true,
-        template: '<ol class="breadcrumb"></ol>',
+        transclude: true,
+        template: '<div class="symbb_action_row" ><ol class="breadcrumb_mini" ng-transclude></ol></div>',
         link: function(scope, elm, attrs) {
-            symbbAngularUtils.breadcrumbElement = elm[0];
+            symbbAngularUtils.breadcrumbElement = $(elm[0]).find('ol');
         }
     };
 }).directive('symbbSfLink', function() {

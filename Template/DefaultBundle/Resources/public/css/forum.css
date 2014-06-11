@@ -91,59 +91,6 @@
 }
 
 
-.breadcrumb {
-    background-color: #FFF;
-    border-radius: 0px;
-    list-style: none outside none;
-    margin: 0px;
-    padding: 0px;
-    float: left;
-    width: 100%;
-    border: 1px solid #CCC;
-    margin-bottom: 20px;
-}
-
-.breadcrumb li {
-    display: block;
-    float: left;
-    height: 100%;
-    overflow: hidden;
-    padding: 5px;
-}
-
-.breadcrumb li .spacer {
-    padding-left: 3px;
-    float: left;
-    padding-top: 5px;
-    color: #000;
-    padding-right: 3px;
-}
-
-.breadcrumb li a {
-    margin: 5px;
-    display: block;
-    color: #000;
-    float: left;
-}
-
-.breadcrumb li.arrow {
-    border-top: 21px solid transparent;
-    border-bottom: 21px solid transparent;
-    border-left: 21px solid #428BCA;
-    width: 0;
-    height: 0;
-    display: none;
-}
-
-.breadcrumb li.subarrow {
-    border-color: rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) #C2E1F5;
-    border-width: 36px;
-    margin-top: -36px;
-    display: none;
-}
-.breadcrumb .arrow_box_li {
-    display: none;
-}
 
 
 
@@ -266,18 +213,32 @@
     margin: 0px;
 }
 
-.symbb_post_block .breadcrumb_mini {
+.symbb_action_row .breadcrumb_mini {
+    margin-top: 7px;
+}
+
+.symbb_action_row .breadcrumb_mini .avatar_mini{
+    margin-top: -3px;
+}
+
+.breadcrumb_mini {
     padding: 0;
     margin: 0;
 }
 
-.symbb_post_block .breadcrumb_mini li {
+.breadcrumb_mini li {
     padding: 5px;
     margin: 0;
     list-style: none;
     float: left;
+    padding-top: 0px;
+    line-height: 24px;
 }
 
-.symbb_post_block .breadcrumb_mini li span {
+.breadcrumb_mini li>span {
     margin-left: 10px;
+}
+
+.breadcrumb_mini li button .glyphicon {
+   padding-top: 2px;
 }
