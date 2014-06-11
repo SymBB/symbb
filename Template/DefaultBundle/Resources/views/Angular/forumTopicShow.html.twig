@@ -47,9 +47,11 @@
                     <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
                 </div>
                 {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
-                <div ng-if="topic.access.createPost" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[object.id]]"></div>
+                {{ executeSymbbTemplatePostEvent('before.actions') }}
+                <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[object.id]]"></div>
                 <div ng-if="object.access.edit" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="[[object.id]]"></div>
                 <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" symbb-delete-request="forum_post_delete" param-id="[[object.id]]" message="{{'you really want to delete the entry?'|trans}}"></div>
+                {{ executeSymbbTemplatePostEvent('after.actions') }}
             </div>
             {{ executeSymbbTemplatePostEvent('before.text') }}
             <div class="text full" ng-bind-html-unsafe="object.text"></div>

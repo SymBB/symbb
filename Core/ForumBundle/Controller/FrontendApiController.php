@@ -790,10 +790,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     }
                     $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
                     $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
-
+                    $createAccess = false;
+                    if(!$post->getTopic()->isLocked()){
+                        $createAccess = $this->get('security.context')->isGranted('CREATE_POST', $post->getTopic()->getForum());
+                    }
                     $array['access'] = array(
                         'edit' => $editAccess,
-                        'delete' => $deleteAccess
+                        'delete' => $deleteAccess,
+                        'create' => $createAccess
                     );
                 }
             }

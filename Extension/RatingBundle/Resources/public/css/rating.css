@@ -1,3 +1,9 @@
-.raiting {
-    margin-bottom: 10px;
+.rating-group {
+    position: relative;
+    display: inline-block;
+    font-style: normal;
+}
+
+.rating-group.active .glyphicon {
+    color: #428BCA;
 }

@@ -2,8 +2,8 @@ services:
     symbb.listener.post.rating:
         class: SymBB\Extension\RatingBundle\EventListener\TemplateListener
         tags:
-            - { priority: -255, name: kernel.event_listener, event: symbb.post.template.after.text, method: afterText }
-            - { name: kernel.event_listener, event: symbb.topic.template.stylesheets, method: topicStylesheets }
+            - { priority: -255, name: kernel.event_listener, event: symbb.post.template.before.actions, method: beforeActions }
+            - { name: kernel.event_listener, event: symbb.forum.template.stylesheets, method: topicStylesheets }
    
     symbb.extensionrating.util:
         twig.extension.symbb.extensionrating.util:
@@ -11,3 +11,22 @@ services:
         arguments: ['@doctrine', '@security.context']
         tags:
             - { name: twig.extension }
+
+    symbb.extension.rating.listener.api.data:
+        class: SymBB\Extension\RatingBundle\EventListener\ApiListener
+        arguments: ['@security.context', '@doctrine.orm.symbb_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
+            - { name: kernel.event_listener, event: symbb.api.topic.data, method: topicData }
+
+    symbb.extension.rating.angular.router.files:
+        class: SymBB\Extension\RatingBundle\EventListener\AngularListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
+
+    symbb.extension.rating.security.access.survey_voter:
+        class:      SymBB\Extension\RatingBundle\Security\Authorization\RatingVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }
