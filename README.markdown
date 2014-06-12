@@ -1,55 +1,56 @@
 # SymBB Forum System
-----
+
+## Get the lates progress!
+
 http://symbb.blogspot.de/
-----
 
 ## Currently in development! / Derzeit in Entwicklung
 
 
-More detailed information and instructions can be found here (currently only in German):
+### Sandbox Version
 
-https://github.com/seyon/symbb/wiki/
-
-For a "finished" Symfony version you can use the Sandbox :
-
+You can find the Sandbox Version unter this url:
 https://github.com/seyon/symbb_sandbox
 
-But i will be not easy to install/config it ;)
+The Sandbox Version has a finished setup for the SymBB Forum.
+You can use it to try it out, but dont use it for projects. The System is not finished and not stabel.
+
+### Wiki
+
+I have removed the Wiki because i change to much stuff.
+I will add the Wiki back after i release a first "RC" Version.
+
+### Questions
+
+If you have Questions please use the Github Bugtracker. But it can be need some time to answer you.
+The most of my free time will be used to develop the System. Eventually i dont find time to answer to your Question.
+Please note this is only the case as long no "RC" Version or "Beta" Version is released. After that i will give you better Support :)
+
+### Important Notes
+
+Currently the SymBB System fore SF to use special configurations!
+It defines some Framework/Doctrine/... configurations and you can not override it with the global config file!
+So if you need to change configurations disable the Symbb/Core/ConfigBundle and replace it with a extended version who dont add the Configfiles. But in this case you must configure all the stuff manually.
 
 [![Build Status](https://travis-ci.org/seyon/symbb.png?branch=master)](https://travis-ci.org/seyon/symbb)
 [![Latest Stable Version](https://poser.pugx.org/symbb/symbb/v/stable.png)](https://packagist.org/packages/symbb/symbb)
 [![Latest Unstable Version](https://poser.pugx.org/symbb/symbb/v/unstable.png)](https://packagist.org/packages/symbb/symbb)
 [![Total Downloads](https://poser.pugx.org/symbb/symbb/downloads.png)](https://packagist.org/packages/symbb/symbb)
 
-# Bundles are used
+### Demo
 
-- FOSUserBundle ( optional, but recommended )
-- FOSRestBundle ( for future api )
-- FOSJsRoutingBundle 
-- KnpMenuBundle
-- KnpPaginatorBundle
-- SonataIntlBundle ( Date formating )
-- LswMemcacheBundle (Memcache Manager)
-
-# Demo
-
-currently i dont have a dome :(
-Not for you ;).
+In Future you will see a Version of the System on www.symbb.de
+Currently you will one get an error because if havent updated it to the last Version.
+Until i release a Beta/RC Version the domain will be stay empty.
 
 But read my Blog!
 I have started it today and i try to write all ideas and progress that i will make from now on.
 http://symbb.blogspot.de/
 
 
--------
-Notices for me ;) so yout dont need to read that stuff below
+## Notices for me
 
--------
-Ideensammlung:
+### create Translation files
 
-- Topics können an eine andere Person übergeben werden ( muss jedoch bestätigt werden, bzw. die neue person kann es "beantragen" )
-- "Editiert bei" historie verfügbar machen ( keine genauen infos nur wer und wann, ggf. noch "grund des editierens" als feld beim editieren anlegen )
-
-
--------
 php app/console translation:extract de -c symbb
+
