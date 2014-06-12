@@ -7,14 +7,14 @@ angular.module('symbbTemplateModule', []).
                     $('.symbb_post_embeded_image_link').magnificPopup({type:'image'});
                     $('.symbb_post_block').each(function(key, element){
                         $(element).find('.signature').each(function(key2, signature){
-                            $(element).find('.infos').css('padding-bottom', $(signature).innerHeight() );
+                            $(element).find('.infos').css('padding-bottom',( $(signature).innerHeight() + 5) );
                         });
                         var left = $(element).find('.userinfo');
                         var right = $(element).find('.infos');
                         if($(left).innerHeight() > $(right).innerHeight()){
-                            $(right).height($(left).innerHeight());
+                            $(right).css('min-height',$(left).innerHeight());
                         } else if($(left).innerHeight() < $(right).innerHeight()){
-                            $(left).height($(right).innerHeight());
+                            $(left).css('min-height', $(right).innerHeight());
                         }
 
                     });

@@ -114,7 +114,6 @@
 .symbb_post_block .userinfo {
     float: left;
     background-color: #FFFFFF;
-    border: 1px solid #999;
     box-shadow: 5px 5px 5px #CCC;
 }
 
@@ -145,12 +144,12 @@
     background-color: #FFFFFF;
     float: left;
     width: 800px;
-    width: calc(100% - 200px);
+    width: calc(100% - 175px);
     min-height: 170px;
-    left: 30px;
-    border: 1px solid #999;
+    left: 0px;
     box-shadow: 5px 5px 5px #CCC;
     cursor: pointer;
+    border-left: 1px solid #EEE;
 }
 
 
@@ -188,8 +187,8 @@
 
 .symbb_post_block .infos .text {
     margin-top: 25px;
-    min-height: 120px;
-    max-height: 120px;
+    min-height: 135px;
+    max-height: 135px;
     clear: both;
     overflow: hidden;
 }
@@ -211,6 +210,36 @@
 .symbb_post_block .infos blockquote {
     height: 100%;
     margin: 0px;
+    min-height: 135px;
+}
+
+.symbb_post_block .read_more {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+
+.symbb_post_block.small .infos {
+    min-height: 85px;
+    max-height: 85px;
+    height: 85px;
+    width: calc(100% - 86px);
+}
+
+.symbb_post_block.small .infos .text {
+    min-height: 49px;
+    max-height: 49px;
+    height: 49px;
+}
+
+.symbb_post_block.small .infos blockquote {
+    min-height: 49px;
+}
+
+.symbb_post_block.small .avatar {
+    height: 64px;
+    width: 64px;
 }
 
 .symbb_action_row .breadcrumb_mini {
@@ -220,6 +249,7 @@
 .symbb_action_row .breadcrumb_mini .avatar_mini{
     margin-top: -3px;
 }
+
 
 .breadcrumb_mini {
     padding: 0;

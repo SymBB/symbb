@@ -103,6 +103,14 @@ forum_unignore:
 forum_mark_as_read:
     api: 
         route: symbb_api_forum_mark_as_read
+
+topic_mark_as_read:
+    api:
+        route: symbb_api_topic_mark_as_read
+
+post_mark_as_read:
+    api:
+        route: symbb_api_post_mark_as_read
         
 forum_topic_save:
     api: 

@@ -465,6 +465,42 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
+     * @Route("/api/topic/markAsRead", name="symbb_api_topic_mark_as_read")
+     * @Method({"POST"})
+     */
+    public function topicMarkAsRead()
+    {
+        $id = (int) $this->get('request')->get('id');
+
+        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
+            ->find($id);
+        $this->get('symbb.core.topic.flag')->removeFlag($topic, 'new');
+
+        $this->addSuccessMessage('The topic has been marked as read');
+        $this->addCallback('refresh');
+
+        return $this->getJsonResponse(array());
+    }
+
+    /**
+     * @Route("/api/post/markAsRead", name="symbb_api_post_mark_as_read")
+     * @Method({"POST"})
+     */
+    public function postMarkAsRead()
+    {
+        $id = (int) $this->get('request')->get('id');
+
+        $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')
+            ->find($id);
+        $this->get('symbb.core.post.flag')->removeFlag($post, 'new');
+
+        $this->addSuccessMessage('The post has been marked as read');
+        $this->addCallback('refresh');
+
+        return $this->getJsonResponse(array());
+    }
+
+    /**
      * @Route("/api/forum/data", name="symbb_api_forum_data")
      * @Method({"GET"})
      */
@@ -479,18 +515,24 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
+            $accessCheck = $this->get('security.context')->isGranted('VIEW', $parent);
+            if (!$accessCheck) {
+                $this->addErrorMessage('access denied (show forum)');
+            }
         } else {
             $parent = new Forum();
             $childs = $this->get('symbb.core.forum.manager')->findAll();
             $parent->setChildren($childs);
         }
 
-        $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
-        $this->addBreadcrumbItems($breadcrumbItems);
+        if(!$this->hasError()){
+            $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
+            $this->addBreadcrumbItems($breadcrumbItems);
 
-        $params = array(
-            'forum' => $this->getForumAsArray($parent)
-        );
+            $params = array(
+                'forum' => $this->getForumAsArray($parent)
+            );
+        }
 
         return $this->getJsonResponse($params);
     }
