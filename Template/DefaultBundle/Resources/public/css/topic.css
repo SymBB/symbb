@@ -8,7 +8,9 @@
     padding-top: 8px;
 }
 
-
+.symbb_topic .symbb_post_embeded_image_link img {
+    max-width: 50%;
+}
 
 .symbb_topic .row.body {
     background-color: #FFF;

@@ -37,7 +37,15 @@ blockquote .decoda-quote-author {
 
 .symbb_container {
     width: 95%;
+    width: calc(100% - 100px);
     margin: 0px auto;
+}
+
+.symbb_container .search {
+    padding: 10px;
+    background: #FFF;
+    border: 1px solid #CCC;
+    margin-bottom: 10px;
 }
 
 .symbb_content {
@@ -217,7 +225,6 @@ blockquote .decoda-quote-author {
     border: 1px solid #999;
 }
 
-
 .anker {
     height: 0;
 }
@@ -255,6 +262,7 @@ blockquote .decoda-quote-author {
  margin: 0;   
  margin-top: 5px;
  margin-right: 5px;
+ margin-left: 5px;
 }
 
 .symbb_action_row .btn-group {
@@ -278,84 +286,23 @@ blockquote .decoda-quote-author {
 .topnavi .language {
     position: fixed;
     right: 10px;
-    height: 20px;
+    height: 26px;
     overflow: hidden;
     list-style: none;
-    top: 8px;
+    top: 5px;
 }
 
 .topnavi .language li {
     background-color: #333;    
-    padding: 0 0 0 5px;
-    width: 25px;
+    padding: 5px;
+}
+
+.topnavi .language li a {
+    color: #FFFFFF;
 }
 
 .topnavi .language:hover {
     overflow: visible;
-}
-
-.breadcrumb {
-    background-color: transparent;
-    border-radius: 0px;
-    list-style: none outside none;
-    margin-bottom: 0px;
-    padding: 0px;
-    float: left;
-    padding-left: 50px;
-}
-
-.breadcrumb li {
-    display: block;
-    float: left;
-    height: 100%;
-    overflow: hidden;
-    margin-top: 5px;
-}
-
-
-
-.breadcrumb li .spacer {
-    padding-left: 3px;
-    float: left;
-    padding-top: 5px;
-    color: #FFF;
-    padding-right: 3px;
-}
-
-.breadcrumb li:first-child {
-    padding-right: 20px;
-    margin-top: 2px;
-}
-
-.breadcrumb li a {
-    margin: 5px;
-    display: block;
-    color: #FFF;
-    float: left;
-}
-
-.breadcrumb li:first-child a {
-    color: #FFF;
-    padding-left: 10px;
-}
-
-.breadcrumb li.arrow {
-    border-top: 21px solid transparent;
-    border-bottom: 21px solid transparent;
-    border-left: 21px solid #428BCA;
-    width: 0;
-    height: 0;
-    display: none;
-}
-
-.breadcrumb li.subarrow {
-    border-color: rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) #C2E1F5;
-    border-width: 36px;
-    margin-top: -36px;
-    display: none;
-}
-.breadcrumb .arrow_box_li {
-    display: none;
 }
 
 .arrow_box { 
@@ -378,8 +325,7 @@ blockquote .decoda-quote-author {
     content: " "; 
     height: 0; 
     width: 0; 
-    position: absolute; 
-    pointer-events: none; 
+    position: absolute;
 } 
 .arrow_box:after {
     border-color: rgba(213, 213, 213, 0); 
@@ -393,12 +339,6 @@ blockquote .decoda-quote-author {
     border-width: 23px; 
     margin-top: -30px; 
 }
-
-.breadcrumb > li + li:before {
-    content: initial;
-}
-
-
 
 #footer {
     background-color: #232323;
@@ -587,17 +527,6 @@ blockquote .decoda-quote-author {
 
 .symbb_tabcontent.active {
     display: inherit;
-}
-
-@media (max-width: 992px) { 
-    .symbb_action_row .title{
-        padding-left: 40px;
-    }
-    .breadcrumb li:first-child {
-        background-color: #428BCA;
-        color: #FFF;
-        padding-left: 40px;
-    }
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

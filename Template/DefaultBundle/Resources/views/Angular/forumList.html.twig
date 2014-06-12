@@ -1,11 +1,90 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<div ng-switch="currListView">
-    <div ng-switch-when="table">
-        {{ include('SymBBTemplateDefaultBundle:Angular:Forum/listTable.html.twig') }}
+<script type="text/ng-template" id="symbbForumRow.html">
+    <div class="anker-group">
+        <div class="anker" id="category_[[object.id]]"></div>
     </div>
-        
-    <div ng-switch-default>
-        {{ include('SymBBTemplateDefaultBundle:Angular:Forum/listCard.html.twig') }}
+    <div class="symbbForumRow">
+        <div ng-if="!object.isLink">
+            <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
+            <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-th-list"></span>
+            <div class="infos" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+                <div class="name">
+                    <div class="pull-left">[[object.name]]</div>
+                    <div class="labels" ng-if="!object.isLink">
+                        <div ng-repeat="flag in object.flags">
+                            <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="description">
+                    [[object.description]]
+                </div>
+            </div>
+
+            <div class="btn-group pull-right" ng-if="!object.isLink">
+                <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <button ng-if="object.isForum" type="button" id="symbbShowTopicList_[[object.id]]" title="{{ 'Show Topics'|trans }}" class="btn btn-default btn-xs">
+                    <span ng-if="!topicListStatus[object.id]" class="glyphicon glyphicon-chevron-down"></span>
+                    <span ng-if="topicListStatus[object.id] == true" class="glyphicon glyphicon-chevron-up"></span>
+                </button>
+                <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="forum_mark_as_read" param-id="[[object.id]]">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button ng-if="object.ignored && user.type != 'guest'" id="symbbForumIgnoreButton" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-warning btn-xs" symbb-request="forum_unignore" param-id="[[object.id]]">
+                    <span class="glyphicon glyphicon-eye-close" ></span>
+                </button>
+                <button  ng-if="!object.ignored && user.type != 'guest'" id="symbbForumWatchButton" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-success btn-xs" symbb-request="forum_ignore" param-id="[[object.id]]">
+                    <span class="glyphicon glyphicon glyphicon-eye-open" ></span>
+                </button>
+            </div>
+            <div class="clear"></div>
+            <symbb-topic-list param-forum="[[object.id]]" param-page="1">
+
+            </symbb-topic-list>
+        </div>
+        <a ng-if="object.isLink" ng-href="[[object.link]]" target="_blank">
+            <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]"/>
+            <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-link"></span>
+            <div class="infos">
+                <div class="name">
+                    <div class="pull-left">[[object.name]]</div>
+                    <div class="labels" ng-if="!object.isLink">
+                        <div ng-repeat="flag in object.flags">
+                            <span  class="label label-[[flag.type]]">[[flag.title]]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="description">
+                    [[object.description]]
+                </div>
+            </div>
+            <div class="clear"></div>
+        </a>
     </div>
+    <div class="symbbForumSubrow" ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
+
+    </div>
+</script>
+
+<symbb-breadcrumb >
+    <li class="pull-right" ng-if="forum.access.createTopic && forum.isForum">
+        <button title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </li>
+</symbb-breadcrumb>
+
+<div class="clear"></div>
+
+<div ng-repeat="object in forum.children" ng-include="'symbbForumRow.html'">
 </div>
+
+{{ include(
+'SymBBTemplateDefaultBundle:Angular:Forum/topicEntry.html.twig',
+{ }
+) }}

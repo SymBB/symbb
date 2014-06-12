@@ -12,12 +12,12 @@ namespace SymBB\Extension\RatingBundle\EventListener;
 class TemplateListener
 {
     
-    public function afterText(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    public function beforeActions(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
     {
         $event->render('SymBBExtensionRatingBundle:Post:rating.html.twig', array());
     }
     
-    public function topicStylesheets(\SymBB\Core\EventBundle\Event\TemplateTopicEvent $event){
+    public function topicStylesheets(\SymBB\Core\EventBundle\Event\TemplateDefaultEvent $event){
         $event->render('SymBBExtensionRatingBundle::stylesheets.html.twig', array());
     }
 }

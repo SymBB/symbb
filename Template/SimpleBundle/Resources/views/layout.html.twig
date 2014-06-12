@@ -4,7 +4,7 @@
 {% block stylesheets %} 
     {{ parent() }}
     {% stylesheets 
-        '@SymBBTemplateSimpleBundle/Resources/public/css/simple.css' filter='?yui_css'
+        '@SymBBTemplateSimpleBundle/Resources/public/css/simple.css' filter='?uglifycss'
      %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}

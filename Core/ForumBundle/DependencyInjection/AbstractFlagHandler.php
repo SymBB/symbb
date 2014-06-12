@@ -9,6 +9,8 @@
 
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
+use Doctrine\Common\Util\ClassUtils;
+use SymBB\Core\SystemBundle\Entity\Flag;
 use \SymBB\Core\UserBundle\Entity\UserInterface;
 use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
@@ -53,15 +55,47 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         $this->enviroment = $env;
     }
 
-    public abstract function findOne($flag, $object, \SymBB\Core\UserBundle\Entity\UserInterface $user);
+    public function findOne($flag, $object, \SymBB\Core\UserBundle\Entity\UserInterface $user = null){
+        if (!$user) {
+            $user = $this->getUser();
+        }
+        $flag = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findOneBy(array(
+            'objectClass' => ClassUtils::getRealClass(get_class($object)),
+            'objectId' => $object->getId(),
+            'user' => $user->getId(),
+            'flag' => (string)$flag
+        ));
+        return $flag;
+    }
 
-    public abstract function findAll($object, \SymBB\Core\UserBundle\Entity\UserInterface $user);
+    public function findAll($object, \SymBB\Core\UserBundle\Entity\UserInterface $user = null){
+        if (!$user) {
+            $user = $this->getUser();
+        }
+        $flags = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findBy(array(
+            'objectClass' => ClassUtils::getRealClass(get_class($object)),
+            'objectId' => $object->getId(),
+            'user' => (string)$user->getId()
+        ));
+        return $flags;
+    }
 
-    public abstract function findFlagsByObjectAndFlag($object, $flag);
+    public function findFlagsByObjectAndFlag($object, $flag){
+        $flags = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findBy(array(
+            'objectClass' => ClassUtils::getRealClass(get_class($object)),
+            'objectId' => $object->getId(),
+            'flag' => (string)$flag
+        ));
+        return $flags;
+    }
 
-    public abstract function createNewFlag($object, \SymBB\Core\UserBundle\Entity\UserInterface $user, $flag);
-
-    protected abstract function getMemcacheKey($flag, $object);
+    public function createNewFlag($object, \SymBB\Core\UserBundle\Entity\UserInterface $user, $flag){
+        $flagObject = new Flag();
+        $flagObject->setObject($object);
+        $flagObject->setUser($user);
+        $flagObject->setFlag($flag);
+        return $flagObject;
+    }
 
     public function removeFlag($object, $flag, UserInterface $user = null)
     {
@@ -161,17 +195,21 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
         return $check;
     }
 
-    protected function _getMemcacheKey($flag, $object)
+    protected function getMemcacheKey($flag, $object){
+        $key = ClassUtils::getRealClass(get_class($object)).'_'.$object->getId().'_'.$flag;
+        return $key;
+    }
+
+    private function _getMemcacheKey($flag, $object)
     {
         $key = $this->getMemcacheKey($flag, $object);
-        $key = $key . "_" . $this->enviroment;
+        $key = $key . "_symbb_" . $this->enviroment;
         
         return $key;
     }
 
     protected function fillMemcache($flag, $object)
     {
-
         $finalFlags = $this->prepareForMemcache($flag, $object);
         $key = $this->_getMemcacheKey($flag, $object);
         $this->memcache->set($key, $finalFlags, self::LIFETIME);
@@ -208,7 +246,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyIn
     {
         $key = $this->_getMemcacheKey($flag, $object);
         $users = $this->memcache->get($key);
-        if ($users === false) {
+        if (!is_array($users)) {
             $this->fillMemcache($flag, $object);
             $users = (array) $this->memcache->get($key);
         }

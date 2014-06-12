@@ -103,6 +103,9 @@ class UserManager
     {
         $this->em->persist($data);
         $this->em->flush();
+
+        //return array with sf validator errors
+        return new \Symfony\Component\Validator\ConstraintViolationList();
     }
 
     /**
@@ -125,8 +128,17 @@ class UserManager
         $encoder = $this->securityFactory->getEncoder($user);
         $password = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($password);
-        $this->em->persist($user);
-        $this->em->flush();
+        $validator = $this->container->get('validator');
+        $passwordConstraints = $this->getPasswordValidatorConstraints();
+        $passwordConstraints[] = new \Symfony\Component\Validator\Constraints\NotBlank();
+        $errorsPassword = $validator->validateValue($newPassword, $passwordConstraints);
+
+        if($errorsPassword->count() === 0){
+            $this->em->persist($user);
+            $this->em->flush();
+        }
+
+        return $errorsPassword;
     }
 
     /**

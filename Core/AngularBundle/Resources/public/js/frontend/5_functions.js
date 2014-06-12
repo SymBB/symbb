@@ -15,9 +15,9 @@ var textMatchOneLine = function(){
 };
 
 var symbbAngularUtils = {
-    
+
     breadcrumbElement: null,
-    
+
     checkResponse: function(data, $injector){
 
         var $route = $injector.get('$route');
@@ -50,40 +50,47 @@ var symbbAngularUtils = {
         
         return data;
     },
+
+    createBreadcrumbLi: function(item, spacer){
+        var route = 'forum_index';
+        var params = {};
+        if(item.type === 'forum'){
+            route = 'forum_show';
+            params = {id: item.id, name: item.seoName};
+        } else if(item.type === 'topic'){
+            route = 'forum_topic_show';
+            params = {id: item.id, name: item.seoName};
+        }  else if(item.type === 'home'){
+            route = 'forum_index';
+        } else {
+            console.debug(item);
+        }
+        if(item){
+            var path = angularConfig.getAngularRoute(route, params);
+            return $('<li><a href="'+path+'">'+item.name+'</a>'+spacer+'</li>');
+        }
+    },
             
     createBreadcrumnb: function(items){
-        if(this.breadcrumbElement){
-            $(this.breadcrumbElement).html('<li><div class="avatar avatar_mini"><img src="'+symbbUser.avatar+'" /></div></li>');
-            var spacer = '<span class="spacer">/</span>';
-            var count = 0;
-            $.each(items, function(key, value){
-                count++;
-            });
-            var i = 0;
-            var that = this;
-            $.each(items, function(key, value){
-                if(i === count - 1){
-                    spacer = '';
-                }
-                var route = 'forum_index';
-                var params = {};
-                if(value.type === 'forum'){
-                    route = 'forum_show';
-                    params = {id: value.id, name: value.seoName};
-                } else if(value.type === 'topic'){
-                    route = 'forum_topic_show';
-                    params = {id: value.id, name: value.seoName};
-                }  else if(value.type === 'home'){
-                    route = 'forum_index';
-                } else {
-                    console.debug(value);
-                }
 
-                var path = angularConfig.getAngularRoute(route, params);
-                $('<li><a href="'+path+'">'+value.name+'</a>'+spacer+'</li>').appendTo($(that.breadcrumbElement));
-                i++;
-            });
-        }
+        $(symbbAngularUtils.breadcrumbElement).prepend($('<li><div class="avatar avatar_mini"><img src="'+symbbUser.avatar+'" /></div></li>'));
+        var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
+        var count = 0;
+        $.each(items, function(key, value){
+            count++;
+        });
+        var i = 0;
+        var that = this;
+        $.each(items, function(key, value){
+            if(i === count - 1){
+                spacer = '';
+            }
+            var item = symbbAngularUtils.createBreadcrumbLi(value, spacer);
+            if(item){
+                $(symbbAngularUtils.breadcrumbElement).append(item);
+            }
+            i++;
+        });
     },
             
     createPostUploader: function($scope, $fileUploader, $scopeObject, $injector){
@@ -119,7 +126,7 @@ var symbbAngularUtils = {
         uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
             var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
-            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            return '|jpg|png|jpeg|bmp|gif|txt|pdf|doc|plain|'.indexOf(type) !== -1;
         });
 
         uploader.bind('complete', function (event, xhr, item, response) {
@@ -127,8 +134,8 @@ var symbbAngularUtils = {
             if(response.files){
                 $.each(response.files, function(key, value) {
                     $scopeObject.files[$scopeObject.files.length] = value.url;
-                    item.file.path = value.url;
-                    item.file.url = 'http://'+window.location.host+value.url;
+                    item.path = value.url;
+                    item.url = 'http://'+window.location.host+value.url;
                 });
             }
         }); 
@@ -137,7 +144,18 @@ var symbbAngularUtils = {
         $scope.bbcode = {
             insertUploadImage: function(item){
                 var element = $('.symbb_editor textarea')[0];
-                var tagCode = '[IMG]'+item.file.path+'[/IMG]';
+                if(
+                    item.file.type === 'image/jpeg' ||
+                    item.file.type === 'image/jpg' ||
+                    item.file.type === 'image/png' ||
+                    item.file.type === 'image/gif' ||
+                    item.file.type === 'image/bmp'
+                ){
+                    var tagCode = '[IMG]'+item.path+'[/IMG]';
+                } else {
+                    var tagCode = '[LINK=http://'+item.path+']'+item.file.name+'[/LINK]';
+                }
+
                 if (document.selection) {
                     element.focus();
                     var sel = document.selection.createRange();
@@ -153,7 +171,6 @@ var symbbAngularUtils = {
                     element.value += tagCode.replace('{0}', '');
                     $scopeObject.rawText = element.value;
                 }
-                 
            }
         };
     }
@@ -163,29 +180,27 @@ var symbbAngularUtils = {
 // Topic constructor function to encapsulate HTTP and pagination logic
 app.factory('ScrollPagination', function($http) {
     
-  var ScrollPagination = function(route, routeParams, items, page, total, itemsKey) {
-      
-    if(!page){
-        page = 1;
-    }
-    
+  var ScrollPagination = function(route, routeParams, itemsKey) {
+
     if(!itemsKey){
         itemsKey = 'items';
     }
       
-    this.items = items;
+    this.items = [];
     this.busy = false;
-    this.page = page;
+    this.page = 0;
     this.routeParams = routeParams;
     this.end = false;
-    this.count = items.length;
-    this.totalCount = total;
+    this.count = 0;
+    this.lastPage = 99;
     this.route = route;
     this.itemsKey = itemsKey;
     
-    if(this.count >= this.totalCount) {
+    if(this.page == this.lastPage) {
        this.end = true;
     }
+
+    this.nextPage();
     
   };
 
@@ -195,25 +210,25 @@ app.factory('ScrollPagination', function($http) {
     
     this.busy = true;
         
-    this.page = this.page + 1;
+    this.page = parseInt(this.page) + 1;
 
     this.routeParams.page = this.page;
 
-    var url = angularConfig.getSymfonyApiRoute(this.route);
-    url = url + '?id='+this.routeParams.id;
-    url = url + '&page='+this.routeParams.page;
+    var url = angularConfig.getSymfonyApiRoute(this.route, this.routeParams);
+
     $http.get(url).success(function(data) {
       
       var items = data[this.itemsKey];
-      
-      this.totalCount = data.total;
-      
+
+      this.page = data.paginationData.current;
+      this.lastPage = data.paginationData.endPage;
+
       for (var i = 0; i < items.length; i++) {
         this.items.push(items[i]);
         this.count++;
       }
 
-      if(!items.length || items.length <= 0 || this.count >= this.totalCount ){
+      if(!items.length || items.length <= 0 || this.page == this.lastPage ){
           this.end = true;
       }
 

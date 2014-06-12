@@ -1,7 +1,3 @@
-parameters:
-    symbb.core.access.files:
-        SymBBExtensionSurveyBundle: access.yml
-
 services:
     symbb.listener.post.survey.template:
         class: SymBB\Extension\SurveyBundle\EventListener\TemplateListener
@@ -14,7 +10,7 @@ services:
             - { name: kernel.event_listener, event: symbb.post.template.before.text, method: addSurveyBlock }
             - { name: kernel.event_listener, event: symbb.forum.template.stylesheets, method: stylesheets }
 
-    symbb.listener.api.data:
+    symbb.extension.survey.listener.api.data:
         class: SymBB\Extension\SurveyBundle\EventListener\ApiListener
         arguments: ['@security.context']
         tags:

@@ -51,11 +51,6 @@ class Topic
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Topic\Flag", mappedBy="topic")
-     */
-    private $flags;
-
-    /**
      * @ORM\ManyToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics")
      * @ORM\JoinTable(name="forum_topics_to_tags",
      *      joinColumns={@ORM\JoinColumn(name="topic_id", referencedColumnName="id")},
@@ -63,6 +58,7 @@ class Topic
      *      )
      */
     private $tags;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Forum", inversedBy="topics")
@@ -84,7 +80,6 @@ class Topic
     public function __construct()
     {
         $this->posts = new ArrayCollection();
-        $this->flags = new ArrayCollection();
         $this->tags = new ArrayCollection();
 
     }
@@ -132,12 +127,6 @@ class Topic
     public function getPosts()
     {
         return $this->posts;
-
-    }
-
-    public function getFlags()
-    {
-        return $this->flags;
 
     }
 

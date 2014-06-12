@@ -62,22 +62,19 @@ class Post
      */
     private $author;
 
-    /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\Flag", mappedBy="post")
-     */
-    private $flags;
 
     /**
      * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
      */
     private $files;
 
+
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
         $this->dislikes = new ArrayCollection();
         $this->files = new ArrayCollection();
-        $this->flags = new ArrayCollection();
     }
 
     public function getId()
@@ -113,11 +110,6 @@ class Post
     public function setTopic($object)
     {
         $this->topic = $object;
-    }
-
-    public function getFlags()
-    {
-        return $this->flags;
     }
 
     public function getFiles()

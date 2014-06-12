@@ -1,0 +1,56 @@
+{% trans_default_domain "symbb_frontend" %}
+
+<div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
+    <div ng-repeat="object in searchPagination.items">
+        <div class="symbb_post_block small">
+            <div class="userinfo">
+                <div class="padding10">
+                    <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
+                        <img ng-src="[[object.author.avatar]]" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="infos">
+                <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
+                <div class="date">
+                    <div class="labels">
+                        <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">[[tag.name]]</span>
+                        <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
+                    </div>
+                    {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                </div>
+                <div class="text" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="last">
+                    <blockquote ng-bind-html="object.text"></blockquote>
+                </div>
+                <div class="read_more">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs" title="{{ 'read'|trans }}" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                        <button ng-if="object.access.createPost" type="button" class="btn btn-default btn-xs" title="{{ 'answer'|trans }}" symbb-js-link="forum_post_create" param-topic="[[object.id]]">
+                            <span class="glyphicon glyphicon-share-alt"></span>
+                        </button>
+                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="topic_mark_as_read" param-id="[[object.id]]">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="simplerow" ng-show='searchPagination.busy'>
+        <div class="alert alert-info"><img src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}</div>
+    </div>
+    <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>
+        <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
+    </div>
+</div>
+
+<div class="symbb_action_row">
+    <div class="btn-group pull-left" ng-hide="topic.locked">
+        <button ng-show="forum.access.createTopic" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer">{{ 'new topic'|trans }}</button>
+    </div>
+    <div class="clear"></div>
+</div>

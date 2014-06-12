@@ -11,10 +11,12 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     
     {% block stylesheets %} 
-        {% stylesheets filter='?yui_css'
+        {% stylesheets filter='?uglifycss'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
             '@SymBBTemplateDefaultBundle/Resources/public/css/form.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/navi.css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/search.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/angular/*.css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -28,14 +30,30 @@
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.7/angular.min.js"></script>
+    <script src="/bundles/symbbcoreangular/js/angular/angular-mocks.js"></script>
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
     {% block javascripts %}  
-        {% javascripts filter='?yui_js' 
-            '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js' 
-            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js' 
+        {% javascripts filter='?uglifyjs2'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-animate.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-cookies.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-routing.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-sanitize.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-file-upload.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-tumb.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/datetimepicker.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/loading-bar.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/ng-infinite-scroll.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/module.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
+            '@FOSJsRoutingBundle/Resources/public/js/router.js'
         %}
         <script src="{{ asset_url }}"></script> 
         {% endjavascripts %}
+
         {{ executeSymbbEvent('template.global.javascripts') }}
     {% endblock %}
     </head>
@@ -54,25 +72,33 @@
                 {% endblock %}
             </div>
 
+            <div class="topnavi">
+                <div class="symbb_search_menu">
+                    <ul>
+                        <li>
+                            <a href="{{path('angular_locale_forum_search')}}">{{ 'Newest Posts'|trans }}</a>
+                        </li>
+                        <li>
+                            <a href="{{path('angular_locale_forum_index')}}">{{ 'Browse/Write'|trans }}</a>
+                        </li>
+                        <li>
+                            <input placeholder="{{ 'Search'|trans }} (TODO: Funktion noch nicht eingebaut ;P )"/>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="language">
+                    {% if app.request.locale == 'de' %}
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                    {% else %}
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
             <div class="symbb_container">
                 <div class="symbb_content">
-
-                    <div class="topnavi">
-                        {% block symbb_breadcrumb %}
-                            {{ getSymbbBreadcrumb() }}
-                        {% endblock %}
-                        <ul class="language">
-                            {% if app.request.locale == 'de' %}
-                                <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/de.png" title="Deutsch" title="Deutsch"/></a></li>
-                                <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/europeanunion.png" title="English" title="English"/></a></li>
-                            {% else %}
-                                <li><a href="{{path('symbb_forum_index', {'_locale': 'en'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/europeanunion.png" title="English" title="English"/></a></li>
-                                <li><a href="{{path('symbb_forum_index', {'_locale': 'de'})}}"><img src="/bundles/symbbtemplatedefault/images/flags/de.png" title="Deutsch" title="Deutsch"/></a></li>
-                            {% endif %}
-                        </ul>
-                    </div>
-
-                    <div class="clear"></div>
 
                     <div class="symbb_flash_messages" id="symbbMessages"> 
                         {% if app.getUser.getSymbbType() == 'guest' %}

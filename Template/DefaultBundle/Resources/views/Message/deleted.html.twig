@@ -1,8 +1,0 @@
-{% extends 'FOSMessageBundle::layout.html.twig' %}
-{% block fos_message_content %}
-
-<div class="alert alert-success">{% trans from 'symbb_frontend' %}success_deleted{% endtrans %}</div>
-
-{% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
-
-{% endblock %}

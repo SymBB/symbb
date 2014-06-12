@@ -1,10 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplate('forum') ~ '::layoutWithSidebar.html.twig' %}
-
-{% block symbb_sidebar %}
-{{ knp_menu_render('SymBBCoreMessageBundle:Builder:mainMenu', {'template': getSymbbTemplate('forum') ~ '::sidemenu.html.twig'}) }}
-{% endblock %}
+{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
 
 {% block symbb_body %}
 

@@ -1,3 +1,4 @@
+
 var app = angular.module('app', [
     'ngRoute',
     'ngCookies',
@@ -8,22 +9,24 @@ var app = angular.module('app', [
     'symbbControllers',
     'angularFileUpload',
     'angularTumb',
-    'ui.bootstrap.datetimepicker'
+    'ui.bootstrap.datetimepicker',
+    'symbbTemplateModule'
 ]);
 
 app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$locationProvider',
     function($routeProvider, $interpolateProvider, $httpProvider, $locationProvider) {
-        
+
         //changeing because of twig
         $interpolateProvider.startSymbol('[[').endSymbol(']]');
         //html5 pushState
         $locationProvider.html5Mode(true);
-        
+
         angularConfig.createAngularRouting($routeProvider);
+        //angularConfig.configHook($routeProvider, $interpolateProvider, $httpProvider, $locationProvider);
 
         // Add the interceptor to the $httpProvider.
         $httpProvider.interceptors.push('symbbApiHttpInterceptor');
-        
+
     }]
 );
 
@@ -31,6 +34,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
     return {
         // On request success
         request: function(config) {
+            $('.symbb_body').remove();
             // console.log(config); // Contains the data about the request before it is sent.
 
             // Return the config or wrap it in a promise if blank.

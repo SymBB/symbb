@@ -20,18 +20,26 @@ forum_show:
         params: 
             file: 'forumList'
         
-forum_newest:
-    pattern:  /forum/newest/{page}/
+forum_search:
+    pattern:  /forum/search/{page}/
     defaults:
         page: 1
-    controller: ForumNewestShowCtrl
+    controller: ForumSearchCtrl
     api: 
-        route: symbb_api_post_newest
+        route: symbb_api_post_search
     template: 
-        route: symbb_template_default_angular
+        route: symbb_forum_angular_template
         params: 
-            file: 'forumNewestPosts'
-        
+            file: 'search'
+
+forum_topic_list:
+    api:
+        route: symbb_api_forum_topic_list
+    template:
+        route: symbb_forum_angular_template
+        params:
+            file: 'topicList'
+
 forum_topic_show:
     pattern:  /t-{id}-{name}/{page}/
     defaults:
@@ -95,6 +103,14 @@ forum_unignore:
 forum_mark_as_read:
     api: 
         route: symbb_api_forum_mark_as_read
+
+topic_mark_as_read:
+    api:
+        route: symbb_api_topic_mark_as_read
+
+post_mark_as_read:
+    api:
+        route: symbb_api_post_mark_as_read
         
 forum_topic_save:
     api: 

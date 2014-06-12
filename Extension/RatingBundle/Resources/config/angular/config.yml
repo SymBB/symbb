@@ -1,0 +1,3 @@
+extension_rating_like:
+    api: 
+        route: symbb_api_extension_rating_like

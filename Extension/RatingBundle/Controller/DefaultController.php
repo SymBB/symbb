@@ -9,33 +9,50 @@
 
 namespace SymBB\Extension\RatingBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use SymBB\Core\SystemBundle\Controller\AbstractApiController;
+use SymBB\Extension\RatingBundle\Security\Authorization\RatingVoter;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractApiController
 {
 
-    public function ratePostAction($name, $id, $like)
+    public function ratePostAction($id, $like)
     {
 
         $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')
             ->find($id);
 
-        $user = $this->getUser();
-
-        if (is_object($user) && $user->getId() > 0) {
-            if ($like === 'like') {
-                $this->addPostLike($post, $user);
+        if(is_object($post) && $post->getId() > 0){
+            $topic = $post->getTopic();
+            if(is_object($topic) && $topic->getId() > 0){
+                $forum = $topic->getForum();
+                if(is_object($forum) && $forum->getId() > 0){
+                    $user = $this->getUser();
+                    if(is_object($user) && $user->getId() > 0 && $user->getSymbbType() === 'user'){
+                        $createSurvey = $this->get('security.context')->isGranted(RatingVoter::CREATE_RATING, $forum);
+                        if ($createSurvey) {
+                            if ($like === 'like') {
+                                $this->addPostLike($post, $user);
+                            } else {
+                                $this->addPostLike($post, $user, true);
+                            }
+                            $this->addCallback('refresh');
+                        } else {
+                            $this->addErrorMessage("no access");
+                        }
+                    } else {
+                        $this->addErrorMessage("user not found");
+                    }
+                } else {
+                    $this->addErrorMessage("forum not found");
+                }
             } else {
-                $this->addPostLike($post, $user, true);
+                $this->addErrorMessage("topic not found");
             }
+        } else {
+            $this->addErrorMessage("post not found");
         }
 
-        $response = $this->forward('SymBBCoreForumBundle:FrontendTopic:show', array(
-            'name' => '',
-            'id' => $post->getTopic()->getId(),
-        ));
-
-        return $response;
+        return $this->getJsonResponse(array());
     }
 
     protected function addPostLike(

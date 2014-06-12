@@ -48,6 +48,11 @@ class Site
     /**
      * @ORM\Column(type="string")
      */
+    protected $mediaDomain;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $templateAcp = 'DEFAULT';
 
     /**
@@ -169,5 +174,17 @@ class Site
     public function setDomains($domains)
     {
         $this->domains = $domains;
+    }
+
+    public function getMediaDomain(){
+        $domain = $this->mediaDomain;
+        if(empty($domain)){
+            $domains = $this->getDomainArray();
+            $domain = reset($domains);
+        }
+        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0){
+            $domain = 'http://'.$domain;
+        }
+        return $domain;
     }
 }

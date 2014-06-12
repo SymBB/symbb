@@ -44,8 +44,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 'created' => $this->getISO8601ForUser($user->getCreated()),
                 'lastLogin' => $this->getISO8601ForUser($user->getLastLogin()),
                 'count' => array(
-                    'post' => $usermanager->getPostCount(),
-                    'topic' => $usermanager->getTopicCount()
+                    'post' => $usermanager->getPostCount($user),
+                    'topic' => $usermanager->getTopicCount($user)
                 )
             );
             foreach ($allFields as $field) {
@@ -105,29 +105,40 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $symbbData->setSignature($signature);
         }
 
-        $em = $this->getDoctrine()->getManager('symbb');
-        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
-        foreach ($allFields as $field) {
-            $currFieldValue = $user->getFieldValue($field);
-            foreach ($fields as $fieldValue) {
-                if ($fieldValue['id'] == $field->getId()) {
-                    $value = $fieldValue['value'];
-                    $currFieldValue->setValue($value);
-                    $em->persist($currFieldValue);
-                    break;
-                }
+        $passwordRepeat = $request->get('changePassword');
+        $errors = new \Symfony\Component\Validator\ConstraintViolationList();
+        if (!empty($passwordRepeat['repeat']) and $passwordRepeat['password'] === $passwordRepeat['repeat']) {
+            $errors = $this->get('symbb.core.user.manager')->changeUserPassword($user, $passwordRepeat['password']);
+            foreach($errors as $key => $error){
+                $this->addErrorMessage($this->trans('Passwort').': '.$error->getMessage());
             }
         }
 
-        $passwordRepeat = $request->get('passwordRepeat');
-        if (!empty($passwordRepeat['repeat']) and $passwordRepeat['password'] === $passwordRepeat['repeat']) {
-            $this->get('symbb.core.user.manager')->changeUserPassword($user, $passwordRepeat['password']);
+        if($errors->count() === 0){
+            $em = $this->getDoctrine()->getManager('symbb');
+            $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+            foreach ($allFields as $field) {
+                $currFieldValue = $user->getFieldValue($field);
+                foreach ($fields as $fieldValue) {
+                    if ($fieldValue['id'] == $field->getId()) {
+                        $value = $fieldValue['value'];
+                        $currFieldValue->setValue($value);
+                        $em->persist($currFieldValue);
+                        break;
+                    }
+                }
+            }
+
+            $errors = $this->get('symbb.core.user.manager')->updateUserData($symbbData);
+
+            if($errors->count() === 0){
+                $this->addSuccessMessage("saved successfully.");
+            } else {
+                foreach($errors as $key => $error){
+                    $this->addErrorMessage($this->trans($key).': '.$error->getMessage());
+                }
+            }
         }
-
-
-        $this->get('symbb.core.user.manager')->updateUserData($symbbData);
-
-        $this->addSuccessMessage("saved successfully.");
 
         return $this->getJsonResponse(array());
     }

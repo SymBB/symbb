@@ -197,4 +197,9 @@ class ConfigManager
 
         $this->em->flush();
     }
+
+    public function getSymbbConfig($key){
+        $config = $this->container->getParameter('symbb_config');
+        return $config[$key];
+    }
 }

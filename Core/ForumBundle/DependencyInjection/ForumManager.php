@@ -9,10 +9,13 @@
 
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use \Doctrine\ORM\Query\Lexer;
+use Symfony\Component\Security\Core\Util\ClassUtils;
 use \SymBB\Core\ForumBundle\Entity\Forum;
+use SymBB\Core\ForumBundle\Entity\Post;
 use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
-use \Doctrine\ORM\Query\Expr\Join;
 
 class ForumManager extends AbstractManager
 {
@@ -62,25 +65,62 @@ class ForumManager extends AbstractManager
             $childIds = $this->getChildIds($parent);
         }
 
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
-        $qb->select("p");
+        $wherePart = 'WHERE p.author != :user';
+
         if (!empty($childIds)) {
-            $qb->join('p.topic', 't');
+            $wherePart .= " AND t.forum IN ( :forums )";
         }
-        $qb->join('p.flags', 'f', \Doctrine\ORM\Query\Expr\Join::WITH, 'f.flag = :flag AND f.user = :user');
+
+        $sql = "SELECT
+                    p
+                FROM
+                    SymBBCoreForumBundle:Post p
+                INNER JOIN
+                    SymBBCoreForumBundle:Topic t WITH
+                    t.id = p.topic
+                LEFT JOIN
+                    SymBBCoreSystemBundle:Flag f WITH
+                        f.objectClass = 'SymBB\Core\ForumBundle\Entity\Post' AND
+                        f.objectId = p.id AND
+                        f.user = :user AND
+                        f.flag = 'new'
+                ".$wherePart."
+                GROUP BY
+                    p.id
+                ORDER BY
+                    f.id DESC,
+                    p.created DESC ";
+
+
+
+        //// count
+        $query = $this->em->createQuery($sql);
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addScalarResult('count', 'count');
+        $queryCount = $query->getSQL();
+        $queryCount = "SELECT COUNT(*) count FROM (".$queryCount.") as temp";
+        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
+        $queryCount->setParameter(0, $this->getUser()->getId());
+        $queryCount->setParameter(1, $this->getUser()->getId());
         if (!empty($childIds)) {
-            $qb->where("t.forum IN ( :forums )");
+            $queryCount->setParameter(2, $childIds);
         }
-        $qb->orderBy("p.created", "DESC");
-        $query = $qb->getQuery();
-        $query->setParameter('flag', "new");
+        $count = $queryCount->getSingleScalarResult();
+        ////
+
+        if(!$count){
+            $count = 0;
+        }
+
         $query->setParameter('user', $this->getUser()->getId());
         if (!empty($childIds)) {
             $query->setParameter('forums', $childIds);
         }
 
+        $query->setHint('knp_paginator.count', $count);
+
         $pagination = $this->paginator->paginate(
-            $query, $page, $limit
+            $query, $page, $limit, array('distinct' => false)
         );
 
         return $pagination;
@@ -220,7 +260,7 @@ class ForumManager extends AbstractManager
             $parentId = null;
         }
 
-        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId), array(), $limit, $offset);
+        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId), array('position' => 'asc'), $limit, $offset);
 
         return $forumList;
     }
@@ -298,11 +338,11 @@ class ForumManager extends AbstractManager
      * @param $object
      * @return array
      */
-    public function getBreadcrumbData($object)
+    public function getBreadcrumbData($object = null)
     {
         $breadcrumb = array();
 
-        while (is_object($object)) {
+        while (is_object($object) && $object->getId() > 0) {
             $breadcrumb[] = array(
                 'type' => 'forum',
                 'name' => $object->getName(),

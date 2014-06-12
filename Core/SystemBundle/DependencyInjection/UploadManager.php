@@ -20,7 +20,7 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
 
     public function __construct(SecurityContextInterface $securityContext, $symbbConfig, $rootDir)
     {
-        parent::__construct($securityContext);
+        $this->setSecurityContext($securityContext);
         foreach ($symbbConfig['upload'] as $set => $config) {
             if (!\strpos($config['directory'], '/') === 0) {
                 $config['directory'] = '/' . $config['directory'];
@@ -86,11 +86,19 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
             if (\strpos($file, $config['directory']) === false) {
                 $temp = \explode('/', $file);
                 $filename = end($temp);
-                $newPath = $config['directory'] . $this->getCurrentSubDirectory() . $filename;
+                $newPath = $config['directory'] . $this->getCurrentSubDirectory();
+                $this->checkDir($newPath);
+                $newPath = $newPath . $filename;
                 \rename($this->addRootDir($file), $this->addRootDir($newPath));
                 return $newPath;
             }
         }
         return $file;
+    }
+
+    public function checkDir($dir){
+        if(!is_dir($this->addRootDir($dir))){
+            mkdir($this->addRootDir($dir));
+        }
     }
 }

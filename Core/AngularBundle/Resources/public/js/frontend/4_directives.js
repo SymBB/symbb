@@ -2,9 +2,10 @@ symbbControllers.directive('symbbBreadcrumb', function() {
     return {
         restrict: 'E',
         replace: true,
-        template: '<ol class="breadcrumb"></ol>',
+        transclude: true,
+        template: '<div class="symbb_action_row" ><ol class="breadcrumb_mini" ng-transclude></ol></div>',
         link: function(scope, elm, attrs) {
-            symbbAngularUtils.breadcrumbElement = elm[0];
+            symbbAngularUtils.breadcrumbElement = $(elm[0]).find('ol');
         }
     };
 }).directive('symbbSfLink', function() {
@@ -25,7 +26,9 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         template: '<a href="" ng-transclude></a>',
         link: function(scope, element, attrs) {
             var params = prepareParams(attrs);
+            console.debug(attrs);
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
+            console.debug(path);
             $(element[0]).children('a').attr('href', path);
             if(attrs.target){
                 $(element[0]).children('a').attr('target', attrs.target);
@@ -153,12 +156,78 @@ symbbControllers.directive('symbbBreadcrumb', function() {
     return function(scope, element, attr) {
         element.addClass('ng-binding').data('$binding', attr.ngBindHtmlUnsafe);
         scope.$watch(attr.ngBindHtmlUnsafe, function ngBindHtmlUnsafeWatchAction(value) {
-            console.debug(value);
             element.html(value || '');
         });
     }
-}]);
+}]).directive('symbbTopicList', ['$http', '$timeout', function($http, $timeout) {
+    return {
+        restrict: 'E',
+        replace: false,
+        transclude: true,
+        templateUrl: angularConfig.getSymfonyTemplateRoute('forum_topic_list'),
+        link: function(scope, element, attrs) {
+            if(!scope.topicListStatus){
+                scope.topicListStatus = [];
+            }
+            if(!scope.emptyTopicList){
+                scope.emptyTopicList = [];
+            }
+            if(!scope.topicList){
+                scope.topicList = [];
+            }
 
+            scope.topicListLoading = false;
+
+            $timeout(function(){
+                $('#symbbShowTopicList_'+attrs.paramForum).click(function(){
+
+                    if(!scope.topicListStatus[attrs.paramForum]){
+                        scope.topicListStatus[attrs.paramForum] = true;
+                        scope.topicListLoading = true;
+                        scope.emptyTopicList[attrs.paramForum] = 0;
+                        $http.get(angularConfig.getSymfonyApiRoute('forum_topic_list', {forum: attrs.paramForum, page:attrs.paramPage})).success(function(data) {
+
+                            scope.topicList[attrs.paramForum] = data.topics;
+
+                            if(data.topics.length <= 0){
+                                scope.emptyTopicList[attrs.paramForum] = 1;
+                            } else {
+                                scope.emptyTopicList[attrs.paramForum] = 0;
+                            }
+                            scope.topicListLoading = false;
+                        });
+                    } else {
+                        $timeout(function(){
+                            scope.topicList[attrs.paramForum] = [];
+                            scope.topicListStatus[attrs.paramForum] = false;
+                        })
+                    }
+                });
+            });
+        }
+    };
+}]).directive('symbbBreadcrumbMini', ['$http', '$route', function($http, $route) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<ol class="breadcrumb_mini"></ol>',
+        link: function(scope, element, attrs) {
+            var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
+            var elementWithBreadcrumbName = attrs.objectname;
+            if(scope[elementWithBreadcrumbName] && scope[elementWithBreadcrumbName].breadcrumb){
+                var count = scope[elementWithBreadcrumbName].breadcrumb.length;
+                var i = 1;
+                $(scope[elementWithBreadcrumbName].breadcrumb).each(function(key, entry){
+                    if(i === count){
+                        spacer = "";
+                    }
+                    symbbAngularUtils.createBreadcrumbLi(entry, spacer).appendTo($(element));
+                    i++;
+                });
+            }
+        }
+    };
+}]);
 
 function prepareParams(attrs){
     var params = {};
