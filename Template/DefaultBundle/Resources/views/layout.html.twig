@@ -48,8 +48,6 @@
           %}
           <script src="{{ asset_url }}"></script>
           {% endjavascripts %}
-      {% endblock %}
-    {% block javascripts %}  
         {% javascripts filter='?uglifyjs2'
             '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js'
