@@ -10,6 +10,7 @@
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\ORM\Query;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;
 

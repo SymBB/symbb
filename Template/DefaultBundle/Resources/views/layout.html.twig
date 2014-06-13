@@ -34,21 +34,17 @@
     <script src="/bundles/symbbcoreangular/js/angular/angular-mocks.js"></script>
     {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
       {% block javascripts %}
-          {% javascripts
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-animate.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-cookies.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-routing.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-sanitize.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-file-upload.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-tumb.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/datetimepicker.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/loading-bar.js'
-          '@SymBBCoreAngularBundle/Resources/public/js/angular/ng-infinite-scroll.js'
-          '@SymBBTemplateDefaultBundle/Resources/public/js/angular/module.js'
-          %}
-          <script src="{{ asset_url }}"></script>
-          {% endjavascripts %}
         {% javascripts filter='?uglifyjs2'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-animate.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-cookies.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-routing.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-sanitize.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-file-upload.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/angular-tumb.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/datetimepicker.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/loading-bar.js'
+            '@SymBBCoreAngularBundle/Resources/public/js/angular/ng-infinite-scroll.js'
+            '@SymBBTemplateDefaultBundle/Resources/public/js/angular/module.js'
             '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js'
             '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js'

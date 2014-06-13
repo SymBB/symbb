@@ -1,131 +1,123 @@
-{% javascripts
-    '@SymBBCoreAngularBundle/Resources/public/js/frontend/1_user.js'
-    '@SymBBCoreAngularBundle/Resources/public/js/frontend/2_app.js'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
 <script>
-var symbbUserLang = navigator.language || navigator.userLanguage; 
+    // init user data for frontend
+    var symbbUser = {
+        id: {{app.user.id}},
+        avatar: '{{getSymbbUserAvatar(app.user)}}',
+        lang: '{{ app.request.locale }}'
+    };
+    moment.lang(symbbUser.lang);
 
-var angularConfig = {
-    
-    goTo: function($location, route, params, urlKey){
-        var routing = this.getAngularRoute(route, params, urlKey, true);
-        $location.path(routing);
-        $scope = angular.element(document).scope(); // this is the came as $rootScope
-        $scope.$apply(); // so this also has no effect
-    },
-    
-    sfApiRoutes: {{angularRouter.createSfApiRouteJson() | raw}},
-    sfTemplateRoutes: {{angularRouter.createSfTemplateRouteJson() | raw}},
-    angularRoutes: {{angularRouter.createAngularRouteJson() | raw}},
-        
-    getSymfonyApiRoute: function(route, params){
-        var routePath =  '';
-        if(this.sfApiRoutes[route] && this.sfApiRoutes[route]['route']){
+    var angularConfig = {
+
+        goTo: function($location, route, params, urlKey){
+            var routing = this.getAngularRoute(route, params, urlKey, true);
+            $location.path(routing);
+            $scope = angular.element(document).scope(); // this is the came as $rootScope
+            $scope.$apply(); // so this also has no effect
+        },
+
+        sfApiRoutes: {{angularRouter.createSfApiRouteJson() | raw}},
+        sfTemplateRoutes: {{angularRouter.createSfTemplateRouteJson() | raw}},
+        angularRoutes: {{angularRouter.createAngularRouteJson() | raw}},
+
+        getSymfonyApiRoute: function(route, params){
+            var routePath =  '';
+            if(this.sfApiRoutes[route] && this.sfApiRoutes[route]['route']){
+                if(!params){
+                    params = {};
+                }
+                params._locale = symbbUser.lang;
+                routePath = Routing.generate(this.sfApiRoutes[route]['route'], params);
+            }
+            return routePath;
+        },
+
+        getSymfonyRoute: function(route, params){
             if(!params){
                 params = {};
             }
-            params._locale = symbbUserLang;
-            routePath = Routing.generate(this.sfApiRoutes[route]['route'], params);
-        }
-        return routePath;
-    },
-  
-    getSymfonyRoute: function(route, params){
-        if(!params){
-            params = {};
-        }
-        params._locale = symbbUserLang;
-        var routePath =  Routing.generate(route, params);
-        return routePath;
-    },
-  
-    getSymfonyTemplateRoute: function(route, params){
-        var routePath =  '';
-        if(this.sfTemplateRoutes[route] && this.sfTemplateRoutes[route]['route']){
-            if(!params){
-                params = {};
-            }
-            var realParams = this.sfTemplateRoutes[route]['params'];
-            if(!realParams){
-                realParams = {};
-            }
-            $.each(params, function(key, value){
-                realParams[key] = value;
-            });
-            realParams._locale = symbbUserLang;
-            routePath = Routing.generate(this.sfTemplateRoutes[route]['route'], realParams);
-        }
-        return routePath;
-    },
-  
-    getAngularController: function(route){
-        return this.angularRoutes[route]['controller'];
-    },
-  
-    getAngularRoute: function(route, params, urlKey, removeHost){
+            params._locale = symbbUser.lang;
+            var routePath =  Routing.generate(route, params);
+            return routePath;
+        },
 
-        if(!params){
-            params = {};
-        }
-        
-        params._locale = symbbUserLang;
-        
-        if(!urlKey){
-            urlKey = 0;    
-        }
-        var routePath = this.angularRoutes[route]['pattern'];
-        routePath = routePath[urlKey];
-        $.each(this.angularRoutes[route]['defaults'], function(key, value){
-            if(!params[key]){
-                params[key] = value;
-            } 
-        });
-        $.each(params, function(key, value){
-            routePath = routePath.replace(':'+key, value);
-        });
-        if(!removeHost){
-            routePath = 'http://'+window.location.host+routePath;
-        }
-        return routePath;
-    },
-            
-    createAngularRouting: function($routeProvider){
-
-        $.each(this.angularRoutes, function(key, value){
-            if(value.pattern){
-                $.each(value.pattern, function(urlKey, urlValue){
-                    if(value.controller){
-                        $routeProvider.when(urlValue, { 
-                            templateUrl: angularConfig.getSymfonyTemplateRoute(key),
-                            controller: angularConfig.getAngularController(key)
-                        }); 
-                    }
+        getSymfonyTemplateRoute: function(route, params){
+            var routePath =  '';
+            if(this.sfTemplateRoutes[route] && this.sfTemplateRoutes[route]['route']){
+                if(!params){
+                    params = {};
+                }
+                var realParams = this.sfTemplateRoutes[route]['params'];
+                if(!realParams){
+                    realParams = {};
+                }
+                $.each(params, function(key, value){
+                    realParams[key] = value;
                 });
+                realParams._locale = symbbUser.lang;
+                routePath = Routing.generate(this.sfTemplateRoutes[route]['route'], realParams);
             }
-        });
-        
-    }
-};
+            return routePath;
+        },
 
-// init user data for frontend
-symbbUser.id = {{app.user.id}};
-symbbUser.avatar = '{{getSymbbUserAvatar(app.user)}}';
+        getAngularController: function(route){
+            return this.angularRoutes[route]['controller'];
+        },
 
-symbbUserLang = '{{ app.request.locale }}'
-moment.lang('{{ app.request.locale }}');
+        getAngularRoute: function(route, params, urlKey, removeHost){
 
-$(function() {
-    $( ".symbb_tooltip" ).tooltip();
-});
+            if(!params){
+                params = {};
+            }
+
+            params._locale = symbbUser.lang;
+
+            if(!urlKey){
+                urlKey = 0;
+            }
+            var routePath = this.angularRoutes[route]['pattern'];
+            routePath = routePath[urlKey];
+            $.each(this.angularRoutes[route]['defaults'], function(key, value){
+                if(!params[key]){
+                    params[key] = value;
+                }
+            });
+            $.each(params, function(key, value){
+                routePath = routePath.replace(':'+key, value);
+            });
+            if(!removeHost){
+                routePath = 'http://'+window.location.host+routePath;
+            }
+            return routePath;
+        },
+
+        createAngularRouting: function($routeProvider){
+
+            $.each(this.angularRoutes, function(key, value){
+                if(value.pattern){
+                    $.each(value.pattern, function(urlKey, urlValue){
+                        if(value.controller){
+                            $routeProvider.when(urlValue, {
+                                templateUrl: angularConfig.getSymfonyTemplateRoute(key),
+                                controller: angularConfig.getAngularController(key)
+                            });
+                        }
+                    });
+                }
+            });
+
+        }
+    };
+
 </script>
-{% javascripts
-    '@SymBBCoreAngularBundle/Resources/public/js/frontend/4_directives.js'
-    '@SymBBCoreAngularBundle/Resources/public/js/frontend/5_functions.js'
+{% javascripts filter='?uglifyjs2'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/1_app.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/2_directives.js'
+    '@SymBBCoreAngularBundle/Resources/public/js/frontend/3_functions.js'
     '@SymBBCoreAngularBundle/Resources/public/js/frontend/forum/*.js'
+    'bundles/fosjsrouting/js/router.js'
+    'js/fos_js_routes.js'
 %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
-<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 <script src="{{asset('/bundles/symbbcoreangular/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
