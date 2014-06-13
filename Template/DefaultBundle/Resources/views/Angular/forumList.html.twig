@@ -69,7 +69,7 @@
             <div class="clear"></div>
         </a>
     </div>
-    <div class="symbbForumSubrow" ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
+    <div class="symbbForumSubrow" ng-if="$parent.object.showSubForumList" ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
 
     </div>
 </script>

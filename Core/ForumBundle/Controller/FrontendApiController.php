@@ -673,6 +673,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['isCategory'] = false;
         $array['isLink'] = false;
         $array['ignore'] = false;
+        $array['showSubForumList'] = true;
         $array['count']['topic'] = 0;
         $array['count']['post'] = 0;
         $array['backgroundImage'] = "";
@@ -693,6 +694,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['description'] = $forum->getDescription();
             $array['count']['topic'] = $forum->getTopicCount();
             $array['count']['post'] = $forum->getPostCount();
+            $array['showSubForumList'] = $forum->hasShowSubForumList();
 
             foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
