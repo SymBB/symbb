@@ -698,7 +698,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
             foreach ($forum->getChildren() as $child) {
-                $array['children'][] = $this->getForumAsArray($child, false);
+                $viewAccess = $this->get('security.context')->isGranted('VIEW', $child);
+                if($viewAccess){
+                    $array['children'][] = $this->getForumAsArray($child, false);
+                }
             }
             $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
             foreach ($lastPosts as $post) {

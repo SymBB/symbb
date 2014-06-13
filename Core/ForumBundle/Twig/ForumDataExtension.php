@@ -49,7 +49,6 @@ class ForumDataExtension extends \Twig_Extension
             new \Twig_SimpleFunction('checkSymbbForForumNewFlag', array($this, 'checkSymbbForNewPostFlag')),
             new \Twig_SimpleFunction('checkSymbbForForumFlag', array($this, 'checkForFlag')),
             new \Twig_SimpleFunction('checkSymbbForumLabels', array($this, 'getLabels')),
-            new \Twig_SimpleFunction('getNewestPost', array($this, 'getNewestPost')),
         );
     }
     
@@ -57,11 +56,6 @@ class ForumDataExtension extends \Twig_Extension
     {
         $check = $this->checkForFlag($element, 'new');
         return $check;
-    }
-    
-    public function getNewestPost($parent, $limit = null)
-    {
-        return $this->forumManager->findNewestPosts($parent, $limit);
     }
     
     public function checkSymbbForIgnoreFlag($element)

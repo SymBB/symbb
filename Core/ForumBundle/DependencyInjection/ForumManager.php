@@ -53,79 +53,6 @@ class ForumManager extends AbstractManager
         return $topics;
     }
 
-    public function findNewestPosts(Forum $parent = null, $limit = null, $page = 1)
-    {
-        if ($limit === null) {
-            $limit = $this->configManager->get('newpost.max', "forum");
-        }
-
-        $childIds = array();
-
-        if ($parent) {
-            $childIds = $this->getChildIds($parent);
-        }
-
-        $wherePart = 'WHERE p.author != :user';
-
-        if (!empty($childIds)) {
-            $wherePart .= " AND t.forum IN ( :forums )";
-        }
-
-        $sql = "SELECT
-                    p
-                FROM
-                    SymBBCoreForumBundle:Post p
-                INNER JOIN
-                    SymBBCoreForumBundle:Topic t WITH
-                    t.id = p.topic
-                LEFT JOIN
-                    SymBBCoreSystemBundle:Flag f WITH
-                        f.objectClass = 'SymBB\Core\ForumBundle\Entity\Post' AND
-                        f.objectId = p.id AND
-                        f.user = :user AND
-                        f.flag = 'new'
-                ".$wherePart."
-                GROUP BY
-                    p.id
-                ORDER BY
-                    f.id DESC,
-                    p.created DESC ";
-
-
-
-        //// count
-        $query = $this->em->createQuery($sql);
-        $rsm = new ResultSetMappingBuilder($this->em);
-        $rsm->addScalarResult('count', 'count');
-        $queryCount = $query->getSQL();
-        $queryCount = "SELECT COUNT(*) count FROM (".$queryCount.") as temp";
-        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
-        $queryCount->setParameter(0, $this->getUser()->getId());
-        $queryCount->setParameter(1, $this->getUser()->getId());
-        if (!empty($childIds)) {
-            $queryCount->setParameter(2, $childIds);
-        }
-        $count = $queryCount->getSingleScalarResult();
-        ////
-
-        if(!$count){
-            $count = 0;
-        }
-
-        $query->setParameter('user', $this->getUser()->getId());
-        if (!empty($childIds)) {
-            $query->setParameter('forums', $childIds);
-        }
-
-        $query->setHint('knp_paginator.count', $count);
-
-        $pagination = $this->paginator->paginate(
-            $query, $page, $limit, array('distinct' => false)
-        );
-
-        return $pagination;
-    }
-
     /**
      *
      * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
@@ -254,15 +181,75 @@ class ForumManager extends AbstractManager
      * @param null $offset
      * @return array(<\SymBB\Core\ForumBundle\Entity\Forum>)
      */
-    public function findAll($parentId = null, $limit = null, $offset = null)
+    public function findAll($parentId = null, $limit = null, $page = null)
     {
         if ($parentId === 0) {
             $parentId = null;
         }
 
-        $forumList = $this->em->getRepository('SymBBCoreForumBundle:Forum')->findBy(array('active' => 1, 'parent' => $parentId), array('position' => 'asc'), $limit, $offset);
+        if(!$page){
+            $page = 1;
+        }
 
-        return $forumList;
+        if(!$limit){
+            $limit = 999;
+        }
+
+
+        $parentWhere = 'f.parent = ?0 AND';
+        if(!$parentId){
+            $parentWhere = 'f.parent IS NULL AND';
+        }
+
+
+        $configUsermanager  = $this->configManager->getSymbbConfig('usermanager');
+        $configGroupManager = $this->configManager->getSymbbConfig('groupmanager');
+
+        $userlcass = $configUsermanager['user_class'];
+        $groupclass = $configGroupManager['group_class'];
+
+        $sql = "SELECT
+                    f
+                FROM
+                    SymBBCoreForumBundle:Forum f
+                WHERE
+                    ".$parentWhere."
+                    (
+                        ( SELECT COUNT(a.id) FROM SymBBCoreSystemBundle:Access a WHERE
+                            a.objectId = f.id AND
+                            a.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a.identity = '".$userlcass."' AND
+                            a.identityId = ?1 AND
+                            a.access = 'view'
+                            ORDER BY a.id
+                        ) > 0 OR
+                        ( SELECT COUNT(a2.id) FROM SymBBCoreSystemBundle:Access a2 WHERE
+                            a2.objectId = f.id AND
+                            a2.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a2.identity = '".$groupclass."' AND
+                            a2.identityId IN (?2) AND
+                            a2.access = 'view'
+                            ORDER BY a2.id
+                        ) > 0
+                    )
+                ORDER BY
+                    f.position ASC";
+
+        $groupIds = array();
+        foreach($this->getUser()->getGroups() as $group){
+            $groupIds[]  = $group->getId();
+        }
+
+        $query = $this->em->createQuery($sql);
+        if($parentId){
+            $query->setParameter(0, $parentId);
+        }
+        $query->setParameter(1, $this->getUser()->getId());
+        $query->setParameter(2, $groupIds);
+
+        $pagination = $this->createPagination($query, $page, $limit);
+
+        return $pagination;
     }
 
     /**
