@@ -31,6 +31,9 @@
                     <span ng-if="!topicListStatus[object.id]" class="glyphicon glyphicon-chevron-down"></span>
                     <span ng-if="topicListStatus[object.id] == true" class="glyphicon glyphicon-chevron-up"></span>
                 </button>
+                <button type="button" class="btn btn-default btn-xs" title="{% trans %}View Forum{% endtrans %}" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="forum_mark_as_read" param-id="[[object.id]]">
                     <span class="glyphicon glyphicon-ok"></span>
                 </button>
