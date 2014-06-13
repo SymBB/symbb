@@ -1,0 +1,8 @@
+# Assetic Configuration
+assetic:
+    filters:
+        cssrewrite: ~
+        uglifyjs2:
+           bin: ./app/Resources/node_modules/.bin/uglifyjs
+        uglifycss:
+           bin: ./app/Resources/node_modules/.bin/uglifycss
