@@ -2,7 +2,7 @@
 
 <div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
     <div ng-repeat="object in searchPagination.items">
-        <div class="symbb_post_block small">
+        <div class="symbb_post_block small" ng-class="object.tmp.css">
             <div class="userinfo">
                 <div class="padding10">
                     <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
@@ -33,6 +33,17 @@
                         </button>
                         <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="topic_mark_as_read" param-id="[[object.id]]">
                             <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs dropdown pull-right" title="{% trans %}More{% endtrans %}">
+                            <span class="glyphicon glyphicon-cog"  data-toggle="dropdown"></span>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li>
+                                    <a symbb-delete-request="forum_topic_delete" param-id="[[object.id]]" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}"><span class="glyphicon glyphicon-remove"></span></a>
+                                </li>
+                                <li>
+                                    <a symbb-request="forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}"><span class="glyphicon glyphicon-lock"></span></a>
+                                </li>
+                            </ul>
                         </button>
                     </div>
                 </div>

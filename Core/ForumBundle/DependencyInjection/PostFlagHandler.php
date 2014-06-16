@@ -45,17 +45,20 @@ class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstra
 
         if (!$ignore) {
             parent::insertFlag($object, $flag, $user, $flushEm);
-            // insert to topic (parent)
-            parent::insertFlag($object->getTopic(), $flag, $user, $flushEm);
-            // insert to all parents ( recrusivly )
-            $parent = $object->getTopic()->getForum();
-            do {
-                if(is_object($parent)){
-                    parent::insertFlag($parent, $flag, $user, $flushEm);
-                } else {
-                    break;
-                }
-            } while($parent = $parent->getParent());
+
+            if($flag === 'new'){
+                // insert to topic (parent)
+                parent::insertFlag($object->getTopic(), $flag, $user, $flushEm);
+                // insert to all parents ( recrusivly )
+                $parent = $object->getTopic()->getForum();
+                do {
+                    if(is_object($parent)){
+                        parent::insertFlag($parent, $flag, $user, $flushEm);
+                    } else {
+                        break;
+                    }
+                } while($parent = $parent->getParent());
+            }
         }
 
     }

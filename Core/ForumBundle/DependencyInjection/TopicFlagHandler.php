@@ -73,19 +73,21 @@ class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\Abstr
         if (!$ignore) {
             parent::insertFlag($object, $flag, $user, $flushEm);
 
-            // insert to all parents ( recrusivly )
-            $parent = $object->getForum();
-            do {
-                if(is_object($parent)){
-                    parent::insertFlag($parent, $flag, $user, $flushEm);
-                } else {
-                    break;
-                }
-            } while($parent = $parent->getParent());
+            if($flag === 'new'){
+                // insert to all parents ( recrusivly )
+                $parent = $object->getForum();
+                do {
+                    if(is_object($parent)){
+                        parent::insertFlag($parent, $flag, $user, $flushEm);
+                    } else {
+                        break;
+                    }
+                } while($parent = $parent->getParent());
 
-            // insert to all posts (childs)
-            foreach($object as $post){
-                parent::insertFlag($post, $flag, $user, $flushEm);
+                // insert to all posts (childs)
+                foreach($object as $post){
+                    parent::insertFlag($post, $flag, $user, $flushEm);
+                }
             }
         }
     }

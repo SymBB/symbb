@@ -45,6 +45,10 @@
     margin-left: 10px;
 }
 
+.symbbForumRow .infos .labels > div {
+    float: left;
+}
+
 .symbbForumRow .infos .description {
     font-size: 90%;
 }
@@ -101,6 +105,14 @@
     width: 100%;
     clear: both;
     margin-bottom: 15px;
+}
+
+.symbb_post_block.success .infos .breadcrumb_mini{
+    background-color: #c4fcc4;
+}
+
+.symbb_post_block.warning .infos .breadcrumb_mini{
+    background-color: #ffe2ba;
 }
 
 .symbb_post_block + .symbb_search_result_seperator {

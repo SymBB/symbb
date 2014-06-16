@@ -16,6 +16,19 @@ use SymBB\Core\ForumBundle\Entity\Forum;
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
 
+    const ERROR_NOT_FOUND_FORUM = 'forum not found';
+    const ERROR_NOT_FOUND_TOPIC = 'topic not found';
+    const ERROR_NOT_FOUND_POST = 'post not found';
+    const ERROR_NOT_FOUND_FILE = 'file not found';
+    const ERROR_ACCESS_DELETE_POST = 'access denied (delete post)';
+    const ERROR_ACCESS_EDIT_POST = 'access denied (edit post)';
+    const ERROR_ACCESS_CREATE_POST = 'access denied (create post)';
+    const ERROR_ACCESS_VIEW_FORUM = 'access denied (show forum)';
+    const ERROR_ACCESS_EDIT_TOPIC = 'access denied (edit topic)';
+    const ERROR_ACCESS_CREATE_TOPIC = 'access denied (create topic)';
+
+
+
     /**
      * @Route("/api/post/search", name="symbb_api_post_search")
      * @Method({"GET"})
@@ -57,7 +70,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $params['files'] = $uploadManager->handleUpload($this->get('request'), $uploadSet);
         } else {
 
-            $this->addErrorMessage("Image not found");
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_FILE);
         }
 
         return $this->getJsonResponse($params);
@@ -67,16 +80,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/delete", name="symbb_api_post_delete")
      * @Method({"DELETE"})
      */
-    public function postDeleteAction()
+    public function postDeleteAction($id = 0)
     {
-        $id = (int) $this->get('request')->get('id');
+        if(!$id){
+            $id = (int) $this->get('request')->get('id');
+        }
         $params = array();
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('DELETE', $post);
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (delete post)');
+                $this->addErrorMessage(self::ERROR_ACCESS_DELETE_POST);
             } else {
 
                 $em = $this->getDoctrine()->getManager('symbb');
@@ -105,7 +120,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $this->addCallback('refresh');
             }
         } else {
-            $this->addErrorMessage("Post not found");
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_POST);
         }
 
         return $this->getJsonResponse($params);
@@ -136,7 +151,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('EDIT', $post);
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (edit post)');
+                $this->addErrorMessage(self::ERROR_ACCESS_EDIT_POST);
             }
             $topic = $post->getTopic();
         } else {
@@ -146,10 +161,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $post->setTopic($topic);
                 $accessCheck = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
                 if (!$accessCheck) {
-                    $this->addErrorMessage('access denied (create post)');
+                    $this->addErrorMessage(self::ERROR_ACCESS_CREATE_POST);
                 }
             } else {
-                $this->addErrorMessage("Topic not found!");
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
             }
         }
 
@@ -170,6 +185,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $this->handleEvent('symbb.api.post.before.save', $event);
 
             if (!$this->hasError()) {
+                $topic->setChangedValue();
+                $em->persist($topic);
                 $em->persist($post);
                 $em->flush();
             }
@@ -206,7 +223,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $post->getTopic()->getForum());
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (show forum)');
+                $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
             }
         } else {
             if ($topicId > 0) {
@@ -219,10 +236,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 }
                 $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
                 if (!$accessCheck) {
-                    $this->addErrorMessage('access denied (show forum)');
+                    $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
                 }
             } else {
-                $this->addErrorMessage("Topic not found!");
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
             }
         }
 
@@ -234,6 +251,84 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         return $this->getJsonResponse($params);
+    }
+
+    /**
+     * @Route("/api/topic/delete", name="symbb_api_topic_delete")
+     * @Method({"DELETE"})
+     */
+    public function topicDeleteAction()
+    {
+        $request = $this->get('request');
+        $topicId = (int) $request->get('id');
+        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+        $mainPostId = 0;
+        if(is_object($topic)){
+            $mainPostId = $topic->getMainPost()->getId();
+        }
+        return $this->postDeleteAction($mainPostId);
+    }
+
+    /**
+     * @Route("/api/topic/move", name="symbb_api_topic_move")
+     * @Method({"POST"})
+     */
+    public function topicMoveAction()
+    {
+        $request = $this->get('request');
+        $topicId = (int) $request->get('id');
+        $forumId = (int) $request->get('forum');
+        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+        $targetForum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
+
+
+        if(is_object($topic) && $topic->getId() > 0){
+            if(is_object($targetForum) && $targetForum->getId() > 0){
+                $access = $this->get('security.context')->isGranted('EDIT', $topic);
+                if($access){
+                    $topic->setForum($targetForum);
+                    $em = $this->getDoctrine()->getManager('symbb');
+                    $em->persist($topic);
+                    $em->flush();
+                    $this->addCallback('refresh');
+                } else {
+                    $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
+                }
+            } else {
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
+            }
+        } else {
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
+        }
+        return $this->getJsonResponse();
+    }
+
+    /**
+     * @Route("/api/topic/close", name="symbb_api_topic_close")
+     * @Method({"POST"})
+     */
+    public function topicCloseAction()
+    {
+        $request = $this->get('request');
+        $topicId = (int) $request->get('id');
+        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+        if(is_object($topic) && $topic->getId() > 0){
+            $access = $this->get('security.context')->isGranted('EDIT', $topic);
+            if($access){
+                $topic->setLocked(true);
+                $em = $this->getDoctrine()->getManager('symbb');
+                $em->persist($topic);
+                $em->flush();
+                $this->get('symbb.core.topic.flag')->insertFlags($topic, 'locked');
+                $this->addCallback('refresh');
+            } else {
+                $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
+            }
+        }else {
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
+        }
+
+        return $this->getJsonResponse();
     }
     
     /**
@@ -321,16 +416,16 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                         $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
                         $this->handleEvent('symbb.api.topic.after.save', $event);
                     } else {
-                        $this->addErrorMessage('access denied (edit topic)');
+                        $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
                     }
                 } else {
-                    $this->addErrorMessage('access denied (create topic)');
+                    $this->addErrorMessage(self::ERROR_ACCESS_CREATE_TOPIC);
                 }
             } else {
-                $this->addErrorMessage('forum not found');
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
         } else {
-            $this->addErrorMessage("Forum not found!");
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
         }
 
         return $this->getJsonResponse($params);
@@ -349,7 +444,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $forum = $this->get('symbb.core.forum.manager')->find($forumId);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $forum);
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (show forum)');
+                $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
             }
 
             if (!$this->hasError()) {
@@ -381,18 +476,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
                 $topic->setForum($forum);
             } else {
-                $this->addErrorMessage("Forum not found!");
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
         }
 
         if(!is_object($topic)){
-            $this->addErrorMessage("Topic not found!");
+            $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
         }
 
         if (!$this->hasError()) {
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (show forum)');
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
         }
 
@@ -517,7 +612,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $parent);
             if (!$accessCheck) {
-                $this->addErrorMessage('access denied (show forum)');
+                $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
         } else {
             $parent = new Forum();
@@ -564,7 +659,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['access'] = array(
             'createPost' => false,
             'edit' => false,
-            'delete' => false
+            'delete' => false,
+            'move' => false
         );
         $array['mainPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
@@ -634,11 +730,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
                 $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
                 $deleteAccess = $this->get('security.context')->isGranted('DELETE', $topic);
+                $moveAccess = $this->get('security.context')->isGranted('MOVE_TOPIC', $topic->getForum());
 
                 $array['access'] = array(
                     'createPost' => $writePostAccess,
                     'edit' => $editAccess,
-                    'delete' => $deleteAccess
+                    'delete' => $deleteAccess,
+                    'move' => $moveAccess
                 );
 
                 if ($topic->isLocked()) {
@@ -684,7 +782,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $array['access'] = array(
             'createTopic' => false,
-            'createPost' => false
+            'createPost' => false,
+            'moveTopic' => false,
+            'movePost' => false
         );
 
         if (is_object($forum)) {
@@ -718,10 +818,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
             $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $forum);
+            $moveTopicAccess = $this->get('security.context')->isGranted('MOVE_TOPIC', $forum);
+            $movePostAccess = $this->get('security.context')->isGranted('MOVE_POST', $forum);
 
             $array['access'] = array(
                 'createTopic' => $writeAccess,
-                'createPost' => $writePostAccess
+                'createPost' => $writePostAccess,
+                'moveTopic' => $moveTopicAccess,
+                'movePost' => $movePostAccess
             );
 
             $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
@@ -753,7 +857,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\ForumBundle\Entity\Forum\Flag $flag
+     * @param \SymBB\Core\SystemBundle\Entity\Flag $flag
      * @return array
      */
     protected function getFlagAsArray($flag)

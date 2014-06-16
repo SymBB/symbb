@@ -43,6 +43,8 @@ class ForumVoter extends AbstractVoter implements VoterInterface
                 self::EDIT_TOPIC,
                 self::DELETE_POST,
                 self::DELETE_TOPIC,
+                self::MOVE_POST,
+                self::MOVE_TOPIC,
                 self::SPLIT_TOPIC,
             )
         );

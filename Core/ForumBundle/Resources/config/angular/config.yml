@@ -115,6 +115,14 @@ post_mark_as_read:
 forum_topic_save:
     api: 
         route: symbb_api_topic_save
+
+forum_topic_close:
+    api:
+        route: symbb_api_topic_close
+
+forum_topic_delete:
+    api:
+        route: symbb_api_topic_delete
         
 forum_post_upload_image:
     api: 
