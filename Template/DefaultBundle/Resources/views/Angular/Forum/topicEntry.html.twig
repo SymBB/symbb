@@ -12,7 +12,11 @@
                 </div>
             </div>
             <div class="infos">
-                <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
+                <ul class="breadcrumb_mini">
+                    <li>
+                        <a symbb-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"> <span class="padding10">[[object.name]]</span> </a>
+                    </li>
+                </ul>
                 <div class="date">
                     <div class="labels">
                         <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">[[tag.name]]</span>
@@ -20,8 +24,13 @@
                     </div>
                     {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                 </div>
-                <div class="text" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="last">
-                    <blockquote ng-bind-html="object.text"></blockquote>
+                <div class="text padding10" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="last">
+                    <div class="avatar_mini pull-left">
+                        <img ng-src="[[object.latestPost.author.avatar]]" />
+                    </div>
+                    <div class="pull-left padding10">
+                        [[object.author.username]]: {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                    </div>
                 </div>
                 <div class="read_more">
                     <div class="btn-group">

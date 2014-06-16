@@ -652,7 +652,6 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['count']['post'] = 0;
         $array['backgroundImage'] = '';
         $array['flags'] = array();
-        $array['posts'] = array();
         $array['seo']['name'] = '';
         $array['forum']['id'] = 0;
         $array['forum']['seo']['name'] = '';
@@ -663,6 +662,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'move' => false
         );
         $array['mainPost'] = $this->getPostAsArray();
+        $array['latestPost'] = $this->getPostAsArray();
         $array['author'] = $this->getAuthorAsArray();
         $array['tags'] = array();
         $array['paginationData'] = array();
@@ -694,15 +694,17 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 foreach ($this->get('symbb.core.topic.flag')->findAll($topic) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
                 }
-                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, $postSorting);
+
+                $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, 1, 1, 'desc');
+                $post = $posts[0];
+                $array['latestPost'] = $this->getPostAsArray($post, true);
+
                 $paginationData = $posts->getPaginationData();
                 if($addPaginationData){
                     $this->addPaginationData($posts);
                 }
                 $array['count']['post'] = $paginationData['totalCount'];
-                foreach ($posts as $post) {
-                    $array['posts'][] = $this->getPostAsArray($post);
-                }
+
                 $array['seo']['name'] = $topic->getSeoName();
 
                 $array['notifyMe'] = $this->get('symbb.core.topic.flag')->checkFlag($topic, 'notify');
@@ -924,8 +926,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
 
             if(!$bshort){
-                $array['rawText'] = $post->getText();
                 $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
+                $array['rawText'] = $post->getText();
                 $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
                 foreach ($this->get('symbb.core.post.flag')->findAll($post) as $flag) {
                     $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
