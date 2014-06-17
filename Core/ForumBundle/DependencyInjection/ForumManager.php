@@ -268,16 +268,20 @@ class ForumManager extends AbstractManager
      */
     public function getSelectList($types = array())
     {
+
+        $types = (array)$types;
+
         $repo = $this->em->getRepository('SymBBCoreForumBundle:Forum');
         $list = array();
         $by = array('parent' => null);
-        if (!empty($types)) {
-            $by['type'] = $types;
-        }
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
         foreach ($entries as $entity) {
-            $list[$entity->getId()] = $entity;
-            $this->addChildsToArray($entity, $list);
+            if($this->securityContext->isGranted('VIEW', $entity)){
+                if(in_array($entity->getType(), $types) || empty($types)){
+                    $list[$entity->getId()] = $entity;
+                }
+                $this->addChildsToArray($entity, $list);
+            }
         }
 
         $listFinal = array();
@@ -300,7 +304,7 @@ class ForumManager extends AbstractManager
     {
         $parent = $forum->getParent();
         if (is_object($parent)) {
-            $name = '─' . $name;
+            $name = $parent->getName(). ' > ' . $name;
             $name = $this->addSpaceForParents($parent, $name);
         }
         return $name;
