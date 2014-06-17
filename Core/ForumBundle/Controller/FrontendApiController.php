@@ -494,6 +494,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         if (!$this->hasError()) {
             $page = $this->get('request')->get('page');
             $params['topic'] = $this->getTopicAsArray($topic, $page, null, true);
+
+            $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
+            $params['topic']['posts'] = array();
+            foreach($posts as $post){
+                $params['topic']['posts'][] = $this->getPostAsArray($post);
+            }
+            $this->addPaginationData($posts);
             $breadcrumbItems = $this->get('symbb.core.topic.manager')->getBreadcrumbData($topic, $this->get('symbb.core.forum.manager'));
             $this->addBreadcrumbItems($breadcrumbItems);
             $this->get('symbb.core.topic.flag')->removeFlag($topic, 'new');
@@ -637,7 +644,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null, $page = 1, $postSorting = 'asc', $addPaginationData = false)
+    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null)
     {
 
         $tags = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\Tag', 'symbb')->findAll();
@@ -700,9 +707,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $array['latestPost'] = $this->getPostAsArray($post, true);
 
                 $paginationData = $posts->getPaginationData();
-                if($addPaginationData){
-                    $this->addPaginationData($posts);
-                }
+
                 $array['count']['post'] = $paginationData['totalCount'];
 
                 $array['seo']['name'] = $topic->getSeoName();

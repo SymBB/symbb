@@ -6,7 +6,7 @@
             <div class="userinfo">
                 <div class="padding10">
                     <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
-                        <img ng-src="[[object.author.avatar]]" />
+                        <img title="[[object.author.username]]" ng-src="[[object.author.avatar]]" />
                     </div>
                     <div class="clear"></div>
                 </div>
@@ -25,10 +25,10 @@
                     {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                 </div>
                 <div class="text padding10" ng-class="object.temp.showFullPostTextClass" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="last">
-                    <div class="avatar_mini pull-left">
-                        <img ng-src="[[object.latestPost.author.avatar]]" />
+                    <div class="avatar_mini pull-left" ng-if="object.latestPost.id != object.mainPost.id">
+                        <img title="[[object.latestPost.author.username]]" ng-src="[[object.latestPost.author.avatar]]" />
                     </div>
-                    <div class="pull-left padding10">
+                    <div class="pull-left padding10" ng-if="object.latestPost.id != object.mainPost.id">
                         [[object.author.username]]: {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                     </div>
                 </div>

@@ -1,10 +1,10 @@
-<div class="rating-group" ng-class="{true: 'active'}[object.extension.rating.dislike]">
-    <span ng-if="object.access.viewRating && object.access.createRating" class="glyphicon glyphicon-thumbs-down" symbb-request="extension_rating_like" param-id="[[object.id]]" param-like="dislike"></span>
-    <span ng-if="object.access.viewRating && !object.access.createRating" class="glyphicon glyphicon-thumbs-down"></span>
+<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.dislike]">
+    <span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-down" symbb-request="extension_rating_like" param-id="[[object.id]]" param-like="dislike"></span>
+    <span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-down"></span>
     [[object.extension.rating.count.dislike]]
 </div>
-<div class="rating-group" ng-class="{true: 'active'}[object.extension.rating.like]">
-    <span ng-if="object.access.viewRating && object.access.createRating" class="glyphicon glyphicon-thumbs-up" symbb-request="extension_rating_like" param-id="[[object.id]]" param-like="like"></span>
-    <span ng-if="object.access.viewRating && !object.access.createRating" class="glyphicon glyphicon-thumbs-up"></span>
+<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.like]">
+    <span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-up" symbb-request="extension_rating_like" param-id="[[object.id]]" param-like="like"></span>
+    <span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-up"></span>
     [[object.extension.rating.count.like]]
 </div>

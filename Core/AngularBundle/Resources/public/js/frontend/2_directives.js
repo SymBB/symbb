@@ -27,7 +27,8 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         link: function(scope, element, attrs) {
 
             var aTag = element[0];
-            if(!$(element[0]).prop('a')){
+            console.debug();
+            if(element[0].tagName !== "A"){
                 var aTag = $('<a></a>');
                 $(element[0]).children().each(function(key, element){
                     aTag.append(element);
