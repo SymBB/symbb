@@ -59,7 +59,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeU = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeU->setName('U');
-        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#iUs');
+        $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#');
         $bbcodeU->setReplaceRegex('<u>$1</u>');
         $bbcodeU->setButtonRegex('[u]{text}[/u]');
         $bbcodeU->setImage('/bundles/symbbcorebbcode/images/text_underline.png');
@@ -69,7 +69,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeI = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeI->setName('I');
-        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#iUs');
+        $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#');
         $bbcodeI->setReplaceRegex('<i>$1</i>');
         $bbcodeI->setButtonRegex('[i]{text}[/i]');
         $bbcodeI->setImage('/bundles/symbbcorebbcode/images/text_italic.png');
@@ -133,7 +133,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeQuote = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeQuote->setName('Quote');
-        $bbcodeQuote->setSearchRegex('#\[quote(?:=(.+)\]([\s\S]*)|\](([\s\S]*?)))\[\/quote]#');
+        $bbcodeQuote->setSearchRegex('#\[quote(?:=(.+)\](.+)|\](([\s\S]*?)))\[\/quote]#iUs');
         $bbcodeQuote->setReplaceRegex('<blockquote cite="$1" ><p>$2$4</p><footer><cite>$1</cite></footer></blockquote>');
         $bbcodeQuote->setButtonRegex('[quote=]{text}[/quote]');
         $bbcodeQuote->setImage('/bundles/symbbcorebbcode/images/comment.png');
@@ -144,7 +144,7 @@ class LoadBBCode extends AbstractFixture
         
         $bbcodeCode = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeCode->setName('Code');
-        $bbcodeCode->setSearchRegex('#\[code\]([\s\S]+)\[\/code\]#iUs');
+        $bbcodeCode->setSearchRegex('#\[code\](.+)\[\/code\]#');
         $bbcodeCode->setReplaceRegex('<pre class="prettyprint linenums lang-html" >$1</pre><script>prettyPrint()</script>');
         $bbcodeCode->setButtonRegex('[code]{text}[/code]');
         $bbcodeCode->setImage('/bundles/symbbcorebbcode/images/page_white_code.png');
