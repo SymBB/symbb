@@ -1,0 +1,14 @@
+{% trans_default_domain "symbb_frontend" %}
+<a ng-transclude></a>
+<div class="symbb_move_topic_dialog row" style="display: none;" title="{{ 'Basic dialog'|trans }}">
+    <div class="input-group">
+        <select class="form-control">
+            {% for id, name in getSymbbForumManager().getSelectList('forum') %}
+                <option value="{{ id }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <span class="input-group-btn">
+            <div class="btn btn-default btn-move">{{ 'move'|trans }}</div>
+        </span>
+    </div><!-- /input-group -->
+</div>

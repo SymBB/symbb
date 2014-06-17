@@ -54,3 +54,12 @@ http://symbb.blogspot.de/
 
 php app/console translation:extract de -c symbb
 
+### Update Steps
+
+- composer update / git update
+- rm -r app/cache/*
+- rm -r app/logs/*
+- php app/console doctrine:schema:update --force --em=symbb
+- php app/console fos:js-routing:dump
+- php app/console assets:install
+- php app/console assetic:dump --env=prod

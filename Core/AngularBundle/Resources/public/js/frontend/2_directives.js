@@ -22,23 +22,34 @@ symbbControllers.directive('symbbBreadcrumb', function() {
 }).directive('symbbLink', function() {
     return {
         restrict: 'A',
-        transclude: true,
-        template: '<a href="" ng-transclude></a>',
+        transclude: false,
+        replace: false,
         link: function(scope, element, attrs) {
+
+            var aTag = element[0];
+            console.debug();
+            if(element[0].tagName !== "A"){
+                var aTag = $('<a></a>');
+                $(element[0]).children().each(function(key, element){
+                    aTag.append(element);
+                });
+                var html = $(element[0]).html();
+                $(element[0]).html('');
+                aTag.prepend(html);
+                $(element[0]).append(aTag);
+            }
+
             var params = prepareParams(attrs);
-            console.debug(attrs);
             var path = angularConfig.getAngularRoute(attrs.symbbLink, params);
-            console.debug(path);
-            $(element[0]).children('a').attr('href', path);
+            $(aTag).attr('href', path);
             if(attrs.target){
-                $(element[0]).children('a').attr('target', attrs.target);
+                $(aTag).attr('target', attrs.target);
             }
         }
     };
 }).directive('symbbJsLink', ['$location', function($location) {
     return {
         restrict: 'A',
-        transclude: false,
         replace: false,
         link: function(scope, element, attrs) {
             $(element[0]).click(function() {
@@ -95,7 +106,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             $(element[0]).click(function() {
                 var params = prepareParams(attrs);
                 $http.post(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
-                    
+
                 });
             });
         }
@@ -233,10 +244,10 @@ function prepareParams(attrs){
     var params = {};
     $.each(attrs, function(key, value){
         if(key.match(/^param/)){
-                var newKey = key.replace('param', '');
-                var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
-                params[newKey] = value;
-            }
+            var newKey = key.replace('param', '');
+            var newKey = newKey.substr(0, 1).toLowerCase() + newKey.substr(1);
+            params[newKey] = value;
+        }
     });
     return params;
 }

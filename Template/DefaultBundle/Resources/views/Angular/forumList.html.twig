@@ -24,12 +24,15 @@
             </div>
 
             <div class="btn-group pull-right" ng-if="!object.isLink">
-                <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+                <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" symbb-js-link="forum_topic_create" param-id="[[object.id]]" param-name="[[object.seo.name]]">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
                 <button ng-if="object.isForum" type="button" id="symbbShowTopicList_[[object.id]]" title="{{ 'Show Topics'|trans }}" class="btn btn-default btn-xs">
                     <span ng-if="!topicListStatus[object.id]" class="glyphicon glyphicon-chevron-down"></span>
                     <span ng-if="topicListStatus[object.id] == true" class="glyphicon glyphicon-chevron-up"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-xs" title="{% trans %}View Forum{% endtrans %}" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
+                    <span class="glyphicon glyphicon-search"></span>
                 </button>
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="forum_mark_as_read" param-id="[[object.id]]">
                     <span class="glyphicon glyphicon-ok"></span>
@@ -66,7 +69,7 @@
             <div class="clear"></div>
         </a>
     </div>
-    <div class="symbbForumSubrow" ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
+    <div class="symbbForumSubrow" ng-if="$parent.object.showSubForumList" ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
 
     </div>
 </script>

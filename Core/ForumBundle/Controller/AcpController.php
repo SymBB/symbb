@@ -50,6 +50,7 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
     {
         if ($parent) {
             $entity = $this->getFormEntity();
+            $entity->setType('forum');
             $repository = $this->getRepository();
             $parent = $repository->findOneById($parent);
             $entity->setParent($parent);

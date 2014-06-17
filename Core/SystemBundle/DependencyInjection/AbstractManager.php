@@ -9,6 +9,8 @@
 
 namespace SymBB\Core\SystemBundle\DependencyInjection;
 
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\ORM\Query;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;
 
@@ -98,5 +100,29 @@ abstract class AbstractManager
     public function checkAccess($extension, $access, $identity){
         $this->accessManager->addAccessCheck($extension, $access, $identity);
         return $this->accessManager->hasAccess();
+    }
+
+
+    public function createPagination($query, $page, $limit){
+
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addScalarResult('count', 'count');
+
+        $queryCount = $query->getSql();
+        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
+        $queryCount->setParameters($query->getParameters());
+        $count = $queryCount->getSingleScalarResult();
+        if(!$count){
+            $count = 0;
+        }
+
+        $query->setHint('knp_paginator.count', $count);
+
+        $pagination = $this->paginator->paginate(
+            $query, $page, $limit, array('distinct' => false)
+        );
+
+        return $pagination;
     }
 }

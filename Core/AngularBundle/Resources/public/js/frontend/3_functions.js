@@ -224,7 +224,14 @@ app.factory('ScrollPagination', function($http) {
       this.lastPage = data.paginationData.endPage;
 
       for (var i = 0; i < items.length; i++) {
-        this.items.push(items[i]);
+        if(items[i].flags){
+            items[i].tmp = [];
+            items[i].tmp.css = '';
+            $.each( items[i].flags, function( key, value ) {
+                items[i].tmp.css += value.type+' ';
+            });
+            this.items.push(items[i]);
+        }
         this.count++;
       }
 

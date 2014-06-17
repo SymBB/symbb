@@ -39,7 +39,7 @@ abstract class AbstractApiController extends AbstractController
         $this->breadcrumbItems = $breadbrumb;
     }
 
-    protected function getJsonResponse($params)
+    protected function getJsonResponse($params = array())
     {
         $user = $this->getUser();
         $authenticated = false;

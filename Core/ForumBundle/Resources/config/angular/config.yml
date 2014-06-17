@@ -91,7 +91,7 @@ forum_post_edit:
         route: symbb_forum_angular_template
         params: 
             file: 'post'
-        
+
 forum_ignore:
     api: 
         route: symbb_api_forum_ignore
@@ -115,6 +115,22 @@ post_mark_as_read:
 forum_topic_save:
     api: 
         route: symbb_api_topic_save
+
+forum_topic_close:
+    api:
+        route: symbb_api_topic_close
+
+forum_topic_delete:
+    api:
+        route: symbb_api_topic_delete
+
+forum_topic_move:
+    api:
+        route: symbb_api_topic_move
+    template:
+        route: symbb_forum_angular_template
+        params:
+            file: 'moveTopic'
         
 forum_post_upload_image:
     api: 
