@@ -105,6 +105,7 @@
     width: 100%;
     clear: both;
     margin-bottom: 15px;
+    box-shadow: 5px 5px 5px #CCC;
 }
 
 .symbb_post_block.success .infos .breadcrumb_mini{
@@ -126,7 +127,6 @@
 .symbb_post_block .userinfo {
     float: left;
     background-color: #FFFFFF;
-    box-shadow: 5px 5px 5px #CCC;
 }
 
 .symbb_post_block .userinfo label {
@@ -159,7 +159,6 @@
     width: calc(100% - 175px);
     min-height: 170px;
     left: 0px;
-    box-shadow: 5px 5px 5px #CCC;
     cursor: pointer;
     border-left: 1px solid #EEE;
 }
