@@ -9,6 +9,9 @@
 
 namespace SymBB\Core\SiteBundle\DependencyInjection;
 
+use SymBB\Core\SiteBundle\Entity\Navigation\Item;
+use SymBB\Core\SiteBundle\Entity\Site;
+
 class SiteManager
 {
 
@@ -48,8 +51,7 @@ class SiteManager
 
             $cleanHost = $this->removeUrlPattern($host);
 
-
-            $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findBy(array(), array('position' => 'ASC'));
+            $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findBy(array());
             foreach ($sites as $site) {
                 $domains = $site->getDomainArray();
                 foreach ($domains as $domain) {
@@ -101,5 +103,27 @@ class SiteManager
     {
         $host = \str_replace(array('www.', 'http://', 'https://'), '', $host);
         return $host;
+    }
+
+
+    /**
+     * @param Site $site
+     * @return Item[]
+     */
+    public function getNavigationItems(Site $site = null){
+
+        if(!$site){
+            $site = $this->getSite();
+        }
+
+        $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
+
+        $items = array();
+
+        if(is_object($navigation)){
+            $items = $navigation->getItems();
+        }
+
+        return $items;
     }
 }

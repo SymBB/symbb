@@ -17,7 +17,6 @@
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        {{ executeSymbbEvent('template.global.stylesheets') }}
         {{ executeSymbbEvent('template.acp.stylesheets') }}
     {% endblock %}
         
@@ -33,7 +32,6 @@
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        {{ executeSymbbEvent('template.global.javascripts') }}
         {{ executeSymbbEvent('template.acp.javascripts') }}
     {% endblock %}
     <script>
@@ -55,16 +53,16 @@
         <div class="symbb_container">
             
             <div class="clear"></div>
-            
-            <div class="symbb_sidebar">
-                {% block symbb_sidebar %}
 
-                {% endblock %}
-            </div>
+            {% block symbb_sidebar_container %}
+                <div class="symbb_sidebar">
+                    {% block symbb_sidebar %}
+
+                    {% endblock %}
+                </div>
+            {% endblock %}
             
             <div class="symbb_body">
-                
-                
 
                 <div class="symbb_actions">
 

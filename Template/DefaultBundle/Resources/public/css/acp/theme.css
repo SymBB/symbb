@@ -133,3 +133,7 @@ root, html, body {
 .clear {
     clear: both;
 }
+
+.jstree  .grey  {
+    opacity: 0.5;
+}

@@ -18,7 +18,7 @@ class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
 
     protected $formClass = '\SymBB\Core\SiteBundle\Form\Type\Site';
 
-    
+
 
     protected function getForm()
     {
@@ -26,19 +26,14 @@ class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
         $form = $this->createForm(new $this->formClass($this->get('event_dispatcher')), $entity);
         return $form;
     }
-    
-    
-    protected function addListParams($params, $parent = null)
-    {
-        if ($parent) {
-            $params['parent'] = $parent;
-        } else {
-            $params['parent'] = 0;
-        }
-        
-        $allEntries = $this->findListEntities(null);
-        $params['allEntries'] = $allEntries;
-        
-        return $params;
+
+    public function listAction($parent = null){
+
+        $repo = $this->get('doctrine')->getRepository('SymBBCoreSiteBundle:Site', 'symbb');
+        $sites = $repo->findAll();
+
+        return $this->render(
+            $this->getTemplateBundleName() . ':Acp/Site:list.html.twig', array('sites' => $sites)
+        );
     }
 }
