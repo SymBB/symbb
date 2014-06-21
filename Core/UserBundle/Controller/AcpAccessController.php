@@ -24,7 +24,7 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
     {
 
         $groups = $this->get('doctrine')->getRepository('SymBBCoreUserBundle:Group', 'symbb')->findAll();
-        $forumList = $this->get('symbb.core.forum.manager')->getSelectList();
+        $forumList = $this->get('symbb.core.forum.manager')->getSelectList(array(), false);
         $groupList = array();
         foreach ($groups as $group) {
             $groupList[$group->getId()] = $group->getName();
