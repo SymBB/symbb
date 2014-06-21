@@ -70,10 +70,3 @@
         <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
     </div>
 </div>
-
-<div class="symbb_action_row">
-    <div class="btn-group pull-left" ng-hide="topic.locked">
-        <button ng-show="forum.access.createTopic" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer">{{ 'new topic'|trans }}</button>
-    </div>
-    <div class="clear"></div>
-</div>
