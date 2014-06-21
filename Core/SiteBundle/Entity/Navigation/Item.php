@@ -28,13 +28,13 @@ class Item
 
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", inversedBy="items")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $navigation;
 
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", inversedBy="children")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $parentItem;
 
