@@ -65,7 +65,7 @@ class AcpNavigationItemController extends \SymBB\Core\AdminBundle\Controller\Bas
         foreach($data as $key => $value){
             if(strpos($key, 'symfonyRouteParam_') === 0){
                 $key = str_replace('symfonyRouteParam_', '', $key);
-                $params[] = $value;
+                $params[$key] = $value;
             }
         }
         $entity->setSymfonyRouteParams($params);
