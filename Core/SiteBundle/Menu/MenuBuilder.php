@@ -38,7 +38,7 @@ class MenuBuilder
     protected function addChildren($menu, $children, SiteManager $siteManager){
         foreach($children as $child){
             if($child->getType() == 'symfony'){
-                $childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute()));
+                $childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute(), 'routeParameters' => $child->getSymfonyRouteParams()));
             } else {
                 $uri = $child->getFixUrl();
                 $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
