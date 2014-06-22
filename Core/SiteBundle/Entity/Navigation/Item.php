@@ -247,7 +247,7 @@ class Item
         if(empty($params)){
             $params = array();
         } else {
-            $params = json_encode($params, true);
+            $params = json_decode($params, true);
         }
         if(!is_array($params)){
             $params = array();
