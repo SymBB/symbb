@@ -245,10 +245,15 @@ class Item
     {
         $params = $this->symfonyRouteParams;
         if(empty($params)){
-            return array();
+            $params = array();
         } else {
-            return json_encode($params, true);
+            $params = json_encode($params, true);
         }
+        if(!is_array($params)){
+            $params = array();
+        }
+
+        return $params;
     }
 
 }
