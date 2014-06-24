@@ -56,6 +56,13 @@
             {{ executeSymbbTemplatePostEvent('before.text') }}
             <div class="text full" ng-bind-html-unsafe="object.text"></div>
             {{ executeSymbbTemplatePostEvent('after.text') }}
+
+            <div class="history" ng-if="object.history[0]">
+                <div ng-repeat="historyEntry in object.history" class="historyEntry">
+                    {% trans with {'%date%': "[[ historyEntry.date | date:'dd.MM.yyyy']]", '%time%': "[[ historyEntry.date | date:'HH.mm']]", '%user%': "[[historyEntry.editor.username]]"} %}edit by %user% on %date% at %time%{% endtrans %}
+                </div>
+            </div>
+
             {{ executeSymbbTemplatePostEvent('before.signature') }}
             <div ng-if="object.signature" ng-bind-html="object.signature" class="signature"></div>
             {{ executeSymbbTemplatePostEvent('after.signature') }}

@@ -211,6 +211,20 @@
     padding: 10px;
 }
 
+
+
+.symbb_post_block .infos .history {
+    padding: 10px;
+    color: #666;
+    max-height: 25px;
+    overflow: hidden;
+    border-top: 1px dotted #CCC;
+}
+
+.symbb_post_block .infos .history:hover {
+    max-height: none;
+}
+
 .symbb_post_block .infos .signature {
     border-top: 1px solid #999999;
     bottom: 10px;

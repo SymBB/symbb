@@ -12,6 +12,7 @@ namespace SymBB\Core\ForumBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SymBB\Core\ForumBundle\Entity\Forum;
+use SymBB\Core\ForumBundle\Entity\Post\History;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
@@ -172,6 +173,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
 
             $em = $this->getDoctrine()->getManager('symbb');
+
+            $editReason = (string)$request->get('editReason');
+
+            if($post->getId() > 0){
+                $historyEntry = new History();
+                $historyEntry->setPost($post);
+                $historyEntry->setChanged(new \DateTime());
+                $historyEntry->setOldText($post->getText());
+                $historyEntry->setReason($editReason);
+                $historyEntry->setEditor($this->getUser());
+                $em->persist($historyEntry);
+            }
 
             $post->setName($request->get('name'));
             $post->setText($request->get('rawText'));
@@ -901,6 +914,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['changed'] = 0;
         $array['created'] = 0;
         $array['files'] = array();
+        $array['editReason'] = '';
         $array['seo']['name'] = '';
         $array['topic']['id'] = 0;
         $array['topic']['name'] = '';
@@ -914,6 +928,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['access']['delete'] = false;
             $array['notifyMe'] = false;
             $array['flags'] = array();
+            $array['history'] = array();
         }
 
         if (is_object($post)) {
@@ -957,6 +972,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                         'delete' => $deleteAccess,
                         'create' => $createAccess
                     );
+
+                    foreach($post->getHistories() as $history){
+                        $array['history'][] = array(
+                            'reason' => $history->getReason(),
+                            'editor' => $this->getAuthorAsArray($history->getEditor()),
+                            'date' => $this->getISO8601ForUser($history->getChanged())
+                        );
+                    }
                 }
             }
         } else {
