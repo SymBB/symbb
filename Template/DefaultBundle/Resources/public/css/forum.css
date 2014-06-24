@@ -298,3 +298,7 @@
 .breadcrumb_mini li button .glyphicon {
    padding-top: 2px;
 }
+
+.topic-more-options ul li:hover {
+    background-color: #CCC;
+}

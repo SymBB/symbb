@@ -73,6 +73,7 @@ var symbbAngularUtils = {
             
     createBreadcrumnb: function(items){
 
+        $(symbbAngularUtils.breadcrumbElement).html("");
         $(symbbAngularUtils.breadcrumbElement).prepend($('<li><div class="avatar avatar_mini"><img src="'+symbbUser.avatar+'" /></div></li>'));
         var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
         var count = 0;
