@@ -9,6 +9,8 @@
 
 namespace SymBB\Core\SiteBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class AcpNavigationController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
 
@@ -21,6 +23,18 @@ class AcpNavigationController extends \SymBB\Core\AdminBundle\Controller\Base\Cr
     protected $templateDirectory = 'Site/Navigation';
 
     protected $parentField = 'site';
+
+    public function newAction(Request $request, $parent = 0)
+    {
+        $site = $request->get('site');
+        $em = $this->getEntityManager();
+        $site = $em->getRepository('SymBBCoreSiteBundle:Site')->find($site);
+
+        $entity = $this->getFormEntity($request);
+        $entity->setSite($site);
+
+        return $this->editAction($request, $parent);
+    }
 
     public function listAction($site = null)
     {

@@ -160,7 +160,6 @@
     width: calc(100% - 175px);
     min-height: 170px;
     left: 0px;
-    cursor: pointer;
     border-left: 1px solid #EEE;
 }
 

@@ -12,17 +12,24 @@ namespace SymBB\Core\SiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="site_navigations")
+ * @ORM\Table(name="site_navigations", uniqueConstraints={@ORM\UniqueConstraint(name="main_identifier", columns={"nav_key", "site_id"})})
  * @ORM\Entity()
  */
 class Navigation
 {
 
+
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="integer", unique=true)
      * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id = 'main';
+    protected $id;
+
+    /**
+     * @ORM\Column(name="nav_key", type="string")
+     */
+    protected $navKey = 'main';
 
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Site", inversedBy="navigations")
@@ -112,5 +119,23 @@ class Navigation
     {
         return $this->title;
     }
+
+    /**
+     * @param mixed $naviKey
+     */
+    public function setNavKey($naviKey)
+    {
+        $this->navKey = $naviKey;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNavKey()
+    {
+        return $this->navKey;
+    }
+
+
 
 }

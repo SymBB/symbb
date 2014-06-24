@@ -11,11 +11,12 @@ namespace SymBB\Core\UserBundle\Controller;
 
 use \SymBB\Core\UserBundle\Form\Type\Option;
 use \SymBB\Core\UserBundle\Form\Type\SecurityOption;
+use Symfony\Component\HttpFoundation\Request;
 
 class OptionController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 
         $user = $this->getUser();
@@ -34,7 +35,7 @@ class OptionController extends \SymBB\Core\SystemBundle\Controller\AbstractContr
 
         $form = $this->createForm(new Option($this->getDoctrine()->getManager('symbb'), $user), $data);
 
-        $form->handleRequest($this->get('request'));
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
 
@@ -66,7 +67,7 @@ class OptionController extends \SymBB\Core\SystemBundle\Controller\AbstractContr
 
         $user = $this->getUser();
         $form = $this->createForm(new SecurityOption($this->get('symbb.core.user.manager')), $user);
-        $form->handleRequest($this->get('request'));
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $password = $form->get('password')->getData();

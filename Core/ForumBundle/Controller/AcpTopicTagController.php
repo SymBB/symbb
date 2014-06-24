@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use SymBB\Core\InstallBundle\DataFixtures\ORM\LoadTopicTags;
+use Symfony\Component\HttpFoundation\Request;
 
 class AcpTopicTagController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
@@ -23,9 +24,9 @@ class AcpTopicTagController extends \SymBB\Core\AdminBundle\Controller\Base\Crud
 
     protected $formClass = '\SymBB\Core\ForumBundle\Form\Type\TopicTag';
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('translator'), $this->get('doctrine.orm.symbb_entity_manager')), $entity);
         return $form;
     }
