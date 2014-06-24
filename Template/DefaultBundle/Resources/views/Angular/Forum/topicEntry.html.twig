@@ -31,6 +31,9 @@
                     <div class="pull-left padding10" ng-if="object.latestPost.id != object.mainPost.id">
                         [[object.author.username]]: {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                     </div>
+                    <div class="pull-left" ng-if="object.latestPost.id == object.mainPost.id">
+                        <div class="alert alert-info">{{ 'There are as yet no answers.'|trans  }}</div>
+                    </div>
                 </div>
                 <div class="read_more">
                     <div class="btn-group">

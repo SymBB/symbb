@@ -205,6 +205,10 @@
     overflow: hidden;
 }
 
+.symbb_post_block .infos .text .alert {
+    padding: 5px;
+}
+
 .symbb_post_block .infos .text.full {
     max-height: none;
     min-height: 0;
