@@ -76,7 +76,7 @@
 
 <symbb-breadcrumb >
     <li class="pull-right" ng-if="forum.access.createTopic && forum.isForum">
-        <button title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" param-name="[[forum.seo.name]]">
+        <button title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-forum="[[forum.id]]" param-name="[[forum.seo.name]]">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </li>
