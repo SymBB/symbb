@@ -9,6 +9,8 @@
 
 namespace SymBB\Core\SiteBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
 
@@ -20,9 +22,9 @@ class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
 
 
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('event_dispatcher')), $entity);
         return $form;
     }

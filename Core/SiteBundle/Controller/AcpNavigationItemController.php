@@ -24,10 +24,10 @@ class AcpNavigationItemController extends \SymBB\Core\AdminBundle\Controller\Bas
     protected $templateDirectory = 'Site/Navigation/Item';
 
 
-    public function newItemAction($navigation, $parent = 0)
+    public function newItemAction($navigation, $parent = 0, Request $request)
     {
 
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
 
         if($navigation){
             $repo = $this->get('doctrine')->getRepository($this->entityBundle . ':Navigation', $this->entityManagerName);
@@ -42,7 +42,7 @@ class AcpNavigationItemController extends \SymBB\Core\AdminBundle\Controller\Bas
             $entity->setParentItem($parent);
         }
 
-        return parent::newAction();
+        return parent::newAction($request, $parent);
     }
 
     protected function findListEntities($parent = null)
@@ -51,9 +51,9 @@ class AcpNavigationItemController extends \SymBB\Core\AdminBundle\Controller\Bas
         return $entityList;
     }
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('router')), $entity);
         return $form;
     }

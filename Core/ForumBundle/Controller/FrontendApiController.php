@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post\History;
+use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
@@ -34,11 +35,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/search", name="symbb_api_post_search")
      * @Method({"GET"})
      */
-    public function searchPostsAction()
+    public function searchPostsAction(Request $request)
     {
 
         $params['entries'] = array();
-        $posts = $this->get('symbb.core.post.manager')->search($this->get('request'));
+        $posts = $this->get('symbb.core.post.manager')->search($request);
         $breadcrumb = $this->get('symbb.core.forum.manager')->getBreadcrumbData();
         $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($posts);
@@ -53,14 +54,14 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/upload/image", name="symbb_api_post_upload_image")
      * @Method({"POST"})
      */
-    public function postUploadImageAction()
+    public function postUploadImageAction(Request $request)
     {
 
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $params = array();
 
-        $files = $this->get('request')->files;
+        $files = $request->files;
 
         if (\is_object($files)) {
             $uploadManager = $this->get('symbb.core.upload.manager');
@@ -68,7 +69,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             if ($id > 0) {
                 $uploadSet = 'post';
             }
-            $params['files'] = $uploadManager->handleUpload($this->get('request'), $uploadSet);
+            $params['files'] = $uploadManager->handleUpload($request, $uploadSet);
         } else {
 
             $this->addErrorMessage(self::ERROR_NOT_FOUND_FILE);
@@ -81,10 +82,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/delete", name="symbb_api_post_delete")
      * @Method({"DELETE"})
      */
-    public function postDeleteAction($id = 0)
+    public function postDeleteAction($id = 0, Request $request)
     {
         if(!$id){
-            $id = (int) $this->get('request')->get('id');
+            $id = (int) $request->get('id');
         }
         $params = array();
 
@@ -140,9 +141,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/save", name="symbb_api_post_save")
      * @Method({"POST"})
      */
-    public function postSaveAction()
+    public function postSaveAction(Request $request)
     {
-        $request = $this->get('request');
         $id = (int) $request->get('id');
         $topicData = $request->get('topic');
         $params = array();
@@ -194,7 +194,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $this->handlePostImages($post, (array) $request->get('files'), $em);
 
-            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $this->get('request')->get('extension'));
+            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
             $this->handleEvent('symbb.api.post.before.save', $event);
 
             if (!$this->hasError()) {
@@ -204,7 +204,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $em->flush();
             }
 
-            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $this->get('request')->get('extension'));
+            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
             $this->handleEvent('symbb.api.post.after.save', $event);
 
             $params['id'] = $post->getId();
@@ -224,11 +224,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/data", name="symbb_api_post_data")
      * @Method({"GET"})
      */
-    public function postDataAction()
+    public function postDataAction(Request $request)
     {
-        $id = (int) $this->get('request')->get('id');
-        $topicId = (int) $this->get('request')->get('topic');
-        $quoteId = (int) $this->get('request')->get('quoteId');
+        $id = (int) $request->get('id');
+        $topicId = (int) $request->get('topic');
+        $quoteId = (int) $request->get('quoteId');
         $params = array();
 
         $post = new \SymBB\Core\ForumBundle\Entity\Post();
@@ -270,9 +270,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/delete", name="symbb_api_topic_delete")
      * @Method({"DELETE"})
      */
-    public function topicDeleteAction()
+    public function topicDeleteAction(Request $request)
     {
-        $request = $this->get('request');
         $topicId = (int) $request->get('id');
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
         $mainPostId = 0;
@@ -286,9 +285,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/move", name="symbb_api_topic_move")
      * @Method({"POST"})
      */
-    public function topicMoveAction()
+    public function topicMoveAction(Request $request)
     {
-        $request = $this->get('request');
         $topicId = (int) $request->get('id');
         $forumId = (int) $request->get('forum');
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
@@ -320,9 +318,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/close", name="symbb_api_topic_close")
      * @Method({"POST"})
      */
-    public function topicCloseAction()
+    public function topicCloseAction(Request $request)
     {
-        $request = $this->get('request');
         $topicId = (int) $request->get('id');
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
         if(is_object($topic) && $topic->getId() > 0){
@@ -348,10 +345,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/save", name="symbb_api_topic_save")
      * @Method({"POST"})
      */
-    public function topicSaveAction()
+    public function topicSaveAction(Request $request)
     {
 
-        $request = $this->get('request');
         $topicId = (int) $request->get('id');
         $forumData = (array) $request->get('forum');
 
@@ -403,7 +399,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                         $this->handlePostImages($mainPost, $mainPostData['files'], $em);
 
-                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
+                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
                         $this->handleEvent('symbb.api.topic.before.save', $event);
 
                         if (!$this->hasError()) {
@@ -426,7 +422,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             $params['id'] = $topic->getId();
                         }
 
-                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $this->get('request')->get('extension'));
+                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
                         $this->handleEvent('symbb.api.topic.after.save', $event);
                     } else {
                         $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
@@ -448,11 +444,11 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/forum/topic/list", name="symbb_api_forum_topic_list")
      * @Method({"GET"})
      */
-    public function forumTopicListAction()
+    public function forumTopicListAction(Request $request)
     {
         $list = array();
-        $forumId = (int) $this->get('request')->get('forum');
-        $page = $this->get('request')->get('page');
+        $forumId = (int) $request->get('forum');
+        $page = $request->get('page');
         if($forumId > 0){
             $forum = $this->get('symbb.core.forum.manager')->find($forumId);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $forum);
@@ -475,10 +471,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/data", name="symbb_api_topic_data")
      * @Method({"GET"})
      */
-    public function topicDataAction()
+    public function topicDataAction(Request $request)
     {
-        $id = (int) $this->get('request')->get('id');
-        $forumId = (int) $this->get('request')->get('forum');
+        $id = (int) $request->get('id');
+        $forumId = (int) $request->get('forum');
         $params = array();
 
         $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
@@ -505,7 +501,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $page = $this->get('request')->get('page');
+            $page = $request->get('page');
             $params['topic'] = $this->getTopicAsArray($topic, $page, null, true);
 
             $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
@@ -526,10 +522,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/forum/ignore", name="symbb_api_forum_ignore")
      * @Method({"POST"})
      */
-    public function forumIgnore()
+    public function forumIgnore(Request $request)
     {
 
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -545,10 +541,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/forum/unignore", name="symbb_api_forum_unignore")
      * @Method({"POST"})
      */
-    public function forumUnignore()
+    public function forumUnignore(Request $request)
     {
 
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -565,9 +561,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/forum/markAsRead", name="symbb_api_forum_mark_as_read")
      * @Method({"POST"})
      */
-    public function forumMarkAsRead()
+    public function forumMarkAsRead(Request $request)
     {
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -583,9 +579,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/topic/markAsRead", name="symbb_api_topic_mark_as_read")
      * @Method({"POST"})
      */
-    public function topicMarkAsRead()
+    public function topicMarkAsRead(Request $request)
     {
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
             ->find($id);
@@ -601,9 +597,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/markAsRead", name="symbb_api_post_mark_as_read")
      * @Method({"POST"})
      */
-    public function postMarkAsRead()
+    public function postMarkAsRead(Request $request)
     {
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
 
         $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')
             ->find($id);
@@ -619,10 +615,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      * @Route("/api/forum/data", name="symbb_api_forum_data")
      * @Method({"GET"})
      */
-    public function forumDataAction()
+    public function forumDataAction(Request $request)
     {
 
-        $id = (int) $this->get('request')->get('id');
+        $id = (int) $request->get('id');
         if ((int) $id === 0) {
             $id = null;
         }
@@ -821,6 +817,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
             foreach ($forum->getChildren() as $child) {
                 $viewAccess = $this->get('security.context')->isGranted('VIEW', $child);
+
                 if($viewAccess){
                     $array['children'][] = $this->getForumAsArray($child, false);
                 }

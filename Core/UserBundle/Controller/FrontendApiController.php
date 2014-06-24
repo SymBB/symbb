@@ -8,13 +8,14 @@
  */
 
 namespace SymBB\Core\UserBundle\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
 
-    public function userlistAction()
+    public function userlistAction(Request $request)
     {
-        $page = $this->get('request')->get('page');
+        $page = $request->get('page');
         if (!$page || $page < 1) {
             $page = 1;
         }
@@ -88,10 +89,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         return $this->getJsonResponse($params);
     }
 
-    public function ucpSaveAction()
+    public function ucpSaveAction(Request $request)
     {
         $user = $this->getUser();
-        $request = $this->get('request');
         $userData = $request->get('data');
         $fields = $request->get('fields');
         $avatar = $userData['avatar'];

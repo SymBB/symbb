@@ -9,6 +9,8 @@
 
 namespace SymBB\Core\ForumBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
 
@@ -18,9 +20,9 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
 
     protected $formClass = '\SymBB\Core\ForumBundle\Form\Type\Forum';
 
-    public function newCategoryAction($parent = 0)
+    public function newCategoryAction(Request $request, $parent = 0)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $entity->setType('category');
 
         if ($parent) {
@@ -29,12 +31,12 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
             $entity->setParent($parent);
         }
 
-        return $this->editAction();
+        return $this->editAction($request, $parent);
     }
 
-    public function newLinkAction($parent = 0)
+    public function newLinkAction(Request $request, $parent = 0)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $entity->setType('link');
 
         if ($parent) {
@@ -43,25 +45,26 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
             $entity->setParent($parent);
         }
 
-        return $this->editAction($parent);
+        return $this->editAction($request, $parent);
     }
 
-    public function newAction($parent = 0)
+    public function newAction(Request $request, $parent = 0)
     {
+        $entity = $this->getFormEntity($request);
+        $entity->setType('forum');
+
         if ($parent) {
-            $entity = $this->getFormEntity();
-            $entity->setType('forum');
             $repository = $this->getRepository();
             $parent = $repository->findOneById($parent);
             $entity->setParent($parent);
         }
 
-        return parent::newAction();
+        return parent::newAction($request, $parent);
     }
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('translator'), $this->getRepository()), $entity);
         return $form;
     }

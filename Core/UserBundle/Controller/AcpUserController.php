@@ -8,6 +8,7 @@
  */
 
 namespace SymBB\Core\UserBundle\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class AcpUserController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
@@ -18,9 +19,9 @@ class AcpUserController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
 
     protected $formClass = '\SymBB\Core\UserBundle\Form\Type\User';
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('event_dispatcher'), $this->get('symbb.core.user.manager')), $entity);
         return $form;
     }

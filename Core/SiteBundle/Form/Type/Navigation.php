@@ -29,7 +29,7 @@ class Navigation extends AbstractType
     {
 
         $builder
-            ->add('id')
+            ->add('navKey')
             ->add('title')
             ->add('site');
 

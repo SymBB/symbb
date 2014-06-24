@@ -9,10 +9,12 @@
 
 namespace SymBB\Core\SystemBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
 
         $configData = $this->get('symbb.core.config.manager')->getConfigListGroupBySection();
@@ -49,7 +51,7 @@ class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
 
         $form = $form->getForm();
 
-        $form->handleRequest($this->get('request'));
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             foreach ($configData as $section => $configs) {
