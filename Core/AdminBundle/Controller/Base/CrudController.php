@@ -190,10 +190,13 @@ abstract class CrudController extends Controller
             $entityId = $request->get('id');
             $repository = $this->getRepository();
             $entity = null;
-            if (!empty($entityId)) {
+            $id = 0;
+
+            if (!empty($entityId) && $entityId !== null) {
                 $entity = $repository->findOneById($entityId);
+                $id = $entity->getId();
             }
-            $id = $entity->getId();
+
             if(!is_object($entity) || empty($id) ){
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
