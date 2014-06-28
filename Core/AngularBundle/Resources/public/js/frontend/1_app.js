@@ -1,6 +1,7 @@
 
 var app = angular.module('app', [
     'ngRoute',
+    'ngModel',
     'ngCookies',
     'ngAnimate',
     'ngSanitize',
