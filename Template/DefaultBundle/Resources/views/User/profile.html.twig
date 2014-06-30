@@ -2,8 +2,6 @@
 
 {% extends getSymbbTemplate('forum') ~ ':User:layoutPublic.html.twig' %}
 
-{% import getSymbbTemplate('forum') ~ ":Forum:forumMacros.html.twig" as symbBBForumMacro %}
-
 {% block symbb_breadcrumb %}
     {{ getSymbbBreadcrumb(user) }}
 {% endblock %}
@@ -39,16 +37,6 @@
             {% endfor %}
         </div>
     </div>
-    <div class="panel panel-primary">
-        <div class="panel-heading">{{"Last Posts"|trans()}}</div>
-        <div class="panel-body">
-            {% for object in getUserManager().getLastPosts(user) %}
-                {{ symbBBForumMacro.createPostCard(object, "col-lg-4 col-md-6 col-sm-12") }}
-            {% endfor %}
-        </div>
-    </div>
-
-    
 
     <div class="clear"></div>
 

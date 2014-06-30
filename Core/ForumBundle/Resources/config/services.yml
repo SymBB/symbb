@@ -104,4 +104,4 @@ services:
     symbb.core.forum.listener.template:
         class: SymBB\Core\ForumBundle\EventListener\TemplateListener
         tags:
-            - { name: kernel.event_listener, event: symbb.template.global.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts }

@@ -27,7 +27,7 @@
                 <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" symbb-js-link="forum_topic_create" param-forum="[[object.id]]" param-name="[[object.seo.name]]">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
-                <button ng-if="object.isForum" type="button" id="symbbShowTopicList_[[object.id]]" title="{{ 'Show Topics'|trans }}" class="btn btn-default btn-xs">
+                <button symbb-bot-hide ng-if="object.isForum" type="button" id="symbbShowTopicList_[[object.id]]" title="{{ 'Show Topics'|trans }}" class="btn btn-default btn-xs">
                     <span ng-if="!topicListStatus[object.id]" class="glyphicon glyphicon-chevron-down"></span>
                     <span ng-if="topicListStatus[object.id] == true" class="glyphicon glyphicon-chevron-up"></span>
                 </button>
