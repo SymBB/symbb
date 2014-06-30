@@ -29,7 +29,7 @@ class Group extends BaseGroup
     /**
      * @ORM\Column(type="string", length=10))
      */
-    protected $type = 'custom';
+    protected $type = 'user';
 
     public function setType($value)
     {

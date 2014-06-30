@@ -8,6 +8,7 @@
  */
 
 namespace SymBB\Core\BBCodeBundle\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {

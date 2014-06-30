@@ -33,22 +33,22 @@ class Site
     /**
      * @ORM\Column(type="text")
      */
-    protected $metaDataDescription;
+    protected $metaDataDescription = "";
 
     /**
      * @ORM\Column(type="text")
      */
-    protected $metaDataKeywords;
+    protected $metaDataKeywords = "";
 
     /**
      * @ORM\Column(type="text")
      */
-    protected $domains;
+    protected $domains = "";
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $mediaDomain;
+    protected $mediaDomain = "";
 
     /**
      * @ORM\Column(type="string")
@@ -71,9 +71,10 @@ class Site
     protected $templatePortal = 'DEFAULT';
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", mappedBy="site")
+     * @ORM\OrderBy()
      */
-    protected $position = 999;
+    protected $navigations;
     
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -186,5 +187,25 @@ class Site
             $domain = 'http://'.$domain;
         }
         return $domain;
+    }
+
+    public function __toString(){
+        return $this->getName();
+    }
+
+    /**
+     * @param mixed $navigations
+     */
+    public function setNavigations($navigations)
+    {
+        $this->navigations = $navigations;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNavigations()
+    {
+        return $this->navigations;
     }
 }

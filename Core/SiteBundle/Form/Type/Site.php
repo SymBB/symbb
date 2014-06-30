@@ -40,11 +40,11 @@ class Site extends AbstractType
         $templateChoices = $templateEvent->getChoices();
         $templateChoices = $templateChoices->toArray();
         $builder
-            ->add('name')
-            ->add('metaDataDescription')
-            ->add('metaDataKeywords')
-            ->add('domains', "textarea")
-            ->add('googleAnalyticsCode')
+            ->add('name', "text", array('required' => true))
+            ->add('metaDataDescription', "textarea", array('required' => true))
+            ->add('metaDataKeywords', "textarea", array('required' => true))
+            ->add('domains', "textarea", array('required' => true))
+            ->add('googleAnalyticsCode', "text", array('required' => false))
             ->add('templateAcp', "choice", array('choices' => $templateChoices))
             ->add('templateForum', "choice", array('choices' => $templateChoices))
             ->add('templatePortal', "choice", array('choices' => $templateChoices))

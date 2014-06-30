@@ -8,6 +8,7 @@
  */
 
 namespace SymBB\Core\UserBundle\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
@@ -19,9 +20,9 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
     protected $formClass = '\SymBB\Core\UserBundle\Form\Type\Group';
 
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('translator'), $this->getRepository()), $entity);
         return $form;
 
@@ -49,10 +50,9 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
      *
      * @return Object
      */
-    protected function getFormEntity()
+    protected function getFormEntity(Request $request)
     {
         if ($this->formEntity === null) {
-            $request = $this->getRequest();
             $entityId = (int) $request->get('id');
             $repository = $this->getRepository();
 
@@ -64,7 +64,6 @@ class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCon
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
                 $entity = new $entity_class_name('');
-                $entity->addRole('ROLE_GUEST');
                 $entity->addRole('ROLE_USER');
             }
 

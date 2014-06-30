@@ -93,4 +93,15 @@ class Builder extends ContainerAware
         return $menu;
 
     }
+
+
+
+    public function siteMenu(FactoryInterface $factory, array $options)
+    {
+        $menu = $factory->createItem('root');
+        $menu->addChild('Navigations', array('route' => '_symbbcoresitebundle_navigation_list'))->setExtra('translation_domain', 'symbb_acp_menu');
+        $menu->addChild('Navigation Items', array('route' => '_symbbcoresitebundle_navigation_item_list'))->setExtra('translation_domain', 'symbb_acp_menu');
+        return $menu;
+
+    }
 }

@@ -1,6 +1,6 @@
 {% trans_default_domain "symbb_frontend" %}
 
-<div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
+<div symbb-bot-hide infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
     <div ng-repeat="object in searchPagination.items">
         <div class="symbb_post_block small" ng-class="object.tmp.css">
             <div class="userinfo">
@@ -29,7 +29,10 @@
                         <img title="[[object.latestPost.author.username]]" ng-src="[[object.latestPost.author.avatar]]" />
                     </div>
                     <div class="pull-left padding10" ng-if="object.latestPost.id != object.mainPost.id">
-                        [[object.author.username]]: {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                        [[object.latestPost.author.username]]: {% trans with {'%date%': "[[ object.latestPost.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.latestPost.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                    </div>
+                    <div class="pull-left" ng-if="object.latestPost.id == object.mainPost.id">
+                        <div class="alert alert-info">{{ 'There are as yet no answers.'|trans  }}</div>
                     </div>
                 </div>
                 <div class="read_more">
@@ -43,19 +46,14 @@
                         <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="topic_mark_as_read" param-id="[[object.id]]">
                             <span class="glyphicon glyphicon-ok"></span>
                         </button>
-                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs dropdown pull-right" title="{% trans %}More{% endtrans %}">
-                            <span class="glyphicon glyphicon-cog"  data-toggle="dropdown"></span>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li symbb-topic-move param-id="[[object.id]]">
-                                    <span class="glyphicon glyphicon-random"></span>
-                                </li>
-                                <li>
-                                    <a symbb-delete-request="forum_topic_delete" param-id="[[object.id]]" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}"><span class="glyphicon glyphicon-remove"></span></a>
-                                </li>
-                                <li>
-                                    <a symbb-request="forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}"><span class="glyphicon glyphicon-lock"></span></a>
-                                </li>
-                            </ul>
+                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-topic-move param-id="[[object.id]]">
+                            <span class="glyphicon glyphicon-random"></span>
+                        </button>
+                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-request="forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </button>
+                        <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-delete-request="forum_topic_delete" param-id="[[object.id]]" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}">
+                            <span class="glyphicon glyphicon-remove"></span>
                         </button>
                     </div>
                 </div>
@@ -69,11 +67,4 @@
     <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>
         <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
     </div>
-</div>
-
-<div class="symbb_action_row">
-    <div class="btn-group pull-left" ng-hide="topic.locked">
-        <button ng-show="forum.access.createTopic" symbb-js-link="forum_topic_create" param-id="[[forum.id]]" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer">{{ 'new topic'|trans }}</button>
-    </div>
-    <div class="clear"></div>
 </div>

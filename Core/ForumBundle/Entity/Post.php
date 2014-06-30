@@ -11,6 +11,7 @@ namespace SymBB\Core\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use SymBB\Core\ForumBundle\Entity\Post\History;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -67,6 +68,13 @@ class Post
      * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
      */
     private $files;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"})
+     * @ORM\OrderBy({"changed" = "DESC"})
+     */
+    private $histories;
 
 
 
@@ -197,4 +205,22 @@ class Post
     {
         return $this->getTopic();
     }
+
+    /**
+     * @param History[] $histories
+     */
+    public function setHistories($histories)
+    {
+        $this->histories = $histories;
+    }
+
+    /**
+     * @return History[]
+     */
+    public function getHistories()
+    {
+        return $this->histories;
+    }
+
+
 }

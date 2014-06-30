@@ -12,14 +12,15 @@ namespace SymBB\Core\UserBundle\Controller;
 
 use \SymBB\Core\UserBundle\Form\Type\Option;
 use \SymBB\Core\UserBundle\Form\Type\SecurityOption;
+use Symfony\Component\HttpFoundation\Request;
 
 class InfoController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function userlistAction()
+    public function userlistAction(Request $request)
     {
 
-        $users = $this->get('symbb.core.user.manager')->paginateAll($this->get('request'));
+        $users = $this->get('symbb.core.user.manager')->paginateAll($request);
 
         return $this->render(
             $this->getTemplateBundleName('forum') . ':User:userlist.html.twig', array('users' => $users)

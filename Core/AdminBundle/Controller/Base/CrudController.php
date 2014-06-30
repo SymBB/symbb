@@ -10,6 +10,8 @@
 namespace SymBB\Core\AdminBundle\Controller\Base;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class CrudController extends Controller
 {
@@ -22,15 +24,19 @@ abstract class CrudController extends Controller
 
     protected $entityName = '';
 
+    protected $templateDirectory = '';
+
     protected $formClass = '';
 
     protected $entityManagerName = 'symbb';
+
+    protected $parentField = 'parent';
 
     public function listAction($parent = null)
     {
         $entityList = $this->findListEntities($parent);
 
-        $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), 'parent' => $parent);
+        $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), $this->parentField => $parent);
         $params = $this->addListParams($params, $parent);
         return $this->render(
                 $this->getTemplateBundleName() . ':Acp/' . $this->getTemplateDirectory() . ':list.html.twig', $params
@@ -39,7 +45,10 @@ abstract class CrudController extends Controller
 
     protected function getTemplateDirectory()
     {
-        return $this->entityName;
+        if(!$this->templateDirectory){
+            $this->templateDirectory = $this->entityName;
+        }
+        return $this->templateDirectory;
     }
 
     public function getBreadcrum($parent = null)
@@ -57,7 +66,7 @@ abstract class CrudController extends Controller
                 $uri = $this->get('router')->generate($path . '_list');
                 $breadcrum[] = '<li><a href="' . $uri . '">' . $this->get('translator')->trans('Übersicht', array(), 'symbb_backend') . '</a></li>';
                 foreach ($names as $id => $name) {
-                    $uri = $this->get('router')->generate($path . '_list_child', array('parent' => $id));
+                    $uri = $this->get('router')->generate($path . '_list_child', array($this->parentField => $id));
                     $breadcrum[] = '<li><a href="' . $uri . '">' . $name . '</a></li>';
                 }
                 $breadcrum = implode('', $breadcrum);
@@ -66,9 +75,8 @@ abstract class CrudController extends Controller
         return '<ol class="breadcrumb">' . $breadcrum . '</ol>';
     }
 
-    public function sortAction()
+    public function sortAction(Request $request)
     {
-        $request = $this->getRequest();
         $return = array('success' => 0);
         if ($request->isMethod('POST')) {
             $repository = $this->getRepository();
@@ -93,38 +101,38 @@ abstract class CrudController extends Controller
         return $response;
     }
 
-    public function newAction()
+    public function newAction(Request $request, $parent = 0)
     {
-        return $this->editAction();
+        return $this->editAction($request, $parent);
     }
 
-    public function editAction()
+    public function editAction(Request $request, $parent = 0)
     {
-        $request = $this->getRequest();
+        $form = $this->getForm($request);
+
         if ($request->isMethod('POST')) {
-            return $this->saveAction();
+            return $this->saveAction($request, $form);
         } else {
-            $form = $this->getForm();
-            $entity = $this->getFormEntity();
+            $form->handleRequest($request);
+            $entity = $this->getFormEntity($request);
             return $this->editCallback($form, $entity);
         }
     }
 
-    public function saveAction()
+    public function saveAction($request, $form)
     {
-        $request = $this->getRequest();
-        $form = $this->getForm();
 
         if ($request->isMethod('POST')) {
+            $entity = $this->getFormEntity($request);
             $form->handleRequest($request);
-            $entity = $this->getFormEntity();
             if ($form->isValid()) {
                 $em = $this->getEntityManager();
+                $this->beforeSaveFlush($request, $form, $entity);
                 $em->persist($entity);
                 $em->flush();
                 $parent = null;
-                if ($form->has('parent')) {
-                    $parent = $form->get('parent')->getData();
+                if ($form->has($this->parentField)) {
+                    $parent = $form->get($this->parentField)->getData();
                     if (\is_object($parent)) {
                         $parent = $parent->getId();
                     }
@@ -136,14 +144,19 @@ abstract class CrudController extends Controller
         }
     }
 
+    protected function beforeSaveFlush(Request $request, Form $form, $entity){
+
+    }
+
     public function removeAction($id)
     {
         $repository = $this->getRepository();
         $entity = $repository->findOneById($id);
         $parent = null;
         if (is_object($entity)) {
-            if (\method_exists($entity, "getParent")) {
-                $parent = $entity->getParent();
+            $method = "get".ucfirst($this->parentField);
+            if (\method_exists($entity, $method)) {
+                $parent = $entity->$method();
             }
             $errorMessage = '';
             if ($this->checkIsObjectRemoveable($entity, $parent, $errorMessage)) {
@@ -171,17 +184,20 @@ abstract class CrudController extends Controller
      *
      * @return Object
      */
-    protected function getFormEntity()
+    protected function getFormEntity(Request $request)
     {
         if ($this->formEntity === null) {
-            $request = $this->getRequest();
-            $entityId = (int) $request->get('id');
+            $entityId = $request->get('id');
             $repository = $this->getRepository();
+            $entity = null;
+            $id = 0;
 
-            if ($entityId > 0) {
-                // edit form
+            if (!empty($entityId) && $entityId !== null) {
                 $entity = $repository->findOneById($entityId);
-            } else {
+                $id = $entity->getId();
+            }
+
+            if(!is_object($entity) || empty($id) ){
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
                 $entity = new $entity_class_name();
@@ -193,9 +209,9 @@ abstract class CrudController extends Controller
         return $this->formEntity;
     }
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass, $entity);
         return $form;
     }
@@ -230,7 +246,7 @@ abstract class CrudController extends Controller
         if ($parent === null) {
             $entityList = $this->getRepository()->findAll();
         } else {
-            $entityList = $this->getRepository()->findBy(array('parent' => $parent));
+            $entityList = $this->getRepository()->findBy(array($this->parentField => $parent));
         }
         return $entityList;
     }
@@ -239,8 +255,9 @@ abstract class CrudController extends Controller
     {
         $parent = null;
 
-        if (\method_exists($entity, "getParent")) {
-            $parent = $entity->getParent();
+        $method = "get".ucfirst($this->parentField);
+        if (\method_exists($entity, $method)) {
+            $parent = $entity->$method();
         }
 
         $params = array(

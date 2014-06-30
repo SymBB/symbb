@@ -17,30 +17,75 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    position: relative;
 }
 
 .symbb_search_menu ul li {
     padding: 10px 10px 8px 10px;
     margin: 0px;
+    position: relative;
+}
+
+.symbb_search_menu > ul > li {
+    padding: 10px 10px 8px 10px;
+    margin: 0px;
     float: left;
     border-right: 1px solid #2B2B2B;
+    height: 34px;
+    overflow: hidden;
 }
+
+.symbb_search_menu > ul > li > ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 100%;
+    background-color: #6C6D6D;
+    border: 1px solid #666;
+    box-shadow: 5px 5px 5px #CCC;
+}
+
 .symbb_search_menu ul li:hover {
+    background-color: #006699;
+    height: auto;
+    overflow: visible;
+}
+
+.symbb_search_menu ul li:hover > ul {
+    display: block;
+}
+
+.symbb_search_menu ul li.current {
     background-color: #006699;
 }
 
-.symbb_search_menu ul li:last-child {
-    border-right: 0;
+.symbb_search_menu .search {
+    padding: 0;
+    padding-left: 5px;
+    background-color: rgba(255, 255, 255, 0.085);
+    border-radius: 0;
+    box-shadow: none;
+    height: 34px;
+    border-width: 0;
+    color: #FFF;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS",Arial,sans-serif;
+    margin: 0;
+    border-left: 1px solid #2B2B2B;
+    float: right;
 }
 
-.symbb_search_menu ul li:last-child {
-    padding-top: 5px
-}
-
-.symbb_search_menu ul li:last-child input {
-    width: 300px;
-    padding: 3px;
-    background-color: #FFF;
-    border: 1px solid #CCC;
-    color: #000000;
+.symbb_search_menu .search input {
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    height: 34px;
+    border-width: 0;
+    color: #FFF;
+    width: 240px;
+    box-sizing: border-box;
+    font-family: "Trebuchet MS",Arial,sans-serif;
+    margin: 0;
+    margin-left: 5px;
 }

@@ -49,13 +49,21 @@
                 {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                 {{ executeSymbbTemplatePostEvent('before.actions') }}
                 <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="[[topic.id]]" param-quote-id="[[object.id]]"></div>
-                <div ng-if="object.access.edit" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="[[object.id]]"></div>
+                <div ng-if="object.access.edit && object.id != topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="[[object.id]]"></div>
+                <div ng-if="object.access.edit && object.id == topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_topic_edit" param-forum="[[topic.forum.id]]" param-id="[[topic.id]]"></div>
                 <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" symbb-delete-request="forum_post_delete" param-id="[[object.id]]" message="{{'you really want to delete the entry?'|trans}}"></div>
                 {{ executeSymbbTemplatePostEvent('after.actions') }}
             </div>
             {{ executeSymbbTemplatePostEvent('before.text') }}
             <div class="text full" ng-bind-html-unsafe="object.text"></div>
             {{ executeSymbbTemplatePostEvent('after.text') }}
+
+            <div class="history" ng-if="object.history[0]">
+                <div ng-repeat="historyEntry in object.history" class="historyEntry">
+                    {% trans with {'%date%': "[[ historyEntry.date | date:'dd.MM.yyyy']]", '%time%': "[[ historyEntry.date | date:'HH.mm']]", '%user%': "[[historyEntry.editor.username]]"} %}edit by %user% on %date% at %time%{% endtrans %} ([[historyEntry.reason]])
+                </div>
+            </div>
+
             {{ executeSymbbTemplatePostEvent('before.signature') }}
             <div ng-if="object.signature" ng-bind-html="object.signature" class="signature"></div>
             {{ executeSymbbTemplatePostEvent('after.signature') }}

@@ -13,6 +13,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use SymBB\Core\InstallBundle\DataFixtures\ORM\LoadBBCode;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Symfony\Component\HttpFoundation\Request;
 
 class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
 {
@@ -23,9 +24,9 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
 
     protected $formClass = '\SymBB\Core\BBCodeBundle\Form\Type\BBCode';
 
-    protected function getForm()
+    protected function getForm(Request $request)
     {
-        $entity = $this->getFormEntity();
+        $entity = $this->getFormEntity($request);
         $form = $this->createForm(new $this->formClass($this->get('translator'), $this->get('doctrine.orm.symbb_entity_manager')), $entity);
         return $form;
     }

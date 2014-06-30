@@ -266,7 +266,7 @@ class ForumManager extends AbstractManager
      * @param array $types
      * @return array
      */
-    public function getSelectList($types = array())
+    public function getSelectList($types = array(), $checkAccess = true)
     {
 
         $types = (array)$types;
@@ -276,7 +276,7 @@ class ForumManager extends AbstractManager
         $by = array('parent' => null);
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
         foreach ($entries as $entity) {
-            if($this->securityContext->isGranted('VIEW', $entity)){
+            if(!$checkAccess || $this->securityContext->isGranted('VIEW', $entity)){
                 if(in_array($entity->getType(), $types) || empty($types)){
                     $list[$entity->getId()] = $entity;
                 }

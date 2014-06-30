@@ -46,7 +46,6 @@ class BundleLoader
             '\SymBB\ExtensionBundle\SymBBExtensionBundle',
             // SymBB Templates
             '\SymBB\Template\DefaultBundle\SymBBTemplateDefaultBundle',
-            '\SymBB\Template\SimpleBundle\SymBBTemplateSimpleBundle',
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',

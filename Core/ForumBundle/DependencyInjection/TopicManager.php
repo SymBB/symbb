@@ -70,7 +70,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('from', 'SymBBCoreForumBundle:Post p')
             ->add('where', 'p.topic = ?1')
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic);
+            ->setParameter(1, $topic->getId());
         $queryPage = $qbPage->getQuery();
         $count = $queryPage->getSingleScalarResult();
 
@@ -79,7 +79,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
             ->add('from', 'SymBBCoreForumBundle:Post p')
             ->add('where', 'p.topic = ?1')
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic);
+            ->setParameter(1, $topic->getId());
 
         $query = $qb->getQuery();
         $query->setHint('knp_paginator.count', $count);

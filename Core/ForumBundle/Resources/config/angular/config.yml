@@ -53,13 +53,23 @@ forum_topic_show:
             file: 'forumTopicShow'
         
 forum_topic_create:
-    pattern:  /f-{id}/topic/new/
-    controller: ForumTopicCreateCtrl
+    pattern:  /f-{forum}/topic/new/
+    controller: ForumTopicEditCtrl
     api: 
         route: symbb_api_topic_data
     template: 
         route: symbb_forum_angular_template
         params: 
+            file: 'topic'
+
+forum_topic_edit:
+    pattern:  /f-{forum}/topic/{id}/edit
+    controller: ForumTopicEditCtrl
+    api:
+        route: symbb_api_topic_data
+    template:
+        route: symbb_forum_angular_template
+        params:
             file: 'topic'
         
 forum_post_create:

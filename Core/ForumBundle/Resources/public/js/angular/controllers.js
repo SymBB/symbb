@@ -49,10 +49,11 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
         
         $anchorScroll();
     }
-]).controller('ForumTopicCreateCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
+]).controller('ForumTopicEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
     function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll) {
-        var forumId = $routeParams.id
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_create', {forum: forumId});
+        var forumId = $routeParams.forum
+        var topicId = $routeParams.id
+        var route = angularConfig.getSymfonyApiRoute('forum_topic_edit', {forum: forumId, id: topicId});
         $http.get(route).success(function(data) {
 
             $scope.topic = {};

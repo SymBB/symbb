@@ -11,20 +11,22 @@ namespace SymBB\Core\UserBundle\Controller;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function groupAction($step)
+    public function groupAction($step, Request $request)
     {
         $name = "groupStep" . (int) $step . 'Action';
-        return $this->$name($step);
+        return $this->$name($request);
     }
 
-    public function groupStep1Action()
+    public function groupStep1Action(Request $request)
     {
 
         $groups = $this->get('doctrine')->getRepository('SymBBCoreUserBundle:Group', 'symbb')->findAll();
-        $forumList = $this->get('symbb.core.forum.manager')->getSelectList();
+        $forumList = $this->get('symbb.core.forum.manager')->getSelectList(array(), false);
         $groupList = array();
         foreach ($groups as $group) {
             $groupList[$group->getId()] = $group->getName();
@@ -47,10 +49,10 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
             ->add('back', 'submit', array('attr' => array('class' => 'btn-danger')))
             ->getForm();
 
-        $form->handleRequest($this->get('request'));
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
-            return $this->groupStep2Action();
+            return $this->groupStep2Action($request);
         } else {
             return $this->render(
                 $this->getTemplateBundleName('acp') . ':Acp:Group\accessS1.html.twig', array('form' => $form->createView())
@@ -58,10 +60,9 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
         }
     }
 
-    protected function groupStep2Action()
+    protected function groupStep2Action(Request $request)
     {
 
-        $request = $this->get('request');
         $step1Data = $request->get('step1');
         $step2Data = $request->get('step2');
         $groupId = 0;
@@ -95,7 +96,7 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
                 ->add('forum', 'hidden', array('data' => implode(',', $forumIds)))
                 ->getForm();
 
-            $form->handleRequest($this->get('request'));
+            $form->handleRequest($request);
 
             if ($form->get('back')->isClicked()) {
                 return $this->redirect($this->generateUrl('_symbbcoreuserbundle_group_access', array('step' => 1)));
