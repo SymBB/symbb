@@ -1,9 +1,5 @@
 # SymBB Forum System
 
-## Get the lates progress!
-
-http://symbb.blogspot.de/
-
 ## Currently in development! / Derzeit in Entwicklung
 
 
@@ -42,10 +38,6 @@ So if you need to change configurations disable the Symbb/Core/ConfigBundle and 
 In Future you will see a Version of the System on www.symbb.de
 Currently you will one get an error because if havent updated it to the last Version.
 Until i release a Beta/RC Version the domain will be stay empty.
-
-But read my Blog!
-I have started it today and i try to write all ideas and progress that i will make from now on.
-http://symbb.blogspot.de/
 
 
 ## Notices for me
