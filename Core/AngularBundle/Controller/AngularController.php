@@ -15,10 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
-
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
+        $userAgent = $request->server->get("HTTP_USER_AGENT");
+
+        if (strpos($userAgent, 'Google') !== false) {
+            return $this->seoAction($request);
+        } else {
+            return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
+        }
+
     }
 
     public function seoAction(Request $request)
