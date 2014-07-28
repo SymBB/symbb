@@ -3,7 +3,7 @@ services:
         class: SymBB\Extension\RatingBundle\EventListener\TemplateListener
         tags:
             - { priority: -255, name: kernel.event_listener, event: symbb.post.template.before.actions, method: beforeActions }
-            - { name: kernel.event_listener, event: symbb.forum.template.stylesheets, method: topicStylesheets }
+            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: topicStylesheets }
    
     symbb.extensionrating.util:
         twig.extension.symbb.extensionrating.util:
