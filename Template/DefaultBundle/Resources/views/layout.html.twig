@@ -62,24 +62,26 @@
             </div>
 
             <div class="topnavi">
-                <div class="symbb_search_menu">
-                    {{ knp_menu_render('main') }}
-                    <ul>
-                        <li class="search">
-                            <span class="glyphicon glyphicon-search"></span>
-                            <input placeholder="{{ 'Search'|trans }}"/>
-                        </li>
+                {% block symbb_topnavi %}
+                    <div class="symbb_search_menu">
+                        {{ knp_menu_render('main') }}
+                        <ul>
+                            <li class="search">
+                                <span class="glyphicon glyphicon-search"></span>
+                                <input placeholder="{{ 'Search'|trans }}"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="language">
+                        {% if app.request.locale == 'de' %}
+                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                        {% else %}
+                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
+                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
+                        {% endif %}
                     </ul>
-                </div>
-                <ul class="language">
-                    {% if app.request.locale == 'de' %}
-                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
-                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
-                    {% else %}
-                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
-                        <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
-                    {% endif %}
-                </ul>
+                {% endblock %}
             </div>
 
             <div class="symbb_container">
