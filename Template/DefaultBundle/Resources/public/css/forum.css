@@ -33,6 +33,7 @@
 .symbbForumRow .infos {
     float: left;
     cursor: pointer;
+    width: 80%;
 }
 
 .symbbForumRow .infos .name {
