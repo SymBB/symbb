@@ -21,9 +21,22 @@
                 <div class="description">
                     [[object.description]]
                 </div>
+                <div class="pull-left small" symbb-js-link="forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">
+                    <div class="pull-left" ng-if="object.lastPosts.0.id"><i>
+                    {% trans with {'%title%': "[[ object.lastPosts.0.name ]]", '%user%': "[[ object.lastPosts.0.author.username]]"} %}last post: %title% by %user%{% endtrans %}
+                    {% trans with {'%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
+                    </i>
+                    </div>
+                </div>
+                <div class="clear"></div>
             </div>
-
             <div class="btn-group pull-right" ng-if="!object.isLink">
+                <button type="button" class="btn btn-default btn-xs">
+                    {{ 'Topics'|trans }}  <span class="badge">[[object.count.topic]]</span>
+                </button>
+                <button type="button" class="btn btn-default btn-xs">
+                    {{ 'Posts'|trans }}  <span class="badge">[[object.count.post]]</span>
+                </button>
                 <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" symbb-js-link="forum_topic_create" param-forum="[[object.id]]" param-name="[[object.seo.name]]">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>

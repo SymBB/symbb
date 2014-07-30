@@ -32,7 +32,7 @@
                         [[object.latestPost.author.username]]: {% trans with {'%date%': "[[ object.latestPost.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.latestPost.changed | date:'HH.mm']]"} %}on %date% at %time%{% endtrans %}
                     </div>
                     <div class="pull-left" ng-if="object.latestPost.id == object.mainPost.id">
-                        <div class="alert alert-info">{{ 'There are as yet no answers.'|trans  }}</div>
+                        <div class="alert alert-info alert-small">{{ 'There are as yet no answers.'|trans  }}</div>
                     </div>
                 </div>
                 <div class="read_more">

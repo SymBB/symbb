@@ -19,7 +19,9 @@
     margin-left: 25px;
 }
 
-
+.pointer {
+    cursor: pointer;
+}
 
 .symbbForumRow .forumimage {
     max-height: 64px;
@@ -27,7 +29,8 @@
     margin-right: 10px;
     cursor: pointer;
     color: #CCC;
-    font-size:15px;
+    font-size:20px;
+    line-height: 13px;
 }
 
 .symbbForumRow .infos {
@@ -63,7 +66,6 @@
 .symbbForumRow .symbbTopicList {
     margin-top: 5px;
     font-size: 90%;
-    padding: 5px;
     cursor: pointer;
 }
 
@@ -205,7 +207,7 @@
     overflow: hidden;
 }
 
-.symbb_post_block .infos .text .alert {
+.alert-small {
     padding: 5px;
 }
 
