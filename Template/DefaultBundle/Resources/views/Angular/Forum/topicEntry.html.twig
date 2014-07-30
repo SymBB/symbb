@@ -2,7 +2,7 @@
 
 <div symbb-bot-hide infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
     <div ng-repeat="object in searchPagination.items">
-        <div class="symbb_post_block small" ng-class="object.tmp.css">
+        <div class="symbb_forum_row small" ng-class="object.tmp.css">
             <div class="userinfo">
                 <div class="padding10">
                     <div class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">

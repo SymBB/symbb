@@ -2,17 +2,18 @@
      border-bottom: 0px solid #FFF;
  }
 
-.symbbForumRow {
+.symbb_forum_link {
     width: 100%;
     padding: 10px;
     background-color: #FFF;
     margin-bottom: 5px;
     border:1px solid #CCC;
     box-shadow: 5px 5px 5px #BBBBBB;
+    position: relative;
 }
 
-.symbbForumRow:hover {
-    background-color: #EEE;
+.symbb_forum_link .infos {
+    margin-left: 5px;
 }
 
 .symbbForumSubrow {
@@ -23,87 +24,10 @@
     cursor: pointer;
 }
 
-.symbbForumRow .forumimage {
-    max-height: 64px;
-    float: left;
-    margin-right: 10px;
-    cursor: pointer;
-    color: #CCC;
-    font-size:20px;
-    line-height: 13px;
-}
-
-.symbbForumRow .infos {
-    float: left;
-    cursor: pointer;
-    width: 80%;
-}
-
-.symbbForumRow .infos .name {
-    float: left;
-    font-weight: bold;
-}
-
-.symbbForumRow .infos .labels {
-    float: left;
-    margin-left: 10px;
-}
-
-.symbbForumRow .infos .labels > div {
-    float: left;
-}
-
-.symbbForumRow .infos .description {
-    font-size: 90%;
-}
-
-
-.symbbForumRow .alert {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.symbbForumRow .symbbTopicList {
-    margin-top: 5px;
-    font-size: 90%;
-    cursor: pointer;
-}
-
-.symbbForumRow .symbbTopicListLoading {
-    background-image: url('/bundles/symbbtemplatedefault/images/loading.gif');
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 100%;
-    height: 32px;
-}
-
-.symbbForumRow .symbbTopicList .avatar_mini {
-    margin-right: 5px;
-}
-
-.symbbForumRow .symbbTopicList .name  {
-    float: left;
-}
-
-.symbbForumRow .symbbTopicList .labels  {
-    float: left;
-}
-
-.symbbForumRow .symbbTopicList .description  {
-    float: right;
-}
-
-.symbbForumRow .symbbTopicList:hover {
-    background-color: #FFF;
-}
-
-
-
-
 
 /* search results */
 
-.symbb_post_block {
+.symbb_forum_row {
     position: relative;
     width: 100%;
     clear: both;
@@ -112,28 +36,29 @@
     background-color: #ffffff;
 }
 
-.symbb_post_block.success .infos .breadcrumb_mini{
+.symbb_forum_row.success .infos .breadcrumb_mini{
     background-color: #c4fcc4;
 }
 
-.symbb_post_block.warning .infos .breadcrumb_mini{
+.symbb_forum_row.warning .infos .breadcrumb_mini{
     background-color: #ffe2ba;
 }
 
-.symbb_post_block + .symbb_search_result_seperator {
+.symbb_forum_row + .symbb_search_result_seperator {
 
 }
 
-.symbb_post_block + .symbb_search_result_seperator ~ .symbb_search_result_seperator {
+.symbb_forum_row + .symbb_search_result_seperator ~ .symbb_search_result_seperator {
     display: none;
 }
 
-.symbb_post_block .userinfo {
+.symbb_forum_row .userinfo {
     float: left;
     background-color: #FFFFFF;
+    min-width: 86px;
 }
 
-.symbb_post_block .userinfo label {
+.symbb_forum_row .userinfo label {
     margin-top: 3px;
     margin-right: 5px;
     margin-bottom: 0;
@@ -141,33 +66,36 @@
     text-decoration: underline;
 }
 
-.symbb_post_block .userinfo label+div {
+.symbb_forum_row .userinfo label+div {
 }
 
-.symbb_post_block .avatar {
+.symbb_forum_row .avatar {
     width: 150px;
     height: 150px;
     cursor: pointer;
 }
 
-.symbb_post_block .avatar img {
+.symbb_forum_row .avatar img {
     max-width: 100%;
     max-height: 100%;
 }
 
-.symbb_post_block .infos {
+.symbb_forum_row .infos.big {
+    padding: 10px;
+}
+
+.symbb_forum_row .infos {
     position: relative;
     background-color: #FFFFFF;
     float: left;
     width: 800px;
     width: calc(100% - 175px);
-    min-height: 170px;
     left: 0px;
     border-left: 1px solid #EEE;
 }
 
 
-.symbb_post_block .infos .breadcrumb_mini {
+.symbb_forum_row .infos .breadcrumb_mini {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -176,7 +104,7 @@
     border-bottom: 1px solid #CCC;
 }
 
-.symbb_post_block .infos .date {
+.symbb_forum_row .infos .date {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -184,57 +112,50 @@
     padding: 5px;
 }
 
-.symbb_post_block .infos .date .glyphicon {
+.symbb_forum_row .infos .date .glyphicon {
     margin-left: 10px;
 }
 
-.symbb_post_block .infos .labels {
+.symbb_forum_row .infos .labels {
     float: left;
     margin-right: 10px;
     margin-top: 2px;
 }
 
-.symbb_post_block .infos .labels .label {
+.symbb_forum_row .infos .labels .label {
     float: left;
     margin-left: 5px;
 }
 
-.symbb_post_block .infos .text {
+.symbb_forum_row.small .infos .labels .label {
+    font-size: 100%;
+}
+
+.symbb_forum_row .infos .text {
     margin-top: 25px;
-    min-height: 135px;
-    max-height: 135px;
     clear: both;
-    overflow: hidden;
 }
 
 .alert-small {
     padding: 5px;
 }
 
-.symbb_post_block .infos .text.full {
-    max-height: none;
-    min-height: 0;
-    padding: 10px;
-}
-
-
-
-.symbb_post_block .infos .history {
+.symbb_forum_row .infos .history {
     color: #666;
     max-height: 25px;
     overflow: hidden;
     border-top: 1px dotted #CCC;
 }
 
-.symbb_post_block .infos .history > div {
+.symbb_forum_row .infos .history > div {
     padding: 10px;
 }
 
-.symbb_post_block .infos .history:hover {
+.symbb_forum_row .infos .history:hover {
     max-height: none;
 }
 
-.symbb_post_block .infos .signature {
+.symbb_forum_row .infos .signature {
     border-top: 1px solid #999999;
     bottom: 0px;
     padding: 10px;
@@ -242,37 +163,37 @@
     width: 100%;
 }
 
-.symbb_post_block .infos blockquote {
+.symbb_forum_row .infos blockquote {
     height: 100%;
     margin: 0px;
     min-height: 135px;
 }
 
-.symbb_post_block .read_more {
+.symbb_forum_row .read_more {
     position: absolute;
     bottom: 5px;
     right: 5px;
 }
 
+.symbb_forum_row .symbbTopicList {
+    padding: 5px;
+}
 
-.symbb_post_block.small .infos {
+.symbb_forum_row.small .infos {
     min-height: 85px;
-    max-height: 85px;
     height: 85px;
     width: calc(100% - 86px);
 }
 
-.symbb_post_block.small .infos .text {
-    min-height: 49px;
-    max-height: 49px;
-    height: 49px;
-}
-
-.symbb_post_block.small .infos blockquote {
+.symbb_forum_row.small .infos .text {
     min-height: 49px;
 }
 
-.symbb_post_block.small .avatar {
+.symbb_forum_row.small .infos blockquote {
+    min-height: 49px;
+}
+
+.symbb_forum_row.small .avatar {
     height: 64px;
     width: 64px;
 }
@@ -310,4 +231,15 @@
 
 .topic-more-options ul li:hover {
     background-color: #CCC;
+}
+
+.small .userinfo img {
+    width: 85px;
+    min-width: 85px;
+    max-width: 85px;
+}
+
+.small .userinfo .glyphicon {
+    padding: 22px;
+    font-size: 34px;
 }
