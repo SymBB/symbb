@@ -19,9 +19,8 @@
             <div class="date">
                 <div class="labels">
                     <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
-                    <div class="btn-group" ng-if="!object.isLink">
-                        {{ 'Topics'|trans }}  <span class="badge">[[object.count.topic]]</span>
-                        {{ 'Posts'|trans }}  <span class="badge">[[object.count.post]]</span>
+                    <div class="btn-group" ng-if="!object.isLink && object.count.post > 0">
+                        {% trans with {'%posts%': "[[ object.count.post ]]", '%topics%': "[[ object.count.topic ]]"} %}%posts% Posts in %topics% Topics{% endtrans %}
                     </div>
                 </div>
             </div>

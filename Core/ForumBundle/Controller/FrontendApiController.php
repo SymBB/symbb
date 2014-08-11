@@ -30,6 +30,30 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     const ERROR_ACCESS_CREATE_TOPIC = 'access denied (create topic)';
 
 
+    /**
+     * @Route("/api/test/intl", name="symbb_api_test_intl")
+     * @Method({"GET"})
+     */
+    public function testAction(Request $request)
+    {
+
+    }
+
+    //recursive function to list a resource bundle file structure using a ResourceBundle Object ( ) reference
+    protected function t($rb, $level = 1) {
+        if(is_object($rb) || is_array($rb)) {
+            foreach($rb as $k => $v) {
+                if(is_object($v) || is_array($v)) {
+                    var_dump("(".$level.") KEY: ".$k);
+                    $this->t($v, ($level+1));
+                } else {
+                    var_dump("(".$level.")". $k . ": " . $v);
+                }
+            }
+        } else {
+            var_dump("(".$level.")". $rb);
+        }
+    }
 
     /**
      * @Route("/api/post/search", name="symbb_api_post_search")
