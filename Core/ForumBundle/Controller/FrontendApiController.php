@@ -949,6 +949,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['access']['delete'] = false;
             $array['notifyMe'] = false;
             $array['flags'] = array();
+            $array['tags'] = array();
             $array['history'] = array();
         }
 

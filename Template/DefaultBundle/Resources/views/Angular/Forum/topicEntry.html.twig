@@ -1,6 +1,9 @@
 {% trans_default_domain "symbb_frontend" %}
 
 <div symbb-bot-hide infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
+    <div class="row symbb_forum_header_row" ng-if="searchPagination.items.length > 0">
+        <div class="col-md-12">{{ 'Topics'|trans }}</div>
+    </div>
     <div ng-repeat="object in searchPagination.items">
         <div class="symbb_forum_row small" ng-class="object.tmp.css">
             <div class="userinfo">

@@ -31,6 +31,8 @@ class AngularToTwigConverter
 
     protected $router;
 
+    public static $tempData = '';
+
     public function __construct($router){
         $this->router = $router;
     }
@@ -57,7 +59,11 @@ class AngularToTwigConverter
 
 
         $this->html = str_replace('$parent', '_context', $this->html);
+        $this->html = str_replace('$last', '0', $this->html); //loop.last not working with array?
+        $this->html = str_replace('$first', 'loop.first', $this->html);
+        $this->html = str_replace('$index', 'loop.index', $this->html);
         $this->html = str_replace('ng-href', 'href', $this->html);
+
 
         // replace angular syntax to twig syntax
         $this->html = preg_replace_callback('#\[\[(.*)\]\]#iU', function($matches){
@@ -153,7 +159,7 @@ class AngularToTwigConverter
 
         // change angular templates to macros
         $this->html = preg_replace_callback('#<twigmacro type="text/ng-template".*id="(.+)".*>(.*)</twigmacro>#iUs', function($matches){
-            $key = md5("'".$matches[1]."'");
+            $key = 'symbb_'.md5("'".$matches[1]."'");
             AngularToTwigConverter::$macroData[$key]['macro'] = ' {% macro '.$key.'() %} '.$matches[2].' {% endmacro %} ';
             return '';
         }, $this->html);
@@ -200,7 +206,7 @@ class AngularToTwigConverter
             $repeatData = trim($repeatData);
             $additionalParameters .= ', '.$repeatData;
         }
-        $key = md5($includeKey);
+        $key = 'symbb_'.md5($includeKey);
         $data = $node->ownerDocument->createTextNode("{{ _self.".$key."($additionalParameters) }}");
         AngularToTwigConverter::$macroData[$key]['parameters'] = $additionalParameters;
         $node->appendChild($data);
@@ -218,6 +224,28 @@ class AngularToTwigConverter
             }
 
         }
+
+        $temp = explode('.', $ifData);
+        $new = array();
+        $last = '';
+        $not = false;
+        foreach($temp as $tmp){
+            if(strpos($tmp, '!') === 0){
+                $not = true;
+            }
+            if(!empty($last)){
+                $last .= '.';
+            }
+            $last .= $tmp;
+            $new[] = $last;
+        }
+
+        if($not){
+            $ifData = implode(' is defined or ', $new);
+        } else {
+            $ifData = implode(' is defined and ', $new);
+        }
+
         $ifData = str_replace("!=", 'is not', $ifData);
         $ifData = str_replace("!", ' not ', $ifData);
         $ifData = str_replace("&&", 'and', $ifData);
@@ -256,6 +284,10 @@ class AngularToTwigConverter
                 $key = substr($attrName, 6);
                 $value = $attrNode->value;
                 $value = str_replace(array('{', '}'), '', $value);
+                $value = trim($value);
+                if($value == 'last'){
+                    $value = "'last'";
+                }
                 $params[$key] = trim($value);
             }
 
@@ -263,8 +295,23 @@ class AngularToTwigConverter
 
         $paramsJsonArray = array();
         foreach($params as $paramKey => $paramValue){
-            $paramsJsonArray[] = $paramKey.':'.$paramValue;
+            if(strpos($paramKey, '-')){
+                $paramKey2 = explode('-', $paramKey);
+                $paramKeyNew = '';
+                foreach($paramKey2 as $k => $key){
+                    if($k !== 0){
+                        $paramKeyNew .= ucfirst($key);
+                    } else {
+                        $paramKeyNew .= $key;
+                    }
+                }
+                unset($params[$paramKey]);
+                $params[$paramKeyNew] = $paramValue;
+                $paramKey = $paramKeyNew;
+            }
+            $paramsJsonArray[] = "'".$paramKey."':".$paramValue;
         }
+
         $paramsJson = '{'.implode(', ', $paramsJsonArray).'}';
 
         if($angularLink){
@@ -305,7 +352,44 @@ class AngularToTwigConverter
             }
 
         }
-        $loopstart = $node->ownerDocument->createTextNode("{% for ".$loopVariables." %}");
+
+        $loopVariables = explode('| filter', $loopVariables);
+        $filters = '';
+        if(count($loopVariables) > 1){
+            $filters =  end($loopVariables);
+        }
+        $loopVariables = reset($loopVariables);
+        $loopVariables = trim($loopVariables);
+
+        AngularToTwigConverter::$tempData = $loopVariables;
+
+        $newFilter = '';
+
+        if(!empty($filters)){
+            $newFilter = preg_replace_callback('#.*\{(.+)\}#iU', function($filters){
+
+                $temp = explode('in', AngularToTwigConverter::$tempData);
+                $objectName = reset($temp);
+                $objectName = trim($objectName);
+
+                $temp = array();
+                $filters = $filters[1];
+                $filters  = explode(',', $filters);
+                foreach($filters as $filter){
+                    $filter = trim($filter);
+                    $filter = explode(':', $filter);
+                    $temp[] = $objectName.'.'.$filter[0].' == '.$filter[1];
+                }
+                $tempString = implode(' && ', $temp);
+                return $tempString;
+            }, $filters);
+
+            if(!empty($newFilter)){
+                $newFilter = ' if '.$newFilter;
+            }
+        }
+
+        $loopstart = $node->ownerDocument->createTextNode("{% for ".$loopVariables.$newFilter." %}");
         $loopend = $node->ownerDocument->createTextNode("{% endfor %}");
         $nextNode = $node->nextSibling;
         $node->parentNode->insertBefore($loopstart, $node);
