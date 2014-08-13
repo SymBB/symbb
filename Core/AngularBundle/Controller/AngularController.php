@@ -68,7 +68,6 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
                         $converter->setHtml($html);
                         $converter->setParentTemplate('::layout.html.twig');
                         $twigHtml = $converter->convert();
-
                         $apiRoute = $routeCollection->get($angularRoute->getApiRoute());
                         if(is_object($apiRoute)){
                             $apiController = $apiRoute->getDefault('_controller');

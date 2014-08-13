@@ -72,7 +72,7 @@ class AngularToTwigConverter
 
         // replace angular date filter to twig date filter
         $this->html = preg_replace_callback('#date\:\'(.+)\'#iU', function($matches){
-            return 'date("'.$matches[1].'")';
+            return 'date("d.m.Y H:i:s")';
         }, $this->html);
 
         // change angular init to twig asign
@@ -89,60 +89,74 @@ class AngularToTwigConverter
 
 
         //**** CRAWLER *****//
-            $crawler = new Crawler( $this->html, 'dummyUrl');
+        $crawler = new Crawler( $this->html, 'dummyUrl');
 
-            // replace angular include
-            $crawlerRepeat = $crawler->filter('[symbb-bot-hide] ');
-            foreach($crawlerRepeat as $node){
-                /**
-                 * @var \DOMElement $node
-                 */
-                $node->parentNode->removeChild($node);
-            }
+        // replace angular include
+        $crawlerRepeat = $crawler->filter('[symbb-bot-hide] ');
+        foreach($crawlerRepeat as $node){
+            /**
+             * @var \DOMElement $node
+             */
+            $node->parentNode->removeChild($node);
+        }
 
-            // replace angular include
-            $crawlerRepeat = $crawler->filter('[ng-include] ');
-            foreach($crawlerRepeat as $repeatElement){
-                /**
-                 * @var \DOMElement $repeatElement
-                 */
-                AngularToTwigConverter::convertNgIncludeToTwig($repeatElement);
-            }
+        // replace angular include
+        $crawlerRepeat = $crawler->filter('[ng-include] ');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgIncludeToTwig($repeatElement);
+        }
 
-            // change angular repeat to twig loop
-            $crawlerRepeat = $crawler->filter('[ng-repeat] ');
-            foreach($crawlerRepeat as $repeatElement){
-                /**
-                 * @var \DOMElement $repeatElement
-                 */
-                AngularToTwigConverter::convertNgRepeatToTwig($repeatElement);
-            }
-            $this->html = $crawler->html();
+        // change angular repeat to twig loop
+        $crawlerRepeat = $crawler->filter('[ng-repeat] ');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgRepeatToTwig($repeatElement);
+        }
+        $this->html = $crawler->html();
 
-            // change angular if to twig if
-            $crawlerRepeat = $crawler->filter('[ng-if] ');
-            foreach($crawlerRepeat as $repeatElement){
-                /**
-                 * @var \DOMElement $repeatElement
-                 */
-                AngularToTwigConverter::convertNgIfToTwig($repeatElement);
-            }
+        // change angular if to twig if
+        $crawlerRepeat = $crawler->filter('[ng-if] ');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgIfToTwig($repeatElement);
+        }
+        $crawlerRepeat = $crawler->filter('[ng-show] ');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgIfToTwig($repeatElement);
+        }
 
 
-            $crawlerRepeat = $crawler->filter('[symbb-js-link]');
-            foreach($crawlerRepeat as $repeatElement){
-                /**
-                 * @var \DOMElement $repeatElement
-                 */
-                AngularToTwigConverter::convertSymbbLinkToTwig($repeatElement, $this->router);
-            }
-            $crawlerRepeat = $crawler->filter('[symbb-link]');
-            foreach($crawlerRepeat as $repeatElement){
-                /**
-                 * @var \DOMElement $repeatElement
-                 */
-                AngularToTwigConverter::convertSymbbLinkToTwig($repeatElement, $this->router);
-            }
+        $crawlerRepeat = $crawler->filter('[symbb-js-link]');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertSymbbLinkToTwig($repeatElement, $this->router);
+        }
+        $crawlerRepeat = $crawler->filter('[symbb-link]');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertSymbbLinkToTwig($repeatElement, $this->router);
+        }
+
+        // remove request because "items" can be a array -> twig error and additional we dont need this for search bots
+        $crawlerRepeat = $crawler->filter('[symbb-request]');
+        foreach($crawlerRepeat as $repeatElement){
+            $repeatElement->parentNode->removeChild($repeatElement);
+        }
+
         $crawlerRepeat = $crawler->filter('[symbb-sf-link]');
         foreach($crawlerRepeat as $repeatElement){
             /**
@@ -151,10 +165,24 @@ class AngularToTwigConverter
             AngularToTwigConverter::convertSymbbLinkToTwig($repeatElement, $this->router);
         }
 
+        $crawlerRepeat = $crawler->filter('[ng-bind-html-unsafe]');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgBindHtmlUnsave($repeatElement, $this->router);
+        }
 
+        $crawlerRepeat = $crawler->filter('[ng-bind-html]');
+        foreach($crawlerRepeat as $repeatElement){
+            /**
+             * @var \DOMElement $repeatElement
+             */
+            AngularToTwigConverter::convertNgBindHtml($repeatElement, $this->router);
+        }
 
-            //Crawler HTML
-            $this->html = $crawler->html();
+        //Crawler HTML
+        $this->html = $crawler->html();
         //**** CRAWLER END *****//
 
         // change angular templates to macros
@@ -221,30 +249,63 @@ class AngularToTwigConverter
             if($attrName == "ng-if"){
                 $ifData = $attrNode->value;
                 break;
+            } else if($attrName == "ng-show"){
+                $ifData = $attrNode->value;
+                break;
             }
 
         }
 
-        $temp = explode('.', $ifData);
-        $new = array();
-        $last = '';
-        $not = false;
+        $parts = array();
+        $temp = explode(' && ', $ifData);
         foreach($temp as $tmp){
-            if(strpos($tmp, '!') === 0){
-                $not = true;
+            $temp2 = explode(' || ', $tmp);
+            foreach($temp2 as $tmp2){
+               if(count($temp2) > 1){
+                   $parts[] = array('value' => $tmp2, 'condition' => 'or');
+               } else {
+                   $parts[] = array('value' => $tmp2, 'condition' => 'and');
+               }
             }
-            if(!empty($last)){
-                $last .= '.';
-            }
-            $last .= $tmp;
-            $new[] = $last;
         }
 
-        if($not){
-            $ifData = implode(' is defined or ', $new);
-        } else {
-            $ifData = implode(' is defined and ', $new);
+        $ifDataNew = '';
+        foreach($parts as $k => $part){
+            $conditionPos = strpos($part['value'], ' ');
+            $conditionPart = '';
+            if($conditionPos){
+                $conditionPart = substr($part['value'], $conditionPos);
+                $part['value'] = substr($part['value'], 0, $conditionPos);
+            }
+            $parts2 = explode('.', $part['value']);
+            $last = '';
+            $ifDataNew .= ' ( ';
+            $not = false;
+            foreach($parts2 as $key => $tmp){
+                if(strpos($tmp, '!') === 0){
+                    $not = true;
+                }
+                if($key > 0){
+                    $last .= '.';
+                }
+                $last .= $tmp;
+
+                $ifDataNew .= $last.' is defined ';
+
+                if($not){
+                    $ifDataNew .= ' or ';
+                } else {
+                    $ifDataNew .= ' and ';
+                }
+            }
+            $ifDataNew .= $part['value'].$conditionPart;
+            $ifDataNew .= ' ) ';
+            if($k < (count($parts) - 1)){
+                $ifDataNew .= $part['condition'];
+            }
         }
+
+        $ifData = $ifDataNew;
 
         $ifData = str_replace("!=", 'is not', $ifData);
         $ifData = str_replace("!", ' not ', $ifData);
@@ -395,5 +456,19 @@ class AngularToTwigConverter
         $node->parentNode->insertBefore($loopstart, $node);
         $node->parentNode->insertBefore($loopend, $nextNode);
         return $node;
+    }
+
+    protected static function convertNgBindHtmlUnsave(\DOMElement $node, $router){
+        $attr = $node->getAttribute('ng-bind-html-unsafe');
+        $attr = str_replace(array('[[', ']]', ' '), '', $attr);
+        $content = $node->ownerDocument->createTextNode(" {{ ".$attr." |raw }}  ");
+        $node->appendChild($content);
+    }
+
+    protected static function convertNgBindHtml(\DOMElement $node, $router){
+        $attr = $node->getAttribute('ng-bind-html');
+        $attr = str_replace(array('[[', ']]', ' '), '', $attr);
+        $content = $node->ownerDocument->createTextNode(" {{ ".$attr."  }}  ");
+        $node->appendChild($content);
     }
 }

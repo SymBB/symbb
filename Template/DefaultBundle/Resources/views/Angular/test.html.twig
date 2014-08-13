@@ -1,4 +1,5 @@
-{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %} {% block symbb_body %} <body>
+
+string(9717) "{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %} {% block symbb_body %} <body>
 <div ng-show="topic.locked" class="clear m-top-1">
     <div class="alert alert-warning">Das Thema ist geschlossen</div>
     <div class="clear"></div>
@@ -6,7 +7,7 @@
 
 <div class="symbb_action_row">
     <div class="btn-group pull-left" ng-hide="topic.locked">
-        <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="{{ topic.id }}" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer"><a href="{{ path('angular_locale_forum_post_create', {topic:topic.id}) }}">Antwort</a></button>
+        <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="{{ topic.id }}" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer"><a href="{{ path('angular_locale_forum_post_create', {'topic':topic.id}) }}">Antwort</a></button>
     </div>
     <div class="pull-right">
         <pagination route="forum_topic_show" param-id="{{ topic.id }}" param-name="{{ topic.seo.name }}"></pagination>
@@ -19,15 +20,15 @@
         <div class="userinfo">
             <div class="padding10">
 
-                <a href="{{ path('symbb_user_profile', {id:object.author.id, name:object.author.username}) }}">{{ object.author.username }}</a>
+                <a href="{{ path('symbb_user_profile', {'id':object.author.id, 'name':object.author.username}) }}">{{ object.author.username }}</a>
 
 
-                <a href="{{ path('symbb_user_profile', {id:object.author.id, name:object.author.username}) }}">
+                <a href="{{ path('symbb_user_profile', {'id':object.author.id, 'name':object.author.username}) }}">
                     <img ng-src="{{ object.author.avatar }}"></a>
 
                 <div class="clear"></div>
 
-                <label>BeitrÃ¤ge:</label>
+                <label>BeitrÃƒÂ¤ge:</label>
                 <div>{{ object.author.count.post }}</div>
                 <div class="clear"></div>
                 <label>Dabei seit:</label>
@@ -39,30 +40,30 @@
         <div class="infos big">
             <symbb-breadcrumb-mini objectname="object"></symbb-breadcrumb-mini><div class="date">
                 <div class="labels">
-                    {% for tag in object.tags %}{% if tag is defined and tag.status %}<span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">{{ tag.name }}</span>{% endif %}{% endfor %}
+                    {% for tag in object.tags %}{% if  ( tag is defined  and tag.status is defined  and tag.status )  %}<span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">{{ tag.name }}</span>{% endif %}{% endfor %}
                     {% for flag in object.flags %}<span ng-repeat="flag in object.flags" class="label label-{{ flag.type }}">{{ flag.title }}</span>{% endfor %}
                 </div>
-                am {{  object.created | date("dd.MM.yyyy") }} um {{  object.created | date("HH.mm") }}                {% if object is defined and object.access is defined and object.access.viewRating %}<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.dislike]">
-                    {% if object is defined and object.access is defined and object.access.createRating %}<span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-down" symbb-request="extension_rating_like" param-id="{{ object.id }}" param-like="dislike"></span>{% endif %}
-                    {% if  not object is defined or  not object.access is defined or  not object.access.createRating %}<span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-down"></span>{% endif %}
+                am {{  object.created | date("dd.MM.yyyy") }} um {{  object.created | date("HH.mm") }}                {% if  ( object is defined  and object.access is defined  and object.access.viewRating is defined  and object.access.viewRating )  %}<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.dislike]">
+                    {% if  ( object is defined  and object.access is defined  and object.access.createRating is defined  and object.access.createRating )  %}{% endif %}
+                    {% if  (  not object is defined  or  not object.access is defined  or  not object.access.createRating is defined  or  not object.access.createRating )  %}<span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-down"></span>{% endif %}
                     {{ object.extension.rating.count.dislike }}
                     </div>{% endif %}
-                {% if object is defined and object.access is defined and object.access.viewRating %}<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.like]">
-                    {% if object is defined and object.access is defined and object.access.createRating %}<span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-up" symbb-request="extension_rating_like" param-id="{{ object.id }}" param-like="like"></span>{% endif %}
-                    {% if  not object is defined or  not object.access is defined or  not object.access.createRating %}<span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-up"></span>{% endif %}
+                {% if  ( object is defined  and object.access is defined  and object.access.viewRating is defined  and object.access.viewRating )  %}<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.like]">
+                    {% if  ( object is defined  and object.access is defined  and object.access.createRating is defined  and object.access.createRating )  %}{% endif %}
+                    {% if  (  not object is defined  or  not object.access is defined  or  not object.access.createRating is defined  or  not object.access.createRating )  %}<span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-up"></span>{% endif %}
                     {{ object.extension.rating.count.like }}
                     </div>{% endif %}
-                {% if object is defined and object.access is defined and object.access.create %}<div ng-if="object.access.create" title="Zittieren" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="{{ topic.id }}" param-quote-id="{{ object.id }}"><a href="{{ path('angular_locale_forum_post_quote', {topic:topic.id, quote-id:object.id}) }}"></a></div>{% endif %}
-                {% if object is defined and object.access is defined and object.access.edit and object is defined and object.access.edit and object.id != topic is defined and object.access.edit and object.id != topic.mainPost is defined and object.access.edit and object.id != topic.mainPost.id %}<div ng-if="object.access.edit &amp;&amp; object.id != topic.mainPost.id" title="Editieren" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="{{ object.id }}"><a href="{{ path('angular_locale_forum_post_edit', {id:object.id}) }}"></a></div>{% endif %}
-                {% if object is defined and object.access is defined and object.access.edit and object is defined and object.access.edit and object.id == topic is defined and object.access.edit and object.id == topic.mainPost is defined and object.access.edit and object.id == topic.mainPost.id %}<div ng-if="object.access.edit &amp;&amp; object.id == topic.mainPost.id" title="Editieren" class="glyphicon glyphicon-pencil" symbb-js-link="forum_topic_edit" param-forum="{{ topic.forum.id }}" param-id="{{ topic.id }}"><a href="{{ path('angular_locale_forum_topic_edit', {forum:topic.forum.id, id:topic.id}) }}"></a></div>{% endif %}
-                {% if object is defined and object.access is defined and object.access.delete %}<div ng-if="object.access.delete" title="LÃ¶schen" class="glyphicon glyphicon-remove" symbb-delete-request="forum_post_delete" param-id="{{ object.id }}" message="mÃ¶chtest du den Eintrag wirklich lÃ¶schen?"></div>{% endif %}
+                {% if  ( object is defined  and object.access is defined  and object.access.create is defined  and object.access.create )  %}<div ng-if="object.access.create" title="Zittieren" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="{{ topic.id }}" param-quote-id="{{ object.id }}"><a href="{{ path('angular_locale_forum_post_quote', {'topic':topic.id, 'quoteId':object.id}) }}"></a></div>{% endif %}
+                {% if  ( object is defined  and object.access is defined  and object.access.edit is defined  and object.access.edit ) and ( object is defined  and object.id is defined  and object.id != topic.mainPost.id )  %}<div ng-if="object.access.edit &amp;&amp; object.id != topic.mainPost.id" title="Editieren" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="{{ object.id }}"><a href="{{ path('angular_locale_forum_post_edit', {'id':object.id}) }}"></a></div>{% endif %}
+                {% if  ( object is defined  and object.access is defined  and object.access.edit is defined  and object.access.edit ) and ( object is defined  and object.id is defined  and object.id == topic.mainPost.id )  %}<div ng-if="object.access.edit &amp;&amp; object.id == topic.mainPost.id" title="Editieren" class="glyphicon glyphicon-pencil" symbb-js-link="forum_topic_edit" param-forum="{{ topic.forum.id }}" param-id="{{ topic.id }}"><a href="{{ path('angular_locale_forum_topic_edit', {'forum':topic.forum.id, 'id':topic.id}) }}"></a></div>{% endif %}
+                {% if  ( object is defined  and object.access is defined  and object.access.delete is defined  and object.access.delete )  %}<div ng-if="object.access.delete" title="LÃƒÂ¶schen" class="glyphicon glyphicon-remove" symbb-delete-request="forum_post_delete" param-id="{{ object.id }}" message="mÃƒÂ¶chtest du den Eintrag wirklich lÃƒÂ¶schen?"></div>{% endif %}
 
             </div>
-            <div class="survey" ng-show="post.extension.survey.question">
-                <div class="answers" ng-show="post.access.viewSurvey">
+            <div class="survey" ng-show="object.extension.survey.question">
+                <div class="answers" ng-show="object.access.viewSurvey">
                     <ul class="list-group">
-                        <li class="list-group-item active">{{ post.extension.survey.question }}</li>
-                        {% for answer in post.extension.survey.answersArray %}<li class="list-group-item" ng-repeat="answer in post.extension.survey.answersArray">
+                        <li class="list-group-item active">{{ object.extension.survey.question }}</li>
+                        {% for answer in object.extension.survey.answersArray %}<li class="list-group-item" ng-repeat="answer in object.extension.survey.answersArray">
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="{{ answer.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ answer.percent }}%;">
                                     <span class="sr-only">{{ answer.percent }}% : {{ answer.name }} </span>
@@ -71,10 +72,10 @@
                             <div class="answer">
                                 <div class="animate-switch-container pull-left" ng-switch on="answer.type">
                                     <div class="animate-switch" ng-switch-when="checkbox">
-                                        <input ng-show="post.extension.survey.votable" type="checkbox" ng-model="post.extension.survey.myVote[answer.key]" ng-checked="post.extension.survey.myVote[answer.key]" name="surveyAnswer[]" ng-true-value="1" ng-false-value="0">
+                                        <input ng-show="object.extension.survey.votable" type="checkbox" ng-model="object.extension.survey.myVote[answer.key]" ng-checked="object.extension.survey.myVote[answer.key]" name="surveyAnswer[]" ng-true-value="1" ng-false-value="0">
                                     </div>
                                     <div class="animate-switch" ng-switch-default>
-                                        <input ng-show="post.extension.survey.votable" type="radio" ng-model="post.extension.survey.myVote" ng-value="answer.key" name="surveyAnswer">
+                                        <input ng-show="object.extension.survey.votable" type="radio" ng-model="object.extension.survey.myVote" ng-value="answer.key" name="surveyAnswer">
                                     </div>
                                 </div>
                                 <div class="pull-left">{{ answer.name }} ( {{ answer.percent }}% )</div>
@@ -82,24 +83,24 @@
                             <div class="clear"></div>
                             </li>{% endfor %}
 
-                        <li ng-show="post.extension.survey.votable" class="list-group-item">
-                            <button type="button" symbb-request="extension_survey_vote" param-items="{{  post.extension.survey.myVote  }}" param-post="{{ post.id }}" class="btn btn-default">vote</button>
+                        <li ng-show="object.extension.survey.votable" class="list-group-item">
+
                             <div class="clear"></div>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="text full" ng-bind-html-unsafe="object.text"></div>
+            <div class="text full" ng-bind-html-unsafe="object.text"> {{  }}  </div>
 
 
-            {% if object is defined and object.history[0] %}<div class="history" ng-if="object.history[0]">
+            {% if  ( object is defined  and object.history is defined  and object.history.0 is defined  and object.history.0 )  %}<div class="history" ng-if="object.history.0">
                 {% for historyEntry in object.history %}<div ng-repeat="historyEntry in object.history" class="historyEntry">
                     editert von {{ historyEntry.editor.username }} am {{  historyEntry.date | date("dd.MM.yyyy") }} um {{  historyEntry.date | date("HH.mm") }} ({{ historyEntry.reason }})
                     </div>{% endfor %}
                 </div>{% endif %}
 
 
-            {% if object is defined and object.signature %}<div ng-if="object.signature" ng-bind-html="object.signature" class="signature"></div>{% endif %}
+            {% if  ( object is defined  and object.signature is defined  and object.signature )  %}<div ng-if="object.signature" ng-bind-html="object.signature" class="signature"></div>{% endif %}
 
         </div>
         <div class="clear"></div>
@@ -108,7 +109,7 @@
 
 <div class="symbb_action_row">
     <div class="btn-group pull-left" ng-hide="topic.locked">
-        <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="{{ topic.id }}" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer"><a href="{{ path('angular_locale_forum_post_create', {topic:topic.id}) }}">Antwort</a></button>
+        <button ng-show="topic.access.createPost" symbb-js-link="forum_post_create" param-topic="{{ topic.id }}" type="button" class="btn btn-default btn-sm pull-left" data-toggle="collapse" data-target="#answer"><a href="{{ path('angular_locale_forum_post_create', {'topic':topic.id}) }}">Antwort</a></button>
     </div>
     <div class="pull-right">
         <pagination route="forum_topic_show" param-id="{{ topic.id }}" param-name="{{ topic.seo.name }}"></pagination>
@@ -121,4 +122,4 @@
     <div class="alert alert-warning">Das Thema ist geschlossen</div>
     <div class="clear"></div>
 </div>
-</body> {% endblock %}
+</body> {% endblock %}"
