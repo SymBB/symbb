@@ -28,7 +28,7 @@
                 </div>
                 <div class="read_more">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs" title="{{ 'read'|trans }}" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">
+                        <button type="button" class="btn btn-default btn-xs" title="{{ 'read'|trans }}" symbb-js-link="forum_topic_show" param-id="[[object.topic.id]]" param-name="[[object.topic.seo.name]]" param-page="1">
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                         <button ng-if="object.access.create" type="button" class="btn btn-default btn-xs" title="{{ 'answer'|trans }}" symbb-js-link="forum_post_create" param-topic="[[object.topic.id]]">

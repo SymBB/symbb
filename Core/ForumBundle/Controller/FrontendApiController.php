@@ -814,6 +814,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['showSubForumList'] = true;
         $array['count']['topic'] = 0;
         $array['count']['post'] = 0;
+        $array['count']['forum'] = 0;
+        $array['count']['category'] = 0;
+        $array['count']['link'] = 0;
         $array['backgroundImage'] = "";
         $array['flags'] = array();
         $array['children'] = array();
@@ -844,6 +847,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 if($viewAccess){
                     $array['children'][] = $this->getForumAsArray($child, false);
+                    if($child->getType() === 'forum'){
+                        $array['count']['forum']++;
+                    } else if($child->getType() === 'category'){
+                        $array['count']['category']++;
+                    } else if($child->getType() === 'link'){
+                        $array['count']['link']++;
+                    }
                 }
             }
             $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);

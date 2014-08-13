@@ -290,7 +290,15 @@ class AngularToTwigConverter
                 }
                 $last .= $tmp;
 
-                $ifDataNew .= $last.' is defined ';
+                $ifDataNew .= $last;
+                // twig cannot test if integer/floats are defined :)
+                // remove ! if the case of e.g !0 condition
+                $numberCheck = str_replace('!', '', $tmp);
+                if(!is_numeric($numberCheck) || $key > 0){
+                    $ifDataNew .= ' is defined ';
+                } else {
+                    $ifDataNew .= ' ';
+                }
 
                 if($not){
                     $ifDataNew .= ' or ';

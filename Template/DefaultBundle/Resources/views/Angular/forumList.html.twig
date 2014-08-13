@@ -144,7 +144,7 @@
 <div ng-repeat="object in forum.children | filter:{ isCategory: true }" ng-include="'symbbCategoryRow.html'">
 </div>
 
-<div class="row symbb_forum_header_row" ng-if="!object.isCategory">
+<div class="row symbb_forum_header_row" ng-if="forum.count.forum">
     <div class="col-md-5">{{ 'Forum'|trans }}</div>
     <div class="col-md-1 number-align">{{ 'Topics'|trans }}</div>
     <div class="col-md-1 number-align">{{ 'Posts'|trans }}</div>
