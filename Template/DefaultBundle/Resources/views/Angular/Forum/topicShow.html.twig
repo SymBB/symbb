@@ -37,7 +37,7 @@
             {{ executeSymbbTemplatePostEvent('after.actions') }}
         </div>
         <div class="clear-left"></div>
-        <div class="title" itemprop="name">[Interview] Naoki Yoshida</div>
+        <div class="title" itemprop="name">[[ object.name ]]</div>
         <div class="labels">
             <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">[[tag.name]]</span>
             <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
