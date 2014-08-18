@@ -862,7 +862,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
             $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
             if ($forum->getImageName()) {
-                $array['backgroundImage'] = $helper->asset($forum, 'image');
+                $array['backgroundImage'] = $helper->asset($forum, 'symbb_forum_image');
             }
 
             $array['seo']['name'] = $forum->getSeoName();

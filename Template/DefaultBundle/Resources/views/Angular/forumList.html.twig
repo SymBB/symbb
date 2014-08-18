@@ -4,22 +4,22 @@
 
     <div class="row symbb_category_header_row"  ng-if="object.isCategory">
         <div class="col-md-5" ><a symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.name ]]</a></div>
-        <div class="col-md-1 number-align">{{ 'Topics'|trans }}</div>
-        <div class="col-md-1 number-align">{{ 'Posts'|trans }}</div>
+        <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
         <div class="col-md-3">{{ 'Last post'|trans }}</div>
         <div class="col-md-2"></div>
     </div>
     <div  ng-if="object.isCategory">
-        <div ng-repeat="object in object.children" ng-include="'symbbForumRow.html'">
+        <div ng-repeat="object in object.children" ng-include="'symbbForumRow.html'" class="row symbb_forum_body_row">
 
         </div>
     </div>
 </script>
 
 <script type="text/ng-template" id="symbbForumRow.html">
-    <div class="row symbb_forum_body_row" ng-if="!object.isLink">
+    <div class="" ng-if="!object.isLink">
         <div class="col-md-5 col">
-            <img ng-if="object.backgroundImage" class="forumimage pull-left" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
+            <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
+            <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-comment"></span>
             <div class="pull-left">
                 <div class="title">
                     <a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.name ]]</a>
@@ -40,12 +40,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1 col number-align">[[ object.count.topic ]]</div>
-        <div class="col-md-1 col number-align">[[ object.count.post ]]</div>
+        <div class="col-md-2 col number-align">[[ object.count.topic ]] / [[ object.count.post ]]</div>
         <div class="col-md-3 col" >
-            <div ng-if="object.lastPosts.0.id" symbb-link="forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">
+            <div ng-if="object.lastPosts.0.id">
                 <div class="text pull-left" >
-                    [[object.name]]: {% trans with {'%user%': "[[object.lastPosts.0.author.username]]", '%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %}from %user% on %date% at %time%{% endtrans %}
+                    <a symbb-link="forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">[[object.name]]</a></br>
+                    {% trans with {'%user%': "[[object.lastPosts.0.author.username]]"} %}from %user%{% endtrans %} </br>
+                    {% trans with {'%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
                 </div>
             </div>
         </div>
@@ -53,9 +54,6 @@
             <div class="btn-group pull-right" ng-if="!object.isLink">
                 <button ng-if="object.access.createTopic && object.isForum" title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" symbb-js-link="forum_topic_create" param-forum="[[object.id]]" param-name="[[object.seo.name]]">
                     <span class="glyphicon glyphicon-plus"></span>
-                </button>
-                <button type="button" class="btn btn-default btn-xs" title="{% trans %}View Forum{% endtrans %}" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">
-                    <span class="glyphicon glyphicon-search"></span>
                 </button>
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="forum_mark_as_read" param-id="[[object.id]]">
                     <span class="glyphicon glyphicon-ok"></span>
@@ -146,12 +144,11 @@
 
 <div class="row symbb_forum_header_row" ng-if="forum.count.forum">
     <div class="col-md-5">{{ 'Forum'|trans }}</div>
-    <div class="col-md-1 number-align">{{ 'Topics'|trans }}</div>
-    <div class="col-md-1 number-align">{{ 'Posts'|trans }}</div>
+    <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
     <div class="col-md-3">{{ 'Last post'|trans }}</div>
     <div class="col-md-2"></div>
 </div>
-<div ng-repeat="object in forum.children | filter:{ isCategory: false }" ng-include="'symbbForumRow.html'">
+<div ng-repeat="object in forum.children | filter:{ isCategory: false }" ng-include="'symbbForumRow.html'" class="row symbb_forum_body_row">
 </div>
 
 

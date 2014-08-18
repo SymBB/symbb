@@ -63,24 +63,9 @@
 
             <div class="topnavi">
                 {% block symbb_topnavi %}
-                    <div class="symbb_search_menu">
+                    <div class="symbb_menu">
                         {{ knp_menu_render('main') }}
-                        <ul>
-                            <li class="search">
-                                <span class="glyphicon glyphicon-search"></span>
-                                <input placeholder="{{ 'Search'|trans }}"/>
-                            </li>
-                        </ul>
                     </div>
-                    <ul class="language">
-                        {% if app.request.locale == 'de' %}
-                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
-                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
-                        {% else %}
-                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'en'})}}">{{ 'English'|trans }}</a></li>
-                            <li><a target="_self" href="{{path('symbb_forum_index', {'_locale': 'de'})}}">{{ 'German'|trans }}</a></li>
-                        {% endif %}
-                    </ul>
                 {% endblock %}
             </div>
 
@@ -120,23 +105,19 @@
                 </div>
             </div>
         </div>
-        <div id="footer">
-            <div class="container">
-                
-                {% set onlineUsers = getSymbbOnlineUsers() %}
-                
-                <div class="page-header">
-                    {{ 'Who is online?'|trans }}
-                </div>
-                {{ 'user.online.total'|transchoice(getSymbbOnlineUserCount(), {'%count%': getSymbbOnlineUserCount()}) }}:
-                {{ 'user.online.type'|trans({'%member_count%': getSymbbOnlineUserCount('user'), '%guest_count%': getSymbbOnlineUserCount('guest')}) }} <br/>
-                {{ 'Members'|trans }}: 
-                {% for onlineUser in onlineUsers if onlineUser.type == 'user'%}
-                    {{ onlineUser.username }}, 
-                {% endfor %}
-
-                <div class="clear"></div>
+        <footer id="page-footer">
+            <div id="footer-menu" class="wrap">
+                {{ knp_menu_render('footer') }}
             </div>
-        </div>
+            <div class="copyright">
+                <div class="wrap">
+                    Powered by <a href="https://www.symbb.de/">SymBB</a>® Forum Software © symbb.de
+                    <br>Theme Created by symbb.de
+                </div>
+                <div>
+                    <a id="bottom" accesskey="z"></a>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>

@@ -105,25 +105,18 @@ class SiteManager
         return $host;
     }
 
-
-    /**
-     * @param Site $site
-     * @return Item[]
-     */
-    public function getNavigationItems(Site $site = null){
+    public function getNavigation(Site $site = null, $naviKey = ''){
 
         if(!$site){
             $site = $this->getSite();
         }
 
-        $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
-
-        $items = array();
-
-        if(is_object($navigation)){
-            $items = $navigation->getItems();
+        if(!empty($naviKey)){
+            $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site, 'navKey' => $naviKey));
+        } else {
+            $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
         }
 
-        return $items;
+        return $navigation;
     }
 }

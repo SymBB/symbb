@@ -30,7 +30,17 @@ class MenuBuilder
     public function createMainMenu(Request $request, SiteManager $siteManager)
     {
         $menu = $this->factory->createItem('root');
-        $this->addChildren($menu, $siteManager->getNavigationItems(), $siteManager);
+        $navi = $siteManager->getNavigation(null, 'main');
+        $this->addChildren($menu, $navi->getItems(), $siteManager);
+        $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
+        return $menu;
+    }
+
+    public function createFooterMenu(Request $request, SiteManager $siteManager)
+    {
+        $menu = $this->factory->createItem('root');
+        $navi = $siteManager->getNavigation(null, 'footer');
+        $this->addChildren($menu, $navi->getItems(), $siteManager);
         $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
         return $menu;
     }

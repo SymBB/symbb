@@ -17,176 +17,8 @@
 
 /* search results */
 
-.symbb_forum_row {
-    position: relative;
-    width: 100%;
-    clear: both;
-    margin-bottom: 15px;
-    display: inline-block;
-    box-shadow: 5px 5px 5px #CCC;
-    background-color: #ffffff;
-}
-
-.symbb_forum_row.success .infos .breadcrumb_mini{
-    background-color: #c4fcc4;
-}
-
-.symbb_forum_row.warning .infos .breadcrumb_mini{
-    background-color: #ffe2ba;
-}
-
-.symbb_forum_row + .symbb_search_result_seperator {
-
-}
-
-.symbb_forum_row + .symbb_search_result_seperator ~ .symbb_search_result_seperator {
-    display: none;
-}
-
-.symbb_forum_row .userinfo {
-    float: left;
-    background-color: #FFFFFF;
-    min-width: 86px;
-}
-
-.symbb_forum_row .userinfo label {
-    margin-top: 3px;
-    margin-right: 5px;
-    margin-bottom: 0;
-    padding: 0;
-    text-decoration: underline;
-}
-
-.symbb_forum_row .userinfo label+div {
-}
-
-.symbb_forum_row .avatar {
-    width: 150px;
-    height: 150px;
-    cursor: pointer;
-}
-
-.symbb_forum_row .avatar img {
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.symbb_forum_row .infos.big {
-    padding: 10px;
-}
-
-.symbb_forum_row .infos {
-    position: relative;
-    background-color: #FFFFFF;
-    float: left;
-    width: 800px;
-    width: calc(100% - 175px);
-    left: 0px;
-    border-left: 1px solid #EEE;
-}
-
-
-.symbb_forum_row .infos .breadcrumb_mini {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    height: 26px;
-    width: 100%;
-    border-bottom: 1px solid #CCC;
-}
-
-.symbb_forum_row .infos .date {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    height: 20px;
-    padding: 5px;
-}
-
-.symbb_forum_row .infos .date .glyphicon {
-    margin-left: 10px;
-}
-
-.symbb_forum_row .infos .labels {
-    float: left;
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-.symbb_forum_row .infos .labels .label {
-    float: left;
-    margin-left: 5px;
-}
-
-.symbb_forum_row.small .infos .labels .label {
-    font-size: 100%;
-}
-
-.symbb_forum_row .infos .text {
-    margin-top: 25px;
-    clear: both;
-}
-
 .alert-small {
     padding: 5px;
-}
-
-.symbb_forum_row .infos .history {
-    color: #666;
-    max-height: 25px;
-    overflow: hidden;
-    border-top: 1px dotted #CCC;
-}
-
-.symbb_forum_row .infos .history > div {
-    padding: 10px;
-}
-
-.symbb_forum_row .infos .history:hover {
-    max-height: none;
-}
-
-.symbb_forum_row .infos .signature {
-    border-top: 1px solid #999999;
-    bottom: 0px;
-    padding: 10px;
-    position: absolute;
-    width: 100%;
-}
-
-.symbb_forum_row .infos blockquote {
-    height: 100%;
-    margin: 0px;
-    min-height: 135px;
-}
-
-.symbb_forum_row .read_more {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-}
-
-.symbb_forum_row .symbbTopicList {
-    padding: 5px;
-}
-
-.symbb_forum_row.small .infos {
-    min-height: 85px;
-    height: 85px;
-    width: calc(100% - 86px);
-}
-
-.symbb_forum_row.small .infos .text {
-    min-height: 49px;
-}
-
-.symbb_forum_row.small .infos blockquote {
-    min-height: 49px;
-}
-
-.symbb_forum_row.small .avatar {
-    height: 64px;
-    width: 64px;
 }
 
 .symbb_action_row .breadcrumb_mini {
@@ -237,15 +69,25 @@
 
 .symbb_forum_header_row,
 .symbb_category_header_row {
-    background-color: #006699;
+    background-color: #357ECA;
     color: #FFF;
     margin-top: 15px;
+}
+
+.symbb_forum_header_row > div,
+.symbb_category_header_row > div  {
+    padding: 5px;
 }
 
 .symbb_forum_body_row {
     background-color: #ffffff;
     color: #000;
 }
+
+.symbb_forum_body_row:nth-child(even){
+    background-color: #FAFAFA;
+}
+
 .symbb_forum_body_row:hover {
     background-color: #ABDCF2;
 }
@@ -273,10 +115,22 @@
 
 .symbb_forum_body_row .col .forumimage {
     max-height: 64px;
+    float: left;
+    color: #DCDEE3;
+    font-size: 45px;
+    margin-right: 20px;
+}
+
+.symbb_forum_body_row .col .forumimage .avatar img {
+    max-height: 64px;
+    border: none;
 }
 
 .symbb_forum_body_row .col .forumimage + div {
     padding-left: 5px;
+}
+
+.symbb_forum_body_row .col .title {
 }
 
 .symbb_forum_body_row .col .title a {
@@ -307,4 +161,9 @@
 
 .symbb_forum_body_row .number-align {
     padding-top: 8px;
+}
+
+
+.username {
+    color: #000000;
 }
