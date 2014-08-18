@@ -31,7 +31,11 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'main');
-        $this->addChildren($menu, $navi->getItems(), $siteManager);
+        $items = array();
+        if(is_object($navi)){
+            $items = $navi->getItems();
+        }
+        $this->addChildren($menu, $items, $siteManager);
         $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
         return $menu;
     }
@@ -40,7 +44,11 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'footer');
-        $this->addChildren($menu, $navi->getItems(), $siteManager);
+        $items = array();
+        if(is_object($navi)){
+            $items = $navi->getItems();
+        }
+        $this->addChildren($menu, $items, $siteManager);
         $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
         return $menu;
     }
