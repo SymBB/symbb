@@ -15,10 +15,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
-
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
+        $userAgent = $request->server->get("HTTP_USER_AGENT");
+
+        if (strpos($userAgent, 'Google') !== false || $request->get('seo') == 1) {
+            return $this->seoAction($request);
+        } else {
+            return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array());
+        }
+
     }
 
     public function seoAction(Request $request)
@@ -62,8 +68,6 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
                         $converter->setHtml($html);
                         $converter->setParentTemplate('::layout.html.twig');
                         $twigHtml = $converter->convert();
-
-
                         $apiRoute = $routeCollection->get($angularRoute->getApiRoute());
                         if(is_object($apiRoute)){
                             $apiController = $apiRoute->getDefault('_controller');

@@ -1,7 +1,7 @@
 .symbb_navi {
     width: 30px;
     position: fixed;
-    top: 49px;
+    top: 100px;
     left: -5px;
     z-index: 999;
 }
@@ -70,3 +70,94 @@
 .symbb_navi ul li:hover .text {
     display: inline;
 }
+
+
+
+.topnavi {
+    display: block;
+    min-height: 50px;
+    position: relative;
+    background-color: #FAFAFA;
+    margin-bottom: 40px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #CCC;
+}
+
+.symbb_menu {
+}
+
+.symbb_menu a {
+    color: #000;
+    text-decoration: none;
+}
+
+.topnavi .symbb_menu { float: left; }
+.topnavi .symbb_menu:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.topnavi .symbb_menu > ul {
+    list-style: none;
+    line-height: 50px;
+    font-size: 1.3em;
+    float: left;
+}
+.topnavi .symbb_menu > ul > li {
+    height: 100%;
+    float: left;
+    position: relative;
+}
+.topnavi .symbb_menu > ul > li > a {
+    height: 100%;
+    display: inline-block;
+    padding: 0 20px;
+    color: #323A45;
+    transition: background-color 0.15s ease;
+}
+.topnavi .symbb_menu > ul > li > a:hover { background-color: #DDDFE3; }
+
+/* Drop Down */
+.topnavi .symbb_menu > ul > li:hover > ul { left: 0; opacity: 1; }
+.topnavi .symbb_menu > ul > li > ul {
+    list-style: none;
+    line-height: 40px;
+    font-size: 1em;
+    float: left;
+    position: absolute;
+    background-color: #357ECA;
+    z-index: 999;
+    min-width: 200px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    top: 45px;
+    width: auto;
+    opacity: 0;
+    left: -9999px;
+    border-radius: 0 3px 3px 3px;
+    transition: opacity 0.15s ease;
+}
+.topnavi .symbb_menu > ul > li > ul:before {
+    border-color: transparent transparent #323A45;
+    border-style: solid;
+    border-width: 0 10px 10px 0;
+    top: -10px;
+    content: "";
+    height: 0;
+    left: 0;
+    margin-bottom: 0;
+    position: absolute;
+    width: 0;
+    z-index: 999;
+}
+.topnavi .symbb_menu > ul > li > ul > li > a {
+    height: 100%;
+    display: inline-block;
+    padding: 0 20px;
+    color: #EAECF0;
+    width: 100%;
+    transition: background-color 0.15s ease;
+}
+.topnavi .symbb_menu > ul > li > ul > li > a:hover { background-color: #2069B5; }
+.topnavi .symbb_menu > ul > li > ul > li:first-child > a { border-radius: 0 3px 0 0; }
+.topnavi .symbb_menu > ul > li > ul > li:last-child > a { border-radius: 0 0 3px 3px; }
+.topnavi .symbb_menu > ul > li > ul > li:only-child > a { border-radius: 0 3px 3px 3px; }

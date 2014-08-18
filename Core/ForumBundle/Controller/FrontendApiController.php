@@ -30,6 +30,30 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     const ERROR_ACCESS_CREATE_TOPIC = 'access denied (create topic)';
 
 
+    /**
+     * @Route("/api/test/intl", name="symbb_api_test_intl")
+     * @Method({"GET"})
+     */
+    public function testAction(Request $request)
+    {
+
+    }
+
+    //recursive function to list a resource bundle file structure using a ResourceBundle Object ( ) reference
+    protected function t($rb, $level = 1) {
+        if(is_object($rb) || is_array($rb)) {
+            foreach($rb as $k => $v) {
+                if(is_object($v) || is_array($v)) {
+                    var_dump("(".$level.") KEY: ".$k);
+                    $this->t($v, ($level+1));
+                } else {
+                    var_dump("(".$level.")". $k . ": " . $v);
+                }
+            }
+        } else {
+            var_dump("(".$level.")". $rb);
+        }
+    }
 
     /**
      * @Route("/api/post/search", name="symbb_api_post_search")
@@ -790,6 +814,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $array['showSubForumList'] = true;
         $array['count']['topic'] = 0;
         $array['count']['post'] = 0;
+        $array['count']['forum'] = 0;
+        $array['count']['category'] = 0;
+        $array['count']['link'] = 0;
         $array['backgroundImage'] = "";
         $array['flags'] = array();
         $array['children'] = array();
@@ -820,6 +847,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 if($viewAccess){
                     $array['children'][] = $this->getForumAsArray($child, false);
+                    if($child->getType() === 'forum'){
+                        $array['count']['forum']++;
+                    } else if($child->getType() === 'category'){
+                        $array['count']['category']++;
+                    } else if($child->getType() === 'link'){
+                        $array['count']['link']++;
+                    }
                 }
             }
             $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
@@ -828,7 +862,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
             $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
             if ($forum->getImageName()) {
-                $array['backgroundImage'] = $helper->asset($forum, 'image');
+                $array['backgroundImage'] = $helper->asset($forum, 'symbb_forum_image');
             }
 
             $array['seo']['name'] = $forum->getSeoName();
@@ -925,6 +959,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             $array['access']['delete'] = false;
             $array['notifyMe'] = false;
             $array['flags'] = array();
+            $array['tags'] = array();
             $array['history'] = array();
         }
 

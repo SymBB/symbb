@@ -48,9 +48,9 @@ forum_topic_show:
     api: 
         route: symbb_api_topic_data
     template: 
-        route: symbb_template_default_angular
+        route: symbb_forum_angular_template
         params: 
-            file: 'forumTopicShow'
+            file: 'topicShow'
         
 forum_topic_create:
     pattern:  /f-{forum}/topic/new/

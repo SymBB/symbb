@@ -51,6 +51,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         restrict: 'A',
         replace: false,
         link: function(scope, element, attrs) {
+            $(element[0]).addClass('pointer');
             $(element[0]).click(function() {
                 var params = prepareParams(attrs);
                 angularConfig.goTo($location, attrs.symbbJsLink, params);

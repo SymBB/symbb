@@ -4,8 +4,8 @@ root, body, html {
     padding: 0;
     font-size: 12px;
     width: 100%;
-    background-color: #CCC;
-    background-image: url(/bundles/symbbtemplatedefault/images/bg/shattered.png)
+    background-color: #EAECF0;
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
 html, body {
@@ -13,14 +13,142 @@ html, body {
 }
 
 blockquote {
-    margin-bottom: 0px;
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 10px;
+    padding: 20px 20px 20px 45px;
+    background-color: #EAECF0;
+    position: relative;
+    border-radius: 3px;
+    margin-left: 40px;
+    margin-top: 20px;
 }
 
-blockquote .decoda-quote-author {
-    text-decoration: underline;
+.codebox {
+    padding: 20px 20px 20px 45px;
+    background-color: #EAECF0;
+    position: relative;
+    border-radius: 3px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.codebox:before {
+    display: block;
+    font-family: "FontAwesome";
+    content: "\f121";
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    margin-top: -20px;
+    font-size: 14px;
+    height: 45px;
+    width: 45px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #EAECF0;
+    box-shadow: 2px 0 0 #DDDFE3;
+}
+.codebox dt {
+    border-bottom: 1px solid #DDDFE3;
+    display: block;
+    font-style: normal;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+}
+
+blockquote {
+    padding: 20px 20px 20px 45px;
+    background-color: #EAECF0;
+    position: relative;
+    border-radius: 3px;
+    margin-left: 40px;
+    margin-top: 20px;
+}
+blockquote cite {
+    border-bottom: 1px solid #DDDFE3;
+    display: block;
+    font-style: normal;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+}
+
+blockquote blockquote,
+blockquote blockquote blockquote blockquote,
+blockquote blockquote blockquote blockquote blockquote blockquote {
+    background-color: #DDDFE3;
+}
+
+blockquote blockquote cite,
+blockquote blockquote blockquote blockquote cite,
+blockquote blockquote blockquote blockquote blockquote blockquote cite {
+    border-bottom-color: #D0D2D6;
+}
+
+blockquote blockquote:before,
+blockquote blockquote blockquote blockquote:before,
+blockquote blockquote blockquote blockquote blockquote blockquote:before {
+    background-color: #DDDFE3;
+    box-shadow: 2px 0 0 #D0D2D6;
+}
+
+blockquote blockquote blockquote,
+blockquote blockquote blockquote blockquote blockquote,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote {
+    background-color: #EAECF0;
+}
+
+blockquote blockquote blockquote cite,
+blockquote blockquote blockquote blockquote blockquote cite,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote cite {
+    border-bottom-color: #DDDFE3;
+}
+
+blockquote blockquote blockquote:before,
+blockquote blockquote blockquote blockquote blockquote:before,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote:before {
+    background-color: #EAECF0;
+    box-shadow: 2px 0 0 #DDDFE3;
+}
+
+blockquote blockquote .codebox,
+blockquote blockquote blockquote blockquote .codebox,
+blockquote blockquote blockquote blockquote blockquote blockquote .codebox {
+    background-color: #EAECF0;
+}
+
+blockquote blockquote .codebox dt,
+blockquote blockquote blockquote blockquote .codebox dt,
+blockquote blockquote blockquote blockquote blockquote blockquote .codebox dt {
+    border-bottom-color: #DDDFE3;
+}
+
+blockquote .codebox,
+blockquote blockquote blockquote .codebox,
+blockquote blockquote blockquote blockquote blockquote .codebox,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote .codebox {
+    background-color:  #DDDFE3;
+}
+
+blockquote .codebox dt,
+blockquote blockquote blockquote .codebox dt,
+blockquote blockquote blockquote blockquote blockquote .codebox dt,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote .codebox dt {
+    border-bottom-color: #D0D2D6;
+}
+
+blockquote blockquote .codebox:before,
+blockquote blockquote blockquote blockquote .codebox:before,
+blockquote blockquote blockquote blockquote blockquote blockquote .codebox:before {
+    background-color: #EAECF0;
+    box-shadow: 2px 0 0 #DDDFE3;
+}
+
+blockquote .codebox:before,
+blockquote blockquote blockquote .codebox:before,
+blockquote blockquote blockquote blockquote blockquote .codebox:before,
+blockquote blockquote blockquote blockquote blockquote blockquote blockquote .codebox:before {
+    background-color: #DDDFE3;
+    box-shadow: 2px 0 0 #D0D2D6;
 }
 
 .pagination {
@@ -95,6 +223,10 @@ blockquote .decoda-quote-author {
 
 .clear {
     clear: both;
+}
+
+.clear-left {
+    clear: left;
 }
 
 .fos_user_content {
@@ -271,42 +403,6 @@ blockquote .decoda-quote-author {
     margin-left: 5px;
 }
 
-.topnavi {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid #666;
-    border-radius: 0;
-    box-shadow: 0 5px 5px #999;
-    font-size: 1em;
-    height: 36px;
-    left: 0;
-    padding: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 900;
-}
-
-.topnavi .language {
-    position: fixed;
-    right: 10px;
-    height: 26px;
-    overflow: hidden;
-    list-style: none;
-    top: 5px;
-}
-
-.topnavi .language li {
-    background-color: #333;    
-    padding: 5px;
-}
-
-.topnavi .language li a {
-    color: #FFFFFF;
-}
-
-.topnavi .language:hover {
-    overflow: visible;
-}
 
 .arrow_box { 
     position: relative; 
@@ -343,43 +439,6 @@ blockquote .decoda-quote-author {
     margin-top: -30px; 
 }
 
-#footer {
-    background-color: #232323;
-    color: #FFF;
-    height: 150px;
-}
-
-#footer .container {
-    width: 95%;
-    margin: 10px auto;
-    padding-bottom: 5px;
-}
-
-#footer a {
-    color: #FFF;
-}
-
-#footer ul {
-    list-style: none;
-    float: left;
-    margin: 0;
-    margin-right: 10px;
-    border-left: 1px solid #CCC;
-    padding: 0;
-}
-
-#footer ul li{
-    margin-right: 10px;
-    padding: 0;
-    margin: 0;
-    padding-left: 5px;
-}
-
-#footer ul li:hover {
-    background-color: #CCC;
-    color: #000;
-    cursor: pointer;
-}
 
 .page-header .pagination,
 .symbb_actions .pagination{
@@ -533,4 +592,54 @@ blockquote .decoda-quote-author {
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 display: none !important;
+}
+
+
+
+#page-footer {
+    background-color: #323A45;
+    margin-top: 40px;
+    color: #EAECF0;
+}
+
+#page-footer h3 {
+    font-weight: 300;
+    color: #357ECA;
+}
+
+#page-footer #footer-menu {
+    height: 60px;
+    font-size: 1.1em;
+}
+#page-footer #footer-menu > ul {
+    list-style: none;
+    line-height: 60px;
+    font-size: 1.091em;
+    float: left;
+    width: 100%;
+}
+#page-footer #footer-menu > ul > li {
+    height: 100%;
+    float: left;
+    color: #EAECF0;
+    margin-right: 40px;
+}
+#page-footer #footer-menu > ul > .right { float: right; margin-left: 40px; margin-right: 0; }
+#page-footer #footer-menu > ul > li > a {
+    display: inline;
+    color: #EAECF0;
+    transition: color 0.15s ease;
+}
+#page-footer #footer-menu > ul > li > a:hover { color: #CCCED2; }
+#page-footer #footer-menu > ul > li > a:active { color: #FFFFFF; }
+#page-footer #footer-menu > ul > li > .w-icon { padding: 0 10px; }
+#page-footer #footer-menu > ul > li > .w-icon > i { font-size: 14px; }
+#page-footer #footer-menu > ul > li > .w-icon > span { padding: 0 10px 0 0; }
+
+
+#page-footer .copyright {
+    width: 100%;
+    text-align: center;
+    background-color: #161E29;
+    padding: 20px 0;
 }
