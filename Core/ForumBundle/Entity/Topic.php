@@ -46,7 +46,7 @@ class Topic
 
     /**
      * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post", mappedBy="topic")
-     * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
+     * @ORM\OrderBy({"created" = "ASC"})
      */
     private $posts;
 

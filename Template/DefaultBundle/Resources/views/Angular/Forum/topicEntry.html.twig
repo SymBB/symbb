@@ -32,7 +32,7 @@
                 </div>
                 <div class="description">
                     {% trans with {'%user%': "[[object.author.username]]"} %}from %user%{% endtrans %} </br>
-                    {% trans with {'%date%': "[[ object.latestPost.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.latestPost.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
+                    {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
         <div class="col-md-3 col" >
             <div ng-if="object.latestPost.id">
                 <div class="text pull-left" >
-                    <a symbb-link="forum_topic_show" param-id="[[object.latestPost.topic.id]]" param-name="[[object.latestPost.topic.seo.name]]" param-page="last">[[object.name]]</a></br>
+                    <a symbb-link="forum_topic_show" param-id="[[object.latestPost.topic.id]]" param-name="[[object.latestPost.topic.seo.name]]" param-page="last">{{ 'Re'|trans }}: [[object.name]]</a></br>
                     {% trans with {'%user%': "[[object.latestPost.author.username]]"} %}from %user%{% endtrans %} </br>
                     {% trans with {'%date%': "[[ object.latestPost.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.latestPost.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
                 </div>

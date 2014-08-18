@@ -67,33 +67,27 @@ class ForumManager extends AbstractManager
             $limit = $forum->getEntriesPerPage();
         }
 
-        $qbPage = $this->em->createQueryBuilder();
-        $qbPage->select('count(t)')
-            ->from('SymBBCoreForumBundle:Topic', 't')
-            ->where('t.forum = ?1')
-            ->orderby('t.created', $orderDir)
-            ->setParameter(1, $forum->getId());
-        $queryPage = $qbPage->getQuery();
-        $count = $queryPage->getSingleScalarResult();
+        $sql = "SELECT
+                    t
+                FROM
+                    SymBBCoreForumBundle:Topic t
+                LEFT JOIN
+                    t.tags tag
+                LEFT JOIN
+                    t.posts p
+                WHERE
+                  t.forum = ?1 AND
+                  p.id = (SELECT MAX(p2.id) FROM SymBBCoreForumBundle:POST p2 WHERE p2.topic = t.id ORDER BY p2.created )
+                GROUP BY
+                  t.id
+                ORDER BY
+                  tag.priority DESC, p.created DESC";
 
-        $query = $this->em->createQuery('
-                SELECT t FROM SymBBCoreForumBundle:Topic t
-                LEFT JOIN t.tags tag
-                WHERE t.forum = ?1
-                GROUP BY t.id
-                ORDER BY tag.priority DESC, t.created '.$orderDir.'
-                '
-        )
-            ->setParameter(1, $forum->getId());
-        $query->setHint('knp_paginator.count', $count);
+        $query = $this->em->createQuery($sql);
+        $query->setParameter(1, $forum->getId());
 
-        if ($page === 'last') {
-            $page = \ceil($count / $limit);
-        }
 
-        $pagination = $this->paginator->paginate(
-            $query, $page, $limit, array('distinct' => false)
-        );
+        $pagination = $this->createPagination($query, $page, $limit);
 
         return $pagination;
     }
