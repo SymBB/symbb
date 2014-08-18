@@ -20,15 +20,14 @@
         <div class="col-md-5 col">
             <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
             <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-comment"></span>
-            <div class="pull-left">
+            <div class="infos">
                 <div class="title">
                     <a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.name ]]</a>
-                    <div class="labels">
-                        <div ng-repeat="flag in object.flags">
+                    <span class="labels">
+                        <span ng-repeat="flag in object.flags">
                             <span  class="label label-[[flag.type]]">[[flag.title]]</span>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
+                        </span>
+                    </span>
                 </div>
                 <div class="description"><a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.description ]]</a></div>
                 <div class="subforumlist" ng-if="object.showSubForumList">
