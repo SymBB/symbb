@@ -65,7 +65,7 @@ class MenuBuilder
                     $found = false;
                     foreach($domains as $domain){
                         $domain = str_replace(array('https://', 'http://', 'www.'), '', $domain);
-                        if(strpos($uri, $domain) !== false){
+                        if(!empty($uri) && !empty($domain) && strpos($uri, $domain) !== false){
                             $found = true;
                             break;
                         }
