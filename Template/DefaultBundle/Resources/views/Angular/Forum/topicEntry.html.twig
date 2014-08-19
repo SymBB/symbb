@@ -21,12 +21,8 @@
                 <div class="title">
                     <a symbb-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">[[ object.name ]]</a>
                     <div class="labels">
-                        <div ng-repeat="flag in object.flags">
-                            <span  class="label label-[[flag.type]]">[[flag.title]]</span>
-                        </div>
-                        <div ng-repeat="tag in object.tags">
-                            <span  class="label label-[[tag.type]]">[[tag.title]]</span>
-                        </div>
+                        <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
+                        <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-default label-[[tag.type]]">[[tag.title]]</span>
                     </div>
                     <div class="clear"></div>
                 </div>

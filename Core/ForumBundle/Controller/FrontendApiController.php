@@ -431,6 +431,18 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             $em->persist($mainPost);
                             $em->flush();
 
+                            $editReason = (string)$request->get('editReason');
+
+                            if($mainPost->getId() > 0){
+                                $historyEntry = new History();
+                                $historyEntry->setPost($mainPost);
+                                $historyEntry->setChanged(new \DateTime());
+                                $historyEntry->setOldText($mainPost->getText());
+                                $historyEntry->setReason($editReason);
+                                $historyEntry->setEditor($this->getUser());
+                                $em->persist($historyEntry);
+                            }
+
                             if ($request->get('notifyMe')) {
                                 $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
                             } else {
@@ -712,8 +724,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $array['tags'][$tag->getId()] = array(
                 'id' => $tag->getId(),
+                'type' => $tag->getId(),
                 'priority' => $tag->getPriority(),
-                'name' => $translation,
+                'title' => $translation,
                 'status' => 0
             );
         }

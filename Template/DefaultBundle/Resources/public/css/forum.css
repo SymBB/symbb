@@ -142,8 +142,8 @@
     font-weight: bold;
 }
 
-.symbb_forum_body_row .col .title .labels {
-    margin-left: 5px;
+.symbb_forum_body_row .col .title .labels span {
+    margin-right: 5px;
 }
 
 
