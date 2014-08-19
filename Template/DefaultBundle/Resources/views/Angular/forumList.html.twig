@@ -19,7 +19,7 @@
     <div class="" ng-if="!object.isLink">
         <div class="col-md-5 col">
             <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
-            <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-comment"></span>
+            <span ng-if="!object.backgroundImage" ng-class="{new: object.flags.new }" class="forumimage glyphicon glyphicon-comment"></span>
             <div class="infos">
                 <div class="title">
                     <a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.name ]]</a>
@@ -43,7 +43,7 @@
         <div class="col-md-3 col" >
             <div ng-if="object.lastPosts.0.id">
                 <div class="text pull-left" >
-                    <a symbb-link="forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">[[object.name]]</a></br>
+                    <a symbb-link="forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">[[object.lastPosts.0.name]]</a></br>
                     {% trans with {'%user%': "[[object.lastPosts.0.author.username]]"} %}from %user%{% endtrans %} </br>
                     {% trans with {'%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
                 </div>

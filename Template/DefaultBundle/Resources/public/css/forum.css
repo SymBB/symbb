@@ -69,7 +69,7 @@
 
 .symbb_forum_header_row,
 .symbb_category_header_row {
-    background-color: #357ECA;
+    background-color: #428BCA;
     color: #FFF;
     margin-top: 15px;
 }
@@ -169,4 +169,8 @@
 
 .username {
     color: #000000;
+}
+
+.symbb_forum_body_row .col .forumimage.new {
+    color: #5CB85C;
 }
