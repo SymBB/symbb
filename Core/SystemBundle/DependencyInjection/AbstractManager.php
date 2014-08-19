@@ -117,10 +117,19 @@ abstract class AbstractManager
             $count = 0;
         }
 
+        if($page === 'last'){
+            $page = $count / $limit;
+            $page = ceil($page);
+        }
+
+        if($page <= 0){
+            $page = 1;
+        }
+
         $query->setHint('knp_paginator.count', $count);
 
         $pagination = $this->paginator->paginate(
-            $query, $page, $limit, array('distinct' => false)
+            $query, (int)$page, $limit, array('distinct' => false)
         );
 
         return $pagination;
