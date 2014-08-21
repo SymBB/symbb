@@ -36,7 +36,6 @@
         "knplabs/knp-menu-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "~2.4",
         "sonata-project/intl-bundle": "2.2.*@dev",
-        "leaseweb/memcache-bundle": "1.1.*@dev",
         "symbb/extension-bundle": "dev-master",
         "coresphere/console-bundle": "dev-master",
         "vich/uploader-bundle": "dev-master",
