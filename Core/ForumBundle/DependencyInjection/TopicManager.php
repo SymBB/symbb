@@ -28,19 +28,12 @@ class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstract
      */
     protected $topicFlagHandler;
 
-    /**
-     *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher
-     */
-    protected $dispatcher;
-
     public function __construct(
-    TopicFlagHandler $topicFlagHandler, ConfigManager $configManager, $dispatcher
+    TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
-        $this->dispatcher = $dispatcher;
     }
 
     /**

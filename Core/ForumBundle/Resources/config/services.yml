@@ -35,12 +35,12 @@ services:
     symbb.core.post.manager:
         parent:  symbb.core.abstract.manager
         class: SymBB\Core\ForumBundle\DependencyInjection\PostManager
-        arguments: ['@symbb.core.post.flag', '@symbb.core.config.manager', '@event_dispatcher']
+        arguments: ['@symbb.core.post.flag', '@symbb.core.config.manager']
 
     symbb.core.topic.manager:
         parent:  symbb.core.abstract.manager
         class: SymBB\Core\ForumBundle\DependencyInjection\TopicManager
-        arguments: ['@symbb.core.topic.flag', '@symbb.core.config.manager', '@event_dispatcher']
+        arguments: ['@symbb.core.topic.flag', '@symbb.core.config.manager']
 
             
             

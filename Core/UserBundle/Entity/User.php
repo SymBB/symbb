@@ -57,6 +57,20 @@ class User extends BaseUser implements UserInterface
     private $posts;
 
     /**
+     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message\Receiver", mappedBy="user", cascade={"persist"})
+     * @var array(<"\SymBB\Core\MessageBundle\Entity\Message\Receiver">)
+     */
+    private $messages_receive;
+
+    /**
+     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message", mappedBy="sender")
+     * @var array(<"\SymBB\Core\MessageBundle\Entity\Message">)
+     */
+    private $messages_sent;
+
+
+
+    /**
      * @ORM\OneToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
      * @var array(<"\SymBB\Core\UserBundle\Entity\User\Data">)

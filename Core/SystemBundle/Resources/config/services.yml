@@ -25,11 +25,12 @@ services:
     symbb.core.abstract.manager:
         abstract: true
         calls:
-            - [setSecurityContext, ['@security.context']]
+            - [setUserManager, ['@symbb.core.user.manager']]
             - [setAccessManager, ['@symbb.core.access.manager']]
             - [setPaginator, ['@knp_paginator']]
             - [setTranslator, ['@translator']]
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+            - [setEventDispatcher, ['@event_dispatcher']]
 
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager

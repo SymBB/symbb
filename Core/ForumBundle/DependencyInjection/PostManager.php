@@ -32,26 +32,19 @@ class PostManager extends AbstractManager
      */
     protected $postFlagHandler;
 
-    /**
-     *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher
-     */
-    protected $dispatcher;
-
     public function __construct(
-        PostFlagHandler $postFlagHandler, ConfigManager $configManager, $dispatcher
+        PostFlagHandler $postFlagHandler, ConfigManager $configManager
     )
     {
         $this->postFlagHandler = $postFlagHandler;
         $this->configManager = $configManager;
-        $this->dispatcher = $dispatcher;
     }
 
     public function parseText(Post $post)
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, (string)$text);
-        $this->dispatcher->dispatch('symbb.post.manager.parse.text', $event);
+        $this->eventDispatcher->dispatch('symbb.post.manager.parse.text', $event);
         $text = $event->getText();
 
         return $text;
@@ -61,7 +54,7 @@ class PostManager extends AbstractManager
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, $text);
-        $this->dispatcher->dispatch('symbb.post.manager.clean.text', $event);
+        $this->eventDispatcher->dispatch('symbb.post.manager.clean.text', $event);
         $text = $event->getText();
         return $text;
     }

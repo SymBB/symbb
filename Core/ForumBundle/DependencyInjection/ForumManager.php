@@ -270,11 +270,14 @@ class ForumManager extends AbstractManager
         $by = array('parent' => null);
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
         foreach ($entries as $entity) {
-            if(!$checkAccess || $this->securityContext->isGranted('VIEW', $entity)){
-                if(in_array($entity->getType(), $types) || empty($types)){
-                    $list[$entity->getId()] = $entity;
+            if(!$checkAccess){
+                $this->accessManager->addAccessCheck('VIEW', $entity);
+                if($this->accessManager->hasAccess()){
+                    if(in_array($entity->getType(), $types) || empty($types)){
+                        $list[$entity->getId()] = $entity;
+                    }
+                    $this->addChildsToArray($entity, $list);
                 }
-                $this->addChildsToArray($entity, $list);
             }
         }
 

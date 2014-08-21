@@ -11,17 +11,15 @@ namespace SymBB\Core\SystemBundle\DependencyInjection;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
+use SymBB\Core\UserBundle\DependencyInjection\UserManager;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;
+use \Doctrine\ORM\EntityManager;
+use \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 
 abstract class AbstractManager
 {
-
-    /**
-     *
-     * @var SecurityContextInterface
-     */
-    protected $securityContext;
 
     /**
      * @var UserInterface
@@ -32,6 +30,11 @@ abstract class AbstractManager
      * @var AccessManager
      */
     protected $accessManager;
+
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
 
     /**
      * @var
@@ -50,11 +53,9 @@ abstract class AbstractManager
     protected $em;
 
     /**
-     * @param SecurityContextInterface $securityContext
+     * @var \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher
      */
-    public function setSecurityContext(SecurityContextInterface $securityContext){
-        $this->securityContext = $securityContext;
-    }
+    protected $eventDispatcher;
 
     /**
      * @param AccessManager $manager
@@ -62,6 +63,21 @@ abstract class AbstractManager
     public function setAccessManager(AccessManager $manager){
         $this->accessManager = $manager;
     }
+
+    /**
+     * @param UserManager $manager
+     */
+    public function setUserManager(UserManager $manager){
+        $this->userManager = $manager;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher $eventDispatcher
+     */
+    public function setEventDispatcher(TraceableEventDispatcher $eventDispatcher){
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
 
     /**
      * @param $paginator
@@ -80,18 +96,18 @@ abstract class AbstractManager
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(\Doctrine\ORM\EntityManager $em){
+    public function setEntityManager(EntityManager $em){
         $this->em = $em;
     }
 
     /**
      *
-     * @return type
+     * @return UserInterface
      */
     public function getUser()
     {
         if (!is_object($this->user)) {
-            $this->user = $this->securityContext->getToken()->getUser();
+            $this->user = $this->userManager->getCurrentUser();
         }
         return $this->user;
 
