@@ -56,6 +56,7 @@ class BundleLoader
             // Sonata
             '\Sonata\IntlBundle\SonataIntlBundle',
             //
+            '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
             '\Vich\UploaderBundle\VichUploaderBundle',
             '\Liip\ImagineBundle\LiipImagineBundle',
