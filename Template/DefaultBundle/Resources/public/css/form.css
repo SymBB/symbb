@@ -49,9 +49,12 @@ form select {
 
 form .btn {
     float: left;
-    margin-right: 5px;
 }
 
+
+form fieldset .btn-group  {
+    margin-bottom: 5px;
+}
 
 form .collection_item {
     

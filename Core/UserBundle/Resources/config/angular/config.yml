@@ -1,12 +1,22 @@
 user_ucp:
     pattern:  /ucp/
     controller: UcpCtrl
-    api: 
-        route: symbb_api_ucp_data
     template: 
         route: symbb_ucp_angular_template
         params: 
             file: 'index'
+
+user_ucp_security:
+    pattern:  /ucp/security
+    controller: UcpSecurityCtrl
+    template:
+        route: symbb_ucp_angular_template
+        params:
+            file: 'security'
+
+user_ucp_data:
+    api:
+        route: symbb_api_ucp_data
 
 user_ucp_save:
     api: 

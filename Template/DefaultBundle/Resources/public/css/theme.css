@@ -643,3 +643,42 @@ display: none !important;
     background-color: #161E29;
     padding: 20px 0;
 }
+
+
+.section_tabs {
+    background-color: #fff;
+    border: 1px solid #CCC;
+}
+
+.section_tabs ul {
+    position: relative;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+.section_tabs ul li {
+    position: relative;
+    display: block;
+}
+
+.section_tabs ul li a:hover {
+    background-color: #428BCA;
+}
+
+.section_tabs ul li span {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    display: inline-block;
+    background: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+.section_content {
+    background-color: #ffffff;
+    border: 1px solid #CCC;
+    border-top: 0;
+    padding: 10px;
+}

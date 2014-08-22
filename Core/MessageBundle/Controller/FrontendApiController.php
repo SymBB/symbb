@@ -25,25 +25,42 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
      */
     public function listAction(Request $request)
     {
-        $params['entries'] = array();
+        $params['receivedMessages'] = array();
         $messages = $this->get('symbb.core.message.manager')->findReceivedMessages();
         $breadcrumb = $this->getBreadcrumbData();
         $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($messages);
         foreach ($messages as $message) {
-            $params['entries'][] = $this->getMessageAsArray($message);
+            $params['receivedMessages'][] = $this->getMessageAsArray($message);
         }
         $params['count']['received'] = $this->paginationData['totalCount'];
+
+        $params['sentMessages'] = array();
+        $messages = $this->get('symbb.core.message.manager')->findSentMessages();
+        $breadcrumb = $this->getBreadcrumbData();
+        $this->addBreadcrumbItems($breadcrumb);
+        $this->addPaginationData($messages);
+        foreach ($messages as $message) {
+            $params['sentMessages'][] = $this->getMessageAsArray($message);
+        }
+        $params['count']['sent'] = $this->paginationData['totalCount'];
         return $this->getJsonResponse($params);
     }
 
     protected function getMessageAsArray(Message $message){
+
+        $receivers = array();
+        foreach($message->getReceivers() as $receiver){
+            $receivers[] = $this->getUserAsArray($receiver->getUser());
+        }
+
         $data = array(
             'id' => $message->getId(),
             'subject' => $message->getSubject(),
             'message' => $message->getMessage(),
             'date' => $this->getISO8601ForUser($message->getDate()),
-            'sender' => $this->getUserAsArray($message->getSender())
+            'sender' => $this->getUserAsArray($message->getSender()),
+            'receivers' => $receivers
         );
 
         return $data;
