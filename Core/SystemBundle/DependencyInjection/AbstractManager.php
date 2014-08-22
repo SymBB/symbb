@@ -16,7 +16,7 @@ use SymBB\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;
 use \Doctrine\ORM\EntityManager;
-use \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
+use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractManager
 {
@@ -53,7 +53,7 @@ abstract class AbstractManager
     protected $em;
 
     /**
-     * @var \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     protected $eventDispatcher;
 
@@ -72,9 +72,9 @@ abstract class AbstractManager
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher $eventDispatcher
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
-    public function setEventDispatcher(TraceableEventDispatcher $eventDispatcher){
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher){
         $this->eventDispatcher = $eventDispatcher;
     }
 
