@@ -1,155 +1,35 @@
-forum_index:
-    pattern:  /forum/
-    controller: ForumCtrl
-    api: 
-        route: symbb_api_forum_data
-    template: 
-        route: symbb_template_default_angular
-        params: 
-            file: 'forumList'
-        
-forum_show:
-    pattern:  /f-{id}-{name}/show/{page}/
+message_list:
+    pattern:  /message/list/{page}/
     defaults:
         page: 1
-    controller: ForumCtrl
+    controller: MessageListCtrl
     api: 
-        route: symbb_api_forum_data
+        route: symbb_api_message_list
     template: 
-        route: symbb_template_default_angular
+        route: symbb_template_angular_message
         params: 
-            file: 'forumList'
+            file: 'list'
         
-forum_search:
-    pattern:  /forum/search/{page}/
-    defaults:
-        page: 1
-    controller: ForumSearchCtrl
-    api: 
-        route: symbb_api_post_search
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'search'
-
-forum_topic_list:
+message_show:
+    pattern:  /message/show/{id}/
+    controller: MessageShowCtrl
     api:
-        route: symbb_api_forum_topic_list
+        route: symbb_api_message_data
+    template: 
+        route: symbb_template_angular_message
+        params: 
+            file: 'show'
+
+message_new:
+    pattern:  /message/new/
+    controller: MessageNewCtrl
+    api:
+        route: symbb_api_message_data
     template:
-        route: symbb_forum_angular_template
+        route: symbb_template_angular_message
         params:
-            file: 'topicList'
+            file: 'new'
 
-forum_topic_show:
-    pattern:  /t-{id}-{name}/{page}/
-    defaults:
-        page: 1
-    controller: ForumTopicShowCtrl
+message_save:
     api: 
-        route: symbb_api_topic_data
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'topicShow'
-        
-forum_topic_create:
-    pattern:  /f-{forum}/topic/new/
-    controller: ForumTopicEditCtrl
-    api: 
-        route: symbb_api_topic_data
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'topic'
-
-forum_topic_edit:
-    pattern:  /f-{forum}/topic/{id}/edit
-    controller: ForumTopicEditCtrl
-    api:
-        route: symbb_api_topic_data
-    template:
-        route: symbb_forum_angular_template
-        params:
-            file: 'topic'
-        
-forum_post_create:
-    pattern:  /t-{topic}/post/new
-    controller: ForumPostEditCtrl
-    api: 
-        route: symbb_api_post_data
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'post'
-        
-forum_post_quote:
-    pattern:  /p-{topic}/quote/{quoteId}
-    controller: ForumPostEditCtrl
-    api: 
-        route: symbb_api_post_data
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'post'
-        
-forum_post_edit:
-    pattern:  /p-{id}/edit
-    controller: ForumPostEditCtrl
-    api: 
-        route: symbb_api_post_data
-    template: 
-        route: symbb_forum_angular_template
-        params: 
-            file: 'post'
-
-forum_ignore:
-    api: 
-        route: symbb_api_forum_ignore
-        
-forum_unignore:
-    api: 
-        route: symbb_api_forum_unignore
-        
-forum_mark_as_read:
-    api: 
-        route: symbb_api_forum_mark_as_read
-
-topic_mark_as_read:
-    api:
-        route: symbb_api_topic_mark_as_read
-
-post_mark_as_read:
-    api:
-        route: symbb_api_post_mark_as_read
-        
-forum_topic_save:
-    api: 
-        route: symbb_api_topic_save
-
-forum_topic_close:
-    api:
-        route: symbb_api_topic_close
-
-forum_topic_delete:
-    api:
-        route: symbb_api_topic_delete
-
-forum_topic_move:
-    api:
-        route: symbb_api_topic_move
-    template:
-        route: symbb_forum_angular_template
-        params:
-            file: 'moveTopic'
-        
-forum_post_upload_image:
-    api: 
-        route: symbb_api_post_upload_image
-        
-forum_post_save:
-    api: 
-        route: symbb_api_post_save
-        
-forum_post_delete:
-    api: 
-        route: symbb_api_post_delete
+        route: symbb_api_message_save

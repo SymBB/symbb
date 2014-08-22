@@ -2,3 +2,13 @@ services:
     symbb.core.message.manager:
         parent:  symbb.core.abstract.manager
         class:      SymBB\Core\MessageBundle\DependencyInjection\MessageManager
+
+    symbb.core.message.angular.router.files:
+        class: SymBB\Core\MessageBundle\EventListener\AngularListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
+
+    symbb.core.message.listener.template:
+        class: SymBB\Core\MessageBundle\EventListener\TemplateListener
+        tags:
+            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts }

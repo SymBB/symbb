@@ -3,7 +3,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         restrict: 'E',
         replace: true,
         transclude: true,
-        template: '<div class="symbb_action_row" ><ol class="breadcrumb_mini" ng-transclude></ol></div>',
+        template: '<div class="" ><ol class="breadcrumb_mini" ng-transclude></ol></div>',
         link: function(scope, elm, attrs) {
             symbbAngularUtils.breadcrumbElement = $(elm[0]).find('ol');
         }

@@ -30,7 +30,11 @@ class MessageManager extends AbstractManager
 
     }
 
-    public function findSentMessages(UserInterface $sender, $page = 1, $limit = 20){
+    public function findSentMessages(UserInterface $sender = null, $page = 1, $limit = 20){
+
+        if(!$sender){
+            $sender = $this->getUser();
+        }
 
         $sql = "SELECT
                     m
@@ -49,7 +53,11 @@ class MessageManager extends AbstractManager
         return $pagination;
     }
 
-    public function findReceivedMessages(UserInterface $receiver, $page = 1, $limit = 20){
+    public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20){
+
+        if(!$receiver){
+            $receiver = $this->getUser();
+        }
 
         $sql = "SELECT
                     m

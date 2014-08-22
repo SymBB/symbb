@@ -16,18 +16,13 @@
 </script>
 
 <script type="text/ng-template" id="symbbForumRow.html">
-    <div class="" ng-if="!object.isLink">
+    <div class="" ng-if="!object.isLink" ng-class="{new: object.flags.new, ignore: object.ignored  }">
         <div class="col-md-5 col">
             <img ng-if="object.backgroundImage" class="forumimage" ng-src="[[object.backgroundImage]]" symbb-js-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]"/>
-            <span ng-if="!object.backgroundImage" ng-class="{new: object.flags.new }" class="forumimage glyphicon glyphicon-comment"></span>
+            <span ng-if="!object.backgroundImage" class="forumimage glyphicon glyphicon-comment"></span>
             <div class="infos">
                 <div class="title">
                     <a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.name ]]</a>
-                    <span class="labels">
-                        <span ng-repeat="flag in object.flags">
-                            <span  class="label label-[[flag.type]]">[[flag.title]]</span>
-                        </span>
-                    </span>
                 </div>
                 <div class="description"><a ng-if="!object.isLink" symbb-link="forum_show" param-id="[[object.id]]" param-name="[[object.seo.name]]">[[ object.description ]]</a></div>
                 <div class="subforumlist" ng-if="object.showSubForumList">
@@ -131,7 +126,7 @@
 <symbb-breadcrumb >
     <li class="pull-right" ng-if="forum.access.createTopic && forum.isForum">
         <button title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="forum_topic_create" param-forum="[[forum.id]]" param-name="[[forum.seo.name]]">
-            <span class="glyphicon glyphicon-plus"></span>
+            <span class="glyphicon glyphicon-plus"></span> {% trans %}new Topic{% endtrans %}
         </button>
     </li>
 </symbb-breadcrumb>

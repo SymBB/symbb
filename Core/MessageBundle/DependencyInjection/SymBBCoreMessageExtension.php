@@ -22,6 +22,7 @@ class SymBBCoreMessageExtension extends Extension implements PrependExtensionInt
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('doctrine.yml');
+        $loader->load('services.yml');
     }
         
     public function load(array $configs, ContainerBuilder $container)

@@ -38,13 +38,6 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             $.each(data, function(key, value) {
                 $scope[key] = value;
             });
-            $timeout(function(){
-                $('.symbb_topic .row.body .media .userblock').each(function(key, div){
-                    var height = $( div ).parent().height();
-                    $( div ).css("height", height);
-                });
-            }, 0);
-            
         });
         
         $anchorScroll();

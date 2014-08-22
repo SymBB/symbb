@@ -2,6 +2,6 @@ symbb_api_message:
     resource: "@SymBBCoreMessageBundle/Controller"
     type: annotation
 
-symbb_message_angular_template:
+symbb_template_angular_message:
     pattern:  /angular/template/message/{file}
     defaults: { _controller: SymBBCoreMessageBundle:Angular:templateFile }

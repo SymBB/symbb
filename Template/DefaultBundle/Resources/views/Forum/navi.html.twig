@@ -15,6 +15,12 @@
                 <span class="text">{% trans %}Options{% endtrans %}</span>
             </a>
         </li>
+            <li>
+                <a href="{{ path('angular_locale_message_list', {page: 1}) }}">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    <span class="text">{% trans %}Messages{% endtrans %}</span>
+                </a>
+            </li>
         <li>
             <a href="{{ path('angular_locale_forum_search', {page: 1}) }}">
                 <span class="glyphicon glyphicon-fire"></span>
