@@ -12,4 +12,35 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
         });
         $anchorScroll();
     }
+]).controller('MessageNewCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll',
+    function($scope, $http, $routeParams, $anchorScroll) {
+        $scope.message = {
+            id: 0,
+            subject: '',
+            message: '',
+            receivers: []
+        }
+        $scope.save = function(){
+            $http.post(angularConfig.getSymfonyApiRoute('message_save', {}), $scope.message).success(function(data) {
+                if (data.success) {
+                    angularConfig.goTo($location, 'message_list');
+                }
+            });
+        }
+        $anchorScroll();
+    }
+]).controller('MessageShowCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll',
+    function($scope, $http, $routeParams, $anchorScroll) {
+        var messageId = 0;
+        if ($routeParams && $routeParams.id) {
+            messageId = $routeParams.id;
+        }
+        var route = angularConfig.getSymfonyApiRoute('message_show', {'id': messageId});
+        $http.get(route).success(function(data) {
+            $.each(data, function(key, value) {
+                $scope[key] = value;
+            });
+        });
+        $anchorScroll();
+    }
 ]);
