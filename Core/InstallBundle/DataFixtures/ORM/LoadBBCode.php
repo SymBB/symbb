@@ -135,7 +135,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeQuote->setName('Quote');
         $bbcodeQuote->setSearchRegex('#\[quote(?:=(.+)\](.+)|\](([\s\S]*?)))\[\/quote]#iUs');
         $bbcodeQuote->setReplaceRegex('<blockquote cite="$1" ><p>$2$4</p><footer><cite>$1</cite></footer></blockquote>');
-        $bbcodeQuote->setButtonRegex('[quote=]{text}[/quote]');
+        $bbcodeQuote->setButtonRegex('[quote]{text}[/quote]');
         $bbcodeQuote->setImage('/bundles/symbbcorebbcode/images/comment.png');
         $bbcodeQuote->setPosition($pos);
         $manager->persist($bbcodeQuote);
