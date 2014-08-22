@@ -190,3 +190,6 @@
 .symbb_forum_body_row .ignore .col .infos .description {
     display: none;
 }
+.symbb_forum_body_row .ignore .col .infos .subforumlist {
+    display: none;
+}
