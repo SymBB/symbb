@@ -11,6 +11,8 @@ namespace SymBB\Core\MessageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SymBB\Core\MessageBundle\Entity\Message\Receiver;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -42,7 +44,7 @@ class Message
     protected $message;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message")
+     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message", cascade={"persist"})
      * @var ArrayCollection
      */
     protected $receivers;
@@ -162,6 +164,13 @@ class Message
         return $this->subject;
     }
 
+
+    /**
+     * @param Receiver $receiver
+     */
+    public function addReceiver(Receiver $receiver){
+        $this->receivers->add($receiver);
+    }
 
 
 }

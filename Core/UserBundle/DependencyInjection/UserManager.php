@@ -200,17 +200,18 @@ class UserManager
 
         $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
         $qb->select("u");
-        $countValue = 1;
+        $whereParts = array();
         foreach ($criteria as $field => $value) {
+            $valueKey = uniqid('value_');
             if (\is_array($value)) {
-                $qb->where("u." . $field . " " . key($value) . " ?" . reset($countValue) . "");
-                $value = reset($value);
+                $whereParts[] = "u." . $field . " " . reset($value) . " :" . $valueKey . "";
+                $value = end($value);
             } else {
-                $qb->where("u." . $field . " = ?" . $countValue . "");
+                $whereParts[] = "u." . $field . " = :" . $valueKey . "";
             }
-            $qb->setParameter($countValue, $value);
-            $countValue++;
+            $qb->setParameter($valueKey, $value);
         }
+        $qb->add("where", implode(' AND ', $whereParts));
         $qb->orderBy("u.username", "ASC");
         $query = $qb->getQuery();
         $pagination = $this->paginator->paginate(

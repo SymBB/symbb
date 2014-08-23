@@ -21,6 +21,10 @@ symbb_api_user_ucp_save:
 symbb_api_userlist:
     pattern:  /api/userlist/{page}
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:userlist, page: 1 }
+
+symbb_api_user_search:
+    pattern:  /api/user/search
+    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:search }
     
     
     

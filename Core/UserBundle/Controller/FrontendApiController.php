@@ -8,11 +8,44 @@
  */
 
 namespace SymBB\Core\UserBundle\Controller;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
 
+    public function searchAction(Request $request)
+    {
+        $limit = 20;
+        if($request->get('limit') !== null){
+            $limit = (int)$request->get('limit');
+        }
+
+        $search = array('symbbType' => 'user');
+        if($request->get('q') !== null){
+            $query = (string)$request->get('q');
+            $search['username'] = array('LIKE', '%'.$query.'%');
+        }
+
+        $usermanager = $this->get('symbb.core.user.manager');
+        $users = $usermanager->findBy($search, $limit, 1);
+        $this->addPaginationData($users);
+        $data = array('entries' => array());
+        foreach($users as $user){
+            $data['entries'][] = $this->getUserAsArray($user);
+        }
+
+        return $this->getJsonResponse($data);
+    }
+
+    protected function getUserAsArray(UserInterface $user){
+        $data = $this->get('symbb.core.user.manager')->getSymbbData($user);
+        return array(
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'avatar' =>$this->get('symbb.core.user.manager')->getAvatar($user)
+        );
+    }
     public function userlistAction(Request $request)
     {
         $page = $request->get('page');

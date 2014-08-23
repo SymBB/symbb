@@ -10,7 +10,8 @@
     
     {% block stylesheets %}
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         {% stylesheets filter='?uglifycss'
             '@SymBBTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
@@ -19,6 +20,8 @@
             '@SymBBTemplateDefaultBundle/Resources/public/css/search.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/forum.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/topic.css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/select2.css'
+            '@SymBBTemplateDefaultBundle/Resources/public/css/select2-bootstrap.css'
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
@@ -31,7 +34,7 @@
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
         {% javascripts filter='?uglifyjs2'
         '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
@@ -39,6 +42,7 @@
         '@SymBBTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/select2.js'
         '@FOSJsRoutingBundle/Resources/public/js/router.js'
         %}
         <script src="{{ asset_url }}"></script>

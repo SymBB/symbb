@@ -53,9 +53,7 @@
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="topic_mark_as_read" param-id="[[object.id]]">
                     <span class="glyphicon glyphicon-ok"></span>
                 </button>
-                <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-topic-move param-id="[[object.id]]">
-                    <span class="glyphicon glyphicon-random"></span>
-                </button>
+                <symbb-topic-move ng-if="user.type != 'guest'" param-id="[[object.id]]"></symbb-topic-move>
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-request="forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}">
                     <span class="glyphicon glyphicon-lock"></span>
                 </button>

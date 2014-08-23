@@ -14,10 +14,42 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post\History;
 use SymBB\Core\MessageBundle\Entity\Message;
+use SymBB\Core\UserBundle\DependencyInjection\UserManager;
+use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
+
+    /**
+     * @Route("/api/message/save", name="symbb_api_message_save")
+     * @Method({"POST"})
+     */
+    public function saveAction(Request $request)
+    {
+
+        $subject = $request->get('subject');
+        $message = $request->get('message');
+        $userManager = $this->get('symbb.core.user.manager');
+        /**
+         * @var $userManager UserManager
+         */
+        $receiverIds = (array)$request->get('receivers');
+        $receivers = array();
+        foreach($receiverIds as $receiverId){
+            $receivers[] = $userManager->find((int)$receiverId);
+        }
+
+        $errors = $this->get('symbb.core.message.manager')->sendMessage($subject, $message, $receivers);
+
+        if(!empty($errors)){
+            foreach($errors as $error){
+                $this->addErrorMessage($error);
+            }
+        }
+
+        return $this->getJsonResponse();
+    }
 
     /**
      * @Route("/api/message/list", name="symbb_api_message_list")

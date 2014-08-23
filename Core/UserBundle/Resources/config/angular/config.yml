@@ -21,6 +21,10 @@ user_ucp_data:
 user_ucp_save:
     api: 
         route: symbb_api_user_ucp_save
+
+user_search:
+    api:
+        route: symbb_api_user_search
         
 userlist:
     pattern:  /users/{page}

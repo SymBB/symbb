@@ -11,6 +11,7 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
+use SymBB\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 use \SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post;
@@ -270,14 +271,16 @@ class ForumManager extends AbstractManager
         $by = array('parent' => null);
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
         foreach ($entries as $entity) {
-            if(!$checkAccess){
-                $this->accessManager->addAccessCheck('VIEW', $entity);
-                if($this->accessManager->hasAccess()){
-                    if(in_array($entity->getType(), $types) || empty($types)){
-                        $list[$entity->getId()] = $entity;
-                    }
-                    $this->addChildsToArray($entity, $list);
+            $access = true;
+            if($checkAccess){
+                $this->accessManager->addAccessCheck(ForumVoter::VIEW, $entity);
+                $access = $this->accessManager->hasAccess();
+            }
+            if($access){
+                if(in_array($entity->getType(), $types) || empty($types)){
+                    $list[$entity->getId()] = $entity;
                 }
+                $this->addChildsToArray($entity, $list);
             }
         }
 

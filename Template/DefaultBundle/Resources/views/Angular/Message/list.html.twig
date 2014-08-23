@@ -54,7 +54,7 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="entry in sentMessages">
-                        <td><div ng-repeat="receiver in receivers">[[receiver.username]]</div></td>
+                        <td><div ng-repeat="receiver in entry.receivers">[[receiver.username]]</div></td>
                         <td>[[entry.subject]]</td>
                         <td>[[entry.date]]</td>
                         <td></td>

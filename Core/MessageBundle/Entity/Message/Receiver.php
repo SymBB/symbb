@@ -11,6 +11,7 @@ namespace SymBB\Core\MessageBundle\Entity\Message;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use SymBB\Core\MessageBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -59,7 +60,7 @@ class Receiver
     }
 
     /**
-     * @param \Doctrine\Common\Collections\ArrayCollection $message
+     * @param Message $message
      */
     public function setMessage($message)
     {
@@ -67,7 +68,7 @@ class Receiver
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Message
      */
     public function getMessage()
     {

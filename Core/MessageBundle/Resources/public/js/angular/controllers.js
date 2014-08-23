@@ -12,8 +12,8 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
         });
         $anchorScroll();
     }
-]).controller('MessageNewCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll',
-    function($scope, $http, $routeParams, $anchorScroll) {
+]).controller('MessageNewCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll', '$location',
+    function($scope, $http, $routeParams, $anchorScroll, $location) {
         $scope.message = {
             id: 0,
             subject: '',
