@@ -177,6 +177,8 @@
 
 .symbb_forum_body_row .ignore .col {
     visibility: hidden;
+    max-height: 30px;
+    overflow: hidden;
 }
 .symbb_forum_body_row .ignore .col:first-child {
     visibility: visible;
