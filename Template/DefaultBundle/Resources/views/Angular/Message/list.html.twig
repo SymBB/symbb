@@ -16,23 +16,38 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">{{ 'received Messages'|trans }}</div>
+                <div class="panel-heading">{{ 'received Messages'|trans }}
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" ng-click="paginateReceivedBack()">«</a>
+                        </li>
+                        <li ng-repeat="page in paginationDataRecevied.pagesInRange" ng-class='(page==paginationDataRecevied.current) ? "active" : "inactive"'>
+                            <a href="#" ng-click="getReceivedMessages(page)">[[page]]</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="paginateReceivedNext()">»</a>
+                        </li>
+                    </ul>
+                </div>
                 <!-- Table -->
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>{{ 'Sender'|trans }}</th>
-                        <th>{{ 'Subject'|trans }}</th>
-                        <th>{{ 'Date'|trans }}</th>
-                        <th>{{ 'Actions'|trans }}</th>
+                        <th class="col-md-4">{{ 'Sender'|trans }}</th>
+                        <th class="col-md-5">{{ 'Subject'|trans }}</th>
+                        <th class="col-md-3">{{ 'Date'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="entry in receivedMessages">
+                    <tr ng-repeat="entry in entriesReceived" symbb-js-link="message_show" param-id="[[entry.id]]">
                         <td>[[entry.sender.username]]</td>
                         <td>[[entry.subject]]</td>
-                        <td>[[entry.date]]</td>
-                        <td></td>
+                        <td>[[entry.date | date:'dd.MM.yyyy H:mm']]</td>
+                    </tr>
+                    <tr ng-if="loadingReceivedMessages">
+                        <td colspan="3">
+                            <div class="loading-spinner-icon"></div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -41,23 +56,38 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">{{ 'sent Messages'|trans }}</div>
+                <div class="panel-heading">{{ 'sent Messages'|trans }}
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" ng-click="paginateSentBack()">«</a>
+                        </li>
+                        <li ng-repeat="page in paginationDataSent.pagesInRange" ng-class='(page==paginationDataSent.current) ? "active" : "inactive"'>
+                            <a href="#" ng-click="getSentMessages(page)">[[page]]</a>
+                        </li>
+                        <li>
+                            <a href="#" ng-click="paginateSentNext()">»</a>
+                        </li>
+                    </ul>
+                </div>
                 <!-- Table -->
                 <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th>{{ 'Receiver'|trans }}</th>
-                        <th>{{ 'Subject'|trans }}</th>
-                        <th>{{ 'Date'|trans }}</th>
-                        <th>{{ 'Actions'|trans }}</th>
+                        <th class="col-md-4">{{ 'Receiver'|trans }}</th>
+                        <th class="col-md-5">{{ 'Subject'|trans }}</th>
+                        <th class="col-md-3">{{ 'Date'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="entry in sentMessages">
+                    <tr ng-repeat="entry in entriesSent">
                         <td><div ng-repeat="receiver in entry.receivers">[[receiver.username]]</div></td>
                         <td>[[entry.subject]]</td>
-                        <td>[[entry.date]]</td>
-                        <td></td>
+                        <td>[[entry.date | date:'dd.MM.yyyy H:mm']]</td>
+                    </tr>
+                    <tr ng-if="loadingSentMessages">
+                        <td colspan="3">
+                            <div class="loading-spinner-icon"></div>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

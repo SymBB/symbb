@@ -5,7 +5,7 @@
 {% block section_content %}
 
 <form role="form">
-    <div class="form-group">
+    <div class="form-group" ng-if="!replyTo">
         <label for="receivers">{{ 'receivers'|trans }}</label>
         <symbb-user-autocomplete ng-model="message.receivers"  class="form-control" id="receivers" ></symbb-user-autocomplete>
     </div>

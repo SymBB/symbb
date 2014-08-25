@@ -12,6 +12,7 @@ services:
             - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText }
             - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.clean.text, method: cleanPostText }
             - { priority: 0, name: kernel.event_listener, event: symbb.core.user.parse.signature, method: parseUserSignature }
+            - { priority: 0, name: kernel.event_listener, event: symbb.core.message.manager.parse.message, method: parseMessageText }
            
     symbb.core.bbcode.manager:
         class: SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager

@@ -9,11 +9,13 @@
 
     var angularConfig = {
 
-        goTo: function($location, route, params, urlKey){
+        goTo: function($timeout, $location, route, params, urlKey){
             var routing = this.getAngularRoute(route, params, urlKey, true);
-            $location.path(routing);
-            $scope = angular.element(document).scope(); // this is the came as $rootScope
-            $scope.$apply(); // so this also has no effect
+            $timeout(function() {
+                $location.path(routing);
+            }, 0 );
+            //$scope = angular.element(document).scope(); // this is the came as $rootScope
+            //$scope.$apply(); // so this also has no effect
         },
 
         sfApiRoutes: {{angularRouter.createSfApiRouteJson() | raw}},

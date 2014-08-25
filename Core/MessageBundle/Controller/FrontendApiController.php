@@ -52,30 +52,53 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
 
     /**
-     * @Route("/api/message/list", name="symbb_api_message_list")
+     * @Route("/api/message/list/received", name="symbb_api_message_list_received")
      * @Method({"GET"})
      */
-    public function listAction(Request $request)
+    public function receviedListAction(Request $request)
     {
-        $params['receivedMessages'] = array();
+        $params['entries'] = array();
         $messages = $this->get('symbb.core.message.manager')->findReceivedMessages();
         $breadcrumb = $this->getBreadcrumbData();
         $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($messages);
         foreach ($messages as $message) {
-            $params['receivedMessages'][] = $this->getMessageAsArray($message);
+            $params['entries'][] = $this->getMessageAsArray($message);
         }
-        $params['count']['received'] = $this->paginationData['totalCount'];
+        return $this->getJsonResponse($params);
+    }
 
-        $params['sentMessages'] = array();
+    /**
+     * @Route("/api/message/list/sent", name="symbb_api_message_list_sent")
+     * @Method({"GET"})
+     */
+    public function sentListAction(Request $request)
+    {
+        $params['entries'] = array();
         $messages = $this->get('symbb.core.message.manager')->findSentMessages();
         $breadcrumb = $this->getBreadcrumbData();
         $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($messages);
         foreach ($messages as $message) {
-            $params['sentMessages'][] = $this->getMessageAsArray($message);
+            $params['entries'][] = $this->getMessageAsArray($message);
         }
-        $params['count']['sent'] = $this->paginationData['totalCount'];
+        return $this->getJsonResponse($params);
+    }
+
+    /**
+     * @Route("/api/message/data", name="symbb_api_message_data")
+     * @Method({"GET"})
+     */
+    public function dataAction(Request $request)
+    {
+        $id = (int)$request->get('id');
+        $params = array();
+        if($id > 0){
+            $message = $this->get('symbb.core.message.manager')->find($id);
+            $breadcrumb = $this->getBreadcrumbData($message);
+            $this->addBreadcrumbItems($breadcrumb);
+            $params['message'] = $this->getMessageAsArray($message);
+        }
         return $this->getJsonResponse($params);
     }
 
@@ -89,7 +112,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $data = array(
             'id' => $message->getId(),
             'subject' => $message->getSubject(),
-            'message' => $message->getMessage(),
+            'messageRaw' => $message->getMessage(),
+            'message' => $this->get('symbb.core.message.manager')->parseMessage($message),
             'date' => $this->getISO8601ForUser($message->getDate()),
             'sender' => $this->getUserAsArray($message->getSender()),
             'receivers' => $receivers
@@ -126,6 +150,9 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 'id' => $message->getId()
             );
         }
+
+        $home = $this->get('translator')->trans('Messages', array(), 'symbb_frontend');
+        $breadcrumb[] = array('name' => $home, 'type' => 'message_home');
 
         $home = $this->get('translator')->trans('Home', array(), 'symbb_frontend');
         $breadcrumb[] = array('name' => $home, 'type' => 'home');

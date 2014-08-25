@@ -3,8 +3,6 @@ message_list:
     defaults:
         page: 1
     controller: MessageListCtrl
-    api: 
-        route: symbb_api_message_list
     template: 
         route: symbb_template_angular_message
         params: 
@@ -31,5 +29,13 @@ message_new:
             file: 'new'
 
 message_save:
-    api: 
+    api:
         route: symbb_api_message_save
+
+message_list_sent:
+    api:
+        route: symbb_api_message_list_sent
+
+message_list_received:
+    api:
+        route: symbb_api_message_list_received

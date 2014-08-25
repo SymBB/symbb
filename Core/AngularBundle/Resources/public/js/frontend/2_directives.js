@@ -46,7 +46,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             }
         }
     };
-}).directive('symbbJsLink', ['$location', function($location) {
+}).directive('symbbJsLink', ['$location', '$timeout', function($location, $timeout) {
     return {
         restrict: 'A',
         replace: false,
@@ -54,7 +54,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             $(element[0]).addClass('pointer');
             $(element[0]).click(function() {
                 var params = prepareParams(attrs);
-                angularConfig.goTo($location, attrs.symbbJsLink, params);
+                angularConfig.goTo($timeout, $location, attrs.symbbJsLink, params);
                 return false;
             });
         }
@@ -136,7 +136,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                 $timeout(function(){
                     var params = prepareParams(attrs);
                     params.page = pagenumber;
-                    angularConfig.goTo($location, attrs.route, params);
+                    angularConfig.goTo($timeout, $location, attrs.route, params);
                 }, 0 );
 
             };
@@ -144,7 +144,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                 $timeout(function(){
                     var params = prepareParams(attrs);
                     params.page = scope.paginationData.next;
-                    angularConfig.goTo($location, attrs.route, params);
+                    angularConfig.goTo($timeout, $location, attrs.route, params);
                 }, 0 );
 
             };
@@ -158,7 +158,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                 $timeout(function(){
                     var params = prepareParams(attrs);
                     params.page = back;
-                    angularConfig.goTo($location, attrs.route, params);
+                    angularConfig.goTo($timeout, $location, attrs.route, params);
                 }, 0 );
             };
         }

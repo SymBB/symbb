@@ -62,6 +62,11 @@ var symbbAngularUtils = {
             params = {id: item.id, name: item.seoName};
         }  else if(item.type === 'home'){
             route = 'forum_index';
+        } else if(item.type === 'message_home'){
+            route = 'message_list';
+        }   else if(item.type === 'message'){
+            route = 'message_show';
+            params = {id: item.id};
         } else {
             console.debug(item);
         }

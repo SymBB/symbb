@@ -42,8 +42,8 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
         
         $anchorScroll();
     }
-]).controller('ForumTopicEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
-    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll) {
+]).controller('ForumTopicEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll', '$timeout',
+    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
         var forumId = $routeParams.forum
         var topicId = $routeParams.id
         var route = angularConfig.getSymfonyApiRoute('forum_topic_edit', {forum: forumId, id: topicId});
@@ -62,7 +62,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.master = angular.copy(topic);
                 $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {}), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo($location, 'forum_topic_show', {id: data.id, name: 'new', page:1});
+                        angularConfig.goTo($timeout, $location, 'forum_topic_show', {id: data.id, name: 'new', page:1});
                     }
                 });
             };
@@ -77,8 +77,8 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 
         $anchorScroll();
     }
-]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll',
-    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll) {
+]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll', '$timeout',
+    function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
 
         var route = angularConfig.getSymfonyApiRoute('forum_post_edit', $routeParams);
         $http.get(route).success(function(data) {
@@ -95,7 +95,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.master = angular.copy(post);
                 $http.post(angularConfig.getSymfonyApiRoute('forum_post_save'), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo($location, 'forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.seo.name, page:'last'});
+                        angularConfig.goTo($timeout, $location, 'forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.seo.name, page:'last'});
                     }
                 });
             };

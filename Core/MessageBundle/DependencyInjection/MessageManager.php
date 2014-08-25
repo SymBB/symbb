@@ -11,6 +11,7 @@ namespace SymBB\Core\MessageBundle\DependencyInjection;
 
 use SymBB\Core\MessageBundle\Entity\Message;
 use SymBB\Core\MessageBundle\Entity\Message\Receiver;
+use SymBB\Core\MessageBundle\Event\ParseMessageEvent;
 use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
 use SymBB\Core\UserBundle\Entity\UserInterface;
 
@@ -22,6 +23,22 @@ class MessageManager extends AbstractManager
     const ERROR_SUBJECT_EMPTY = 'sobject is empty';
     const ERROR_MESSAGE_EMPTY = 'message is empty';
 
+    /**
+     * @param $id
+     * @return Message
+     */
+    public function find($id){
+        $message = $this->em->getRepository('SymBBCoreMessageBundle:Message')->find($id);
+        return $message;
+    }
+
+    /**
+     * @param $subject
+     * @param $messageText
+     * @param $receivers
+     * @param UserInterface $sender
+     * @return array
+     */
     public function sendMessage($subject, $messageText, $receivers, UserInterface $sender = null){
 
         $errors = array();
@@ -63,6 +80,12 @@ class MessageManager extends AbstractManager
         return $errors;
     }
 
+    /**
+     * @param UserInterface $sender
+     * @param int $page
+     * @param int $limit
+     * @return Message[]
+     */
     public function findSentMessages(UserInterface $sender = null, $page = 1, $limit = 20){
 
         if(!$sender){
@@ -86,6 +109,12 @@ class MessageManager extends AbstractManager
         return $pagination;
     }
 
+    /**
+     * @param UserInterface $receiver
+     * @param int $page
+     * @param int $limit
+     * @return Message[]
+     */
     public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20){
 
         if(!$receiver){
@@ -109,5 +138,15 @@ class MessageManager extends AbstractManager
         $pagination = $this->createPagination($query, $page, $limit);
 
         return $pagination;
+    }
+
+    public function parseMessage(Message $message)
+    {
+        $text = $message->getMessage();
+        $event = new ParseMessageEvent($message, (string)$text);
+        $this->eventDispatcher->dispatch('symbb.core.message.manager.parse.message', $event);
+        $text = $event->getText();
+
+        return $text;
     }
 }

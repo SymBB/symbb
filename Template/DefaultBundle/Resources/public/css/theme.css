@@ -12,6 +12,12 @@ html, body {
     height: 100%;
 }
 
+h1 {
+    font-size: 200%;
+    border-bottom: 1px solid #CCC;
+    width: 100%;
+}
+
 blockquote {
     padding: 20px 20px 20px 45px;
     background-color: #EAECF0;
@@ -681,4 +687,26 @@ display: none !important;
     border: 1px solid #CCC;
     border-top: 0;
     padding: 10px;
+}
+
+
+.loading-spinner-icon {
+    width: 14px;
+    height: 14px;
+
+    border: solid 2px transparent;
+    border-top-color: #29d;
+    border-left-color: #29d;
+    border-radius: 10px;
+
+    -webkit-animation: loading-bar-spinner 400ms linear infinite;
+    -moz-animation: loading-bar-spinner 400ms linear infinite;
+    -ms-animation: loading-bar-spinner 400ms linear infinite;
+    -o-animation: loading-bar-spinner 400ms linear infinite;
+    animation: loading-bar-spinner 400ms linear infinite;
+}
+
+.panel-heading .pagination {
+    float: right;
+    margin-top: -7px;
 }
