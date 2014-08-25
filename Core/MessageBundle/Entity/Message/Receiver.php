@@ -44,6 +44,11 @@ class Receiver
     protected $user;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $new = true;
+
+    /**
      * @param mixed $id
      */
     public function setId($id)
@@ -89,6 +94,22 @@ class Receiver
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param boolean $new
+     */
+    public function setNew($new)
+    {
+        $this->new = $new;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getNew()
+    {
+        return $this->new;
     }
 
 
