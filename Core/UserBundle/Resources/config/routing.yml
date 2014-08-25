@@ -6,9 +6,13 @@ symbb_user_profile:
     pattern:  /user/{id}/{name}
     defaults: { _controller: SymBBCoreUserBundle:Info:profile }
 
-symbb_ucp_angular_template:
+symbb_template_ucp_angular:
     pattern:  /angular/template/ucp/{file}
-    defaults: { _controller: SymBBCoreUserBundle:Angular:templateFile }
+    defaults: { _controller: SymBBCoreUserBundle:Angular:ucpTemplateFile }
+
+symbb_template_user_angular:
+    pattern:  /angular/template/user/{file}
+    defaults: { _controller: SymBBCoreUserBundle:Angular:userTemplateFile }
 
 symbb_api_ucp_data:
     pattern:  /api/ucp/data
@@ -25,6 +29,10 @@ symbb_api_userlist:
 symbb_api_user_search:
     pattern:  /api/user/search
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:search }
+
+symbb_api_user_data:
+    pattern:  /api/user/data
+    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:data }
     
     
     

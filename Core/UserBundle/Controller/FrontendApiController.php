@@ -14,6 +14,19 @@ use Symfony\Component\HttpFoundation\Request;
 class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
 {
 
+    public function dataAction(Request $request){
+
+        $id = (int)$request->get('id');
+        $user = $this->get('symbb.core.user.manager')->find($id);
+
+        $userFieldFilter = array();
+
+        $data = array();
+        $data['profile'] = $this->getUserAsArray($user, $userFieldFilter);
+        $data['userfields'] = $this->getFieldsAsArray($userFieldFilter);
+        return $this->getJsonResponse($data);
+    }
+
     public function searchAction(Request $request)
     {
         $limit = 20;
@@ -32,68 +45,75 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $this->addPaginationData($users);
         $data = array('entries' => array());
         foreach($users as $user){
-            $data['entries'][] = $this->getUserAsArray($user);
+            $data['entries'][] = $this->getUserAsArray($user, array());
         }
 
         return $this->getJsonResponse($data);
     }
 
-    protected function getUserAsArray(UserInterface $user){
-        $data = $this->get('symbb.core.user.manager')->getSymbbData($user);
-        return array(
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'avatar' =>$this->get('symbb.core.user.manager')->getAvatar($user)
-        );
-    }
     public function userlistAction(Request $request)
     {
         $page = $request->get('page');
         if (!$page || $page < 1) {
             $page = 1;
         }
-        $em = $this->getDoctrine()->getManager('symbb');
-        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findBy(array('displayInMemberlist' => true));
         $usermanager = $this->get('symbb.core.user.manager');
         $users = $usermanager->findBy(array('symbbType' => 'user'), 20, $page);
 
 
+        $userFieldFilter = array('displayInMemberlist' => true);
+
         $params = array();
-        $params['userfields'] = array();
+        $params['userfields'] = $this->getFieldsAsArray($userFieldFilter);
+        $params['entries'] = array();
+
+        foreach ($users as $user) {
+            $params['entries'][] = $this->getUserAsArray($user, $userFieldFilter);
+        }
+
+        $this->addPaginationData($users);
+        return $this->getJsonResponse($params);
+    }
+    protected function getFieldsAsArray($fieldFilter){
+        $em = $this->getDoctrine()->getManager('symbb');
+        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findBy($fieldFilter);
+        $dataFinal = array();
         foreach ($allFields as $field) {
-            $params['userfields'][] = array(
+            $dataFinal[$field->getId()] = array(
                 'id' => $field->getId(),
                 'label' => $field->getLabel(),
                 'dataType' => $field->getDataType(),
                 'formType' => $field->getFormType()
             );
         }
+        return $dataFinal;
+    }
 
-        $params['entries'] = array();
+    protected function getUserAsArray(UserInterface $user, $fieldFilter){
 
-        foreach ($users as $user) {
-            $userdata = array(
-                'id' => $user->getId(),
-                'username' => $user->getUsername(),
-                'created' => $this->getISO8601ForUser($user->getCreated()),
-                'lastLogin' => $this->getISO8601ForUser($user->getLastLogin()),
-                'count' => array(
-                    'post' => $usermanager->getPostCount($user),
-                    'topic' => $usermanager->getTopicCount($user)
-                )
+        $em = $this->getDoctrine()->getManager('symbb');
+        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findBy($fieldFilter);
+        $usermanager = $this->get('symbb.core.user.manager');
+        $userdata = array(
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'created' => $this->getISO8601ForUser($user->getCreated()),
+            'lastLogin' => $this->getISO8601ForUser($user->getLastLogin()),
+            'avatar' => $usermanager->getAvatar($user),
+            'count' => array(
+                'post' => $usermanager->getPostCount($user),
+                'topic' => $usermanager->getTopicCount($user)
+            )
+        );
+        foreach ($allFields as $field) {
+            $value = $user->getFieldValue($field)->getValue();
+            $userdata['fields'][] = array(
+                'id' => $field->getId(),
+                'value' => $value
             );
-            foreach ($allFields as $field) {
-                $value = $user->getFieldValue($field)->getValue();
-                $userdata['fields'][] = array(
-                    'id' => $field->getId(),
-                    'value' => $value
-                );
-            }
-            $params['entries'][] = $userdata;
         }
 
-        $this->addPaginationData($users);
-        return $this->getJsonResponse($params);
+        return $userdata;
     }
 
     public function ucpDataAction()

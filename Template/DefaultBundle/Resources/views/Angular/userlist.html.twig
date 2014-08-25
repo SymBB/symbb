@@ -1,5 +1,9 @@
 {% trans_default_domain "symbb_frontend" %}
 
+
+{% extends getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+
+{% block section_content %}
 <div class="panel panel-primary">
     <div class="panel-heading">{{ 'Members'|trans() }}</div>
     <div class="panel-body">
@@ -15,7 +19,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="entry in entries">
-                    <td><span symbb-sf-link="symbb_user_profile" param-id="[[entry.id]]" param-name="[[entry.username]]">[[entry.username]]</span></td>
+                    <td><a symbb-link="user_profile" param-id="[[entry.id]]" param-username="[[entry.username]]">[[entry.username]]</a></td>
                     <td>[[entry.count.post]]</td>
                     <td>[[entry.created | date:'dd.MM.yyyy']]</td>
                     <td>[[entry.lastLogin | date:'dd.MM.yyyy']]</td>
@@ -26,3 +30,4 @@
         <pagination route="userlist"></pagination>
     </div>
 </div>
+{% endblock %}

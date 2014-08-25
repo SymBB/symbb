@@ -1,4 +1,10 @@
 {% trans_default_domain "symbb_frontend" %}
+
+
+{% extends getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+
+{% block section_content %}
+
 <div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
     <div ng-repeat="object in searchPagination.items" class="symbb_post">
         <dl class="postprofile">
@@ -59,3 +65,5 @@
         <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
     </div>
 </div>
+
+{% endblock %}

@@ -1,5 +1,8 @@
 {% trans_default_domain "symbb_frontend" %}
 
+{% extends getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+
+{% block section_content %}
 <div class="symbb_topic ">
     <form name="form" class="css-form form-horizontal" enctype="multipart/form-data">
         <div class="panel panel-default">
@@ -126,3 +129,4 @@
         </div>
     </form>
 </div>
+{% endblock %}

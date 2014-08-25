@@ -39,6 +39,15 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
             });
         });
     }
+]).controller('UserProfileCtrl', ['$scope', '$http', '$location', '$routeParams',
+    function($scope, $http, $location, $routeParams) {
+        var route = angularConfig.getSymfonyApiRoute('user_profile', {id: $routeParams.id});
+        $http.get(route).success(function(data) {
+            $.each(data, function(key, value) {
+                $scope[key] = value;
+            });
+        });
+    }
 ]);
 
 

@@ -654,6 +654,7 @@ display: none !important;
 .section_tabs {
     background-color: #fff;
     border: 1px solid #CCC;
+    margin-bottom: 20px;
 }
 
 .section_tabs ul {
@@ -682,10 +683,20 @@ display: none !important;
     font-size: 25px;
 }
 
+.section_tabs .breadcrumb {
+    margin-bottom: 0;
+    background-color: transparent;
+    border-top: 1px solid #CCC;
+    border-radius: 0;
+}
+
+.section_tabs .breadcrumb button {
+    margin-top: -3px;
+}
+
 .section_content {
     background-color: #ffffff;
     border: 1px solid #CCC;
-    border-top: 0;
     padding: 10px;
 }
 
@@ -709,4 +720,46 @@ display: none !important;
 .panel-heading .pagination {
     float: right;
     margin-top: -7px;
+}
+
+.profile .avatar {
+    width: 180px;
+    float: left;
+}
+
+.profile .infos {
+    float: left;
+    min-width: 500px;
+}
+
+.profile .infos h1 {
+    width: auto;
+}
+
+.profile .infos .table {
+    margin-top: 20px;
+}
+
+.profile .infos .table tr:first-child td {
+    border-top: none;
+}
+
+.profile .countDiv {
+    float: left;
+    border-right: 1px solid #CCC;
+    margin-right: 10px;
+    padding-right: 10px;
+}
+
+.profile .countDiv.last {
+    border-right: none;
+}
+
+.profile .countDiv .count {
+    color: #0088cc;
+    font-size: 120%;
+}
+
+.profile .countDiv .title {
+    color: #666666;
 }

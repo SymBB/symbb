@@ -12,7 +12,7 @@ namespace SymBB\Core\UserBundle\Controller;
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
-    public function templateFileAction($file)
+    public function ucpTemplateFileAction($file)
     {
         $response = $this->render(
             $this->getTemplateBundleName('forum').':Angular:Ucp/'.$file.'.html.twig',
@@ -24,6 +24,21 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
         $response->setPublic();
         $response->setSharedMaxAge(600);
         
+        return $response;
+    }
+
+    public function userTemplateFileAction($file)
+    {
+        $response = $this->render(
+            $this->getTemplateBundleName('forum').':Angular:User/'.$file.'.html.twig',
+            array()
+        );
+
+        // all angular templates should be public, they dont contains some private informations.
+        // all variables are parsed at the frontend
+        $response->setPublic();
+        $response->setSharedMaxAge(600);
+
         return $response;
     }
     

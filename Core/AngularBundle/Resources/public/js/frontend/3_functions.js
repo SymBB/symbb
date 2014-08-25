@@ -83,7 +83,7 @@ var symbbAngularUtils = {
                $(element).remove();
            }
         });
-        var spacer = '<span class="glyphicon glyphicon-chevron-right"></span>';
+        var spacer = '';
         var count = 0;
         $.each(items, function(key, value){
             count++;

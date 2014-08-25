@@ -4,24 +4,23 @@
     {% block section_tabs %}
     <ul class="nav nav-tabs">
         <li>
+            <a href="{{ path('angular_locale_forum_index') }}" title="{{ 'home'|trans }}">
+                 <span class="glyphicon glyphicon-home glyphicon-success"></span>
+            </a>
+        </li>
+        <li>
             <a href="{{ path('angular_locale_user_ucp') }}" title="{{ 'profile'|trans }}">
-                <span class="round-tabs two">
-                 <i class="glyphicon glyphicon-user"></i>
-                </span>
+                <span class="glyphicon glyphicon-user"></span>
             </a>
         </li>
         <li>
             <a href="{{ path('angular_locale_user_ucp_security') }}" title="{{ 'security'|trans }}">
-                <span class="round-tabs two">
-                 <i class="glyphicon glyphicon-lock"></i>
-                </span>
+                <span class="glyphicon glyphicon-lock"></span>
             </a>
         </li>
         <li>
             <a href="{{ path('angular_locale_message_list') }}" title="{{ 'messages'|trans }}">
-                <span class="round-tabs four">
-                    <i class="glyphicon glyphicon-comment"></i>
-                </span>
+                <span class="glyphicon glyphicon-comment"></span>
             </a>
         </li>
     </ul>
