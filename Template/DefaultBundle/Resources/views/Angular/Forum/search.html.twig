@@ -9,12 +9,12 @@
     <div ng-repeat="object in searchPagination.items" class="symbb_post">
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar') }}
-            <dt class="avatar" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">
+            <a class="avatar" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">
                 <img ng-src="[[object.author.avatar]]" />
-            </dt>
+            </a>
             {{ executeSymbbTemplatePostEvent('after.avatar') }}
             {{ executeSymbbTemplatePostEvent('before.username') }}
-            <dd class="username" symbb-sf-link="symbb_user_profile" param-id="[[object.author.id]]" param-name="[[object.author.username]]">[[object.author.username]]</dd>
+            <a class="username" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</a>
             {{ executeSymbbTemplatePostEvent('after.username') }}
             {{ executeSymbbTemplatePostEvent('before.userdata') }}
             <dd><strong>{% trans %}posts{% endtrans %}:</strong> [[object.author.count.post]]</dd>
