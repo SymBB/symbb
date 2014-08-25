@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post\History;
+use SymBB\Core\MessageBundle\DependencyInjection\MessageManager;
 use SymBB\Core\MessageBundle\Entity\Message;
 use SymBB\Core\UserBundle\DependencyInjection\UserManager;
 use SymBB\Core\UserBundle\Entity\UserInterface;
@@ -95,9 +96,27 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $params = array();
         if($id > 0){
             $message = $this->get('symbb.core.message.manager')->find($id);
-            $breadcrumb = $this->getBreadcrumbData($message);
-            $this->addBreadcrumbItems($breadcrumb);
-            $params['message'] = $this->getMessageAsArray($message);
+            $isReceiver = false;
+            $isSender = false;
+            foreach($message->getReceivers() as $receiver){
+                if($receiver->getUser()->getId() == $this->getUser()->getId()){
+                    $isReceiver = true;
+                    $this->get('symbb.core.message.manager')->read($receiver);
+                    break;
+                }
+            }
+
+            if($this->getUser()->getId() === $message->getSender()->getid()){
+                $isSender = true;
+            }
+
+            if($isSender || $isReceiver){
+                $breadcrumb = $this->getBreadcrumbData($message);
+                $this->addBreadcrumbItems($breadcrumb);
+                $params['message'] = $this->getMessageAsArray($message);
+            } else {
+                $this->addErrorMessage(MessageManager::ERROR_NOT_ALLOWED);
+            }
         }
         return $this->getJsonResponse($params);
     }
@@ -105,8 +124,12 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     protected function getMessageAsArray(Message $message){
 
         $receivers = array();
+        $new = false;
         foreach($message->getReceivers() as $receiver){
             $receivers[] = $this->getUserAsArray($receiver->getUser());
+            if($receiver->getUser()->getId() == $this->getUser()->getid()){
+                $new = $receiver->getNew();
+            }
         }
 
         $data = array(
@@ -116,7 +139,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             'message' => $this->get('symbb.core.message.manager')->parseMessage($message),
             'date' => $this->getISO8601ForUser($message->getDate()),
             'sender' => $this->getUserAsArray($message->getSender()),
-            'receivers' => $receivers
+            'receivers' => $receivers,
+            'new' => $new
         );
 
         return $data;

@@ -41,7 +41,10 @@
                     <tbody>
                     <tr ng-repeat="entry in entriesReceived" symbb-js-link="message_show" param-id="[[entry.id]]">
                         <td>[[entry.sender.username]]</td>
-                        <td>[[entry.subject]]</td>
+                        <td>
+                            [[entry.subject]]
+                            <span ng-if="entry.new" class="label label-success">{{ 'new'|trans }}</span>
+                        </td>
                         <td>[[entry.date | date:'dd.MM.yyyy H:mm']]</td>
                     </tr>
                     <tr ng-if="loadingReceivedMessages">

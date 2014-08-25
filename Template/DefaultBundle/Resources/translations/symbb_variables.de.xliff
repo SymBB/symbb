@@ -64,6 +64,22 @@
         <source>Important</source>
         <target>Wichtig</target>
       </trans-unit>
+      <trans-unit resname="receiver not found">
+        <source>receiver not found</source>
+        <target>Empfänger nicht gefunden</target>
+      </trans-unit>
+      <trans-unit resname="subject is empty">
+        <source>subject is empty</source>
+        <target>Betreff ist leer</target>
+      </trans-unit>
+      <trans-unit resname="message is empty">
+        <source>message is empty</source>
+        <target>Nachricht ist leer</target>
+      </trans-unit>
+      <trans-unit resname="action not allowed">
+        <source>action not allowed</source>
+        <target>Diese Aktion ist nicht erlaubt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

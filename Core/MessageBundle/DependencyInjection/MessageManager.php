@@ -20,8 +20,9 @@ class MessageManager extends AbstractManager
 
 
     const ERROR_RECEIVER_NOT_FOUND = 'receiver not found';
-    const ERROR_SUBJECT_EMPTY = 'sobject is empty';
+    const ERROR_SUBJECT_EMPTY = 'subject is empty';
     const ERROR_MESSAGE_EMPTY = 'message is empty';
+    const ERROR_NOT_ALLOWED = 'action not allowed';
 
     /**
      * @param $id
@@ -46,6 +47,10 @@ class MessageManager extends AbstractManager
 
         if(!$sender){
             $sender = $this->getUser();
+        }
+
+        if($sender->getSymbbType() !== 'user'){
+            $errors[] = self::ERROR_NOT_ALLOWED;
         }
 
         if(empty($subject)){
@@ -148,5 +153,14 @@ class MessageManager extends AbstractManager
         $text = $event->getText();
 
         return $text;
+    }
+
+    /**
+     * @param Receiver $receiver
+     */
+    public function read(Receiver $receiver){
+        $receiver->setNew(false);
+        $this->em->persist($receiver);
+        $this->em->flush();
     }
 }
