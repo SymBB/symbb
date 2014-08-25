@@ -11,6 +11,9 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
                 $scope.entriesReceived = data.entries;
                 $scope.paginationDataRecevied = data.paginationData;
                 $scope.loadingReceivedMessages = false;
+                if(data.user){
+                    $scope.user = data.user;
+                }
             });
         };
         $scope.getSentMessages = function(pagenumber){
@@ -20,6 +23,9 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
                 $scope.entriesSent = data.entries;
                 $scope.paginationDataSent = data.paginationData;
                 $scope.loadingSentMessages = false;
+                if(data.user){
+                    $scope.user = data.user;
+                }
             });
         };
 

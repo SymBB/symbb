@@ -163,4 +163,16 @@ class MessageManager extends AbstractManager
         $this->em->persist($receiver);
         $this->em->flush();
     }
+
+    /**
+     * @param UserInterface $user
+     * @return int
+     */
+    public function countNewMessages(UserInterface $user = null){
+        if(!$user){
+            $user = $this->getUser();
+        }
+        $recievedNewMessages = $this->em->getRepository('SymBBCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
+        return count($recievedNewMessages);
+    }
 }

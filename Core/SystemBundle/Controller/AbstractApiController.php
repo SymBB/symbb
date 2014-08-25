@@ -53,6 +53,9 @@ abstract class AbstractApiController extends AbstractController
         $params['user']['username'] = $user->getUsername();
         $params['user']['type'] = $user->getSymbbType();
         $params['user']['authenticated'] = $authenticated;
+        $params['user']['count'] = array(
+            'newMessages' => $this->get('symbb.core.message.manager')->countNewMessages()
+        );
         $params['messages'] = $this->messages;
         $params['callbacks'] = $this->callbacks;
         $params['breadcrumbItems'] = $this->breadcrumbItems;

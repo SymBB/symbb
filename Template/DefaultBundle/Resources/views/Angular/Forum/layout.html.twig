@@ -14,7 +14,7 @@
                 </li>
                 <li>
                     <a href="{{ path('angular_locale_message_list') }}" title="{% trans %}Messages{% endtrans %}">
-                        <span class="glyphicon glyphicon-comment"></span>
+                        <span class="glyphicon glyphicon-comment" ng-class="{'glyphicon-danger': user.count.newMessages}"><span class="message_count">[[user.count.newMessages]]</span></span>
                     </a>
                 </li>
                 <li>

@@ -690,6 +690,20 @@ display: none !important;
     border-radius: 0;
 }
 
+.section_tabs .glyphicon-comment .message_count {
+    width: 22px;
+    height: auto;
+    font-size: 12px;
+    line-height: 100%;
+    display: inline;
+    position: absolute;
+    left: 24px;
+    top: 25px;
+    background: transparent;
+    color: #FFF;
+    text-align: center;
+}
+
 .section_tabs .breadcrumb button {
     margin-top: -3px;
 }
