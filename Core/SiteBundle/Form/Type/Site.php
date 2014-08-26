@@ -48,7 +48,8 @@ class Site extends AbstractType
             ->add('templateAcp', "choice", array('choices' => $templateChoices))
             ->add('templateForum', "choice", array('choices' => $templateChoices))
             ->add('templatePortal', "choice", array('choices' => $templateChoices))
-            ->add('templateEmail', "choice", array('choices' => $templateChoices));
+            ->add('templateEmail', "choice", array('choices' => $templateChoices))
+            ->add('announcement', "textarea", array('required' => false));
 
     }
 

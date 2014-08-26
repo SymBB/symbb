@@ -71,6 +71,11 @@ class Site
     protected $templatePortal = 'DEFAULT';
 
     /**
+     * @ORM\Column(type="text")
+     */
+    protected $announcement = '';
+
+    /**
      * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", mappedBy="site")
      * @ORM\OrderBy()
      */
@@ -208,4 +213,22 @@ class Site
     {
         return $this->navigations;
     }
+
+    /**
+     * @param string $announcement
+     */
+    public function setAnnouncement($announcement)
+    {
+        $this->announcement = $announcement;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnnouncement()
+    {
+        return $this->announcement;
+    }
+
+
 }

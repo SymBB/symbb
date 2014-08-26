@@ -83,12 +83,16 @@
                                 {{ flashMessage }}
                             </div>
                         {% endfor %}
+                    </div>
 
-                        {% for flashMessage in app.session.flashbag.get('error') %}
-                            <div class="alert alert-danger">
-                                {{ flashMessage }}
+
+
+                    <div class="system_announcement">
+                        {% if getSymbbSite().getAnnouncement() %}
+                            <div class="alert alert-warning">
+                                {{ getSymbbSite().getAnnouncement() }}
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
 
                     <div class="clear"></div>
