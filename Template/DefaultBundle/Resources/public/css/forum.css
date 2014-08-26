@@ -70,8 +70,16 @@
 .symbb_forum_header_row,
 .symbb_category_header_row {
     background-color: #428BCA;
+    background-image: -webkit-linear-gradient(top,#428bca 0,#357ebd 100%);
+    background-image: -o-linear-gradient(top,#428bca 0,#357ebd 100%);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#428bca),to(#357ebd));
+    background-image: linear-gradient(to bottom,#428bca 0,#357ebd 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
+    background-repeat: repeat-x;
     color: #FFF;
-    margin-top: 15px;
+    border-top: 1px solid #428bca;
+    border-left: 1px solid #428bca;
+    border-right: 1px solid #428bca;
 }
 
 .symbb_forum_header_row > div,
@@ -82,10 +90,17 @@
 .symbb_forum_body_row {
     background-color: #ffffff;
     color: #000;
+    border-left: 1px solid #428bca;
+    border-right: 1px solid #428bca;
 }
 
 .symbb_forum_body_row:nth-child(even){
     background-color: #FAFAFA;
+}
+
+.symbb_forum_body_row:last-child{
+    border-bottom: 1px solid #428bca;
+    margin-bottom: 15px;
 }
 
 .symbb_forum_body_row:hover {

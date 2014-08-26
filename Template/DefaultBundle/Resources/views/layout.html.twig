@@ -69,43 +69,9 @@
 
             <div class="symbb_container">
                 <div class="symbb_content">
-
-                    <div class="symbb_flash_messages" id="symbbMessages"> 
-                        {% if app.getUser.getSymbbType() == 'guest' %}
-                            <div class="alert alert-danger">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                {% trans %}You are not currently logged.{% endtrans %}
-                            </div>
-                        {% endif %}
-
-                        {% for flashMessage in app.session.flashbag.get('success') %}
-                            <div class="alert alert-success">
-                                {{ flashMessage }}
-                            </div>
-                        {% endfor %}
-                    </div>
-
-
-
-                    <div class="system_announcement">
-                        {% if getSymbbSite().getAnnouncement() %}
-                            <div class="alert alert-warning">
-                                {{ getSymbbSite().getAnnouncement() }}
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <a class="pull-right" target="_self" href="{{ path('_symbbcoresitebundle_site_edit', {id: getSymbbSite().getId()}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="clear"></div>
-                    <div ng-view  show-default="true"></div>
                     {% block symbb_body_container %}
-                        <div class="symbb_body">
-                            {% block symbb_body %}
-
-                            {% endblock %}
-                        </div>
+                        {% block symbb_body %}
+                        {% endblock %}
                     {% endblock %}
                 </div>
             </div>

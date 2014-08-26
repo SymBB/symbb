@@ -1,0 +1,21 @@
+.symbb_extension_scoutbox {
+
+}
+
+.symbb_extension_scoutbox .shoutbox_userdata {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.symbb_extension_scoutbox .shoutbox_message {
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 10px;
+}
+
+.symbb_extension_scoutbox .shoutbox_input textarea {
+    width: 100%;
+}
+
+.symbb_extension_scoutbox .shoutbox_content {
+    max-height: 300px;
+    overflow: scroll;
+}

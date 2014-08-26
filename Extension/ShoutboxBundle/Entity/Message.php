@@ -7,21 +7,20 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Entity\Message;
+namespace SymBB\Extension\ShoutboxBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\MessageBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="user_message_receivers")
+ * @ORM\Table(name="extension_shoutbox_messages")
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
  */
-class Receiver
+class Message
 {
 
     /**
@@ -32,20 +31,59 @@ class Receiver
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\MessageBundle\Entity\Message", inversedBy="receivers", cascade={"persist", "remove"})
-     * @var ArrayCollection
+     * @ORM\Column(type="text")
      */
     protected $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User", inversedBy="messages_receive")
+     * @ORM\ManyToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
-    protected $user;
+    protected $author;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime $date
      */
-    protected $new = true;
+    protected $date;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param mixed $message
+     */
+    public function setMessage($message)
+    {
+        $this->message = $message;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
 
     /**
      * @param mixed $id
@@ -64,52 +102,21 @@ class Receiver
     }
 
     /**
-     * @param Message $message
+     * @param \DateTime $date
      */
-    public function setMessage($message)
+    public function setDate(\DateTime $date)
     {
-        $this->message = $message;
+        $this->date = $date;
     }
 
     /**
-     * @return Message
+     * @return \DateTime
      */
-    public function getMessage()
+    public function getDate()
     {
-        return $this->message;
+        return $this->date;
     }
 
-    /**
-     * @param mixed $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param boolean $new
-     */
-    public function setNew($new)
-    {
-        $this->new = $new;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getNew()
-    {
-        return $this->new;
-    }
 
 
 

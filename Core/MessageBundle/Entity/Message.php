@@ -20,7 +20,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Table(name="user_messages")
  * @ORM\Entity()
- * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
 class Message

@@ -188,23 +188,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 }
 
 
-.symbb_body .btn-group {
-    margin-bottom: 0px;
-}
-
 .symbb_container .row {
     padding: 10px;
 }
 
-.symbb_body {
-    margin-bottom: 0px;
-    padding: 0px;
-    position: relative;
-}
-
-.symbb_body .alert {
-    margin-top: 15px;
-}
 
 .row {
     margin-left: 0;

@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="object.isLink" class="symbb_forum_body_row">
+        <div ng-if="object.isLink" >
             <div class="row">
                 <a ng-href="[[object.link]]" target="_blank">
                     <img ng-if="object.backgroundImage" class="forumimage pull-left" ng-src="[[object.backgroundImage]]"/>
@@ -129,7 +129,7 @@
                         <img title="[[object.lastPosts.0.author.username]]" ng-src="[[object.lastPosts.0.author.avatar]]" />
                     </div>
                     <div class="text pull-left" >
-                        {% trans with {'%user%': "[[object.lastPosts.0.author.username]]", '%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %}from %user% on %date% at %time%{% endtrans %}
+                        {% trans with {'%user%': "[[object.lastPosts.0.author.username]]", '%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH:mm']]"} %}from %user% on %date% at %time%{% endtrans %}
                     </div>
                 </div>
             </div>
@@ -143,16 +143,16 @@
     <div ng-repeat="object in forum.children | filter:{ isCategory: true }" ng-include="'symbbCategoryRow.html'">
     </div>
 
-    <div class="row symbb_forum_header_row" ng-if="forum.count.forum">
-        <div class="col-md-5">{{ 'Forum'|trans }}</div>
-        <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
-        <div class="col-md-3">{{ 'Last post'|trans }}</div>
-        <div class="col-md-2"></div>
+    <div>
+        <div class="row symbb_forum_header_row" ng-if="forum.count.forum">
+            <div class="col-md-5">{{ 'Forum'|trans }}</div>
+            <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
+            <div class="col-md-3">{{ 'Last post'|trans }}</div>
+            <div class="col-md-2"></div>
+        </div>
+        <div ng-repeat="object in forum.children | filter:{ isCategory: false }" ng-include="'symbbForumRow.html'" class="row symbb_forum_body_row">
+        </div>
     </div>
-    <div ng-repeat="object in forum.children | filter:{ isCategory: false }" ng-include="'symbbForumRow.html'" class="row symbb_forum_body_row">
-    </div>
-
-
 
     {{ include(
     'SymBBTemplateDefaultBundle:Angular:Forum/topicEntry.html.twig',
