@@ -91,6 +91,9 @@
                         {% if getSymbbSite().getAnnouncement() %}
                             <div class="alert alert-warning">
                                 {{ getSymbbSite().getAnnouncement() }}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a class="pull-right" target="_self" href="{{ path('_symbbcoresitebundle_site_edit', {id: getSymbbSite().getId()}) }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                {% endif %}
                             </div>
                         {% endif %}
                     </div>
