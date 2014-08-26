@@ -26,7 +26,7 @@
             </a>
             {{ executeSymbbTemplatePostEvent('after.avatar') }}
             {{ executeSymbbTemplatePostEvent('before.username') }}
-            <dd class="username" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</dd>
+            <a class="username" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</a>
             {{ executeSymbbTemplatePostEvent('after.username') }}
             {{ executeSymbbTemplatePostEvent('before.userdata') }}
             <dd><strong>{% trans %}posts{% endtrans %}:</strong> [[object.author.count.post]]</dd>
