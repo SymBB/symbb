@@ -111,6 +111,8 @@ class AccessManager
         $query = $qb->getQuery();
         $query->execute();
 
+        $this->memcache->delete('symbb_acl_cache');
+
     }
 
     /**
