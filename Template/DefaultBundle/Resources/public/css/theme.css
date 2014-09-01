@@ -25,6 +25,7 @@ blockquote {
     border-radius: 3px;
     margin-left: 40px;
     margin-top: 20px;
+    font-size: 100%;
 }
 
 .codebox {
