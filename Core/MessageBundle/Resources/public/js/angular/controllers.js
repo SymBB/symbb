@@ -6,7 +6,7 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
 
         $scope.getReceivedMessages = function(pagenumber){
             $scope.loadingReceivedMessages = true;
-            var route = angularConfig.getSymfonyApiRoute('message_list_received', {'page': pagenumber});
+            var route = angularConfig.getSymfonyRoute('symbb_api_message_list_received', {'page': pagenumber});
             $http.get(route).success(function(data) {
                 $scope.entriesReceived = data.entries;
                 $scope.paginationDataRecevied = data.paginationData;
@@ -18,7 +18,7 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
         };
         $scope.getSentMessages = function(pagenumber){
             $scope.loadingSentMessages = true;
-            var route = angularConfig.getSymfonyApiRoute('message_list_sent', {'page': pagenumber});
+            var route = angularConfig.getSymfonyRoute('symbb_api_message_list_sent', {'page': pagenumber});
             $http.get(route).success(function(data) {
                 $scope.entriesSent = data.entries;
                 $scope.paginationDataSent = data.paginationData;
@@ -85,7 +85,7 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
         if ($routeParams && $routeParams.id) {
             messageId = $routeParams.id;
         }
-        var route = angularConfig.getSymfonyApiRoute('message_show', {'id': messageId});
+        var route = angularConfig.getSymfonyRoute('symbb_api_message_data', {'id': messageId});
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
                 $scope[key] = value;
@@ -106,9 +106,9 @@ symbbControllers.controller('MessageListCtrl', ['$scope', '$http', '$routeParams
 
 
 function symbbMessageSave(message, $http, $timeout, $location){
-    $http.post(angularConfig.getSymfonyApiRoute('message_save', {}), message).success(function(data) {
+    $http.post(angularConfig.getSymfonyRoute('symbb_api_message_save', {}), message).success(function(data) {
         if (data.success) {
-            angularConfig.goTo($timeout, $location, 'message_list');
+            angularConfig.goTo($timeout, $location, 'symbb_message_list');
         }
     });
 }

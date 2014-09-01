@@ -1,5 +1,6 @@
 symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$anchorScroll', '$cookieStore', 'ScrollPagination',
     function($scope, $http, $routeParams, $timeout, $anchorScroll, $cookieStore, ScrollPagination) {
+
         var forumId = 0
         if ($routeParams && $routeParams.id) {
             forumId = $routeParams.id;
@@ -8,21 +9,21 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
         if ($routeParams && $routeParams.page) {
             pagenumber = $routeParams.page;
         }
-        var route = angularConfig.getSymfonyApiRoute('forum_show', {id: forumId, page: pagenumber});
+        var route = angularConfig.getSymfonyRoute('symbb_api_forum_data', {id: forumId, page: pagenumber});
         $http.get(route).success(function(data) {
             $timeout(textMatchOneLine, 0);
             $.each(data, function(key, value) {
                 $scope[key] = value;
             });
             if(data.forum.isForum){
-                $scope.searchPagination = new ScrollPagination('forum_topic_list', {forum: forumId}, 'topics');
+                $scope.searchPagination = new ScrollPagination('symbb_api_forum_topic_list', {forum: forumId}, 'topics');
             }
         });
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
 ]).controller('ForumSearchCtrl', ['$scope', '$http', '$timeout', '$anchorScroll', '$cookieStore', '$routeParams', 'ScrollPagination',
     function($scope, $http, $timeout, $anchorScroll, $cookieStore, $routeParams, ScrollPagination) {
-        $scope.searchPagination = new ScrollPagination('forum_search', {}, 'entries');
+        $scope.searchPagination = new ScrollPagination('symbb_api_post_search', {}, 'entries');
         defaultForumListStuff($scope, $cookieStore, $anchorScroll);
     }
 ]).controller('ForumTopicShowCtrl', ['$scope', '$http', '$routeParams', '$timeout', '$anchorScroll',
@@ -33,7 +34,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
         if ($routeParams && $routeParams.page) {
             pagenumber = $routeParams.page;
         }
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_show', {id: id, 'page': pagenumber});
+        var route = angularConfig.getSymfonyRoute('symbb_api_topic_data', {id: id, 'page': pagenumber});
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
                 $scope[key] = value;
@@ -46,7 +47,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
     function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
         var forumId = $routeParams.forum
         var topicId = $routeParams.id
-        var route = angularConfig.getSymfonyApiRoute('forum_topic_edit', {forum: forumId, id: topicId});
+        var route = angularConfig.getSymfonyRoute('symbb_api_topic_data', {forum: forumId, id: topicId});
         $http.get(route).success(function(data) {
 
             $scope.topic = {};
@@ -60,9 +61,9 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 
             $scope.update = function(topic) {
                 $scope.master = angular.copy(topic);
-                $http.post(angularConfig.getSymfonyApiRoute('forum_topic_save', {}), $scope.master).success(function(data) {
+                $http.post(angularConfig.getSymfonyRoute('symbb_api_topic_save', {}), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo($timeout, $location, 'forum_topic_show', {id: data.id, name: 'new', page:1});
+                        angularConfig.goTo($timeout, $location, 'symbb_forum_topic_show', {id: data.id, name: 'new', page:1});
                     }
                 });
             };
@@ -80,7 +81,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 ]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll', '$timeout',
     function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
 
-        var route = angularConfig.getSymfonyApiRoute('forum_post_edit', $routeParams);
+        var route = angularConfig.getSymfonyRoute('symbb_api_post_data', $routeParams);
         $http.get(route).success(function(data) {
 
             $scope.post = {};
@@ -93,9 +94,9 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
 
             $scope.update = function(post) {
                 $scope.master = angular.copy(post);
-                $http.post(angularConfig.getSymfonyApiRoute('forum_post_save'), $scope.master).success(function(data) {
+                $http.post(angularConfig.getSymfonyRoute('symbb_api_post_save'), $scope.master).success(function(data) {
                     if (data.success) {
-                        angularConfig.goTo($timeout, $location, 'forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.seo.name, page:'last'});
+                        angularConfig.goTo($timeout, $location, 'symbb_forum_topic_show', {id: $scope.master.topic.id, name: $scope.master.topic.seo.name, page:'last'});
                     }
                 });
             };

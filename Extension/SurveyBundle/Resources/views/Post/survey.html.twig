@@ -23,7 +23,7 @@
                 </li>
 
                 <li ng-show="object.extension.survey.votable" class="list-group-item">
-                    <button type="button" symbb-request="extension_survey_vote" param-items="[[ object.extension.survey.myVote ]]" param-post="[[object.id]]"  class="btn btn-default">{{ 'vote'|trans}}</button>
+                    <button type="button" symbb-request="symbb_api_extension_survey_vote" param-items="[[ object.extension.survey.myVote ]]" param-post="[[object.id]]"  class="btn btn-default">{{ 'vote'|trans}}</button>
                     <div class="clear"></div>
                 </li>
             </ul>

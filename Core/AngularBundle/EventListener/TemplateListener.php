@@ -8,20 +8,20 @@
 */
 
 namespace SymBB\Core\AngularBundle\EventListener;
-use \SymBB\Core\AngularBundle\DependencyInjection\Router;
+use \SymBB\Core\AngularBundle\Routing\AngularRouter;
 
 class TemplateListener
 {
     
     /**
-     * @var \SymBB\Core\AngularBundle\DependencyInjection\Router 
+     * @var \SymBB\Core\AngularBundle\Routing\AngularRouter
      */
     protected $router;
     
     /**
-     * @param \SymBB\Core\AngularBundle\DependencyInjection\Router $router
+     * @param \SymBB\Core\AngularBundle\Routing\AngularRouter $router
      */
-    public function __construct(Router $router)
+    public function __construct(AngularRouter $router)
     {
         $this->router = $router;
     }

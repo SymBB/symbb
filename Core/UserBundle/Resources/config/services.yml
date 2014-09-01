@@ -35,11 +35,6 @@ services:
         tags:
             - { name: twig.extension }
 
-    symbb.core.user.angular.router.files:
-        class: SymBB\Core\UserBundle\EventListener\AngularListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
-
     symbb.core.user.listener.template:
         class: SymBB\Core\UserBundle\EventListener\TemplateListener
         tags:

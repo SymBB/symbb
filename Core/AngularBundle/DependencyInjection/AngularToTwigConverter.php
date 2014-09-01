@@ -256,16 +256,27 @@ class AngularToTwigConverter
 
         }
 
+        $ifData = self::createIfData($ifData);
+
+        $start = $node->ownerDocument->createTextNode("{% if ".$ifData." %}");
+        $end = $node->ownerDocument->createTextNode("{% endif %}");
+        $nextNode = $node->nextSibling;
+        $node->parentNode->insertBefore($start, $node);
+        $node->parentNode->insertBefore($end, $nextNode);
+        return $node;
+    }
+
+    protected static function createIfData($ifData){
         $parts = array();
         $temp = explode(' && ', $ifData);
         foreach($temp as $tmp){
             $temp2 = explode(' || ', $tmp);
             foreach($temp2 as $tmp2){
-               if(count($temp2) > 1){
-                   $parts[] = array('value' => $tmp2, 'condition' => 'or');
-               } else {
-                   $parts[] = array('value' => $tmp2, 'condition' => 'and');
-               }
+                if(count($temp2) > 1){
+                    $parts[] = array('value' => $tmp2, 'condition' => 'or');
+                } else {
+                    $parts[] = array('value' => $tmp2, 'condition' => 'and');
+                }
             }
         }
 
@@ -319,12 +330,8 @@ class AngularToTwigConverter
         $ifData = str_replace("!", ' not ', $ifData);
         $ifData = str_replace("&&", 'and', $ifData);
         $ifData = str_replace("is not", '!=', $ifData);
-        $start = $node->ownerDocument->createTextNode("{% if ".$ifData." %}");
-        $end = $node->ownerDocument->createTextNode("{% endif %}");
-        $nextNode = $node->nextSibling;
-        $node->parentNode->insertBefore($start, $node);
-        $node->parentNode->insertBefore($end, $nextNode);
-        return $node;
+
+        return $ifData;
     }
 
     protected static function convertSymbbLinkToTwig(\DOMElement $node, $router){
@@ -384,7 +391,7 @@ class AngularToTwigConverter
         $paramsJson = '{'.implode(', ', $paramsJsonArray).'}';
 
         if($angularLink){
-            $linkData = 'angular_locale_'.$linkData;
+            $linkData = $linkData;
         }
 
         $path = "{{ path('".$linkData."', ".$paramsJson.") }}";
@@ -458,11 +465,23 @@ class AngularToTwigConverter
             }
         }
 
+        $loppVariable = explode('in', $loopVariables);
+        $loppVariable = end($loppVariable);
+        $loppVariable = trim($loppVariable);
+
+        $ifData = self::createIfData($loppVariable);
+
+        $ifStart = $node->ownerDocument->createTextNode("{% if ".$ifData." %}");
+        $ifEnd = $node->ownerDocument->createTextNode("{% endif %}");
+
         $loopstart = $node->ownerDocument->createTextNode("{% for ".$loopVariables.$newFilter." %}");
         $loopend = $node->ownerDocument->createTextNode("{% endfor %}");
+
         $nextNode = $node->nextSibling;
+        $node->parentNode->insertBefore($ifStart, $node);
         $node->parentNode->insertBefore($loopstart, $node);
         $node->parentNode->insertBefore($loopend, $nextNode);
+        $node->parentNode->insertBefore($ifEnd, $nextNode);
         return $node;
     }
 

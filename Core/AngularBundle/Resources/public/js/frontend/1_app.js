@@ -64,3 +64,18 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
 });
 
 var symbbControllers = angular.module('symbbControllers', []);
+
+//default controller
+symbbControllers.controller('DefaultApiCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll',
+    function($scope, $http, $routeParams, $anchorScroll) {
+        routingKey = '';
+        console.debug('Currently not working, routingKey is missing');
+        var route = angularConfig.getSymfonyRoute(routingKey, $routeParams);
+        $http.get(route).success(function(data) {
+            $.each(data, function(key, value) {
+                $scope[key] = value;
+            });
+        });
+        $anchorScroll.scroll();
+    }
+]);

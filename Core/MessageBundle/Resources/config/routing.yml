@@ -5,3 +5,40 @@ symbb_api_message:
 symbb_template_angular_message:
     pattern:  /angular/template/message/{file}
     defaults: { _controller: SymBBCoreMessageBundle:Angular:templateFile }
+
+symbb_message_list:
+    pattern:  /message/list/{page}/
+    defaults:
+        page: 1
+        _controller: SymBBCoreAngularBundle:Angular:index
+    options:
+      symbb_angular_controller: MessageListCtrl
+      symbb_angular_api_route: symbb_api_post_data
+      symbb_angular_template:
+          route: symbb_template_angular_message
+          params:
+              file: 'list'
+
+symbb_message_show:
+    pattern:  /message/show/{id}/
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: MessageShowCtrl
+      symbb_angular_api_route: symbb_api_message_data
+      symbb_angular_template:
+          route: symbb_template_angular_message
+          params:
+              file: 'show'
+
+symbb_message_new:
+    pattern:  /message/new/
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: MessageNewCtrl
+      symbb_angular_api_route: symbb_api_message_data
+      symbb_angular_template:
+          route: symbb_template_angular_message
+          params:
+              file: 'new'
+
+

@@ -6,14 +6,8 @@ services:
             - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts, priority: 50 }
             
     symbb.core.angular.router:
-        class: SymBB\Core\AngularBundle\DependencyInjection\Router
+        class: SymBB\Core\AngularBundle\Routing\AngularRouter
         arguments: ['@event_dispatcher', '@router']
-        
-    symbb.core.angular.routing_loader:
-        class: SymBB\Core\AngularBundle\Routing\AdvancedLoader
-        arguments: ['@symbb.core.angular.router']
-        tags:
-            - { name: routing.loader }
 
     symbb.core.angular.to.twig.converter:
         class: SymBB\Core\AngularBundle\DependencyInjection\AngularToTwigConverter

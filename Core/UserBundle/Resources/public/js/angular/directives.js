@@ -4,7 +4,7 @@ symbbControllers.directive('symbbUserAutocomplete', ['$http', '$timeout', functi
         replace: false,
         require: 'ngModel',
         link: function(scope, elm, attrs, ngModel) {
-            var searchurl = angularConfig.getSymfonyApiRoute('user_search');
+            var searchurl = angularConfig.getSymfonyRoute('symbb_api_user_search');
             $(elm).select2({
                 multiple: true,
                 minimumInputLength: 3,

@@ -27,7 +27,7 @@ class MenuBuilder
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function createMainMenu(Request $request, SiteManager $siteManager)
+    public function createMainMenu(Request $request, SiteManager $siteManager, $router)
     {
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'main');
@@ -35,12 +35,12 @@ class MenuBuilder
         if(is_object($navi)){
             $items = $navi->getItems();
         }
-        $this->addChildren($menu, $items, $siteManager);
+        $this->addChildren($menu, $items, $siteManager, $router);
         $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
         return $menu;
     }
 
-    public function createFooterMenu(Request $request, SiteManager $siteManager)
+    public function createFooterMenu(Request $request, SiteManager $siteManager, $router)
     {
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'footer');
@@ -48,15 +48,22 @@ class MenuBuilder
         if(is_object($navi)){
             $items = $navi->getItems();
         }
-        $this->addChildren($menu, $items, $siteManager);
+        $this->addChildren($menu, $items, $siteManager, $router);
         $this->eventDispatcher->dispatch(ConfigureMenuEvent::CONFIGURE, new ConfigureMenuEvent($this->factory, $menu));
         return $menu;
     }
 
-    protected function addChildren($menu, $children, SiteManager $siteManager){
+    protected function addChildren($menu, $children, SiteManager $siteManager, $router){
         foreach($children as $child){
             if($child->getType() == 'symfony'){
-                $childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute(), 'routeParameters' => $child->getSymfonyRouteParams()));
+                try {
+                    // generate directly to check if route realy exist
+                    $uri = $router->generate($child->getSymfonyRoute(), $child->getSymfonyRouteParams());
+                    //$childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute(), 'routeParameters' => $child->getSymfonyRouteParams()));
+                    $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
+                } catch(\Exception $e) {
+
+                }
             } else {
                 $uri = $child->getFixUrl();
                 $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));

@@ -68,7 +68,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             $(element[0]).click(function() {
                 if(confirm(attrs.message)){
                     var params = prepareParams(attrs);
-                    $http({method: 'delete', url: angularConfig.getSymfonyApiRoute(attrs.symbbDeleteRequest, params)}).success(function(data) {
+                    $http({method: 'delete', url: angularConfig.getSymfonyRoute(attrs.symbbDeleteRequest, params)}).success(function(data) {
                         
                     });
                 }
@@ -105,7 +105,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
         link: function(scope, element, attrs) {
             $(element[0]).click(function() {
                 var params = prepareParams(attrs);
-                $http.post(angularConfig.getSymfonyApiRoute(attrs.symbbRequest, params)).success(function(data) {
+                $http.post(angularConfig.getSymfonyRoute(attrs.symbbRequest, params)).success(function(data) {
 
                 });
             });
@@ -196,7 +196,7 @@ symbbControllers.directive('symbbBreadcrumb', function() {
                         scope.topicListStatus[attrs.paramForum] = true;
                         scope.topicListLoading = true;
                         scope.emptyTopicList[attrs.paramForum] = 0;
-                        $http.get(angularConfig.getSymfonyApiRoute('forum_topic_list', {forum: attrs.paramForum, page:attrs.paramPage})).success(function(data) {
+                        $http.get(angularConfig.getSymfonyRoute('symbb_api_forum_topic_list', {forum: attrs.paramForum, page:attrs.paramPage})).success(function(data) {
 
                             scope.topicList[attrs.paramForum] = data.topics;
 

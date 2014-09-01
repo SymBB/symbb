@@ -19,11 +19,6 @@ services:
             - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
             - { name: kernel.event_listener, event: symbb.api.topic.data, method: topicData }
 
-    symbb.extension.rating.angular.router.files:
-        class: SymBB\Extension\RatingBundle\EventListener\AngularListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
-
     symbb.extension.rating.security.access.survey_voter:
         class:      SymBB\Extension\RatingBundle\Security\Authorization\RatingVoter
         public:     false

@@ -52,20 +52,20 @@ var symbbAngularUtils = {
     },
 
     createBreadcrumbLi: function(item, spacer){
-        var route = 'forum_index';
+        var route = 'symbb_forum_index';
         var params = {};
         if(item.type === 'forum'){
-            route = 'forum_show';
+            route = 'symbb_forum_show';
             params = {id: item.id, name: item.seoName};
         } else if(item.type === 'topic'){
-            route = 'forum_topic_show';
+            route = 'symbb_forum_topic_show';
             params = {id: item.id, name: item.seoName};
         }  else if(item.type === 'home'){
-            route = 'forum_index';
+            route = 'symbb_forum_index';
         } else if(item.type === 'message_home'){
-            route = 'message_list';
+            route = 'symbb_message_list';
         }   else if(item.type === 'message'){
-            route = 'message_show';
+            route = 'symbb_message_show';
             params = {id: item.id};
         } else {
             console.debug(item);
@@ -107,7 +107,7 @@ var symbbAngularUtils = {
         // Creates a uploader
         var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,
-            url: angularConfig.getSymfonyApiRoute('forum_post_upload_image'),
+            url: angularConfig.getSymfonyRoute('symbb_api_post_upload_image'),
             method: 'POST',
             formData: [{id: $scopeObject.id}]
         });
@@ -223,7 +223,7 @@ app.factory('ScrollPagination', function($http) {
 
     this.routeParams.page = this.page;
 
-    var url = angularConfig.getSymfonyApiRoute(this.route, this.routeParams);
+    var url = angularConfig.getSymfonyRoute(this.route, this.routeParams);
 
     $http.get(url).success(function(data) {
       

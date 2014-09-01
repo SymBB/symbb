@@ -1,10 +1,3 @@
-symbb_user_userlist:
-    pattern:  /userlist
-    defaults: { _controller: SymBBCoreUserBundle:Info:userlist }
-    
-symbb_user_profile:
-    pattern:  /user/{id}/{name}
-    defaults: { _controller: SymBBCoreUserBundle:Info:profile }
 
 symbb_template_ucp_angular:
     pattern:  /angular/template/ucp/{file}
@@ -33,7 +26,47 @@ symbb_api_user_search:
 symbb_api_user_data:
     pattern:  /api/user/data
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:data }
-    
-    
-    
-    
+
+
+symbb_user_ucp:
+    pattern:  /ucp/
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: UcpCtrl
+      symbb_angular_template:
+        route: symbb_template_ucp_angular
+        params:
+            file: 'index'
+
+symbb_user_ucp_security:
+    pattern:  /ucp/security
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: UcpSecurityCtrl
+      symbb_angular_template:
+        route: symbb_template_ucp_angular
+        params:
+            file: 'security'
+
+symbb_userlist:
+    pattern:  /users/{page}
+    defaults:
+      _controller: SymBBCoreAngularBundle:Angular:index
+    options:
+      symbb_angular_controller: UserlistCtrl
+      symbb_angular_api_route: symbb_api_userlist
+      symbb_angular_template:
+        route: symbb_template_default_angular
+        params:
+            file: 'userlist'
+
+symbb_user_profile:
+    pattern:  /user/{id}/{username}
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: UserProfileCtrl
+      symbb_angular_api_route: symbb_api_user_data
+      symbb_angular_template:
+        route: symbb_template_user_angular
+        params:
+            file: 'profile'

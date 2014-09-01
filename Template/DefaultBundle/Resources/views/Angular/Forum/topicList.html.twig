@@ -5,11 +5,11 @@
 
 {% block section_content %}
 
-<div class="symbbTopicList" ng-repeat="object in topicList[object.id]"  symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1" >
+<div class="symbbTopicList" ng-repeat="object in topicList[object.id]"  symbb-js-link="symbb_forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1" >
     <div class="avatar_mini pull-left">
         <img ng-show="object.backgroundImage" ng-src="[[object.backgroundImage]]"/>
     </div>
-    <div class="name" symbb-js-link="forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">
+    <div class="name" symbb-js-link="symbb_forum_topic_show" param-id="[[object.id]]" param-name="[[object.seo.name]]" param-page="1">
         [[object.name]]
         <div class="labels">
             <div ng-repeat="flag in object.flags">

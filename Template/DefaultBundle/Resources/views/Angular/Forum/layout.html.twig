@@ -8,23 +8,23 @@
             </li>
             {% if app.user.getSymbbType != 'guest' %}
                 <li>
-                    <a href="{{ path('angular_locale_user_ucp') }}" title="{% trans %}Options{% endtrans %}">
+                    <a href="{{ path('symbb_user_ucp') }}" title="{% trans %}Options{% endtrans %}">
                         <span class="glyphicon glyphicon-cog"></span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('angular_locale_message_list') }}" title="{% trans %}Messages{% endtrans %}">
+                    <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
                         <span class="glyphicon glyphicon-comment" ng-class="{'glyphicon-danger': user.count.newMessages}"><span class="message_count">[[user.count.newMessages]]</span></span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('angular_locale_forum_search', {page: 1}) }}" title="{% trans %}Newest Posts{% endtrans %}">
+                    <a href="{{ path('symbb_forum_search', {page: 1}) }}" title="{% trans %}Newest Posts{% endtrans %}">
                         <span class="glyphicon glyphicon-fire"></span>
                     </a>
                 </li>
             {% endif %}
             <li>
-                <a href="{{ path('angular_locale_userlist', {page: 1}) }}" title="{% trans %}Members{% endtrans %}">
+                <a href="{{ path('symbb_userlist', {page: 1}) }}" title="{% trans %}Members{% endtrans %}">
                     <span class="glyphicon glyphicon-user"></span>
                 </a>
             </li>

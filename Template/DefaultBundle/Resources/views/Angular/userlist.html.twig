@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="entry in entries">
-                    <td><a symbb-link="user_profile" param-id="[[entry.id]]" param-username="[[entry.username]]">[[entry.username]]</a></td>
+                    <td><a symbb-link="symbb_user_profile" param-id="[[entry.id]]" param-username="[[entry.username]]">[[entry.username]]</a></td>
                     <td>[[entry.count.post]]</td>
                     <td>[[entry.created | date:'dd.MM.yyyy']]</td>
                     <td>[[entry.lastLogin | date:'dd.MM.yyyy']]</td>

@@ -11,7 +11,7 @@ symbbControllers.directive('symbbTopicMove', ['$http', '$timeout', function($htt
                     var select = $(dialog).find('select');
                     var forumId = $(select).val();
                     var topicId = attrs.paramId;
-                    $http.post(angularConfig.getSymfonyApiRoute('forum_topic_move', {forum: forumId, id:topicId})).success(function(data) {
+                    $http.post(angularConfig.getSymfonyRoute('symbb_api_forum_topic_move', {forum: forumId, id:topicId})).success(function(data) {
 
                     });
                     $(dialog).modal('hide');

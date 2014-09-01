@@ -4,22 +4,22 @@
     {% block section_tabs %}
     <ul class="nav nav-tabs">
         <li>
-            <a href="{{ path('angular_locale_forum_index') }}" title="{{ 'home'|trans }}">
+            <a href="{{ path('symbb_forum_index') }}" title="{{ 'home'|trans }}">
                  <span class="glyphicon glyphicon-home glyphicon-success"></span>
             </a>
         </li>
         <li>
-            <a href="{{ path('angular_locale_user_ucp') }}" title="{{ 'profile'|trans }}">
+            <a href="{{ path('symbb_user_ucp') }}" title="{{ 'profile'|trans }}">
                 <span class="glyphicon glyphicon-user"></span>
             </a>
         </li>
         <li>
-            <a href="{{ path('angular_locale_user_ucp_security') }}" title="{{ 'security'|trans }}">
+            <a href="{{ path('symbb_user_ucp_security') }}" title="{{ 'security'|trans }}">
                 <span class="glyphicon glyphicon-lock"></span>
             </a>
         </li>
         <li>
-            <a href="{{ path('angular_locale_message_list') }}" title="{% trans %}Messages{% endtrans %}">
+            <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
                 <span class="glyphicon glyphicon-comment" ng-class="{'glyphicon-danger': user.count.newMessages}"><span class="message_count">[[user.count.newMessages]]</span></span>
             </a>
         </li>

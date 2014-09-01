@@ -30,12 +30,7 @@ services:
         arguments: ['@doctrine.orm.symbb_entity_manager']
         tags:
             - { name: kernel.event_listener, event: symbb.topic.labels, method: topicLabels }
-            
-            
-    symbb.extension.survey.angular.router.files:
-        class: SymBB\Extension\SurveyBundle\EventListener\AngularListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
+
 
     symbb.extension.survey.security.access.survey_voter:
         class:      SymBB\Extension\SurveyBundle\Security\Authorization\SurveyVoter

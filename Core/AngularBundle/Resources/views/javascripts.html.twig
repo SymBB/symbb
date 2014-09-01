@@ -18,21 +18,7 @@
             //$scope.$apply(); // so this also has no effect
         },
 
-        sfApiRoutes: {{angularRouter.createSfApiRouteJson() | raw}},
-        sfTemplateRoutes: {{angularRouter.createSfTemplateRouteJson() | raw}},
         angularRoutes: {{angularRouter.createAngularRouteJson() | raw}},
-
-        getSymfonyApiRoute: function(route, params){
-            var routePath =  '';
-            if(this.sfApiRoutes[route] && this.sfApiRoutes[route]['route']){
-                if(!params){
-                    params = {};
-                }
-                params._locale = symbbUser.lang;
-                routePath = Routing.generate(this.sfApiRoutes[route]['route'], params);
-            }
-            return routePath;
-        },
 
         getSymfonyRoute: function(route, params){
             if(!params){
@@ -45,11 +31,11 @@
 
         getSymfonyTemplateRoute: function(route, params){
             var routePath =  '';
-            if(this.sfTemplateRoutes[route] && this.sfTemplateRoutes[route]['route']){
+            if(this.angularRoutes[route] && this.angularRoutes[route]['template']){
                 if(!params){
                     params = {};
                 }
-                var realParams = this.sfTemplateRoutes[route]['params'];
+                var realParams = this.angularRoutes[route]['template']['params'];
                 if(!realParams){
                     realParams = {};
                 }
@@ -57,7 +43,7 @@
                     realParams[key] = value;
                 });
                 realParams._locale = symbbUser.lang;
-                routePath = Routing.generate(this.sfTemplateRoutes[route]['route'], realParams);
+                routePath = Routing.generate(this.angularRoutes[route]['template']['route'], realParams);
             }
             return routePath;
         },
@@ -77,19 +63,26 @@
             if(!urlKey){
                 urlKey = 0;
             }
-            var routePath = this.angularRoutes[route]['pattern'];
-            routePath = routePath[urlKey];
-            $.each(this.angularRoutes[route]['defaults'], function(key, value){
-                if(!params[key]){
-                    params[key] = value;
+            if(this.angularRoutes[route]){
+                var routePath = this.angularRoutes[route]['pattern'];
+                routePath = routePath[urlKey];
+                $.each(this.angularRoutes[route]['defaults'], function(key, value){
+                    if(!params[key]){
+                        params[key] = value;
+                    }
+                });
+                $.each(params, function(key, value){
+                    routePath = routePath.replace(':'+key, value);
+                });
+                if(!removeHost){
+                    routePath = 'http://'+window.location.host+routePath;
                 }
-            });
-            $.each(params, function(key, value){
-                routePath = routePath.replace(':'+key, value);
-            });
-            if(!removeHost){
-                routePath = 'http://'+window.location.host+routePath;
+            } else {
+                console.debug('Route not found! -> '+route);
+                console.debug(this.angularRoutes);
             }
+
+
             return routePath;
         },
 

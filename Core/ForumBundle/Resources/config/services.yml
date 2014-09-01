@@ -75,11 +75,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: symbb.config.configs, method: configs }
 
-    symbb.core.forum.angular.router.files:
-        class: SymBB\Core\ForumBundle\EventListener\AngularListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.core.angular.router.files, method: routerFiles }
-
     symbb.core.forum.security.access.post_voter:
         class:      SymBB\Core\ForumBundle\Security\Authorization\PostVoter
         public:     false

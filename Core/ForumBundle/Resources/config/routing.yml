@@ -1,7 +1,14 @@
 symbb_forum_index:
     pattern:  /forum/
-    defaults: { _controller: SymBBCoreForumBundle:Frontend:forum }
-        
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumCtrl
+      symbb_angular_api_route: symbb_api_forum_data
+      symbb_angular_template:
+          route: symbb_template_default_angular
+          params:
+              file: 'forumList'
+
 symbb_api_forum:
     resource: "@SymBBCoreForumBundle/Controller"
     type: annotation
@@ -9,3 +16,97 @@ symbb_api_forum:
 symbb_forum_angular_template:
     pattern:  /angular/template/forum/{file}
     defaults: { _controller: SymBBCoreForumBundle:Angular:templateFile }
+
+symbb_forum_show:
+    pattern:  /f-{id}-{name}/show/{page}/
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index, page: 1 }
+    defaults:
+        page: 1
+    options:
+      symbb_angular_controller: ForumCtrl
+      symbb_angular_api_route: symbb_api_forum_data
+      symbb_angular_template:
+          route: symbb_template_default_angular
+          params:
+              file: 'forumList'
+
+symbb_forum_search:
+    pattern:  /forum/search/{page}/
+    defaults:
+        page: 1
+        _controller: SymBBCoreAngularBundle:Angular:index
+    options:
+      symbb_angular_controller: ForumSearchCtrl
+      symbb_angular_api_route: symbb_api_post_search
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'search'
+
+symbb_forum_topic_show:
+    pattern:  /t-{id}-{name}/{page}/
+    defaults:
+        page: 1
+        _controller: SymBBCoreAngularBundle:Angular:index
+    options:
+      symbb_angular_controller: ForumTopicShowCtrl
+      symbb_angular_api_route: symbb_api_topic_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'topicShow'
+
+symbb_forum_topic_create:
+    pattern:  /f-{forum}/topic/new/
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumTopicEditCtrl
+      symbb_angular_api_route: symbb_api_topic_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'topic'
+
+symbb_forum_topic_edit:
+    pattern:  /f-{forum}/topic/{id}/edit
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumTopicEditCtrl
+      symbb_angular_api_route: symbb_api_topic_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'topic'
+
+symbb_forum_post_create:
+    pattern:  /t-{topic}/post/new
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumPostEditCtrl
+      symbb_angular_api_route: symbb_api_post_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'post'
+
+symbb_forum_post_edit:
+    pattern:  /p-{id}/edit
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumPostEditCtrl
+      symbb_angular_api_route: symbb_api_post_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'post'
+
+symbb_forum_post_quote:
+    pattern:  /p-{topic}/quote/{quoteId}
+    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    options:
+      symbb_angular_controller: ForumPostEditCtrl
+      symbb_angular_api_route: symbb_api_post_data
+      symbb_angular_template:
+          route: symbb_forum_angular_template
+          params:
+              file: 'post'

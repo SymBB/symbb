@@ -9,12 +9,12 @@
     <div ng-repeat="object in searchPagination.items" class="symbb_post">
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar') }}
-            <a class="avatar" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">
+            <a class="avatar" symbb-link="symbb_user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">
                 <img ng-src="[[object.author.avatar]]" />
             </a>
             {{ executeSymbbTemplatePostEvent('after.avatar') }}
             {{ executeSymbbTemplatePostEvent('before.username') }}
-            <a class="username" symbb-link="user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</a>
+            <a class="username" symbb-link="symbb_user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</a>
             {{ executeSymbbTemplatePostEvent('after.username') }}
             {{ executeSymbbTemplatePostEvent('before.userdata') }}
             <dd><strong>{% trans %}posts{% endtrans %}:</strong> [[object.author.count.post]]</dd>
@@ -25,10 +25,10 @@
             <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
             <div class="actions">
                 {{ executeSymbbTemplatePostEvent('before.actions') }}
-                <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="forum_post_quote" param-topic="[[object.topic.id]]" param-quote-id="[[object.id]]"></div>
-                <div ng-if="object.access.edit && object.id != topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_post_edit" param-id="[[object.id]]"></div>
-                <div ng-if="object.access.edit && object.id == topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="forum_topic_edit" param-forum="[[topic.forum.id]]" param-id="[[topic.id]]"></div>
-                <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" symbb-delete-request="forum_post_delete" param-id="[[object.id]]" message="{{'you really want to delete the entry?'|trans}}"></div>
+                <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="symbb_forum_post_quote" param-topic="[[object.topic.id]]" param-quote-id="[[object.id]]"></div>
+                <div ng-if="object.access.edit && object.id != topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="symbb_forum_post_edit" param-id="[[object.id]]"></div>
+                <div ng-if="object.access.edit && object.id == topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="symbb_forum_topic_edit" param-forum="[[topic.forum.id]]" param-id="[[topic.id]]"></div>
+                <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" symbb-delete-request="symbb_api_forum_post_delete" param-id="[[object.id]]" message="{{'you really want to delete the entry?'|trans}}"></div>
                 {{ executeSymbbTemplatePostEvent('after.actions') }}
             </div>
             <div class="clear-left"></div>

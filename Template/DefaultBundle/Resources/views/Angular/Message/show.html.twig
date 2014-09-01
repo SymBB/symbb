@@ -23,7 +23,7 @@
     </form>
 
     <div class="btn-group">
-        <button ng-click="sendReply()" class="btn btn-primary">{{ 'answer'|trans }}</button>
-        <button symbb-js-link="message_list" class="btn btn-default">{{ 'back'|trans }}</button>
+        <button ng-if="replyMessage.receivers.0 != user.id" ng-click="sendReply()" class="btn btn-primary">{{ 'answer'|trans }}</button>
+        <button symbb-js-link="symbb_message_list" class="btn btn-default">{{ 'back'|trans }}</button>
     </div>
 {% endblock %}

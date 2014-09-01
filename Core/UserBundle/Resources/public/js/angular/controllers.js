@@ -1,6 +1,6 @@
 symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
     function($scope, $http, $location) {
-        var route = angularConfig.getSymfonyApiRoute('user_ucp_data', {});
+        var route = angularConfig.getSymfonyRoute('symbb_api_ucp_data', {});
         $http.get(route).success(function(data) {
 
             $.each(data, function(key, value) {
@@ -11,7 +11,7 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
 
             $scope.update = function(user) {
                 $scope.master = angular.copy(user);
-                $http.post(angularConfig.getSymfonyApiRoute('user_ucp_save', {}), $scope.master).success(function(data) {
+                $http.post(angularConfig.getSymfonyRoute('symbb_api_user_ucp_save', {}), $scope.master).success(function(data) {
                     if (data.success) {
                     }
                 });
@@ -32,7 +32,7 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
         if ($routeParams && $routeParams.page) {
             pagenumber = $routeParams.page;
         }
-        var route = angularConfig.getSymfonyApiRoute('userlist', {page: pagenumber});
+        var route = angularConfig.getSymfonyRoute('symbb_api_userlist', {page: pagenumber});
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
                 $scope[key] = value;
@@ -41,7 +41,7 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
     }
 ]).controller('UserProfileCtrl', ['$scope', '$http', '$location', '$routeParams',
     function($scope, $http, $location, $routeParams) {
-        var route = angularConfig.getSymfonyApiRoute('user_profile', {id: $routeParams.id});
+        var route = angularConfig.getSymfonyRoute('symbb_api_user_data', {id: $routeParams.id});
         $http.get(route).success(function(data) {
             $.each(data, function(key, value) {
                 $scope[key] = value;
@@ -52,7 +52,7 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
 
 
 function createUcpUserDataStuff($scope, $http, $location){
-    var route = angularConfig.getSymfonyApiRoute('user_ucp_data', {});
+    var route = angularConfig.getSymfonyRoute('symbb_api_ucp_data', {});
     $http.get(route).success(function(data) {
 
         $.each(data, function(key, value) {
@@ -63,7 +63,7 @@ function createUcpUserDataStuff($scope, $http, $location){
 
         $scope.update = function(user) {
             $scope.master = angular.copy(user);
-            $http.post(angularConfig.getSymfonyApiRoute('user_ucp_save', {}), $scope.master).success(function(data) {
+            $http.post(angularConfig.getSymfonyRoute('symbb_api_user_ucp_save', {}), $scope.master).success(function(data) {
                 if (data.success) {
                 }
             });
