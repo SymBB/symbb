@@ -26,28 +26,6 @@ symbbControllers.controller('UcpCtrl', ['$scope', '$http', '$location',
     function($scope, $http, $location) {
         createUcpUserDataStuff($scope, $http, $location);
     }
-]).controller('UserlistCtrl', ['$scope', '$http', '$location', '$routeParams',
-    function($scope, $http, $location, $routeParams) {
-        var pagenumber = 1
-        if ($routeParams && $routeParams.page) {
-            pagenumber = $routeParams.page;
-        }
-        var route = angularConfig.getSymfonyRoute('symbb_api_userlist', {page: pagenumber});
-        $http.get(route).success(function(data) {
-            $.each(data, function(key, value) {
-                $scope[key] = value;
-            });
-        });
-    }
-]).controller('UserProfileCtrl', ['$scope', '$http', '$location', '$routeParams',
-    function($scope, $http, $location, $routeParams) {
-        var route = angularConfig.getSymfonyRoute('symbb_api_user_data', {id: $routeParams.id});
-        $http.get(route).success(function(data) {
-            $.each(data, function(key, value) {
-                $scope[key] = value;
-            });
-        });
-    }
 ]);
 
 

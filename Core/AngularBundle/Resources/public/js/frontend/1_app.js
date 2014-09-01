@@ -66,16 +66,24 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
 var symbbControllers = angular.module('symbbControllers', []);
 
 //default controller
-symbbControllers.controller('DefaultApiCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll',
-    function($scope, $http, $routeParams, $anchorScroll) {
-        routingKey = '';
-        console.debug('Currently not working, routingKey is missing');
-        var route = angularConfig.getSymfonyRoute(routingKey, $routeParams);
-        $http.get(route).success(function(data) {
-            $.each(data, function(key, value) {
-                $scope[key] = value;
-            });
-        });
-        $anchorScroll.scroll();
+symbbControllers.controller('DefaultApiCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll', '$route',
+    function($scope, $http, $routeParams, $anchorScroll, $route) {
+        var pattern = $route.current.$$route.originalPath;
+        var routingKey = angularConfig.getRoutingKeyBasedOnPattern(pattern);
+        if(routingKey){
+            var route = angularConfig.getSymfonyApiRoute(routingKey, $routeParams);
+            if(route){
+                $http.get(route).success(function(data) {
+                    $.each(data, function(key, value) {
+                        $scope[key] = value;
+                    });
+                });
+                $anchorScroll();
+            } else {
+                console.debug('No Api Route found for: '+routingKey)
+            }
+        } else {
+            console.debug('No configured angular route found for: '+pattern)
+        }
     }
 ]);

@@ -29,6 +29,25 @@
             return routePath;
         },
 
+        getSymfonyApiRoute: function(route, params){
+            var routePath =  '';
+            if(this.angularRoutes[route] && this.angularRoutes[route]['api']){
+                if(!params){
+                    params = {};
+                }
+                var realParams = this.angularRoutes[route]['api']['params'];
+                if(!realParams){
+                    realParams = {};
+                }
+                $.each(params, function(key, value){
+                    realParams[key] = value;
+                });
+                realParams._locale = symbbUser.lang;
+                routePath = Routing.generate(this.angularRoutes[route]['api']['route'], realParams);
+            }
+            return routePath;
+        },
+
         getSymfonyTemplateRoute: function(route, params){
             var routePath =  '';
             if(this.angularRoutes[route] && this.angularRoutes[route]['template']){
@@ -101,6 +120,21 @@
                 }
             });
 
+        },
+
+        getRoutingKeyBasedOnPattern: function(pattern){
+            var finalKey = '';
+            $.each(this.angularRoutes, function(key, value){
+                if(value.pattern){
+                    $.each(value.pattern, function(urlKey, urlValue){
+                        console.debug(urlValue+' == '+pattern);
+                        if( urlValue == pattern){
+                            finalKey = key;
+                        }
+                    });
+                }
+            });
+            return finalKey;
         }
     };
 

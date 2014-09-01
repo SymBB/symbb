@@ -53,7 +53,7 @@ symbb_userlist:
     defaults:
       _controller: SymBBCoreAngularBundle:Angular:index
     options:
-      symbb_angular_controller: UserlistCtrl
+      symbb_angular_controller: DefaultApiCtrl
       symbb_angular_api_route: symbb_api_userlist
       symbb_angular_template:
         route: symbb_template_default_angular
@@ -64,7 +64,7 @@ symbb_user_profile:
     pattern:  /user/{id}/{username}
     defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
     options:
-      symbb_angular_controller: UserProfileCtrl
+      symbb_angular_controller: DefaultApiCtrl
       symbb_angular_api_route: symbb_api_user_data
       symbb_angular_template:
         route: symbb_template_user_angular

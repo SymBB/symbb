@@ -120,6 +120,11 @@ class AngularRouter
                         'params' => $routing->getTemplateParams()
                     );
                 }
+                if($routing->hasApiRoute()){
+                    $data[$key]['api'] = array(
+                        'route' => $routing->getApiRoute()
+                    );
+                }
             }
         }
         return \json_encode($data);
