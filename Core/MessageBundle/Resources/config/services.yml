@@ -11,4 +11,4 @@ services:
     symbb.core.message.listener.template:
         class: SymBB\Core\MessageBundle\EventListener\TemplateListener
         tags:
-            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }

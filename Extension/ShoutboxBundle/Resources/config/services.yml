@@ -3,5 +3,5 @@ services:
         class: SymBB\Extension\ShoutboxBundle\EventListener\TemplateListener
         tags:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts }
-            - { name: kernel.event_listener, event: symbb.template.forum.afterBody, method: afterBody }
+            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.template.forum.afterMenu, method: renderBox }

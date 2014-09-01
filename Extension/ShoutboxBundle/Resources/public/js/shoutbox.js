@@ -14,7 +14,14 @@ symbbControllers.directive('symbbExtensionShoutbox', ['$http', '$timeout', funct
                             loadSymbbExtensionShoutboxData(scope, $http);
                         }
                     });
+                    scope.extension.shoutbox.newMessage = '';
                 }
+                $('#symbb_extension_shoutbox_input').keyup(function(e){
+                    if(e.keyCode == 13)
+                    {
+                        scope.saveExtensionShoutboxMessage();
+                    }
+                })
             }, 300); // make a timeout, if not it will be loaded before the forum itself...
         }
     };
@@ -31,7 +38,7 @@ function loadSymbbExtensionShoutboxData(scope, $http){
         }
         scope.extension.shoutbox.entries = data.shoutboxEntries;
         $('.shoutbox_content').animate({
-            scrollTop:  1000
+            scrollTop:  3000
         });
     });
 }

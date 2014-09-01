@@ -3,7 +3,7 @@ services:
         class: SymBB\Core\AngularBundle\EventListener\TemplateListener
         arguments: ['@symbb.core.angular.router']
         tags:
-            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts, priority: 50 }
+            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts, priority: 50 }
             
     symbb.core.angular.router:
         class: SymBB\Core\AngularBundle\DependencyInjection\Router

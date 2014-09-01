@@ -21,7 +21,7 @@ class TemplateListener
         $event->render('SymBBExtensionShoutboxBundle::stylesheets.html.twig', array());
     }
 
-    public function afterBody(TemplateDefaultEvent $event){
+    public function renderBox(TemplateDefaultEvent $event){
         $event->render('SymBBExtensionShoutboxBundle:Shoutbox:small.html.twig', array());
     }
 }

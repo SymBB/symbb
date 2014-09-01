@@ -29,7 +29,7 @@
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {{ executeSymbbEvent('template.angular.javascripts') }}
+    {{ executeSymbbEvent('template.forum.javascripts') }}
 {% endblock %}
 
 {% block symbb_body_container %}
@@ -61,7 +61,7 @@
     <div class="clear"></div>
 
     {% block symbb_body %}
-        {{ executeSymbbEvent('template.forum.beforBody') }}
+        {{ executeSymbbEvent('template.forum.beforeBody') }}
         <div ng-view  show-default="true"></div>
         {{ executeSymbbEvent('template.forum.afterBody') }}
     {% endblock %}

@@ -3,7 +3,7 @@ services:
         class: SymBB\Core\BBCodeBundle\EventListener\TemplateListener
         tags:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.template.angular.javascripts, method: javascripts }
+            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }
             
     symbb.core.bbcode.listener.parse:
         class: SymBB\Core\BBCodeBundle\EventListener\ParseListener

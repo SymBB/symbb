@@ -2,20 +2,17 @@
 
 }
 
-.symbb_extension_scoutbox .shoutbox_userdata {
-    font-weight: bold;
+.symbb_extension_scoutbox .shoutbox_row  {
     margin-bottom: 5px;
-}
-.symbb_extension_scoutbox .shoutbox_message {
-    border-bottom: 1px solid #CCC;
-    margin-bottom: 10px;
-}
-
-.symbb_extension_scoutbox .shoutbox_input textarea {
-    width: 100%;
 }
 
 .symbb_extension_scoutbox .shoutbox_content {
-    max-height: 300px;
-    overflow: scroll;
+    height: 100px;
+    max-height: 100px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.symbb_extension_scoutbox .form-controll {
+    float: left;
 }
