@@ -18,9 +18,8 @@ class UploadManager extends \SymBB\Core\SystemBundle\DependencyInjection\Abstrac
 
     protected $rootDir;
 
-    public function __construct(SecurityContextInterface $securityContext, $symbbConfig, $rootDir)
+    public function __construct($symbbConfig, $rootDir)
     {
-        $this->setSecurityContext($securityContext);
         foreach ($symbbConfig['upload'] as $set => $config) {
             if (!\strpos($config['directory'], '/') === 0) {
                 $config['directory'] = '/' . $config['directory'];

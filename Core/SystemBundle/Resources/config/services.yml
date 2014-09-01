@@ -45,7 +45,7 @@ services:
 
     symbb.core.upload.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager
-        arguments: ["@security.context", "%symbb_config%", '%kernel.root_dir%']
+        arguments: ["%symbb_config%", '%kernel.root_dir%']
             
     symbb.extension.routing_loader:
         class: SymBB\ExtensionBundle\Routing\ExtraLoader

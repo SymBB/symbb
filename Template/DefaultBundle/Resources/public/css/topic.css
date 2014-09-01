@@ -45,6 +45,10 @@
     font-size: 120%;
 }
 
+.symbb_post .postbody .text img {
+    max-width: 80%;
+}
+
 
 .symbb_post .postbody .breadcrumb_mini {
     font-size: 80%;
