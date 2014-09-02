@@ -75,12 +75,24 @@ class AngularRouter
         $pattern = $currRoute->getPattern();
         $defaults = $currRoute->getDefaults();
         $options = $currRoute->getOptions();
+        $apiRoute = '';
+        $templateOptions = array();
+        $controller = '';
+        if(isset($options['symbb_angular_api_route'])){
+            $apiRoute = $options['symbb_angular_api_route'];
+        }
+        if(isset($options['symbb_angular_template'])){
+            $templateOptions = $options['symbb_angular_template'];
+        }
+        if(isset($options['symbb_angular_controller'])){
+            $controller = $options['symbb_angular_controller'];
+        }
         $angularRoute = new AngularRoute(
             array(
                 'pattern' => $pattern,
-                'controller' => $options['symbb_angular_controller'],
-                'api' => array('route' => $options['symbb_angular_api_route']),
-                'template' => $options['symbb_angular_template'],
+                'controller' => $controller,
+                'api' => array('route' => $apiRoute),
+                'template' => $templateOptions,
                 'defaults' => $defaults
             ),
             $this->sfRouter)
