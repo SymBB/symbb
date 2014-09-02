@@ -12,6 +12,7 @@
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
         {% stylesheets filter='?uglifycss'
             '@SymBBTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymBBTemplateDefaultBundle/Resources/public/css/theme.css' 
@@ -25,15 +26,13 @@
          %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         {{ executeSymbbEvent('template.global.stylesheets') }}
     {% endblock %}
 
     {% block javascripts %}
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://code.jquery.com/jquery.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
         <!-- Latest compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
         {% javascripts filter='?uglifyjs2'

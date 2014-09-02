@@ -1,6 +1,6 @@
 _symbb_acp:
     pattern:  /
-    defaults: { _controller: SymBBCoreForumBundle:Acp:list }
+    defaults: { _controller: SymBBCoreSystemBundle:Acp:index }
     
 _symbbcoresitebundle_site_acp_routings:
     resource: "@SymBBCoreSiteBundle/Resources/config/routing/acp.yml"
