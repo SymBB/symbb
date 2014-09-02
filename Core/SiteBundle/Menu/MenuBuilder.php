@@ -81,10 +81,11 @@ class MenuBuilder
                         $childMenu->setLinkAttributes(array('target' => '_blank'));
                     }
                 }
+                if($child->hasChildren()){
+                    $this->addChildren($childMenu, $child->getChildren(), $siteManager, $router);
+                }
             }
-            if($child->hasChildren()){
-                $this->addChildren($childMenu, $child->getChildren(), $siteManager);
-            }
+
         }
     }
 }
