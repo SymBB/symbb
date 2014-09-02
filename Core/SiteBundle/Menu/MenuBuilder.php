@@ -82,7 +82,7 @@ class MenuBuilder
                     }
                 }
             }
-            if($childMenu && $child->hasChildren()){
+            if(isset($childMenu) && isset($child) && $child->hasChildren()){
                 $this->addChildren($childMenu, $child->getChildren(), $siteManager, $router);
             }
         }
