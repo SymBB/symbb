@@ -36,13 +36,9 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
         {% javascripts filter='?uglifyjs2'
-        '@SymBBCoreAngularBundle/Resources/public/js/moment/moment.js'
-        '@SymBBTemplateDefaultBundle/Resources/public/js/tabs.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
-        '@SymBBTemplateDefaultBundle/Resources/public/js/form/collection.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/select2.js'
-        '@FOSJsRoutingBundle/Resources/public/js/router.js'
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}

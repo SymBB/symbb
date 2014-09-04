@@ -1,10 +1,4 @@
 services:
-    symbb.core.angular.listener.template:
-        class: SymBB\Core\AngularBundle\EventListener\TemplateListener
-        arguments: ['@symbb.core.angular.router']
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts, priority: 50 }
-            
     symbb.core.angular.router:
         class: SymBB\Core\AngularBundle\Routing\AngularRouter
         arguments: ['@event_dispatcher', '@router']
@@ -12,3 +6,9 @@ services:
     symbb.core.angular.to.twig.converter:
         class: SymBB\Core\AngularBundle\DependencyInjection\AngularToTwigConverter
         arguments: ['@router']
+
+    symbb.core.angular.router.twig:
+        class: SymBB\Core\AngularBundle\Twig\RouterExtension
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }

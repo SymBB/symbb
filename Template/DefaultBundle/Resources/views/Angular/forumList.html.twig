@@ -49,11 +49,11 @@
             </div>
             <div class="col-md-2 col number-align">[[ object.count.topic ]] / [[ object.count.post ]]</div>
             <div class="col-md-3 col" >
-                <div ng-if="object.lastPosts.0.id">
+                <div ng-if="object.lastPosts[0].id">
                     <div class="text pull-left" >
-                        <a symbb-link="symbb_forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">[[object.lastPosts.0.name]]</a></br>
-                        <a symbb-link="symbb_user_profile" param-id="[[object.lastPosts.0.author.id]]" param-username="[[object.lastPosts.0.author.username]]">{% trans with {'%user%': "[[object.lastPosts.0.author.username]]"} %}from %user%{% endtrans %}</a> </br>
-                        {% trans with {'%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
+                        <a symbb-link="symbb_forum_topic_show" param-id="[[object.lastPosts[0].topic.id]]" param-name="[[object.lastPosts[0].topic.seo.name]]" param-page="last">[[object.lastPosts[0].name]]</a></br>
+                        <a symbb-link="symbb_user_profile" param-id="[[object.lastPosts[0].author.id]]" param-username="[[object.lastPosts[0].author.username]]">{% trans with {'%user%': "[[object.lastPosts[0].author.username]]"} %}from %user%{% endtrans %}</a> </br>
+                        {% trans with {'%date%': "[[ object.lastPosts[0].changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts[0].changed | date:'HH.mm']]"} %} %date% at %time%{% endtrans %}
                     </div>
                 </div>
             </div>
@@ -124,12 +124,12 @@
             </div>
             <div class="col-md-2 col number-align">[[ object.count.post ]]</div>
             <div class="col-md-5 col" >
-                <div ng-if="object.lastPosts.0.id" symbb-link="symbb_forum_topic_show" param-id="[[object.lastPosts.0.topic.id]]" param-name="[[object.lastPosts.0.topic.seo.name]]" param-page="last">
+                <div ng-if="object.lastPosts[0].id" symbb-link="symbb_forum_topic_show" param-id="[[object.lastPosts[0].topic.id]]" param-name="[[object.lastPosts[0].topic.seo.name]]" param-page="last">
                     <div class="avatar_mini pull-left">
-                        <img title="[[object.lastPosts.0.author.username]]" ng-src="[[object.lastPosts.0.author.avatar]]" />
+                        <img title="[[object.lastPosts[0].author.username]]" ng-src="[[object.lastPosts[0].author.avatar]]" />
                     </div>
                     <div class="text pull-left" >
-                        {% trans with {'%user%': "[[object.lastPosts.0.author.username]]", '%date%': "[[ object.lastPosts.0.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts.0.changed | date:'HH:mm']]"} %}from %user% on %date% at %time%{% endtrans %}
+                        {% trans with {'%user%': "[[object.lastPosts[0].author.username]]", '%date%': "[[ object.lastPosts[0].changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.lastPosts[0].changed | date:'HH:mm']]"} %}from %user% on %date% at %time%{% endtrans %}
                     </div>
                 </div>
             </div>
