@@ -33,6 +33,7 @@
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/acp/0_module.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/acp/1_app.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angularHelper.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js'
         '@FOSJsRoutingBundle/Resources/public/js/router.js'
@@ -53,7 +54,7 @@
         </script>
         {{ executeSymbbEvent('template.acp.javascripts') }}
     {% endblock %}
-    <base href="/">
+    <base href="{{ path('_symbb_acp') }}">
 </head>
 <body>
     <div class="app-header-fixed">

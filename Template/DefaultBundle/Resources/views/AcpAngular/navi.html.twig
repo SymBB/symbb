@@ -16,10 +16,13 @@
             <span class="font-bold ng-scope" >{{ 'Sites'|trans }}</span>
         </a>
     </li>
-    <li>
+    <li ng-class="{'active': currNavi == 'forum'}" ng-click="currNavi = 'forum'">
         <a href="">
             <i class="glyphicon glyphicon-tasks"></i>
             <span class="font-bold ng-scope" >{{ 'Forummanagment'|trans }}</span>
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
@@ -30,10 +33,13 @@
         </ul>
     </li>
     <li class="line dk"></li>
-    <li>
+    <li ng-class="{'active': currNavi == 'user'}" ng-click="currNavi = 'user'">
         <a href="">
             <i class="glyphicon glyphicon-user"></i>
             <span class="font-bold ng-scope" >{{ 'Usermanagment'|trans }}</span>
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
@@ -53,10 +59,13 @@
             </li>
         </ul>
     </li>
-    <li>
-        <a href="">
+    <li ng-class="{'active': currNavi == 'access'}">
+        <a href="" ng-click="currNavi = 'access'">
             <i class="glyphicon glyphicon-lock"></i>
             <span class="font-bold ng-scope" >{{ 'Accessmanagment'|trans }}</span>
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
@@ -67,10 +76,13 @@
         </ul>
     </li>
     <li class="line dk"></li>
-    <li>
-        <a href="">
+    <li ng-class="{'active': currNavi == 'settings'}">
+        <a href="" ng-click="currNavi = 'settings'">
             <i class="glyphicon glyphicon-cog"></i>
             <span class="font-bold ng-scope" >{{ 'Settings'|trans }}</span>
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
         </a>
         <ul class="nav nav-sub dk">
             <li class="nav-sub-header">
