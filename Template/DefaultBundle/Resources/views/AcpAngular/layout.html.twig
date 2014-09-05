@@ -32,10 +32,12 @@
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
-        '@SymBBTemplateDefaultBundle/Resources/public/js/acp/0_module.js'
-        '@SymBBTemplateDefaultBundle/Resources/public/js/acp/1_app.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/acp/app.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/angularHelper.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/acp/directives.js'
         '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/flot/jquery.flot.js'
+        '@SymBBTemplateDefaultBundle/Resources/public/js/flot/jquery.flot.time.js'
         '@FOSJsRoutingBundle/Resources/public/js/router.js'
         'js/fos_js_routes.js'
         %}
@@ -50,11 +52,11 @@
                 lang: '{{ app.request.locale }}'
             };
             moment.lang(symbbUser.lang);
-            angularConfig.angularRoutes = {{ getAngularRouter().createAngularRouteJson() | raw}};
+            angularConfig.angularRoutes = {{ getAngularRouter().createAngularRouteJson('acp') | raw}};
         </script>
         {{ executeSymbbEvent('template.acp.javascripts') }}
     {% endblock %}
-    <base href="{{ path('_symbb_acp') }}">
+    <base href="/">
 </head>
 <body>
     <div class="app-header-fixed">

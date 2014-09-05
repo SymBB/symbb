@@ -52,14 +52,14 @@ class AngularRouter
                     !isset($options['symbb_angular_api_route']) &&
                     !isset($options['symbb_angular_controller'])
                 ){
-                    $options['symbb_angular_controller'] = 'DefaultController';
+                    $options['symbb_angular_controller'] = 'DefaultCtrl';
                     // if only controller is missing
                     // use DefaultApiController
                 } else if(
                     !isset($options['symbb_angular_controller']) &&
                     isset($options['symbb_angular_api_route'])
                 ){
-                    $options['symbb_angular_controller'] = 'DefaultApiController';
+                    $options['symbb_angular_controller'] = 'DefaultApiCtrl';
                 }
                 $currRoute->setOptions($options);
                 $this->addRoute($currRoute, $routeKey);
@@ -78,6 +78,7 @@ class AngularRouter
         $apiRoute = '';
         $templateOptions = array();
         $controller = '';
+        $section = '';
         if(isset($options['symbb_angular_api_route'])){
             $apiRoute = $options['symbb_angular_api_route'];
         }
@@ -87,13 +88,17 @@ class AngularRouter
         if(isset($options['symbb_angular_controller'])){
             $controller = $options['symbb_angular_controller'];
         }
+        if(isset($options['symbb_angular_section'])){
+            $section = $options['symbb_angular_section'];
+        }
         $angularRoute = new AngularRoute(
             array(
                 'pattern' => $pattern,
                 'controller' => $controller,
                 'api' => array('route' => $apiRoute),
                 'template' => $templateOptions,
-                'defaults' => $defaults
+                'defaults' => $defaults,
+                'section' => $section
             ),
             $this->sfRouter)
         ;
@@ -108,10 +113,18 @@ class AngularRouter
         return $this->frontend;
     }
 
-    public function createAngularRouteJson()
+    public function createAngularRouteJson($filterBySection = null)
     {
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
+
+            $section = $routing->getSection();
+
+            // if we want to filter check the section of the routing
+            // and continue if it do not match
+            if($filterBySection !== null && $section !== $filterBySection ){
+                continue;
+            }
 
             $key = \str_replace(array('angular_'), '', $key);
 

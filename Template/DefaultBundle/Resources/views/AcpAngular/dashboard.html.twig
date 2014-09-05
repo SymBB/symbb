@@ -10,49 +10,34 @@
             <div class="row row-sm text-center">
                 <div class="col-xs-6">
                     <div class="panel padder-v item">
-                        <div class="h1 text-info font-thin h1">521</div>
-                        <span class="text-muted text-xs">New items</span>
+                        <div class="h1 text-info font-thin h1">[[ statistic.countData.post ]]</div>
+                        <span class="text-muted text-xs">{{ 'Posts'|trans }}</span>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <a href="" class="block panel padder-v bg-primary item">
-                        <span class="text-white font-thin h1 block">930</span>
-                        <span class="text-muted text-xs">Uploads</span>
-                                        <span class="bottom text-right w-full">
-                                            <i class="fa fa-cloud-upload text-muted m-r-sm"></i>
-                                        </span>
-                    </a>
+                    <div class="panel padder-v bg-info item">
+                        <span class="text-white font-thin h1 block">[[ statistic.countData.topic ]]</span>
+                        <span class="text-muted text-xs">{{ 'Topics'|trans }}</span>
+                    </div>
                 </div>
                 <div class="col-xs-6">
-                    <a href="" class="block panel padder-v bg-info item">
-                        <span class="text-white font-thin h1 block">432</span>
-                        <span class="text-muted text-xs">Comments</span>
-                                        <span class="top text-left">
-                                            <i class="fa fa-caret-up text-warning m-l-sm"></i>
-                                        </span>
-                    </a>
+                    <div class="panel padder-v bg-info item">
+                        <span class="text-white font-thin h1 block">[[ statistic.countData.activeUser ]]</span>
+                        <span class="text-muted text-xs">{{ 'active Users'|trans }}</span>
+                    </div>
                 </div>
                 <div class="col-xs-6">
                     <div class="panel padder-v item">
-                        <div class="font-thin h1">129</div>
-                        <span class="text-muted text-xs">Feeds</span>
-                        <div class="bottom text-left">
-                            <i class="fa fa-caret-up text-warning m-l-sm"></i>
-                        </div>
+                        <div class="font-thin h1">[[ statistic.countData.inactiveUser ]]</div>
+                        <span class="text-muted text-xs">{{ 'inactive Users'|trans }}</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-7">
             <div class="panel wrapper">
-                <h4 class="font-thin m-t-none m-b text-muted">Latest Campaign</h4>
-                <div ui-jq="plot" ui-refresh="showSpline" ui-options="[ { data: [[0,7],[1,6.5],[2,12.5],[3,7],[4,9],[5,6],[6,11],[7,6.5],[8,8],[9,7]], label:'TV', points: { show: true, radius: 1}, splines: { show: showSpline, tension: 0.4, lineWidth: 1, fill: 0.8 } }, { data: [[0,4],[1,4.5],[2,7],[3,4.5],[4,3],[5,3.5],[6,6],[7,3],[8,4],[9,3]], label:'Mag', points: { show: true, radius: 1}, splines: { show: showSpline, tension: 0.4, lineWidth: 1, fill: 0.8 } } ], { colors: ['#23b7e5', '#7266ba'], series: { shadowSize: 3 }, xaxis:{ font: { color: '#a1a7ac' } }, yaxis:{ font: { color: '#a1a7ac' }, max:20 }, grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#dce5ec' }, tooltip: true, tooltipOpts: { content: '%s of %x.1 is %y.4', defaultTheme: false, shifts: { x: 10, y: -25 } } }" style="height: 246px; padding: 0px; position: relative;">
-                    <canvas class="flot-base" width="784" height="246" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 784px; height: 246px;"></canvas>
-                    <div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
-                        <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
-                            <div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 13px; text-align: center;">0</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 98px; text-align: center;">1</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 183px; text-align: center;">2</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 268px; text-align: center;">3</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 353px; text-align: center;">4</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 438px; text-align: center;">5</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 523px; text-align: center;">6</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 608px; text-align: center;">7</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 693px; text-align: center;">8</div><div style="position: absolute; max-width: 78px; top: 234px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 778px; text-align: center;">9</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div style="position: absolute; top: 223px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 5px; text-align: right;">0</div><div style="position: absolute; top: 167px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 5px; text-align: right;">5</div><div style="position: absolute; top: 112px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 0px; text-align: right;">10</div><div style="position: absolute; top: 56px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 0px; text-align: right;">15</div><div style="position: absolute; top: 0px; font-style: normal; font-variant: normal; font-weight: 400; font-size: 11px; line-height: 12.649999999999999px; font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: rgb(161, 167, 172); left: 0px; text-align: right;">20</div></div></div><canvas class="flot-overlay" width="784" height="246" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 784px; height: 246px;"></canvas><div class="legend"><div style="position: absolute; width: 43px; height: 44px; top: 11px; right: 9px; opacity: 0.85; background-color: rgb(255, 255, 255);"> </div><table style="position:absolute;top:11px;right:9px;;font-size:smaller;color:#dce5ec"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(35,183,229);overflow:hidden"></div></div></td><td class="legendLabel">TV</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(114,102,186);overflow:hidden"></div></div></td><td class="legendLabel">Mag</td></tr></tbody></table>
-                    </div>
-                </div>
+                <h4 class="font-thin m-t-none m-b text-muted">{{ 'Visitors'|trans }}</h4>
+                <symbb-day-statistic data-api-route="symbb_acp_api_statistic_visitors"></symbb-day-statistic>
             </div>
         </div>
     </div>

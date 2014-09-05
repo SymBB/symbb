@@ -1,0 +1,30 @@
+# Routings to get the Templates
+symbb_template_acp_angular:
+    pattern:  /angular/template/acp/{file}
+    methods:  [GET]
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpTemplateFile }
+
+# AngularJs Controller Routings
+# This will create a SF Controller AND a AngularJs Controller automaticly
+# and provide the correct content
+_symbb_acp:
+    pattern:  /
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_api_route: symbb_backend_api_dashboard_data
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'dashboard'
+
+symbb_acp_dashboard:
+    pattern:  /dashboard
+    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_api_route: symbb_backend_api_dashboard_data
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'dashboard'

@@ -1,12 +1,3 @@
-
-symbb_template_ucp_angular:
-    pattern:  /angular/template/ucp/{file}
-    defaults: { _controller: SymBBCoreUserBundle:Angular:ucpTemplateFile }
-
-symbb_template_user_angular:
-    pattern:  /angular/template/user/{file}
-    defaults: { _controller: SymBBCoreUserBundle:Angular:userTemplateFile }
-
 symbb_api_ucp_data:
     pattern:  /api/ucp/data
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpData }
@@ -27,46 +18,3 @@ symbb_api_user_data:
     pattern:  /api/user/data
     defaults: { _controller: SymBBCoreUserBundle:FrontendApi:data }
 
-
-symbb_user_ucp:
-    pattern:  /ucp/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: UcpCtrl
-      symbb_angular_template:
-        route: symbb_template_ucp_angular
-        params:
-            file: 'index'
-
-symbb_user_ucp_security:
-    pattern:  /ucp/security
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: UcpSecurityCtrl
-      symbb_angular_template:
-        route: symbb_template_ucp_angular
-        params:
-            file: 'security'
-
-symbb_userlist:
-    pattern:  /users/{page}
-    defaults:
-      _controller: SymBBCoreAngularBundle:Angular:index
-    options:
-      symbb_angular_controller: DefaultApiCtrl
-      symbb_angular_api_route: symbb_api_userlist
-      symbb_angular_template:
-        route: symbb_template_default_angular
-        params:
-            file: 'userlist'
-
-symbb_user_profile:
-    pattern:  /user/{id}/{username}
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: DefaultApiCtrl
-      symbb_angular_api_route: symbb_api_user_data
-      symbb_angular_template:
-        route: symbb_template_user_angular
-        params:
-            file: 'profile'

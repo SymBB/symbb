@@ -32,6 +32,21 @@ services:
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
             - [setEventDispatcher, ['@event_dispatcher']]
 
+    symbb.core.abstract.api:
+        abstract: true
+        calls:
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setMessageManager, ['@symbb.core.message.manager']]
+            - [setAccessManager, ['@symbb.core.access.manager']]
+            - [setPaginator, ['@knp_paginator']]
+            - [setTranslator, ['@translator']]
+            - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+            - [setEventDispatcher, ['@event_dispatcher']]
+
+    symbb.core.api.statistic:
+        class: SymBB\Core\SystemBundle\DependencyInjection\StatisticApi
+        parent: symbb.core.abstract.api
+
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
         arguments: ["%symbb_config%", '@service_container']

@@ -18,6 +18,8 @@ class AngularRoute
 
     protected $controller = '';
 
+    protected $section = '';
+
     protected $api = array('route' => '');
 
     protected $template = array('route' => '', 'params' => array());
@@ -43,7 +45,14 @@ class AngularRoute
         if (isset($data['defaults'])) {
             $this->defaults = $data['defaults'];
         }
+        if (isset($data['section'])) {
+            $this->section = $data['section'];
+        }
         $this->router = $router;
+    }
+
+    public function getSection(){
+        return $this->section;
     }
 
     public function getDefaults()

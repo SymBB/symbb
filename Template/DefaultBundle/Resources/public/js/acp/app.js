@@ -8,6 +8,5 @@ var app = angular.module('app', [
     'angularFileUpload',
     'angularTumb',
     'ui.bootstrap.datetimepicker',
-    'symbbControllers',
-    'symbbTemplateModule'
+    'symbbControllers'
 ]);

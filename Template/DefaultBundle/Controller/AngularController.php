@@ -12,6 +12,40 @@ namespace SymBB\Template\DefaultBundle\Controller;
 class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
 {
 
+    public function acpIndexAction(){
+        return $this->render($this->getTemplateBundleName('acp') . ':AcpAngular:index.html.twig', array());
+    }
+
+    public function acpTemplateFileAction($file)
+    {
+        $response = $this->render(
+            $this->getTemplateBundleName('forum').':AcpAngular:'.$file.'.html.twig',
+            array()
+        );
+
+        // all angular templates should be public, they dont contains some private informations.
+        // all variables are parsed at the frontend
+        $response->setPublic();
+        $response->setSharedMaxAge(600);
+
+        return $response;
+    }
+
+    public function forumTemplateFileAction($file)
+    {
+        $response = $this->render(
+            $this->getTemplateBundleName('forum').':Angular:Forum/'.$file.'.html.twig',
+            array()
+        );
+
+        // all angular templates should be public, they dont contains some private informations.
+        // all variables are parsed at the frontend
+        $response->setPublic();
+        $response->setSharedMaxAge(600);
+
+        return $response;
+    }
+
     public function templateFileAction($file)
     {
         $response = $this->render(

@@ -11,7 +11,7 @@ services:
             - { name: kernel.event_listener, event: symbb.core.site.acp.template_choices, method: templateChoices }
 
     symbb.template.default.twig.extension.loader:
-        class:        Twig_Extension_StringLoader
+        class: Twig_Extension_StringLoader
         tags:
              - { name: 'twig.extension' }
 
