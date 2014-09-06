@@ -9,7 +9,7 @@
 
 namespace SymBB\Core\SystemBundle\Controller;
 
-use SymBB\Core\SystemBundle\DependencyInjection\StatisticApi;
+use SymBB\Core\SystemBundle\Api\StatisticApi;
 
 class BackendApiController extends AbstractController
 {
@@ -29,10 +29,33 @@ class BackendApiController extends AbstractController
         $countData['activeUser'] = $statisticApi->getActiveUserCount();
         $countData['inactiveUser'] = $statisticApi->getInactiveUserCount();
         $countData['inactiveUser'] = $statisticApi->getInactiveUserCount();
+        $visitors = $statisticApi->getVisitors();
+
+        $userVisitors = array();
+        $guestVisitors = array();
+        $date = new \DateTime();
+
+        foreach($visitors as $dayTimestamp => $visitorList){
+            $date->setTimestamp($dayTimestamp);
+            $dayTimestamp = $statisticApi->getISO8601ForUser($date);
+            $userVisitors[$dayTimestamp] = array();
+            $guestVisitors[$dayTimestamp] = array();
+            foreach($visitorList as $visitor){
+                if($visitor['type'] == 'user'){
+                    $userVisitors[$dayTimestamp][] = $visitor;
+                } else {
+                    $guestVisitors[$dayTimestamp][] = $visitor;
+                }
+            }
+        }
 
         return $statisticApi->getJsonResponse(array(
             'statistic' => array(
-                'countData' => $countData
+                'countData' => $countData,
+                'visitors' => array(
+                    'users' => $userVisitors,
+                    'guests' => $guestVisitors
+                )
             )
         ));
     }

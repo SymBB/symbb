@@ -12,6 +12,7 @@ _symbb_acp:
     defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
+      symbb_angular_controller: DashboardCtrl
       symbb_angular_api_route: symbb_backend_api_dashboard_data
       symbb_angular_template:
           route: symbb_template_acp_angular
@@ -23,6 +24,7 @@ symbb_acp_dashboard:
     defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
+      symbb_angular_controller: DashboardCtrl
       symbb_angular_api_route: symbb_backend_api_dashboard_data
       symbb_angular_template:
           route: symbb_template_acp_angular

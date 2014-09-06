@@ -7,11 +7,12 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\DependencyInjection;
+namespace SymBB\Core\SystemBundle\Api;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
 use SymBB\Core\MessageBundle\DependencyInjection\MessageManager;
+use SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
 use SymBB\Core\UserBundle\DependencyInjection\UserManager;
 use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Translation\Translator;

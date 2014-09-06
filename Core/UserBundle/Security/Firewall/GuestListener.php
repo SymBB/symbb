@@ -9,17 +9,16 @@
 namespace SymBB\Core\UserBundle\Security\Firewall;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
-class GuestListener extends AnonymousAuthenticationListener
+class GuestListener implements ListenerInterface
 {
     private $em;
 
     public function __construct(SecurityContextInterface $context, $key, \Psr\Log\LoggerInterface $logger = null, $em)
     {
-        parent::__construct($context, $key);
         $this->context = $context;
         $this->key     = $key;
         $this->logger  = $logger;

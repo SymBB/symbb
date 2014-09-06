@@ -42,9 +42,10 @@ services:
             - [setTranslator, ['@translator']]
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
             - [setEventDispatcher, ['@event_dispatcher']]
+            - [setMemcache, ['@memcache.default']]
 
     symbb.core.api.statistic:
-        class: SymBB\Core\SystemBundle\DependencyInjection\StatisticApi
+        class: SymBB\Core\SystemBundle\Api\StatisticApi
         parent: symbb.core.abstract.api
 
     symbb.core.access.manager:
@@ -86,6 +87,12 @@ services:
         arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    symbb.core.system.request.listener:
+        class: SymBB\Core\SystemBundle\EventListener\RequestListener
+        arguments: ['@symbb.core.api.statistic', '@security.context']
+        tags:
+            - { name: kernel.event_listener, event: kernel.finish_request, method: statistic }
 
     symbb.core.update.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\UpdateManager
