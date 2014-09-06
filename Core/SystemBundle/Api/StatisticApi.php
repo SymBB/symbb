@@ -131,7 +131,7 @@ class StatisticApi extends AbstractApi
         // if we have found the same visitor in the data
         // then we will overwrite it
         // if not we will add the vistor
-        if($overwriteKey){
+        if($overwriteKey !== null){
             $data[$todayTimestamp][$overwriteKey] = $currVisitor;
         } else {
             $data[$todayTimestamp][] = $currVisitor;

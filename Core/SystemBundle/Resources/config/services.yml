@@ -42,11 +42,13 @@ services:
             - [setTranslator, ['@translator']]
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
             - [setEventDispatcher, ['@event_dispatcher']]
-            - [setMemcache, ['@memcache.default']]
+            - ['setSerializer', ['@jms_serializer']]
 
     symbb.core.api.statistic:
         class: SymBB\Core\SystemBundle\Api\StatisticApi
         parent: symbb.core.abstract.api
+        calls:
+            - [setMemcache, ['@memcache.default']]
 
     symbb.core.access.manager:
         class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager

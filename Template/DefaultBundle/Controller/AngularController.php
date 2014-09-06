@@ -18,6 +18,8 @@ class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
 
     public function acpTemplateFileAction($file)
     {
+
+        $file = str_replace('|', '/', $file);
         $response = $this->render(
             $this->getTemplateBundleName('forum').':AcpAngular:'.$file.'.html.twig',
             array()

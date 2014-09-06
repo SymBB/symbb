@@ -30,3 +30,7 @@ services:
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: footer } # The alias is what is used to retrieve the menu
+
+    symbb.core.api.site:
+        class: SymBB\Core\SiteBundle\Api\SiteApi
+        parent: symbb.core.abstract.api

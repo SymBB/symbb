@@ -63,6 +63,8 @@ abstract class AbstractApi
      */
     protected $messageManager;
 
+    protected $serializer;
+
     /**
      * @var array
      */
@@ -350,5 +352,19 @@ abstract class AbstractApi
     public function trans($msg, $param = array())
     {
         return $this->translator->trans($msg, $param, 'symbb_frontend');
+    }
+
+    public function setSerializer($serializer){
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @param object|array $object
+     * @return array
+     */
+    public function createArrayOfObject($object){
+        $json = $this->serializer->serialize($object, 'json');
+        $array = json_decode($json, 1);
+        return $array;
     }
 }

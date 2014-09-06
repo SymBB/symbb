@@ -1,3 +1,11 @@
+_symbb_template_default_backend:
+    resource: "@SymBBTemplateDefaultBundle/Resources/config/routing/acp.yml"
+    prefix: /
+
+_symbb_core_site_backend:
+    resource: "@SymBBCoreSiteBundle/Resources/config/routing/acp.yml"
+    prefix: /
+
 symbb_backend_api_dashboard_data:
     pattern:  /api/dashboard/data
     defaults: { _controller: SymBBCoreSystemBundle:BackendApi:dashboardData }

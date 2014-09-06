@@ -15,10 +15,6 @@ fos_js_routing:
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
- 
-_symbb_acp_routings:
-    resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
-    prefix: /acp
     
 _symbb_frontend_routings:
     resource: "@SymBBCoreSystemBundle/Resources/config/routing/frontend.yml"
@@ -28,9 +24,13 @@ _symbb_template_default_frontend:
     resource: "@SymBBTemplateDefaultBundle/Resources/config/routing/frontend.yml"
     prefix: /
 
-_symbb_template_default_backend:
-    resource: "@SymBBTemplateDefaultBundle/Resources/config/routing/acp.yml"
-    prefix: /acp/
+_symbb_acp_routings:
+    resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
+    prefix: /acp
+
+_symbb_acp_routings:
+    resource: "@SymBBCoreSystemBundle/Resources/config/routing/acp.yml"
+    prefix: /acp
 
 _symbb_index:
     pattern:  /

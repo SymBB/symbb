@@ -25,10 +25,6 @@ symbb_imprint:
 symbb_terms:
     pattern:  /terms
     defaults: { _controller: SymBBCoreSystemBundle:StaticPage:terms }
-    
-_symbbcoresitebundle_site_frontend_routings:
-    resource: "@SymBBCoreSiteBundle/Resources/config/routing/frontend.yml"
-    prefix: /
 
 _symbb_core_user:
     resource: "@SymBBCoreUserBundle/Resources/config/routing.yml"
