@@ -24,6 +24,8 @@ abstract class AbstractApi
     const INFO_NO_ENTRIES_FOUND = 'no entries found';
     const INFO_UNKNOWN_FIELD = 'Field "%field%" is unknown';
     const ERROR_ENTRY_NOT_FOUND = 'Entry not found';
+    const SUCCESS_SAVED = 'successfully saved';
+    const SUCCESS_DELETED = 'successfully deleted';
 
     /**
      * @var UserInterface
@@ -391,7 +393,7 @@ abstract class AbstractApi
         }
 
         foreach($data as $key => $value){
-            if(!in_array($key, $fields)){
+            if(!in_array($key, $fields) && $key !== 'id'){
                 $this->addInfoMessage(self::INFO_UNKNOWN_FIELD, array('%field%' => $key));
             }
         }

@@ -64,7 +64,10 @@ class SiteApi extends AbstractApi
         }
 
         if(!$this->hasError()){
-            $this->siteManager->save($site);
+            $check = $this->siteManager->save($site);
+            if($check){
+                $this->addSuccessMessage(self::SUCCESS_SAVED);
+            }
         }
 
         return $site;
@@ -81,7 +84,11 @@ class SiteApi extends AbstractApi
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
         if(!$this->hasError()){
-            return $this->siteManager->remove($site);
+            $check = $this->siteManager->remove($site);
+            if($check){
+                $this->addSuccessMessage(self::SUCCESS_DELETED);
+            }
+            return $check;
         }
         return false;
     }

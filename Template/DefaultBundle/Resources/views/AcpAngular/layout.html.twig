@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
         {% stylesheets filter='?uglifycss'
+        '@SymBBTemplateDefaultBundle/Resources/public/css/angular/loading-bar.css'
         '@SymBBTemplateDefaultBundle/Resources/public/css/acp/angularTheme.css'
         %}
         <link rel="stylesheet" href="{{ asset_url }}" />
@@ -106,9 +107,12 @@
     <div class="app-content">
         <div class="app-content-boy">
             <div class="hbox">
-                <div class="col" ng-view  show-default="true">
-                    {% block body %}
-                    {% endblock %}
+                <div class="col">
+                    <div ng-view  show-default="true">
+                        {% block body %}
+                        {% endblock %}
+                    </div>
+                    <div class="symbb_flash_messages" id="symbbMessages"></div>
                 </div>
             </div>
         </div>

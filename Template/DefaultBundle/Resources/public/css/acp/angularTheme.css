@@ -366,3 +366,31 @@ h1, .h1 {
 .graph-info {
     margin-bottom: 10px;
 }
+
+
+#loading-bar .bar {
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    height: 5px;
+}
+
+
+.symbb_flash_messages {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.symbb_flash_messages .alert {
+    padding: 5px;
+    margin-bottom: 0;
+    border-radius: 0;
+    text-align: center;
+}
+
+.symbb_flash_messages .close {
+    line-height: 0.8;
+}
