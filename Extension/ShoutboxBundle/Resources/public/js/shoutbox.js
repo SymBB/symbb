@@ -9,7 +9,7 @@ symbbControllers.directive('symbbExtensionShoutbox', ['$http', '$timeout', funct
                     loadSymbbExtensionShoutboxData(scope, $http);
                 }, 30000);
                 scope.saveExtensionShoutboxMessage = function(){
-                    $http.post(angularConfig.getSymfonyRoute('symbb_api_extension_shoutbox_save', {message: scope.extension.shoutbox.newMessage})).success(function(data) {
+                    $http.post(angularConfig.getSymfonyRoute('symbb_api_extension_shoutbox_save', {message: scope.extension.shoutbox.newMessage}, {ignoreLoadingBar: true})).success(function(data) {
                         if(data.success){
                             loadSymbbExtensionShoutboxData(scope, $http);
                         }
