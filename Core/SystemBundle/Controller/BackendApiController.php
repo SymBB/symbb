@@ -10,13 +10,14 @@
 namespace SymBB\Core\SystemBundle\Controller;
 
 use SymBB\Core\SystemBundle\Api\StatisticApi;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class BackendApiController extends AbstractController
 {
     /**
-     * get some dashboard summary data like statistics etc..
-     * so that we dont need to make seperate requests
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/api/dashboard/data", name="symbb_backend_api_dashboard_data")
+     * @Method({"GET"})
      */
     public function dashboardDataAction()
     {

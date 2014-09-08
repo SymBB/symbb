@@ -39,11 +39,10 @@ In Future you will see a Version of the System on www.symbb.de
 Currently you will one get an error because if havent updated it to the last Version.
 Until i release a Beta/RC Version the domain will be stay empty.
 
-Edit: 
-you can find a version here (http://lets-playrust.de/de/forum/). It is a little bit different. It has only a Steam Login and a custom Template. But to check out some Features you can use look into it. So it is not a "Demo" because the site will be lunched in some weeks. So please dont post testing Stuff.
 
+# Notices for me
 
-## Notices for me
+## Utils
 
 ### create Translation files
 
@@ -58,3 +57,65 @@ php app/console translation:extract de -c symbb
 - php app/console fos:js-routing:dump
 - php app/console assets:install
 - php app/console assetic:dump --env=prod
+
+
+## API Structure
+
+### Api Controller
+
+- Api Controller will define the Routing with Annotations
+- Api Controller will convert Request data to Objects
+- Api Controller will conver Objects to Api Array and pass it to the Json Response
+- Routings will not have any Parameters in the URL alls Stuff need to provided via POST/GET
+- Every Routing must force to use GET/POST or DELETE
+
+### Api Class
+
+- Api Class will handle all Actions of the different Api Calls
+- Api Class will extend from the Abstract Api Class
+- Api Class will fire Events
+
+### Api Response
+
+- Every Response should have the elements of the AbstractApi Class ( Errors etc.. )
+- Every Response should habe a "data" element with the Object or the Object List
+- If the Response is a Success Save response Data should be the saved Element ( so that we have the new id etc.. )
+- In case of an error data should be empty
+
+### Api Request
+
+- Every Request to the Api should have a "data" element with the Object to save, the List to save etc...
+- Also a delete request should put the id into the data element
+
+## Angular Routings
+
+### Configuration
+
+Every Angular Routing should be configured over the SF Routing.
+Add a Routing with special Options:
+
+      symbb_angular_section: acp
+      symbb_angular_controller: SiteListCtrl
+      symbb_angular_api_route: symbb_backend_api_site_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'Site|list'
+
+#### symbb_angular_section
+
+this is optional, it define the section. You can export every section seperatly to the template.
+So you can split frontend and Backend Routings, to reduce the size
+
+#### symbb_angular_controller
+
+This option defined what Angular Controller should be called. Leave it empty to use the DefaultApiCtrl
+
+#### symbb_angular_api_route
+
+This defines what api should be called to get the data ( in case of DefaultApiCtrl )
+
+#### symbb_angular_template
+
+This defined what template should be called for this routing. You can also pass some Params
+The Template Routing should be defined in the Template Bundle

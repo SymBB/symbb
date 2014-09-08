@@ -9,15 +9,28 @@
 
 namespace SymBB\Core\SiteBundle\Api;
 
+use SymBB\Core\SiteBundle\Entity\Site;
 use SymBB\Core\SystemBundle\Api\AbstractApi;
 
 class SiteApi extends AbstractApi
 {
 
-    public function getSites(){
+    /**
+     * @return array
+     */
+    public function getList(){
         $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findAll();
-        $sites = $this->createArrayOfObject($sites);
         return $sites;
+    }
+
+    /**
+     * @param Site $site
+     * @return Site
+     */
+    public function save(Site $site){
+        $this->em->persist($site);
+        $this->em->flush();
+        return $site;
     }
 
 }

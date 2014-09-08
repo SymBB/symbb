@@ -6,6 +6,6 @@ _symbb_core_site_backend:
     resource: "@SymBBCoreSiteBundle/Resources/config/routing/acp.yml"
     prefix: /
 
-symbb_backend_api_dashboard_data:
-    pattern:  /api/dashboard/data
-    defaults: { _controller: SymBBCoreSystemBundle:BackendApi:dashboardData }
+symbb_backend_api_system:
+    resource: "@SymBBCoreSystemBundle/Controller"
+    type: annotation
