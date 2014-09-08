@@ -194,6 +194,13 @@ class Site
         return $domain;
     }
 
+    public function setMediaDomain($domain){
+        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0){
+            $domain = 'http://'.$domain;
+        }
+        $this->mediaDomain = $domain;
+    }
+
     public function __toString(){
         return $this->getName();
     }

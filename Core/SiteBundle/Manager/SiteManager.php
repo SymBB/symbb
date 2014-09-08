@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\DependencyInjection;
+namespace SymBB\Core\SiteBundle\Manager;
 
 use SymBB\Core\SiteBundle\Entity\Navigation\Item;
 use SymBB\Core\SiteBundle\Entity\Site;
@@ -118,5 +118,42 @@ class SiteManager
         }
 
         return $navigation;
+    }
+
+    /**
+     * @param int $id
+     * @return Site
+     */
+    public function find($id){
+        $site = $this->em->getRepository('SymBBCoreSiteBundle:Site')->find($id);
+        return $site;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findAll(){
+        $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findAll();
+        return $sites;
+    }
+
+    /**
+     * @param Site $site
+     * @return bool
+     */
+    public function save($site){
+        $this->em->persist($site);
+        $this->em->flush();
+        return true;
+    }
+
+    /**
+     * @param Site $site
+     * @return bool
+     */
+    public function remove($site){
+        $this->em->remove($site);
+        $this->em->flush();
+        return true;
     }
 }

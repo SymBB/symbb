@@ -39,11 +39,23 @@ class BackendApiController extends AbstractController
     public function saveAction(Request $request)
     {
         $api = $this->get('symbb.core.api.site');
-        $site = $api-save($request->get('data'));
-        $site = $this->serializer->deserialize($site, 'SymBB\Core\SiteBundle\Entity\Site', 'json');
-
+        $data = $request->get('data');
+        $site = $api->save($data);
+        $site = $api->createArrayOfObject($site);
         return $api->getJsonResponse(array(
             'data' => $site
         ));
+    }
+
+    /**
+     * @Route("/api/site/delete", name="symbb_backend_api_site_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteAction(Request $request)
+    {
+        $api = $this->get('symbb.core.api.site');
+        $data = $request->get('data');
+        $api->delete((int)$data);
+        return $api->getJsonResponse();
     }
 }

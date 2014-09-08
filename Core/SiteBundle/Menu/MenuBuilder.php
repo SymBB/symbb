@@ -10,7 +10,7 @@
 namespace SymBB\Core\SiteBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use SymBB\Core\SiteBundle\DependencyInjection\SiteManager;
+use SymBB\Core\SiteBundle\Manager\SiteManager;
 use SymBB\Core\SiteBundle\Event\ConfigureMenuEvent;
 use Symfony\Component\HttpFoundation\Request;
 

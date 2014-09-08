@@ -8,13 +8,13 @@
 */
 namespace SymBB\Core\SiteBundle\Twig;
 
-use \SymBB\Core\SiteBundle\DependencyInjection\SiteManager;
+use \SymBB\Core\SiteBundle\Manager\SiteManager;
 
 class Extension extends \Twig_Extension
 {
     /**
      *
-     * @var \SymBB\Core\SiteBundle\DependencyInjection\SiteManager 
+     * @var \SymBB\Core\SiteBundle\Manager\SiteManager
      */
     protected $siteManager;
     

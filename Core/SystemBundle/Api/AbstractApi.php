@@ -21,6 +21,9 @@ use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractApi
 {
+    const INFO_NO_ENTRIES_FOUND = 'no entries found';
+    const INFO_UNKNOWN_FIELD = 'Field "%field%" is unknown';
+    const ERROR_ENTRY_NOT_FOUND = 'Entry not found';
 
     /**
      * @var UserInterface
@@ -249,7 +252,7 @@ abstract class AbstractApi
         $params['user']['count'] = array(
             'newMessages' => $this->messageManager->countNewMessages()
         );
-        $params['messages'] = $this->messages;
+        $params['messages'] = static::$messages;
         $params['callbacks'] = static::$callbacks;
         $params['breadcrumbItems'] = static::$breadcrumbItems;
         $params['success'] = static::$success;
@@ -280,12 +283,12 @@ abstract class AbstractApi
      * add a error message to the api call
      * @param $message
      */
-    public function addErrorMessage($message)
+    public function addErrorMessage($message, $params = array())
     {
         static::$messages[] = array(
             'type' => 'error',
             'bootstrapType' => 'danger',
-            'message' => $this->trans($message)
+            'message' => $this->trans($message, $params)
         );
         static::$success = false;
     }
@@ -294,12 +297,12 @@ abstract class AbstractApi
      * add a success message to the api call
      * @param $message
      */
-    public function addSuccessMessage($message)
+    public function addSuccessMessage($message, $params = array())
     {
         static::$messages[] = array(
             'type' => 'success',
             'bootstrapType' => 'success',
-            'message' => $this->trans($message)
+            'message' => $this->trans($message, $params)
         );
     }
 
@@ -307,12 +310,12 @@ abstract class AbstractApi
      * add a info message to the api call
      * @param $message
      */
-    public function addInfoMessage($message)
+    public function addInfoMessage($message, $params = array())
     {
         static::$messages[] = array(
             'type' => 'info',
             'bootstrapType' => 'info',
-            'message' => $this->trans($message)
+            'message' => $this->trans($message, $params)
         );
     }
 
@@ -320,12 +323,12 @@ abstract class AbstractApi
      * add a warning message to the api
      * @param $message
      */
-    public function addWarningMessage($message)
+    public function addWarningMessage($message, $params = array())
     {
         static::$messages[] = array(
             'type' => 'warning',
             'bootstrapType' => 'warning',
-            'message' => $this->trans($message)
+            'message' => $this->trans($message, $params)
         );
     }
 
@@ -366,5 +369,33 @@ abstract class AbstractApi
         $json = $this->serializer->serialize($object, 'json');
         $array = json_decode($json, 1);
         return $array;
+    }
+
+    /**
+     * @param object $site
+     * @param $data
+     * @return object
+     */
+    public function assignArrayToObject($site, $data, $fields){
+
+        foreach($fields as $field){
+            // only assign if the key is set
+            if(isset($data[$field])){
+                $setter = 'set';
+                $parts = explode('_', $field);
+                foreach($parts as $key => $part){
+                    $setter .= ucfirst($part);
+                }
+                $site->$setter($data[$field]);
+            }
+        }
+
+        foreach($data as $key => $value){
+            if(!in_array($key, $fields)){
+                $this->addInfoMessage(self::INFO_UNKNOWN_FIELD, array('%field%' => $key));
+            }
+        }
+
+        return $site;
     }
 }

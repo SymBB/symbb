@@ -17,7 +17,7 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
 
     /**
      *
-     * @var \SymBB\Core\SiteBundle\DependencyInjection\SiteManager 
+     * @var \SymBB\Core\SiteBundle\Manager\SiteManager
      */
     protected $siteManager;
 

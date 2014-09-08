@@ -10,7 +10,7 @@
 namespace SymBB\Core\BBCodeBundle\DependencyInjection;
 
 use SymBB\Core\BBCodeBundle\Form\Type\BBCode;
-use SymBB\Core\SiteBundle\DependencyInjection\SiteManager;
+use SymBB\Core\SiteBundle\Manager\SiteManager;
 
 class BBCodeManager
 {

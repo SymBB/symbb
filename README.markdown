@@ -73,7 +73,8 @@ php app/console translation:extract de -c symbb
 
 - Api Class will handle all Actions of the different Api Calls
 - Api Class will extend from the Abstract Api Class
-- Api Class will fire Events
+- Api Class Methods should be able to handle object or arrays e.g save ( for easy to use if you get the data via request )
+- Api should call every time a "manager", the manager will to the database stuff and also fire some events
 
 ### Api Response
 

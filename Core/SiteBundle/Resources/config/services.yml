@@ -1,6 +1,6 @@
 services:        
     symbb.core.site.manager:
-        class: SymBB\Core\SiteBundle\DependencyInjection\SiteManager
+        class: SymBB\Core\SiteBundle\Manager\SiteManager
         arguments: ["@service_container"]
 
     symbb.core.site.twig.extension:
@@ -34,3 +34,5 @@ services:
     symbb.core.api.site:
         class: SymBB\Core\SiteBundle\Api\SiteApi
         parent: symbb.core.abstract.api
+        calls:
+          - ['setSiteManager', ['@symbb.core.site.manager']]
