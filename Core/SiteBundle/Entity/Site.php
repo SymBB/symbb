@@ -195,8 +195,10 @@ class Site
     }
 
     public function setMediaDomain($domain){
-        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0){
+        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0 && !empty($domain)){
             $domain = 'http://'.$domain;
+        } else if($domain === 'http://'){
+            $domain = '';
         }
         $this->mediaDomain = $domain;
     }
