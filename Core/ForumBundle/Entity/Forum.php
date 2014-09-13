@@ -21,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
-class Forum extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
+class Forum extends \SymBB\Core\SystemBundle\Entity\Base\CrudAbstract
 {
 
     /**

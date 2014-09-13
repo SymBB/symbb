@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation\Exclude;
  * @ORM\Table(name="bbcode_codes")
  * @ORM\Entity()
  */
-class BBCode extends \SymBB\Core\AdminBundle\Entity\Base\CrudAbstract
+class BBCode extends \SymBB\Core\SystemBundle\Entity\Base\CrudAbstract
 {
 
     /**

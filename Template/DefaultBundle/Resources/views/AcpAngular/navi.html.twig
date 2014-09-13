@@ -10,14 +10,29 @@
         </a>
     </li>
     <li class="line dk"></li>
-    <li>
-        <a href="" symbb-link="symbb_acp_site_list">
+    <li ng-class="{'active': currNavi == 'siteNavigation'}">
+        <a href="" ng-click="currNavi = 'siteNavigation'">
             <i class="glyphicon glyphicon-globe"></i>
             <span class="font-bold ng-scope" >{{ 'Sites'|trans }}</span>
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
         </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href="" symbb-link="symbb_acp_site_list">
+                    <span>{{ 'Sites'|trans }}</span>
+                </a>
+            </li>
+            <li class="nav-sub-header">
+                <a href="" symbb-link="symbb_acp_site_navigation_list">
+                    <span>{{ 'Navigations'|trans }}</span>
+                </a>
+            </li>
+        </ul>
     </li>
-    <li ng-class="{'active': currNavi == 'forum'}" ng-click="currNavi = 'forum'">
-        <a href="">
+    <li ng-class="{'active': currNavi == 'forum'}">
+        <a href="" ng-click="currNavi = 'forum'">
             <i class="glyphicon glyphicon-tasks"></i>
             <span class="font-bold ng-scope" >{{ 'Forummanagment'|trans }}</span>
             <div class="pull-right">
@@ -33,8 +48,8 @@
         </ul>
     </li>
     <li class="line dk"></li>
-    <li ng-class="{'active': currNavi == 'user'}" ng-click="currNavi = 'user'">
-        <a href="">
+    <li ng-class="{'active': currNavi == 'user'}">
+        <a href="" ng-click="currNavi = 'user'">
             <i class="glyphicon glyphicon-user"></i>
             <span class="font-bold ng-scope" >{{ 'Usermanagment'|trans }}</span>
             <div class="pull-right">
