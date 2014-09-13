@@ -394,3 +394,51 @@ h1, .h1 {
 .symbb_flash_messages .close {
     line-height: 0.8;
 }
+
+.tree {
+    margin-top: 10px;
+}
+
+.tree li {
+    list-style-type:none;
+    margin:0;
+    position:relative;
+    width: 100%;
+}
+
+.tree > ul {
+    padding-left: 0;
+}
+
+.tree li span {
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border:1px solid #999;
+    border-radius:5px;
+    display:block;
+    text-decoration:none;
+    text-align: left;
+    padding: 5px;
+    margin: 5px;
+}
+.tree li .item {
+    color: #000;
+    font-size: 75%;
+    font-weight: 700;
+    vertical-align: baseline;
+    height: 33px;
+    line-height: 20px;
+}
+
+.tree li .item:hover {
+    background-color: #999;
+    color: #FFF;
+}
+.tree li.parent_li>span {
+    cursor:pointer
+}
+.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
+    background:#eee;
+    border:1px solid #94a0b4;
+    color:#000
+}
