@@ -240,6 +240,23 @@ symbbControllers.directive('symbbBreadcrumb', function() {
     };
 }]);
 
+symbbControllers.directive('symbbModalForm', ['$http', '$timeout', function($http, $timeout) {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {},
+        template: '<div class="modal fade bs-example-modal-sm" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false"> <div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"></h4></div><div class="modal-body" ng-transclude ></div><div class="modal-footer"><button type="button" class="btn btn-primary modal-button"></button></div></div></div></div>',
+        link: function(scope, elm, attrs) {
+            $timeout(function(){
+                var headerText = attrs.headerText;
+                var buttonText = attrs.buttonText;
+                $(elm).find('.modal-button').html(buttonText);
+                $(elm).find('.modal-title').html(headerText);
+            },0);
+        }
+    };
+}]);
+
 function prepareParams(attrs){
     var params = {};
     $.each(attrs, function(key, value){

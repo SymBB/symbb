@@ -58,4 +58,16 @@ class BackendApiController extends AbstractController
         $api->delete((int)$data);
         return $api->getJsonResponse();
     }
+
+    /**
+     * @Route("/api/site/navigation/save", name="symbb_backend_api_site_navigation_save")
+     * @Method({"POST"})
+     */
+    public function saveNavigation(Request $request)
+    {
+        $api = $this->get('symbb.core.api.site.navigation');
+        $data = $request->get('data');
+        $api->save($data);
+        return $api->getJsonResponse();
+    }
 }

@@ -33,7 +33,7 @@ class Navigation
 
     /**
      * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Site", inversedBy="navigations")
-     * @ORM\JoinColumn(referencedColumnName="id")
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     protected $site;
 

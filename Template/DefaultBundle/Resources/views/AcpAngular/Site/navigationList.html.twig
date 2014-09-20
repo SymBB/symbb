@@ -10,7 +10,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <select class="form-control" ng-model="currSite">
+                <select class="form-control" ng-model="currSite" ng-change="changeSelectedSite()">
                     <option value="">{{ 'Select a Site'|trans }}</option>
                     <option ng-repeat="site in data" value="[[site.id]]">[[site.name]]</option>
                 </select>
@@ -18,19 +18,19 @@
         </div>
         <div class="tree"  ng-if="currSite">
             <ul>
-                <li ng-if="data[currSite].navigations" ng-repeat="navigation in data[currSite].navigations">
+                <li ng-if="currSiteData.navigations" ng-repeat="navigation in currSiteData.navigations">
                     <span class="item label-info">
                         [[navigation.title]]
                         <div class="pull-right btn-group">
-                            <button class="btn btn-default btn-xs">
+                            <button class="btn btn-default btn-xs" ng-click="newNavigation(navigation)">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 {{ 'new sublink'|trans }}
                             </button>
-                            <button class="btn btn-default btn-xs">
+                            <button class="btn btn-default btn-xs" ng-click="editNavigation(navigation)">
                                 <i class="glyphicon glyphicon-pencil"></i>
                                 {{ 'edit'|trans }}
                             </button>
-                            <button class="btn btn-default btn-xs">
+                            <button class="btn btn-default btn-xs" ng-click="deleteNavigation(navigation)">
                                 <i class="glyphicon glyphicon-trash"></i>
                                 {{ 'delete'|trans }}
                             </button>
@@ -44,7 +44,7 @@
                 <li>
                     <span class="item label-info">
                         <div class="btn-group">
-                            <button class="btn btn-default btn-xs">
+                            <button class="btn btn-default btn-xs" ng-click="newNavigation()">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 {{ 'new Navigation'|trans }}
                             </button>
@@ -54,18 +54,22 @@
             </ul>
         </div>
     </div>
+    <symbb-modal-form id="naviForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Navigation'|trans }}">
+        <label>{{ 'Title'|trans }}</label><input class="form-control" ng-model="navigationForm.title" />
+        <label>{{ 'Key'|trans }}</label><input class="form-control" ng-model="navigationForm.nav_key" />
+    </symbb-modal-form>
     <script type="text/ng-template" id="acp_site_navigation_list_item_tpl.html">
         <span class="item" >[[item.title]]
             <div class="pull-right btn-group">
-                <button class="btn btn-default btn-xs">
+                <button class="btn btn-default btn-xs" ng-click="newItem(item)">
                     <i class="glyphicon glyphicon-plus"></i>
                     {{ 'new sublink'|trans }}
                 </button>
-                <button class="btn btn-default btn-xs">
+                <button class="btn btn-default btn-xs" ng-click="editItem(item)">
                     <i class="glyphicon glyphicon-pencil"></i>
                     {{ 'edit'|trans }}
                 </button>
-                <button class="btn btn-default btn-xs">
+                <button class="btn btn-default btn-xs" ng-click="deleteItem(item)">
                     <i class="glyphicon glyphicon-trash"></i>
                     {{ 'delete'|trans }}
                 </button>

@@ -3,6 +3,23 @@ services:
         class: SymBB\Core\SiteBundle\Manager\SiteManager
         arguments: ["@service_container"]
 
+    symbb.core.site.navigation.manager:
+        class: SymBB\Core\SiteBundle\Manager\NavigationManager
+        arguments: ["@doctrine.orm.symbb_entity_manager", "@event_dispatcher"]
+
+    symbb.core.api.site:
+        class: SymBB\Core\SiteBundle\Api\SiteApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setSiteManager', ['@symbb.core.site.manager']]
+
+    symbb.core.api.site.navigation:
+        class: SymBB\Core\SiteBundle\Api\NavigationApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setNavigationManager', ['@symbb.core.site.navigation.manager']]
+          - ['setSiteManager', ['@symbb.core.site.manager']]
+
     symbb.core.site.twig.extension:
         class: SymBB\Core\SiteBundle\Twig\Extension
         arguments: ['@symbb.core.site.manager']
@@ -30,9 +47,3 @@ services:
         scope: request # needed as we have the request as a dependency here
         tags:
             - { name: knp_menu.menu, alias: footer } # The alias is what is used to retrieve the menu
-
-    symbb.core.api.site:
-        class: SymBB\Core\SiteBundle\Api\SiteApi
-        parent: symbb.core.abstract.api
-        calls:
-          - ['setSiteManager', ['@symbb.core.site.manager']]
