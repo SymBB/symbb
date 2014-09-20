@@ -95,8 +95,3 @@ services:
         arguments: ['@symbb.core.access.manager']
         tags:
            - { name: security.voter }
-
-    symbb.core.forum.listener.template:
-        class: SymBB\Core\ForumBundle\EventListener\TemplateListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }

@@ -34,8 +34,3 @@ services:
         arguments: ['@symbb.core.user.whoisonline.manager']
         tags:
             - { name: twig.extension }
-
-    symbb.core.user.listener.template:
-        class: SymBB\Core\UserBundle\EventListener\TemplateListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }

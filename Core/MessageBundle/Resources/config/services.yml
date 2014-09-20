@@ -2,8 +2,3 @@ services:
     symbb.core.message.manager:
         parent:  symbb.core.abstract.manager
         class:      SymBB\Core\MessageBundle\DependencyInjection\MessageManager
-
-    symbb.core.message.listener.template:
-        class: SymBB\Core\MessageBundle\EventListener\TemplateListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }
