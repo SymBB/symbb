@@ -11,7 +11,7 @@ namespace SymBB\Extension\RatingBundle\Security\Authorization;
 
 use SymBB\Core\ForumBundle\Entity\Post;
 use SymBB\Core\ForumBundle\Entity\Topic;
-use SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
+use SymBB\Core\SystemBundle\Manager\AccessManager;
 use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
 use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

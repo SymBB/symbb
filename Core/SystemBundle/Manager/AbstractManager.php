@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\DependencyInjection;
+namespace SymBB\Core\SystemBundle\Manager;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;

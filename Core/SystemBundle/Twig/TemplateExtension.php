@@ -14,7 +14,7 @@ class TemplateExtension extends \Twig_Extension
 
     /**
      *
-     * @var \SymBB\Core\SystemBundle\DependencyInjection\SiteManager 
+     * @var \SymBB\Core\SystemBundle\Manager\SiteManager
      */
     protected $siteManager;
 

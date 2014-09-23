@@ -12,7 +12,7 @@ namespace SymBB\Core\MessageBundle\DependencyInjection;
 use SymBB\Core\MessageBundle\Entity\Message;
 use SymBB\Core\MessageBundle\Entity\Message\Receiver;
 use SymBB\Core\MessageBundle\Event\ParseMessageEvent;
-use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
+use SymBB\Core\SystemBundle\Manager\AbstractManager;
 use SymBB\Core\UserBundle\Entity\UserInterface;
 
 class MessageManager extends AbstractManager

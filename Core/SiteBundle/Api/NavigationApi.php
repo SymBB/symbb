@@ -46,6 +46,7 @@ class NavigationApi extends AbstractApi
      */
     public function getList(){
         $objects = $this->navigationManager->findAll();
+        $objects = $objects->getItems();
         if(empty($objects)){
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
@@ -106,6 +107,99 @@ class NavigationApi extends AbstractApi
             return $check;
         }
         return false;
+    }
+
+
+    /**
+     * @param $id
+     * @return Navigation\Item
+     */
+    public function findItem($id){
+        $object = $this->navigationManager->findItem($id);
+        if(!is_object($object)){
+            $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
+        }
+        return $object;
+    }
+
+    /**
+     * @param array|Navigation\Item $item
+     */
+    public function saveItem($item){
+        if(is_array($item)){
+            $itemData = $item;
+
+            if($item['id'] > 0){
+                $object = $this->findItem($item['id']);
+            } else {
+                $object = new Navigation\Item();
+            }
+
+            if(isset($itemData['parentItemId']) && $itemData['parentItemId'] > 0){
+                $parentItem = $this->findItem($itemData['parentItemId']);
+                $object->setParentItem($parentItem);
+            }
+            if(isset($itemData['parentItemId'])){
+                unset($itemData['parentItemId']);
+            }
+
+            if(isset($itemData['navigationId']) && $itemData['navigationId'] > 0){
+                $parentItem = $this->find($itemData['navigationId']);
+                $object->setNavigation($parentItem);
+            }
+            if(isset($itemData['navigationId'])){
+                unset($itemData['navigationId']);
+            }
+
+            $this->assignArrayToObject($object, $itemData, $this->getNavigationItemArrayFields());
+
+        } else if(!($object instanceof Navigation\Item)) {
+            $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
+        }
+
+        if(!$this->hasError()){
+            $check = $this->navigationManager->saveItem($object);
+            if($check){
+                $this->addSuccessMessage(self::SUCCESS_SAVED);
+            }
+        }
+    }
+
+    /**
+     * @param int|Navigation\Item $object
+     * @return bool
+     */
+    public function deleteItem($object){
+        if(is_numeric($object)){
+            $object = $this->findItem($object);
+        } else if(!($object instanceof Navigation\Item)) {
+            $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
+        }
+        if(!$this->hasError()){
+            $check = $this->navigationManager->removeItem($object);
+            if($check){
+                $this->addSuccessMessage(self::SUCCESS_DELETED);
+            }
+            return $check;
+        }
+        return false;
+    }
+
+    /**
+     * return a list of all field names of the  object as Array
+     * @return array
+     */
+    public function getNavigationItemArrayFields(){
+        // only this fields are allowed
+        $fields = array(
+            'title',
+            'type',
+            'symfony_route',
+            'symfony_route_params',
+            'fix_url',
+            'position'
+        );
+        return $fields;
     }
 
     /**

@@ -11,8 +11,8 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use SymBB\Core\ForumBundle\Entity\Post;
 use SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent;
-use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
-use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use SymBB\Core\SystemBundle\Manager\AbstractManager;
+use \SymBB\Core\SystemBundle\Manager\ConfigManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symfony\Component\Security\Core\Util\ClassUtils;

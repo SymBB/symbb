@@ -15,8 +15,8 @@ use SymBB\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 use \SymBB\Core\ForumBundle\Entity\Forum;
 use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\SystemBundle\DependencyInjection\AbstractManager;
-use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use SymBB\Core\SystemBundle\Manager\AbstractManager;
+use \SymBB\Core\SystemBundle\Manager\ConfigManager;
 
 class ForumManager extends AbstractManager
 {

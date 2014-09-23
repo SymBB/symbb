@@ -8,7 +8,7 @@
 */
 namespace SymBB\Core\UserBundle\Twig;
 
-use SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
+use SymBB\Core\SystemBundle\Manager\AccessManager;
 
 class AccessExtension extends \Twig_Extension
 {

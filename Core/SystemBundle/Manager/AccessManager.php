@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\DependencyInjection;
+namespace SymBB\Core\SystemBundle\Manager;
 
 use SymBB\Core\SystemBundle\Entity\Access;
 use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;

@@ -10,10 +10,9 @@
 namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use \Symfony\Component\Security\Core\SecurityContextInterface;
-use SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
-use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use \SymBB\Core\SystemBundle\Manager\ConfigManager;
 
-class TopicManager extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**

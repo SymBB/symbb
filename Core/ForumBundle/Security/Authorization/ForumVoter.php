@@ -9,9 +9,7 @@
 
 namespace SymBB\Core\ForumBundle\Security\Authorization;
 
-use SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
 use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
-use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

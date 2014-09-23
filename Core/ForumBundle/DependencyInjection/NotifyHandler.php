@@ -11,9 +11,9 @@ namespace SymBB\Core\ForumBundle\DependencyInjection;
 
 use \SymBB\Core\ForumBundle\Entity\Topic;
 use \Doctrine\ORM\EntityManager;
-use \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager;
+use \SymBB\Core\SystemBundle\Manager\ConfigManager;
 
-class NotifyHandler extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+class NotifyHandler extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**

@@ -13,9 +13,9 @@ use Doctrine\Common\Util\ClassUtils;
 use SymBB\Core\SystemBundle\Entity\Flag;
 use \SymBB\Core\UserBundle\Entity\UserInterface;
 use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
-use \SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
+use \SymBB\Core\SystemBundle\Manager\AccessManager;
 
-abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\DependencyInjection\AbstractManager
+abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**

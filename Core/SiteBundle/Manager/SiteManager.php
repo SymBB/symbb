@@ -11,19 +11,10 @@ namespace SymBB\Core\SiteBundle\Manager;
 
 use SymBB\Core\SiteBundle\Entity\Navigation\Item;
 use SymBB\Core\SiteBundle\Entity\Site;
+use SymBB\Core\SystemBundle\Manager\AbstractManager;
 
-class SiteManager
+class SiteManager extends AbstractManager
 {
-
-    /**
-     * @var \Doctrine\ORM\EntityManager 
-     */
-    protected $em;
-
-    /**
-     * @var \Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher
-     */
-    protected $dispatcher;
 
     /**
      *
@@ -33,14 +24,7 @@ class SiteManager
 
     protected $site = null;
 
-    /**
-     * 
-     * @param type $em
-     */
-    public function __construct($container)
-    {
-        $this->em = $container->get('doctrine.orm.symbb_entity_manager');
-        $this->dispatcher = $container->get('event_dispatcher');
+    public function setContainer($container){
         $this->container = $container;
     }
 
@@ -130,11 +114,18 @@ class SiteManager
     }
 
     /**
-     * @return mixed
+     * @return Object $objects KNP Paginator
      */
-    public function findAll(){
-        $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findAll();
-        return $sites;
+    public function findAll($page = 1, $limit = 20){
+        $qb = $this->em->getRepository('SymBBCoreSiteBundle:Site')->createQueryBuilder('s');
+        $qb->select("s, n, i");
+        $qb->join('s.navigations', 'n');
+        $qb->join('n.items', 'i');
+        $qb->where("i.parentItem IS NULL");
+        $qb->orderBy("n.id", "DESC");
+        $query = $qb->getQuery();
+        $objects = $this->createPagination($query, $page, $limit);
+        return $objects;
     }
 
     /**

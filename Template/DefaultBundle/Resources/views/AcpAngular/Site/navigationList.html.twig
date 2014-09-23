@@ -22,7 +22,7 @@
                     <span class="item label-info">
                         [[navigation.title]]
                         <div class="pull-right btn-group">
-                            <button class="btn btn-default btn-xs" ng-click="newNavigation(navigation)">
+                            <button class="btn btn-default btn-xs" ng-click="newItem(navigation)">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 {{ 'new sublink'|trans }}
                             </button>
@@ -58,14 +58,30 @@
         <label>{{ 'Title'|trans }}</label><input class="form-control" ng-model="navigationForm.title" />
         <label>{{ 'Key'|trans }}</label><input class="form-control" ng-model="navigationForm.nav_key" />
     </symbb-modal-form>
+    <symbb-modal-form id="naviItemForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Navigation Item'|trans }}">
+        <label>{{ 'Title'|trans }}</label><input class="form-control" ng-model="navigationItemForm.title" />
+        <label>{{ 'Type'|trans }}</label>
+        <select class="form-control" ng-model="navigationItemForm.type" ngRequired="true">
+            <option value="symfony">{{ 'System Link'|trans }}</option>
+            <option value="url">{{ 'URL'|trans }}</option>
+        </select>
+        <div ng-show="navigationItemForm.type=='symfony'">
+        <label>{{ 'Symfony Route'|trans }}</label><input placeholder="{{ 'Internally key of the route'|trans }}" class="form-control" ng-model="navigationItemForm.symfony_route" />
+        <label>{{ 'Route Params'|trans }}</label><input placeholder="{{ 'Array of Params as JSON'|trans }}" class="form-control" ng-model="navigationItemForm.symfony_route_params" />
+        </div>
+        <div ng-show="navigationItemForm.type=='url'">
+        <label>{{ 'Url'|trans }}</label><input placeholder="{{ 'Url with http://'|trans }}" class="form-control" ng-model="navigationItemForm.fix_url" />
+        </div>
+        <label>{{ 'Position'|trans }}</label><input class="form-control" ng-model="navigationItemForm.position" type="number" />
+    </symbb-modal-form>
     <script type="text/ng-template" id="acp_site_navigation_list_item_tpl.html">
         <span class="item" >[[item.title]]
             <div class="pull-right btn-group">
-                <button class="btn btn-default btn-xs" ng-click="newItem(item)">
+                <button class="btn btn-default btn-xs" ng-click="newItem(navigation, item)">
                     <i class="glyphicon glyphicon-plus"></i>
                     {{ 'new sublink'|trans }}
                 </button>
-                <button class="btn btn-default btn-xs" ng-click="editItem(item)">
+                <button class="btn btn-default btn-xs" ng-click="editItem(navigation, item)">
                     <i class="glyphicon glyphicon-pencil"></i>
                     {{ 'edit'|trans }}
                 </button>

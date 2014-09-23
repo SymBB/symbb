@@ -1,11 +1,13 @@
 services:        
     symbb.core.site.manager:
         class: SymBB\Core\SiteBundle\Manager\SiteManager
-        arguments: ["@service_container"]
+        parent: symbb.core.abstract.manager
+        calls:
+          - [setContainer, ["@service_container"]]
 
     symbb.core.site.navigation.manager:
         class: SymBB\Core\SiteBundle\Manager\NavigationManager
-        arguments: ["@doctrine.orm.symbb_entity_manager", "@event_dispatcher"]
+        parent: symbb.core.abstract.manager
 
     symbb.core.api.site:
         class: SymBB\Core\SiteBundle\Api\SiteApi

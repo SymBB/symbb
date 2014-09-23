@@ -12,7 +12,7 @@ namespace SymBB\Core\SystemBundle\Api;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
 use SymBB\Core\MessageBundle\DependencyInjection\MessageManager;
-use SymBB\Core\SystemBundle\DependencyInjection\AccessManager;
+use SymBB\Core\SystemBundle\Manager\AccessManager;
 use SymBB\Core\UserBundle\DependencyInjection\UserManager;
 use SymBB\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Translation\Translator;
@@ -167,44 +167,6 @@ abstract class AbstractApi
     public function checkAccess($extension, $access, $identity){
         $this->accessManager->addAccessCheck($extension, $access, $identity);
         return $this->accessManager->hasAccess();
-    }
-
-    /**
-     * @param $query
-     * @param $page
-     * @param $limit
-     * @return mixed
-     */
-    public function createPagination($query, $page, $limit){
-
-        $rsm = new ResultSetMappingBuilder($this->em);
-        $rsm->addScalarResult('count', 'count');
-
-        $queryCount = $query->getSql();
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
-        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
-        $queryCount->setParameters($query->getParameters());
-        $count = $queryCount->getSingleScalarResult();
-        if(!$count){
-            $count = 0;
-        }
-
-        if($page === 'last'){
-            $page = $count / $limit;
-            $page = ceil($page);
-        }
-
-        if($page <= 0){
-            $page = 1;
-        }
-
-        $query->setHint('knp_paginator.count', $count);
-
-        $pagination = $this->paginator->paginate(
-            $query, (int)$page, $limit, array('distinct' => false)
-        );
-
-        return $pagination;
     }
 
     /**

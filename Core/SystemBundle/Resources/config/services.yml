@@ -51,18 +51,18 @@ services:
             - [setMemcache, ['@memcache.default']]
 
     symbb.core.access.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\AccessManager
+        class: SymBB\Core\SystemBundle\Manager\AccessManager
         arguments: ["%symbb_config%", '@service_container']
 
     symbb.core.access.voter.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\AccessVoterManager
+        class: SymBB\Core\SystemBundle\Manager\AccessVoterManager
 
     symbb.core.config.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
+        class: SymBB\Core\SystemBundle\Manager\ConfigManager
         arguments: ['@service_container']
 
     symbb.core.upload.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\UploadManager
+        class: SymBB\Core\SystemBundle\Manager\UploadManager
         arguments: ["%symbb_config%", '%kernel.root_dir%']
             
     symbb.extension.routing_loader:
@@ -97,5 +97,5 @@ services:
             - { name: kernel.event_listener, event: kernel.finish_request, method: statistic }
 
     symbb.core.update.manager:
-        class: SymBB\Core\SystemBundle\DependencyInjection\UpdateManager
+        class: SymBB\Core\SystemBundle\Manager\UpdateManager
         arguments: ['@kernel']

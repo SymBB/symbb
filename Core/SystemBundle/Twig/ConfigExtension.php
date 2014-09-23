@@ -14,11 +14,11 @@ class ConfigExtension extends \Twig_Extension
 
     /**
      *
-     * @var \SymBB\Core\SystemBundle\DependencyInjection\ConfigManager
+     * @var \SymBB\Core\SystemBundle\Manager\ConfigManager
      */
     protected $configManager;
 
-    public function __construct(\SymBB\Core\SystemBundle\DependencyInjection\ConfigManager $configManager)
+    public function __construct(\SymBB\Core\SystemBundle\Manager\ConfigManager $configManager)
     {
         $this->configManager = $configManager;
     }

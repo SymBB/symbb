@@ -11,8 +11,9 @@ namespace SymBB\Core\SiteBundle\Manager;
 
 use SymBB\Core\SiteBundle\Entity\Navigation;
 use SymBB\Core\SiteBundle\Entity\Site;
+use SymBB\Core\SystemBundle\Manager\AbstractManager;
 
-class NavigationManager
+class NavigationManager extends AbstractManager
 {
 
     /**
@@ -45,15 +46,21 @@ class NavigationManager
     }
 
     /**
-     * @return array<Navigation>
+     * @return Object $objects KNP Paginator
      */
-    public function findAll(){
-        $objects = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findAll();
+    public function findAll($page = 1, $limit = 20){
+        $qb = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->createQueryBuilder('n');
+        $qb->select("n");
+        $qb->join('n.items', 'i');
+        $qb->where("i.parentItem IS NULL");
+        $qb->orderBy("n.id", "DESC");
+        $query = $qb->getQuery();
+        $objects = $this->createPagination($query, $page, $limit);
         return $objects;
     }
 
     /**
-     * @param Navigation $site
+     * @param Navigation $object
      * @return bool
      */
     public function save(Navigation $object){
@@ -63,10 +70,57 @@ class NavigationManager
     }
 
     /**
-     * @param Site $site
+     * @param Navigation $object
      * @return bool
      */
     public function remove(Navigation $object){
+        $this->em->remove($object);
+        $this->em->flush();
+        return true;
+    }
+
+
+
+    /**
+     * @param int $id
+     * @return Navigation\Item
+     */
+    public function findItem($id){
+        $object = $this->em->getRepository('SymBBCoreSiteBundle:Navigation\Item')->find($id);
+        return $object;
+    }
+
+
+    /**
+     * @param Navigation $navigation
+     * @return object $objects KNP Paginator
+     */
+    public function findAllItems(Navigation $navigation, $page = 1, $limit = 20){
+        $qb = $this->em->getRepository('SymBBCoreSiteBundle:Navigation\Item')->createQueryBuilder('i');
+        $qb->select("i");
+        $qb->where("i.navigation = :navgation");
+        $qb->setParameter('navgation', $navigation);
+        $qb->orderBy("i.position", "DESC");
+        $query = $qb->getQuery();
+        $objects = $this->createPagination($query, $page, $limit);
+        return $objects;
+    }
+
+    /**
+     * @param Navigation\Item $object
+     * @return bool
+     */
+    public function saveItem(Navigation\Item $object){
+        $this->em->persist($object);
+        $this->em->flush();
+        return true;
+    }
+
+    /**
+     * @param Navigation\Item $object
+     * @return bool
+     */
+    public function removeItem(Navigation\Item $object){
         $this->em->remove($object);
         $this->em->flush();
         return true;
