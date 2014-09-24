@@ -83,10 +83,10 @@ class NavigationApi extends AbstractApi
             $check = $this->navigationManager->save($object);
             if($check){
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
+                return $object;
             }
         }
-
-        return $object;
+        return null;
     }
 
     /**
@@ -126,6 +126,7 @@ class NavigationApi extends AbstractApi
      * @param array|Navigation\Item $item
      */
     public function saveItem($item){
+        $object = null;
         if(is_array($item)){
             $itemData = $item;
 
@@ -163,6 +164,7 @@ class NavigationApi extends AbstractApi
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
+        return $object;
     }
 
     /**

@@ -120,7 +120,7 @@ class SiteManager extends AbstractManager
         $qb = $this->em->getRepository('SymBBCoreSiteBundle:Site')->createQueryBuilder('s');
         $qb->select("s, n, i");
         $qb->join('s.navigations', 'n');
-        $qb->join('n.items', 'i');
+        $qb->leftJoin('n.items', 'i');
         $qb->where("i.parentItem IS NULL");
         $qb->orderBy("n.id", "DESC");
         $query = $qb->getQuery();

@@ -330,8 +330,11 @@ abstract class AbstractApi
      * @return array
      */
     public function createArrayOfObject($object){
-        $json = $this->serializer->serialize($object, 'json');
-        $array = json_decode($json, 1);
+        $array = array();
+        if($object){
+            $json = $this->serializer->serialize($object, 'json');
+            $array = json_decode($json, 1);
+        }
         return $array;
     }
 

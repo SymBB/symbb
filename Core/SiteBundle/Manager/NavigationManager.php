@@ -51,7 +51,7 @@ class NavigationManager extends AbstractManager
     public function findAll($page = 1, $limit = 20){
         $qb = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->createQueryBuilder('n');
         $qb->select("n");
-        $qb->join('n.items', 'i');
+        $qb->leftJoin('n.items', 'i');
         $qb->where("i.parentItem IS NULL");
         $qb->orderBy("n.id", "DESC");
         $query = $qb->getQuery();
@@ -64,6 +64,7 @@ class NavigationManager extends AbstractManager
      * @return bool
      */
     public function save(Navigation $object){
+        //@todo validate entity
         $this->em->persist($object);
         $this->em->flush();
         return true;
@@ -111,6 +112,7 @@ class NavigationManager extends AbstractManager
      * @return bool
      */
     public function saveItem(Navigation\Item $object){
+        //@todo validate entity
         $this->em->persist($object);
         $this->em->flush();
         return true;

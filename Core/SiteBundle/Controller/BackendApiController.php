@@ -67,8 +67,11 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $data = $request->get('data');
-        $api->save($data);
-        return $api->getJsonResponse();
+        $object = $api->save($data);
+        $object = $api->createArrayOfObject($object);
+        return $api->getJsonResponse(array(
+            'data' => $object
+        ));
     }
 
     /**
@@ -79,8 +82,11 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $data = $request->get('data');
-        $api->saveItem($data);
-        return $api->getJsonResponse();
+        $object = $api->saveItem($data);
+        $object = $api->createArrayOfObject($object);
+        return $api->getJsonResponse(array(
+            'data' => $object
+        ));
     }
 
 }

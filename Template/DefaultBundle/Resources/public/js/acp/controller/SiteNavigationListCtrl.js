@@ -75,76 +75,54 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
 
                 };
 
+                $scope.saveNavigationInProgress = false;
                 $scope.saveNavigation = function () {
-                    if (parseInt($scope.$parent.navigationForm.site) > 0) {
+                    if (parseInt($scope.$parent.navigationForm.site) > 0 && !$scope.saveNavigationInProgress) {
+                        $scope.saveNavigationInProgress = true;
                         var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_save', $routeParams);
                         $http.post(route, {data: $scope.$parent.navigationForm}).success(function (data) {
                             if (data.success) {
                                 $scope.data[$scope.data.length] = $scope.$parent.navigationForm;
                             }
                         });
+                        $scope.saveNavigationInProgress = false;
+                        $('#naviForm').find('.modal').modal('hide');
                     }
                 };
 
                 $scope.saveItemInProgress = false;
-
                 $scope.saveItem = function (navigation, parentItem, item) {
 
                     if (
-                        (
-                            parseInt($scope.$parent.navigationItemForm.navigationId) > 0 ||
-                            parseInt($scope.$parent.navigationItemForm.id) > 0
-                        ) &&
-                        !$scope.saveItemInProgress
+                            (
+                                parseInt($scope.$parent.navigationItemForm.navigationId) > 0 ||
+                                parseInt($scope.$parent.navigationItemForm.id) > 0
+                            ) &&
+                            !$scope.saveItemInProgress
                     ) {
                         $scope.saveItemInProgress = true;
                         var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_save', $routeParams);
-                        $http.post(route, {data: $scope.$parent.navigationItemForm}).success(function (data) {
-                            if (data.success) {
+                        $http.post(route, {data: $scope.$parent.navigationItemForm}).success(function (response) {
+                            if (response.success) {
+                                console.debug(response);
                                 if($scope.$parent.navigationItemForm.id > 0){
-                                    item = $scope.$parent.navigationItemForm;
-                                } else if($scope.$parent.navigationItemForm.parentItemId > 0) {
-                                    parentItem.children[parentItem.children.length] = $scope.$parent.navigationItemForm;
+                                    console.debug(1);
+                                    item = response.data;
+                                } else if(parentItem && parentItem.id > 0) {
+                                    console.debug(2);
+                                    if(!parentItem.children){
+                                        parentItem.children = [];
+                                    }
+                                    parentItem.children[parentItem.children.length] = response.data;
                                 } else {
-                                    navigation.items[navigation.items.length] = $scope.$parent.navigationItemForm;
+                                    console.debug(3);
+                                    navigation.items[navigation.items.length] = response.data;
                                 }
                             }
                             $scope.saveItemInProgress = false;
+                            $('#naviItemForm').find('.modal').modal('hide');
                         });
                     }
-                };
-
-                // add the new item to the current scope data
-                $scope.addItemToParent = function(item, items){
-                    console.debug(item);
-                    console.debug(items);
-                    if(items){
-                        $.each(items, function(key, currItem){
-                            if(!currItem.children){
-                                currItem.children = [];
-                            }
-                            if(currItem.id == item.parentItemId){
-                                items[key].children[currItem.children.length] = item;
-                            } else if(currItem.children){
-                                items[key].children = $scope.addItemToParent(item, currItem.children);
-                            }
-                        });
-                    } else {
-                        items = [];
-                    }
-                    return items;
-                };
-
-                // replace the scopedata with the new data
-                $scope.searchAndReplaceItem = function(item, items){
-                    $.each(items, function(key, currItem){
-                        if(currItem.id == item.id){
-                            items[key] = item;
-                        } else if(currItem.children){
-                            items[key].children = $scope.searchAndReplaceItem(item, currItem.children);
-                        }
-                    });
-                    return items;
                 };
 
                 $anchorScroll();
