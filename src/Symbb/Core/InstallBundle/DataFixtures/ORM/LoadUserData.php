@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\InstallBundle\DataFixtures\ORM;
+namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;

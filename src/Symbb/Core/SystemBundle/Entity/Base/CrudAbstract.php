@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\SystemBundle\Entity\Base;
+namespace Symbb\Core\SystemBundle\Entity\Base;
 
 abstract class CrudAbstract {
     

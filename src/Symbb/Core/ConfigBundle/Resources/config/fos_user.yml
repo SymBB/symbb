@@ -1,10 +1,10 @@
 fos_user:
     db_driver: orm
     firewall_name: symbb
-    user_class: SymBB\Core\UserBundle\Entity\User
+    user_class: Symbb\Core\UserBundle\Entity\User
     model_manager_name: symbb
     group:
-        group_class: SymBB\Core\UserBundle\Entity\Group
+        group_class: Symbb\Core\UserBundle\Entity\Group
     registration:
         form:
             type: symbb_fos_user_registration

@@ -2,23 +2,23 @@
 symbb_template_default_angular:
     pattern:  /angular/template/default/{file}
     methods:  [GET]
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:templateFile }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:templateFile }
 
 symbb_template_forum_angular:
     pattern:  /angular/template/forum/{file}
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:forumTemplateFile }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:forumTemplateFile }
 
 symbb_template_message_angular:
     pattern:  /angular/template/message/{file}
-    defaults: { _controller: SymBBCoreMessageBundle:Angular:templateFile }
+    defaults: { _controller: SymbbCoreMessageBundle:Angular:templateFile }
 
 symbb_template_ucp_angular:
     pattern:  /angular/template/ucp/{file}
-    defaults: { _controller: SymBBCoreUserBundle:Angular:ucpTemplateFile }
+    defaults: { _controller: SymbbCoreUserBundle:Angular:ucpTemplateFile }
 
 symbb_template_user_angular:
     pattern:  /angular/template/user/{file}
-    defaults: { _controller: SymBBCoreUserBundle:Angular:userTemplateFile }
+    defaults: { _controller: SymbbCoreUserBundle:Angular:userTemplateFile }
 
 # AngularJs Controller Routings
 # This will create a SF Controller AND a AngularJs Controller automaticly
@@ -28,7 +28,7 @@ symbb_template_user_angular:
 
 symbb_forum_index:
     pattern:  /forum/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumCtrl
       symbb_angular_api_route: symbb_api_forum_data
@@ -39,7 +39,7 @@ symbb_forum_index:
 
 symbb_forum_show:
     pattern:  /f-{id}-{name}/show/{page}/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index, page: 1 }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index, page: 1 }
     defaults:
         page: 1
     options:
@@ -54,7 +54,7 @@ symbb_forum_search:
     pattern:  /forum/search/{page}/
     defaults:
         page: 1
-        _controller: SymBBCoreAngularBundle:Angular:index
+        _controller: SymbbCoreAngularBundle:Angular:index
     options:
       symbb_angular_controller: ForumSearchCtrl
       symbb_angular_api_route: symbb_api_post_search
@@ -67,7 +67,7 @@ symbb_forum_topic_show:
     pattern:  /t-{id}-{name}/{page}/
     defaults:
         page: 1
-        _controller: SymBBCoreAngularBundle:Angular:index
+        _controller: SymbbCoreAngularBundle:Angular:index
     options:
       symbb_angular_controller: ForumTopicShowCtrl
       symbb_angular_api_route: symbb_api_topic_data
@@ -78,7 +78,7 @@ symbb_forum_topic_show:
 
 symbb_forum_topic_create:
     pattern:  /f-{forum}/topic/new/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumTopicEditCtrl
       symbb_angular_api_route: symbb_api_topic_data
@@ -89,7 +89,7 @@ symbb_forum_topic_create:
 
 symbb_forum_topic_edit:
     pattern:  /f-{forum}/topic/{id}/edit
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumTopicEditCtrl
       symbb_angular_api_route: symbb_api_topic_data
@@ -100,7 +100,7 @@ symbb_forum_topic_edit:
 
 symbb_forum_post_create:
     pattern:  /t-{topic}/post/new
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumPostEditCtrl
       symbb_angular_api_route: symbb_api_post_data
@@ -111,7 +111,7 @@ symbb_forum_post_create:
 
 symbb_forum_post_edit:
     pattern:  /p-{id}/edit
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumPostEditCtrl
       symbb_angular_api_route: symbb_api_post_data
@@ -122,7 +122,7 @@ symbb_forum_post_edit:
 
 symbb_forum_post_quote:
     pattern:  /p-{topic}/quote/{quoteId}
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: ForumPostEditCtrl
       symbb_angular_api_route: symbb_api_post_data
@@ -138,7 +138,7 @@ symbb_message_list:
     pattern:  /message/list/{page}/
     defaults:
         page: 1
-        _controller: SymBBCoreAngularBundle:Angular:index
+        _controller: SymbbCoreAngularBundle:Angular:index
     options:
       symbb_angular_controller: MessageListCtrl
       symbb_angular_api_route: symbb_api_post_data
@@ -149,7 +149,7 @@ symbb_message_list:
 
 symbb_message_show:
     pattern:  /message/show/{id}/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: MessageShowCtrl
       symbb_angular_api_route: symbb_api_message_data
@@ -160,7 +160,7 @@ symbb_message_show:
 
 symbb_message_new:
     pattern:  /message/new/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: MessageNewCtrl
       symbb_angular_api_route: symbb_api_message_data
@@ -173,7 +173,7 @@ symbb_message_new:
 
 symbb_user_ucp:
     pattern:  /ucp/
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: UcpCtrl
       symbb_angular_template:
@@ -183,7 +183,7 @@ symbb_user_ucp:
 
 symbb_user_ucp_security:
     pattern:  /ucp/security
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: UcpSecurityCtrl
       symbb_angular_template:
@@ -194,7 +194,7 @@ symbb_user_ucp_security:
 symbb_userlist:
     pattern:  /users/{page}
     defaults:
-      _controller: SymBBCoreAngularBundle:Angular:index
+      _controller: SymbbCoreAngularBundle:Angular:index
     options:
       symbb_angular_controller: DefaultApiCtrl
       symbb_angular_api_route: symbb_api_userlist
@@ -205,7 +205,7 @@ symbb_userlist:
 
 symbb_user_profile:
     pattern:  /user/{id}/{username}
-    defaults: { _controller: SymBBCoreAngularBundle:Angular:index }
+    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
     options:
       symbb_angular_controller: DefaultApiCtrl
       symbb_angular_api_route: symbb_api_user_data

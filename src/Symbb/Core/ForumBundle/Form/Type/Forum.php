@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Form\Type;
+namespace Symbb\Core\ForumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class Forum extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\ForumBundle\Entity\Forum',
+            'data_class' => '\Symbb\Core\ForumBundle\Entity\Forum',
             'translation_domain' => 'symbb_backend'
         ));
 
@@ -39,21 +39,21 @@ class Forum extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $helperTyp = new \SymBB\Core\ForumBundle\Helper\Format\Forum\Type();
+        $helperTyp = new \Symbb\Core\ForumBundle\Helper\Format\Forum\Type();
         $helperTyp->setTranslator($this->translator);
         $aTypes = $helperTyp->getArray();
 
         $builder
             ->add('name')
             ->add('parent', 'entity', array(
-                'class' => 'SymBBCoreForumBundle:Forum',
+                'class' => 'SymbbCoreForumBundle:Forum',
                 'choices' => $this->getParentList(),
                 'required' => false
             ))
             ->add('type', 'choice', array('choices' => $aTypes, 'attr' => array('onchange' => 'submit();')))
             ->add('image', 'file');
 
-        $builder->addEventSubscriber(new \SymBB\Core\ForumBundle\Form\EventListener\AddForumFieldSubscriber());
+        $builder->addEventSubscriber(new \Symbb\Core\ForumBundle\Form\EventListener\AddForumFieldSubscriber());
 
     }
 

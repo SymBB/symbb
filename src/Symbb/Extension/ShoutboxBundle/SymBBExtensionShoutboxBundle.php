@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Extension\ShoutboxBundle;
+namespace Symbb\Extension\ShoutboxBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBExtensionShoutboxBundle extends Bundle
+class SymbbExtensionShoutboxBundle extends Bundle
 {
      
 }

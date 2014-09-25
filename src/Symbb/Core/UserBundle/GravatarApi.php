@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\UserBundle;
+namespace Symbb\Core\UserBundle;
 
 class GravatarApi
 {

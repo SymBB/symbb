@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Manager;
+namespace Symbb\Core\SystemBundle\Manager;
 
 class ConfigManager
 {
@@ -39,7 +39,7 @@ class ConfigManager
         $this->dispatcher = $container->get('event_dispatcher');
         $this->container = $container;
         $this->defaults = new \Doctrine\Common\Collections\ArrayCollection();
-        $event = new \SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent($this->defaults);
+        $event = new \Symbb\Core\SystemBundle\Event\ConfigDefaultsEvent($this->defaults);
         $this->dispatcher->dispatch('symbb.config.configs', $event);
     }
 
@@ -65,7 +65,7 @@ class ConfigManager
 
         if ($default) {
 
-            $config = $this->em->getRepository('SymBBCoreSystemBundle:Config')->findOneBy(array('key' => $default->get('key'), 'section' => $default->get('section')));
+            $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $default->get('key'), 'section' => $default->get('section')));
 
             if ($config) {
                 $value = $config->getValue();
@@ -83,10 +83,10 @@ class ConfigManager
     {
 
         
-        $config = $this->em->getRepository('SymBBCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
+        $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
 
         if (!$config) {
-            $config = new \SymBB\Core\SystemBundle\Entity\Config(); 
+            $config = new \Symbb\Core\SystemBundle\Entity\Config();
             $config->setKey($key);
             $config->setSection($section);
         }
@@ -116,7 +116,7 @@ class ConfigManager
 
     public function getChoices($key, $section = "default")
     {
-        $event = new \SymBB\Core\SystemBundle\Event\ConfigChoicesEvent($key, $section, $this->container);
+        $event = new \Symbb\Core\SystemBundle\Event\ConfigChoicesEvent($key, $section, $this->container);
         $this->dispatcher->dispatch('symbb.config.choices', $event);
         $options = $event->getChoices();
         return $options;
@@ -188,7 +188,7 @@ class ConfigManager
             $value = $valueArray->get('value');
             $section = $valueArray->get('section');
             $key2 = $valueArray->get('key');
-            $config = new \SymBB\Core\SystemBundle\Entity\Config();
+            $config = new \Symbb\Core\SystemBundle\Entity\Config();
             $config->setKey($key2);
             $config->setValue($value);
             $config->setSection($section);

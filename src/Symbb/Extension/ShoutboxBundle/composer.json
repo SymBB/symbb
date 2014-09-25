@@ -1,8 +1,8 @@
 {
     "name": "symbb/extension-shoutbox",
     "type": "symbb-extension",
-    "description": "SymBB Shoutbox Extension",
-    "keywords": ["SymBB","Extension", "Shoutbox"],
+    "description": "Symbb Shoutbox Extension",
+    "keywords": ["Symbb","Extension", "Shoutbox"],
     "homepage": "https://github.com/seyon/symbb",
     "license": "GPL",
     "authors": [
@@ -18,7 +18,7 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "SymBB\\Extension": "" }
+        "psr-0": { "Symbb\\Extension": "" }
     },
-    "target-dir": "SymBB/Extension"
+    "target-dir": "Symbb/Extension"
 }

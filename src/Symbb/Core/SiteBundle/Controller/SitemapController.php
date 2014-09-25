@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Controller;
+namespace Symbb\Core\SiteBundle\Controller;
 
-class SitemapController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class SitemapController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
     
 }

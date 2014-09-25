@@ -6,19 +6,19 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\ConfigBundle;
+namespace Symbb\Core\ConfigBundle;
 
-use SymBB\Core\ConfigBundle\DependencyInjection\SymBBCoreConfigExtension;
+use Symbb\Core\ConfigBundle\DependencyInjection\SymbbCoreConfigExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreConfigBundle extends Bundle
+class SymbbCoreConfigBundle extends Bundle
 {
 
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
         // register extensions that do not follow the conventions manually
-        $container->registerExtension(new SymBBCoreConfigExtension());
+        $container->registerExtension(new SymbbCoreConfigExtension());
     }
 }

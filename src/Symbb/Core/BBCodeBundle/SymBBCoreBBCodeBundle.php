@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Core\BBCodeBundle;
+namespace Symbb\Core\BBCodeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreBBCodeBundle extends Bundle
+class SymbbCoreBBCodeBundle extends Bundle
 {    
 }

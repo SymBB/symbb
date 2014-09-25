@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Extension\RatingBundle\Twig;
+namespace Symbb\Extension\RatingBundle\Twig;
 
 class UtilExtension extends \Twig_Extension
 {
@@ -29,26 +29,26 @@ class UtilExtension extends \Twig_Extension
         );
     }
 
-    public function getSymbbLikeCount(\SymBB\Core\ForumBundle\Entity\Post $post)
+    public function getSymbbLikeCount(\Symbb\Core\ForumBundle\Entity\Post $post)
     {
-        $likes = $this->em->getRepository('SymBBExtensionRatingBundle:Like', 'symbb')
+        $likes = $this->em->getRepository('SymbbExtensionRatingBundle:Like', 'symbb')
             ->findBy(array('post' => $post));
         $count = count($likes);
         return $count;
     }
 
-    public function getSymbbDislikeCount(\SymBB\Core\ForumBundle\Entity\Post $post)
+    public function getSymbbDislikeCount(\Symbb\Core\ForumBundle\Entity\Post $post)
     {
-        $likes      = $this->em->getRepository('SymBBExtensionRatingBundle:Dislike', 'symbb')
+        $likes      = $this->em->getRepository('SymbbExtensionRatingBundle:Dislike', 'symbb')
             ->findBy(array('post' => $post));
         $count = count($likes);
         return $count;
     }
     
-    public function getLikeCssClass(\SymBB\Core\ForumBundle\Entity\Post $post){
+    public function getLikeCssClass(\Symbb\Core\ForumBundle\Entity\Post $post){
         $css = '';
         if(is_object($this->getCurrentUser())){
-            $found = $this->em->getRepository('SymBBExtensionRatingBundle:Like', 'symbb')
+            $found = $this->em->getRepository('SymbbExtensionRatingBundle:Like', 'symbb')
             ->findOneBy(array('user' => $this->getCurrentUser(), 'post' => $post));
             if(is_object($found)){
                 $css = 'btn-warning';
@@ -57,10 +57,10 @@ class UtilExtension extends \Twig_Extension
         return $css;
     }
     
-    public function getDislikeCssClass(\SymBB\Core\ForumBundle\Entity\Post $post){
+    public function getDislikeCssClass(\Symbb\Core\ForumBundle\Entity\Post $post){
         $css = '';
         if(is_object($this->getCurrentUser())){
-            $found = $this->em->getRepository('SymBBExtensionRatingBundle:Dislike', 'symbb')
+            $found = $this->em->getRepository('SymbbExtensionRatingBundle:Dislike', 'symbb')
             ->findOneBy(array('user' => $this->getCurrentUser(), 'post' => $post));
             if(is_object($found)){
                 $css = 'btn-warning';

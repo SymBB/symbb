@@ -7,18 +7,18 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle;
+namespace Symbb\Core\AngularBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class SymBBCoreAngularBundle extends Bundle
+class SymbbCoreAngularBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
 
         // register extensions that do not follow the conventions manually
-        $container->registerExtension(new \SymBB\Core\AngularBundle\DependencyInjection\SymBBCoreAngularExtension());
+        $container->registerExtension(new \Symbb\Core\AngularBundle\DependencyInjection\SymbbCoreAngularExtension());
     }
 }

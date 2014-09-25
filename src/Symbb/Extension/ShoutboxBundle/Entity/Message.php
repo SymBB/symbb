@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\ShoutboxBundle\Entity;
+namespace Symbb\Extension\ShoutboxBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,7 +36,7 @@ class Message
     protected $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $author;

@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Extension\RatingBundle\Entity;
+namespace Symbb\Extension\RatingBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,13 +26,13 @@ class Dislike
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", onDelete="cascade")
      */
     private $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
      */
     private $user;

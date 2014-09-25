@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Event;
+namespace Symbb\Core\UserBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use \SymBB\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
     
 class UserParseSignatureEvent extends Event
 {
 
     /**
-     * @var \SymBB\Core\UserBundle\Entity\UserInterface 
+     * @var \Symbb\Core\UserBundle\Entity\UserInterface
      */
     protected $user;
 

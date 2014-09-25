@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\EventListener;
+namespace Symbb\Core\BBCodeBundle\EventListener;
 
-use SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager;
-use SymBB\Core\MessageBundle\Event\ParseMessageEvent;
+use Symbb\Core\BBCodeBundle\DependencyInjection\BBCodeManager;
+use Symbb\Core\MessageBundle\Event\ParseMessageEvent;
 
 class ParseListener
 {
 
     /**
      *
-     * @var \SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager
+     * @var \Symbb\Core\BBCodeBundle\DependencyInjection\BBCodeManager
      */
     protected $bbcodeManager;
 
@@ -31,9 +31,9 @@ class ParseListener
     }
 
     /**
-     * @param \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event
+     * @param \Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent $event
      */
-    public function parsePostText(\SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
+    public function parsePostText(\Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
     {
         $text = $event->getText();
 
@@ -44,9 +44,9 @@ class ParseListener
     }
 
     /**
-     * @param \SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event
+     * @param \Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent $event
      */
-    public function cleanPostText(\SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
+    public function cleanPostText(\Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
     {
         $text = $event->getText();
 
@@ -57,9 +57,9 @@ class ParseListener
     }
 
     /**
-     * @param \SymBB\Core\UserBundle\Event\UserParseSignatureEvent $event
+     * @param \Symbb\Core\UserBundle\Event\UserParseSignatureEvent $event
      */
-    public function parseUserSignature(\SymBB\Core\UserBundle\Event\UserParseSignatureEvent $event)
+    public function parseUserSignature(\Symbb\Core\UserBundle\Event\UserParseSignatureEvent $event)
     {
         $text = $event->getSignature();
 

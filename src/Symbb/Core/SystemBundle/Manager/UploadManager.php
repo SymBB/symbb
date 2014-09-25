@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Manager;
+namespace Symbb\Core\SystemBundle\Manager;
 
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 
-class UploadManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
+class UploadManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
 
     protected $config = array();

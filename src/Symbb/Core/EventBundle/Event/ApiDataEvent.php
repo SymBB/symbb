@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\EventBundle\Event;
+namespace Symbb\Core\EventBundle\Event;
 
-class ApiDataEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
+class ApiDataEvent extends \Symbb\Core\EventBundle\Event\AbstractApiEvent
 {
 
     protected $object;

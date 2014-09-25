@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Manager;
+namespace Symbb\Core\SiteBundle\Manager;
 
-use SymBB\Core\SiteBundle\Entity\Navigation\Item;
-use SymBB\Core\SiteBundle\Entity\Site;
-use SymBB\Core\SystemBundle\Manager\AbstractManager;
+use Symbb\Core\SiteBundle\Entity\Navigation\Item;
+use Symbb\Core\SiteBundle\Entity\Site;
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
 
 class SiteManager extends AbstractManager
 {
@@ -35,7 +35,7 @@ class SiteManager extends AbstractManager
 
             $cleanHost = $this->removeUrlPattern($host);
 
-            $sites = $this->em->getRepository('SymBBCoreSiteBundle:Site')->findBy(array());
+            $sites = $this->em->getRepository('SymbbCoreSiteBundle:Site')->findBy(array());
             foreach ($sites as $site) {
                 $domains = $site->getDomainArray();
                 foreach ($domains as $domain) {
@@ -50,7 +50,7 @@ class SiteManager extends AbstractManager
                 if (!empty($sites)) {
                     $this->site = reset($sites);
                 } else {
-                    $this->site = new \SymBB\Core\SiteBundle\Entity\Site();
+                    $this->site = new \Symbb\Core\SiteBundle\Entity\Site();
                 }
             }
         }
@@ -77,7 +77,7 @@ class SiteManager extends AbstractManager
         }
 
         if (empty($template) || $template == "DEFAULT") {
-            $template = 'SymBBTemplateDefaultBundle';
+            $template = 'SymbbTemplateDefaultBundle';
         }
 
         return $template;
@@ -96,9 +96,9 @@ class SiteManager extends AbstractManager
         }
 
         if(!empty($naviKey)){
-            $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site, 'navKey' => $naviKey));
+            $navigation = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->findOneBy(array('site' => $site, 'navKey' => $naviKey));
         } else {
-            $navigation = $this->em->getRepository('SymBBCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
+            $navigation = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
         }
 
         return $navigation;
@@ -109,7 +109,7 @@ class SiteManager extends AbstractManager
      * @return Site
      */
     public function find($id){
-        $site = $this->em->getRepository('SymBBCoreSiteBundle:Site')->find($id);
+        $site = $this->em->getRepository('SymbbCoreSiteBundle:Site')->find($id);
         return $site;
     }
 
@@ -117,7 +117,7 @@ class SiteManager extends AbstractManager
      * @return Object $objects KNP Paginator
      */
     public function findAll($page = 1, $limit = 20){
-        $qb = $this->em->getRepository('SymBBCoreSiteBundle:Site')->createQueryBuilder('s');
+        $qb = $this->em->getRepository('SymbbCoreSiteBundle:Site')->createQueryBuilder('s');
         $qb->select("s, n, i");
         $qb->leftJoin('s.navigations', 'n');
         $qb->leftJoin('n.items', 'i');

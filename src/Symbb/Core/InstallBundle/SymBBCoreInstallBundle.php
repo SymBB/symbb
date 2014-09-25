@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Core\InstallBundle;
+namespace Symbb\Core\InstallBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreInstallBundle extends Bundle
+class SymbbCoreInstallBundle extends Bundle
 {
 }

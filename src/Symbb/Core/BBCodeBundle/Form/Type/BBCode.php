@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Form\Type;
+namespace Symbb\Core\BBCodeBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ class BBCode extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\BBCodeBundle\Entity\BBCode',
+            'data_class' => '\Symbb\Core\BBCodeBundle\Entity\BBCode',
             'translation_domain' => 'symbb_backend'
         ));
 
@@ -42,7 +42,7 @@ class BBCode extends AbstractType
         $builder
             ->add('name')
             ->add('sets', 'entity', array(
-                'class' => 'SymBBCoreBBCodeBundle:Set',
+                'class' => 'SymbbCoreBBCodeBundle:Set',
                 'choices' => $this->getParentList(),
                 'required' => true,
                 'multiple' => true
@@ -60,7 +60,7 @@ class BBCode extends AbstractType
 
         $list = array();
 
-        $entries = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findAll();
+        $entries = $this->em->getRepository('SymbbCoreBBCodeBundle:Set')->findAll();
 
         return $entries;
 

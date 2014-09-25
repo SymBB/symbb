@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\ForumBundle\Twig;
+namespace Symbb\Core\ForumBundle\Twig;
 
 class TopicDataExtension extends \Twig_Extension
 {
@@ -46,7 +46,7 @@ class TopicDataExtension extends \Twig_Extension
         
         $qb     = $this->em->createQueryBuilder();
         $qb     ->select('t')
-                ->from('SymBB\Core\ForumBundle\Entity\Topic', 't')
+                ->from('Symbb\Core\ForumBundle\Entity\Topic', 't')
                 ->where('t.forum = '.$forum->getId())
                 ->orderBy('t.changed', 'DESC');
         $dql    = $qb->getDql(); 
@@ -83,7 +83,7 @@ class TopicDataExtension extends \Twig_Extension
         return $this->siteManager->getTemplate($for);
     }
     
-    public function getLabels(\SymBB\Core\ForumBundle\Entity\Topic $element){
+    public function getLabels(\Symbb\Core\ForumBundle\Entity\Topic $element){
         $labels = array();
         
         
@@ -115,7 +115,7 @@ class TopicDataExtension extends \Twig_Extension
             );
         }
         
-        $event = new \SymBB\Core\EventBundle\Event\TopicLabelsEvent($element, $labels);
+        $event = new \Symbb\Core\EventBundle\Event\TopicLabelsEvent($element, $labels);
         $this->dispatcher->dispatch('symbb.topic.labels', $event);
         
         $labels = $event->getLabels();

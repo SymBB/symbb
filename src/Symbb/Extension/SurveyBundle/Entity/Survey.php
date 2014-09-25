@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\Entity;
+namespace Symbb\Extension\SurveyBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,7 +27,7 @@ class Survey
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", unique=true, onDelete="cascade")
      */
     private $post;
@@ -58,7 +58,7 @@ class Survey
     private $end = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Extension\SurveyBundle\Entity\Vote", mappedBy="survey")
+     * @ORM\OneToMany(targetEntity="Symbb\Extension\SurveyBundle\Entity\Vote", mappedBy="survey")
      */
     private $votes;
 
@@ -91,7 +91,7 @@ class Survey
 
     /**
      * 
-     * @return \SymBB\Core\ForumBundle\Entity\Post
+     * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
     {
@@ -215,7 +215,7 @@ class Survey
 
     }
 
-    public function checkForVote($answerKey, \SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function checkForVote($answerKey, \Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         $votes = $this->getVotes();
         foreach ($votes as $vote) {
@@ -231,7 +231,7 @@ class Survey
 
     }
 
-    public function checkIfVoteable(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function checkIfVoteable(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
 
         $end = $this->getEnd();

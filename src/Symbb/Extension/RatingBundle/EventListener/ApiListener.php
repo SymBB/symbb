@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Extension\RatingBundle\EventListener;
+namespace Symbb\Extension\RatingBundle\EventListener;
 
-use SymBB\Extension\RatingBundle\Security\Authorization\RatingVoter;
-use SymBB\Extension\SurveyBundle\Security\Authorization\SurveyVoter;
+use Symbb\Extension\RatingBundle\Security\Authorization\RatingVoter;
+use Symbb\Extension\SurveyBundle\Security\Authorization\SurveyVoter;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class ApiListener
@@ -29,7 +29,7 @@ class ApiListener
         $this->em = $em;
     }
 
-    public function postData(\SymBB\Core\EventBundle\Event\ApiDataEvent $event)
+    public function postData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $post = $event->getObject();
         if(is_object($post)){
@@ -42,7 +42,7 @@ class ApiListener
         }
     }
 
-    public function topicData(\SymBB\Core\EventBundle\Event\ApiDataEvent $event)
+    public function topicData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $topic = $event->getObject();
         if(is_object($topic)){
@@ -59,10 +59,10 @@ class ApiListener
 
         $user = $this->securityContext->getToken()->getUser();
 
-        $myLike = $this->em->getRepository('SymBBExtensionRatingBundle:Like')
+        $myLike = $this->em->getRepository('SymbbExtensionRatingBundle:Like')
             ->findOneBy(array('post' => $post, 'user' => $user));
 
-        $myDislike = $this->em->getRepository('SymBBExtensionRatingBundle:Dislike')
+        $myDislike = $this->em->getRepository('SymbbExtensionRatingBundle:Dislike')
             ->findOneBy(array('post' => $post, 'user' => $user));
 
         if(is_object($myLike)){
@@ -77,10 +77,10 @@ class ApiListener
             $myDislike = false;
         }
 
-        $likes = $this->em->getRepository('SymBBExtensionRatingBundle:Like')
+        $likes = $this->em->getRepository('SymbbExtensionRatingBundle:Like')
             ->findBy(array('post' => $post));
 
-        $dislikes = $this->em->getRepository('SymBBExtensionRatingBundle:Dislike')
+        $dislikes = $this->em->getRepository('SymbbExtensionRatingBundle:Dislike')
             ->findBy(array('post' => $post));
 
         $data = array(

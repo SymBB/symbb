@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Entity\Navigation;
+namespace Symbb\Core\SiteBundle\Entity\Navigation;
 
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\SiteBundle\Entity\Navigation;
+use Symbb\Core\SiteBundle\Entity\Navigation;
 
 /**
  * @ORM\Table(name="site_navigation_items")
@@ -27,19 +27,19 @@ class Item
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", inversedBy="items", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\SiteBundle\Entity\Navigation", inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $navigation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", inversedBy="children", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\SiteBundle\Entity\Navigation\Item", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $parentItem;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="parentItem", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\SiteBundle\Entity\Navigation\Item", mappedBy="parentItem", cascade={"all"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $children;

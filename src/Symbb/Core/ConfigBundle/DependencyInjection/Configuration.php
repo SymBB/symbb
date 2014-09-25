@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\ConfigBundle\DependencyInjection; 
+namespace Symbb\Core\ConfigBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('user_class') 
-                            ->defaultValue('SymBB\Core\UserBundle\Entity\User')
+                            ->defaultValue('Symbb\Core\UserBundle\Entity\User')
                         ->end()
                     ->end()
                 ->end()
@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('group_class') 
-                            ->defaultValue('SymBB\Core\UserBundle\Entity\Group')
+                            ->defaultValue('Symbb\Core\UserBundle\Entity\Group')
                         ->end()
                     ->end()
                 ->end()
@@ -40,7 +40,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('name') 
-                            ->defaultValue('SymBB Test System')
+                            ->defaultValue('Symbb Test System')
                         ->end()
                         ->scalarNode('email') 
                             ->defaultValue('alpha@symbb.de')

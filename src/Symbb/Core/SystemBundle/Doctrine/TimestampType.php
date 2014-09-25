@@ -1,6 +1,6 @@
 <?php
 
-namespace SymBB\Core\SystemBundle\Doctrine;
+namespace Symbb\Core\SystemBundle\Doctrine;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

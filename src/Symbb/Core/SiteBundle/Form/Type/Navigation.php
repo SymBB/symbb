@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Form\Type;
+namespace Symbb\Core\SiteBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +19,7 @@ class Navigation extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\SiteBundle\Entity\Navigation',
+            'data_class' => '\Symbb\Core\SiteBundle\Entity\Navigation',
             'translation_domain' => 'symbb_backend'
         ));
 

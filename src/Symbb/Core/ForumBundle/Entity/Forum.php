@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity;
+namespace Symbb\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +21,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
-class Forum extends \SymBB\Core\SystemBundle\Entity\Base\CrudAbstract
+class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
 {
 
     /**

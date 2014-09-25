@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Core\MessageBundle;
+namespace Symbb\Core\MessageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreMessageBundle extends Bundle
+class SymbbCoreMessageBundle extends Bundle
 {
 
 }

@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Form\Type;
+namespace Symbb\Core\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +18,7 @@ class SecurityOption extends AbstractType
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $usermanager;
     

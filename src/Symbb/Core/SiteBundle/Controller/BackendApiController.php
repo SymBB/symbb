@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Controller;
+namespace Symbb\Core\SiteBundle\Controller;
 
-use SymBB\Core\SystemBundle\Controller\AbstractController;
+use Symbb\Core\SystemBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

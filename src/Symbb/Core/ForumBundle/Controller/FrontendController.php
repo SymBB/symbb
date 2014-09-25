@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Controller;
+namespace Symbb\Core\ForumBundle\Controller;
 
-class FrontendController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function indexAction()

@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\DependencyInjection;
 
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
-use \SymBB\Core\UserBundle\Entity\GroupInterface;
+use \Symbb\Core\UserBundle\Entity\GroupInterface;
 
 class GroupManager
 {
@@ -46,7 +46,7 @@ class GroupManager
 
     /**
      * update the given group
-     * @param \SymBB\Core\UserBundle\Entity\GroupInterface $group
+     * @param \Symbb\Core\UserBundle\Entity\GroupInterface $group
      */
     public function updateGroup(GroupInterface $group)
     {
@@ -57,7 +57,7 @@ class GroupManager
 
     /**
      * remove the given group
-     * @param \SymBB\Core\UserBundle\Entity\GroupInterface $user
+     * @param \Symbb\Core\UserBundle\Entity\GroupInterface $user
      */
     public function removeUser(GroupInterface $group)
     {
@@ -68,7 +68,7 @@ class GroupManager
 
     /**
      * create a new Group
-     * @return \SymBB\Core\UserBundle\Entity\GroupInterface
+     * @return \Symbb\Core\UserBundle\Entity\GroupInterface
      */
     public function createGroup()
     {
@@ -81,7 +81,7 @@ class GroupManager
     /**
      * 
      * @param type $groupId
-     * @return \SymBB\Core\UserBundle\Entity\GroupInterface
+     * @return \Symbb\Core\UserBundle\Entity\GroupInterface
      */
     public function find($groupId)
     {
@@ -92,7 +92,7 @@ class GroupManager
 
     /**
      * 
-     * @return array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">)
+     * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     public function findGroups()
     {
@@ -109,7 +109,7 @@ class GroupManager
 
     public function paginateAll($request)
     {
-        $dql = "SELECT g FROM SymBBCoreUserBundle:Group g";
+        $dql = "SELECT g FROM SymbbCoreUserBundle:Group g";
         $query = $this->em->createQuery($dql);
 
         $paginator = $this->paginator;

@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\Controller;
+namespace Symbb\Extension\SurveyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class DefaultController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
+class DefaultController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
     public function voteAction()
@@ -28,19 +28,19 @@ class DefaultController extends \SymBB\Core\SystemBundle\Controller\AbstractApiC
 
             $em = $this->get('doctrine')->getManager('symbb');
 
-            $post = $em->getRepository('SymBBCoreForumBundle:Post')
+            $post = $em->getRepository('SymbbCoreForumBundle:Post')
                 ->find($postId);
 
             $user = $this->getUser();
 
             if (!empty($answers) && is_object($user) && $user->getId() > 0) {
 
-                $survey = $em->getRepository('SymBBExtensionSurveyBundle:Survey')
+                $survey = $em->getRepository('SymbbExtensionSurveyBundle:Survey')
                     ->findOneBy(array('post' => $post));
 
                 if (is_object($survey) && $survey->checkIfVoteable($user)) {
 
-                    $votes = $em->getRepository('SymBBExtensionSurveyBundle:Vote')
+                    $votes = $em->getRepository('SymbbExtensionSurveyBundle:Vote')
                         ->findBy(array('survey' => $survey, 'user' => $user));
 
                     $currentVotes = array();
@@ -70,7 +70,7 @@ class DefaultController extends \SymBB\Core\SystemBundle\Controller\AbstractApiC
                             }
 
                             if (!is_object($voteFound)) {
-                                $voteFound = new \SymBB\Extension\SurveyBundle\Entity\Vote();
+                                $voteFound = new \Symbb\Extension\SurveyBundle\Entity\Vote();
                                 $voteFound->setSurvey($survey);
                                 $voteFound->setAnswer($key);
                                 $voteFound->setUser($user);

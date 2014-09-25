@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\SystemBundle\Imagine\Filter\Loader; 
+namespace Symbb\Core\SystemBundle\Imagine\Filter\Loader;
 
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;

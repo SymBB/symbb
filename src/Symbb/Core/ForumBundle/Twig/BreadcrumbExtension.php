@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Twig;
+namespace Symbb\Core\ForumBundle\Twig;
 
 class BreadcrumbExtension extends \Twig_Extension
 {
@@ -48,13 +48,13 @@ class BreadcrumbExtension extends \Twig_Extension
     {
 
         $breadcrumb = array();
-        if ($object instanceof \SymBB\Core\ForumBundle\Entity\Forum) {
+        if ($object instanceof \Symbb\Core\ForumBundle\Entity\Forum) {
             $breadcrumb = $this->createForForum($object, $breadcrumb);
-        } else if ($object instanceof \SymBB\Core\ForumBundle\Entity\Topic) {
+        } else if ($object instanceof \Symbb\Core\ForumBundle\Entity\Topic) {
             $breadcrumb = $this->createForTopic($object, $breadcrumb);
-        } else if ($object instanceof \SymBB\Core\UserBundle\Entity\UserInterface) {
+        } else if ($object instanceof \Symbb\Core\UserBundle\Entity\UserInterface) {
             $breadcrumb = $this->createForUser($object, $breadcrumb);
-        } else if ($object instanceof \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination && isset($object[0]) && $object[0] instanceof \SymBB\Core\UserBundle\Entity\UserInterface) {
+        } else if ($object instanceof \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination && isset($object[0]) && $object[0] instanceof \Symbb\Core\UserBundle\Entity\UserInterface) {
             $breadcrumb = $this->createForUser(null, $breadcrumb);
         }
 
@@ -70,7 +70,7 @@ class BreadcrumbExtension extends \Twig_Extension
         return $html;
     }
 
-    protected function createForUser(\SymBB\Core\UserBundle\Entity\UserInterface $object = null, $breadcrumb)
+    protected function createForUser(\Symbb\Core\UserBundle\Entity\UserInterface $object = null, $breadcrumb)
     {
 
         if ($object) {
@@ -85,7 +85,7 @@ class BreadcrumbExtension extends \Twig_Extension
         return $breadcrumb;
     }
 
-    protected function createForForum(\SymBB\Core\ForumBundle\Entity\Forum $object, $breadcrumb)
+    protected function createForForum(\Symbb\Core\ForumBundle\Entity\Forum $object, $breadcrumb)
     {
         while (is_object($object)) {
             if (is_object($object)) {
@@ -97,7 +97,7 @@ class BreadcrumbExtension extends \Twig_Extension
         return $breadcrumb;
     }
 
-    protected function createForTopic(\SymBB\Core\ForumBundle\Entity\Topic $object, $breadcrumb)
+    protected function createForTopic(\Symbb\Core\ForumBundle\Entity\Topic $object, $breadcrumb)
     {
         if ($object->getId() > 0) {
             $uri = $this->router->generate('symbb_forum_topic_show', array('id' => $object->getId(), 'name' => $object->getSeoName(), 'page'=> 1));

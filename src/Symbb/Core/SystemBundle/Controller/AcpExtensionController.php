@@ -6,12 +6,12 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
-use SymBB\ExtensionBundle\Api;
+use Symbb\ExtensionBundle\Api;
 use \Symfony\Component\HttpFoundation\Response;
 
-class AcpExtensionController extends \SymBB\Core\SystemBundle\Controller\AbstractController 
+class AcpExtensionController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
     
     public function indexAction(){

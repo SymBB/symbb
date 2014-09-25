@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Form\Type;
+namespace Symbb\Core\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,7 +42,7 @@ class Option extends AbstractType
 
         $currValues = $this->entity->getFieldValues();
 
-        $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy(array(), array('position' => 'asc', 'id' => 'asc'));
+        $fields = $this->em->getRepository('SymbbCoreUserBundle:Field')->findBy(array(), array('position' => 'asc', 'id' => 'asc'));
         foreach ($fields as $field) {
             $data = null;
             foreach ($currValues as $currValue) {

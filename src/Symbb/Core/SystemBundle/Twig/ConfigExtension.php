@@ -7,18 +7,18 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Twig;
+namespace Symbb\Core\SystemBundle\Twig;
 
 class ConfigExtension extends \Twig_Extension
 {
 
     /**
      *
-     * @var \SymBB\Core\SystemBundle\Manager\ConfigManager
+     * @var \Symbb\Core\SystemBundle\Manager\ConfigManager
      */
     protected $configManager;
 
-    public function __construct(\SymBB\Core\SystemBundle\Manager\ConfigManager $configManager)
+    public function __construct(\Symbb\Core\SystemBundle\Manager\ConfigManager $configManager)
     {
         $this->configManager = $configManager;
     }

@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Twig;
+namespace Symbb\Core\SystemBundle\Twig;
 
 class IntlExtension extends \Twig_Extension
 {
 
     /**
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager 
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $userManager;
 
-    public function __construct(\SymBB\Core\UserBundle\DependencyInjection\UserManager $userManager)
+    public function __construct(\Symbb\Core\UserBundle\DependencyInjection\UserManager $userManager)
     {
         $this->userManager = $userManager;
 

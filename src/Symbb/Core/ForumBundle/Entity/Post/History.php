@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity\Post;
+namespace Symbb\Core\ForumBundle\Entity\Post;
 
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\UserBundle\Entity\User;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\UserBundle\Entity\User;
 
 /**
  * @ORM\Table(name="forum_topic_post_histories")
@@ -38,7 +38,7 @@ class History
     protected $changed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post", inversedBy="histories")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post", inversedBy="histories")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="cascade")
      *
      * @var Post $post
@@ -46,7 +46,7 @@ class History
     protected $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="NO ACTION")
      *
      * @var User $editor

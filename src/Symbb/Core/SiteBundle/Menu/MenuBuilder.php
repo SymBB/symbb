@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Menu;
+namespace Symbb\Core\SiteBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use SymBB\Core\SiteBundle\Manager\SiteManager;
-use SymBB\Core\SiteBundle\Event\ConfigureMenuEvent;
+use Symbb\Core\SiteBundle\Manager\SiteManager;
+use Symbb\Core\SiteBundle\Event\ConfigureMenuEvent;
 use Symfony\Component\HttpFoundation\Request;
 
 class MenuBuilder

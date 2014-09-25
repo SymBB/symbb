@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\DependencyInjection;
 
-use \SymBB\Core\UserBundle\Entity\UserInterface;
-use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
 
 class WhoIsOnlineManager
 {

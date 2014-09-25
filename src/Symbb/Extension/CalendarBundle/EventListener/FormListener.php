@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle\EventListener;
+namespace Symbb\Extension\CalendarBundle\EventListener;
 
 class FormListener
 {
 
-    public function addPostFormPart(\SymBB\Core\EventBundle\Event\FormPostEvent $event)
+    public function addPostFormPart(\Symbb\Core\EventBundle\Event\FormPostEvent $event)
     {
         $builder = $event->getBuilder();
         $groupManager = $event->getGroupManager();

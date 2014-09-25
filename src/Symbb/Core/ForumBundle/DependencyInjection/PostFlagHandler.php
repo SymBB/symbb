@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use \SymBB\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
 
-class PostFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+class PostFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
 {
 
     protected $foundPost = array();

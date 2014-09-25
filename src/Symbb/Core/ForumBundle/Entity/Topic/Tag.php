@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity\Topic;
+namespace Symbb\Core\ForumBundle\Entity\Topic;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,7 +28,7 @@ class Tag
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Topic", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Topic", mappedBy="tags")
      */
     private $topics;
 
@@ -72,7 +72,7 @@ class Tag
     }
 
     /**
-     * @return \SymBB\Core\ForumBundle\Entity\Topic[]
+     * @return \Symbb\Core\ForumBundle\Entity\Topic[]
      */
     public function getTopics()
     {
@@ -80,7 +80,7 @@ class Tag
     }
 
     /**
-     * @param \SymBB\Core\ForumBundle\Entity\Topic[]
+     * @param \Symbb\Core\ForumBundle\Entity\Topic[]
      */
     public function setTopics($value)
     {
@@ -88,7 +88,7 @@ class Tag
     }
 
     /**
-     * @param \SymBB\Core\ForumBundle\Entity\Topic
+     * @param \Symbb\Core\ForumBundle\Entity\Topic
      */
     public function addTopic($value)
     {

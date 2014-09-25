@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Manager;
+namespace Symbb\Core\SystemBundle\Manager;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
-use SymBB\Core\UserBundle\DependencyInjection\UserManager;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;
 use \Doctrine\ORM\EntityManager;

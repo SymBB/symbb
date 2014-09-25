@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\DependencyInjection;
+namespace Symbb\Core\BBCodeBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

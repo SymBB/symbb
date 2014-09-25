@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity; 
+namespace Symbb\Core\UserBundle\Entity;
 use \Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 interface UserInterface extends AdvancedUserInterface
@@ -27,16 +27,16 @@ interface UserInterface extends AdvancedUserInterface
     
     public function getFieldValues();
     
-    public function getFieldValue(\SymBB\Core\UserBundle\Entity\Field $field);
+    public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field);
     
     public function getCreated();
 
     /**
-     * @return \SymBB\Core\UserBundle\Entity\User\Data 
+     * @return \Symbb\Core\UserBundle\Entity\User\Data
      */
     public function getSymbbData();
 
-    public function setSymbbData(\SymBB\Core\UserBundle\Entity\User\Data $value);
+    public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value);
     
     /**
      * this method need to set some other data e.g a "changed" field

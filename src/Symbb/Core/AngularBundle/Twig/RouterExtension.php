@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle\Twig;
+namespace Symbb\Core\AngularBundle\Twig;
 
-use SymBB\Core\AngularBundle\Routing\AngularRouter;
+use Symbb\Core\AngularBundle\Routing\AngularRouter;
 
 class RouterExtension extends \Twig_Extension
 {

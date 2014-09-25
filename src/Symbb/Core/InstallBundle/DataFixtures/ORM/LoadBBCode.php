@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\InstallBundle\DataFixtures\ORM;
+namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -23,20 +23,20 @@ class LoadBBCode extends AbstractFixture
     public function load(ObjectManager $manager)
     {
         
-        $setDefault = new \SymBB\Core\BBCodeBundle\Entity\Set();
+        $setDefault = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setDefault->setId('default');
         $setDefault->setName("Default");
         
-        $setSignature = new \SymBB\Core\BBCodeBundle\Entity\Set();
+        $setSignature = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setSignature->setId('signature');
         $setSignature->setName("Signature");
 
-        $setPm = new \SymBB\Core\BBCodeBundle\Entity\Set();
+        $setPm = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setPm->setId('pm');
         $setPm->setName("Private Message");
         
         $pos = 0;
-        $bbcodeSize = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeSize = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeSize->setName('Font Size');
         $bbcodeSize->setSearchRegex('#\[size=(.+?)\]([\s\S]+?)\[\/size\]#');
         $bbcodeSize->setReplaceRegex('<span class="fontsize-$1">$2</span>');
@@ -47,7 +47,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeSize);
         $pos++;
         
-        $bbcodeB = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeB = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeB->setName('Bold');
         $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#');
         $bbcodeB->setReplaceRegex('<b>$1</b>');
@@ -57,7 +57,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeB);
         $pos++;
         
-        $bbcodeU = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeU = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeU->setName('U');
         $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#');
         $bbcodeU->setReplaceRegex('<u>$1</u>');
@@ -67,7 +67,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeU);
         $pos++;
         
-        $bbcodeI = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeI = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeI->setName('I');
         $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#');
         $bbcodeI->setReplaceRegex('<i>$1</i>');
@@ -77,7 +77,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeI);
         $pos++;
         
-        $bbcodeH1 = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeH1 = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeH1->setName('H1');
         $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+?)\[\/h([0-9]+)\]#');
         $bbcodeH1->setReplaceRegex('<h$1>$2</h$1>');
@@ -88,7 +88,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeH1);
         $pos++;
 
-        $bbcodeColor = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeColor = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeColor->setName('Color');
         $bbcodeColor->setSearchRegex('#\[color=(.+?)\]([\s\S]+?)\[\/color\]#');
         $bbcodeColor->setReplaceRegex('<span style="color:$1;">$2</span>');
@@ -99,7 +99,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeColor);
         $pos++;
 
-        $bbcodeHr = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeHr = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeHr->setName('Hr');
         $bbcodeHr->setSearchRegex('#\[hr\]#');
         $bbcodeHr->setReplaceRegex('<hr>');
@@ -109,7 +109,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeHr);
         $pos++;
         
-        $bbcodeLink = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeLink = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeLink->setName('Link');
         $bbcodeLink->setSearchRegex('#\[link(?:=(.*)\](.*)|\]((.*)))\[\/link]#iUs');
         $bbcodeLink->setReplaceRegex('<a href="$1$3">$2$4</a>');
@@ -120,7 +120,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeLink);
         $pos++;
         
-        $bbcodeImage = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeImage = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeImage->setName('Image');
         $bbcodeImage->setSearchRegex('#\[img\](.+)\[\/img\]#iUs');
         $bbcodeImage->setReplaceRegex('<a href="$1" target="_blank" class="symbb_post_embeded_image_link"><img src="$1"></img></a>');
@@ -131,7 +131,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeImage);
         $pos++;
         
-        $bbcodeQuote = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeQuote = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeQuote->setName('Quote');
         $bbcodeQuote->setSearchRegex('#\[quote(?:=(.+)\](.+)|\](([\s\S]*?)))\[\/quote]#iUs');
         $bbcodeQuote->setReplaceRegex('<blockquote cite="$1" ><p>$2$4</p><footer><cite>$1</cite></footer></blockquote>');
@@ -142,7 +142,7 @@ class LoadBBCode extends AbstractFixture
         $pos++;
         
         
-        $bbcodeCode = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeCode = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeCode->setName('Code');
         $bbcodeCode->setSearchRegex('#\[code\](.+)\[\/code\]#');
         $bbcodeCode->setReplaceRegex('<pre class="prettyprint linenums lang-html" >$1</pre><script>prettyPrint()</script>');
@@ -153,7 +153,7 @@ class LoadBBCode extends AbstractFixture
         $pos++;
         
         
-        $bbcodeList = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeList = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeList->setName('List');
         $bbcodeList->setSearchRegex('#\[list\]([\s\S]+)\[\/list\]#iUs');
         $bbcodeList->setReplaceRegex('<ul>$1</ul>');
@@ -163,7 +163,7 @@ class LoadBBCode extends AbstractFixture
         $manager->persist($bbcodeList);
         $pos++;
         
-        $bbcodeListItem = new \SymBB\Core\BBCodeBundle\Entity\BBCode();
+        $bbcodeListItem = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeListItem->setName('List Item');
         $bbcodeListItem->setSearchRegex('#\[\*\](.*)#');
         $bbcodeListItem->setReplaceRegex('<li>$1</li>');

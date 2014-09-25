@@ -1,69 +1,69 @@
 
 _symbbcoreuserbundle_group_access:
     pattern:  /access/group/{step}
-    defaults: { _controller: SymBBCoreUserBundle:AcpAccess:group }
+    defaults: { _controller: SymbbCoreUserBundle:AcpAccess:group }
     
     
 _symbbcoreuserbundle_group_list:
     pattern:  /group/list
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:list }
+    defaults: { _controller: SymbbCoreUserBundle:AcpGroup:list }
     
 _symbbcoreuserbundle_group_new:
     pattern:  /group/new
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:new }
+    defaults: { _controller: SymbbCoreUserBundle:AcpGroup:new }
 
 _symbbcoreuserbundle_group_edit:
     pattern:  /group/{id}/edit
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:edit }
+    defaults: { _controller: SymbbCoreUserBundle:AcpGroup:edit }
     
 _symbbcoreuserbundle_group_remove:
     pattern:  /group/{id}/remove
-    defaults: { _controller: SymBBCoreUserBundle:AcpGroup:remove }
+    defaults: { _controller: SymbbCoreUserBundle:AcpGroup:remove }
     
 
 
 _symbbcoreuserbundle_user_list:
     pattern:  /user/list
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:list }
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:list }
 
 _symbbcoreuserbundle_user_new:
     pattern:  /user/new
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:new}
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:new}
 
 _symbbcoreuserbundle_user_edit:
     pattern:  /user/{id}/edit
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:edit }
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:edit }
 
 _symbbcoreuserbundle_user_remove:
     pattern:  /user/{id}/remove
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:remove }
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:remove }
 
 _symbbcoreuserbundle_user_enable:
     pattern:  /user/{id}/enable
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:enable }
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:enable }
 
 _symbbcoreuserbundle_user_disable:
     pattern:  /user/{id}/disable
-    defaults: { _controller: SymBBCoreUserBundle:AcpUser:disable }
+    defaults: { _controller: SymbbCoreUserBundle:AcpUser:disable }
     
 
 _symbbcoreuserbundle_field_list:
     pattern:  /userfield/list
-    defaults: { _controller: SymBBCoreUserBundle:AcpField:list }
+    defaults: { _controller: SymbbCoreUserBundle:AcpField:list }
 
 _symbbcoreuserbundle_field_new:
     pattern:  /userfield/new
-    defaults: { _controller: SymBBCoreUserBundle:AcpField:new}
+    defaults: { _controller: SymbbCoreUserBundle:AcpField:new}
     
 _symbbcoreuserbundle_field_edit:
     pattern:  /userfield/{id}/edit
-    defaults: { _controller: SymBBCoreUserBundle:AcpField:edit }
+    defaults: { _controller: SymbbCoreUserBundle:AcpField:edit }
     
 _symbbcoreuserbundle_field_remove:
     pattern:  /userfield/{id}/remove
-    defaults: { _controller: SymBBCoreUserBundle:AcpField:remove }
+    defaults: { _controller: SymbbCoreUserBundle:AcpField:remove }
     
 _symbbcoreuserbundle_field_sort:
     pattern:  /userfield/sort
-    defaults: { _controller: SymBBCoreUserBundle:AcpField:sort }
+    defaults: { _controller: SymbbCoreUserBundle:AcpField:sort }
     

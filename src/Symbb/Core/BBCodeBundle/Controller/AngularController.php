@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Controller;
+namespace Symbb\Core\BBCodeBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function templateFileAction($file, $set = 1)
     {
         $response = $this->render(
-            'SymBBCoreBBCodeBundle:Angular:'.$file.'.html.twig',
+            'SymbbCoreBBCodeBundle:Angular:'.$file.'.html.twig',
             array('bbcodeset' => $set)
         );
         

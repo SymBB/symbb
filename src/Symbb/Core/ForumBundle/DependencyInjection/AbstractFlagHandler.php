@@ -7,15 +7,15 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
 use Doctrine\Common\Util\ClassUtils;
-use SymBB\Core\SystemBundle\Entity\Flag;
-use \SymBB\Core\UserBundle\Entity\UserInterface;
-use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
-use \SymBB\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\SystemBundle\Entity\Flag;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use \Symbb\Core\SystemBundle\Manager\AccessManager;
 
-abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\AbstractManager
+abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**
@@ -55,11 +55,11 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\Abst
         $this->enviroment = $env;
     }
 
-    public function findOne($flag, $object, \SymBB\Core\UserBundle\Entity\UserInterface $user = null){
+    public function findOne($flag, $object, \Symbb\Core\UserBundle\Entity\UserInterface $user = null){
         if (!$user) {
             $user = $this->getUser();
         }
-        $flag = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findOneBy(array(
+        $flag = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findOneBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
             'user' => $user->getId(),
@@ -68,11 +68,11 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\Abst
         return $flag;
     }
 
-    public function findAll($object, \SymBB\Core\UserBundle\Entity\UserInterface $user = null){
+    public function findAll($object, \Symbb\Core\UserBundle\Entity\UserInterface $user = null){
         if (!$user) {
             $user = $this->getUser();
         }
-        $flags = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findBy(array(
+        $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
             'user' => (string)$user->getId()
@@ -81,7 +81,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\Abst
     }
 
     public function findFlagsByObjectAndFlag($object, $flag){
-        $flags = $this->em->getRepository('SymBBCoreSystemBundle:Flag', 'symbb')->findBy(array(
+        $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
             'flag' => (string)$flag
@@ -89,7 +89,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\Abst
         return $flags;
     }
 
-    public function createNewFlag($object, \SymBB\Core\UserBundle\Entity\UserInterface $user, $flag){
+    public function createNewFlag($object, \Symbb\Core\UserBundle\Entity\UserInterface $user, $flag){
         $flagObject = new Flag();
         $flagObject->setObject($object);
         $flagObject->setUser($user);
@@ -178,7 +178,7 @@ abstract class AbstractFlagHandler extends \SymBB\Core\SystemBundle\Manager\Abst
         }
 
         if (
-            $user instanceof \SymBB\Core\UserBundle\Entity\UserInterface &&
+            $user instanceof \Symbb\Core\UserBundle\Entity\UserInterface &&
             $user->getSymbbType() === 'user'
         ) {
             $users = $this->getUsersForFlag($flag, $object);

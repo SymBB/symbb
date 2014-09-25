@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle\Entity;
+namespace Symbb\Extension\CalendarBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,13 +26,13 @@ class Event
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id", unique=true, onDelete="cascade")
      */
     private $post;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SymBB\Core\UserBundle\Entity\Group")
+     * @ORM\ManyToMany(targetEntity="Symbb\Core\UserBundle\Entity\Group")
      * @ORM\JoinTable(name="forum_topic_post_calendar_event_groups",
      *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
@@ -75,7 +75,7 @@ class Event
 
     /**
      * 
-     * @return \SymBB\Core\ForumBundle\Entity\Post
+     * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
     {
@@ -116,7 +116,7 @@ class Event
     }
 
     /**
-     * @return array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">)
+     * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     public function getGroups()
     {
@@ -126,7 +126,7 @@ class Event
 
     /**
      * 
-     * @param array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">) $groups
+     * @param array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">) $groups
      */
     public function setGroups($groups)
     {

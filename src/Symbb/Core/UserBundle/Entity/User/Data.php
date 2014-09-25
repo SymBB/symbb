@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity\User;
+namespace Symbb\Core\UserBundle\Entity\User;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,7 +28,7 @@ class Data
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
+     * @ORM\OneToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
      */
     private $user;

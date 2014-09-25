@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Manager;
+namespace Symbb\Core\SystemBundle\Manager;
 
-use SymBB\Core\SystemBundle\Entity\Access;
-use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\SystemBundle\Entity\Access;
+use Symbb\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\Util\ClassUtils;
 
 class AccessVoterManager

@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Template\DefaultBundle;
+namespace Symbb\Template\DefaultBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBTemplateDefaultBundle extends Bundle
+class SymbbTemplateDefaultBundle extends Bundle
 {
 }

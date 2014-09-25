@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent;
-use SymBB\Core\SystemBundle\Manager\AbstractManager;
-use \SymBB\Core\SystemBundle\Manager\ConfigManager;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent;
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
+use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symfony\Component\Security\Core\Util\ClassUtils;
@@ -62,22 +62,22 @@ class PostManager extends AbstractManager
     /**
      *
      * @param int $postId
-     * @return \SymBB\Core\ForumBundle\Entity\Post
+     * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function find($postId)
     {
-        $post = $this->em->getRepository('SymBBCoreForumBundle:Post')->find($postId);
+        $post = $this->em->getRepository('SymbbCoreForumBundle:Post')->find($postId);
         return $post;
     }
 
     /**
      *
      * @param int $topicId
-     * @return array(<\SymBB\Core\ForumBundle\Entity\Post>)
+     * @return array(<\Symbb\Core\ForumBundle\Entity\Post>)
      */
     public function findByTopic(Topic $topic, $limit = null, $pageNumber = 1)
     {
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select("p");
         $qb->where("p.topic = :topic ");
         $qb->orderBy("p.created", "ASC");
@@ -111,29 +111,29 @@ class PostManager extends AbstractManager
         $sql = "SELECT
                     p
                 FROM
-                    SymBBCoreForumBundle:Post p
+                    SymbbCoreForumBundle:Post p
                 INNER JOIN
-                    SymBBCoreForumBundle:Topic t WITH
+                    SymbbCoreForumBundle:Topic t WITH
                     t.id = p.topic
                 LEFT JOIN
-                    SymBBCoreSystemBundle:Flag f WITH
-                        f.objectClass = 'SymBB\Core\ForumBundle\Entity\Post' AND
+                    SymbbCoreSystemBundle:Flag f WITH
+                        f.objectClass = 'Symbb\Core\ForumBundle\Entity\Post' AND
                         f.objectId = p.id AND
                         f.user = :user AND
                         f.flag = 'new'
                 WHERE
                     p.author != :user AND
                     (
-                        ( SELECT COUNT(a.id) FROM SymBBCoreSystemBundle:Access a WHERE
+                        ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
                             a.objectId = t.forum AND
-                            a.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
                             a.identity = :userclass AND
                             a.identityId = :user AND
                             a.access = 'VIEW'
                         ) > 0 OR
-                        ( SELECT COUNT(a2.id) FROM SymBBCoreSystemBundle:Access a2 WHERE
+                        ( SELECT COUNT(a2.id) FROM SymbbCoreSystemBundle:Access a2 WHERE
                             a2.objectId = t.forum AND
-                            a2.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a2.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
                             a2.identity = :groupclass AND
                             a2.identityId IN (:groups) AND
                             a2.access = 'VIEW'

@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity\Post;
+namespace Symbb\Core\ForumBundle\Entity\Post;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,7 +32,7 @@ class File
     private $changed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post", inversedBy="files")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="cascade", nullable=false)
      */
     private $post;
@@ -65,14 +65,14 @@ class File
 
     }
     
-    public function setPost(\SymBB\Core\ForumBundle\Entity\Post $object)
+    public function setPost(\Symbb\Core\ForumBundle\Entity\Post $object)
     {
         $this->post = $object;
 
     }
 
     /**
-     * @return \SymBB\Core\ForumBundle\Entity\Post
+     * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
     {

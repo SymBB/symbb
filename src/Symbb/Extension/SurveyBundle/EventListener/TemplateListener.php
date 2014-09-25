@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\EventListener;
+namespace Symbb\Extension\SurveyBundle\EventListener;
 
 class TemplateListener
 {
@@ -21,44 +21,44 @@ class TemplateListener
 
     public function addPostTab($event)
     {
-        $event->render('SymBBExtensionSurveyBundle:Post:tab.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle:Post:tab.html.twig', array());
     }
 
     public function addPostTabContent($event)
     {
-        $event->render('SymBBExtensionSurveyBundle:Post:tabcontent.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle:Post:tabcontent.html.twig', array());
     }
 
     public function addTopicTab($event)
     {
-        $event->render('SymBBExtensionSurveyBundle:Topic:tab.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle:Topic:tab.html.twig', array());
     }
 
     public function addTopicTabContent($event)
     {
-        $event->render('SymBBExtensionSurveyBundle:Topic:tabcontent.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle:Topic:tabcontent.html.twig', array());
     }
 
     public function addSurveyBlockData($event)
     {
         $post = $event->getPost();
-        $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
+        $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
         $survey = $repo->findOneBy(array('post' => $post));
         return array('post' => $post, 'survey' => $survey);
     }
 
     public function addSurveyBlock($event)
     {
-        $event->render('SymBBExtensionSurveyBundle:Post:survey.html.twig', array('post' => array(), 'survey' => array()));
+        $event->render('SymbbExtensionSurveyBundle:Post:survey.html.twig', array('post' => array(), 'survey' => array()));
     }
 
     public function stylesheets($event)
     {
-        $event->render('SymBBExtensionSurveyBundle::stylesheets.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle::stylesheets.html.twig', array());
     }
 
     public function javascripts($event)
     {
-        $event->render('SymBBExtensionSurveyBundle::javascripts.html.twig', array());
+        $event->render('SymbbExtensionSurveyBundle::javascripts.html.twig', array());
     }
 }

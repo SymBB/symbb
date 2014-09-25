@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\EventListener;
+namespace Symbb\Extension\SurveyBundle\EventListener;
 
-use \SymBB\Core\EventBundle\Event\ApiSaveEvent;
-use \SymBB\Core\EventBundle\Event\ApiDataEvent;
+use \Symbb\Core\EventBundle\Event\ApiSaveEvent;
+use \Symbb\Core\EventBundle\Event\ApiDataEvent;
 
 class SaveListener
 {
@@ -19,7 +19,7 @@ class SaveListener
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $userManager;
 
@@ -41,11 +41,11 @@ class SaveListener
         $surveyEnd = $data['survey']['end'];
         if (!empty($surveyQuestion) && !empty($surveyAnswers)) {
 
-            $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
+            $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post->getId()));
 
             if (!$survey) {
-                $survey = new \SymBB\Extension\SurveyBundle\Entity\Survey();
+                $survey = new \Symbb\Extension\SurveyBundle\Entity\Survey();
             }
 
             // if answers are changed, then we need to reset all votes because we have no unique answer keys
@@ -80,7 +80,7 @@ class SaveListener
         $event->addExtensionData('survey', $data);
     }
 
-    protected function getAnswerArray(\SymBB\Extension\SurveyBundle\Entity\Survey $survey)
+    protected function getAnswerArray(\Symbb\Extension\SurveyBundle\Entity\Survey $survey)
     {
         $answers = $survey->getAnswers();
         $answers = nl2br($answers, true);
@@ -116,11 +116,11 @@ class SaveListener
 
         if (!empty($surveyQuestion) && !empty($surveyAnswers)) {
 
-            $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
+            $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post->getId()));
 
             if (!$survey) {
-                $survey = new \SymBB\Extension\SurveyBundle\Entity\Survey();
+                $survey = new \Symbb\Extension\SurveyBundle\Entity\Survey();
             }
 
             // if answers are changed, then we need to reset all votes because we have no unique answer keys
@@ -156,7 +156,7 @@ class SaveListener
         $event->addExtensionData('survey', $data);
     }
     
-    protected function getData(\SymBB\Core\ForumBundle\Entity\Post $post = null){
+    protected function getData(\Symbb\Core\ForumBundle\Entity\Post $post = null){
         
         $data = array(
             'question' => '',
@@ -171,7 +171,7 @@ class SaveListener
 
         if (is_object($post) && $post->getId() > 0) {
 
-            $repo = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
+            $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post));
 
             if (is_object($survey)) { 

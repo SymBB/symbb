@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle\Routing;
+namespace Symbb\Core\AngularBundle\Routing;
 
 use Symfony\Component\Yaml\Parser;
-use \SymBB\Core\AngularBundle\Routing\AngularRoute;
+use \Symbb\Core\AngularBundle\Routing\AngularRoute;
 
 class AngularRouter
 {
 
     /**
      *
-     * @var array(<\SymBB\Core\AngularBundle\Routing\AngularRoute>)
+     * @var array(<\Symbb\Core\AngularBundle\Routing\AngularRoute>)
      */
     protected $frontend = array();
 
@@ -44,7 +44,7 @@ class AngularRouter
                 array_key_exists('symbb_angular_template', $options)
             ){
                 $defaults = $currRoute->getDefaults();
-                $defaults['_controller'] = 'SymBBCoreAngularBundle:Angular:index';
+                $defaults['_controller'] = 'SymbbCoreAngularBundle:Angular:index';
                 $currRoute->setDefaults($defaults);
                 // If no api route and no controller is provided
                 // used default controller without api call
@@ -106,7 +106,7 @@ class AngularRouter
     }
 
     /**
-     * @return array(<\SymBB\Core\AngularBundle\Routing\AngularRoute>)
+     * @return array(<\Symbb\Core\AngularBundle\Routing\AngularRoute>)
      */
     public function getFrontendRouting()
     {

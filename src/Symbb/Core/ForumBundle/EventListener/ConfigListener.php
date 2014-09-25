@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\EventListener;
+namespace Symbb\Core\ForumBundle\EventListener;
 
 class ConfigListener
 {
 
-    public function configs(\SymBB\Core\SystemBundle\Event\ConfigDefaultsEvent $event)
+    public function configs(\Symbb\Core\SystemBundle\Event\ConfigDefaultsEvent $event)
     {
         $event->setDefaultConfig('newpost.max', '10', 'number', $this->getSection());
     }

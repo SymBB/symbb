@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle\DependencyInjection;
+namespace Symbb\Core\AngularBundle\DependencyInjection;
 
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class AngularToTwigConverter
- * @package SymBB\Core\AngularBundle\DependencyInjection
+ * @package Symbb\Core\AngularBundle\DependencyInjection
  */
 class AngularToTwigConverter
 {

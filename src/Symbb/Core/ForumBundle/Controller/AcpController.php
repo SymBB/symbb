@@ -7,18 +7,18 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Controller;
+namespace Symbb\Core\ForumBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreForumBundle';
+    protected $entityBundle = 'SymbbCoreForumBundle';
 
     protected $entityName = 'Forum';
 
-    protected $formClass = '\SymBB\Core\ForumBundle\Form\Type\Forum';
+    protected $formClass = '\Symbb\Core\ForumBundle\Form\Type\Forum';
 
     public function newCategoryAction(Request $request, $parent = 0)
     {
@@ -77,7 +77,7 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
 
     protected function addListParams($params, $parent = null)
     {
-        $formatType = new \SymBB\Core\ForumBundle\Helper\Format\Forum\Type();
+        $formatType = new \Symbb\Core\ForumBundle\Helper\Format\Forum\Type();
         $formatType->setTranslator($this->get('translator'));
         $params['helper']['type'] = $formatType;
 

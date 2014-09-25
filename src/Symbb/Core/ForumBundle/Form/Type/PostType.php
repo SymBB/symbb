@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Form\Type;
+namespace Symbb\Core\ForumBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use \SymBB\Core\UserBundle\DependencyInjection\UserManager;
-use \SymBB\Core\UserBundle\DependencyInjection\GroupManager;
+use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use \Symbb\Core\UserBundle\DependencyInjection\GroupManager;
 
 class PostType extends AbstractType
 {
@@ -21,7 +21,7 @@ class PostType extends AbstractType
     protected $url;
 
     /**
-     * @var \SymBB\Core\ForumBundle\Entity\Post 
+     * @var \Symbb\Core\ForumBundle\Entity\Post
      */
     protected $post;
 
@@ -44,18 +44,18 @@ class PostType extends AbstractType
     protected $em;
 
     /**
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager 
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $userManager;
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\GroupManager 
+     * @var \Symbb\Core\UserBundle\DependencyInjection\GroupManager
      */
     protected $groupManager;
     
 
-    public function __construct($url, \SymBB\Core\ForumBundle\Entity\Post $post, $dispatcher, $translator, $em, UserManager $userManager, GroupManager $groupManager)
+    public function __construct($url, \Symbb\Core\ForumBundle\Entity\Post $post, $dispatcher, $translator, $em, UserManager $userManager, GroupManager $groupManager)
     {
         $this->url = $url;
         $this->post = $post;
@@ -76,7 +76,7 @@ class PostType extends AbstractType
 
 
         // create Event to manipulate Post Form
-        $event = new \SymBB\Core\EventBundle\Event\FormPostEvent($this->post, $builder, $this->translator, $this->em, $this->userManager, $this->groupManager);
+        $event = new \Symbb\Core\EventBundle\Event\FormPostEvent($this->post, $builder, $this->translator, $this->em, $this->userManager, $this->groupManager);
         $this->dispatcher->dispatch('symbb.post.controller.form', $event);
         //
 
@@ -85,7 +85,7 @@ class PostType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SymBB\Core\ForumBundle\Entity\Post',
+            'data_class' => 'Symbb\Core\ForumBundle\Entity\Post',
             'translation_domain' => 'symbb_frontend',
             'cascade_validation' => true
         ));

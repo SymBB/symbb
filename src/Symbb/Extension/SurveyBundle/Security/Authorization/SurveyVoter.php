@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\Security\Authorization;
+namespace Symbb\Extension\SurveyBundle\Security\Authorization;
 
-use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\ForumBundle\Entity\Topic;
-use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\SystemBundle\Security\Authorization\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class SurveyVoter extends AbstractVoter implements VoterInterface
 {
-    protected $supportedClasses = array('SymBB\Core\ForumBundle\Entity\Forum');
+    protected $supportedClasses = array('Symbb\Core\ForumBundle\Entity\Forum');
 
     const CREATE_SURVEY = 'create_survey';
     const VIEW_SURVEY = 'view_survey';

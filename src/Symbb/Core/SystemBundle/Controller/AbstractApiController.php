@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
 abstract class AbstractApiController extends AbstractController
 {

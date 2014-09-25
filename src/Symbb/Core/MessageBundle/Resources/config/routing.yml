@@ -1,5 +1,5 @@
 symbb_api_message:
-    resource: "@SymBBCoreMessageBundle/Controller"
+    resource: "@SymbbCoreMessageBundle/Controller"
     type: annotation
 
 

@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Extension\SurveyBundle\EventListener;
+namespace Symbb\Extension\SurveyBundle\EventListener;
 
-use SymBB\Extension\SurveyBundle\Security\Authorization\SurveyVoter;
+use Symbb\Extension\SurveyBundle\Security\Authorization\SurveyVoter;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class ApiListener
@@ -25,7 +25,7 @@ class ApiListener
         $this->securityContext = $securityContext;
     }
 
-    public function postData(\SymBB\Core\EventBundle\Event\ApiDataEvent $event)
+    public function postData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $post = $event->getObject();
         if(is_object($post)){
@@ -37,7 +37,7 @@ class ApiListener
         }
     }
 
-    public function topicData(\SymBB\Core\EventBundle\Event\ApiDataEvent $event)
+    public function topicData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $topic = $event->getObject();
         if(is_object($topic)){

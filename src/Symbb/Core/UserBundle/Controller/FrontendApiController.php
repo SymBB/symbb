@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Controller;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+namespace Symbb\Core\UserBundle\Controller;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
+class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
     public function dataAction(Request $request){
@@ -76,7 +76,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     }
     protected function getFieldsAsArray($fieldFilter){
         $em = $this->getDoctrine()->getManager('symbb');
-        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findBy($fieldFilter);
+        $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findBy($fieldFilter);
         $dataFinal = array();
         foreach ($allFields as $field) {
             $dataFinal[$field->getId()] = array(
@@ -92,7 +92,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     protected function getUserAsArray(UserInterface $user, $fieldFilter){
 
         $em = $this->getDoctrine()->getManager('symbb');
-        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findBy($fieldFilter);
+        $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findBy($fieldFilter);
         $usermanager = $this->get('symbb.core.user.manager');
         $userdata = array(
             'id' => $user->getId(),
@@ -126,7 +126,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $params['user']['data']['signature'] = $data->getSignature();
         $params['user']['fields'] = array();
         $em = $this->getDoctrine()->getManager('symbb');
-        $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+        $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findAll();
         foreach ($allFields as $field) {
             $value = $user->getFieldValue($field)->getValue();
             $params['user']['fields'][] = array(
@@ -169,7 +169,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         if($errors->count() === 0){
             $em = $this->getDoctrine()->getManager('symbb');
-            $allFields = $em->getRepository('SymBBCoreUserBundle:Field')->findAll();
+            $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findAll();
             foreach ($allFields as $field) {
                 $currFieldValue = $user->getFieldValue($field);
                 foreach ($fields as $fieldValue) {

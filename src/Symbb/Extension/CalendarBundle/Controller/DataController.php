@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle\Controller;
+namespace Symbb\Extension\CalendarBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -37,7 +37,7 @@ class DataController extends Controller
                         'SELECT 
                         e
                     FROM 
-                        SymBBExtensionCalendarBundle:Event e
+                        SymbbExtensionCalendarBundle:Event e
                     WHERE 
                         e.startDate >= :from AND 
                         e.startDate <= :until AND
@@ -115,7 +115,7 @@ class DataController extends Controller
     {
 
         return $this->render(
-                'SymBBExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
+                'SymbbExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
         );
 
     }

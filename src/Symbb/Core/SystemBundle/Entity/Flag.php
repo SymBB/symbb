@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\SystemBundle\Entity;
+namespace Symbb\Core\SystemBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Util\ClassUtils;
@@ -41,7 +41,7 @@ class Flag
     private $flag = 'ignore';
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;

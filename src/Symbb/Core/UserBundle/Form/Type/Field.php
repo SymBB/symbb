@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Form\Type;
+namespace Symbb\Core\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +21,7 @@ class Field extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\UserBundle\Entity\Field',
+            'data_class' => '\Symbb\Core\UserBundle\Entity\Field',
             'translation_domain' => 'symbb_backend'
         ));
     }

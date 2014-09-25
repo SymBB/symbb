@@ -1,8 +1,8 @@
 {
     "name": "symbb/extension-calendar",
     "type": "symbb-extension",
-    "description": "SymBB Calendar Extension",
-    "keywords": ["SymBB","Extension", "Calendar"],
+    "description": "Symbb Calendar Extension",
+    "keywords": ["Symbb","Extension", "Calendar"],
     "homepage": "https://github.com/seyon/symbb",
     "license": "GPL",
     "authors": [
@@ -18,7 +18,7 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "SymBB\\Extension": "" }
+        "psr-0": { "Symbb\\Extension": "" }
     },
-    "target-dir": "SymBB/Extension"
+    "target-dir": "Symbb/Extension"
 }

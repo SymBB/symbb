@@ -10,12 +10,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ path('symbb_forum_index') }}">SymBB</a>
+        <a class="navbar-brand" href="{{ path('symbb_forum_index') }}">Symbb</a>
         <div class="arrow"></div>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="symbb-navbar-collapse-top">
-        {{ knp_menu_render('SymBBCoreAdminBundle:Builder:mainMenu', {'template': getSymbbTemplate('acp') ~ '::menu.html.twig'}) }}
+        {{ knp_menu_render('SymbbCoreAdminBundle:Builder:mainMenu', {'template': getSymbbTemplate('acp') ~ '::menu.html.twig'}) }}
     </div><!-- /.navbar-collapse -->
 
 </nav>

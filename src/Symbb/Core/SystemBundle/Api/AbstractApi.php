@@ -7,14 +7,14 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Api;
+namespace Symbb\Core\SystemBundle\Api;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
-use SymBB\Core\MessageBundle\DependencyInjection\MessageManager;
-use SymBB\Core\SystemBundle\Manager\AccessManager;
-use SymBB\Core\UserBundle\DependencyInjection\UserManager;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
+use Symbb\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Translation\Translator;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;

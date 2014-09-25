@@ -7,23 +7,23 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Twig;
+namespace Symbb\Core\ForumBundle\Twig;
 
-use \SymBB\Core\ForumBundle\DependencyInjection\PostManager;
-use \SymBB\Core\ForumBundle\DependencyInjection\ForumManager;
+use \Symbb\Core\ForumBundle\DependencyInjection\PostManager;
+use \Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
 
 class ManagerExtension extends \Twig_Extension
 {
 
     /**
      *
-     * @var \SymBB\Core\ForumBundle\DependencyInjection\PostManager 
+     * @var \Symbb\Core\ForumBundle\DependencyInjection\PostManager
      */
     protected $postManager;
     
     /**
      *
-     * @var \SymBB\Core\ForumBundle\DependencyInjection\ForumManager 
+     * @var \Symbb\Core\ForumBundle\DependencyInjection\ForumManager
      */
     protected $forumManager;
 
@@ -45,7 +45,7 @@ class ManagerExtension extends \Twig_Extension
 
     /**
      * 
-     * @return \SymBB\Core\ForumBundle\DependencyInjection\PostManager
+     * @return \Symbb\Core\ForumBundle\DependencyInjection\PostManager
      */
     public function getPostManager()
     {
@@ -55,7 +55,7 @@ class ManagerExtension extends \Twig_Extension
 
     /**
      * 
-     * @return \SymBB\Core\ForumBundle\DependencyInjection\ForumManager
+     * @return \Symbb\Core\ForumBundle\DependencyInjection\ForumManager
      */
     public function getForumManager()
     {

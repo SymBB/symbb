@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class SymBBCoreUserExtension extends Extension implements PrependExtensionInterface 
+class SymbbCoreUserExtension extends Extension implements PrependExtensionInterface
 {
     
     public function prepend(ContainerBuilder $container)

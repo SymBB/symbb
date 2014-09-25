@@ -7,18 +7,18 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Controller;
+namespace Symbb\Core\SiteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpSiteController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreSiteBundle';
+    protected $entityBundle = 'SymbbCoreSiteBundle';
 
     protected $entityName = 'Site';
 
-    protected $formClass = '\SymBB\Core\SiteBundle\Form\Type\Site';
+    protected $formClass = '\Symbb\Core\SiteBundle\Form\Type\Site';
 
 
 
@@ -31,7 +31,7 @@ class AcpSiteController extends \SymBB\Core\AdminBundle\Controller\Base\CrudCont
 
     public function listAction($parent = null){
 
-        $repo = $this->get('doctrine')->getRepository('SymBBCoreSiteBundle:Site', 'symbb');
+        $repo = $this->get('doctrine')->getRepository('SymbbCoreSiteBundle:Site', 'symbb');
         $sites = $repo->findAll();
 
         return $this->render(

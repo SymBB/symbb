@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity;
+namespace Symbb\Core\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

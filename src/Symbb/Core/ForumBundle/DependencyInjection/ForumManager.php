@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
-use SymBB\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symfony\Component\Security\Core\Util\ClassUtils;
-use \SymBB\Core\ForumBundle\Entity\Forum;
-use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\SystemBundle\Manager\AbstractManager;
-use \SymBB\Core\SystemBundle\Manager\ConfigManager;
+use \Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
+use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 
 class ForumManager extends AbstractManager
 {
@@ -56,7 +56,7 @@ class ForumManager extends AbstractManager
 
     /**
      *
-     * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
+     * @param \Symbb\Core\ForumBundle\Entity\Forum $forum
      * @param int page
      * @param int $limit
      * @param string $orderDir
@@ -71,14 +71,14 @@ class ForumManager extends AbstractManager
         $sql = "SELECT
                     t
                 FROM
-                    SymBBCoreForumBundle:Topic t
+                    SymbbCoreForumBundle:Topic t
                 LEFT JOIN
                     t.tags tag
                 LEFT JOIN
                     t.posts p
                 WHERE
                   t.forum = ?1 AND
-                  p.id = (SELECT MAX(p2.id) FROM SymBBCoreForumBundle:POST p2 WHERE p2.topic = t.id ORDER BY p2.created )
+                  p.id = (SELECT MAX(p2.id) FROM SymbbCoreForumBundle:POST p2 WHERE p2.topic = t.id ORDER BY p2.created )
                 GROUP BY
                   t.id
                 ORDER BY
@@ -111,7 +111,7 @@ class ForumManager extends AbstractManager
             $childIds = $this->getChildIds($parent);
         }
 
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select("p");
         if (!empty($childIds)) {
             $qb->join('p.topic', 't');
@@ -152,7 +152,7 @@ class ForumManager extends AbstractManager
      */
     public function countTopics()
     {
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
@@ -164,7 +164,7 @@ class ForumManager extends AbstractManager
      */
     public function countPosts()
     {
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
@@ -174,7 +174,7 @@ class ForumManager extends AbstractManager
      * @param null $parentId
      * @param null $limit
      * @param null $offset
-     * @return array(<\SymBB\Core\ForumBundle\Entity\Forum>)
+     * @return array(<\Symbb\Core\ForumBundle\Entity\Forum>)
      */
     public function findAll($parentId = null, $limit = null, $page = null)
     {
@@ -206,21 +206,21 @@ class ForumManager extends AbstractManager
         $sql = "SELECT
                     f
                 FROM
-                    SymBBCoreForumBundle:Forum f
+                    SymbbCoreForumBundle:Forum f
                 WHERE
                     ".$parentWhere."
                     (
-                        ( SELECT COUNT(a.id) FROM SymBBCoreSystemBundle:Access a WHERE
+                        ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
                             a.objectId = f.id AND
-                            a.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
                             a.identity = '".$userlcass."' AND
                             a.identityId = ?1 AND
                             a.access = 'view'
                             ORDER BY a.id
                         ) > 0 OR
-                        ( SELECT COUNT(a2.id) FROM SymBBCoreSystemBundle:Access a2 WHERE
+                        ( SELECT COUNT(a2.id) FROM SymbbCoreSystemBundle:Access a2 WHERE
                             a2.objectId = f.id AND
-                            a2.object = 'SymBB\Core\ForumBundle\Entity\Forum' AND
+                            a2.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
                             a2.identity = '".$groupclass."' AND
                             a2.identityId IN (?2) AND
                             a2.access = 'view'
@@ -250,11 +250,11 @@ class ForumManager extends AbstractManager
     /**
      *
      * @param int $forumId
-     * @return \SymBB\Core\ForumBundle\Entity\Forum
+     * @return \Symbb\Core\ForumBundle\Entity\Forum
      */
     public function find($forumId)
     {
-        return $this->em->getRepository('SymBBCoreForumBundle:Forum')->find($forumId);
+        return $this->em->getRepository('SymbbCoreForumBundle:Forum')->find($forumId);
     }
 
     /**
@@ -266,7 +266,7 @@ class ForumManager extends AbstractManager
 
         $types = (array)$types;
 
-        $repo = $this->em->getRepository('SymBBCoreForumBundle:Forum');
+        $repo = $this->em->getRepository('SymbbCoreForumBundle:Forum');
         $list = array();
         $by = array('parent' => null);
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
@@ -354,7 +354,7 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function isIgnored(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function isIgnored(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $check = $flagHandler->checkFlag($forum, 'ignore');
         return $check;
@@ -365,7 +365,7 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function ignoreForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function ignoreForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->insertFlag($forum, 'ignore');
         $subForms = $forum->getChildren();
@@ -380,7 +380,7 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function watchForum(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function watchForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->removeFlag($forum, 'ignore');
         $subForms = $forum->getChildren();
@@ -395,7 +395,7 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function markAsRead(\SymBB\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function markAsRead(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
 
         $flagHandler->removeFlag($forum, 'new');

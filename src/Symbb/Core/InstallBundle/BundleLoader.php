@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\InstallBundle;
+namespace Symbb\Core\InstallBundle;
 
 class BundleLoader
 {
@@ -30,23 +30,23 @@ class BundleLoader
             '\JMS\AopBundle\JMSAopBundle',
             // none Default Bundles
             '\Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle',
-            // SymBB, befor other Bundles
-            '\SymBB\Core\ConfigBundle\SymBBCoreConfigBundle',
-            '\SymBB\Core\UserBundle\SymBBCoreUserBundle',
-            '\SymBB\Core\AdminBundle\SymBBCoreAdminBundle',
-            '\SymBB\Core\ForumBundle\SymBBCoreForumBundle',
-            '\SymBB\Core\SiteBundle\SymBBCoreSiteBundle',
-            '\SymBB\Core\SystemBundle\SymBBCoreSystemBundle',
-            '\SymBB\Core\InstallBundle\SymBBCoreInstallBundle',
-            '\SymBB\Core\EventBundle\SymBBCoreEventBundle',
-            '\SymBB\Core\BBCodeBundle\SymBBCoreBBCodeBundle',
-            '\SymBB\Core\AngularBundle\SymBBCoreAngularBundle',
-            '\SymBB\Core\MessageBundle\SymBBCoreMessageBundle',
-            // SymBB optional bundles
-            '\SymBB\FOS\UserBundle\SymBBFOSUserBundle',
-            '\SymBB\ExtensionBundle\SymBBExtensionBundle',
-            // SymBB Templates
-            '\SymBB\Template\DefaultBundle\SymBBTemplateDefaultBundle',
+            // Symbb, befor other Bundles
+            '\Symbb\Core\ConfigBundle\SymbbCoreConfigBundle',
+            '\Symbb\Core\UserBundle\SymbbCoreUserBundle',
+            '\Symbb\Core\AdminBundle\SymbbCoreAdminBundle',
+            '\Symbb\Core\ForumBundle\SymbbCoreForumBundle',
+            '\Symbb\Core\SiteBundle\SymbbCoreSiteBundle',
+            '\Symbb\Core\SystemBundle\SymbbCoreSystemBundle',
+            '\Symbb\Core\InstallBundle\SymbbCoreInstallBundle',
+            '\Symbb\Core\EventBundle\SymbbCoreEventBundle',
+            '\Symbb\Core\BBCodeBundle\SymbbCoreBBCodeBundle',
+            '\Symbb\Core\AngularBundle\SymbbCoreAngularBundle',
+            '\Symbb\Core\MessageBundle\SymbbCoreMessageBundle',
+            // Symbb optional bundles
+            '\Symbb\FOS\UserBundle\SymbbFOSUserBundle',
+            '\Symbb\ExtensionBundle\SymbbExtensionBundle',
+            // Symbb Templates
+            '\Symbb\Template\DefaultBundle\SymbbTemplateDefaultBundle',
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
@@ -86,6 +86,6 @@ class BundleLoader
             //$bundles[] = new \CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
         }
 
-        \SymBB\ExtensionBundle\KernelPlugin::addBundles($bundles);
+        \Symbb\ExtensionBundle\KernelPlugin::addBundles($bundles);
     }
 }

@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpConfigController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AcpConfigController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function indexAction(Request $request)

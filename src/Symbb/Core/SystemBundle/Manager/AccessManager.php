@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Manager;
+namespace Symbb\Core\SystemBundle\Manager;
 
-use SymBB\Core\SystemBundle\Entity\Access;
-use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\SystemBundle\Entity\Access;
+use Symbb\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\Util\ClassUtils;
 
 class AccessManager
@@ -101,8 +101,8 @@ class AccessManager
         $identityClass = ClassUtils::getRealClass($identity);
         $identityId = $identity->getId();
 
-        $qb = $this->em->getRepository('SymBBCoreSystemBundle:Access')->createQueryBuilder('a');
-        $qb->delete('SymBBCoreSystemBundle:Access a')
+        $qb = $this->em->getRepository('SymbbCoreSystemBundle:Access')->createQueryBuilder('a');
+        $qb->delete('SymbbCoreSystemBundle:Access a')
             ->where('a.object = :object AND a.objectId = :objectId AND a.identity = :identity AND a.identityId = :identityId ')
             ->setParameter('object', $objectClass)
             ->setParameter('objectId', $objectId)
@@ -188,7 +188,7 @@ class AccessManager
             $cache = $this->memcache->get('symbb_acl_cache');
 
             if(!$cache){
-                $accessList = $this->em->getRepository('SymBBCoreSystemBundle:Access')->findAll();
+                $accessList = $this->em->getRepository('SymbbCoreSystemBundle:Access')->findAll();
                 $cache = array();
                 foreach($accessList as $access){
                     $currKey = $this->generateCacheKey($access->getObject(), $access->getObjectId(), $access->getIdentity(), $access->getIdentityId());

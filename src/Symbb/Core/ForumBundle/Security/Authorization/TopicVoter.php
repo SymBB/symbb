@@ -7,15 +7,15 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Security\Authorization;
+namespace Symbb\Core\ForumBundle\Security\Authorization;
 
-use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use Symbb\Core\SystemBundle\Security\Authorization\AbstractVoter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class TopicVoter extends AbstractVoter implements VoterInterface
 {
-    protected $supportedClasses = array('SymBB\Core\ForumBundle\Entity\Topic');
+    protected $supportedClasses = array('Symbb\Core\ForumBundle\Entity\Topic');
 
     const VIEW = 'view';
     const EDIT = 'edit';

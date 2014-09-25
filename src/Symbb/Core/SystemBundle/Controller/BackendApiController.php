@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
-use SymBB\Core\SystemBundle\Api\StatisticApi;
+use Symbb\Core\SystemBundle\Api\StatisticApi;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 

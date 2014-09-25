@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use \SymBB\Core\UserBundle\Entity\UserInterface;
-use \SymBB\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
 
-class TopicFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+class TopicFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
 {
 
     /**

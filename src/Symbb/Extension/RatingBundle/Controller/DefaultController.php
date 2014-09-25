@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Extension\RatingBundle\Controller;
+namespace Symbb\Extension\RatingBundle\Controller;
 
-use SymBB\Core\SystemBundle\Controller\AbstractApiController;
-use SymBB\Extension\RatingBundle\Security\Authorization\RatingVoter;
+use Symbb\Core\SystemBundle\Controller\AbstractApiController;
+use Symbb\Extension\RatingBundle\Security\Authorization\RatingVoter;
 
 class DefaultController extends AbstractApiController
 {
@@ -18,7 +18,7 @@ class DefaultController extends AbstractApiController
     public function ratePostAction($id, $like)
     {
 
-        $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')
+        $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')
             ->find($id);
 
         if(is_object($post) && $post->getId() > 0){
@@ -56,14 +56,14 @@ class DefaultController extends AbstractApiController
     }
 
     protected function addPostLike(
-    \SymBB\Core\ForumBundle\Entity\Post $post, \SymBB\Core\UserBundle\Entity\UserInterface $user, $asDislike = false
+    \Symbb\Core\ForumBundle\Entity\Post $post, \Symbb\Core\UserBundle\Entity\UserInterface $user, $asDislike = false
     )
     {
 
-        $likes = $this->get('doctrine')->getRepository('SymBBExtensionRatingBundle:Like', 'symbb')
+        $likes = $this->get('doctrine')->getRepository('SymbbExtensionRatingBundle:Like', 'symbb')
             ->findBy(array('post' => $post, 'user' => $user));
 
-        $dislikes = $this->get('doctrine')->getRepository('SymBBExtensionRatingBundle:Dislike', 'symbb')
+        $dislikes = $this->get('doctrine')->getRepository('SymbbExtensionRatingBundle:Dislike', 'symbb')
             ->findBy(array('post' => $post, 'user' => $user));
 
         $myLikes = array();
@@ -94,7 +94,7 @@ class DefaultController extends AbstractApiController
 
             // create a new "like" if no one exist
             if (empty($myLikes)) {
-                $myLike = new \SymBB\Extension\RatingBundle\Entity\Like();
+                $myLike = new \Symbb\Extension\RatingBundle\Entity\Like();
                 $myLike->setUser($user);
                 $myLike->setPost($post);
                 $em->persist($myLike);
@@ -114,7 +114,7 @@ class DefaultController extends AbstractApiController
 
             // create a new "dislike" if no one exist
             if (empty($myDislikes)) {
-                $myDislike = new \SymBB\Extension\RatingBundle\Entity\Dislike();
+                $myDislike = new \Symbb\Extension\RatingBundle\Entity\Dislike();
                 $myDislike->setUser($user);
                 $myDislike->setPost($post);
                 $em->persist($myDislike);

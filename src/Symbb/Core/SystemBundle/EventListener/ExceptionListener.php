@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\EventListener;
+namespace Symbb\Core\SystemBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
 
     /**
      *
-     * @var \SymBB\Core\SiteBundle\Manager\SiteManager
+     * @var \Symbb\Core\SiteBundle\Manager\SiteManager
      */
     protected $siteManager;
 
@@ -49,7 +49,7 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
             }
             $file = $file . '.html.twig';
             $template = $this->siteManager->getTemplate("portal");
-            $template = "SymBBTemplateDefaultBundle:Exception:" . $file;
+            $template = "SymbbTemplateDefaultBundle:Exception:" . $file;
 
             $response = new Response($this->templating->render(
                 $template, array(

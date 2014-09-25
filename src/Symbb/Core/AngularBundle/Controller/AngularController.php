@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle\Controller;
+namespace Symbb\Core\AngularBundle\Controller;
 
-use SymBB\Core\AngularBundle\DependencyInjection\Router;
-use SymBB\Core\AngularBundle\Routing\AngularRoute;
+use Symbb\Core\AngularBundle\DependencyInjection\Router;
+use Symbb\Core\AngularBundle\Routing\AngularRoute;
 use Symfony\Component\HttpFoundation\Request;
 
-class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
     public function indexAction(Request $request)
     {

@@ -7,15 +7,15 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Controller;
+namespace Symbb\Core\ForumBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SymBB\Core\ForumBundle\Entity\Forum;
-use SymBB\Core\ForumBundle\Entity\Post\History;
+use Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Entity\Post\History;
 use Symfony\Component\HttpFoundation\Request;
 
-class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
+class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
     const ERROR_NOT_FOUND_FORUM = 'forum not found';
@@ -89,7 +89,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $params = array();
 
         if ($id > 0) {
-            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('DELETE', $post);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_DELETE_POST);
@@ -97,7 +97,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                 $em = $this->getDoctrine()->getManager('symbb');
 
-                $event = new \SymBB\Core\EventBundle\Event\ApiDeleteEvent($post);
+                $event = new \Symbb\Core\EventBundle\Event\ApiDeleteEvent($post);
                 $this->handleEvent('symbb.api.post.before.delete', $event);
 
                 if (!$this->hasError()) {
@@ -114,7 +114,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $em->flush();
                 }
 
-                $event = new \SymBB\Core\EventBundle\Event\ApiDeleteEvent($post);
+                $event = new \Symbb\Core\EventBundle\Event\ApiDeleteEvent($post);
                 $this->handleEvent('symbb.api.post.after.delete', $event);
 
                 $this->addSuccessMessage('successfully deleted');
@@ -148,16 +148,16 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $accessCheck = false;
 
         if ($id > 0) {
-            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('EDIT', $post);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_EDIT_POST);
             }
             $topic = $post->getTopic();
         } else {
-            $post = new \SymBB\Core\ForumBundle\Entity\Post();
+            $post = new \Symbb\Core\ForumBundle\Entity\Post();
             if (isset($topicData['id']) && $topicData['id'] > 0) {
-                $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
+                $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
                 $post->setTopic($topic);
                 $accessCheck = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
                 if (!$accessCheck) {
@@ -193,7 +193,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
             $this->handlePostImages($post, (array) $request->get('files'), $em);
 
-            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
+            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
             $this->handleEvent('symbb.api.post.before.save', $event);
 
             if (!$this->hasError()) {
@@ -203,7 +203,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 $em->flush();
             }
 
-            $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
+            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
             $this->handleEvent('symbb.api.post.after.save', $event);
 
             $params['id'] = $post->getId();
@@ -230,20 +230,20 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $quoteId = (int) $request->get('quoteId');
         $params = array();
 
-        $post = new \SymBB\Core\ForumBundle\Entity\Post();
+        $post = new \Symbb\Core\ForumBundle\Entity\Post();
         if ($id > 0) {
-            $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($id);
+            $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $post->getTopic()->getForum());
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
             }
         } else {
             if ($topicId > 0) {
-                $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+                $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
                 $post->setTopic($topic);
                 $post->setName($topic->getName());
                 if ($quoteId > 0) {
-                    $qoutePost = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')->find($quoteId);
+                    $qoutePost = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($quoteId);
                     $post->setText('[quote="' . $qoutePost->getAuthor()->getUsername() . '"]' . $qoutePost->getText() . '[/quote]');
                 }
                 $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
@@ -272,7 +272,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     public function topicDeleteAction(Request $request)
     {
         $topicId = (int) $request->get('id');
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+        $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
         $mainPostId = 0;
         if(is_object($topic)){
             $mainPostId = $topic->getMainPost()->getId();
@@ -288,8 +288,8 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $topicId = (int) $request->get('id');
         $forumId = (int) $request->get('forum');
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
-        $targetForum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
+        $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
+        $targetForum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumId);
 
 
         if(is_object($topic) && $topic->getId() > 0){
@@ -320,7 +320,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     public function topicCloseAction(Request $request)
     {
         $topicId = (int) $request->get('id');
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+        $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
         if(is_object($topic) && $topic->getId() > 0){
             $access = $this->get('security.context')->isGranted('EDIT', $topic);
             if($access){
@@ -354,7 +354,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             
         if (isset($forumData['id'])) {
 
-            $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
+            $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
             if (is_object($forum)) {
                 $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
@@ -362,13 +362,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                 if ($writeAccess) {
 
                     if ($topicId > 0) {
-                        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($topicId);
+                        $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
                         $mainPost = $topic->getMainPost();
                         $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
                     } else {
-                        $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
+                        $topic = new \Symbb\Core\ForumBundle\Entity\Topic();
                         $topic->setAuthor($this->getUser());
-                        $mainPost = new \SymBB\Core\ForumBundle\Entity\Post();
+                        $mainPost = new \Symbb\Core\ForumBundle\Entity\Post();
                         $mainPost->setTopic($topic);
                         $mainPost->setAuthor($this->getUser());
                         $topic->setMainPost($mainPost);
@@ -389,7 +389,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                         $topic->removeTags();
                         foreach($request->get('tags') as $tagId => $tag){
                             if($tag['status'] === true){
-                                $myTag = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\tag', 'symbb')->find($tag['id']);
+                                $myTag = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic\tag', 'symbb')->find($tag['id']);
                                 if(is_object($myTag)){
                                     $topic->addTag($myTag);
                                 }
@@ -398,7 +398,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
                         $this->handlePostImages($mainPost, $mainPostData['files'], $em);
 
-                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
+                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
                         $this->handleEvent('symbb.api.topic.before.save', $event);
 
                         if (!$this->hasError()) {
@@ -433,7 +433,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                             $params['id'] = $topic->getId();
                         }
 
-                        $event = new \SymBB\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
+                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
                         $this->handleEvent('symbb.api.topic.after.save', $event);
                     } else {
                         $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
@@ -488,12 +488,12 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         $forumId = (int) $request->get('forum');
         $params = array();
 
-        $topic = new \SymBB\Core\ForumBundle\Entity\Topic();
+        $topic = new \Symbb\Core\ForumBundle\Entity\Topic();
         if ($id > 0) {
-            $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')->find($id);
+            $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($id);
         } else {
             if ($forumId > 0) {
-                $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($forumId);
+                $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumId);
                 $topic->setForum($forum);
             } else {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
@@ -538,7 +538,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $id = (int) $request->get('id');
 
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+        $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
         $this->get('symbb.core.forum.manager')->ignoreForum($forum, $this->get('symbb.core.forum.flag'));
 
@@ -557,7 +557,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $id = (int) $request->get('id');
 
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+        $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
 
         $this->get('symbb.core.forum.manager')->watchForum($forum, $this->get('symbb.core.forum.flag'));
@@ -576,7 +576,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $id = (int) $request->get('id');
 
-        $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+        $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
         $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
 
@@ -594,7 +594,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $id = (int) $request->get('id');
 
-        $topic = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic', 'symbb')
+        $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')
             ->find($id);
         $this->get('symbb.core.topic.flag')->removeFlag($topic, 'new');
 
@@ -612,7 +612,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
     {
         $id = (int) $request->get('id');
 
-        $post = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Post', 'symbb')
+        $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')
             ->find($id);
         $this->get('symbb.core.post.flag')->removeFlag($post, 'new');
 
@@ -636,7 +636,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
         $parent = null;
         if ($id > 0) {
-            $parent = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')->find($id);
+            $parent = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted('VIEW', $parent);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
@@ -661,13 +661,13 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\ForumBundle\Entity\Topic $topic
+     * @param \Symbb\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
-    protected function getTopicAsArray(\SymBB\Core\ForumBundle\Entity\Topic $topic = null)
+    protected function getTopicAsArray(\Symbb\Core\ForumBundle\Entity\Topic $topic = null)
     {
 
-        $tags = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Topic\Tag', 'symbb')->findAll();
+        $tags = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic\Tag', 'symbb')->findAll();
 
         $array = array();
         $array['id'] = 0;
@@ -773,7 +773,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
         }
 
-        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($topic);
+        $event = new \Symbb\Core\EventBundle\Event\ApiDataEvent($topic);
         $this->handleEvent('symbb.api.topic.data', $event);
         $array['extension'] = $event->getExtensionData();
 
@@ -785,10 +785,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\ForumBundle\Entity\Forum $forum
+     * @param \Symbb\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
-    protected function getForumAsArray(\SymBB\Core\ForumBundle\Entity\Forum $forum = null)
+    protected function getForumAsArray(\Symbb\Core\ForumBundle\Entity\Forum $forum = null)
     {
 
         $array = array();
@@ -884,7 +884,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
             }
         }
 
-        $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($forum);
+        $event = new \Symbb\Core\EventBundle\Event\ApiDataEvent($forum);
         $this->handleEvent('symbb.api.forum.data', $event);
         $array['extension'] = $event->getExtensionData();
 
@@ -896,7 +896,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\SystemBundle\Entity\Flag $flag
+     * @param \Symbb\Core\SystemBundle\Entity\Flag $flag
      * @return array
      */
     protected function getFlagAsArray($flag)
@@ -921,10 +921,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\ForumBundle\Entity\Post $post
+     * @param \Symbb\Core\ForumBundle\Entity\Post $post
      * @return array
      */
-    protected function getPostAsArray(\SymBB\Core\ForumBundle\Entity\Post $post = null, $bshort = false)
+    protected function getPostAsArray(\Symbb\Core\ForumBundle\Entity\Post $post = null, $bshort = false)
     {
 
         $array = array();
@@ -1007,7 +1007,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         }
 
         if(!$bshort && is_object($post)){
-            $event = new \SymBB\Core\EventBundle\Event\ApiDataEvent($post);
+            $event = new \Symbb\Core\EventBundle\Event\ApiDataEvent($post);
             $this->handleEvent('symbb.api.post.data', $event);
             $array['extension'] = $event->getExtensionData();
 
@@ -1021,10 +1021,10 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
 
     /**
      * 
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $author
+     * @param \Symbb\Core\UserBundle\Entity\UserInterface $author
      * @return array
      */
-    protected function getAuthorAsArray(\SymBB\Core\UserBundle\Entity\UserInterface $author = null)
+    protected function getAuthorAsArray(\Symbb\Core\UserBundle\Entity\UserInterface $author = null)
     {
         $array = array();
         $array['id'] = 0;
@@ -1046,7 +1046,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         return $array;
     }
 
-    protected function handlePostImages(\SymBB\Core\ForumBundle\Entity\Post $post, $files, $em)
+    protected function handlePostImages(\Symbb\Core\ForumBundle\Entity\Post $post, $files, $em)
     {
         if (!empty($files)) {
             $currentFiles = $post->getFiles();
@@ -1062,7 +1062,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
                     $newName = $this->get('symbb.core.upload.manager')->moveToSet('post', $file);
                     $text = \str_replace($file, $newName, $post->getText());
                     $post->setText($text);
-                    $newFile = new \SymBB\Core\ForumBundle\Entity\Post\File();
+                    $newFile = new \Symbb\Core\ForumBundle\Entity\Post\File();
                     $newFile->setPath($newName);
                     $newFile->setPost($post);
                     $post->addFile($newFile);

@@ -6,12 +6,12 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\InstallBundle\DataFixtures\ORM;
+namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use SymBB\Core\ForumBundle\Entity\Topic\Tag;
+use Symbb\Core\ForumBundle\Entity\Topic\Tag;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

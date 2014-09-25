@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Extension\CalendarBundle\EventListener;
+namespace Symbb\Extension\CalendarBundle\EventListener;
 
 class TemplateListener
 {
@@ -27,50 +27,50 @@ class TemplateListener
 
     public function stylesheets($event)
     {
-        $event->render('SymBBExtensionCalendarBundle::stylesheets.html.twig', array());
+        $event->render('SymbbExtensionCalendarBundle::stylesheets.html.twig', array());
     }
     
     public function javascripts($event)
     {
-        $event->render('SymBBExtensionCalendarBundle::javascripts.html.twig', array());
+        $event->render('SymbbExtensionCalendarBundle::javascripts.html.twig', array());
     }
 
     public function addPostTab($event)
     {
-        $event->render('SymBBExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
+        $event->render('SymbbExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
 
     }
 
     public function addPostTabContent($event)
     {
-        $event->render('SymBBExtensionCalendarBundle:Post:tabcontent.html.twig', array('form' => $event->getForm()));
+        $event->render('SymbbExtensionCalendarBundle:Post:tabcontent.html.twig', array('form' => $event->getForm()));
 
     }
 
     public function addTopicTab($event)
     {
-        $event->render('SymBBExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
+        $event->render('SymbbExtensionCalendarBundle:Post:tab.html.twig', array('form' => $event->getForm()));
 
     }
 
     public function addTopicTabContent($event)
     {
-        $event->render('SymBBExtensionCalendarBundle:Topic:tabcontent.html.twig', array('form' => $event->getForm()));
+        $event->render('SymbbExtensionCalendarBundle:Topic:tabcontent.html.twig', array('form' => $event->getForm()));
 
     }
     
-    public function addPostEventBoxData(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    public function addPostEventBoxData(\Symbb\Core\EventBundle\Event\TemplatePostEvent $event)
     {
         $post = $event->getPost();
-        $repo = $this->em->getRepository('SymBBExtensionCalendarBundle:Event');
+        $repo = $this->em->getRepository('SymbbExtensionCalendarBundle:Event');
         $calendarEvent = $repo->findOneBy(array('post' => $post));
         
         return $calendarEvent;
     }
     
     
-    public function addPostEventBox(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    public function addPostEventBox(\Symbb\Core\EventBundle\Event\TemplatePostEvent $event)
     {
-        $event->render('SymBBExtensionCalendarBundle:Post:event.html.twig', array('calendarEvent' => array()));
+        $event->render('SymbbExtensionCalendarBundle:Post:event.html.twig', array('calendarEvent' => array()));
     }
 }

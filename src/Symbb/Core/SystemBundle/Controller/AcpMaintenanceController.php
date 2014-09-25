@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
-class AcpMaintenanceController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AcpMaintenanceController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function indexAction()

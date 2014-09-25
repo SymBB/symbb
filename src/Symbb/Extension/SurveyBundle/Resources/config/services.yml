@@ -1,6 +1,6 @@
 services:
     symbb.listener.post.survey.template:
-        class: SymBB\Extension\SurveyBundle\EventListener\TemplateListener
+        class: Symbb\Extension\SurveyBundle\EventListener\TemplateListener
         arguments: ['@doctrine.orm.symbb_entity_manager']
         tags:
             - { name: kernel.event_listener, event: symbb.post.template.form.options.tabs, method: addPostTab }
@@ -11,13 +11,13 @@ services:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
 
     symbb.extension.survey.listener.api.data:
-        class: SymBB\Extension\SurveyBundle\EventListener\ApiListener
+        class: Symbb\Extension\SurveyBundle\EventListener\ApiListener
         arguments: ['@security.context']
         tags:
             - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
 
     symbb.listener.post.survey.save:
-        class: SymBB\Extension\SurveyBundle\EventListener\SaveListener
+        class: Symbb\Extension\SurveyBundle\EventListener\SaveListener
         arguments: ['@doctrine.orm.symbb_entity_manager', '@symbb.core.user.manager']
         tags:
             - { name: kernel.event_listener, event: symbb.api.post.after.save, method: savePost }
@@ -26,14 +26,14 @@ services:
             - { name: kernel.event_listener, event: symbb.api.topic.data, method: dataTopic }
             
     symbb.listener.topic.labels:
-        class: SymBB\Extension\SurveyBundle\EventListener\TopicLabelListener
+        class: Symbb\Extension\SurveyBundle\EventListener\TopicLabelListener
         arguments: ['@doctrine.orm.symbb_entity_manager']
         tags:
             - { name: kernel.event_listener, event: symbb.topic.labels, method: topicLabels }
 
 
     symbb.extension.survey.security.access.survey_voter:
-        class:      SymBB\Extension\SurveyBundle\Security\Authorization\SurveyVoter
+        class:      Symbb\Extension\SurveyBundle\Security\Authorization\SurveyVoter
         public:     false
         arguments: ['@symbb.core.access.manager']
         tags:

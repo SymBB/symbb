@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Form\Type;
+namespace Symbb\Core\SiteBundle\Form\Type;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\AbstractType;
@@ -32,7 +32,7 @@ class NavigationItem extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\SiteBundle\Entity\Navigation\Item',
+            'data_class' => '\Symbb\Core\SiteBundle\Entity\Navigation\Item',
             'translation_domain' => 'symbb_backend'
         ));
 

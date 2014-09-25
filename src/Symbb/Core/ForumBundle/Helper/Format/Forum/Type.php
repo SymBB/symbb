@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\ForumBundle\Helper\Format\Forum;
+namespace Symbb\Core\ForumBundle\Helper\Format\Forum;
 
 class Type{
     

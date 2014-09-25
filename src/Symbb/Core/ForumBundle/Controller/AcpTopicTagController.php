@@ -7,22 +7,22 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Controller;
+namespace Symbb\Core\ForumBundle\Controller;
 
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use SymBB\Core\InstallBundle\DataFixtures\ORM\LoadTopicTags;
+use Symbb\Core\InstallBundle\DataFixtures\ORM\LoadTopicTags;
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpTopicTagController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpTopicTagController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreForumBundle';
+    protected $entityBundle = 'SymbbCoreForumBundle';
 
     protected $entityName = 'Topic\Tag';
 
-    protected $formClass = '\SymBB\Core\ForumBundle\Form\Type\TopicTag';
+    protected $formClass = '\Symbb\Core\ForumBundle\Form\Type\TopicTag';
 
     protected function getForm(Request $request)
     {
@@ -46,7 +46,7 @@ class AcpTopicTagController extends \SymBB\Core\AdminBundle\Controller\Base\Crud
     {
 
         $em = $this->get('doctrine.orm.symbb_entity_manager');
-        $sets = $em->getRepository('SymBBCoreForumBundle:Topic\Tag')->findAll();
+        $sets = $em->getRepository('SymbbCoreForumBundle:Topic\Tag')->findAll();
         foreach ($sets as $set) {
             $em->remove($set);
         }

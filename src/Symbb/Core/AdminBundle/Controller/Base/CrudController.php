@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\AdminBundle\Controller\Base;
+namespace Symbb\Core\AdminBundle\Controller\Base;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -18,7 +18,7 @@ abstract class CrudController extends Controller
 
     protected $formEntity;
 
-    protected $entityBundle = 'SymBBCoreForumBundle';
+    protected $entityBundle = 'SymbbCoreForumBundle';
 
     protected $templateBundle = null;
 

@@ -7,18 +7,18 @@
 *
 */
 
-namespace SymBB\Core\BBCodeBundle\EventListener;
+namespace Symbb\Core\BBCodeBundle\EventListener;
 
 class TemplateListener
 {
     
     public function stylesheets($event)
     {
-        $event->render('SymBBCoreBBCodeBundle::stylesheets.html.twig', array());
+        $event->render('SymbbCoreBBCodeBundle::stylesheets.html.twig', array());
     }
     
     public function javascripts($event)
     {
-        $event->render('SymBBCoreBBCodeBundle::javascripts.html.twig', array());
+        $event->render('SymbbCoreBBCodeBundle::javascripts.html.twig', array());
     }
 }

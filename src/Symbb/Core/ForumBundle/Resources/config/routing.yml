@@ -1,3 +1,3 @@
 symbb_api_forum:
-    resource: "@SymBBCoreForumBundle/Controller"
+    resource: "@SymbbCoreForumBundle/Controller"
     type: annotation

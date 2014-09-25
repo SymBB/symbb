@@ -7,13 +7,13 @@
 *
 */
 
-namespace SymBB\Core\SystemBundle;
+namespace Symbb\Core\SystemBundle;
 
-use SymBB\Core\SystemBundle\DependencyInjection\AccessVoterCompilerPass;
+use Symbb\Core\SystemBundle\DependencyInjection\AccessVoterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreSystemBundle extends Bundle
+class SymbbCoreSystemBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

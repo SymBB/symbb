@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\InstallBundle;
+namespace Symbb\Core\InstallBundle;
 
 abstract class Kernel extends \Symfony\Component\HttpKernel\Kernel
 {
@@ -15,7 +15,7 @@ abstract class Kernel extends \Symfony\Component\HttpKernel\Kernel
     public function registerBundles()
     {
         $bundles = array();
-        \SymBB\Core\InstallBundle\BundleLoader::loadBundles($bundles, $this);
+        \Symbb\Core\InstallBundle\BundleLoader::loadBundles($bundles, $this);
         return $bundles;
     }
 

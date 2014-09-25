@@ -7,19 +7,19 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Controller;
+namespace Symbb\Core\SiteBundle\Controller;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpNavigationItemController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpNavigationItemController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreSiteBundle';
+    protected $entityBundle = 'SymbbCoreSiteBundle';
 
     protected $entityName = 'Navigation\Item';
 
-    protected $formClass = '\SymBB\Core\SiteBundle\Form\Type\NavigationItem';
+    protected $formClass = '\Symbb\Core\SiteBundle\Form\Type\NavigationItem';
 
     protected $templateDirectory = 'Site/Navigation/Item';
 

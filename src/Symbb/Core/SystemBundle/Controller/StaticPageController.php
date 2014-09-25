@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Controller;
+namespace Symbb\Core\SystemBundle\Controller;
 
-class StaticPageController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class StaticPageController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function imprintAction()

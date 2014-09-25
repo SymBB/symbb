@@ -7,21 +7,21 @@
 *
 */
 
-namespace SymBB\Extension\ShoutboxBundle\EventListener;
+namespace Symbb\Extension\ShoutboxBundle\EventListener;
 
-use \SymBB\Core\EventBundle\Event\TemplateDefaultEvent;
+use \Symbb\Core\EventBundle\Event\TemplateDefaultEvent;
 
 class TemplateListener
 {
     public function javascripts(TemplateDefaultEvent $event){
-        $event->render('SymBBExtensionShoutboxBundle::javascripts.html.twig', array());
+        $event->render('SymbbExtensionShoutboxBundle::javascripts.html.twig', array());
     }
 
     public function stylesheets(TemplateDefaultEvent $event){
-        $event->render('SymBBExtensionShoutboxBundle::stylesheets.html.twig', array());
+        $event->render('SymbbExtensionShoutboxBundle::stylesheets.html.twig', array());
     }
 
     public function renderBox(TemplateDefaultEvent $event){
-        $event->render('SymBBExtensionShoutboxBundle:Shoutbox:small.html.twig', array());
+        $event->render('SymbbExtensionShoutboxBundle:Shoutbox:small.html.twig', array());
     }
 }

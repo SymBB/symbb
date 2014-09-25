@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Entity;
+namespace Symbb\Core\BBCodeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

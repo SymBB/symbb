@@ -7,14 +7,14 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Twig;
+namespace Symbb\Core\UserBundle\Twig;
 
 class UserDataExtension extends \Twig_Extension
 {
 
     protected $userManager;
 
-    public function __construct(\SymBB\Core\UserBundle\DependencyInjection\UserManager $userManager)
+    public function __construct(\Symbb\Core\UserBundle\DependencyInjection\UserManager $userManager)
     {
 
         $this->userManager = $userManager;
@@ -40,18 +40,18 @@ class UserDataExtension extends \Twig_Extension
         return $this->userManager;
     }
 
-    public function getSymbbUserData(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getSymbbUserData(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         $data = $this->userManager->getSymbbData($user);
         return $data;
     }
 
-    public function getSymbbUserSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getSymbbUserSignature(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         return $this->userManager->getSignature($user);
     }
 
-    public function isSymbbGuest(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function isSymbbGuest(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         if ($user->getSymbbType() == 'guest') {
             return true;
@@ -59,7 +59,7 @@ class UserDataExtension extends \Twig_Extension
         return false;
     }
 
-    public function getSymbbUserAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getSymbbUserAvatar(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         return $this->userManager->getAvatar($user);
     }

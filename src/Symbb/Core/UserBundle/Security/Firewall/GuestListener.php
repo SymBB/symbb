@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\UserBundle\Security\Firewall;
+namespace Symbb\Core\UserBundle\Security\Firewall;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContextInterface;
@@ -37,7 +37,7 @@ class GuestListener implements ListenerInterface
             return;
         }
 
-        $user = $this->em->getRepository('SymBBCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
         
         if(\is_object($user)){
            

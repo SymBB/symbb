@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Extension\SurveyBundle\EventListener;
+namespace Symbb\Extension\SurveyBundle\EventListener;
 
 class TopicLabelListener
 {
@@ -18,13 +18,13 @@ class TopicLabelListener
         $this->em = $em;
     }
     
-    public function topicLabels(\SymBB\Core\EventBundle\Event\TopicLabelsEvent $event){
+    public function topicLabels(\Symbb\Core\EventBundle\Event\TopicLabelsEvent $event){
         
         $topic = $event->getTopic();
         $posts = $topic->getPosts();
         
         foreach($posts as $post){
-            $repo   = $this->em->getRepository('SymBBExtensionSurveyBundle:Survey');
+            $repo   = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
             $survey = $repo->findOneBy(array('post' => $post));
             if(\is_object($survey)){
                 $event->addLabel(array(

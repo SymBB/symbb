@@ -7,14 +7,14 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Twig;
+namespace Symbb\Core\SystemBundle\Twig;
 
 class TemplateExtension extends \Twig_Extension
 {
 
     /**
      *
-     * @var \SymBB\Core\SystemBundle\Manager\SiteManager
+     * @var \Symbb\Core\SystemBundle\Manager\SiteManager
      */
     protected $siteManager;
 

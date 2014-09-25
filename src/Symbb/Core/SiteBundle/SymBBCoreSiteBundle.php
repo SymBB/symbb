@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Core\SiteBundle;
+namespace Symbb\Core\SiteBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreSiteBundle extends Bundle
+class SymbbCoreSiteBundle extends Bundle
 {
 
 }

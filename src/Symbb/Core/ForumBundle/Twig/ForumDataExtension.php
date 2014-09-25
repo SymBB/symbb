@@ -6,10 +6,10 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\ForumBundle\Twig;
+namespace Symbb\Core\ForumBundle\Twig;
 
-use \SymBB\Core\ForumBundle\DependencyInjection\ForumManager;
-use \SymBB\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
+use \Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
+use \Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
 
 class ForumDataExtension extends \Twig_Extension
 {
@@ -63,14 +63,14 @@ class ForumDataExtension extends \Twig_Extension
         return $this->checkForFlag($element, 'ignore');
     }
     
-    public function checkForFlag(\SymBB\Core\ForumBundle\Entity\Forum $element, $flag)
+    public function checkForFlag(\Symbb\Core\ForumBundle\Entity\Forum $element, $flag)
     {
         return $this->flagHandler->checkFlag($element, $flag);
     }
     
     
     
-    public function getLabels(\SymBB\Core\ForumBundle\Entity\Forum $element){
+    public function getLabels(\Symbb\Core\ForumBundle\Entity\Forum $element){
         $labels = array();
         
         
@@ -81,7 +81,7 @@ class ForumDataExtension extends \Twig_Extension
             );
         }
         
-        $event = new \SymBB\Core\EventBundle\Event\ForumLabelsEvent($element, $labels);
+        $event = new \Symbb\Core\EventBundle\Event\ForumLabelsEvent($element, $labels);
         $this->dispatcher->dispatch('symbb.forum.labels', $event);
         
         foreach($labels as $key => $label){

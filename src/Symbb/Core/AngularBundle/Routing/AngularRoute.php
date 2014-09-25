@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\AngularBundle\Routing;
+namespace Symbb\Core\AngularBundle\Routing;
 
 class AngularRoute
 {

@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle\EventListener;
+namespace Symbb\Extension\CalendarBundle\EventListener;
 
-use \SymBB\Core\EventBundle\Event\EditPostEvent;
-use \SymBB\Core\UserBundle\DependencyInjection\GroupManager;
+use \Symbb\Core\EventBundle\Event\EditPostEvent;
+use \Symbb\Core\UserBundle\DependencyInjection\GroupManager;
 
 class SaveListener
 {
@@ -19,7 +19,7 @@ class SaveListener
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\GroupManager 
+     * @var \Symbb\Core\UserBundle\DependencyInjection\GroupManager
      */
     protected $groupManager;
 
@@ -42,11 +42,11 @@ class SaveListener
 
         if (!empty($start) && !empty($end)) {
 
-            $repo = $this->em->getRepository('SymBBExtensionCalendarBundle:Event');
+            $repo = $this->em->getRepository('SymbbExtensionCalendarBundle:Event');
             $event = $repo->findOneBy(array('post' => $post->getId()));
 
             if (!$event) {
-                $event = new \SymBB\Extension\CalendarBundle\Entity\Event();
+                $event = new \Symbb\Extension\CalendarBundle\Entity\Event();
                 $event->setPost($post);
                 if (empty($name)) {
                     $name = $post->getName();
@@ -80,7 +80,7 @@ class SaveListener
 
         if ($post->getId() > 0) {
 
-            $repo = $this->em->getRepository('SymBBExtensionCalendarBundle:Event');
+            $repo = $this->em->getRepository('SymbbExtensionCalendarBundle:Event');
             $event = $repo->findOneBy(array('post' => $post));
 
             if (is_object($event) && !$form->isSubmitted()) {

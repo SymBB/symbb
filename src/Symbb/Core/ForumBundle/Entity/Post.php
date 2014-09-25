@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity;
+namespace Symbb\Core\ForumBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use SymBB\Core\ForumBundle\Entity\Post\History;
+use Symbb\Core\ForumBundle\Entity\Post\History;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -58,20 +58,20 @@ class Post
     private $topic;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="posts")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $author;
 
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
      */
     private $files;
 
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"})
      * @ORM\OrderBy({"changed" = "DESC"})
      */
     private $histories;
@@ -125,7 +125,7 @@ class Post
         return $this->files;
     }
 
-    public function addFile(\SymBB\Core\ForumBundle\Entity\Post\File $file)
+    public function addFile(\Symbb\Core\ForumBundle\Entity\Post\File $file)
     {
         if ($file->getPath()) {
             $this->files->add($file);
@@ -192,7 +192,7 @@ class Post
         return $name;
     }
 
-    public static function createNew(Topic $topic, \SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public static function createNew(Topic $topic, \Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         $post = new self();
         $post->setTopic($topic);

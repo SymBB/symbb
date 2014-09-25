@@ -6,7 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\ConfigBundle\DependencyInjection;
+namespace Symbb\Core\ConfigBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -15,7 +15,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Yaml\Parser;
 
-class SymBBCoreConfigExtension extends Extension implements PrependExtensionInterface
+class SymbbCoreConfigExtension extends Extension implements PrependExtensionInterface
 {
     
     public function prepend(ContainerBuilder $container) 
@@ -52,7 +52,7 @@ class SymBBCoreConfigExtension extends Extension implements PrependExtensionInte
 
         $config = array_merge_recursive($config, $myConfig);
 
-        $configuration = new \SymBB\Core\ConfigBundle\DependencyInjection\Configuration();
+        $configuration = new \Symbb\Core\ConfigBundle\DependencyInjection\Configuration();
         $config        = $this->processConfiguration($configuration, array($config));
  
         $container->setParameter('symbb_config', $config);

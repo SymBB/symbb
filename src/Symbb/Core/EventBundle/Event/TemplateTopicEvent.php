@@ -6,9 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\EventBundle\Event;
+namespace Symbb\Core\EventBundle\Event;
 
-use \SymBB\Core\ForumBundle\Entity\Topic;
+use \Symbb\Core\ForumBundle\Entity\Topic;
 
 class TemplateTopicEvent extends BaseTemplateEvent
 {

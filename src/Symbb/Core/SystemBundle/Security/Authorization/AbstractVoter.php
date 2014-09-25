@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Security\Authorization;
+namespace Symbb\Core\SystemBundle\Security\Authorization;
 
-use SymBB\Core\SystemBundle\Manager\AccessManager;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractVoter implements VoterInterface
 {
     /**
-     * @var \SymBB\Core\SystemBundle\Manager\AccessManager
+     * @var \Symbb\Core\SystemBundle\Manager\AccessManager
      */
     protected $accessManager;
 

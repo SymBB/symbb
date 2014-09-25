@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Extension\SurveyBundle;
+namespace Symbb\Extension\SurveyBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBExtensionSurveyBundle extends Bundle
+class SymbbExtensionSurveyBundle extends Bundle
 {
 
 }

@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Controller;
+namespace Symbb\Core\UserBundle\Controller;
 
-class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function ucpTemplateFileAction($file)

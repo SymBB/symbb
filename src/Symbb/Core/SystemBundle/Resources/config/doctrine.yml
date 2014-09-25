@@ -3,4 +3,4 @@ doctrine:
         entity_managers:
             symbb:
                 mappings:
-                    SymBBCoreSystemBundle: ~
+                    SymbbCoreSystemBundle: ~

@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Core\InstallBundle\Composer;
+namespace Symbb\Core\InstallBundle\Composer;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;

@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity;
+namespace Symbb\Core\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,51 +35,51 @@ class User extends BaseUser implements UserInterface
     protected $symbbType = 'user';
 
     /**
-     * @ORM\ManyToMany(targetEntity="\SymBB\Core\UserBundle\Entity\Group", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="\Symbb\Core\UserBundle\Entity\Group", cascade={"persist"})
      * @ORM\JoinTable(name="user_groups",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
      * )
-     * @var array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">) 
+     * @var array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     protected $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\ForumBundle\Entity\Topic", mappedBy="author")
-     * @var array(<"\SymBB\Core\ForumBundle\Entity\Topic">)
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Topic", mappedBy="author")
+     * @var array(<"\Symbb\Core\ForumBundle\Entity\Topic">)
      */
     private $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\ForumBundle\Entity\Post", mappedBy="author")
-     * @var array(<"\SymBB\Core\ForumBundle\Entity\Post">)
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Post", mappedBy="author")
+     * @var array(<"\Symbb\Core\ForumBundle\Entity\Post">)
      */
     private $posts;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message\Receiver", mappedBy="user", cascade={"persist"})
-     * @var array(<"\SymBB\Core\MessageBundle\Entity\Message\Receiver">)
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="user", cascade={"persist"})
+     * @var array(<"\Symbb\Core\MessageBundle\Entity\Message\Receiver">)
      */
     private $messages_receive;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message", mappedBy="sender")
-     * @var array(<"\SymBB\Core\MessageBundle\Entity\Message">)
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message", mappedBy="sender")
+     * @var array(<"\Symbb\Core\MessageBundle\Entity\Message">)
      */
     private $messages_sent;
 
 
 
     /**
-     * @ORM\OneToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User\Data", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
-     * @var array(<"\SymBB\Core\UserBundle\Entity\User\Data">)
+     * @var array(<"\Symbb\Core\UserBundle\Entity\User\Data">)
      */
     private $symbbData;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\UserBundle\Entity\User\FieldValue", cascade={"persist"}, mappedBy="user")
-     * @var array(<"\SymBB\Core\UserBundle\Entity\User\Field">)
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\UserBundle\Entity\User\FieldValue", cascade={"persist"}, mappedBy="user")
+     * @var array(<"\Symbb\Core\UserBundle\Entity\User\Field">)
      */
     private $symbbFieldValues;
 
@@ -107,7 +107,7 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @return array(<"\SymBB\Core\ForumBundle\Entity\Topic">)
+     * @return array(<"\Symbb\Core\ForumBundle\Entity\Topic">)
      */
     public function getTopics()
     {
@@ -116,7 +116,7 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @return array(<"\SymBB\Core\ForumBundle\Entity\Post">)
+     * @return array(<"\Symbb\Core\ForumBundle\Entity\Post">)
      */
     public function getPosts()
     {
@@ -125,9 +125,9 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @param \SymBB\Core\UserBundle\Entity\User\Data $value
+     * @param \Symbb\Core\UserBundle\Entity\User\Data $value
      */
-    public function setSymbbData(\SymBB\Core\UserBundle\Entity\User\Data $value)
+    public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value)
     {
         $this->symbbData = $value;
     }
@@ -161,7 +161,7 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @return array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">)
+     * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     public function getGroups()
     {
@@ -170,7 +170,7 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @param array(<"\SymBB\Core\UserBundle\Entity\GroupInterface">) $value
+     * @param array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">) $value
      */
     public function setGroups($value)
     {
@@ -222,7 +222,7 @@ class User extends BaseUser implements UserInterface
 
     /**
      * 
-     * @return \SymBB\Core\UserBundle\Entity\User\Data
+     * @return \Symbb\Core\UserBundle\Entity\User\Data
      */
     public function getSymbbData()
     {
@@ -268,7 +268,7 @@ class User extends BaseUser implements UserInterface
      * @param Field $field
      * @return null|User\FieldValue
      */
-    public function getFieldValue(\SymBB\Core\UserBundle\Entity\Field $field)
+    public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field)
     {
         $values = $this->getFieldValues();
         $found = null;
@@ -278,7 +278,7 @@ class User extends BaseUser implements UserInterface
             }
         }
         if (!$found || !is_object($found)) {
-            $found = new \SymBB\Core\UserBundle\Entity\User\FieldValue();
+            $found = new \Symbb\Core\UserBundle\Entity\User\FieldValue();
             $found->setField($field);
             $found->setUser($this);
         }

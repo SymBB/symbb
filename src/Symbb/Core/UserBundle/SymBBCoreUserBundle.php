@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Core\UserBundle;
+namespace Symbb\Core\UserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreUserBundle extends Bundle
+class SymbbCoreUserBundle extends Bundle
 {
     
     public function build(\Symfony\Component\DependencyInjection\ContainerBuilder $container)

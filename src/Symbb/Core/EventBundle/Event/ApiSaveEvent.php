@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Core\EventBundle\Event;
+namespace Symbb\Core\EventBundle\Event;
 
 
-class ApiSaveEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
+class ApiSaveEvent extends \Symbb\Core\EventBundle\Event\AbstractApiEvent
 {
 
 

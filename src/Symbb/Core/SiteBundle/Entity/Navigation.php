@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Entity;
+namespace Symbb\Core\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,13 +32,13 @@ class Navigation
     protected $navKey = 'main';
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Site", inversedBy="navigations", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\SiteBundle\Entity\Site", inversedBy="navigations", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     protected $site;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="navigation", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\SiteBundle\Entity\Navigation\Item", mappedBy="navigation", cascade={"all"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $items;

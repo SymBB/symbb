@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle;
+namespace Symbb\Extension\CalendarBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBExtensionCalendarBundle extends Bundle
+class SymbbExtensionCalendarBundle extends Bundle
 {
     
 }

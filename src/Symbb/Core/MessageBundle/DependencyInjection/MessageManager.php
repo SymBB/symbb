@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\DependencyInjection;
+namespace Symbb\Core\MessageBundle\DependencyInjection;
 
-use SymBB\Core\MessageBundle\Entity\Message;
-use SymBB\Core\MessageBundle\Entity\Message\Receiver;
-use SymBB\Core\MessageBundle\Event\ParseMessageEvent;
-use SymBB\Core\SystemBundle\Manager\AbstractManager;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\MessageBundle\Entity\Message;
+use Symbb\Core\MessageBundle\Entity\Message\Receiver;
+use Symbb\Core\MessageBundle\Event\ParseMessageEvent;
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 
 class MessageManager extends AbstractManager
 {
@@ -29,7 +29,7 @@ class MessageManager extends AbstractManager
      * @return Message
      */
     public function find($id){
-        $message = $this->em->getRepository('SymBBCoreMessageBundle:Message')->find($id);
+        $message = $this->em->getRepository('SymbbCoreMessageBundle:Message')->find($id);
         return $message;
     }
 
@@ -100,7 +100,7 @@ class MessageManager extends AbstractManager
         $sql = "SELECT
                     m
                 FROM
-                    SymBBCoreMessageBundle:Message m
+                    SymbbCoreMessageBundle:Message m
                 WHERE
                   m.sender = ?1
                 ORDER BY
@@ -129,7 +129,7 @@ class MessageManager extends AbstractManager
         $sql = "SELECT
                     m
                 FROM
-                    SymBBCoreMessageBundle:Message m
+                    SymbbCoreMessageBundle:Message m
                 LEFT JOIN
                     m.receivers r
                 WHERE
@@ -172,7 +172,7 @@ class MessageManager extends AbstractManager
         if(!$user){
             $user = $this->getUser();
         }
-        $recievedNewMessages = $this->em->getRepository('SymBBCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
+        $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
         return count($recievedNewMessages);
     }
 }

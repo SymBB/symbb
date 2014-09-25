@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Entity;
+namespace Symbb\Core\BBCodeBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +17,7 @@ use JMS\Serializer\Annotation\Exclude;
  * @ORM\Table(name="bbcode_codes")
  * @ORM\Entity()
  */
-class BBCode extends \SymBB\Core\SystemBundle\Entity\Base\CrudAbstract
+class BBCode extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
 {
 
     /**

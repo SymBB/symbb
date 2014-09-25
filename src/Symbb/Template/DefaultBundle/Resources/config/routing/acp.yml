@@ -2,14 +2,14 @@
 symbb_template_acp_angular:
     pattern:  /angular/template/acp/{file}
     methods:  [GET]
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpTemplateFile }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpTemplateFile }
 
 # AngularJs Controller Routings
 # This will create a SF Controller AND a AngularJs Controller automaticly
 # and provide the correct content
 _symbb_acp:
     pattern:  /
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
       symbb_angular_controller: DashboardCtrl
@@ -21,7 +21,7 @@ _symbb_acp:
 
 symbb_acp_dashboard:
     pattern:  /dashboard
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
       symbb_angular_controller: DashboardCtrl
@@ -35,7 +35,7 @@ symbb_acp_dashboard:
 ## SITE BUNDLE
 symbb_acp_site_list:
     pattern:  /site
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
       symbb_angular_controller: SiteListCtrl
@@ -46,7 +46,7 @@ symbb_acp_site_list:
               file: 'Site|list'
 symbb_acp_site_navigation_list:
     pattern:  /site/navigations
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:acpIndex }
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
       symbb_angular_controller: SiteNavigationListCtrl

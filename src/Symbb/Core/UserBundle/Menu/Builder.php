@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Menu;
+namespace Symbb\Core\UserBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;

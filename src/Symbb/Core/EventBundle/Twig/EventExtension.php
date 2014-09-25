@@ -6,12 +6,12 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\EventBundle\Twig;
+namespace Symbb\Core\EventBundle\Twig;
 
-use \SymBB\Core\EventBundle\Event\TemplatePostEvent;
-use \SymBB\Core\EventBundle\Event\TemplateTopicEvent;
-use \SymBB\Core\EventBundle\Event\TemplateFormPostEvent;
-use \SymBB\Core\EventBundle\Event\TemplateFormTopicEvent;
+use \Symbb\Core\EventBundle\Event\TemplatePostEvent;
+use \Symbb\Core\EventBundle\Event\TemplateTopicEvent;
+use \Symbb\Core\EventBundle\Event\TemplateFormPostEvent;
+use \Symbb\Core\EventBundle\Event\TemplateFormTopicEvent;
 
 class EventExtension extends \Twig_Extension
 {
@@ -52,7 +52,7 @@ class EventExtension extends \Twig_Extension
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new \SymBB\Core\EventBundle\Event\TemplateDefaultEvent($this->env);
+        $event      = new \Symbb\Core\EventBundle\Event\TemplateDefaultEvent($this->env);
         $dispatcher->dispatch('symbb.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
@@ -88,7 +88,7 @@ class EventExtension extends \Twig_Extension
         return $html;
     }
 
-    public function executeSymbbTemplateTopicEvent($eventName, \SymBB\Core\ForumBundle\Entity\Topic $topic)
+    public function executeSymbbTemplateTopicEvent($eventName, \Symbb\Core\ForumBundle\Entity\Topic $topic)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->container->get('event_dispatcher');

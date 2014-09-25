@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\FOS\UserBundle\Controller;
+namespace Symbb\FOS\UserBundle\Controller;
 
 class RegistrationController extends \FOS\UserBundle\Controller\RegistrationController
 {

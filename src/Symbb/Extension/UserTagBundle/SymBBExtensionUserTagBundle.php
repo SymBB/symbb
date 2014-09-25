@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Extension\UserTagBundle;
+namespace Symbb\Extension\UserTagBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBExtensionUserTagBundle extends Bundle
+class SymbbExtensionUserTagBundle extends Bundle
 {
 }

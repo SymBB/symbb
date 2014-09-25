@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\FOS\UserBundle;
+namespace Symbb\FOS\UserBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBFOSUserBundle extends Bundle
+class SymbbFOSUserBundle extends Bundle
 {
     public function getParent()
     {

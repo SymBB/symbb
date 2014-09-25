@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use \SymBB\Core\ForumBundle\Entity\Topic;
+use \Symbb\Core\ForumBundle\Entity\Topic;
 use \Doctrine\ORM\EntityManager;
-use \SymBB\Core\SystemBundle\Manager\ConfigManager;
+use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 
-class NotifyHandler extends \SymBB\Core\SystemBundle\Manager\AbstractManager
+class NotifyHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**
@@ -64,7 +64,7 @@ class NotifyHandler extends \SymBB\Core\SystemBundle\Manager\AbstractManager
     {
 
         if (is_numeric($user)) {
-            $user = $this->em->getRepository('SymBBCoreUserBundle:User')->find($user);
+            $user = $this->em->getRepository('SymbbCoreUserBundle:User')->find($user);
         }
 
         $subject = $this->translator->trans('It was written a new answer to "%topic%"', array('%topic%' => $topic->getName()), 'symbb_email');

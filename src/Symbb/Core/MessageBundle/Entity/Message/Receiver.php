@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Entity\Message;
+namespace Symbb\Core\MessageBundle\Entity\Message;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\MessageBundle\Entity\Message;
+use Symbb\Core\MessageBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -32,13 +32,13 @@ class Receiver
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\MessageBundle\Entity\Message", inversedBy="receivers", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="\Symbb\Core\MessageBundle\Entity\Message", inversedBy="receivers", cascade={"persist", "remove"})
      * @var ArrayCollection
      */
     protected $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User", inversedBy="messages_receive")
+     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_receive")
      */
     protected $user;
 

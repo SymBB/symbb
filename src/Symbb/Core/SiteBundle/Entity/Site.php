@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Entity;
+namespace Symbb\Core\SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -76,7 +76,7 @@ class Site
     protected $announcement = '';
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", mappedBy="site")
+     * @ORM\OneToMany(targetEntity="Symbb\Core\SiteBundle\Entity\Navigation", mappedBy="site")
      * @ORM\OrderBy()
      */
     protected $navigations;

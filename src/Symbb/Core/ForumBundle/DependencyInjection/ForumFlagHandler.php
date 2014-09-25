@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use \SymBB\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
 
-class ForumFlagHandler extends \SymBB\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+class ForumFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
 {
 
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)

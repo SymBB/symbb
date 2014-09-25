@@ -1,35 +1,35 @@
 services:        
     symbb.core.site.manager:
-        class: SymBB\Core\SiteBundle\Manager\SiteManager
+        class: Symbb\Core\SiteBundle\Manager\SiteManager
         parent: symbb.core.abstract.manager
         calls:
           - [setContainer, ["@service_container"]]
 
     symbb.core.site.navigation.manager:
-        class: SymBB\Core\SiteBundle\Manager\NavigationManager
+        class: Symbb\Core\SiteBundle\Manager\NavigationManager
         parent: symbb.core.abstract.manager
 
     symbb.core.api.site:
-        class: SymBB\Core\SiteBundle\Api\SiteApi
+        class: Symbb\Core\SiteBundle\Api\SiteApi
         parent: symbb.core.abstract.api
         calls:
           - ['setSiteManager', ['@symbb.core.site.manager']]
 
     symbb.core.api.site.navigation:
-        class: SymBB\Core\SiteBundle\Api\NavigationApi
+        class: Symbb\Core\SiteBundle\Api\NavigationApi
         parent: symbb.core.abstract.api
         calls:
           - ['setNavigationManager', ['@symbb.core.site.navigation.manager']]
           - ['setSiteManager', ['@symbb.core.site.manager']]
 
     symbb.core.site.twig.extension:
-        class: SymBB\Core\SiteBundle\Twig\Extension
+        class: Symbb\Core\SiteBundle\Twig\Extension
         arguments: ['@symbb.core.site.manager']
         tags:
             - { name: twig.extension }
 
     symbb.core.site.menu_builder:
-        class: SymBB\Core\SiteBundle\Menu\MenuBuilder
+        class: Symbb\Core\SiteBundle\Menu\MenuBuilder
         arguments: ["@knp_menu.factory", "@event_dispatcher"]
 
     symbb.core.site.menu.main:

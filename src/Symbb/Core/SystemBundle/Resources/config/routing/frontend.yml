@@ -16,32 +16,32 @@ fos_user_security_check:
     
 symbb_register:
     pattern:  /register
-    defaults: { _controller: SymBBFOSUserBundle:Registration:register }
+    defaults: { _controller: SymbbFOSUserBundle:Registration:register }
     
 symbb_imprint:
     pattern:  /imprint
-    defaults: { _controller: SymBBCoreSystemBundle:StaticPage:imprint }
+    defaults: { _controller: SymbbCoreSystemBundle:StaticPage:imprint }
     
 symbb_terms:
     pattern:  /terms
-    defaults: { _controller: SymBBCoreSystemBundle:StaticPage:terms }
+    defaults: { _controller: SymbbCoreSystemBundle:StaticPage:terms }
 
 _symbb_core_user:
-    resource: "@SymBBCoreUserBundle/Resources/config/routing.yml"
+    resource: "@SymbbCoreUserBundle/Resources/config/routing.yml"
     prefix: /
     
 _symbb_core_forum:
-    resource: "@SymBBCoreForumBundle/Resources/config/routing.yml"
+    resource: "@SymbbCoreForumBundle/Resources/config/routing.yml"
     prefix: /
 
 _symbb_core_message:
-    resource: "@SymBBCoreMessageBundle/Resources/config/routing.yml"
+    resource: "@SymbbCoreMessageBundle/Resources/config/routing.yml"
     prefix: /
     
 _symbb_core_install:
-    resource: "@SymBBCoreInstallBundle/Resources/config/routing.yml"
+    resource: "@SymbbCoreInstallBundle/Resources/config/routing.yml"
     prefix: /
     
 _symbb_core_bbcode_frontend:
-    resource: "@SymBBCoreBBCodeBundle/Resources/config/routing/frontend.yml"
+    resource: "@SymbbCoreBBCodeBundle/Resources/config/routing/frontend.yml"
     prefix: /

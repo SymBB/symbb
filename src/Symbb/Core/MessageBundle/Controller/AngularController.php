@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Controller;
+namespace Symbb\Core\MessageBundle\Controller;
 
-class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function templateFileAction($file)

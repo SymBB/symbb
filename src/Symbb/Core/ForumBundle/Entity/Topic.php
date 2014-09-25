@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Entity;
+namespace Symbb\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\ForumBundle\Entity\Topic\Tag;
+use Symbb\Core\ForumBundle\Entity\Topic\Tag;
 
 /**
  * @ORM\Table(name="forum_topics")
@@ -39,19 +39,19 @@ class Topic
     private $changed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Post")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
     private $mainPost;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Post", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post", mappedBy="topic")
      * @ORM\OrderBy({"created" = "ASC"})
      */
     private $posts;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SymBB\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics")
+     * @ORM\ManyToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics")
      * @ORM\JoinTable(name="forum_topics_to_tags",
      *      joinColumns={@ORM\JoinColumn(name="topic_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
@@ -61,13 +61,13 @@ class Topic
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\ForumBundle\Entity\Forum", inversedBy="topics")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Forum", inversedBy="topics")
      * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $forum;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User", inversedBy="topics")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="topics")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION")
      */
     private $author;

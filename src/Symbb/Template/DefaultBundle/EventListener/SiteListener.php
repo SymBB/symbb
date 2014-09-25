@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Template\DefaultBundle\EventListener;
+namespace Symbb\Template\DefaultBundle\EventListener;
 
 class SiteListener
 {
-    public function templateChoices(\SymBB\Core\SiteBundle\Event\TemplateChoicesEvent $event)
+    public function templateChoices(\Symbb\Core\SiteBundle\Event\TemplateChoicesEvent $event)
     {
-        $event->addChoice('SymBBTemplateDefaultBundle', '[Symbb] Default Template');
+        $event->addChoice('SymbbTemplateDefaultBundle', '[Symbb] Default Template');
     }
 }

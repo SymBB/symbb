@@ -7,19 +7,19 @@
  *
  */
 
-namespace SymBB\Extension\RatingBundle\Security\Authorization;
+namespace Symbb\Extension\RatingBundle\Security\Authorization;
 
-use SymBB\Core\ForumBundle\Entity\Post;
-use SymBB\Core\ForumBundle\Entity\Topic;
-use SymBB\Core\SystemBundle\Manager\AccessManager;
-use SymBB\Core\SystemBundle\Security\Authorization\AbstractVoter;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\SystemBundle\Security\Authorization\AbstractVoter;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class RatingVoter extends AbstractVoter implements VoterInterface
 {
-    protected $supportedClasses = array('SymBB\Core\ForumBundle\Entity\Forum');
+    protected $supportedClasses = array('Symbb\Core\ForumBundle\Entity\Forum');
 
     const CREATE_RATING = 'create_rating';
     const VIEW_RATING = 'view_rating';

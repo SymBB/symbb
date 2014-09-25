@@ -7,17 +7,17 @@
 *
 */
 
-namespace SymBB\Extension\RatingBundle\EventListener;
+namespace Symbb\Extension\RatingBundle\EventListener;
 
 class TemplateListener
 {
     
-    public function beforeActions(\SymBB\Core\EventBundle\Event\TemplatePostEvent $event)
+    public function beforeActions(\Symbb\Core\EventBundle\Event\TemplatePostEvent $event)
     {
-        $event->render('SymBBExtensionRatingBundle:Post:rating.html.twig', array());
+        $event->render('SymbbExtensionRatingBundle:Post:rating.html.twig', array());
     }
     
-    public function topicStylesheets(\SymBB\Core\EventBundle\Event\TemplateDefaultEvent $event){
-        $event->render('SymBBExtensionRatingBundle::stylesheets.html.twig', array());
+    public function topicStylesheets(\Symbb\Core\EventBundle\Event\TemplateDefaultEvent $event){
+        $event->render('SymbbExtensionRatingBundle::stylesheets.html.twig', array());
     }
 }

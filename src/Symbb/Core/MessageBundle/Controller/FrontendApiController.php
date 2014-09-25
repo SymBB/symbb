@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Controller;
+namespace Symbb\Core\MessageBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use SymBB\Core\MessageBundle\DependencyInjection\MessageManager;
-use SymBB\Core\MessageBundle\Entity\Message;
-use SymBB\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
+use Symbb\Core\MessageBundle\Entity\Message;
+use Symbb\Core\UserBundle\DependencyInjection\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\AbstractApiController
+class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
     /**
@@ -143,7 +143,7 @@ class FrontendApiController extends \SymBB\Core\SystemBundle\Controller\Abstract
         return $data;
     }
 
-    protected function getUserAsArray(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    protected function getUserAsArray(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         $array = array();
         $array['id'] = 0;

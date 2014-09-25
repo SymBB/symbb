@@ -1,20 +1,20 @@
 symbb_api_ucp_data:
     pattern:  /api/ucp/data
-    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpData }
+    defaults: { _controller: SymbbCoreUserBundle:FrontendApi:ucpData }
 
 symbb_api_user_ucp_save:
     pattern:  /api/ucp/save
-    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:ucpSave }
+    defaults: { _controller: SymbbCoreUserBundle:FrontendApi:ucpSave }
 
 symbb_api_userlist:
     pattern:  /api/userlist/{page}
-    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:userlist, page: 1 }
+    defaults: { _controller: SymbbCoreUserBundle:FrontendApi:userlist, page: 1 }
 
 symbb_api_user_search:
     pattern:  /api/user/search
-    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:search }
+    defaults: { _controller: SymbbCoreUserBundle:FrontendApi:search }
 
 symbb_api_user_data:
     pattern:  /api/user/data
-    defaults: { _controller: SymBBCoreUserBundle:FrontendApi:data }
+    defaults: { _controller: SymbbCoreUserBundle:FrontendApi:data }
 

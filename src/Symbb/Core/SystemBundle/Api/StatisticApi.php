@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\SystemBundle\Api;
+namespace Symbb\Core\SystemBundle\Api;
 
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class StatisticApi extends AbstractApi
@@ -30,7 +30,7 @@ class StatisticApi extends AbstractApi
      * @return int
      */
     public function getPostCount(){
-        $entries = $this->em->getRepository('SymBBCoreForumBundle:Post')->findAll();
+        $entries = $this->em->getRepository('SymbbCoreForumBundle:Post')->findAll();
         return count($entries);
     }
 
@@ -40,7 +40,7 @@ class StatisticApi extends AbstractApi
      * @return int
      */
     public function getTopicCount(){
-        $entries = $this->em->getRepository('SymBBCoreForumBundle:Topic')->findAll();
+        $entries = $this->em->getRepository('SymbbCoreForumBundle:Topic')->findAll();
         return count($entries);
     }
 

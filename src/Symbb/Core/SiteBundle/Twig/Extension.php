@@ -6,15 +6,15 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\SiteBundle\Twig;
+namespace Symbb\Core\SiteBundle\Twig;
 
-use \SymBB\Core\SiteBundle\Manager\SiteManager;
+use \Symbb\Core\SiteBundle\Manager\SiteManager;
 
 class Extension extends \Twig_Extension
 {
     /**
      *
-     * @var \SymBB\Core\SiteBundle\Manager\SiteManager
+     * @var \Symbb\Core\SiteBundle\Manager\SiteManager
      */
     protected $siteManager;
     

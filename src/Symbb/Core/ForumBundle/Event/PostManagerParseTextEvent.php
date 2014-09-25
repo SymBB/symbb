@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\Event;
+namespace Symbb\Core\ForumBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use \SymBB\Core\ForumBundle\Entity\Post;
+use \Symbb\Core\ForumBundle\Entity\Post;
 
 class PostManagerParseTextEvent extends Event
 {

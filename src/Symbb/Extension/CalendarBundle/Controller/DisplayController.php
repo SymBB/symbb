@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Extension\CalendarBundle\Controller;
+namespace Symbb\Extension\CalendarBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -17,7 +17,7 @@ class DisplayController extends Controller
     public function defaultAction()
     {
         return $this->render(
-            'SymBBExtensionCalendarBundle::default.html.twig', array()
+            'SymbbExtensionCalendarBundle::default.html.twig', array()
         );
 
     }

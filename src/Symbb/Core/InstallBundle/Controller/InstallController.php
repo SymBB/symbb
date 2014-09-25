@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\InstallBundle\Controller;
+namespace Symbb\Core\InstallBundle\Controller;
 
 use CoreSphere\ConsoleBundle\Executer\CommandExecuter;
 
-class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class InstallController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function stepAction($step)
@@ -44,55 +44,55 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
             $result = $executer->execute('assetic:dump --env=' . $env);
             $output[] = $result['output'];
         } else if ($step == 3) {
-            $api = new \SymBB\ExtensionBundle\Api();
+            $api = new \Symbb\ExtensionBundle\Api();
 
             if ($api->checkFileAccess()) {
 
-                $extensionRating = new \SymBB\ExtensionBundle\Extension();
-                $extensionRating->setName('SymBB Rating');
-                $extensionRating->setBundleClass('\SymBB\Extension\RatingBundle\SymBBExtensionRatingBundle');
+                $extensionRating = new \Symbb\ExtensionBundle\Extension();
+                $extensionRating->setName('Symbb Rating');
+                $extensionRating->setBundleClass('\Symbb\Extension\RatingBundle\SymbbExtensionRatingBundle');
                 $extensionRating->enable();
                 $extensionRating->setPackage('symbb/extension-rating');
                 $extensionRating->disableComposer();
 
-                $extensionBBCode = new \SymBB\ExtensionBundle\Extension();
-                $extensionBBCode->setName('SymBB BBCode');
-                $extensionBBCode->setBundleClass('\SymBB\Extension\BBCodeBundle\SymBBExtensionBBCodeBundle');
+                $extensionBBCode = new \Symbb\ExtensionBundle\Extension();
+                $extensionBBCode->setName('Symbb BBCode');
+                $extensionBBCode->setBundleClass('\Symbb\Extension\BBCodeBundle\SymbbExtensionBBCodeBundle');
                 $extensionBBCode->enable();
                 $extensionBBCode->setPackage('symbb/extension-bbcode');
                 $extensionBBCode->disableComposer();
 
-                $extensionSurvey = new \SymBB\ExtensionBundle\Extension();
-                $extensionSurvey->setName('SymBB Survey');
-                $extensionSurvey->setBundleClass('\SymBB\Extension\SurveyBundle\SymBBExtensionSurveyBundle');
+                $extensionSurvey = new \Symbb\ExtensionBundle\Extension();
+                $extensionSurvey->setName('Symbb Survey');
+                $extensionSurvey->setBundleClass('\Symbb\Extension\SurveyBundle\SymbbExtensionSurveyBundle');
                 $extensionSurvey->enable();
                 $extensionSurvey->setPackage('symbb/extension-survey');
                 $extensionSurvey->disableComposer();
 
-                $extensionPostUpload = new \SymBB\ExtensionBundle\Extension();
-                $extensionPostUpload->setName('SymBB Post Upload');
-                $extensionPostUpload->setBundleClass('\SymBB\Extension\PostUploadBundle\SymBBExtensionPostUploadBundle');
+                $extensionPostUpload = new \Symbb\ExtensionBundle\Extension();
+                $extensionPostUpload->setName('Symbb Post Upload');
+                $extensionPostUpload->setBundleClass('\Symbb\Extension\PostUploadBundle\SymbbExtensionPostUploadBundle');
                 $extensionPostUpload->enable();
                 $extensionPostUpload->setPackage('symbb/extension-post-upload');
                 $extensionPostUpload->disableComposer();
 
-                $extensionPostCalendar = new \SymBB\ExtensionBundle\Extension();
-                $extensionPostCalendar->setName('SymBB Calendar');
-                $extensionPostCalendar->setBundleClass('\SymBB\Extension\CalendarBundle\SymBBExtensionCalendarBundle');
+                $extensionPostCalendar = new \Symbb\ExtensionBundle\Extension();
+                $extensionPostCalendar->setName('Symbb Calendar');
+                $extensionPostCalendar->setBundleClass('\Symbb\Extension\CalendarBundle\SymbbExtensionCalendarBundle');
                 $extensionPostCalendar->enable();
                 $extensionPostCalendar->setPackage('symbb/extension-calendar');
                 $extensionPostCalendar->disableComposer();
 
-                $extensionUserTag = new \SymBB\ExtensionBundle\Extension();
-                $extensionUserTag->setName('SymBB User Tags');
-                $extensionUserTag->setBundleClass('\SymBB\Extension\UserTagBundle\SymBBExtensionUserTagBundle');
+                $extensionUserTag = new \Symbb\ExtensionBundle\Extension();
+                $extensionUserTag->setName('Symbb User Tags');
+                $extensionUserTag->setBundleClass('\Symbb\Extension\UserTagBundle\SymbbExtensionUserTagBundle');
                 $extensionUserTag->enable();
                 $extensionUserTag->setPackage('symbb/extension-user-tag');
                 $extensionUserTag->disableComposer();
 
-                $extensionTapatalk = new \SymBB\ExtensionBundle\Extension();
-                $extensionTapatalk->setName('SymBB Tapatalk');
-                $extensionTapatalk->setBundleClass('\SymBB\Extension\TapatalkBundle\SymBBExtensionTapatalkBundle');
+                $extensionTapatalk = new \Symbb\ExtensionBundle\Extension();
+                $extensionTapatalk->setName('Symbb Tapatalk');
+                $extensionTapatalk->setBundleClass('\Symbb\Extension\TapatalkBundle\SymbbExtensionTapatalkBundle');
                 $extensionTapatalk->enable();
                 $extensionTapatalk->setPackage('symbb/extension-tapatalk');
                 
@@ -118,7 +118,7 @@ class InstallController extends \SymBB\Core\SystemBundle\Controller\AbstractCont
             }
         } else if ($step == 4) {
             $uri = $this->get('router')->generate('symbb_install_step', array('step' => 99));
-            $api = new \SymBB\ExtensionBundle\Api();
+            $api = new \Symbb\ExtensionBundle\Api();
             $api->clearCache();
             echo '<meta http-equiv="refresh" content="0; URL=' . $uri . '">';
             die();

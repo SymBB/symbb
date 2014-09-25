@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\DependencyInjection;
+namespace Symbb\Core\BBCodeBundle\DependencyInjection;
 
-use SymBB\Core\BBCodeBundle\Form\Type\BBCode;
-use SymBB\Core\SiteBundle\Manager\SiteManager;
+use Symbb\Core\BBCodeBundle\Form\Type\BBCode;
+use Symbb\Core\SiteBundle\Manager\SiteManager;
 
 class BBCodeManager
 {
@@ -33,15 +33,15 @@ class BBCodeManager
     /**
      * 
      * @param string $setId
-     * @return \SymBB\Core\BBCodeBundle\Entity\Set
+     * @return \Symbb\Core\BBCodeBundle\Entity\Set
      */
     public function getSet($setId)
     {
 
         if (!isset($this->setCache[$setId])) {
-            $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->find($setId);
+            $set = $this->em->getRepository('SymbbCoreBBCodeBundle:Set')->find($setId);
             if (!\is_object($set) || $set->getId() <= 0) {
-                $set = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findOneBy(array());
+                $set = $this->em->getRepository('SymbbCoreBBCodeBundle:Set')->findOneBy(array());
             }
             $this->setCache[$setId] = $set;
         } else {
@@ -53,11 +53,11 @@ class BBCodeManager
 
     /**
      * 
-     * @return \SymBB\Core\BBCodeBundle\Entity\Set[]
+     * @return \Symbb\Core\BBCodeBundle\Entity\Set[]
      */
     public function getSets()
     {
-        $sets = $this->em->getRepository('SymBBCoreBBCodeBundle:Set')->findAll();
+        $sets = $this->em->getRepository('SymbbCoreBBCodeBundle:Set')->findAll();
         return $sets;
     }
 
@@ -135,7 +135,7 @@ class BBCodeManager
 
     /**
      * get a list of grouped BBCodes
-     * @return \SymBB\Core\BBCodeBundle\Entity\BBCode
+     * @return \Symbb\Core\BBCodeBundle\Entity\BBCode
      */
     public function getBBCodes($setId = 1)
     {

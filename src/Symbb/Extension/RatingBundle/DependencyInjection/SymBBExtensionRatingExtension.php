@@ -7,7 +7,7 @@
 *
 */
 
-namespace SymBB\Extension\RatingBundle\DependencyInjection;
+namespace Symbb\Extension\RatingBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
-class SymBBExtensionRatingExtension extends Extension implements PrependExtensionInterface
+class SymbbExtensionRatingExtension extends Extension implements PrependExtensionInterface
 {
 
     public function prepend(ContainerBuilder $container)

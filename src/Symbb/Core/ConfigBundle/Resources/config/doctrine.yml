@@ -1,7 +1,7 @@
 doctrine:
     dbal:
       types:
-        timestamp: SymBB\Core\SystemBundle\Doctrine\TimestampType
+        timestamp: Symbb\Core\SystemBundle\Doctrine\TimestampType
       default_connection: default
       connections:
         symbb:
@@ -24,4 +24,4 @@ doctrine:
                 auto_mapping: false
                 connection:   symbb
                 mappings:
-                    SymBBCoreAdminBundle: ~
+                    SymbbCoreAdminBundle: ~

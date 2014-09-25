@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Core\EventBundle;
+namespace Symbb\Core\EventBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreEventBundle extends Bundle
+class SymbbCoreEventBundle extends Bundle
 {
 }

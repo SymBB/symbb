@@ -4,7 +4,7 @@
     {{ parent() }}
     <!-- Latest compiled and minified CSS -->
     {% stylesheets filter='?uglifycss'
-    '@SymBBTemplateDefaultBundle/Resources/public/css/angular/*.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/angular/*.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -14,24 +14,24 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts filter='?uglifyjs2'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/0_module.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/1_app.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angularHelper.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/angularDirectives.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/3_directives.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/frontend/2_controllers.js'
-    '@SymBBTemplateDefaultBundle/Resources/public/js/moment/moment.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/0_module.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/1_app.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angularHelper.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angularDirectives.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/3_directives.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/2_controllers.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/moment/moment.js'
     '@FOSJsRoutingBundle/Resources/public/js/router.js'
     'js/fos_js_routes.js'
     %}

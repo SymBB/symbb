@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Entity\User;
+namespace Symbb\Core\UserBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,13 +26,13 @@ class FieldValue
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\User", inversedBy="symbbFieldValues")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="symbbFieldValues")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\UserBundle\Entity\Field")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\Field")
      * @ORM\JoinColumn(onDelete="cascade")
      */
     private $field;

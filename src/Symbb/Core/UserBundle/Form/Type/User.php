@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Form\Type;
+namespace Symbb\Core\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +20,7 @@ class User extends AbstractType
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $usermanager;
 
@@ -33,7 +33,7 @@ class User extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => '\SymBB\Core\UserBundle\Entity\User',
+            'data_class' => '\Symbb\Core\UserBundle\Entity\User',
             'translation_domain' => 'symbb_backend',
             'cascade_validation' => true,
         ));
@@ -68,7 +68,7 @@ class User extends AbstractType
             ))
             ->add('groups');
 
-        $builderEvent = new \SymBB\Core\EventBundle\Event\BaseFormbuilderEvent($builder);
+        $builderEvent = new \Symbb\Core\EventBundle\Event\BaseFormbuilderEvent($builder);
         $this->dispatcher->dispatch('symbb.core.user.acp.form', $builderEvent);
     }
 

@@ -7,14 +7,14 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Twig;
+namespace Symbb\Core\BBCodeBundle\Twig;
 
 class BBCodeManagerExtension extends \Twig_Extension
 {
 
     /**
      *
-     * @var \SymBB\Core\BBCodeBundle\DependencyInjection\BBCodeManager 
+     * @var \Symbb\Core\BBCodeBundle\DependencyInjection\BBCodeManager
      */
     protected $bbcodeManager;
 
@@ -30,9 +30,9 @@ class BBCodeManagerExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('getSymbbBBCodeManager', array($this, 'getSymbbBBCodeManager')),
-            new \Twig_SimpleFunction('cleanSymBBBBCodes', array($this, 'cleanSymBBBBCodes')),
+            new \Twig_SimpleFunction('cleanSymbbBBCodes', array($this, 'cleanSymbbBBCodes')),
             new \Twig_SimpleFunction('parseSymbBBBCodes', array($this, 'parseSymbBBBCodes')),
-            new \Twig_SimpleFunction('getSymBBBBCodes', array($this, 'getSymBBBBCodes')),
+            new \Twig_SimpleFunction('getSymbbBBCodes', array($this, 'getSymbbBBCodes')),
             new \Twig_SimpleFunction('getSymbbBBCodeDataForJs', array($this, 'getSymbbBBCodeDataForJs'))
         );
     }
@@ -42,7 +42,7 @@ class BBCodeManagerExtension extends \Twig_Extension
         return $this->bbcodeManager;
     }
 
-    public function cleanSymBBBBCodes($text, $setId = 1)
+    public function cleanSymbbBBCodes($text, $setId = 1)
     {
         return $this->bbcodeManager->clean($text, $setId);
     }
@@ -52,7 +52,7 @@ class BBCodeManagerExtension extends \Twig_Extension
         return $this->bbcodeManager->parse($text, $setId);
     }
 
-    public function getSymBBBBCodes($setId = 1)
+    public function getSymbbBBCodes($setId = 1)
     {
         return $this->bbcodeManager->getBBCodes($setId);
     }

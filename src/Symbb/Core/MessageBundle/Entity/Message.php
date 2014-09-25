@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Entity;
+namespace Symbb\Core\MessageBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use SymBB\Core\MessageBundle\Entity\Message\Receiver;
-use SymBB\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\MessageBundle\Entity\Message\Receiver;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -43,13 +43,13 @@ class Message
     protected $message;
 
     /**
-     * @ORM\OneToMany(targetEntity="\SymBB\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message", cascade={"persist"})
      * @var ArrayCollection
      */
     protected $receivers;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\SymBB\Core\UserBundle\Entity\User", inversedBy="messages_sent")
+     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_sent")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     protected $sender;

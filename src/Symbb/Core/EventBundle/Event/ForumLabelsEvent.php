@@ -6,10 +6,10 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\EventBundle\Event;
+namespace Symbb\Core\EventBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use \SymBB\Core\ForumBundle\Entity\Forum;
+use \Symbb\Core\ForumBundle\Entity\Forum;
 
 class ForumLabelsEvent extends Event
 {

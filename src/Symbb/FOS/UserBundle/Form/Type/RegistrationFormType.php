@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace SymBB\FOS\UserBundle\Form\Type;
+namespace Symbb\FOS\UserBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -17,7 +17,7 @@ class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormTyp
     
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $usermanager;
     

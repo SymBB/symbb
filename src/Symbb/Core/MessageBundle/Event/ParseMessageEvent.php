@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Core\MessageBundle\Event;
+namespace Symbb\Core\MessageBundle\Event;
 
-use SymBB\Core\MessageBundle\Entity\Message;
+use Symbb\Core\MessageBundle\Entity\Message;
 use Symfony\Component\EventDispatcher\Event;
 
 class ParseMessageEvent extends Event

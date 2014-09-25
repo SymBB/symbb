@@ -7,11 +7,11 @@
 *
 */
 
-namespace SymBB\Extension\RatingBundle;
+namespace Symbb\Extension\RatingBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBExtensionRatingBundle extends Bundle
+class SymbbExtensionRatingBundle extends Bundle
 {
      
 }

@@ -7,13 +7,13 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Controller;
+namespace Symbb\Core\UserBundle\Controller;
 
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function groupAction($step, Request $request)
@@ -25,7 +25,7 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
     public function groupStep1Action(Request $request)
     {
 
-        $groups = $this->get('doctrine')->getRepository('SymBBCoreUserBundle:Group', 'symbb')->findAll();
+        $groups = $this->get('doctrine')->getRepository('SymbbCoreUserBundle:Group', 'symbb')->findAll();
         $forumList = $this->get('symbb.core.forum.manager')->getSelectList(array(), false);
         $groupList = array();
         foreach ($groups as $group) {
@@ -83,7 +83,7 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
 
         if (is_array($forumIds) && !empty($forumIds) && $groupId > 0) {
 
-            $group = $this->get('doctrine')->getRepository('SymBBCoreUserBundle:Group', 'symbb')
+            $group = $this->get('doctrine')->getRepository('SymbbCoreUserBundle:Group', 'symbb')
                 ->find($groupId);
 
             $defaultData = array();
@@ -105,13 +105,13 @@ class AcpAccessController extends \SymBB\Core\SystemBundle\Controller\AbstractCo
             if ($form->isValid()) {
                 foreach ($forumIds as $forumId) {
                     $access = $request->get('access_' . $forumId);
-                    $forum = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+                    $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
                         ->find($forumId);
                     $this->grandForumAccess($forum, $group, $access, $subforum);
                 }
             }
 
-            $forumList = $this->get('doctrine')->getRepository('SymBBCoreForumBundle:Forum', 'symbb')
+            $forumList = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
                 ->findBy(array('id' => $forumIds));
 
             return $this->render(

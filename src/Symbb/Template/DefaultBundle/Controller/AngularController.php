@@ -7,9 +7,9 @@
  *
  */
 
-namespace SymBB\Template\DefaultBundle\Controller;
+namespace Symbb\Template\DefaultBundle\Controller;
 
-class AngularController extends \SymBB\Core\SystemBundle\Controller\AbstractController
+class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
     public function acpIndexAction(){

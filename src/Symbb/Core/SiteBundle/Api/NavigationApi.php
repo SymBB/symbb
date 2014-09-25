@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Api;
+namespace Symbb\Core\SiteBundle\Api;
 
-use SymBB\Core\SiteBundle\Entity\Navigation;
-use SymBB\Core\SiteBundle\Manager\NavigationManager;
-use SymBB\Core\SiteBundle\Manager\SiteManager;
-use SymBB\Core\SystemBundle\Api\AbstractApi;
+use Symbb\Core\SiteBundle\Entity\Navigation;
+use Symbb\Core\SiteBundle\Manager\NavigationManager;
+use Symbb\Core\SiteBundle\Manager\SiteManager;
+use Symbb\Core\SystemBundle\Api\AbstractApi;
 
 class NavigationApi extends AbstractApi
 {

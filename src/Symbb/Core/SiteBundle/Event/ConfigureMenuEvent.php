@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\SiteBundle\Event;
+namespace Symbb\Core\SiteBundle\Event;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;

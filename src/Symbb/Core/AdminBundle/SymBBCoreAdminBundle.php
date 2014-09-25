@@ -7,10 +7,10 @@
 *
 */
 
-namespace SymBB\Core\AdminBundle;
+namespace Symbb\Core\AdminBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class SymBBCoreAdminBundle extends Bundle 
+class SymbbCoreAdminBundle extends Bundle
 {
 }

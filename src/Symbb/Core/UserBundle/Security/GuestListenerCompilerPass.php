@@ -8,7 +8,7 @@
 */
 
 
-namespace SymBB\Core\UserBundle\Security;
+namespace Symbb\Core\UserBundle\Security;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -27,7 +27,7 @@ class GuestListenerCompilerPass implements CompilerPassInterface
             'security.authentication.listener.anonymous'
         );
 
-        $definition->setClass('SymBB\Core\UserBundle\Security\Firewall\GuestListener');
+        $definition->setClass('Symbb\Core\UserBundle\Security\Firewall\GuestListener');
         $managers = $container->getParameter('doctrine.entity_managers');
         $manager = $managers['symbb'];
         $definition->addArgument(new Reference($manager));

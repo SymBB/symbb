@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\ForumBundle\DependencyInjection;
 
 use \Symfony\Component\Security\Core\SecurityContextInterface;
-use \SymBB\Core\SystemBundle\Manager\ConfigManager;
+use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 
-class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
+class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**
@@ -38,20 +38,20 @@ class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
     /**
      * 
      * @param int $topicId
-     * @return \SymBB\Core\ForumBundle\Entity\Topic
+     * @return \Symbb\Core\ForumBundle\Entity\Topic
      */
     public function find($topicId)
     {
-        $post = $this->em->getRepository('SymBBCoreForumBundle:Topic')->find($topicId);
+        $post = $this->em->getRepository('SymbbCoreForumBundle:Topic')->find($topicId);
         return $post;
     }
 
     /**
      * 
      * @param int $topicId
-     * @return array(<\SymBB\Core\ForumBundle\Entity\Topic>)
+     * @return array(<\Symbb\Core\ForumBundle\Entity\Topic>)
      */
-    public function findPosts(\SymBB\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
+    public function findPosts(\Symbb\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
         if ($limit === null) {
             $limit = $topic->getForum()->getEntriesPerPage();
@@ -59,7 +59,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 
         $qbPage = $this->em->createQueryBuilder();
         $qbPage->add('select', 'count(p)')
-            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('from', 'SymbbCoreForumBundle:Post p')
             ->add('where', 'p.topic = ?1')
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic->getId());
@@ -68,7 +68,7 @@ class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 
         $qb = $this->em->createQueryBuilder();
         $qb->add('select', 'p')
-            ->add('from', 'SymBBCoreForumBundle:Post p')
+            ->add('from', 'SymbbCoreForumBundle:Post p')
             ->add('where', 'p.topic = ?1')
             ->add('orderBy', 'p.created ' . strtoupper($orderDir))
             ->setParameter(1, $topic->getId());
@@ -89,14 +89,14 @@ class TopicManager extends \SymBB\Core\SystemBundle\Manager\AbstractManager
 
     /**
      * 
-     * @return \SymBB\Core\ForumBundle\DependencyInjection\TopicFlagHandler
+     * @return \Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler
      */
     public function getFlagHandler()
     {
         return $this->topicFlagHandler;
     }
 
-    public function getBreadcrumbData(\SymBB\Core\ForumBundle\Entity\Topic $object, ForumManager $forumManager)
+    public function getBreadcrumbData(\Symbb\Core\ForumBundle\Entity\Topic $object, ForumManager $forumManager)
     {
         $breadcrumb = array();
         $forum = $object->getForum();

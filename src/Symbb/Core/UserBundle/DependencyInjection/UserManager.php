@@ -7,12 +7,12 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\DependencyInjection;
 
-use SymBB\Core\UserBundle\Entity\User\Data;
+use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
-use \SymBB\Core\UserBundle\Entity\UserInterface;
+use \Symbb\Core\UserBundle\Entity\UserInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class UserManager
@@ -78,7 +78,7 @@ class UserManager
 
     /**
      * 
-     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function getCurrentUser()
     {
@@ -87,7 +87,7 @@ class UserManager
 
     /**
      * update the given user
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $user
+     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
      */
     public function updateUser(UserInterface $user)
     {
@@ -97,7 +97,7 @@ class UserManager
 
     /**
      * update the given user data
-     * @param \SymBB\Core\UserBundle\Entity\User\Data $user
+     * @param \Symbb\Core\UserBundle\Entity\User\Data $user
      */
     public function updateUserData(Data $data)
     {
@@ -120,7 +120,7 @@ class UserManager
 
     /**
      * change the password of an user
-     * @param \SymBB\Core\UserBundle\Entity\UserInterface $user
+     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
      * @param string $newPassword
      */
     public function changeUserPassword(UserInterface $user, $newPassword)
@@ -155,7 +155,7 @@ class UserManager
     /**
      * 
      * @param type $userId
-     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function find($userId)
     {
@@ -166,7 +166,7 @@ class UserManager
     /**
      * 
      * @param string $username
-     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function findByUsername($username)
     {
@@ -176,7 +176,7 @@ class UserManager
 
     /**
      * 
-     * @return array(<"\SymBB\Core\UserBundle\Entity\UserInterface">)
+     * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
      */
     public function findUsers()
     {
@@ -223,7 +223,7 @@ class UserManager
 
     public function paginateAll($request)
     {
-        $dql = "SELECT u FROM SymBBCoreUserBundle:User u";
+        $dql = "SELECT u FROM SymbbCoreUserBundle:User u";
         $query = $this->em->createQuery($dql);
 
         $paginator = $this->paginator;
@@ -250,7 +250,7 @@ class UserManager
         return $tz;
     }
 
-    public function getSignature(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getSignature(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
@@ -259,14 +259,14 @@ class UserManager
         $data = $this->getSymbbData($user);
         $signature = $data->getSignature();
 
-        $event = new \SymBB\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
+        $event = new \Symbb\Core\UserBundle\Event\UserParseSignatureEvent($user, $signature);
         $this->dispatcher->dispatch("symbb.core.user.parse.signature", $event);
 
         $signature = $event->getSignature();
         return $signature;
     }
 
-    public function getAbsoluteAvatarUrl(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getAbsoluteAvatarUrl(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
         $url = $this->getAvatar($user);
         $host = '';
@@ -278,7 +278,7 @@ class UserManager
         return $host . $url;
     }
 
-    public function getAvatar(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getAvatar(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
@@ -292,14 +292,14 @@ class UserManager
         return $avatar;
     }
 
-    public function getPostCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getPostCount(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
         
         if (!isset($this->postCountCache[$user->getId()])) {
-            $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+            $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
             $qb->where("p.author = " . $user->getId());
             $count = $qb->getQuery()->getSingleScalarResult();
@@ -310,13 +310,13 @@ class UserManager
         return $count;
     }
 
-    public function getLastPosts(\SymBB\Core\UserBundle\Entity\UserInterface $user = null, $limit = 20)
+    public function getLastPosts(\Symbb\Core\UserBundle\Entity\UserInterface $user = null, $limit = 20)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
 
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('p');
         $qb->where("p.author = " . $user->getId());
         $qb->orderBy("p.created", "desc");
@@ -329,13 +329,13 @@ class UserManager
         return $posts;
     }
 
-    public function getTopicCount(\SymBB\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getTopicCount(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
 
-        $qb = $this->em->getRepository('SymBBCoreForumBundle:Topic')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Topic')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
         $qb->where("p.author = " . $user->getId());
         $count = $qb->getQuery()->getSingleScalarResult();
@@ -445,15 +445,15 @@ class UserManager
     /**
      * 
      * @param string $username
-     * @return \SymBB\Core\UserBundle\Entity\UserInterface
+     * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function findFields($criteria)
     {
-        $fields = $this->em->getRepository('SymBBCoreUserBundle:Field')->findBy($criteria);
+        $fields = $this->em->getRepository('SymbbCoreUserBundle:Field')->findBy($criteria);
         return $fields;
     }
 
-    public function getSymbbData(\SymBB\Core\UserBundle\Entity\UserInterface $user)
+    public function getSymbbData(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         if (!isset($this->symbbDataCache[$user->getId()])) {
             $this->symbbDataCache[$user->getId()] = $user->getSymbbData();

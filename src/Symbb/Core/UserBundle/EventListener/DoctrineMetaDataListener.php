@@ -7,7 +7,7 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\EventListener;
+namespace Symbb\Core\UserBundle\EventListener;
 
 class DoctrineMetaDataListener
 {
@@ -28,9 +28,9 @@ class DoctrineMetaDataListener
     {
         $classMetadata = $eventArgs->getClassMetadata();
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
-            if ($mapping['targetEntity'] == 'SymBB\Core\UserBundle\Entity\User') {
+            if ($mapping['targetEntity'] == 'Symbb\Core\UserBundle\Entity\User') {
                 $classMetadata->associationMappings[$fieldName]['targetEntity'] = $this->userClass;
-            } else if ($mapping['targetEntity'] == 'SymBB\Core\UserBundle\Entity\Group') {
+            } else if ($mapping['targetEntity'] == 'Symbb\Core\UserBundle\Entity\Group') {
                 $classMetadata->associationMappings[$fieldName]['targetEntity'] = $this->groupClass;
             }
         }

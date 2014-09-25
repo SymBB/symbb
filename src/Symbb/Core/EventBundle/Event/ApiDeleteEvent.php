@@ -7,11 +7,11 @@
  *
  */
 
-namespace SymBB\Core\EventBundle\Event;
+namespace Symbb\Core\EventBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-class ApiDeleteEvent extends \SymBB\Core\EventBundle\Event\AbstractApiEvent
+class ApiDeleteEvent extends \Symbb\Core\EventBundle\Event\AbstractApiEvent
 {
 
 

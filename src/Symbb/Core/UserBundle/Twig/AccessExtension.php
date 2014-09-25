@@ -6,9 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-namespace SymBB\Core\UserBundle\Twig;
+namespace Symbb\Core\UserBundle\Twig;
 
-use SymBB\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\SystemBundle\Manager\AccessManager;
 
 class AccessExtension extends \Twig_Extension
 {

@@ -1,6 +1,6 @@
 services:
     symbb.extension.shoutbox.listener.template:
-        class: SymBB\Extension\ShoutboxBundle\EventListener\TemplateListener
+        class: Symbb\Extension\ShoutboxBundle\EventListener\TemplateListener
         tags:
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
             - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }

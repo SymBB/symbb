@@ -7,10 +7,10 @@
  *
  */
 
-namespace SymBB\Extension\ShoutboxBundle\Controller;
+namespace Symbb\Extension\ShoutboxBundle\Controller;
 
-use SymBB\Core\SystemBundle\Controller\AbstractApiController;
-use SymBB\Extension\ShoutboxBundle\Entity\Message;
+use Symbb\Core\SystemBundle\Controller\AbstractApiController;
+use Symbb\Extension\ShoutboxBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends AbstractApiController
@@ -19,7 +19,7 @@ class FrontendApiController extends AbstractApiController
     public function listAction(Request $request)
     {
 
-        $qb = $this->get('doctrine')->getRepository('SymBBExtensionShoutboxBundle:Message', 'symbb')->createQueryBuilder('m');
+        $qb = $this->get('doctrine')->getRepository('SymbbExtensionShoutboxBundle:Message', 'symbb')->createQueryBuilder('m');
         $qb->select("m");
         $qb->orderBy("m.date", "DESC");
         $query = $qb->getQuery();

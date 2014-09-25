@@ -7,14 +7,14 @@
  *
  */
 
-namespace SymBB\Extension\UserTagBundle\EventListener;
+namespace Symbb\Extension\UserTagBundle\EventListener;
 
 class ParseListener
 {
 
     /**
      *
-     * @var \SymBB\Core\UserBundle\DependencyInjection\UserManager 
+     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
      */
     protected $userManager;
 
@@ -26,7 +26,7 @@ class ParseListener
         $this->router = $router;
     }
 
-    public function parsePostText(\SymBB\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
+    public function parsePostText(\Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent $event)
     {
         $text = $event->getText();
 

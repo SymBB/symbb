@@ -7,22 +7,22 @@
  *
  */
 
-namespace SymBB\Core\BBCodeBundle\Controller;
+namespace Symbb\Core\BBCodeBundle\Controller;
 
 use Doctrine\Common\DataFixtures\Loader;
-use SymBB\Core\InstallBundle\DataFixtures\ORM\LoadBBCode;
+use Symbb\Core\InstallBundle\DataFixtures\ORM\LoadBBCode;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreBBCodeBundle';
+    protected $entityBundle = 'SymbbCoreBBCodeBundle';
 
     protected $entityName = 'BBCode';
 
-    protected $formClass = '\SymBB\Core\BBCodeBundle\Form\Type\BBCode';
+    protected $formClass = '\Symbb\Core\BBCodeBundle\Form\Type\BBCode';
 
     protected function getForm(Request $request)
     {
@@ -41,11 +41,11 @@ class AcpController extends \SymBB\Core\AdminBundle\Controller\Base\CrudControll
     {
 
         $em = $this->get('doctrine.orm.symbb_entity_manager');
-        $sets = $em->getRepository('SymBBCoreBBCodeBundle:Set')->findAll();
+        $sets = $em->getRepository('SymbbCoreBBCodeBundle:Set')->findAll();
         foreach ($sets as $set) {
             $em->remove($set);
         }
-        $codes = $em->getRepository('SymBBCoreBBCodeBundle:BBCode')->findAll();
+        $codes = $em->getRepository('SymbbCoreBBCodeBundle:BBCode')->findAll();
         foreach ($codes as $code) {
             $em->remove($code);
         }

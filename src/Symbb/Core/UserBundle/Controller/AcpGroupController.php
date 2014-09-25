@@ -7,17 +7,17 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Controller;
+namespace Symbb\Core\UserBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class AcpGroupController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpGroupController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreUserBundle';
+    protected $entityBundle = 'SymbbCoreUserBundle';
 
     protected $entityName = 'Group';
 
-    protected $formClass = '\SymBB\Core\UserBundle\Form\Type\Group';
+    protected $formClass = '\Symbb\Core\UserBundle\Form\Type\Group';
 
 
     protected function getForm(Request $request)

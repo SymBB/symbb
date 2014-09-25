@@ -7,16 +7,16 @@
  *
  */
 
-namespace SymBB\Core\UserBundle\Controller;
+namespace Symbb\Core\UserBundle\Controller;
 
-class AcpFieldController extends \SymBB\Core\AdminBundle\Controller\Base\CrudController
+class AcpFieldController extends \Symbb\Core\AdminBundle\Controller\Base\CrudController
 {
 
-    protected $entityBundle = 'SymBBCoreUserBundle';
+    protected $entityBundle = 'SymbbCoreUserBundle';
 
     protected $entityName = 'Field';
 
-    protected $formClass = '\SymBB\Core\UserBundle\Form\Type\Field';
+    protected $formClass = '\Symbb\Core\UserBundle\Form\Type\Field';
 
     protected function getTemplateDirectory()
     {
