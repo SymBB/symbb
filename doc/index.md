@@ -1,22 +1,77 @@
 Getting Started With Symbb
 ==========================
 
-# Routes
 
-## Frontend Api Routes
+# Api
 
-## Backend Api Routes
+## Frontend Api
 
-### Sites
+### Frontend Api Routes
 
-| Name | Pattern | POST Body | Result |
+## Backend Api
+
+### Backend Api Routes
+
+#### POST Body Structure
+
+```json
+breadcrumbItems: []
+callbacks: []
+data: []
+messages: []
+success: true
+user: {}
+```
+
+#### API Response Structure
+
+```json
+breadcrumbItems: []
+callbacks: []
+data: []
+messages: []
+success: true
+user: {}
+```
+
+**breadcrumbItems**
+Some information about your current position in the System
+
+**callbacks**
+some stuff that should be execeute (deprecaded)
+
+
+**data**
+the result of your Api Call
+
+*find/findAll*
+
+data is the object or a list of objects
+
+*create/update calls*
+
+data is the complete Object
+
+*delete*
+
+data is empty
+
+**messages**
+
+array of messages of the System like error, success, informations ( e.g if you have passed to much field while saving, then you get a info about this but the object will be saved )
+
+#### Sites
+
+| Name | Pattern | HTTP | POST Body |
 | ------------- | ----------- | ----------- | ----------- |
-| symbb_backend_api_site_list | /api/sites | GET | JSON |
+| symbb_backend_api_site_list | /api/sites | GET | --- |
 | symbb_backend_api_site_save | /api/sites/{id} | POST | JSON |
-| symbb_backend_api_site_data | /api/sites/{id} | GET | JSON |
-| symbb_backend_api_site_delete | /api/sites/{id} | DELETE | JSON |
-| symbb_backend_api_site_navigation_list | /api/sites/{id}/navigations | GET | JSON |
+| symbb_backend_api_site_data | /api/sites/{id} | GET | --- |
+| symbb_backend_api_site_delete | /api/sites/{id} | DELETE | --- |
+| symbb_backend_api_site_navigation_list | /api/sites/{id}/navigations | GET | --- |
 | symbb_backend_api_site_navigation_save | /api/sites/{id}/navigations/{navigation} | POST | JSON |
-| symbb_backend_api_site_navigation_delete | /api/sites/{id}/navigations/{navigation} | DELETE | JSON |
+| symbb_backend_api_site_navigation_delete | /api/sites/{id}/navigations/{navigation} | DELETE | --- |
 | symbb_backend_api_site_navigation_item_save | /api/sites/{id}/navigations/{navigation}/items/{item} | POST | JSON |
-| symbb_backend_api_site_navigation_item_delete | /api/sites/{id}/navigations/{navigation}/items/{item} | DELETE | JSON |
+| symbb_backend_api_site_navigation_item_delete | /api/sites/{id}/navigations/{navigation}/items/{item} | DELETE | --- |
+
+
