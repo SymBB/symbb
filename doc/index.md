@@ -16,15 +16,9 @@ We have the following Api Services to access the Api Functionality also in the C
 
 **symbb.core.api.site**
 
-- find
-- findAll
-- create
-- update
-- delete
-
 | Method | Parameters | Return |
 | ------------- | ----------- | ----------- |
-| find | integer or Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
+| find | integer | Symbb\Core\SiteBundle\Site |
 | findAll | | array(Symbb\Core\SiteBundle\Site) |
 | create | Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
 | update | Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
@@ -32,16 +26,18 @@ We have the following Api Services to access the Api Functionality also in the C
 
 **symbb.core.api.site.navigation**
 
-- find
-- findAll
-- create
-- update
-- delete
-- findItem
-- findAllItems
-- createItem
-- updateItem
-- deleteItem
+| Method | Parameters | Return |
+| ------------- | ----------- | ----------- |
+| find | integer | Symbb\Core\SiteBundle\Navigation |
+| findAll | | array(Symbb\Core\SiteBundle\Navigation) |
+| create | Symbb\Core\SiteBundle\Navigation | Symbb\Core\SiteBundle\Navigation |
+| update | Symbb\Core\SiteBundle\Navigation | Symbb\Core\SiteBundle\Navigation |
+| delete | Symbb\Core\SiteBundle\Navigation | boolean |
+| findItem | integer | Symbb\Core\SiteBundle\Navigation\Item |
+| findAllItems | | array(Symbb\Core\SiteBundle\Navigation\Item) |
+| createItem | Symbb\Core\SiteBundle\Navigation\Item | Symbb\Core\SiteBundle\Navigation\Item |
+| updateItem | Symbb\Core\SiteBundle\Navigation\Item | Symbb\Core\SiteBundle\Navigation\Item |
+| deleteItem | Symbb\Core\SiteBundle\Navigation\Item | boolean |
 
 ### Backend Api Routes
 
