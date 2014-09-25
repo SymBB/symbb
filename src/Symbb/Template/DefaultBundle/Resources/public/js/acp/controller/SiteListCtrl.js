@@ -50,7 +50,7 @@ symbbControllers.controller('SiteListCtrl', ['$scope', '$http', '$routeParams', 
                             _locale: $routeParams._locale,
                             site: site.id
                         };
-                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_delete');
+                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_delete', routeParams);
                         if(route){
                             $http.delete(route).success(function(data) {
                                 $scope.siteLoading[site.id] = false;

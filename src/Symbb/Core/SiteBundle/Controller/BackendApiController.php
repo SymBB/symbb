@@ -48,24 +48,24 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/sites/{id}", name="symbb_backend_api_site_data")
+     * @Route("/api/sites/{site}", name="symbb_backend_api_site_data")
      * @Method({"GET"})
      */
-    public function findAction($id)
+    public function findAction($site)
     {
         $api = $this->get('symbb.core.api.site');
-        $api->find((int)$id);
+        $api->find((int)$site);
         return $api->getJsonResponse();
     }
 
     /**
-     * @Route("/api/sites/{id}", name="symbb_backend_api_site_delete")
+     * @Route("/api/sites/{site}", name="symbb_backend_api_site_delete")
      * @Method({"DELETE"})
      */
-    public function deleteAction($id)
+    public function deleteAction($site)
     {
         $api = $this->get('symbb.core.api.site');
-        $api->delete((int)$id);
+        $api->delete((int)$site);
         return $api->getJsonResponse();
     }
 
