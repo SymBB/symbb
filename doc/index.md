@@ -22,6 +22,14 @@ We have the following Api Services to access the Api Functionality also in the C
 - update
 - delete
 
+| Method | Parameters | Return |
+| ------------- | ----------- | ----------- |
+| find | integer or Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
+| findAll | | array(Symbb\Core\SiteBundle\Site) |
+| create | Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
+| update | Symbb\Core\SiteBundle\Site | Symbb\Core\SiteBundle\Site |
+| delete | Symbb\Core\SiteBundle\Site | boolean |
+
 **symbb.core.api.site.navigation**
 
 - find
