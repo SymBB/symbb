@@ -15,13 +15,10 @@ Getting Started With Symbb
 #### POST Body Structure
 
 ```json
-breadcrumbItems: []
-callbacks: []
 data: []
-messages: []
-success: true
-user: {}
 ```
+
+you need to pass e.g you object for saving into the data key of the Post Body
 
 #### API Response Structure
 
@@ -35,13 +32,16 @@ user: {}
 ```
 
 **breadcrumbItems**
+
 Some information about your current position in the System
 
 **callbacks**
+
 some stuff that should be execeute (deprecaded)
 
 
 **data**
+
 the result of your Api Call
 
 *find/findAll*
