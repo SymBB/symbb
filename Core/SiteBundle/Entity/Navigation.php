@@ -32,13 +32,13 @@ class Navigation
     protected $navKey = 'main';
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Site", inversedBy="navigations")
+     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Site", inversedBy="navigations", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     protected $site;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="navigation")
+     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="navigation", cascade={"all"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $items;

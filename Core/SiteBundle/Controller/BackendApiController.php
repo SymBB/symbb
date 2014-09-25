@@ -75,6 +75,19 @@ class BackendApiController extends AbstractController
     }
 
     /**
+     * @Route("/api/site/navigation/delete", name="symbb_backend_api_site_navigation_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteNavigation(Request $request)
+    {
+        $api = $this->get('symbb.core.api.site.navigation');
+        $data = (int)$request->get('data');
+        $api->delete($data);
+        return $api->getJsonResponse(array(
+        ));
+    }
+
+    /**
      * @Route("/api/site/navigation/item/save", name="symbb_backend_api_site_navigation_item_save")
      * @Method({"POST"})
      */
@@ -86,6 +99,19 @@ class BackendApiController extends AbstractController
         $object = $api->createArrayOfObject($object);
         return $api->getJsonResponse(array(
             'data' => $object
+        ));
+    }
+
+    /**
+     * @Route("/api/site/navigation/item/delete", name="symbb_backend_api_site_navigation_item_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteNavigationItem(Request $request)
+    {
+        $api = $this->get('symbb.core.api.site.navigation');
+        $data = (int)$request->get('data');
+        $api->deleteItem($data);
+        return $api->getJsonResponse(array(
         ));
     }
 

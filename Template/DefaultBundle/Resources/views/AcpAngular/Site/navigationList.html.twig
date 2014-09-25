@@ -85,7 +85,7 @@
                     <i class="glyphicon glyphicon-pencil"></i>
                     {{ 'edit'|trans }}
                 </button>
-                <button class="btn btn-default btn-xs" ng-click="deleteItem(item)">
+                <button class="btn btn-default btn-xs" ng-click="deleteItem(navigation, item, $parent.$parent.item)">
                     <i class="glyphicon glyphicon-trash"></i>
                     {{ 'delete'|trans }}
                 </button>

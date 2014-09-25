@@ -27,19 +27,19 @@ class Item
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", inversedBy="items")
+     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation", inversedBy="items", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $navigation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(referencedColumnName="id")
      */
     protected $parentItem;
 
     /**
-     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="parentItem")
+     * @ORM\OneToMany(targetEntity="SymBB\Core\SiteBundle\Entity\Navigation\Item", mappedBy="parentItem", cascade={"all"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     protected $children;
