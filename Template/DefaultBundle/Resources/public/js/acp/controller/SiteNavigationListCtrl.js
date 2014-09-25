@@ -3,7 +3,7 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
         var pattern = $route.current.$$route.originalPath;
         var routingKey = angularConfig.getRoutingKeyBasedOnPattern(pattern);
         if (routingKey) {
-            var route = angularConfig.getSymfonyApiRoute(routingKey, $routeParams);
+            var route = angularConfig.getSymfonyApiRoute(routingKey, {site: parseInt($scope.currSite)});
             if (route) {
 
                 $http.get(route).success(function (data) {
@@ -22,7 +22,7 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                 };
 
                 $scope.newNavigation = function () {
-                    $scope.$parent.navigationForm = {key: 'main', 'site': $scope.currSite};
+                    $scope.$parent.navigationForm = {nav_key: 'main', 'site': $scope.currSite};
                     $('#naviForm').find('.modal').modal('show');
                     $('#naviForm').find('.modal-button').unbind("click");
                     $('#naviForm').find('.modal-button').click(function () {
@@ -31,7 +31,7 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                 };
 
                 $scope.editNavigation = function (navi) {
-                    navi.site = $scope.currSite;
+                    navi.site = parseInt($scope.currSite);
                     $scope.$parent.navigationForm = navi;
                     $('#naviForm').find('.modal').modal('show');
                     $('#naviForm').find('.modal-button').unbind("click");
@@ -41,8 +41,13 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                 };
 
                 $scope.deleteNavigation = function (navi) {
-                    var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_delete', $routeParams);
-                    $http.delete(route+'?data='+navi.id).success(function (response) {
+                    routeParams = {
+                        _locale: $routeParams._locale,
+                        site: parseInt($scope.currSite),
+                        navigation: navi.id
+                    };
+                    var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_delete', routeParams);
+                    $http.delete(route).success(function (response) {
                         if (response.success) {
                             $.each($scope.data, function(key, site){
                                 var newNavis = [];
@@ -89,8 +94,14 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                     }));
                 };
                 $scope.deleteItem = function (navigation, item, parentItem) {
-                    var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_delete', $routeParams);
-                    $http.delete(route+'?data='+item.id).success(function (response) {
+                    routeParams = {
+                        _locale: $routeParams._locale,
+                        site: parseInt($scope.currSite),
+                        navigation: navigation.id,
+                        item: item.id
+                    };
+                    var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_delete', routeParams);
+                    $http.delete(route).success(function (response) {
                         if (response.success) {
                             if(!parentItem || item.id == parentItem.id){
                                 newItems = [];
@@ -120,7 +131,11 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                 $scope.saveNavigation = function (site) {
                     if (parseInt($scope.$parent.navigationForm.site) > 0 && !$scope.saveNavigationInProgress) {
                         $scope.saveNavigationInProgress = true;
-                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_save', $routeParams);
+                        routeParams = {
+                            _locale: $routeParams._locale,
+                            site: parseInt($scope.currSite)
+                        };
+                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_save', routeParams);
                         $http.post(route, {data: $scope.$parent.navigationForm}).success(function (response) {
                             if (response.success) {
                                 $.each($scope.data, function(key, site){
@@ -148,7 +163,12 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                             !$scope.saveItemInProgress
                     ) {
                         $scope.saveItemInProgress = true;
-                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_save', $routeParams);
+                        routeParams = {
+                            _locale: $routeParams._locale,
+                            site: parseInt($scope.currSite),
+                            navigation: navigation.id
+                        };
+                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_save', routeParams);
                         $http.post(route, {data: $scope.$parent.navigationItemForm}).success(function (response) {
                             if (response.success) {
                                 if($scope.$parent.navigationItemForm.id > 0){

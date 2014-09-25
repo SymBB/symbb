@@ -20,7 +20,11 @@ symbbControllers.controller('SiteListCtrl', ['$scope', '$http', '$routeParams', 
                     $scope.siteLoading = [];
                     $scope.saveSite = function(site){
                         $scope.siteLoading[site.id] = true;
-                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_save');
+                        routeParams = {
+                            _locale: $routeParams._locale,
+                            site: site.id
+                        };
+                        var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_save', routeParams);
                         if(route){
                             $http.post(route, {data: site}).success(function(data) {
                                 $scope.siteLoading[site.id] = false;
@@ -42,9 +46,13 @@ symbbControllers.controller('SiteListCtrl', ['$scope', '$http', '$routeParams', 
                     }
                     $scope.deleteSite = function(site){
                         $scope.siteLoading[site.id] = true;
+                        routeParams = {
+                            _locale: $routeParams._locale,
+                            site: site.id
+                        };
                         var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_delete');
                         if(route){
-                            $http.delete(route+'?data='+site.id).success(function(data) {
+                            $http.delete(route).success(function(data) {
                                 $scope.siteLoading[site.id] = false;
                                 if(data.success){
                                     var newSites = [];

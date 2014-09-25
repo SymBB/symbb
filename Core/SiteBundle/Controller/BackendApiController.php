@@ -18,7 +18,7 @@ class BackendApiController extends AbstractController
 {
 
     /**
-     * @Route("/api/site/list", name="symbb_backend_api_site_list")
+     * @Route("/api/sites", name="symbb_backend_api_site_list")
      * @Method({"GET"})
      */
     public function listAction()
@@ -33,7 +33,7 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/site/save", name="symbb_backend_api_site_save")
+     * @Route("/api/sites", name="symbb_backend_api_site_save")
      * @Method({"POST"})
      */
     public function saveAction(Request $request)
@@ -48,22 +48,47 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/site/delete", name="symbb_backend_api_site_delete")
-     * @Method({"DELETE"})
+     * @Route("/api/sites/{id}", name="symbb_backend_api_site_data")
+     * @Method({"GET"})
      */
-    public function deleteAction(Request $request)
+    public function findAction($id)
     {
         $api = $this->get('symbb.core.api.site');
-        $data = $request->get('data');
-        $api->delete((int)$data);
+        $api->find((int)$id);
         return $api->getJsonResponse();
     }
 
     /**
-     * @Route("/api/site/navigation/save", name="symbb_backend_api_site_navigation_save")
+     * @Route("/api/sites/{id}", name="symbb_backend_api_site_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteAction($id)
+    {
+        $api = $this->get('symbb.core.api.site');
+        $api->delete((int)$id);
+        return $api->getJsonResponse();
+    }
+
+    /**
+     * @Route("/api/sites/{site}/navigations", name="symbb_backend_api_site_navigation_list")
+     * @Method({"GET"})
+     */
+    public function findNavigations($site)
+    {
+        $api = $this->get('symbb.core.api.site.navigation');
+        $object = $api->findAll($site);
+        $object = $api->createArrayOfObject($object);
+        return $api->getJsonResponse(array(
+            'data' => $object
+        ));
+    }
+
+
+    /**
+     * @Route("/api/sites/{site}/navigations", name="symbb_backend_api_site_navigation_save")
      * @Method({"POST"})
      */
-    public function saveNavigation(Request $request)
+    public function saveNavigation($site, Request $request)
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $data = $request->get('data');
@@ -75,23 +100,22 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/site/navigation/delete", name="symbb_backend_api_site_navigation_delete")
+     * @Route("/api/sites/{site}/navigations/{navigation}", name="symbb_backend_api_site_navigation_delete")
      * @Method({"DELETE"})
      */
-    public function deleteNavigation(Request $request)
+    public function deleteNavigation($site, $navigation, Request $request)
     {
         $api = $this->get('symbb.core.api.site.navigation');
-        $data = (int)$request->get('data');
-        $api->delete($data);
+        $api->delete((int)$navigation);
         return $api->getJsonResponse(array(
         ));
     }
 
     /**
-     * @Route("/api/site/navigation/item/save", name="symbb_backend_api_site_navigation_item_save")
+     * @Route("/api/sites/{site}/navigations/{navigation}/items", name="symbb_backend_api_site_navigation_item_save")
      * @Method({"POST"})
      */
-    public function saveNavigationItem(Request $request)
+    public function saveNavigationItem($site, $navigation, Request $request)
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $data = $request->get('data');
@@ -103,14 +127,13 @@ class BackendApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/site/navigation/item/delete", name="symbb_backend_api_site_navigation_item_delete")
+     * @Route("/api/sites/{site}/navigations/{navigation}/items/{item}", name="symbb_backend_api_site_navigation_item_delete")
      * @Method({"DELETE"})
      */
-    public function deleteNavigationItem(Request $request)
+    public function deleteNavigationItem($site, $navigation, $item, Request $request)
     {
         $api = $this->get('symbb.core.api.site.navigation');
-        $data = (int)$request->get('data');
-        $api->deleteItem($data);
+        $api->deleteItem((int)$item);
         return $api->getJsonResponse(array(
         ));
     }
