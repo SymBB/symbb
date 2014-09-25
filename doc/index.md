@@ -10,6 +10,31 @@ Getting Started With Symbb
 
 ## Backend Api
 
+### Backend Api Service
+
+We have the following Api Services to access the Api Functionality also in the Code:
+
+**symbb.core.api.site**
+
+- find
+- findAll
+- create
+- update
+- delete
+
+**symbb.core.api.site.navigation**
+
+- find
+- findAll
+- create
+- update
+- delete
+- findItem
+- findAllItems
+- createItem
+- updateItem
+- deleteItem
+
 ### Backend Api Routes
 
 #### POST Body Structure
@@ -64,14 +89,14 @@ array of messages of the System like error, success, informations ( e.g if you h
 
 | Name | Pattern | HTTP | POST Body |
 | ------------- | ----------- | ----------- | ----------- |
-| symbb_backend_api_site_list | /api/sites | GET | --- |
+| symbb_backend_api_site_list | /api/sites | GET |  |
 | symbb_backend_api_site_save | /api/sites/{id} | POST | JSON |
-| symbb_backend_api_site_data | /api/sites/{id} | GET | --- |
-| symbb_backend_api_site_delete | /api/sites/{id} | DELETE | --- |
-| symbb_backend_api_site_navigation_list | /api/sites/{id}/navigations | GET | --- |
+| symbb_backend_api_site_data | /api/sites/{id} | GET |  |
+| symbb_backend_api_site_delete | /api/sites/{id} | DELETE |  |
+| symbb_backend_api_site_navigation_list | /api/sites/{id}/navigations | GET |  |
 | symbb_backend_api_site_navigation_save | /api/sites/{id}/navigations/{navigation} | POST | JSON |
-| symbb_backend_api_site_navigation_delete | /api/sites/{id}/navigations/{navigation} | DELETE | --- |
+| symbb_backend_api_site_navigation_delete | /api/sites/{id}/navigations/{navigation} | DELETE |  |
 | symbb_backend_api_site_navigation_item_save | /api/sites/{id}/navigations/{navigation}/items/{item} | POST | JSON |
-| symbb_backend_api_site_navigation_item_delete | /api/sites/{id}/navigations/{navigation}/items/{item} | DELETE | --- |
+| symbb_backend_api_site_navigation_item_delete | /api/sites/{id}/navigations/{navigation}/items/{item} | DELETE |  |
 
 
