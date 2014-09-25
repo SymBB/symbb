@@ -1,0 +1,101 @@
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+            
+    symbb.core.table.prefix:
+        class: SymBB\Core\SystemBundle\EventListener\DoctrineNameListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: symbb }
+            
+    symbb.core.config.template:
+        class: SymBB\Core\SystemBundle\Twig\TemplateExtension
+        arguments: ['@symbb.core.site.manager']
+        tags:
+            - { name: twig.extension }
+            
+    symbb.core.config.ext:
+        class: SymBB\Core\SystemBundle\Twig\ConfigExtension
+        arguments: ['@symbb.core.config.manager']
+        tags:
+            - { name: twig.extension }
+
+    symbb.core.abstract.manager:
+        abstract: true
+        calls:
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setAccessManager, ['@symbb.core.access.manager']]
+            - [setPaginator, ['@knp_paginator']]
+            - [setTranslator, ['@translator']]
+            - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+            - [setEventDispatcher, ['@event_dispatcher']]
+
+    symbb.core.abstract.api:
+        abstract: true
+        calls:
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setMessageManager, ['@symbb.core.message.manager']]
+            - [setAccessManager, ['@symbb.core.access.manager']]
+            - [setPaginator, ['@knp_paginator']]
+            - [setTranslator, ['@translator']]
+            - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
+            - [setEventDispatcher, ['@event_dispatcher']]
+            - ['setSerializer', ['@jms_serializer']]
+
+    symbb.core.api.statistic:
+        class: SymBB\Core\SystemBundle\Api\StatisticApi
+        parent: symbb.core.abstract.api
+        calls:
+            - [setMemcache, ['@memcache.default']]
+
+    symbb.core.access.manager:
+        class: SymBB\Core\SystemBundle\Manager\AccessManager
+        arguments: ["%symbb_config%", '@service_container']
+
+    symbb.core.access.voter.manager:
+        class: SymBB\Core\SystemBundle\Manager\AccessVoterManager
+
+    symbb.core.config.manager:
+        class: SymBB\Core\SystemBundle\Manager\ConfigManager
+        arguments: ['@service_container']
+
+    symbb.core.upload.manager:
+        class: SymBB\Core\SystemBundle\Manager\UploadManager
+        arguments: ["%symbb_config%", '%kernel.root_dir%']
+            
+    symbb.extension.routing_loader:
+        class: SymBB\ExtensionBundle\Routing\ExtraLoader
+        arguments: ["@kernel"]
+        tags:
+            - { name: routing.loader } 
+    
+    symbb.core.imagine.filter.loader.symbb_opacity:
+        class: SymBB\Core\SystemBundle\Imagine\Filter\Loader\OpacityFilterLoader
+        arguments: ["@liip_imagine", "%kernel.root_dir%"]
+        tags:
+            - { name: liip_imagine.filter.loader , loader: symbb_opacity } 
+        
+    symbb.core.system.intl.twig:
+        twig.extension.symbb.core.system.intl.twig:
+        class: SymBB\Core\SystemBundle\Twig\IntlExtension
+        arguments: ['@symbb.core.user.manager']
+        tags:
+            - { name: twig.extension } 
+            
+    symbb.core.system.exception.listener:
+        class: SymBB\Core\SystemBundle\EventListener\ExceptionListener
+        arguments: ['@symbb.core.site.manager', '@templating', %kernel.environment%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    symbb.core.system.request.listener:
+        class: SymBB\Core\SystemBundle\EventListener\RequestListener
+        arguments: ['@symbb.core.api.statistic', '@security.context']
+        tags:
+            - { name: kernel.event_listener, event: kernel.finish_request, method: statistic }
+
+    symbb.core.update.manager:
+        class: SymBB\Core\SystemBundle\Manager\UpdateManager
+        arguments: ['@kernel']

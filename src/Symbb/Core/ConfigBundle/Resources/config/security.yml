@@ -1,0 +1,44 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        login:
+            pattern:  ^/([^/]*)/(login$|register|resetting)  
+            anonymous: true
+        install:
+            pattern:  ^/symbb/install 
+            security: false
+        main:
+            pattern: .*
+            form_login:
+                login_path: symbb_login
+                check_path: symbb_login_check
+                provider: fos_userbundle
+            logout:
+              path:   symbb_logout
+              target: /
+            anonymous:    true
+            remember_me:
+                key:      %secret%
+                lifetime: 604800
+                path:     /
+                domain:   ~
+
+    access_control:
+        - { path: ^/([^/]*)/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/([^/]*)/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/([^/]*)/acp/, role: ROLE_ADMIN }
+        - { path: ^/([^/]*)/acp, role: ROLE_ADMIN }
+        - { path: ^/_trans/, role: ROLE_ADMIN }

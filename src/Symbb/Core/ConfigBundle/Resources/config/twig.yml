@@ -1,0 +1,3 @@
+twig:
+    #exception_controller: 'SymBB\Core\SystemBundle\Controller\ExceptionController::showAction'
+    globals: ['@symbb.core.config.template']

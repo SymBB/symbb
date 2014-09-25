@@ -1,0 +1,11 @@
+fos_rest:
+    view:
+      force_redirects:
+        html: true
+      formats:
+          json: true
+          xml: false
+          rss: true
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
