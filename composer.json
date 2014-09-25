@@ -45,7 +45,7 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "Symbb\\": "src/Symbb" }
+        "psr-0": { "Symbb\\": "src" }
     },
     "target-dir": "",
     "scripts": {
