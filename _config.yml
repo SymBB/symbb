@@ -1,7 +1,7 @@
 # Site settings
-title: Freelancer
-email: your-email@domain.com
-description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
+title: SymBB
+email: christianwielath@gmail.com
+description: "a Forum System based an a Symfony backend and a Angular Frontend"
 
 # Color settings (hex-codes without the leading hash-tag)
 color:
