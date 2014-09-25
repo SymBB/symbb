@@ -25,6 +25,6 @@ class SymbbCoreAngularExtension extends Extension
 
     public function getAlias()
     {
-        return 'sym_bb_core_angular';
+        return 'symbb_core_angular';
     }
 }
