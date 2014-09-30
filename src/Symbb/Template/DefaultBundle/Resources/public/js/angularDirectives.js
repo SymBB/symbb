@@ -163,6 +163,57 @@ symbbControllers.directive('symbbBreadcrumb', function() {
             };
         }
     };
+}]).directive('symbbRestPagination', ['$http', '$route', '$location', '$timeout', function($http, $route, $location, $timeout) {
+    return {
+        restrict: 'E',
+        replace: true,
+        template: '<ul class="pagination"><li><a href="#" ng-click="paginateBack()">«</a></li><li ng-repeat="page in paginationData.pagesInRange" ng-class=\'(page==paginationData.current) ? "active" : "inactive"\'><a href="#" ng-click="paginate(page)">[[page]]</a></li><li><a href="#" ng-click="paginateNext()">»</a></li></ul>',
+        link: function(scope, element, attrs) {
+
+            scope.paginate = function(pagenumber){
+                if(!pagenumber){
+                    pagenumber = 1;
+                } else {
+                    pagenumber = parseInt(pagenumber);
+                }
+                var startPage = scope.paginationData.startPage;
+                var endPage = scope.paginationData.endPage;
+                if(pagenumber < startPage){
+                    pagenumber = startPage;
+                }
+                if(pagenumber > endPage){
+                    pagenumber = endPage;
+                }
+                $timeout(function(){
+                    var params = prepareParams(attrs);
+                    var route = angularConfig.getSymfonyRoute(attrs.route, params);
+                    $http.get(route+'?page='+pagenumber).success(function(response){
+                        if(response.success){
+                            $.each(response, function(key, value) {
+                                scope[key] = value;
+                            });
+                        }
+                    });
+                }, 0 );
+            };
+            scope.paginateNext = function(){
+                $timeout(function(){
+                    scope.paginate(scope.paginationData.next);
+                }, 0 );
+            };
+            scope.paginateBack = function(){
+                var current = scope.paginationData.current;
+                var startPage = scope.paginationData.startPage;
+                var back = parseInt(current) - 1;
+                if(back < startPage){
+                    back = startPage;
+                }
+                $timeout(function(){
+                    scope.paginate(back);
+                }, 0 );
+            };
+        }
+    };
 }]).directive('ngBindHtmlUnsafe', [function() {
     return function(scope, element, attr) {
         element.addClass('ng-binding').data('$binding', attr.ngBindHtmlUnsafe);

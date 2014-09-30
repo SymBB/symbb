@@ -3,6 +3,7 @@ var app = angular.module('app', [
     'ngCookies',
     'ngAnimate',
     'ngSanitize',
+    'ngResource',
     'chieffancypants.loadingBar',
     'infinite-scroll',
     'angularFileUpload',

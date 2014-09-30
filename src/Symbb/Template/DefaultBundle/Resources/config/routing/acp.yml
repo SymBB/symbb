@@ -55,3 +55,28 @@ symbb_acp_site_navigation_list:
           route: symbb_template_acp_angular
           params:
               file: 'Site|navigationList'
+
+## USER BUNDLE
+symbb_acp_user_list:
+    pattern:  /user
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: ApiCrudListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|userlist'
+
+symbb_acp_user_group_list:
+    pattern:  /usergroup
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: ApiCrudListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_group_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|grouplist'

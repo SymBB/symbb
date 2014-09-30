@@ -46,6 +46,7 @@ class NavigationApi extends AbstractApi
      */
     public function getList(){
         $objects = $this->navigationManager->findAll();
+        $this->addPaginationData($objects);
         $objects = $objects->getItems();
         if(empty($objects)){
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);

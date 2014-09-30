@@ -207,6 +207,17 @@ symbbControllers.controller('DefaultApiCtrl', ['$scope', '$http', '$routeParams'
     }
 ]);
 
+symbbControllers.controller('DefaultCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll', '$route',
+    function($scope, $http, $routeParams, $anchorScroll, $route) {
+        var pattern = $route.current.$$route.originalPath;
+        var routingKey = angularConfig.getRoutingKeyBasedOnPattern(pattern);
+        if(routingKey){
+            $anchorScroll();
+        } else {
+            console.debug('No configured angular route found for: '+pattern)
+        }
+    }
+]);
 
 
 var refresh = function(data, route){

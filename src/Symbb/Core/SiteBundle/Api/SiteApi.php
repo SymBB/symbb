@@ -36,6 +36,7 @@ class SiteApi extends AbstractApi
      */
     public function getList(){
         $sites = $this->siteManager->findAll();
+        $this->addPaginationData($sites);
         $sites = $sites->getItems();
         if(empty($sites)){
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);

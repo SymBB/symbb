@@ -9,38 +9,25 @@
 
 namespace Symbb\Core\UserBundle\DependencyInjection;
 
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symbb\Core\UserBundle\Entity\GroupInterface;
 
-class GroupManager
+class GroupManager extends AbstractManager
 {
-
-    /**
-     * @var EntityManager
-     */
-    protected $em;
-
-    /**
-     * @var SecurityFactoryInterface
-     */
-    protected $securityFactory;
 
     /**
      * @var string 
      */
     protected $groupClass = '';
 
-    protected $paginator;
 
     public function __construct($container)
     {
-        $this->em = $container->get('doctrine.orm.symbb_entity_manager');
-        $this->securityFactory = $container->get('security.encoder_factory');
         $config = $container->getParameter('symbb_config');
         $this->config = $config['groupmanager'];
         $this->groupClass = $this->config['group_class'];
-        $this->paginator = $container->get('knp_paginator');
 
     }
 
@@ -48,10 +35,11 @@ class GroupManager
      * update the given group
      * @param \Symbb\Core\UserBundle\Entity\GroupInterface $group
      */
-    public function updateGroup(GroupInterface $group)
+    public function update(GroupInterface $group)
     {
         $this->em->persist($group);
         $this->em->flush();
+        return true;
 
     }
 
@@ -59,10 +47,11 @@ class GroupManager
      * remove the given group
      * @param \Symbb\Core\UserBundle\Entity\GroupInterface $user
      */
-    public function removeUser(GroupInterface $group)
+    public function remove(GroupInterface $group)
     {
         $this->em->remove($group);
         $this->em->flush();
+        return true;
 
     }
 
@@ -70,7 +59,7 @@ class GroupManager
      * create a new Group
      * @return \Symbb\Core\UserBundle\Entity\GroupInterface
      */
-    public function createGroup()
+    public function create()
     {
         $groupClass = $this->groupClass;
         $group = new $groupClass();
@@ -94,30 +83,17 @@ class GroupManager
      * 
      * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
-    public function findGroups()
+    public function findAll($limit = 20, $page = 1)
     {
-        $groups = $this->em->getRepository($this->groupClass)->findAll();
-        return $groups;
-
+        $dql = "SELECT g FROM SymbbCoreUserBundle:Group g";
+        $query = $this->em->createQuery($dql);
+        $pagination = $this->createPagination($query, $page/* page number */, $limit);
+        return $pagination;
     }
 
     public function getClass()
     {
         return $this->groupClass;
-
-    }
-
-    public function paginateAll($request)
-    {
-        $dql = "SELECT g FROM SymbbCoreUserBundle:Group g";
-        $query = $this->em->createQuery($dql);
-
-        $paginator = $this->paginator;
-        $pagination = $paginator->paginate(
-            $query, $request->query->get('page', 1)/* page number */, 20/* limit per page */
-        );
-
-        return $pagination;
 
     }
     

@@ -16,7 +16,7 @@ class FormListener
     {
         $builder = $event->getBuilder();
         $groupManager = $event->getGroupManager();
-        $groups = $groupManager->findGroups();
+        $groups = $groupManager->findAll();
         $groupArray = array();
 
         foreach ($groups as $group) {

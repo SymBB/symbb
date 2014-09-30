@@ -9,9 +9,22 @@ services:
         class: Symbb\Core\UserBundle\DependencyInjection\UserManager
         arguments: ["@service_container"]
         
-    symbb.core.group.manager:
+    symbb.core.user.group.manager:
+        parent: symbb.core.abstract.manager
         class: Symbb\Core\UserBundle\DependencyInjection\GroupManager
         arguments: ["@service_container"]
+
+    symbb.core.api.user:
+        class: Symbb\Core\UserBundle\Api\UserApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setUserManager', ['@symbb.core.user.manager']]
+
+    symbb.core.api.user.group:
+        class: Symbb\Core\UserBundle\Api\GroupApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setGroupManager', ['@symbb.core.user.group.manager']]
         
     symbb.core.user.metadata:
         class: Symbb\Core\UserBundle\EventListener\DoctrineMetaDataListener

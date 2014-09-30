@@ -9,12 +9,21 @@
 
 namespace Symbb\Core\UserBundle\DependencyInjection;
 
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+use Doctrine\ORM\Query;
 use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
+/**
+ *
+ * DONT EXTEND FROM Abstract Manager, Abstract manager is injecting this Manager
+ *
+ * Class UserManager
+ * @package Symbb\Core\UserBundle\DependencyInjection
+ */
 class UserManager
 {
 
@@ -43,7 +52,7 @@ class UserManager
 
     /**
      *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher 
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
 
@@ -88,11 +97,13 @@ class UserManager
     /**
      * update the given user
      * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
+     * @return bool
      */
     public function updateUser(UserInterface $user)
     {
         $this->em->persist($user);
         $this->em->flush();
+        return true;
     }
 
     /**
@@ -109,13 +120,14 @@ class UserManager
     }
 
     /**
-     * remove the given user
      * @param UserInterface $user
+     * @return bool
      */
     public function removeUser(UserInterface $user)
     {
         $this->em->remove($user);
         $this->em->flush();
+        return true;
     }
 
     /**
@@ -178,15 +190,15 @@ class UserManager
      * 
      * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
      */
-    public function findUsers()
+    public function findUsers($limit , $page = 1)
     {
-        $users = $this->em->getRepository($this->userClass)->findAll();
+        $users = $this->findBy(array(), $limit, $page);
         return $users;
     }
 
     public function countUsers()
     {
-        $users = $this->findUsers();
+        $users = $this->findUsers(0);
         return count($users);
     }
 
@@ -214,23 +226,7 @@ class UserManager
         $qb->add("where", implode(' AND ', $whereParts));
         $qb->orderBy("u.username", "ASC");
         $query = $qb->getQuery();
-        $pagination = $this->paginator->paginate(
-            $query, $page, $limit
-        );
-
-        return $pagination;
-    }
-
-    public function paginateAll($request)
-    {
-        $dql = "SELECT u FROM SymbbCoreUserBundle:User u";
-        $query = $this->em->createQuery($dql);
-
-        $paginator = $this->paginator;
-        $pagination = $paginator->paginate(
-            $query, $request->query->get('page', 1)/* page number */, 20/* limit per page */
-        );
-
+        $pagination = $this->createPagination($query, $page, $limit);
         return $pagination;
     }
 
@@ -322,10 +318,7 @@ class UserManager
         $qb->orderBy("p.created", "desc");
         $dql = $qb->getDql();
         $query = $this->em->createQuery($dql);
-
-        $posts = $this->paginator->paginate(
-            $query, 1/* page number */, $limit/* limit per page */
-        );
+        $posts = $this->createPagination($query, 1, $limit);
         return $posts;
     }
 
@@ -459,5 +452,38 @@ class UserManager
             $this->symbbDataCache[$user->getId()] = $user->getSymbbData();
         }
         return $this->symbbDataCache[$user->getId()];
+    }
+
+
+    public function createPagination($query, $page, $limit){
+
+        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm->addScalarResult('count', 'count');
+
+        $queryCount = $query->getSql();
+        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
+        $queryCount->setParameters($query->getParameters());
+        $count = $queryCount->getSingleScalarResult();
+        if(!$count){
+            $count = 0;
+        }
+
+        if($page === 'last'){
+            $page = $count / $limit;
+            $page = ceil($page);
+        }
+
+        if($page <= 0){
+            $page = 1;
+        }
+
+        $query->setHint('knp_paginator.count', $count);
+
+        $pagination = $this->paginator->paginate(
+            $query, (int)$page, $limit, array('distinct' => false)
+        );
+
+        return $pagination;
     }
 }

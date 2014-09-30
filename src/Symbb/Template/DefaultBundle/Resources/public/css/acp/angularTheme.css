@@ -446,3 +446,8 @@ h1, .h1 {
 .modal {
     top: 50px;
 }
+
+.table tfoot .pagination {
+    margin: 0;
+    float: right;
+}
