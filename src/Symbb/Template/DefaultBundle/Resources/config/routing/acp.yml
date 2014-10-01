@@ -74,7 +74,7 @@ symbb_acp_user_group_list:
     defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
     options:
       symbb_angular_section: acp
-      symbb_angular_controller: ApiCrudListCtrl
+      symbb_angular_controller: UserGroupListCtrl
       symbb_angular_api_route: symbb_backend_api_user_group_list
       symbb_angular_template:
           route: symbb_template_acp_angular

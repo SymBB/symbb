@@ -82,4 +82,41 @@ class BackendApiController extends AbstractController
             'data' => $objects
         ));
     }
+
+    /**
+     * @Route("/api/usergroup", name="symbb_backend_api_user_group_save")
+     * @Method({"POST"})
+     */
+    public function saveGroupAction(Request $request)
+    {
+        $api = $this->get('symbb.core.api.user.group');
+        $data = $request->get('data');
+        $object = $api->save($data);
+        $object = $api->createArrayOfObject($object);
+        return $api->getJsonResponse(array(
+            'data' => $object
+        ));
+    }
+
+    /**
+     * @Route("/api/usergroup/{group}", name="symbb_backend_api_user_group_data")
+     * @Method({"GET"})
+     */
+    public function findGroupAction($group)
+    {
+        $api = $this->get('symbb.core.api.user.group');
+        $api->find((int)$group);
+        return $api->getJsonResponse();
+    }
+
+    /**
+     * @Route("/api/usergroup/{group}", name="symbb_backend_api_user_group_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteGroupAction($group)
+    {
+        $api = $this->get('symbb.core.api.user.group');
+        $api->delete((int)$group);
+        return $api->getJsonResponse();
+    }
 }

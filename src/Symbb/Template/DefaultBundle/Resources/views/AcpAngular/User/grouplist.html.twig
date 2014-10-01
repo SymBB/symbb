@@ -5,6 +5,12 @@
 {% block title %}{{ 'Groups'|trans }}{% endblock %}
 {% block subtitle %}
     {{ 'You can manage your Usergroups on this Pages'|trans }}
+    <div class="pull-right">
+        <button ng-click="create()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Group'|trans }}
+        </button>
+    </div>
 {% endblock %}
 {% block content %}
     <div class="bg-white-only table-responsive">
@@ -23,17 +29,34 @@
             <tr ng-repeat="entry in data">
                 <td>[[ entry.name]]</td>
                 <td>
-
+                    <button ng-click="edit(entry)" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        {{ 'edit'|trans }}
+                    </button>
+                    <button ng-click="delete(entry)" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        {{ 'delete'|trans }}
+                    </button>
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
                 <td colspan="5">
+                    <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+                    </button>
                     <symbb-rest-pagination route="symbb_backend_api_user_group_list"></symbb-rest-pagination>
                 </td>
             </tr>
             </tfoot>
         </table>
     </div>
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Group'|trans }}">
+        <button ng-if="restCrudSaving" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+        </button>
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name" />
+
+    </symbb-modal-form>
 {% endblock %}

@@ -190,7 +190,7 @@ class UserManager
      * 
      * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
      */
-    public function findUsers($limit , $page = 1)
+    public function findUsers($limit = 20 , $page = 1)
     {
         $users = $this->findBy(array(), $limit, $page);
         return $users;

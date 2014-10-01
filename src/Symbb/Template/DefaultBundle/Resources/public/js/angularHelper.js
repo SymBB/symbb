@@ -41,6 +41,14 @@ var angularConfig = {
         return routePath;
     },
 
+    getSymfonyApiRouteKey: function(route, params){
+        var routePath =  '';
+        if(this.angularRoutes[route] && this.angularRoutes[route]['api']){
+            routePath = this.angularRoutes[route]['api']['route']
+        }
+        return routePath;
+    },
+
     getSymfonyTemplateRoute: function(route, params){
         var routePath =  '';
         if(this.angularRoutes[route] && this.angularRoutes[route]['template']){
@@ -173,7 +181,8 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
         },
         // On response failture
         responseError: function(rejection) {
-            // console.log(rejection); // Contains the data about the error.
+            symbbAngularUtils.checkResponse(rejection, $injector);
+            //console.log(rejection); // Contains the data about the error.
             // Return the promise rejection.
             return $q.reject(rejection);
         }
@@ -244,7 +253,15 @@ var symbbAngularUtils = {
 
         var $route = $injector.get('$route');
         var errors = false;
-
+        if(data.status === 500){
+            data.messages = [
+                {
+                    type: 'error',
+                    bootstrapType: "danger",
+                    message: "Server error!"
+                }
+            ];
+        }
         if(data.messages){
             $.each(data.messages, function(key, value){
                 if(value.type === 'error'){

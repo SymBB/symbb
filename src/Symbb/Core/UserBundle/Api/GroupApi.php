@@ -11,9 +11,8 @@ namespace Symbb\Core\UserBundle\Api;
 
 use Symbb\Core\SystemBundle\Api\AbstractApi;
 use Symbb\Core\UserBundle\DependencyInjection\GroupManager;
+use Symbb\Core\UserBundle\Entity\Group;
 use Symbb\Core\UserBundle\Entity\GroupInterface;
-use Symbb\Core\UserBundle\Entity\User;
-use Symbb\Core\UserBundle\Entity\UserInterface;
 
 class GroupApi extends AbstractApi
 {
@@ -26,7 +25,7 @@ class GroupApi extends AbstractApi
 
     /**
      * @param $id
-     * @return UserInterface
+     * @return GroupInterface
      */
     public function find($id){
         $object = $this->groupManager->find($id);
@@ -65,10 +64,10 @@ class GroupApi extends AbstractApi
             if($object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
-                $object = new User();
+                $object = new Group();
             }
-            $this->assignArrayToObject($object, $objectData, $this->getUserArrayFields());
-        } else if(!($object instanceof User)) {
+            $this->assignArrayToObject($object, $objectData, $this->getGroupArrayFields());
+        } else if(!($object instanceof GroupInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
@@ -89,7 +88,7 @@ class GroupApi extends AbstractApi
     public function delete($object){
         if(is_numeric($object)){
             $object = $this->find($object);
-        } else if(!($object instanceof UserInterface)) {
+        } else if(!($object instanceof GroupInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
         if(!$this->hasError()){
@@ -106,7 +105,7 @@ class GroupApi extends AbstractApi
      * return a list of all field names of the Site object as Array
      * @return array
      */
-    public function getUserArrayFields(){
+    public function getGroupArrayFields(){
         // only this fields are allowed
         $fields = array(
             'name'

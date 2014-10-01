@@ -9,5 +9,6 @@ var app = angular.module('app', [
     'angularFileUpload',
     'angularTumb',
     'ui.bootstrap.datetimepicker',
-    'symbbControllers'
+    'symbbControllers',
+    'symbb-rest-crud'
 ]);
