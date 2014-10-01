@@ -10,6 +10,7 @@
 namespace Symbb\Core\UserBundle\Api;
 
 use Symbb\Core\SystemBundle\Api\AbstractApi;
+use Symbb\Core\UserBundle\DependencyInjection\GroupManager;
 use Symbb\Core\UserBundle\DependencyInjection\UserManager;
 use Symbb\Core\UserBundle\Entity\User;
 use Symbb\Core\UserBundle\Entity\UserInterface;
@@ -22,6 +23,10 @@ class UserApi extends AbstractApi
      * @var UserManager
      */
     protected $userManager;
+    /**
+     * @var GroupManager
+     */
+    protected $groupManager;
 
     /**
      * @param $id
@@ -62,13 +67,29 @@ class UserApi extends AbstractApi
         if(is_array($object)){
             $objectData = $object;
             $newPassword = "";
+            $groups = array();
             if($object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
                 $object = new User();
             }
-            if(isset($object['password'])){
-                $newPassword = $object['password'];
+            if(isset($objectData['password'])){
+                $newPassword = $objectData['password'];
+            }
+            if(isset($objectData['enabled']) && $objectData['enabled']){
+                $object->enable();
+            } else {
+                $object->disable();
+            }
+            unset($objectData['enabled']);
+            if(isset($objectData['groups'])){
+                $groups = $objectData['groups'];
+                $object->setGroups(array());
+                foreach($groups as $groupId){
+                    $group = $this->groupManager->find($groupId);
+                    $object->addGroup($group);
+                }
+                unset($objectData['groups']);
             }
             $this->assignArrayToObject($object, $objectData, $this->getUserArrayFields());
         } else if(!($object instanceof User)) {
@@ -76,14 +97,16 @@ class UserApi extends AbstractApi
         }
 
         if(!$this->hasError()){
-            $check = $this->userManager->updateUser($object);
-            if(!empty($newPassword) && $check === true){
+            if(!empty($newPassword)){
                 $check = $this->userManager->changeUserPassword($object, $newPassword);
                 if($check !== true){
                     foreach($check as $pwError){
                         $this->addErrorMessage($pwError);
                     }
+                    $check = false;
                 }
+            } else {
+                $check = $this->userManager->updateUser($object);
             }
             if($check === true){
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
@@ -122,6 +145,7 @@ class UserApi extends AbstractApi
         $fields = array(
             'username',
             'email',
+            'password',
             'symbbType'
         );
         return $fields;
@@ -132,6 +156,13 @@ class UserApi extends AbstractApi
      */
     public function setUserManager(UserManager $manager){
         $this->userManager = $manager;
+    }
+
+    /**
+     * @param GroupManager $manager
+     */
+    public function setGroupManager(GroupManager $manager){
+        $this->groupManager = $manager;
     }
 
     /**
@@ -156,7 +187,9 @@ class UserApi extends AbstractApi
             'username' => '',
             'email' => '',
             'last_login' => '',
-            'created' => ''
+            'created' => '',
+            'enabled' => 0,
+            'groups' => array()
         );
         if(is_object($object)){
             $array['id'] = $object->getId();
@@ -164,6 +197,11 @@ class UserApi extends AbstractApi
             $array['email'] = $object->getEmail();
             $array['last_login'] = $this->getISO8601ForUser($object->getLastLogin());
             $array['created'] = $this->getISO8601ForUser($object->getCreated());
+            $array['enabled'] = $object->isEnabled();
+            $groups = $object->getGroups();
+            foreach($groups as $group){
+                $array['groups'][] = $group->getId();
+            }
         }
         return $array;
     }

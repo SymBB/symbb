@@ -101,6 +101,7 @@ class UserManager
      */
     public function updateUser(UserInterface $user)
     {
+        $user->setChangedValue();
         $this->em->persist($user);
         $this->em->flush();
         return true;
@@ -137,6 +138,7 @@ class UserManager
      */
     public function changeUserPassword(UserInterface $user, $newPassword)
     {
+        $user->setChangedValue();
         $encoder = $this->securityFactory->getEncoder($user);
         $password = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($password);

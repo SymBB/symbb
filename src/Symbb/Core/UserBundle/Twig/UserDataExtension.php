@@ -9,15 +9,24 @@
 
 namespace Symbb\Core\UserBundle\Twig;
 
+use Symbb\Core\UserBundle\DependencyInjection\GroupManager;
+use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+
 class UserDataExtension extends \Twig_Extension
 {
 
     protected $userManager;
+    protected $groupManager;
 
-    public function __construct(\Symbb\Core\UserBundle\DependencyInjection\UserManager $userManager)
+    /**
+     * @param UserManager $userManager
+     * @param GroupManager $groupManager
+     */
+    public function __construct(UserManager $userManager, GroupManager $groupManager)
     {
 
         $this->userManager = $userManager;
+        $this->groupManager = $groupManager;
     }
 
     public function getFunctions()
@@ -26,6 +35,7 @@ class UserDataExtension extends \Twig_Extension
             new \Twig_SimpleFunction('getSymbbUserData', array($this, 'getSymbbUserData')),
             new \Twig_SimpleFunction('isSymbbGuest', array($this, 'isSymbbGuest')),
             new \Twig_SimpleFunction('getUserManager', array($this, 'getUserManager')),
+            new \Twig_SimpleFunction('getGroupManager', array($this, 'getGroupManager')),
             new \Twig_SimpleFunction('getSymbbUserAvatar', array($this, 'getSymbbUserAvatar'), array(
                 'is_safe' => array('html')
                 )),
@@ -38,6 +48,12 @@ class UserDataExtension extends \Twig_Extension
     public function getUserManager()
     {
         return $this->userManager;
+    }
+
+
+    public function getGroupManager()
+    {
+        return $this->groupManager;
     }
 
     public function getSymbbUserData(\Symbb\Core\UserBundle\Entity\UserInterface $user)

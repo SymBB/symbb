@@ -1,7 +1,7 @@
 services:
     symbb.core.user.data:
         class: Symbb\Core\UserBundle\Twig\UserDataExtension
-        arguments: ['@symbb.core.user.manager']
+        arguments: ['@symbb.core.user.manager', '@symbb.core.user.group.manager']
         tags:
             - { name: twig.extension } 
             
@@ -19,6 +19,7 @@ services:
         parent: symbb.core.abstract.api
         calls:
           - ['setUserManager', ['@symbb.core.user.manager']]
+          - ['setGroupManager', ['@symbb.core.user.group.manager']]
 
     symbb.core.api.user.group:
         class: Symbb\Core\UserBundle\Api\GroupApi

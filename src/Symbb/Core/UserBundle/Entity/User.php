@@ -174,7 +174,17 @@ class User extends BaseUser implements UserInterface
      */
     public function setGroups($value)
     {
+        if(is_array($value)){
+            $value = new ArrayCollection($value);
+        }
         $this->groups = $value;
+    }
+
+    /**
+     * @param GroupInterface $group
+     */
+    public function addGroup(\FOS\UserBundle\Model\GroupInterface $group){
+        $this->groups->add($group);
     }
 
     /**
@@ -218,6 +228,15 @@ class User extends BaseUser implements UserInterface
     public function setChangedValue()
     {
         $this->changed = new \DateTime();
+    }
+
+    /**
+     *
+     * @return \DateTime
+     */
+    public function getChanged()
+    {
+        return $this->changed;
     }
 
     /**

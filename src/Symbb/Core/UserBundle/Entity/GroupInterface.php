@@ -9,7 +9,7 @@
 
 namespace Symbb\Core\UserBundle\Entity;
 
-interface GroupInterface
+interface GroupInterface extends \FOS\UserBundle\Model\GroupInterface
 {
 
     public function getId();

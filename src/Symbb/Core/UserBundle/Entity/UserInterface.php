@@ -28,8 +28,6 @@ interface UserInterface extends AdvancedUserInterface
     public function getFieldValues();
     
     public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field);
-    
-    public function getCreated();
 
     /**
      * @return \Symbb\Core\UserBundle\Entity\User\Data
@@ -50,4 +48,17 @@ interface UserInterface extends AdvancedUserInterface
     public function enable();
     
     public function disable();
+
+    public function setChangedValue();
+
+    public function setCreatedValue();
+
+    public function getCreated();
+
+    public function getChanged();
+
+    public function setGroups($groups);
+
+    public function addGroup(\FOS\UserBundle\Model\GroupInterface $group);
+
 }

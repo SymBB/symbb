@@ -5,7 +5,9 @@
         factory('$symbbRestCrud', ["$http", "$routeParams", "$anchorScroll", "$route",
         function ($http, $routeParams, $anchorScroll, $route) {
             var service = {
-                routingIdField: 'id'
+                routingIdField: 'id',
+                beforeSave: null,
+                beforeEdit: null
             };
             service.init = function ($scope) {
                 var pattern = $route.current.$$route.originalPath;
@@ -31,6 +33,9 @@
                         };
 
                         $scope.edit = function (entry) {
+                            if(service.beforeEdit){
+                                entry = service.beforeEdit(entry);
+                            }
                             $scope.formEntry = {};
                             if (entry) {
                                 $scope.formEntry = entry;
@@ -43,33 +48,46 @@
                         };
 
                         $scope.delete = function (entry) {
-                            var deleteRoutingKey = apiRoutingKey;
-                            deleteRoutingKey = deleteRoutingKey.replace('_list', '_delete');
-                            var routeParams = {_locale: $routeParams._locale};
-                            routeParams[service.routingIdField] = entry.id;
-                            var route = angularConfig.getSymfonyRoute(deleteRoutingKey, routeParams);
-                            $http.delete(route).success(function (response) {
-                                $scope.restCrudSaving = false;
-                                $scope.query(1);
-                            }).error(function () {
-                                $scope.restCrudSaving = false;
-                            })
+                            if(!$scope.restCrudSaving){
+                                $scope.restCrudSaving = true;
+                                if(confirm("Are you sure!?")){
+                                    var deleteRoutingKey = apiRoutingKey;
+                                    deleteRoutingKey = deleteRoutingKey.replace('_list', '_delete');
+                                    var routeParams = {_locale: $routeParams._locale};
+                                    routeParams[service.routingIdField] = entry.id;
+                                    var route = angularConfig.getSymfonyRoute(deleteRoutingKey, routeParams);
+                                    $http.delete(route).success(function (response) {
+                                        if(response.success) {
+                                            $scope.query(1);
+                                        }
+                                        $scope.restCrudSaving = false;
+                                    }).error(function () {
+                                        $scope.restCrudSaving = false;
+                                    })
+                                }
+                            }
                         };
 
                         $scope.save = function (entry) {
-                            $scope.restCrudSaving = true;
-                            var saveRoutingKey = apiRoutingKey;
-                            saveRoutingKey = saveRoutingKey.replace('_list', '_save');
-                            var routeParams = {_locale: $routeParams._locale};
-                            var route = angularConfig.getSymfonyRoute(saveRoutingKey, routeParams);
-                            console.debug(route);
-                            $http.post(route, {data: entry}).success(function (response) {
-                                $scope.query(1);
-                                $('#restCurdForm').find('.modal').modal('hide');
-                                $scope.restCrudSaving = false;
-                            }).error(function () {
-                                $scope.restCrudSaving = false;
-                            })
+                            if(!$scope.restCrudSaving) {
+                                if(service.beforeSave){
+                                    entry = service.beforeSave(entry);
+                                }
+                                $scope.restCrudSaving = true;
+                                var saveRoutingKey = apiRoutingKey;
+                                saveRoutingKey = saveRoutingKey.replace('_list', '_save');
+                                var routeParams = {_locale: $routeParams._locale};
+                                var route = angularConfig.getSymfonyRoute(saveRoutingKey, routeParams);
+                                $http.post(route, {data: entry}).success(function (response) {
+                                    if(response.success){
+                                        $scope.query(1);
+                                        $('#restCurdForm').find('.modal').modal('hide');
+                                    }
+                                    $scope.restCrudSaving = false;
+                                }).error(function () {
+                                    $scope.restCrudSaving = false;
+                                })
+                            }
                         };
 
                         $scope.assignData = function (response) {
