@@ -20,7 +20,8 @@
                 <col style="width: 20%" />
                 <col style="width: 20%" />
                 <col style="width: 20%" />
-                <col style="width: 20%" />
+                <col style="width: 5%" />
+                <col style="width: 15%" />
             </colgroup>
             <thead>
                 <tr>
@@ -28,6 +29,7 @@
                     <th>{{ 'E-Mail'|trans }}</th>
                     <th>{{ 'Last Login'|trans }}</th>
                     <th>{{ 'Created'|trans }}</th>
+                    <th>{{ 'Enabled'|trans }}</th>
                     <th>{{ 'Aktion'|trans }}</th>
                 </tr>
             </thead>
@@ -37,6 +39,10 @@
                 <td>[[ entry.email]]</td>
                 <td>[[ entry.last_login | date:'dd.MM.yyyy']]</td>
                 <td>[[ entry.created | date:'dd.MM.yyyy']]</td>
+                <td>
+                    <span ng-if="entry.enabled" class="glyphicon glyphicon-ok"></span>
+                    <span ng-if="!entry.enabled" class="glyphicon glyphicon-remove"></span>
+                    </td>
                 <td>
                     <button ng-click="edit(entry)" class="btn btn-default btn-xs">
                         <span class="glyphicon glyphicon-pencil"></span>
@@ -51,7 +57,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
                         <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
                     </button>
