@@ -10,13 +10,13 @@
 namespace Symbb\Core\UserBundle\DependencyInjection;
 
 use \Symbb\Core\UserBundle\Entity\UserInterface;
-use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 
 class WhoIsOnlineManager
 {
 
     /**
-     * @var UserManager 
+     * @var UserManager
      */
     protected $userManager;
 

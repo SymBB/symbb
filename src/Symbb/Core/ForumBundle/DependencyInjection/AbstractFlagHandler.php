@@ -12,7 +12,7 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Doctrine\Common\Util\ClassUtils;
 use Symbb\Core\SystemBundle\Entity\Flag;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
-use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\SystemBundle\Manager\AccessManager;
 
 abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager

@@ -14,7 +14,7 @@ class ParseListener
 
     /**
      *
-     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $userManager;
 

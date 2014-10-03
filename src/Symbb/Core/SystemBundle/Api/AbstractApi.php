@@ -9,11 +9,10 @@
 
 namespace Symbb\Core\SystemBundle\Api;
 
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
 use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
 use Symbb\Core\SystemBundle\Manager\AccessManager;
-use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Translation\Translator;
 use \Doctrine\ORM\EntityManager;

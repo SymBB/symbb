@@ -10,7 +10,7 @@
 namespace Symbb\Extension\CalendarBundle\EventListener;
 
 use \Symbb\Core\EventBundle\Event\EditPostEvent;
-use \Symbb\Core\UserBundle\DependencyInjection\GroupManager;
+use \Symbb\Core\UserBundle\Manager\GroupManager;
 
 class SaveListener
 {
@@ -19,7 +19,7 @@ class SaveListener
 
     /**
      *
-     * @var \Symbb\Core\UserBundle\DependencyInjection\GroupManager
+     * @var \Symbb\Core\UserBundle\Manager\GroupManager
      */
     protected $groupManager;
 

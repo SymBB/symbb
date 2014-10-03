@@ -20,7 +20,7 @@ class User extends AbstractType
 
     /**
      *
-     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $usermanager;
 

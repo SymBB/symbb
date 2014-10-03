@@ -9,8 +9,8 @@
 
 namespace Symbb\Core\UserBundle\Twig;
 
-use Symbb\Core\UserBundle\DependencyInjection\GroupManager;
-use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\GroupManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 
 class UserDataExtension extends \Twig_Extension
 {

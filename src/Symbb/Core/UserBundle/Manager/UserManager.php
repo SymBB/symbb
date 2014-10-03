@@ -7,7 +7,7 @@
  *
  */
 
-namespace Symbb\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\Manager;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
@@ -15,7 +15,6 @@ use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  *

@@ -12,8 +12,8 @@ namespace Symbb\Core\ForumBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
-use \Symbb\Core\UserBundle\DependencyInjection\GroupManager;
+use \Symbb\Core\UserBundle\Manager\UserManager;
+use \Symbb\Core\UserBundle\Manager\GroupManager;
 
 class PostType extends AbstractType
 {
@@ -44,13 +44,13 @@ class PostType extends AbstractType
     protected $em;
 
     /**
-     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $userManager;
 
     /**
      *
-     * @var \Symbb\Core\UserBundle\DependencyInjection\GroupManager
+     * @var \Symbb\Core\UserBundle\Manager\GroupManager
      */
     protected $groupManager;
     

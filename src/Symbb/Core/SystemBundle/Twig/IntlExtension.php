@@ -13,11 +13,11 @@ class IntlExtension extends \Twig_Extension
 {
 
     /**
-     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $userManager;
 
-    public function __construct(\Symbb\Core\UserBundle\DependencyInjection\UserManager $userManager)
+    public function __construct(\Symbb\Core\UserBundle\Manager\UserManager $userManager)
     {
         $this->userManager = $userManager;
 

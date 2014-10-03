@@ -7,7 +7,7 @@
  *
  */
 
-namespace Symbb\Core\UserBundle\DependencyInjection;
+namespace Symbb\Core\UserBundle\Manager;
 
 use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;

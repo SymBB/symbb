@@ -10,8 +10,8 @@
 namespace Symbb\Core\UserBundle\Api;
 
 use Symbb\Core\SystemBundle\Api\AbstractApi;
-use Symbb\Core\UserBundle\DependencyInjection\GroupManager;
-use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\GroupManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\User;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 
@@ -92,7 +92,7 @@ class UserApi extends AbstractApi
                 unset($objectData['groups']);
             }
             $this->assignArrayToObject($object, $objectData, $this->getUserArrayFields());
-        } else if(!($object instanceof User)) {
+        } else if(!($object instanceof UserInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 

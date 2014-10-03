@@ -11,7 +11,7 @@ namespace Symbb\Core\SystemBundle\Manager;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
-use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\Translator;

@@ -10,7 +10,7 @@
 namespace Symbb\Core\SystemBundle\EventListener;
 
 use Symbb\Core\SystemBundle\Api\StatisticApi;
-use Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\Security\Core\SecurityContextInterface;

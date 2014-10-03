@@ -12,8 +12,8 @@ namespace Symbb\Core\EventBundle\Event;
 use Symfony\Component\EventDispatcher\Event;
 use \Symbb\Core\ForumBundle\Entity\Post;
 use Symfony\Component\Form\FormBuilderInterface;
-use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
-use \Symbb\Core\UserBundle\DependencyInjection\GroupManager;
+use \Symbb\Core\UserBundle\Manager\UserManager;
+use \Symbb\Core\UserBundle\Manager\GroupManager;
 
 class FormPostEvent extends Event 
 {
@@ -42,13 +42,13 @@ class FormPostEvent extends Event
     protected $em;
 
     /**
-     * @var \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $userManager;
 
     /**
      *
-     * @var \Symbb\Core\UserBundle\DependencyInjection\GroupManager
+     * @var \Symbb\Core\UserBundle\Manager\GroupManager
      */
     protected $groupManager;
     
@@ -98,7 +98,7 @@ class FormPostEvent extends Event
 
     /**
      * 
-     * @return \Symbb\Core\UserBundle\DependencyInjection\GroupManager
+     * @return \Symbb\Core\UserBundle\Manager\GroupManager
      */
     public function getGroupManager()
     {
@@ -108,7 +108,7 @@ class FormPostEvent extends Event
 
     /**
      * 
-     * @return \Symbb\Core\UserBundle\DependencyInjection\UserManager
+     * @return \Symbb\Core\UserBundle\Manager\UserManager
      */
     public function getUserManager()
     {

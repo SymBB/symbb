@@ -10,25 +10,24 @@
 namespace Symbb\Core\UserBundle\Api;
 
 use Symbb\Core\SystemBundle\Api\AbstractApi;
-use Symbb\Core\UserBundle\Manager\GroupManager;
-use Symbb\Core\UserBundle\Entity\Group;
-use Symbb\Core\UserBundle\Entity\GroupInterface;
+use Symbb\Core\UserBundle\Entity\Field;
+use Symbb\Core\UserBundle\Manager\FieldManager;
 
-class GroupApi extends AbstractApi
+class FieldApi extends AbstractApi
 {
     const ERROR_WRONG_OBJECT = 'you have passed a wrong object';
 
     /**
-     * @var GroupManager
+     * @var FieldManager
      */
-    protected $groupManager;
+    protected $fieldManager;
 
     /**
      * @param $id
-     * @return GroupInterface
+     * @return Field
      */
     public function find($id){
-        $object = $this->groupManager->find($id);
+        $object = $this->fieldManager->find($id);
         if(!is_object($object)){
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
@@ -41,7 +40,7 @@ class GroupApi extends AbstractApi
      * @return array
      */
     public function getList($limit, $page){
-        $objects = $this->groupManager->findAll($limit, $page);
+        $objects = $this->fieldManager->findAll($limit, $page);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
         if(empty($objects)){
@@ -54,8 +53,8 @@ class GroupApi extends AbstractApi
      * save a Site
      * you can pass the Site object or an array with the fields
      * if you pass an array the keys must be with underscore and not with CamelCase
-     * @param GroupInterface|array $object
-     * @return GroupInterface
+     * @param Field|array $object
+     * @return Field
      */
     public function save($object){
 
@@ -64,15 +63,15 @@ class GroupApi extends AbstractApi
             if($object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
-                $object = new Group();
+                $object = new Field();
             }
-            $this->assignArrayToObject($object, $objectData, $this->getGroupArrayFields());
-        } else if(!($object instanceof GroupInterface)) {
+            $this->assignArrayToObject($object, $objectData, $this->getFieldArrayFields());
+        } else if(!($object instanceof Field)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
         if(!$this->hasError()){
-            $check = $this->groupManager->update($object);
+            $check = $this->fieldManager->update($object);
             if($check === true){
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
@@ -82,17 +81,17 @@ class GroupApi extends AbstractApi
     }
 
     /**
-     * @param int|GroupInterface $object
+     * @param int|Field $object
      * @return bool
      */
     public function delete($object){
         if(is_numeric($object)){
             $object = $this->find($object);
-        } else if(!($object instanceof GroupInterface)) {
+        } else if(!($object instanceof Field)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
         if(!$this->hasError()){
-            $check = $this->groupManager->remove($object);
+            $check = $this->fieldManager->removeUser($object);
             if($check){
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
@@ -105,19 +104,23 @@ class GroupApi extends AbstractApi
      * return a list of all field names of the Site object as Array
      * @return array
      */
-    public function getGroupArrayFields(){
+    public function getFieldArrayFields(){
         // only this fields are allowed
         $fields = array(
-            'name'
+            'data_type',
+            'label',
+            'display_in_forum',
+            'display_in_memberlist',
+            'position'
         );
         return $fields;
     }
 
     /**
-     * @param GroupManager $manager
+     * @param FieldManager $manager
      */
-    public function setGroupManager(GroupManager $manager){
-        $this->groupManager = $manager;
+    public function setFieldManager(FieldManager $manager){
+        $this->fieldManager = $manager;
     }
 
 }

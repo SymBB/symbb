@@ -6,13 +6,17 @@ services:
             - { name: twig.extension } 
             
     symbb.core.user.manager:
-        class: Symbb\Core\UserBundle\DependencyInjection\UserManager
+        class: Symbb\Core\UserBundle\Manager\UserManager
         arguments: ["@service_container"]
         
     symbb.core.user.group.manager:
         parent: symbb.core.abstract.manager
-        class: Symbb\Core\UserBundle\DependencyInjection\GroupManager
+        class: Symbb\Core\UserBundle\Manager\GroupManager
         arguments: ["@service_container"]
+
+    symbb.core.user.field.manager:
+        parent: symbb.core.abstract.manager
+        class: Symbb\Core\UserBundle\Manager\FieldManager
 
     symbb.core.api.user:
         class: Symbb\Core\UserBundle\Api\UserApi
@@ -26,6 +30,12 @@ services:
         parent: symbb.core.abstract.api
         calls:
           - ['setGroupManager', ['@symbb.core.user.group.manager']]
+
+    symbb.core.api.user.field:
+        class: Symbb\Core\UserBundle\Api\FieldApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setFieldManager', ['@symbb.core.user.field.manager']]
         
     symbb.core.user.metadata:
         class: Symbb\Core\UserBundle\EventListener\DoctrineMetaDataListener
