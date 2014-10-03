@@ -49,8 +49,8 @@
 
                         $scope.delete = function (entry) {
                             if(!$scope.restCrudSaving){
-                                $scope.restCrudSaving = true;
                                 if(confirm("Are you sure!?")){
+                                    $scope.restCrudSaving = true;
                                     var deleteRoutingKey = apiRoutingKey;
                                     deleteRoutingKey = deleteRoutingKey.replace('_list', '_delete');
                                     var routeParams = {_locale: $routeParams._locale};

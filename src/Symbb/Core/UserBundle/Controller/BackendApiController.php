@@ -119,4 +119,55 @@ class BackendApiController extends AbstractController
         $api->delete((int)$group);
         return $api->getJsonResponse();
     }
+
+    /**
+     * @Route("/api/userfield", name="symbb_backend_api_user_field_list")
+     * @Method({"GET"})
+     */
+    public function fieldListAction(Request $request)
+    {
+        $api = $this->get('symbb.core.api.user.field');
+        $objects = $api->findAll($request->get('limit', 20), $request->get('page', 1));
+        $objects = $api->createArrayOfObject($objects);
+        return $api->getJsonResponse(array(
+                'data' => $objects
+            ));
+    }
+
+    /**
+     * @Route("/api/userfield", name="symbb_backend_api_user_field_save")
+     * @Method({"POST"})
+     */
+    public function saveFieldAction(Request $request)
+    {
+        $api = $this->get('symbb.core.api.user.field');
+        $data = $request->get('data');
+        $object = $api->save($data);
+        $object = $api->createArrayOfObject($object);
+        return $api->getJsonResponse(array(
+                'data' => $object
+            ));
+    }
+
+    /**
+     * @Route("/api/userfield/{field}", name="symbb_backend_api_user_field_data")
+     * @Method({"GET"})
+     */
+    public function findFieldAction($field)
+    {
+        $api = $this->get('symbb.core.api.user.field');
+        $api->find((int)$field);
+        return $api->getJsonResponse();
+    }
+
+    /**
+     * @Route("/api/userfield/{field}", name="symbb_backend_api_user_field_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteFieldAction($field)
+    {
+        $api = $this->get('symbb.core.api.user.field');
+        $api->delete((int)$field);
+        return $api->getJsonResponse();
+    }
 }

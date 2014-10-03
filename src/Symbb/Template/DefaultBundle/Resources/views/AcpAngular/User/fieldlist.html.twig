@@ -2,13 +2,13 @@
 
 {% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
 
-{% block title %}{{ 'Users'|trans }}{% endblock %}
+{% block title %}{{ 'Useerfields'|trans }}{% endblock %}
 {% block subtitle %}
-    {{ 'You can manage your Users on this Pages'|trans }}
+    {{ 'You can manage your Userfields on this Pages'|trans }}
     <div class="pull-right">
         <button ng-click="create()" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-plus"></span>
-            {{ 'New User'|trans }}
+            {{ 'New Field'|trans }}
         </button>
     </div>
 {% endblock %}
@@ -20,28 +20,28 @@
                 <col style="width: 20%" />
                 <col style="width: 20%" />
                 <col style="width: 20%" />
-                <col style="width: 5%" />
-                <col style="width: 15%" />
+                <col style="width: 20%" />
             </colgroup>
             <thead>
                 <tr>
-                    <th>{{ 'User'|trans }}</th>
-                    <th>{{ 'E-Mail'|trans }}</th>
-                    <th>{{ 'Last Login'|trans }}</th>
-                    <th>{{ 'Created'|trans }}</th>
-                    <th>{{ 'Enabled'|trans }}</th>
+                    <th>{{ 'Label'|trans }}</th>
+                    <th>{{ 'Type'|trans }}</th>
+                    <th>{{ 'Display Forum'|trans }}</th>
+                    <th>{{ 'Display Memberlist'|trans }}</th>
                     <th>{{ 'Aktion'|trans }}</th>
                 </tr>
             </thead>
             <tbody>
             <tr ng-repeat="entry in data">
-                <td>[[ entry.username]]</td>
-                <td>[[ entry.email]]</td>
-                <td>[[ entry.last_login | date:'dd.MM.yyyy']]</td>
-                <td>[[ entry.created | date:'dd.MM.yyyy']]</td>
+                <td>[[ entry.label]]</td>
+                <td>[[ entry.data_type]]</td>
                 <td>
-                    <span ng-if="entry.enabled" class="glyphicon glyphicon-ok"></span>
-                    <span ng-if="!entry.enabled" class="glyphicon glyphicon-remove"></span>
+                    <span ng-if="entry.display_in_forum" class="glyphicon glyphicon-ok"></span>
+                    <span ng-if="!entry.display_in_forum" class="glyphicon glyphicon-remove"></span>
+                </td>
+                <td>
+                    <span ng-if="entry.display_in_memberlist" class="glyphicon glyphicon-ok"></span>
+                    <span ng-if="!entry.display_in_memberlist" class="glyphicon glyphicon-remove"></span>
                 </td>
                 <td>
                     <button ng-click="edit(entry)" class="btn btn-default btn-xs">
@@ -57,32 +57,36 @@
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="6">
+                <td colspan="5">
                     <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
                         <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
                     </button>
-                    <symbb-rest-pagination route="symbb_backend_api_user_list"></symbb-rest-pagination>
+                    <symbb-rest-pagination route="symbb_backend_api_user_group_list"></symbb-rest-pagination>
                 </td>
             </tr>
             </tfoot>
         </table>
     </div>
-    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'User'|trans }}">
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Group'|trans }}">
         <button ng-if="restCrudSaving" class="btn btn-warning btn-xs">
             <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
         </button>
-        <label>{{ 'Username'|trans }}</label><input class="form-control" ng-model="formEntry.username" />
-        <label>{{ 'E-mail'|trans }}</label><input class="form-control" type="email" ng-model="formEntry.email" />
-        <label>{{ 'Password'|trans }}</label><input class="form-control" type="password" ng-model="formEntry.password" />
-        <label>{{ 'Enabled'|trans }}</label><input class="form-control" type="checkbox" value="1" ng-model="formEntry.enabled" />
-        <label>{{ 'Groups'|trans }}</label>
-        <div multi-select
-             input-model="groupSelectItems"
-             button-label="name"
-             item-label="name"
-             tick-property="selected"
-                >
-
+        <label>{{ 'Label'|trans }}</label><input class="form-control" ng-model="formEntry.label" />
+        <label>{{ 'Type'|trans }}</label>
+        <select class="form-control" ng-model="formEntry.data_type">
+            <option value="string">{{ 'short Text' }}</option>
+            <option value="text">{{ 'long Text' }}</option>
+            <option value="boolean">{{ 'Yes/No' }}</option>
+        </select>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="formEntry.display_in_forum" />  {{ 'Display in Forum'|trans }}
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" ng-model="formEntry.display_in_memberlist" />  {{ 'Display in Memberlist'|trans }}
+            </label>
         </div>
     </symbb-modal-form>
 {% endblock %}

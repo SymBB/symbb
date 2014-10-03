@@ -80,3 +80,15 @@ symbb_acp_user_group_list:
           route: symbb_template_acp_angular
           params:
               file: 'User|grouplist'
+
+symbb_acp_user_field_list:
+    pattern:  /user/field
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: UserFieldListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_field_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|fieldlist'

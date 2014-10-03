@@ -39,7 +39,7 @@ class FieldApi extends AbstractApi
      * @param $page
      * @return array
      */
-    public function getList($limit, $page){
+    public function findAll($limit, $page){
         $objects = $this->fieldManager->findAll($limit, $page);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
