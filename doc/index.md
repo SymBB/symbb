@@ -94,13 +94,39 @@ array of messages of the System like error, success, informations ( e.g if you h
 | Name | Pattern | HTTP | POST Body |
 | ------------- | ----------- | ----------- | ----------- |
 | symbb_backend_api_site_list | /api/sites | GET |  |
-| symbb_backend_api_site_save | /api/sites/{site} | POST | JSON |
+| symbb_backend_api_site_save | /api/sites | POST | JSON |
 | symbb_backend_api_site_data | /api/sites/{site} | GET |  |
 | symbb_backend_api_site_delete | /api/sites/{site} | DELETE |  |
 | symbb_backend_api_site_navigation_list | /api/sites/{site}/navigations | GET |  |
-| symbb_backend_api_site_navigation_save | /api/sites/{site}/navigations/{navigation} | POST | JSON |
+| symbb_backend_api_site_navigation_save | /api/sites/{site}/navigations | POST | JSON |
 | symbb_backend_api_site_navigation_delete | /api/sites/{site}/navigations/{navigation} | DELETE |  |
-| symbb_backend_api_site_navigation_item_save | /api/sites/{site}/navigations/{navigation}/items/{item} | POST | JSON |
+| symbb_backend_api_site_navigation_item_save | /api/sites/{site}/navigations/{navigation}/items | POST | JSON |
 | symbb_backend_api_site_navigation_item_delete | /api/sites/{site}/navigations/{navigation}/items/{item} | DELETE |  |
 
+#### Users
+
+| Name | Pattern | HTTP | POST Body |
+| ------------- | ----------- | ----------- | ----------- |
+| symbb_backend_api_user_list | /api/user | GET |  |
+| symbb_backend_api_user_save | /api/user | POST | JSON |
+| symbb_backend_api_user_data | /api/user/{user} | GET |  |
+| symbb_backend_api_user_delete | /api/user/{user} | DELETE |  
+
+#### User Groups
+
+| Name | Pattern | HTTP | POST Body |
+| ------------- | ----------- | ----------- | ----------- |
+| symbb_backend_api_user_group_list | /api/usergroup | GET |  |
+| symbb_backend_api_user_group_save | /api/usergroup | POST | JSON |
+| symbb_backend_api_user_group_data | /api/usergroup/{group} | GET |  |
+| symbb_backend_api_user_group_delete | /api/usergroup/{group} | DELETE |  
+
+#### User Fields
+
+| Name | Pattern | HTTP | POST Body |
+| ------------- | ----------- | ----------- | ----------- |
+| symbb_backend_api_user_field_list | /api/userfield | GET |  |
+| symbb_backend_api_user_field_save | /api/userfield | POST | JSON |
+| symbb_backend_api_user_field_data | /api/userfield/{group} | GET |  |
+| symbb_backend_api_user_field_delete | /api/userfield/{group} | DELETE |  
 
