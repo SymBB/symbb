@@ -42,7 +42,7 @@
         "vich/uploader-bundle": "dev-master",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "liip/imagine-bundle" : "dev-master",
-        "zendframework/zend-xmlrpc": "2.3.*@dev" // tapatalk bundle
+        "zendframework/zend-xmlrpc": "2.3.*@dev"
     },
     "minimum-stability": "dev",
     "autoload": {
