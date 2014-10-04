@@ -3,7 +3,7 @@
     "type": "symbb-extension",
     "description": "Symbb Survey Extension",
     "keywords": ["Symbb","Extension", "Survey"],
-    "homepage": "https://github.com/seyon/symbb",
+    "homepage": "https://github.com/SymBB/symbb",
     "license": "GPL",
     "authors": [
         {

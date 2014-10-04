@@ -3,7 +3,7 @@
     "type": "symbb-extension",
     "description": "Symbb Shoutbox Extension",
     "keywords": ["Symbb","Extension", "Shoutbox"],
-    "homepage": "https://github.com/seyon/symbb",
+    "homepage": "https://github.com/SymBB/symbb",
     "license": "GPL",
     "authors": [
         {

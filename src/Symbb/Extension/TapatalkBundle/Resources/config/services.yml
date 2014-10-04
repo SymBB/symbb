@@ -1,0 +1,26 @@
+services:
+    symbb.extension.tapatalk.manager.abstract:
+        abstract: true
+        lazy: true
+        class: Symbb\Extension\TapatalkBundle\Manager\AbstractManager
+        arguments: ["@symbb.core.access.manager", "@symbb.core.user.manager", "@symbb.core.forum.manager", "@symbb.core.topic.manager", "@symbb.core.post.manager"]
+    
+    symbb.extension.tapatalk.manager.call:
+        class: Symbb\Extension\TapatalkBundle\Manager\CallManager
+        arguments: ["@service_container"] 
+        
+    symbb.extension.tapatalk.manager.forum:
+        parent: symbb.extension.tapatalk.manager.abstract
+        class: Symbb\Extension\TapatalkBundle\Manager\ForumManager
+        
+    symbb.extension.tapatalk.manager.user:
+        parent: symbb.extension.tapatalk.manager.abstract
+        class: Symbb\Extension\TapatalkBundle\Manager\UserManager
+        
+    symbb.extension.tapatalk.manager.topic:
+        parent: symbb.extension.tapatalk.manager.abstract
+        class: Symbb\Extension\TapatalkBundle\Manager\TopicManager
+        
+    symbb.extension.tapatalk.manager.post:
+        parent: symbb.extension.tapatalk.manager.abstract
+        class: Symbb\Extension\TapatalkBundle\Manager\PostManager

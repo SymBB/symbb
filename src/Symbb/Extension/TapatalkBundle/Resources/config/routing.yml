@@ -1,0 +1,10 @@
+_tapatalk_xmlrpc:
+    pattern:  /mobiquo/mobiquo.php
+    defaults: { _controller: SymbbExtensionTapatalkBundle:Xmlrpc:index }
+_tapatalk_xmlrpc_avatar:
+    pattern:  /mobiquo/avatar.php
+    defaults: { _controller: SymbbExtensionTapatalkBundle:Xmlrpc:avatar }
+    
+_tapatalk_xmlrpc_test:
+    pattern:  /mobiquo/test
+    defaults: { _controller: SymbbExtensionTapatalkBundle:Xmlrpc:test }

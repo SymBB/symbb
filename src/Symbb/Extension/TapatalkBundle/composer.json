@@ -1,8 +1,8 @@
 {
-    "name": "symbb/extension-calendar",
+    "name": "symbb/extension-tapatalk",
     "type": "symbb-extension",
-    "description": "Symbb Calendar Extension",
-    "keywords": ["Symbb","Extension", "Calendar"],
+    "description": "Symbb tapatalk Extension",
+    "keywords": ["Symbb","Extension", "tapatalk"],
     "homepage": "https://github.com/SymBB/symbb",
     "license": "GPL",
     "authors": [

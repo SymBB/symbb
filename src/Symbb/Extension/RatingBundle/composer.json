@@ -3,7 +3,7 @@
     "type": "symbb-extension",
     "description": "Symbb Rating Extension",
     "keywords": ["Symbb","Extension", "Rating"],
-    "homepage": "https://github.com/seyon/symbb",
+    "homepage": "https://github.com/SymBB/symbb",
     "license": "GPL",
     "authors": [
         {
