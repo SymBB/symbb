@@ -226,6 +226,9 @@ class Topic
 
     }
 
+    /**
+     * @return Post
+     */
     public function getLastPost()
     {
         return $this->getPosts()->last();

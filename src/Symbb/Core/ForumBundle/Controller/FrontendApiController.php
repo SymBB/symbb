@@ -596,7 +596,8 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')
             ->find($id);
-        $this->get('symbb.core.topic.flag')->removeFlag($topic, 'new');
+
+        $this->get('symbb.core.topic.manager')->markAsRead($topic);
 
         $this->addSuccessMessage('The topic has been marked as read');
         $this->addCallback('refresh');
@@ -867,7 +868,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                 'movePost' => $movePostAccess
             );
 
-            $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum, $this->get('symbb.core.forum.flag'));
+            $array['ignored'] = $this->get('symbb.core.forum.manager')->isIgnored($forum);
 
             if ($forum->getType() === 'link') {
                 $link = $forum->getLink();

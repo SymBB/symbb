@@ -357,12 +357,11 @@ class ForumManager extends AbstractManager
 
     /**
      * @param Forum $forum
-     * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function isIgnored(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function isIgnored(\Symbb\Core\ForumBundle\Entity\Forum $forum)
     {
-        $check = $flagHandler->checkFlag($forum, 'ignore');
+        $check = $this->forumFlagHandler->checkFlag($forum, 'ignore');
         return $check;
     }
 

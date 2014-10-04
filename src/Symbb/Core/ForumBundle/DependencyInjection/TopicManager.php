@@ -9,7 +9,7 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
-use \Symfony\Component\Security\Core\SecurityContextInterface;
+use Symbb\Core\ForumBundle\Entity\Topic;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 
 class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
@@ -110,5 +110,27 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
             );
         }
         return $breadcrumb;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function markAsRead(Topic $topic){
+        $this->topicFlagHandler->removeFlag($topic, 'new');
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @param string $flag
+     * @return bool
+     */
+    public function checkFlag(Topic $topic, $flag = 'new'){
+        foreach ($this->topicFlagHandler->findAll($topic) as $flag) {
+            if($flag->getFlag() == 'new'){
+                return true;
+            }
+        }
     }
 }
