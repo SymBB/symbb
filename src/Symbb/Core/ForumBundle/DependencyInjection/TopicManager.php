@@ -133,4 +133,42 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
             }
         }
     }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function save(Topic $topic){
+        $this->em->persist($topic);
+        $this->em->persist($topic->getMainPost());
+        $this->em->flush();
+        return true;
+    }
+
+
+    public function getParticipatedTopics($page = 1, $limit = 20)
+    {
+
+        $sql = "SELECT
+                    t
+                FROM
+                    SymbbCoreForumBundle:Topic t
+                INNER JOIN
+                    SymbbCoreForumBundle:Post p WITH
+                    p.topic = t.id
+                WHERE
+                    p.author = :user
+                GROUP BY
+                    t.id
+                ORDER BY
+                    p.created DESC ";
+
+        //// count
+        $query = $this->em->createQuery($sql);
+        $query->setParameter('user', $this->getUser()->getId());
+
+        $pagination = $this->createPagination($query, $page, $limit);
+
+        return $pagination;
+    }
 }

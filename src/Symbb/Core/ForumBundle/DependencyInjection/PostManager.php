@@ -96,11 +96,11 @@ class PostManager extends AbstractManager
         return $breadcrumb;
     }
 
-    public function search($request){
+    public function search($page = 1, $limit = 0){
 
-        $page = $request->get('page');
-
-        $limit = $this->configManager->get('newpost.max', "forum");
+        if($limit === null || $limit === 0){
+            $limit = $this->configManager->get('newpost.max', "forum");
+        }
 
         $configUsermanager  = $this->configManager->getSymbbConfig('usermanager');
         $configGroupManager = $this->configManager->getSymbbConfig('groupmanager');

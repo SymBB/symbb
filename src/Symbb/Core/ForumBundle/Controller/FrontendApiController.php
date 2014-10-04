@@ -38,7 +38,8 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
     {
 
         $params['entries'] = array();
-        $posts = $this->get('symbb.core.post.manager')->search($request);
+        $page = $request->get('page');
+        $posts = $this->get('symbb.core.post.manager')->search($page);
         $breadcrumb = $this->get('symbb.core.forum.manager')->getBreadcrumbData();
         $this->addBreadcrumbItems($breadcrumb);
         $this->addPaginationData($posts);
