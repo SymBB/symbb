@@ -58,6 +58,10 @@ php app/console translation:extract de -c symbb
 - php app/console assets:install
 - php app/console assetic:dump --env=prod
 
+*Update ACL to lowercase names*
+
+    UPDATE `symbb_dev_access` SET `object` = REPLACE(`object`, 'SymBB', 'Symbb'), `identity` = REPLACE(`identity`, 'SymBB', 'Symbb')
+
 
 ## API Structure
 
@@ -120,3 +124,5 @@ This defines what api should be called to get the data ( in case of DefaultApiCt
 
 This defined what template should be called for this routing. You can also pass some Params
 The Template Routing should be defined in the Template Bundle
+
+

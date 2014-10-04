@@ -833,6 +833,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
             foreach ($forum->getChildren() as $child) {
+
                 $viewAccess = $this->get('security.context')->isGranted('VIEW', $child);
 
                 if($viewAccess){
@@ -846,9 +847,11 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                     }
                 }
             }
-            $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
-            foreach ($lastPosts as $post) {
-                $array['lastPosts'][] = $this->getPostAsArray($post, true);
+            if($forum->getId() > 0){
+                $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
+                foreach ($lastPosts as $post) {
+                    $array['lastPosts'][] = $this->getPostAsArray($post, true);
+                }
             }
             $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
             if ($forum->getImageName()) {
