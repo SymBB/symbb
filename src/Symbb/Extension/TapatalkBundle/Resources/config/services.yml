@@ -3,8 +3,10 @@ services:
         abstract: true
         lazy: true
         class: Symbb\Extension\TapatalkBundle\Manager\AbstractManager
-        arguments: ["@symbb.core.access.manager", "@symbb.core.user.manager", "@symbb.core.forum.manager", "@symbb.core.topic.manager", "@symbb.core.post.manager"]
-    
+        arguments: ["@symbb.core.access.manager", "@symbb.core.user.manager", "@symbb.core.forum.manager", "@symbb.core.topic.manager", "@symbb.core.post.manager", "@logger", "@symbb.core.message.manager"]
+        calls:
+          - ['setContainer', ['@service_container']]
+
     symbb.extension.tapatalk.manager.call:
         class: Symbb\Extension\TapatalkBundle\Manager\CallManager
         arguments: ["@service_container"] 

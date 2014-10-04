@@ -10,6 +10,7 @@
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
 use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent;
 use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;

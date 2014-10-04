@@ -11,6 +11,7 @@ namespace Symbb\Extension\TapatalkBundle\Manager;
 
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 
 /**
  * http://tapatalk.com/api/api_section.php?id=3
@@ -23,7 +24,7 @@ class TopicManager extends AbstractManager
         $success = true;
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $this->accessManager->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum());
+            $this->accessManager->addAccessCheck(ForumVoter::VIEW, $topic->getForum());
             if ($this->accessManager->hasAccess()) {
                 if($topic){
                     $this->topicManager->markAsRead($topic);
@@ -46,7 +47,7 @@ class TopicManager extends AbstractManager
         $data = array();
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $this->accessManager->addAccessCheck('SYMBB_FORUM#VIEW', $topic->getForum());
+            $this->accessManager->addAccessCheck(ForumVoter::VIEW, $topic->getForum());
             if ($this->accessManager->hasAccess() && $topic) {
                 $ignored = $this->forumManager->isIgnored($topic->getForum());
                 $datetime = $topic->getLastPost()->getCreated();
@@ -78,7 +79,7 @@ class TopicManager extends AbstractManager
     {
 
         $forum = $this->forumManager->find($forumId);
-        $this->accessManager->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum);
+        $this->accessManager->addAccessCheck(ForumVoter::CREATE_TOPIC, $forum);
         $success = false;
         $topicId = 0;
         if ($this->accessManager->hasAccess()) {
@@ -112,7 +113,7 @@ class TopicManager extends AbstractManager
     {
 
         $forum = $this->forumManager->find($forumId);
-        $this->accessManager->addAccessCheck('SYMBB_FORUM#CREATE_TOPIC', $forum);
+        $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
 
         $configList = array(
             'total_topic_num' => new \Zend\XmlRpc\Value\Integer(0),
@@ -130,17 +131,17 @@ class TopicManager extends AbstractManager
             'topics' => array(),
         );
 
-        if ($this->accessManager->hasAccess()) {
-            $limit = null;
-            $offset = null;
-            if ($startNumber && $lastNumber) {
-                $limit = $lastNumber - $startNumber;
-                $offset = $startNumber;
-            }
+        if ($this->accessManager->hasAccess() && !in_array(strtoupper($mode), array('TOP', 'ANN'))) {
+            $page = 1;
+            $limit = 20;
+            $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
 
             $writeAccess = false;
 
-            $topics = $this->topicManager->findByForum($forumId, $limit, $offset);
+            $forum = $this->forumManager->find($forumId);
+            $topics = $this->forumManager->findTopics($forum, $page, $limit);
+            $this->logger->debug('getTopic: count -> '.count($topics));
+            $this->logger->debug('getTopic: page -> '.$page.', limit -> '.$limit);
 
             $configList['total_topic_num'] = new \Zend\XmlRpc\Value\Integer($forum->getTopicCount());
             $configList['forum_id'] = new \Zend\XmlRpc\Value\String($forum->getId());
@@ -182,7 +183,7 @@ class TopicManager extends AbstractManager
         return $this->getResponse($configList, 'struct');
     }
 
-    public function getUnreadTopic($startNumber = null, $lastNumber = null, $searchid = 0, $filters = array())
+    public function getLatestTopics($startNumber = null, $lastNumber = null, $searchid = 0, $filters = array())
     {
 
         $limit = 50;
@@ -190,6 +191,9 @@ class TopicManager extends AbstractManager
         $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
 
         $pagination = $this->postManager->search($page, $limit);
+        $this->logger->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
+        $this->logger->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
+        $this->logger->debug('getParticipatedTopic: count: '.count($pagination));
 
         $configList = array(
             'result' => new \Zend\XmlRpc\Value\Boolean(true),
@@ -208,7 +212,7 @@ class TopicManager extends AbstractManager
 
     protected function getTopicAsStruct(Topic $topic){
         $forum = $topic->getForum();
-        $author = $post->getAuthor();
+        $author = $topic->getAuthor();
         $closed = $topic->isLocked();
         $new = $this->topicManager->checkFlag($topic, "new");
         return new \Zend\XmlRpc\Value\Struct(
@@ -219,11 +223,11 @@ class TopicManager extends AbstractManager
                 'prefix' => new \Zend\XmlRpc\Value\Base64(""),
                 'post_author_id' => new \Zend\XmlRpc\Value\String($author->getId()),
                 'post_author_name' => new \Zend\XmlRpc\Value\Base64($author->getUsername()),
-                'is_subscribed' => new \Zend\XmlRpc\Value\Boolean(false),
-                'can_subscribe' => new \Zend\XmlRpc\Value\Boolean(false),
+                'is_subscribed' => new \Zend\XmlRpc\Value\Boolean(true),
+                'can_subscribe' => new \Zend\XmlRpc\Value\Boolean(true),
                 'is_closed' => new \Zend\XmlRpc\Value\Boolean($closed),
                 'icon_url' => new \Zend\XmlRpc\Value\String($this->userManager->getAbsoluteAvatarUrl($author)),
-                'post_time' => new \Zend\XmlRpc\Value\DateTime($post->getCreated()),
+                'post_time' => new \Zend\XmlRpc\Value\DateTime($topic->getCreated()),
                 'reply_number' => new \Zend\XmlRpc\Value\Integer($topic->getPostCount()),
                 'new_post' => new \Zend\XmlRpc\Value\Boolean($new),
                 'view_number' => new \Zend\XmlRpc\Value\Integer(0),
@@ -233,12 +237,13 @@ class TopicManager extends AbstractManager
         );
     }
 
-    public function getParticipatedTopic($username, $startNumber, $lastNumber, $searchid = 0, $userId = 0)
+    public function getParticipatedTopic($username, $startNumber, $lastNumber)
     {
 
-        $limit = 50 + $startNumber;
-
-        $topics = $this->topicManager->getParticipatedTopics(1, $limit);
+        $limit = 50;
+        $page = 1;
+        $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
+        $topics = $this->topicManager->getParticipatedTopics($page, $limit);
 
         $topicData = array();
         foreach($topics as $key => $topic){

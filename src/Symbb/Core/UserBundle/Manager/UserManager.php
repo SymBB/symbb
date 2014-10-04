@@ -470,6 +470,10 @@ class UserManager
             $count = 0;
         }
 
+        if(!$limit){
+            $limit = 20;
+        }
+
         if($page === 'last'){
             $page = $count / $limit;
             $page = ceil($page);

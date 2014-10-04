@@ -390,10 +390,6 @@ class AngularToTwigConverter
 
         $paramsJson = '{'.implode(', ', $paramsJsonArray).'}';
 
-        if($angularLink){
-            $linkData = $linkData;
-        }
-
         $path = "{{ path('".$linkData."', ".$paramsJson.") }}";
         $newnode = $node->ownerDocument->createElement('a');
         $newnode->setAttribute('href', $path);

@@ -54,12 +54,6 @@ class ForumManager extends AbstractManager
         $this->forumFlagHandler = $forumFlagHandler;
     }
 
-    public function findNewestTopics(Forum $parent = null)
-    {
-        $topics = $this->topicFlagHandler->findTopicsByFlag('new', $parent);
-        return $topics;
-    }
-
     /**
      *
      * @param \Symbb\Core\ForumBundle\Entity\Forum $forum
@@ -68,7 +62,7 @@ class ForumManager extends AbstractManager
      * @param string $orderDir
      * @return array
      */
-    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
+    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc', $flags = array())
     {
         if ($limit === null) {
             $limit = $forum->getEntriesPerPage();

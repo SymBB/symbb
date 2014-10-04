@@ -45,8 +45,8 @@ class ConfigManager
 
     /**
      * 
-     * @param type $key
-     * @param type $section
+     * @param string $key
+     * @param string $section
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getDefault($key, $section = "default")

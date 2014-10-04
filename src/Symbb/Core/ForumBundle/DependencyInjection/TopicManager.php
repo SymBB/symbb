@@ -157,7 +157,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                     SymbbCoreForumBundle:Post p WITH
                     p.topic = t.id
                 WHERE
-                    p.author = :user
+                    p.author = ?0
                 GROUP BY
                     t.id
                 ORDER BY
@@ -165,7 +165,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 
         //// count
         $query = $this->em->createQuery($sql);
-        $query->setParameter('user', $this->getUser()->getId());
+        $query->setParameter(0, $this->getUser()->getId());
 
         $pagination = $this->createPagination($query, $page, $limit);
 

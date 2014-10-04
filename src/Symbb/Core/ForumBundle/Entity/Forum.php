@@ -223,6 +223,9 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
 
     }
 
+    /**
+     * @return Forum
+     */
     public function getParent()
     {
         return $this->parent;

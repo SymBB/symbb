@@ -156,7 +156,7 @@ class CallManager
 
     /**
      * 
-     * @param type $topics
+     * @param array $topics
      * @return object
      */
     public function get_topic_status($topics)
@@ -179,7 +179,7 @@ class CallManager
      * @param string $groupId
      * @return object
      */
-    public function new_topic($forumId, $subject, $text, $prefixId = "", $attachmentIds = array(), $groupId = 0)
+    public function new_topic($forumId, $subject, $text, $prefixId = "", $attachmentIds = array(), $groupId = "0")
     {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.topic');
@@ -219,7 +219,7 @@ class CallManager
     {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.topic');
-            return $manager->getUnreadTopic($startNumber, $lastNumber, $searchid, $filters);
+            return $manager->getLatestTopics($startNumber, $lastNumber, $searchid, $filters);
         } catch (\Exception $exc) {
             return $this->errorResponse($exc);
         }
@@ -227,18 +227,16 @@ class CallManager
 
     /**
      * 
-     * @param base64 $username
+     * @param base64 $userName
      * @param integer $startNumber
      * @param integer $lastNumber
-     * @param string $searchid
-     * @param string $userId
      * @return object
      */
-    public function get_participated_topic($username, $startNumber, $lastNumber, $searchid = 0, $userId)
+    public function get_participated_topic($userName, $startNumber, $lastNumber)
     {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.topic');
-            return $manager->getParticipatedTopic($username, $startNumber, $lastNumber, $searchid, $userId);
+            return $manager->getParticipatedTopic($userName, $startNumber, $lastNumber);
         } catch (\Exception $exc) {
             return $this->errorResponse($exc);
         }
@@ -353,9 +351,36 @@ class CallManager
         }
     }
 
+    /**
+     * @param integer $startNumber
+     * @param integer $lastNumber
+     * @param string $searchid
+     * @param array $filters
+     * @return object
+     */
+    public function get_latest_topic($startNumber = null, $lastNumber = null, $searchid = 0, $filters = array())
+    {
+        return $this->get_unread_topic($startNumber, $lastNumber, $searchid, $filters);
+    }
+
+    /**
+     * @return object
+     */
+    public function get_inbox_stat()
+    {
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->getInboxStat();
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
     protected function errorResponse(\Exception $exc)
     {
+
         $this->container->get('logger')->error('Error in CallManager: ' . $exc->getMessage());
+        $this->container->get('logger')->error('File: '.$exc->getTraceAsString());
         $this->container->get('logger')->error($this->container->get('request'));
         throw new $exc;
     }

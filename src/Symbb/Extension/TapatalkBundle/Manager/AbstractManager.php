@@ -9,11 +9,16 @@
 
 namespace Symbb\Extension\TapatalkBundle\Manager;
 
-use \Symbb\Core\SystemBundle\DependencyInjection\AccessManager;
-use \Symbb\Core\UserBundle\DependencyInjection\UserManager;
+use Monolog\Logger;
+use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
+use \Symbb\Core\SystemBundle\Manager\AccessManager;
+use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\PostManager;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 
 class AbstractManager
 {
@@ -48,13 +53,34 @@ class AbstractManager
      */
     protected $postManager;
 
-    public function __construct(AccessManager $accessManager, UserManager $userManager, ForumManager $forumManager, TopicManager $topicManager, PostManager $postManager)
+    /**
+     * @var MessageManager
+     */
+    protected $messageManager;
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    public function __construct(AccessManager $accessManager, UserManager $userManager, ForumManager $forumManager, TopicManager $topicManager, PostManager $postManager, Logger $logger, MessageManager $messageManager)
     {
         $this->accessManager = $accessManager;
         $this->userManager = $userManager;
         $this->forumManager = $forumManager;
         $this->topicManager = $topicManager;
         $this->postManager = $postManager;
+        $this->logger = $logger;
+        $this->messageManager = $messageManager;
+    }
+
+    public function setContainer(Container $container){
+        $this->request = $container->get('request');
     }
 
     protected function getResponse($value, $type)
@@ -73,14 +99,19 @@ class AbstractManager
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         $response->setContent($content);
+        foreach($this->request->cookies->all() as $name => $cookie){
+            $response->headers->setCookie(new Cookie($name, $cookie));
+        }
         return $response;
     }
 
     public function calcLimitandPage($startNumber, $lastNumber, &$limit, &$page)
     {
-        if ($startNumber && $lastNumber) {
-            $limit = $lastNumber - $startNumber;
-            $page = \ceil($startNumber / $limit);
+
+        $limit = $lastNumber - $startNumber;
+        if($startNumber <= 0){
+            $startNumber = 1;
         }
+        $page = \ceil($startNumber / $limit);
     }
 }

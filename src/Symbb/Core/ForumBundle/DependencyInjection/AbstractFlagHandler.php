@@ -73,7 +73,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
      * @param UserInterface $user
      * @return Flag[]
      */
-    public function findAll($object, \Symbb\Core\UserBundle\Entity\UserInterface $user = null){
+    public function findAll($object, UserInterface $user = null){
         if (!$user) {
             $user = $this->getUser();
         }
@@ -91,6 +91,18 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
             'objectId' => $object->getId(),
             'flag' => (string)$flag
         ));
+        return $flags;
+    }
+
+    public function findFlagsByClassAndFlag($object, $flag, UserInterface $user = null){
+        if (!$user) {
+            $user = $this->getUser();
+        }
+        $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
+                'objectClass' => ClassUtils::getRealClass(get_class($object)),
+                'flag' => (string)$flag,
+                'user' => (string)$user->getId()
+            ));
         return $flags;
     }
 

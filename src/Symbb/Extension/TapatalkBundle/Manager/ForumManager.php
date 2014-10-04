@@ -9,6 +9,9 @@
 
 namespace Symbb\Extension\TapatalkBundle\Manager;
 
+use Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+
 /**
  * http://tapatalk.com/api/api_section.php?id=1
  */
@@ -21,6 +24,7 @@ class ForumManager extends AbstractManager
         $configList = array(
             //'sys_version' => new \Zend\XmlRpc\Value\String('1.0.0'),
             'version' => new \Zend\XmlRpc\Value\String('1'),
+            'get_latest_topic' => new \Zend\XmlRpc\Value\String('0'),
             'api_level' => new \Zend\XmlRpc\Value\String('3'),
             'is_open' => new \Zend\XmlRpc\Value\Boolean(true),
             'guest_okay' => new \Zend\XmlRpc\Value\Boolean(true),
@@ -141,25 +145,29 @@ class ForumManager extends AbstractManager
         $forumData = array();
 
         if ($forumId <= 0) {
-            $forums = $this->forumManager->findAll(0);
+            $forums = $this->forumManager->findAll();
         } else {
             $forums[] = $this->forumManager->find($forumId);
         }
-
+        $this->logger->debug('getForum: currentUser -> '.$this->userManager->getCurrentUser()->getUsername());
+        $this->logger->debug('getForum: count -> '.count($forums));
         foreach ($forums as $forum) {
             if (\is_object($forum)) {
-                $forumData[] = $this->getForumData($forum);
+                $data = $this->getForumData($forum);
+                if(!empty($data)){
+                    $forumData[] = $data;
+                }
             }
         }
 
         return $this->getResponse($forumData, "array");
     }
 
-    protected function getForumData($forum)
+    protected function getForumData(Forum $forum)
     {
         $forumData = null;
 
-        $this->accessManager->addAccessCheck('SYMBB_FORUM#VIEW', $forum);
+        $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
         if ($this->accessManager->hasAccess()) {
             $parent = $forum->getParent();
             $parentId = 0;
