@@ -30,7 +30,7 @@ services:
     symbb.core.forum.manager:
         parent:  symbb.core.abstract.manager
         class: Symbb\Core\ForumBundle\DependencyInjection\ForumManager
-        arguments: ['@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager']
+        arguments: ['@symbb.core.topic.flag', '@symbb.core.post.flag', '@symbb.core.config.manager', '@symbb.core.forum.flag']
 
     symbb.core.post.manager:
         parent:  symbb.core.abstract.manager

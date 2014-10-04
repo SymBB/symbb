@@ -578,7 +578,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
         $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
-        $this->get('symbb.core.forum.manager')->markAsRead($forum, $this->get('symbb.core.forum.flag'));
+        $this->get('symbb.core.forum.manager')->markAsRead($forum);
 
         $this->addSuccessMessage('The forum has been marked as read');
         $this->addCallback('refresh');

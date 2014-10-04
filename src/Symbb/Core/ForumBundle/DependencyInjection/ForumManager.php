@@ -39,13 +39,19 @@ class ForumManager extends AbstractManager
      */
     protected $configManager;
 
+    /**
+     * @var ForumFlagHandler
+     */
+    protected $forumFlagHandler;
+
     public function __construct(
-        TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager
+        TopicFlagHandler $topicFlagHandler, PostFlagHandler $postFlagHandler, ConfigManager $configManager, ForumFlagHandler $forumFlagHandler
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
         $this->postFlagHandler = $postFlagHandler;
         $this->configManager = $configManager;
+        $this->forumFlagHandler = $forumFlagHandler;
     }
 
     public function findNewestTopics(Forum $parent = null)
@@ -391,14 +397,25 @@ class ForumManager extends AbstractManager
     }
 
     /**
+     * @return bool
+     */
+    public function markAllAsRead(){
+        $forums = $this->findAll(null, 999 , 1);
+        foreach($forums as $forum){
+            $this->markAsRead($forum);
+        }
+        return true;
+    }
+
+    /**
      * @param Forum $forum
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function markAsRead(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function markAsRead(\Symbb\Core\ForumBundle\Entity\Forum $forum)
     {
 
-        $flagHandler->removeFlag($forum, 'new');
+        $this->forumFlagHandler->removeFlag($forum, 'new');
 
         $topics = $forum->getTopics();
         foreach ($topics as $topic) {
@@ -407,7 +424,7 @@ class ForumManager extends AbstractManager
 
         $subForms = $forum->getChildren();
         foreach ($subForms as $subForm) {
-            $this->markAsRead($subForm, $flagHandler);
+            $this->markAsRead($subForm);
         }
 
         return true;
