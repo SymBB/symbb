@@ -149,8 +149,8 @@ class ForumManager extends AbstractManager
         } else {
             $forums[] = $this->forumManager->find($forumId);
         }
-        $this->logger->debug('getForum: currentUser -> '.$this->userManager->getCurrentUser()->getUsername());
-        $this->logger->debug('getForum: count -> '.count($forums));
+        $this->debug('getForum: currentUser -> '.$this->userManager->getCurrentUser()->getUsername());
+        $this->debug('getForum: count -> '.count($forums));
         foreach ($forums as $forum) {
             if (\is_object($forum)) {
                 $data = $this->getForumData($forum);

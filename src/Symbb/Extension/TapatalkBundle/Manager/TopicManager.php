@@ -140,8 +140,8 @@ class TopicManager extends AbstractManager
 
             $forum = $this->forumManager->find($forumId);
             $topics = $this->forumManager->findTopics($forum, $page, $limit);
-            $this->logger->debug('getTopic: count -> '.count($topics));
-            $this->logger->debug('getTopic: page -> '.$page.', limit -> '.$limit);
+            $this->debug('getTopic: count -> '.count($topics));
+            $this->debug('getTopic: page -> '.$page.', limit -> '.$limit);
 
             $configList['total_topic_num'] = new \Zend\XmlRpc\Value\Integer($forum->getTopicCount());
             $configList['forum_id'] = new \Zend\XmlRpc\Value\String($forum->getId());
@@ -155,6 +155,8 @@ class TopicManager extends AbstractManager
                 $lastPost = $topic->getLastPost();
 
                 $new = $this->topicManager->getFlagHandler()->checkFlag($topic, "new");
+
+                $content = $this->createShortContent($lastPost->getText());
 
                 $configList['topics'][] = new \Zend\XmlRpc\Value\Struct(
                     array(
@@ -172,7 +174,7 @@ class TopicManager extends AbstractManager
                         'reply_number' => new \Zend\XmlRpc\Value\Integer($topic->getPostCount()),
                         'new_post' => new \Zend\XmlRpc\Value\Boolean($new),
                         'view_number' => new \Zend\XmlRpc\Value\Integer(0),
-                        'short_content' => new \Zend\XmlRpc\Value\Base64(""),
+                        'short_content' => new \Zend\XmlRpc\Value\Base64($content),
                         'participated_uids' => array()
                     )
                 );
@@ -191,9 +193,9 @@ class TopicManager extends AbstractManager
         $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
 
         $pagination = $this->postManager->search($page, $limit);
-        $this->logger->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
-        $this->logger->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
-        $this->logger->debug('getParticipatedTopic: count: '.count($pagination));
+        $this->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
+        $this->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
+        $this->debug('getParticipatedTopic: count: '.count($pagination));
 
         $configList = array(
             'result' => new \Zend\XmlRpc\Value\Boolean(true),

@@ -360,7 +360,11 @@ class CallManager
      */
     public function get_latest_topic($startNumber = null, $lastNumber = null, $searchid = 0, $filters = array())
     {
-        return $this->get_unread_topic($startNumber, $lastNumber, $searchid, $filters);
+        try {
+            return $this->get_unread_topic($startNumber, $lastNumber, $searchid, $filters);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
     }
 
     /**
@@ -371,6 +375,77 @@ class CallManager
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->getInboxStat();
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#create_message
+     * @param array $userName
+     * @param base64 $subject
+     * @param base64 $textBody
+     * @param integer $action
+     * @param string $pmId
+     */
+    public function create_message($userName, $subject, $textBody, $action = null, $pmId = null){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->createMessage($userName, $subject, $textBody, $action, $pmId);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#get_box_info
+     */
+    public function get_box_info(){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->getBoxInfo();
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#get_box
+     * @param string $boxId
+     * @param int $startNum
+     * @param int $endNum
+     */
+    public function get_box($boxId, $startNum = null, $endNum = null){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->getBox($boxId, $startNum, $endNum);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#get_message
+     * @param string $messageId
+     * @param string $boxId
+     */
+    public function get_message($messageId, $boxId){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->getMessage($messageId, $boxId);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#get_quote_pm
+     * @param string $messageId
+     */
+    public function get_quote_pm($messageId){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->getQuotePm($messageId);
         } catch (\Exception $exc) {
             return $this->errorResponse($exc);
         }

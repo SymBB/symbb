@@ -40,9 +40,8 @@ class MessageManager extends AbstractManager
      * @param UserInterface $sender
      * @return array
      */
-    public function sendMessage($subject, $messageText, $receivers, UserInterface $sender = null){
+    public function sendMessage($subject, $messageText, $receivers, &$errors, UserInterface $sender = null){
 
-        $errors = array();
         //todo event beforSend
 
         if(!$sender){
@@ -82,7 +81,7 @@ class MessageManager extends AbstractManager
         }
 
         //todo event afterSend
-        return $errors;
+        return $message;
     }
 
     /**
@@ -120,10 +119,17 @@ class MessageManager extends AbstractManager
      * @param int $limit
      * @return Message[]
      */
-    public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20){
+    public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20, $new = null){
 
         if(!$receiver){
             $receiver = $this->getUser();
+        }
+
+        $where = '';
+        if($new === true){
+            $where = " AND r.new = 1 ";
+        } else if($new === false){
+            $where = " AND r.new = 0 ";
         }
 
         $sql = "SELECT
@@ -133,7 +139,9 @@ class MessageManager extends AbstractManager
                 LEFT JOIN
                     m.receivers r
                 WHERE
-                  r.user = ?1
+                  r.user = ?1 ".$where."
+                GROUP BY
+                    m.id
                 ORDER BY
                   m.date DESC";
 
@@ -173,6 +181,18 @@ class MessageManager extends AbstractManager
             $user = $this->getUser();
         }
         $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
+        return count($recievedNewMessages);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return int
+     */
+    public function countMessages(UserInterface $user = null){
+        if(!$user){
+            $user = $this->getUser();
+        }
+        $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
         return count($recievedNewMessages);
     }
 }

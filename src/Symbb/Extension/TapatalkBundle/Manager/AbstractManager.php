@@ -105,6 +105,12 @@ class AbstractManager
         return $response;
     }
 
+    /**
+     * @param $startNumber
+     * @param $lastNumber
+     * @param $limit
+     * @param $page
+     */
     public function calcLimitandPage($startNumber, $lastNumber, &$limit, &$page)
     {
 
@@ -113,5 +119,21 @@ class AbstractManager
             $startNumber = 1;
         }
         $page = \ceil($startNumber / $limit);
+    }
+
+    /**
+     * @param $text
+     * @return string
+     */
+    protected function createShortContent($text){
+        return substr($text, 0 , 200);
+    }
+
+    /**
+     * @param §message $
+     * @param $data
+     */
+    public function debug($message, $data = array()){
+        $this->logger->debug('Tapatalk: '.$message, $data);
     }
 }
