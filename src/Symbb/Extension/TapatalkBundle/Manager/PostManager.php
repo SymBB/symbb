@@ -17,6 +17,7 @@ class PostManager extends AbstractManager
 
     public function getThread($topicId, $startNumber, $lastNumber)
     {
+        $this->debug("getThread");
         $limit = 50;
         $page = 1;
         $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);

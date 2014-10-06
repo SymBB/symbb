@@ -20,23 +20,27 @@ class ForumManager extends AbstractManager
 
     public function getConfig()
     {
-
+        $this->debug("getConfig");
         $configList = array(
             //'sys_version' => new \Zend\XmlRpc\Value\String('1.0.0'),
             'version' => new \Zend\XmlRpc\Value\String('1'),
-            'get_latest_topic' => new \Zend\XmlRpc\Value\String('0'),
+            'get_latest_topic' => new \Zend\XmlRpc\Value\String('1'),
             'api_level' => new \Zend\XmlRpc\Value\String('3'),
             'is_open' => new \Zend\XmlRpc\Value\Boolean(true),
             'guest_okay' => new \Zend\XmlRpc\Value\Boolean(true),
             'report_post' => new \Zend\XmlRpc\Value\String('false'),
             'report_pm' => new \Zend\XmlRpc\Value\String('false'),
-            'mark_read' => new \Zend\XmlRpc\Value\String('0'),
+            'mark_read' => new \Zend\XmlRpc\Value\String('1'),
             'mark_forum' => new \Zend\XmlRpc\Value\String('0'),
             'subscribe_forum' => new \Zend\XmlRpc\Value\String('0'),
             'delete_reason' => new \Zend\XmlRpc\Value\String('0'),
             'm_approve' => new \Zend\XmlRpc\Value\String('0'),
             'm_delete' => new \Zend\XmlRpc\Value\String('0'),
             'm_report' => new \Zend\XmlRpc\Value\String('0'),
+            'can_unread' => new \Zend\XmlRpc\Value\String('1'),
+            'mark_pm_read' => new \Zend\XmlRpc\Value\String('1'),
+            'mark_pm_unread' => new \Zend\XmlRpc\Value\String('1'),
+            'mark_topic_read' => new \Zend\XmlRpc\Value\String('1'),
             'anonymous' => new \Zend\XmlRpc\Value\String('1'),
             'delete_reason' => new \Zend\XmlRpc\Value\String('0'),
             'alert' => new \Zend\XmlRpc\Value\String('1'),
@@ -50,6 +54,7 @@ class ForumManager extends AbstractManager
             'api_key' => new \Zend\XmlRpc\Value\String(md5("4BB5A17F3DCD0426EF82C8A48CEC079C")),
             'avatar' => new \Zend\XmlRpc\Value\String('1'),
             'get_id_by_url' => new \Zend\XmlRpc\Value\String('0'),
+            'login_type' => new \Zend\XmlRpc\Value\String('username'),
         );
 
         $configList['stats'] = $this->getConfigStats();
@@ -59,12 +64,14 @@ class ForumManager extends AbstractManager
 
     public function getParticipatedForum()
     {
+        $this->debug("getParticipatedForum");
         $data = array();
         return $this->getResponse($data, 'struct');
     }
 
     public function markAllAsRead($forumId = 0)
     {
+        $this->debug("markAllAsRead");
         $success = false;
         if($forumId > 0){
             $forum =$this->forumManager->find($forumId);
@@ -83,6 +90,7 @@ class ForumManager extends AbstractManager
 
     public function loginForum($forumId, $password)
     {
+        $this->debug("loginForum");
         $data = array(
             'result' => new \Zend\XmlRpc\Value\Boolean(false)
         );
@@ -91,18 +99,21 @@ class ForumManager extends AbstractManager
 
     public function getForumStatus($forumIds)
     {
+        $this->debug("getForumStatus");
         $data = array();
         return $this->getResponse($data, 'struct');
     }
 
     public function getSmilies()
     {
+        $this->debug("getSmilies");
         $data = array();
         return $this->getResponse($data, 'struct');
     }
 
     public function getBoardStat()
     {
+        $this->debug("getBoardStat");
         $userCount = $this->userManager->countUsers();
         $topicCount = $this->forumManager->countTopics();
         $postCount = $this->forumManager->countTopics();
@@ -125,6 +136,7 @@ class ForumManager extends AbstractManager
      */
     protected function getConfigStats()
     {
+        $this->debug("getConfigStats");
         $userCount = $this->userManager->countUsers();
         $topicCount = $this->forumManager->countTopics();
         $postCount = $this->forumManager->countTopics();
@@ -141,6 +153,7 @@ class ForumManager extends AbstractManager
 
     public function getForum($returnDescription = false, $forumId = 0)
     {
+        $this->debug("getForum");
         $forums = array();
         $forumData = array();
 
@@ -165,6 +178,7 @@ class ForumManager extends AbstractManager
 
     protected function getForumData(Forum $forum)
     {
+        $this->debug("getForumData");
         $forumData = null;
 
         $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);

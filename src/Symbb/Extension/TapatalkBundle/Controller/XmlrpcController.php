@@ -10,12 +10,16 @@
 namespace Symbb\Extension\TapatalkBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class XmlrpcController extends Controller
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $this->get('monolog.logger.tapatalk')->debug('############################');
+        $this->get('monolog.logger.tapatalk')->debug($this->get('request'));
         $server = new \Zend\XmlRpc\Server;
         $server->setReturnResponse(true);
         $server->setClass($this->get('symbb.extension.tapatalk.manager.call'));
@@ -27,7 +31,6 @@ class XmlrpcController extends Controller
             $sfResponse->headers->set('Content-Type', 'text/xml; charset=UTF-8');
             $sfResponse->setContent($responseZend->saveXml());
         } else {
-            $this->get('monolog.logger.tapatalk')->debug($this->get('request'));
             $sfResponse = $responseZend->getReturnValue();
         }
 
@@ -82,10 +85,7 @@ class XmlrpcController extends Controller
     protected function addResponseHeader($sfResponse)
     {
 
-        $user = $this->get('symbb.core.user.manager')->getCurrentUser();
-        if ($user->getSymbbType() === 'user') {
-            $sfResponse->headers->set('Mobiquo_is_login', true);
-        }
+
 
         return $sfResponse;
     }

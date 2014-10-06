@@ -20,12 +20,12 @@ class UserManager extends AbstractManager
 
     public function login($username, $password, Request $request, $providerKey)
     {
-
-
+        $this->debug("login");
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+
         $result = array();
-        $this->debug('Login: user: '.$username);
+        $this->debug('user: '.$username);
         $userLoggedIn = $this->userManager->login($username, $password, $request, $providerKey, $response);
 
         $user = $this->userManager->getCurrentUser();
@@ -55,15 +55,15 @@ class UserManager extends AbstractManager
         $result['can_moderate'] = new \Zend\XmlRpc\Value\Boolean(false);
         $result['can_upload_avatar'] = new \Zend\XmlRpc\Value\Boolean(false);
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct', true);
+
+        $response->headers->set();
 
         return $response;
     }
 
     public function getInboxStat(){
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $this->debug('getInboxStat');
 
         $topics = $this->topicManager->getFlagHandler()->findFlagsByClassAndFlag('Symbb\Core\Forum\Entity\Topic', 'new');
         $messages = $this->messageManager->countNewMessages();
@@ -71,8 +71,7 @@ class UserManager extends AbstractManager
         $result['inbox_unread_count'] = new \Zend\XmlRpc\Value\Integer($messages);
         $result['subscribed_topic_unread_count'] = new \Zend\XmlRpc\Value\Integer(count($topics));
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -88,10 +87,7 @@ class UserManager extends AbstractManager
      */
     public function createMessage($userName, $subject, $textBody, $action, $pmId){
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
-
-
+        $this->debug('createMessage');
         $receivers = array();
         $success = true;
         $error = "";
@@ -132,11 +128,12 @@ class UserManager extends AbstractManager
         }
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean($success);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64($error);
+        if(!empty($error)){
+            $result['result_text'] = new \Zend\XmlRpc\Value\Base64($error);
+        }
         $result['msg_id'] = new \Zend\XmlRpc\Value\String($id);
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -146,8 +143,7 @@ class UserManager extends AbstractManager
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getBoxInfo(){
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $this->debug('getBoxInfo');
 
         $boxInbox = new \Zend\XmlRpc\Value\Struct(array(
             'box_id' => new \Zend\XmlRpc\Value\String('inbox'),
@@ -166,15 +162,12 @@ class UserManager extends AbstractManager
         ));
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $result['list'] = array(
             $boxInbox,
             $boxSent
         );
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
-
+        $response = $this->getResponse($result, 'struct');
         return $response;
     }
 
@@ -184,9 +177,7 @@ class UserManager extends AbstractManager
      */
     public function getBox($boxId, $startNum = null, $endNum = null){
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
-
+        $this->debug('getBox');
         $page = 1;
         $limit = 20;
 
@@ -206,7 +197,6 @@ class UserManager extends AbstractManager
         }
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $result['total_message_count'] = new \Zend\XmlRpc\Value\Integer(count($messages));
         $result['total_message_count'] = new \Zend\XmlRpc\Value\Integer($newMessageCount);
 
@@ -241,8 +231,7 @@ class UserManager extends AbstractManager
             ));
         }
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -253,9 +242,7 @@ class UserManager extends AbstractManager
      */
     public function getMessage($messageId, $boxId){
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
-
+        $this->debug('getMessage');
         $message = $this->messageManager->find($messageId);
         $text = $message->getMessage();
 
@@ -270,7 +257,6 @@ class UserManager extends AbstractManager
 
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $result['msg_from_id'] = new \Zend\XmlRpc\Value\String($message->getSender()->getId());
         $result['msg_from'] = new \Zend\XmlRpc\Value\Base64($message->getSender()->getUsername());
         $result['icon_url'] = new \Zend\XmlRpc\Value\String($this->userManager->getAbsoluteAvatarUrl($message->getSender()));
@@ -279,8 +265,7 @@ class UserManager extends AbstractManager
         $result['text_body'] = new \Zend\XmlRpc\Value\Base64($text);
         $result['msg_to'] = $msgTo;
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -290,22 +275,18 @@ class UserManager extends AbstractManager
      * https://tapatalk.com/api/api_section.php?id=7#get_quote_pm
      */
     public function getQuotePm($messageId){
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
 
+        $this->debug('getQuotePm');
         $message = $this->messageManager->find($messageId);
         $text = $message->getMessage();
         $text = '[quote]'.$text.'[/quote]';
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $result['msg_id'] = new \Zend\XmlRpc\Value\String($message->getId());
         $result['msg_subject'] = new \Zend\XmlRpc\Value\Base64($message->getSubject());
         $result['text_body'] = new \Zend\XmlRpc\Value\Base64($text);
 
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
-
+        $response = $this->getResponse($result, 'struct');
         return $response;
     }
 
@@ -315,15 +296,12 @@ class UserManager extends AbstractManager
      * @param $boxId
      */
     public function deleteMessage($messageId, $boxId){
+        $this->debug('$messageId');
         $message = $this->messageManager->find($messageId);
         $success = $this->messageManager->remove($message);
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         $result['result'] = new \Zend\XmlRpc\Value\Boolean($success);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -335,6 +313,7 @@ class UserManager extends AbstractManager
      * @param $messageId
      */
     public function markPmUnread($messageId){
+        $this->debug('markPmUnread');
         $message = $this->messageManager->find($messageId);
 
         foreach($message->getReceivers() as $reciver){
@@ -343,12 +322,8 @@ class UserManager extends AbstractManager
             }
         }
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }
@@ -358,7 +333,7 @@ class UserManager extends AbstractManager
      * @param $messageId
      */
     public function markPmRead($messageIds){
-
+        $this->debug('markPmRead');
         $messageIds = explode(',', $messageIds);
 
         foreach($messageIds as $messageId){
@@ -371,12 +346,8 @@ class UserManager extends AbstractManager
             }
         }
 
-        $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
-        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
-        $response2 = $this->getResponse($result, 'struct');
-        $response->setContent($response2->getContent());
+        $response = $this->getResponse($result, 'struct');
 
         return $response;
     }

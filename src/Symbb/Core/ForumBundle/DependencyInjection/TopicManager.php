@@ -11,6 +11,7 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 
 use Symbb\Core\ForumBundle\Entity\Topic;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 
 class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
@@ -146,7 +147,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     }
 
 
-    public function getParticipatedTopics($page = 1, $limit = 20)
+    public function getParticipatedTopics($page = 1, $limit = 20, UserInterface $user = null)
     {
 
         $sql = "SELECT
@@ -163,9 +164,13 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 ORDER BY
                     p.created DESC ";
 
+        if(!$user){
+            $user = $this->getUser();
+        }
+
         //// count
         $query = $this->em->createQuery($sql);
-        $query->setParameter(0, $this->getUser()->getId());
+        $query->setParameter(0, $user->getId());
 
         $pagination = $this->createPagination($query, $page, $limit);
 
