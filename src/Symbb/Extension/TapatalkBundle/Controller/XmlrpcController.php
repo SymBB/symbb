@@ -23,17 +23,12 @@ class XmlrpcController extends Controller
 
         // error case
         if ($responseZend instanceof \Zend\XmlRpc\Fault) {
-            $this->get('logger')->error($responseZend->getMessage());
-            $this->get('logger')->error($this->get('request'));
             $sfResponse = new \Symfony\Component\HttpFoundation\Response();
             $sfResponse->headers->set('Content-Type', 'text/xml; charset=UTF-8');
             $sfResponse->setContent($responseZend->saveXml());
         } else {
-            $this->get('logger')->debug('Tapatalk Request:');
-            $this->get('logger')->debug($this->get('request'));
+            $this->get('monolog.logger.tapatalk')->debug($this->get('request'));
             $sfResponse = $responseZend->getReturnValue();
-            $this->get('logger')->debug('Response:');
-            $this->get('logger')->debug($sfResponse);
         }
 
         $sfResponse = $this->addResponseHeader($sfResponse);

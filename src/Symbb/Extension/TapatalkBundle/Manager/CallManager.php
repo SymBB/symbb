@@ -494,9 +494,9 @@ class CallManager
     protected function errorResponse(\Exception $exc)
     {
 
-        $this->container->get('logger')->error('Error in CallManager: ' . $exc->getMessage());
-        $this->container->get('logger')->error('File: '.$exc->getTraceAsString());
-        $this->container->get('logger')->error($this->container->get('request'));
+        $this->container->get('monolog.logger.tapatalk')->error('Error in CallManager: ' . $exc->getMessage());
+        $this->container->get('monolog.logger.tapatalk')->error('File: '.$exc->getTraceAsString());
+        $this->container->get('monolog.logger.tapatalk')->error($this->container->get('request'));
         throw new $exc;
     }
 }

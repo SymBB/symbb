@@ -1,0 +1,21 @@
+monolog:
+    channels: ["tapatalk"]
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+            channels: ["!tapatalk"]
+        tapatalk:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%_tapatalk.log
+            level: debug
+            channels: ["tapatalk"]
+        firephp:
+            type:  firephp
+            level: info
+            channels: ["!tapatalk"]
+        chromephp:
+            type:  chromephp
+            level: info
+            channels: ["!tapatalk"]
