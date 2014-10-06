@@ -173,6 +173,15 @@ class MessageManager extends AbstractManager
     }
 
     /**
+     * @param Receiver $receiver
+     */
+    public function unread(Receiver $receiver){
+        $receiver->setNew(true);
+        $this->em->persist($receiver);
+        $this->em->flush();
+    }
+
+    /**
      * @param UserInterface $user
      * @return int
      */
@@ -194,5 +203,15 @@ class MessageManager extends AbstractManager
         }
         $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
         return count($recievedNewMessages);
+    }
+
+    /**
+     * @param Message $message
+     * @return bool
+     */
+    public function remove(Message $message){
+        $this->em->remove($message);
+        $this->em->persist();
+        return true;
     }
 }

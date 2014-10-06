@@ -267,6 +267,8 @@ class UserManager extends AbstractManager
             ));
         }
 
+
+
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
         $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $result['msg_from_id'] = new \Zend\XmlRpc\Value\String($message->getSender()->getId());
@@ -301,6 +303,78 @@ class UserManager extends AbstractManager
         $result['msg_subject'] = new \Zend\XmlRpc\Value\Base64($message->getSubject());
         $result['text_body'] = new \Zend\XmlRpc\Value\Base64($text);
 
+        $response2 = $this->getResponse($result, 'struct');
+        $response->setContent($response2->getContent());
+
+        return $response;
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#delete_message
+     * @param $messageId
+     * @param $boxId
+     */
+    public function deleteMessage($messageId, $boxId){
+        $message = $this->messageManager->find($messageId);
+        $success = $this->messageManager->remove($message);
+
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $result['result'] = new \Zend\XmlRpc\Value\Boolean($success);
+        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
+        $response2 = $this->getResponse($result, 'struct');
+        $response->setContent($response2->getContent());
+
+        return $response;
+    }
+
+
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
+     * @param $messageId
+     */
+    public function markPmUnread($messageId){
+        $message = $this->messageManager->find($messageId);
+
+        foreach($message->getReceivers() as $reciver){
+            if($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()){
+                $this->messageManager->unread($reciver);
+            }
+        }
+
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
+        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
+        $response2 = $this->getResponse($result, 'struct');
+        $response->setContent($response2->getContent());
+
+        return $response;
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
+     * @param $messageId
+     */
+    public function markPmRead($messageIds){
+
+        $messageIds = explode(',', $messageIds);
+
+        foreach($messageIds as $messageId){
+            $message = $this->messageManager->find($messageId);
+
+            foreach($message->getReceivers() as $reciver){
+                if($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()){
+                    $this->messageManager->read($reciver);
+                }
+            }
+        }
+
+        $response = new \Symfony\Component\HttpFoundation\Response();
+        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
+        $result['result_text'] = new \Zend\XmlRpc\Value\Base64("");
         $response2 = $this->getResponse($result, 'struct');
         $response->setContent($response2->getContent());
 

@@ -451,6 +451,46 @@ class CallManager
         }
     }
 
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#delete_message
+     * @param string $messageId
+     * @param base64 $boxId
+     */
+    public function delete_message($messageId, $boxId){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->deleteMessage($messageId, $boxId);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
+     * @param string $messageId
+     */
+    public function mark_pm_unread($messageId){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->markPmUnread($messageId);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
+    /**
+     * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
+     * @param string $messageId
+     */
+    public function mark_pm_read($messageId){
+        try {
+            $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
+            return $manager->markPmRead($messageId);
+        } catch (\Exception $exc) {
+            return $this->errorResponse($exc);
+        }
+    }
+
     protected function errorResponse(\Exception $exc)
     {
 
