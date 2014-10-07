@@ -92,7 +92,7 @@ class ForumApi extends AbstractApi
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
         if(!$this->hasError()){
-            $check = $this->userManager->removeUser($object);
+            $check = $this->forumManager->remove($object);
             if($check){
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
