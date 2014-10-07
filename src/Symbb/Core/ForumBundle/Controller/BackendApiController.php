@@ -24,6 +24,8 @@ class BackendApiController extends AbstractController
     public function listAction(Request $request)
     {
         $api = $this->get('symbb.core.api.forum');
+        $api->entityAccessCheck = false;
+
         $objects = $api->findAll($request->get('parent', 0), $request->get('limit', 20), $request->get('page', 1));
 
         $objectsData = array();
@@ -43,6 +45,8 @@ class BackendApiController extends AbstractController
     public function saveAction(Request $request)
     {
         $api = $this->get('symbb.core.api.forum');
+        $api->entityAccessCheck = false;
+
         $data = $request->get('data');
         $site = $api->save($data);
         $site = $api->createArrayOfObject($site);
@@ -58,6 +62,8 @@ class BackendApiController extends AbstractController
     public function findAction($user)
     {
         $api = $this->get('symbb.core.api.forum');
+        $api->entityAccessCheck = false;
+
         $api->find((int)$user);
         return $api->getJsonResponse();
     }
@@ -69,6 +75,8 @@ class BackendApiController extends AbstractController
     public function deleteAction($forum)
     {
         $api = $this->get('symbb.core.api.forum');
+        $api->entityAccessCheck = false;
+
         $api->delete((int)$forum);
         return $api->getJsonResponse();
     }

@@ -173,10 +173,11 @@ class ForumManager extends AbstractManager
     /**
      * @param null $parentId
      * @param null $limit
-     * @param null $offset
-     * @return array(<\Symbb\Core\ForumBundle\Entity\Forum>)
+     * @param null $page
+     * @param bool $checkAccess
+     * @return Forum[]
      */
-    public function findAll($parentId = null, $limit = null, $page = null)
+    public function findAll($parentId = null, $limit = null, $page = null, $checkAccess = true)
     {
         if ($parentId === 0) {
             $parentId = null;
@@ -191,9 +192,9 @@ class ForumManager extends AbstractManager
         }
 
 
-        $parentWhere = 'f.parent = ?0 AND';
+        $parentWhere = 'f.parent = ?0';
         if(!$parentId){
-            $parentWhere = 'f.parent IS NULL AND';
+            $parentWhere = 'f.parent IS NULL';
         }
 
 
@@ -203,30 +204,37 @@ class ForumManager extends AbstractManager
         $userlcass = $configUsermanager['user_class'];
         $groupclass = $configGroupManager['group_class'];
 
+        $accessWhere = "";
+
+        if($checkAccess){
+            $accessWhere = "AND
+                        (
+                            ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
+                                a.objectId = f.id AND
+                                a.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
+                                a.identity = '".$userlcass."' AND
+                                a.identityId = ?1 AND
+                                a.access = 'view'
+                                ORDER BY a.id
+                            ) > 0 OR
+                            ( SELECT COUNT(a2.id) FROM SymbbCoreSystemBundle:Access a2 WHERE
+                                a2.objectId = f.id AND
+                                a2.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
+                                a2.identity = '".$groupclass."' AND
+                                a2.identityId IN (?2) AND
+                                a2.access = 'view'
+                                ORDER BY a2.id
+                            ) > 0
+                        )";
+        }
+
         $sql = "SELECT
                     f
                 FROM
                     SymbbCoreForumBundle:Forum f
                 WHERE
                     ".$parentWhere."
-                    (
-                        ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
-                            a.objectId = f.id AND
-                            a.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
-                            a.identity = '".$userlcass."' AND
-                            a.identityId = ?1 AND
-                            a.access = 'view'
-                            ORDER BY a.id
-                        ) > 0 OR
-                        ( SELECT COUNT(a2.id) FROM SymbbCoreSystemBundle:Access a2 WHERE
-                            a2.objectId = f.id AND
-                            a2.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
-                            a2.identity = '".$groupclass."' AND
-                            a2.identityId IN (?2) AND
-                            a2.access = 'view'
-                            ORDER BY a2.id
-                        ) > 0
-                    )
+                    ".$accessWhere."
                 ORDER BY
                     f.position ASC";
 
@@ -239,8 +247,10 @@ class ForumManager extends AbstractManager
         if($parentId){
             $query->setParameter(0, $parentId);
         }
-        $query->setParameter(1, $this->getUser()->getId());
-        $query->setParameter(2, $groupIds);
+        if($checkAccess) {
+            $query->setParameter(1, $this->getUser()->getId());
+            $query->setParameter(2, $groupIds);
+        }
 
         $pagination = $this->createPagination($query, $page, $limit);
 

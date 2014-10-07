@@ -5,7 +5,9 @@
         factory('$symbbRestCrud', ["$http", "$routeParams", "$anchorScroll", "$route",
         function ($http, $routeParams, $anchorScroll, $route) {
             var service = {
+                entityIdField: 'id',
                 routingIdField: 'id',
+                parentIdField: null,
                 beforeSave: null,
                 beforeEdit: null
             };
@@ -28,8 +30,12 @@
                             });
                         };
 
-                        $scope.create = function () {
-                            $scope.edit();
+                        $scope.create = function (parent) {
+                            var entry = {};
+                            if(service.parentIdField){
+                                entry[service.parentIdField] = parent[service.entityIdField];
+                            }
+                            $scope.edit(entry);
                         };
 
                         $scope.edit = function (entry) {

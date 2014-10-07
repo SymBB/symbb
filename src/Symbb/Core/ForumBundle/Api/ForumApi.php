@@ -41,7 +41,7 @@ class ForumApi extends AbstractApi
      * @return Forum[]
      */
     public function findAll($parentId, $limit, $page){
-        $objects = $this->forumManager->findAll($parentId, $limit, $page);
+        $objects = $this->forumManager->findAll($parentId, $limit, $page, $this->entityAccessCheck);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
         if(empty($objects)){
@@ -65,6 +65,13 @@ class ForumApi extends AbstractApi
                 $object = $this->find($object['id']);
             } else {
                 $object = new Forum();
+            }
+            if(isset($objectData['parent'])){
+                $parent = $this->find($objectData['parent']);
+                if($parent){
+                    $object->setParent($parent);
+                }
+                unset($objectData['parent']);
             }
             $this->assignArrayToObject($object, $objectData);
         } else if(!($object instanceof Forum)) {

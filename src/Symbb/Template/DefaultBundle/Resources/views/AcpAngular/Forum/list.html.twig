@@ -6,6 +6,9 @@
 {% block subtitle %}
     {{ 'You can manage your Forum and Categories on this Pages'|trans }}
     <div class="pull-right">
+        <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+        </button>
         <button ng-click="create()" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'New Forum'|trans }}
@@ -41,4 +44,8 @@
             <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node"></li>
         </ol>
     </div>
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Forum'|trans }}">
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name" />
+
+    </symbb-modal-form>
 {% endblock %}

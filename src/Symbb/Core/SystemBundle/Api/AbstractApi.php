@@ -29,6 +29,12 @@ abstract class AbstractApi
     const SUCCESS_DELETED = 'successfully deleted';
 
     /**
+     * in backend we will disable the access checks
+     * @var bool
+     */
+    public $entityAccessCheck = true;
+
+    /**
      * @var UserInterface
      */
     protected $user;
