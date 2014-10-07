@@ -65,7 +65,7 @@ class FieldApi extends AbstractApi
             } else {
                 $object = new Field();
             }
-            $this->assignArrayToObject($object, $objectData, $this->getFieldArrayFields());
+            $this->assignArrayToObject($object, $objectData);
         } else if(!($object instanceof Field)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
@@ -101,12 +101,14 @@ class FieldApi extends AbstractApi
     }
 
     /**
-     * return a list of all field names of the Site object as Array
-     * @return array
+     * @param $object
+     * @param $direction
+     * @return array|null
      */
-    public function getFieldArrayFields(){
+    protected function getFieldsForObject($object, $direction){
         // only this fields are allowed
         $fields = array(
+            'id',
             'data_type',
             'label',
             'display_in_forum',

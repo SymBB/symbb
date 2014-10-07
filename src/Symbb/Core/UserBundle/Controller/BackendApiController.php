@@ -24,11 +24,15 @@ class BackendApiController extends AbstractController
     public function listAction(Request $request)
     {
         $api = $this->get('symbb.core.api.user');
-        $sites = $api->getList($request->get('limit', 20), $request->get('page', 1));
-        $sites = $api->createArrayOfObject($sites);
+        $objects = $api->getList($request->get('limit', 20), $request->get('page', 1));
+
+        $objectsData = array();
+        foreach($objects as $object){
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
 
         return $api->getJsonResponse(array(
-            'data' => $sites
+            'data' => $objectsData
         ));
     }
 
@@ -77,9 +81,14 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.user.group');
         $objects = $api->getList($request->get('limit', 20), $request->get('page', 1));
-        $objects = $api->createArrayOfObject($objects);
+
+        $objectsData = array();
+        foreach($objects as $object){
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
+
         return $api->getJsonResponse(array(
-            'data' => $objects
+            'data' => $objectsData
         ));
     }
 
@@ -128,10 +137,15 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.user.field');
         $objects = $api->findAll($request->get('limit', 20), $request->get('page', 1));
-        $objects = $api->createArrayOfObject($objects);
+
+        $objectsData = array();
+        foreach($objects as $object){
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
+
         return $api->getJsonResponse(array(
-                'data' => $objects
-            ));
+            'data' => $objectsData
+        ));
     }
 
     /**

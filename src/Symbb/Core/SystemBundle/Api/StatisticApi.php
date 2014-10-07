@@ -159,4 +159,8 @@ class StatisticApi extends AbstractApi
         }
         return (array)$data;
     }
+
+    protected function getFieldsForObject($object, $direction){
+        return array();
+    }
 }

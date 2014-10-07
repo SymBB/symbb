@@ -422,4 +422,24 @@ class ForumManager extends AbstractManager
 
         return true;
     }
+
+    /**
+     * @param Forum $object
+     * @return bool
+     */
+    public function update(Forum $object){
+        $this->em->persist($object);
+        $this->em->flush();
+        return true;
+    }
+
+    /**
+     * @param Forum $object
+     * @return bool
+     */
+    public function remove(Forum $object){
+        $this->em->remove($object);
+        $this->em->flush();
+        return true;
+    }
 }

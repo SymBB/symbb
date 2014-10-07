@@ -24,11 +24,15 @@ class BackendApiController extends AbstractController
     public function listAction()
     {
         $api = $this->get('symbb.core.api.site');
-        $sites = $api->getList();
-        $sites = $api->createArrayOfObject($sites);
+        $objects = $api->getList();
+
+        $objectsData = array();
+        foreach($objects as $object){
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
 
         return $api->getJsonResponse(array(
-            'data' => $sites
+            'data' => $objectsData
         ));
     }
 
@@ -76,10 +80,15 @@ class BackendApiController extends AbstractController
     public function findNavigations($site)
     {
         $api = $this->get('symbb.core.api.site.navigation');
-        $object = $api->findAll($site);
-        $object = $api->createArrayOfObject($object);
+        $objects = $api->findAll($site);
+
+        $objectsData = array();
+        foreach($objects as $object){
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
+
         return $api->getJsonResponse(array(
-            'data' => $object
+            'data' => $objectsData
         ));
     }
 
