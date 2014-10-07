@@ -209,6 +209,9 @@ class NavigationApi extends AbstractApi
                 'fix_url',
                 'position'
             );
+            if($direction == "toArray"){
+                $fields[] = 'children';
+            }
         } else if($object instanceof Navigation){
             $fields = array(
                 'id',

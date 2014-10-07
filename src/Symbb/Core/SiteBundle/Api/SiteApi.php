@@ -104,7 +104,7 @@ class SiteApi extends AbstractApi
      */
     protected function getFieldsForObject($object, $direction){
 
-
+        //todo get it form navi api
 
         if($object instanceof Item){
             // only this fields are allowed
@@ -117,6 +117,9 @@ class SiteApi extends AbstractApi
                 'fix_url',
                 'position'
             );
+            if($direction == "toArray"){
+                $fields[] = 'children';
+            }
         } else if($object instanceof Navigation){
             $fields = array(
                 'id',

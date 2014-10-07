@@ -103,6 +103,7 @@ symbbControllers.controller('SiteNavigationListCtrl', ['$scope', '$http', '$rout
                     var route = angularConfig.getSymfonyRoute('symbb_backend_api_site_navigation_item_delete', routeParams);
                     $http.delete(route).success(function (response) {
                         if (response.success) {
+                            console.debug(parentItem);
                             if(!parentItem || item.id == parentItem.id){
                                 newItems = [];
                                 $.each(navigation.items, function(key, elem){
