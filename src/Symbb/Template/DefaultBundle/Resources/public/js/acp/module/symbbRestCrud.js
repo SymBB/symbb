@@ -32,7 +32,7 @@
 
                         $scope.create = function (parent) {
                             var entry = {};
-                            if(service.parentIdField){
+                            if(service.parentIdField && parent){
                                 entry[service.parentIdField] = parent[service.entityIdField];
                             }
                             $scope.edit(entry);

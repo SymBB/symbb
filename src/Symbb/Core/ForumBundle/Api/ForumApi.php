@@ -123,7 +123,7 @@ class ForumApi extends AbstractApi
                 'type',
                 'name',
                 'link',
-                'countLinkCalls',
+                'count_link_calls',
                 'description',
                 'active',
                 'show_sub_forum_list',
