@@ -1,6 +1,7 @@
 symbbControllers.controller('UserGroupListCtrl', ["$scope", "$symbbRestCrud",
     function($scope, $symbbRestCrud) {
-        $symbbRestCrud.routingIdField = 'group';
-        $symbbRestCrud.init($scope);
+        var service = new $symbbRestCrud();
+        service.routingIdField = 'group';
+        service.init($scope);
     }
 ]);

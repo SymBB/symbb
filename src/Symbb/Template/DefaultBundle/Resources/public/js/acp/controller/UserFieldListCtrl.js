@@ -1,6 +1,7 @@
 symbbControllers.controller('UserFieldListCtrl', ["$scope", "$symbbRestCrud",
     function($scope, $symbbRestCrud) {
-        $symbbRestCrud.routingIdField = 'field';
-        $symbbRestCrud.init($scope);
+        var service = new $symbbRestCrud();
+        service.routingIdField = 'field';
+        service.init($scope);
     }
 ]);

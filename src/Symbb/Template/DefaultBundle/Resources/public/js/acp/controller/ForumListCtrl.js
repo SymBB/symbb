@@ -1,7 +1,8 @@
 symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud",
     function($scope, $symbbRestCrud) {
-        $symbbRestCrud.parentIdField = 'parent';
-        $symbbRestCrud.routingIdField = 'forum';
-        $symbbRestCrud.init($scope);
+        var service = new $symbbRestCrud();
+        service.parentIdField = 'parent';
+        service.routingIdField = 'parent';
+        service.init($scope);
     }
 ]);

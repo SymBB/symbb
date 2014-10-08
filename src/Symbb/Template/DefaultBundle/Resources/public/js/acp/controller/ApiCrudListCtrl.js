@@ -1,5 +1,6 @@
 symbbControllers.controller('ApiCrudListCtrl', ["$scope", "$symbbRestCrud",
     function($scope, $symbbRestCrud) {
-        $symbbRestCrud.init($scope);
+        var service = new $symbbRestCrud();
+        service.init($scope);
     }
 ]);
