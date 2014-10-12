@@ -5,6 +5,9 @@
 {% block title %}{{ 'Useerfields'|trans }}{% endblock %}
 {% block subtitle %}
     {{ 'You can manage your Userfields on this Pages'|trans }}
+    <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+    </button>
     <div class="pull-right">
         <button ng-click="create()" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-plus"></span>

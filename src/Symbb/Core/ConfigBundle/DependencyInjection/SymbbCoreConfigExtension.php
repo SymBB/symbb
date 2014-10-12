@@ -35,6 +35,7 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('liip_imagine.yml');
         $loader->load('fosjsrouting.yml');
         $loader->load('assetic.yml');
+        $loader->load('monolog.yml');
     }
         
     public function load(array $configs, ContainerBuilder $container)

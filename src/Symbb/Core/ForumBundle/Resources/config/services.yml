@@ -42,6 +42,12 @@ services:
         class: Symbb\Core\ForumBundle\DependencyInjection\TopicManager
         arguments: ['@symbb.core.topic.flag', '@symbb.core.config.manager']
 
+    symbb.core.api.forum:
+        class: Symbb\Core\ForumBundle\Api\ForumApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setForumManager', ['@symbb.core.forum.manager']]
+
             
             
     symbb.core.abstract.flag:

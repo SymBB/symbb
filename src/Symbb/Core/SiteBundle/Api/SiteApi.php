@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\SiteBundle\Api;
 
+use Symbb\Core\SiteBundle\Entity\Navigation;
+use Symbb\Core\SiteBundle\Entity\Navigation\Item;
 use Symbb\Core\SiteBundle\Entity\Site;
 use Symbb\Core\SiteBundle\Manager\SiteManager;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
@@ -60,7 +62,7 @@ class SiteApi extends AbstractApi
             } else {
                 $site = new Site();
             }
-            $this->assignArrayToObject($site, $siteData, $this->getSiteArrayFields());
+            $this->assignArrayToObject($site, $siteData);
         } else if(!($site instanceof Site)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
@@ -96,23 +98,57 @@ class SiteApi extends AbstractApi
     }
 
     /**
-     * return a list of all field names of the Site object as Array
-     * @return array
+     * @param $object
+     * @param $direction
+     * @return array|null
      */
-    public function getSiteArrayFields(){
-        // only this fields are allowed
-        $fields = array(
-            'announcement',
-            'domains',
-            'media_domain',
-            'meta_data_description',
-            'meta_data_keywords',
-            'name',
-            'template_acp',
-            'template_email',
-            'template_forum',
-            'template_portal'
-        );
+    protected function getFieldsForObject($object, $direction){
+
+        //todo get it form navi api
+
+        if($object instanceof Item){
+            // only this fields are allowed
+            $fields = array(
+                'id',
+                'title',
+                'type',
+                'symfony_route',
+                'symfony_route_params',
+                'fix_url',
+                'position'
+            );
+            if($direction == "toArray"){
+                $fields[] = 'children';
+            }
+        } else if($object instanceof Navigation){
+            $fields = array(
+                'id',
+                'title',
+                'nav_key'
+            );
+            if($direction == "toArray"){
+                $fields[] = 'items';
+            }
+        } else if($object instanceof Site){
+            // only this fields are allowed
+            $fields = array(
+                'id',
+                'announcement',
+                'domains',
+                'media_domain',
+                'meta_data_description',
+                'meta_data_keywords',
+                'name',
+                'template_acp',
+                'template_email',
+                'template_forum',
+                'template_portal'
+            );
+            if($direction == "toArray"){
+                $fields[] = 'navigations';
+            }
+        }
+
         return $fields;
     }
 

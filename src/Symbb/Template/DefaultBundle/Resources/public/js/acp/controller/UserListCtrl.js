@@ -1,6 +1,8 @@
 symbbControllers.controller('UserListCtrl', ["$scope", "$symbbRestCrud", "$http",
     function($scope, $symbbRestCrud, $http) {
 
+        var service = new $symbbRestCrud();
+
         var groupsRoute = angularConfig.getSymfonyRoute('symbb_backend_api_user_group_list');
         $scope.groupSelectItems = [];
         $http.get(groupsRoute).success(function(response){
@@ -12,8 +14,8 @@ symbbControllers.controller('UserListCtrl', ["$scope", "$symbbRestCrud", "$http"
             }
         });
 
-        $symbbRestCrud.routingIdField = 'user';
-        $symbbRestCrud.beforeSave = function(entry){
+        service.routingIdField = 'user';
+        service.beforeSave = function(entry){
             entry.groups = [];
             $.each($scope.groupSelectItems, function(key, value){
                 if(value.selected){
@@ -23,7 +25,7 @@ symbbControllers.controller('UserListCtrl', ["$scope", "$symbbRestCrud", "$http"
             });
             return entry;
         };
-        $symbbRestCrud.beforeEdit = function(entry){
+        service.beforeEdit = function(entry){
             $.each($scope.groupSelectItems, function(key, value){
                 $scope.groupSelectItems[key].selected = false;
                 $.each(entry.groups, function(key2, value2){
@@ -35,6 +37,6 @@ symbbControllers.controller('UserListCtrl', ["$scope", "$symbbRestCrud", "$http"
             });
             return entry;
         };
-        $symbbRestCrud.init($scope);
+        service.init($scope);
     }
 ]);

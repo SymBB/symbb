@@ -17,6 +17,8 @@ use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Translation\Translator;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 
 abstract class AbstractApi
 {
@@ -25,6 +27,12 @@ abstract class AbstractApi
     const ERROR_ENTRY_NOT_FOUND = 'Entry not found';
     const SUCCESS_SAVED = 'successfully saved';
     const SUCCESS_DELETED = 'successfully deleted';
+
+    /**
+     * in backend we will disable the access checks
+     * @var bool
+     */
+    public $entityAccessCheck = true;
 
     /**
      * @var UserInterface
@@ -330,29 +338,67 @@ abstract class AbstractApi
      */
     public function createArrayOfObject($object){
         $array = array();
+        $fields = $this->getFieldsForObject($object, 'toArray');
         if($object){
-            $json = $this->serializer->serialize($object, 'json');
-            $array = json_decode($json, 1);
+            if(!$fields || empty($fields)){
+                $json = $this->serializer->serialize($object, 'json');
+                $array = json_decode($json, 1);
+            } else {
+                foreach($fields as $field){
+                    $method = '';
+                    $parts = explode('_', $field);
+                    foreach($parts as $key => $part){
+                        $method .= ucfirst($part);
+                    }
+                    $getter = 'get'.$method;
+                    $is = 'is'.$method;
+                    $value = null;
+                    if(method_exists($object, $getter)){
+                        $value = $object->$getter();
+                    } else if(method_exists($object, $is)){
+                        $value = $object->$is();
+                    }
+                    if (
+                        $value instanceof ArrayCollection ||
+                        $value instanceof PersistentCollection ||
+                        is_array($value)
+                    ){
+                        $newValue = array();
+                        foreach($value as $key => $value2){
+                            $newValue[$key] = $this->createArrayOfObject($value2);
+                        }
+                        $value = $newValue;
+                    } else if(is_object($value)){
+                        $value = $this->createArrayOfObject($value);
+                    }
+                    $array[$field] = $value;
+                }
+            }
         }
+
         return $array;
     }
+
+    abstract protected function getFieldsForObject($object, $direction);
 
     /**
      * @param object $site
      * @param $data
      * @return object
      */
-    public function assignArrayToObject($site, $data, $fields){
+    public function assignArrayToObject($object, $data){
+
+        $fields = $this->getFieldsForObject($object, 'toObject');
 
         foreach($fields as $field){
             // only assign if the key is set
-            if(isset($data[$field])){
+            if(isset($data[$field]) && $field !== "id"){
                 $setter = 'set';
                 $parts = explode('_', $field);
                 foreach($parts as $key => $part){
                     $setter .= ucfirst($part);
                 }
-                $site->$setter($data[$field]);
+                $object->$setter($data[$field]);
             }
         }
 
@@ -362,6 +408,6 @@ abstract class AbstractApi
             }
         }
 
-        return $site;
+        return $object;
     }
 }

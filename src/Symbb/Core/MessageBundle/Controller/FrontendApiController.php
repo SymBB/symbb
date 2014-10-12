@@ -38,7 +38,8 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             $receivers[] = $userManager->find((int)$receiverId);
         }
 
-        $errors = $this->get('symbb.core.message.manager')->sendMessage($subject, $message, $receivers);
+        $errors = array();
+        $message = $this->get('symbb.core.message.manager')->sendMessage($subject, $message, $receivers, $errors);
 
         if(!empty($errors)){
             foreach($errors as $error){

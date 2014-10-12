@@ -451,3 +451,28 @@ h1, .h1 {
     margin: 0;
     float: right;
 }
+
+
+.forumtype-category.box,
+.forumtype-forum.box,
+.forumtype-link.box {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-left: 10px;
+    margin-right: 5px;
+    margin-top: 5px;
+    border: 1px solid #000;
+}
+
+.forumtype-category, .angular-ui-tree-handle.category {
+    background-color: #e7f4f9 !important;
+}
+
+.forumtype-forum, .angular-ui-tree-handle.forum {
+    background-color: #FFF !important;
+}
+
+.forumtype-link, .angular-ui-tree-handle.link {
+    background-color: #bdbdbd !important;
+}

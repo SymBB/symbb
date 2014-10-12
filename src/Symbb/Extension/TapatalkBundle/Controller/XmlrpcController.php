@@ -10,12 +10,16 @@
 namespace Symbb\Extension\TapatalkBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class XmlrpcController extends Controller
 {
 
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        $this->get('monolog.logger.tapatalk')->debug('############################');
+        $this->get('monolog.logger.tapatalk')->debug($this->get('request'));
         $server = new \Zend\XmlRpc\Server;
         $server->setReturnResponse(true);
         $server->setClass($this->get('symbb.extension.tapatalk.manager.call'));
@@ -23,17 +27,11 @@ class XmlrpcController extends Controller
 
         // error case
         if ($responseZend instanceof \Zend\XmlRpc\Fault) {
-            $this->get('logger')->error($responseZend->getMessage());
-            $this->get('logger')->error($this->get('request'));
             $sfResponse = new \Symfony\Component\HttpFoundation\Response();
             $sfResponse->headers->set('Content-Type', 'text/xml; charset=UTF-8');
             $sfResponse->setContent($responseZend->saveXml());
         } else {
-            $this->get('logger')->debug('Tapatalk Request:');
-            $this->get('logger')->debug($this->get('request'));
             $sfResponse = $responseZend->getReturnValue();
-            $this->get('logger')->debug('Response:');
-            $this->get('logger')->debug($sfResponse);
         }
 
         $sfResponse = $this->addResponseHeader($sfResponse);
@@ -87,10 +85,7 @@ class XmlrpcController extends Controller
     protected function addResponseHeader($sfResponse)
     {
 
-        $user = $this->get('symbb.core.user.manager')->getCurrentUser();
-        if ($user->getSymbbType() === 'user') {
-            $sfResponse->headers->set('Mobiquo_is_login', true);
-        }
+
 
         return $sfResponse;
     }

@@ -10,6 +10,7 @@
 namespace Symbb\Core\SiteBundle\Api;
 
 use Symbb\Core\SiteBundle\Entity\Navigation;
+use Symbb\Core\SiteBundle\Form\Type\NavigationItem;
 use Symbb\Core\SiteBundle\Manager\NavigationManager;
 use Symbb\Core\SiteBundle\Manager\SiteManager;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
@@ -75,7 +76,7 @@ class NavigationApi extends AbstractApi
             if(isset($objectData['site'])){
                 unset($objectData['site']);
             }
-            $this->assignArrayToObject($object, $objectData, $this->getNavigationArrayFields());
+            $this->assignArrayToObject($object, $objectData);
         } else if(!($object instanceof Navigation)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
@@ -153,7 +154,7 @@ class NavigationApi extends AbstractApi
                 unset($itemData['navigationId']);
             }
 
-            $this->assignArrayToObject($object, $itemData, $this->getNavigationItemArrayFields());
+            $this->assignArrayToObject($object, $itemData);
 
         } else if(!($object instanceof Navigation\Item)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
@@ -189,32 +190,40 @@ class NavigationApi extends AbstractApi
     }
 
     /**
-     * return a list of all field names of the  object as Array
-     * @return array
+     * @param $object
+     * @param $direction
+     * @return array|null
      */
-    public function getNavigationItemArrayFields(){
-        // only this fields are allowed
-        $fields = array(
-            'title',
-            'type',
-            'symfony_route',
-            'symfony_route_params',
-            'fix_url',
-            'position'
-        );
-        return $fields;
-    }
+    protected function getFieldsForObject($object, $direction){
 
-    /**
-     * return a list of all field names of the  object as Array
-     * @return array
-     */
-    public function getNavigationArrayFields(){
-        // only this fields are allowed
-        $fields = array(
-            'title',
-            'nav_key'
-        );
+        $fields = array();
+
+        if($object instanceof Navigation\Item){
+            // only this fields are allowed
+            $fields = array(
+                'id',
+                'title',
+                'type',
+                'symfony_route',
+                'symfony_route_params',
+                'fix_url',
+                'position'
+            );
+            if($direction == "toArray"){
+                $fields[] = 'children';
+            }
+        } else if($object instanceof Navigation){
+            $fields = array(
+                'id',
+                'title',
+                'nav_key'
+            );
+            if($direction == "toArray"){
+                $fields[] = 'items';
+            }
+        }
+
+
         return $fields;
     }
 

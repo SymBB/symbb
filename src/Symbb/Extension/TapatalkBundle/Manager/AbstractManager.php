@@ -83,28 +83,49 @@ class AbstractManager
         $this->request = $container->get('request');
     }
 
-    protected function getResponse($value, $type)
+    protected function getResponse($value, $type, $login = false)
     {
-        $value = \Zend\XmlRpc\AbstractValue::getXmlRpcValue($value, $type);
-        $generator = \Zend\XmlRpc\AbstractValue::getGenerator();
-        $generator->openElement('methodResponse')
-            ->openElement('params')
-            ->openElement('param');
-        $value->generateXml();
-        $generator->closeElement('param')
-            ->closeElement('params')
-            ->closeElement('methodResponse');
+        $this->debug('Current User:'. $this->userManager->getCurrentUser()->getUsername());
+        $valueObject = \Zend\XmlRpc\AbstractValue::getXmlRpcValue($value, $type);
 
-        $content = $generator->flush();
+
+        $content = '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param>'.$valueObject->saveXml().'</param></params></methodResponse>';
+
+        $this->debug("XML: ".$content, $value);
+
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
         $response->setContent($content);
-        foreach($this->request->cookies->all() as $name => $cookie){
-            $response->headers->setCookie(new Cookie($name, $cookie));
+
+
+
+        if($login){
+            $cookies = array();
+            foreach($this->request->cookies->all() as $name => $cookie) {
+                $cookies[] = $name."=".$cookie;
+            }
+            $response->headers->set("Set-Cookie", implode('; ', $cookies));
+            $response->headers->set('Mobiquo_is_login', false);
+         } else {
+            $user = $this->userManager->getCurrentUser();
+            if ($user->getSymbbType() === 'user') {
+                $response->headers->set('Mobiquo_is_login', true);
+            } else {
+                $response->headers->set('Mobiquo_is_login', false);
+            }
         }
+
+        $this->debug('Response Header:', $response->headers->all());
+
         return $response;
     }
 
+    /**
+     * @param $startNumber
+     * @param $lastNumber
+     * @param $limit
+     * @param $page
+     */
     public function calcLimitandPage($startNumber, $lastNumber, &$limit, &$page)
     {
 
@@ -113,5 +134,21 @@ class AbstractManager
             $startNumber = 1;
         }
         $page = \ceil($startNumber / $limit);
+    }
+
+    /**
+     * @param $text
+     * @return string
+     */
+    protected function createShortContent($text){
+        return substr($text, 0 , 200);
+    }
+
+    /**
+     * @param §message $
+     * @param $data
+     */
+    public function debug($message, $data = array()){
+        $this->logger->debug('Tapatalk: '.$message, $data);
     }
 }

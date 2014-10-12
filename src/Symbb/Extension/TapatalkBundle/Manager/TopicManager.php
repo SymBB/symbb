@@ -21,6 +21,7 @@ class TopicManager extends AbstractManager
 
     public function markTopicRead($topicIds)
     {
+        $this->debug("markTopicRead");
         $success = true;
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
@@ -43,6 +44,7 @@ class TopicManager extends AbstractManager
 
     public function getTopicStatus($topicIds)
     {
+        $this->debug("getTopicStatus");
 
         $data = array();
         foreach($topicIds as $topicId){
@@ -77,6 +79,7 @@ class TopicManager extends AbstractManager
 
     public function newTopic($forumId, $subject, $text, $prefixId = "", $attachmentIds = array(), $groupId = 0)
     {
+        $this->debug("newTopic");
 
         $forum = $this->forumManager->find($forumId);
         $this->accessManager->addAccessCheck(ForumVoter::CREATE_TOPIC, $forum);
@@ -94,14 +97,19 @@ class TopicManager extends AbstractManager
                 $post->setAuthor($this->userManager->getCurrentUser());
                 $post->setText($text);
                 $post->setTopic($topic);
+                $topic->setMainPost($post);
 
                 $success = $this->topicManager->save($topic);
                 $topicId = $topic->getId();
             }
+        } else {
+            $this->debug("no access");
+            $error = "no access";
+            $success = false;
         }
         $configList = array(
             'result' => new \Zend\XmlRpc\Value\Boolean($success),
-            'result_text' => new \Zend\XmlRpc\Value\Base64(""),
+            'result_text' => new \Zend\XmlRpc\Value\Base64($error),
             'topic_id' => new \Zend\XmlRpc\Value\String($topicId),
             'state' => new \Zend\XmlRpc\Value\Integer(0),
         );
@@ -111,6 +119,7 @@ class TopicManager extends AbstractManager
 
     public function getTopic($forumId, $startNumber = null, $lastNumber = null, $mode = "")
     {
+        $this->debug("getTopic");
 
         $forum = $this->forumManager->find($forumId);
         $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
@@ -140,8 +149,8 @@ class TopicManager extends AbstractManager
 
             $forum = $this->forumManager->find($forumId);
             $topics = $this->forumManager->findTopics($forum, $page, $limit);
-            $this->logger->debug('getTopic: count -> '.count($topics));
-            $this->logger->debug('getTopic: page -> '.$page.', limit -> '.$limit);
+            $this->debug('getTopic: count -> '.count($topics));
+            $this->debug('getTopic: page -> '.$page.', limit -> '.$limit);
 
             $configList['total_topic_num'] = new \Zend\XmlRpc\Value\Integer($forum->getTopicCount());
             $configList['forum_id'] = new \Zend\XmlRpc\Value\String($forum->getId());
@@ -155,6 +164,8 @@ class TopicManager extends AbstractManager
                 $lastPost = $topic->getLastPost();
 
                 $new = $this->topicManager->getFlagHandler()->checkFlag($topic, "new");
+
+                $content = $this->createShortContent($lastPost->getText());
 
                 $configList['topics'][] = new \Zend\XmlRpc\Value\Struct(
                     array(
@@ -172,7 +183,7 @@ class TopicManager extends AbstractManager
                         'reply_number' => new \Zend\XmlRpc\Value\Integer($topic->getPostCount()),
                         'new_post' => new \Zend\XmlRpc\Value\Boolean($new),
                         'view_number' => new \Zend\XmlRpc\Value\Integer(0),
-                        'short_content' => new \Zend\XmlRpc\Value\Base64(""),
+                        'short_content' => new \Zend\XmlRpc\Value\Base64($content),
                         'participated_uids' => array()
                     )
                 );
@@ -185,15 +196,16 @@ class TopicManager extends AbstractManager
 
     public function getLatestTopics($startNumber = null, $lastNumber = null, $searchid = 0, $filters = array())
     {
+        $this->debug("getLatestTopics");
 
         $limit = 50;
         $page = 1;
         $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
 
         $pagination = $this->postManager->search($page, $limit);
-        $this->logger->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
-        $this->logger->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
-        $this->logger->debug('getParticipatedTopic: count: '.count($pagination));
+        $this->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
+        $this->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
+        $this->debug('getParticipatedTopic: count: '.count($pagination));
 
         $configList = array(
             'result' => new \Zend\XmlRpc\Value\Boolean(true),
@@ -220,44 +232,56 @@ class TopicManager extends AbstractManager
                 'forum_id' => new \Zend\XmlRpc\Value\String($forum->getId()),
                 'forum_name' => new \Zend\XmlRpc\Value\Base64($forum->getName()),
                 'topic_id' => new \Zend\XmlRpc\Value\String($topic->getId()),
+                'topic_title' => new \Zend\XmlRpc\Value\Base64($topic->getName()),
                 'prefix' => new \Zend\XmlRpc\Value\Base64(""),
                 'post_author_id' => new \Zend\XmlRpc\Value\String($author->getId()),
                 'post_author_name' => new \Zend\XmlRpc\Value\Base64($author->getUsername()),
-                'is_subscribed' => new \Zend\XmlRpc\Value\Boolean(true),
-                'can_subscribe' => new \Zend\XmlRpc\Value\Boolean(true),
+                'is_subscribed' => new \Zend\XmlRpc\Value\Boolean(false),
+                'can_subscribe' => new \Zend\XmlRpc\Value\Boolean(false),
                 'is_closed' => new \Zend\XmlRpc\Value\Boolean($closed),
                 'icon_url' => new \Zend\XmlRpc\Value\String($this->userManager->getAbsoluteAvatarUrl($author)),
                 'post_time' => new \Zend\XmlRpc\Value\DateTime($topic->getCreated()),
                 'reply_number' => new \Zend\XmlRpc\Value\Integer($topic->getPostCount()),
                 'new_post' => new \Zend\XmlRpc\Value\Boolean($new),
                 'view_number' => new \Zend\XmlRpc\Value\Integer(0),
-                'short_content' => new \Zend\XmlRpc\Value\Base64(""),
-                'participated_uids' => array()
+                'short_content' => new \Zend\XmlRpc\Value\Base64("")
             )
         );
     }
 
     public function getParticipatedTopic($username, $startNumber, $lastNumber)
     {
+        $this->debug("getParticipatedTopic");
 
-        $limit = 50;
-        $page = 1;
-        $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
-        $topics = $this->topicManager->getParticipatedTopics($page, $limit);
+        $user = $this->userManager->findByUsername($username);
 
         $topicData = array();
-        foreach($topics as $key => $topic){
-            if($key >= $startNumber){
+
+        $success = true;
+        $error = "";
+        $count = 0;
+        $unread = 0;
+
+        if($user){
+            $limit = 50;
+            $page = 1;
+            $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
+            $topics = $this->topicManager->getParticipatedTopics($page, $limit, $user);
+            $count = count($topics);
+            foreach($topics as $key => $topic){
                 $topicData[] = $this->getTopicAsStruct($topic);
             }
+        } else {
+            $error = "User not found";
+            $success = false;
         }
 
         $configList = array(
-            'result' => new \Zend\XmlRpc\Value\Boolean(false),
-            'result_text' => new \Zend\XmlRpc\Value\Base64(""),
+            'result' => new \Zend\XmlRpc\Value\Boolean($success),
+            'result_text' => new \Zend\XmlRpc\Value\Base64($error),
             'search_id' => new \Zend\XmlRpc\Value\String(0),
-            'total_topic_num' => new \Zend\XmlRpc\Value\Integer(0),
-            'total_unread_num' => new \Zend\XmlRpc\Value\Integer(0),
+            'total_topic_num' => new \Zend\XmlRpc\Value\Integer($count),
+            'total_unread_num' => new \Zend\XmlRpc\Value\Integer($unread),
             'topics' => $topicData,
         );
 

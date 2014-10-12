@@ -6,6 +6,9 @@
 {% block subtitle %}
     {{ 'You can manage your Users on this Pages'|trans }}
     <div class="pull-right">
+        <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+        </button>
         <button ng-click="create()" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'New User'|trans }}

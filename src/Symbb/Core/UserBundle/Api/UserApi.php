@@ -10,6 +10,7 @@
 namespace Symbb\Core\UserBundle\Api;
 
 use Symbb\Core\SystemBundle\Api\AbstractApi;
+use Symbb\Core\UserBundle\Entity\GroupInterface;
 use Symbb\Core\UserBundle\Manager\GroupManager;
 use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\User;
@@ -91,7 +92,7 @@ class UserApi extends AbstractApi
                 }
                 unset($objectData['groups']);
             }
-            $this->assignArrayToObject($object, $objectData, $this->getUserArrayFields());
+            $this->assignArrayToObject($object, $objectData);
         } else if(!($object instanceof UserInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
@@ -137,17 +138,30 @@ class UserApi extends AbstractApi
     }
 
     /**
-     * return a list of all field names of the Site object as Array
-     * @return array
+     * @param $object
+     * @param $direction
+     * @return array|null
      */
-    public function getUserArrayFields(){
+    protected function getFieldsForObject($object, $direction){
+        $fields = array();
         // only this fields are allowed
-        $fields = array(
-            'username',
-            'email',
-            'password',
-            'symbbType'
-        );
+        if($object instanceof UserInterface){
+            $fields = array(
+                'id',
+                'username',
+                'email',
+                'password',
+                'symbbType'
+            );
+            if($direction == "toArray"){
+                $fields[] = "groups";
+            }
+        } else if($object instanceof GroupInterface){
+            $fields = array(
+                'id',
+                'name'
+            );
+        }
         return $fields;
     }
 
