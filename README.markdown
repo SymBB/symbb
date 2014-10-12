@@ -62,6 +62,19 @@ php app/console translation:extract de -c symbb
 
     UPDATE `symbb_dev_access` SET `object` = REPLACE(`object`, 'SymBB', 'Symbb'), `identity` = REPLACE(`identity`, 'SymBB', 'Symbb')
 
+*Add Acl Manually*
+
+    INSERT INTO `symbb_access` (`id`, `object`, `objectId`, `identity`, `identityId`, `access`) VALUES
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'view'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'create_post'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'create_topic'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'create_survey'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'view_survey'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'edit_post'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'edit_topic'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'delete_post'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'delete_topic'),
+    (null, 'Symbb\\Core\\ForumBundle\\Entity\\Forum', 3, 'Symbb\\Core\\UserBundle\\Entity\\Group', 3, 'split_topic');
 
 ## API Structure
 
