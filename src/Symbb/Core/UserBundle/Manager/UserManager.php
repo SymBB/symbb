@@ -224,7 +224,9 @@ class UserManager
             }
             $qb->setParameter($valueKey, $value);
         }
-        $qb->add("where", implode(' AND ', $whereParts));
+        if(!empty($whereParts)){
+            $qb->add("where", implode(' AND ', $whereParts));
+        }
         $qb->orderBy("u.username", "ASC");
         $query = $qb->getQuery();
         $pagination = $this->createPagination($query, $page, $limit);
