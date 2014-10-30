@@ -214,20 +214,23 @@ class UserManager
         $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
         $qb->select("u");
         $whereParts = array();
+        $i = 0;
         foreach ($criteria as $field => $value) {
             $valueKey = uniqid('value_');
             if (\is_array($value)) {
-                $whereParts[] = "u." . $field . " " . reset($value) . " :" . $valueKey . "";
+                $whereParts[] = "u." . $field . " " . reset($value) . " ?" . $i . "";
                 $value = end($value);
             } else {
-                $whereParts[] = "u." . $field . " = :" . $valueKey . "";
+                $whereParts[] = "u." . $field . " = ?" . $i . "";
             }
-            $qb->setParameter($valueKey, $value);
+            $qb->setParameter($i, $value);
+            $i++;
         }
         if(!empty($whereParts)){
             $qb->add("where", implode(' AND ', $whereParts));
         }
         $qb->orderBy("u.username", "ASC");
+
         $query = $qb->getQuery();
         $pagination = $this->createPagination($query, $page, $limit);
         return $pagination;
