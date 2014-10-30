@@ -61,7 +61,7 @@ class ForumApi extends AbstractApi
 
         if(is_array($object)){
             $objectData = $object;
-            if($object['id'] > 0){
+            if(isset($object['id']) && $object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
                 $object = new Forum();
