@@ -63,7 +63,7 @@
             </div>
         </div>
     </div>
-    <div class="simplerow" ng-show='searchPagination.busy'>
+    <div class="simplerow" ng-if='searchPagination.busy'>
         <div class="alert alert-info"><img src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}</div>
     </div>
     <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>

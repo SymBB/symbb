@@ -661,8 +661,17 @@ display: none !important;
     background-color: #428BCA;
 }
 
-.section_tabs ul li span {
-    width: 70px;
+.section_tabs ul li span.glyphicon-label {
+    clear: both;
+    display: block;
+    font-size: 80%;
+    background-color: #FFF;
+    text-align: center;
+}
+
+.section_tabs ul li span.glyphicon {
+    width: 100%;
+    min-width: 70px;
     height: 70px;
     line-height: 70px;
     display: inline-block;
