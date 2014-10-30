@@ -2,11 +2,9 @@
 
 {% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
 
-
 {% block symbb_body %}
 
-{% block symbb_slider %}
-{% endblock %}
+{% include getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
 
 {% for type, messages in app.session.flashbag.all() %}
     {% for message in messages %}

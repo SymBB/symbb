@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block symbb_body %}
+    {% include getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
     <div class="alert alert-danger">{% trans %}Registration is currently closed.{% endtrans %}</div>
 {% endblock %}
 
