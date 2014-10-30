@@ -12,6 +12,7 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\UserBundle\Entity\GroupInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 use \Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post;
@@ -451,5 +452,36 @@ class ForumManager extends AbstractManager
         $this->em->remove($object);
         $this->em->flush();
         return true;
+    }
+
+
+    /**
+     * @param Forum $forumFrom
+     * @param Forum $forumTo
+     * @param GroupInterface $group
+     * @param bool $includeChilds
+     */
+    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $includeChilds = false){
+        $this->accessManager->copyAccessForIdentity($forumFrom, $forumTo, $group);
+        if($includeChilds){
+            foreach($forumTo->getChildren() as $child ){
+                $this->copyAccessOfGroup($forumFrom, $child, $group, $includeChilds);
+            }
+        }
+    }
+
+    /**
+     * @param Forum $forum
+     * @param GroupInterface $group
+     * @param $accessSet
+     * @param bool $includeChilds
+     */
+    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $includeChilds = false){
+        $this->accessManager->applyAccessSetForIdentity($forum, $group, $accessSet);
+        if($includeChilds){
+            foreach($forum->getChildren() as $child ){
+                $this->applyAccessSetForGroup($child, $group, $accessSet, $includeChilds);
+            }
+        }
     }
 }

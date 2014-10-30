@@ -36,6 +36,10 @@ abstract class AbstractVoter implements VoterInterface
 
     abstract public function getGroupedAttributes();
 
+    public function getAccessSets(){
+        return array();
+    }
+
     /**
      * @param string $attribute
      * @return bool

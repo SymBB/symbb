@@ -109,6 +109,7 @@ class AccessManager
             ->setParameter('identity', $identityClass)
             ->setParameter('identityId', $identityId);
         $query = $qb->getQuery();
+
         $query->execute();
 
         $this->memcache->delete('symbb_acl_cache');
@@ -232,5 +233,49 @@ class AccessManager
     public function getUser()
     {
         return $this->container->get('security.context')->getToken()->getUser();
+    }
+
+    /**
+     * @param $objectFrom
+     * @param $objectTo
+     * @param $identity
+     */
+    public function copyAccessForIdentity($objectFrom, $objectTo, $identity){
+
+        $objectClass = ClassUtils::getRealClass($objectFrom);
+        $objectId = $objectFrom->getId();
+
+        $identityClass = ClassUtils::getRealClass($identity);
+        $identityId = $identity->getId();
+
+        $criteria = array(
+            'object' => $objectClass,
+            'objectId' => $objectId,
+            'identity' => $identityClass,
+            'identityId' => $identityId
+        );
+
+        $accessList = $this->em->getRepository('SymbbCoreSystemBundle:Access')->findBy($criteria);
+
+        $this->removeAllAccess($objectTo, $identity);
+        foreach($accessList as $access){
+            $this->grantAccess($access->getAccess(), $objectTo, $identity);
+        }
+    }
+
+    /**
+     * @param $object
+     * @param $identity
+     * @param $set
+     */
+    public function applyAccessSetForIdentity($object, $identity, $set){
+        $sets = $this->container->get('symbb.core.access.voter.manager')->getAccessSetList($object);
+        if(isset($sets[$set])){
+            $accessList = $sets[$set];
+            $this->removeAllAccess($object, $identity);
+            foreach($accessList as $access){
+                $this->grantAccess($access, $object, $identity);
+            }
+        }
     }
 }

@@ -33,4 +33,19 @@ class RatingVoter extends AbstractVoter implements VoterInterface
             )
         );
     }
+
+    public function getAccessSets(){
+        return array(
+            // full (add extension access)
+            "default_3" => array(
+                self::CREATE_RATING,
+                self::VIEW_RATING
+            ),
+            // moderator
+            "default_4" => array(
+                self::CREATE_RATING,
+                self::VIEW_RATING
+            )
+        );
+    }
 }

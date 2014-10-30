@@ -13,6 +13,7 @@ use Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
+use Symbb\Core\UserBundle\Entity\GroupInterface;
 
 class ForumApi extends AbstractApi
 {
@@ -144,4 +145,11 @@ class ForumApi extends AbstractApi
         $this->forumManager = $manager;
     }
 
+    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $childs = false){
+        $this->forumManager->copyAccessOfGroup($forumFrom, $forumTo, $group, $childs);
+    }
+
+    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $childs = false){
+        $this->forumManager->applyAccessSetForGroup($forum, $group, $accessSet, $childs);
+    }
 }

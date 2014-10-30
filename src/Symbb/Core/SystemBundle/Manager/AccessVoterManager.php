@@ -36,6 +36,19 @@ class AccessVoterManager
         return $list;
     }
 
+    public function getAccessSetList($object){
+        $list = array();
+
+        foreach($this->voterList as $voter){
+            if($voter->supportsClass(ClassUtils::getRealClass($object))){
+                $attributes = $voter->getAccessSets();
+                $list = array_merge_recursive($list, $attributes);
+            }
+        }
+
+        return $list;
+    }
+
     public function addVoter($voter){
         if($voter instanceof AbstractVoter){
             $this->voterList[] = $voter;

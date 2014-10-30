@@ -47,4 +47,41 @@ class ForumVoter extends AbstractVoter implements VoterInterface
             )
         );
     }
+
+    public function getAccessSets(){
+        return array(
+            // no access
+            "default_1" => array(
+            ),
+            // readonly
+            "default_2" => array(
+                self::VIEW
+            ),
+            // normal
+            "default_3" => array(
+                self::VIEW,
+                self::CREATE_POST,
+                self::CREATE_TOPIC
+            ),
+            // full (add extension access)
+            "default_4" => array(
+                self::VIEW,
+                self::CREATE_POST,
+                self::CREATE_TOPIC
+            ),
+            // moderator
+            "default_5" => array(
+                self::VIEW,
+                self::CREATE_POST,
+                self::CREATE_TOPIC,
+                self::EDIT_POST,
+                self::EDIT_TOPIC,
+                self::DELETE_POST,
+                self::DELETE_TOPIC,
+                self::MOVE_POST,
+                self::MOVE_TOPIC,
+                self::SPLIT_TOPIC,
+            )
+        );
+    }
 }

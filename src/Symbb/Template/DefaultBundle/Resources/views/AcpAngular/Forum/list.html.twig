@@ -35,6 +35,10 @@
                     <span class="glyphicon glyphicon-pencil"></span>
                     {{ 'Edit'|trans }}
                 </button>
+                <button ng-click="access(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-lock"></span>
+                    {{ 'Access'|trans }}
+                </button>
                 <button ng-click="delete(node)" class="btn btn-default btn-xs">
                     <span class="glyphicon glyphicon-trash"></span>
                     {{ 'Delete'|trans }}
@@ -51,6 +55,30 @@
             <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node"></li>
         </ol>
     </div>
+    <symbb-modal-form id="accessForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Access'|trans }}">
+
+        <label>1) {{ 'Group'|trans }}</label>
+        <select class="form-control" ng-model="accessEntry.group">
+            {% for group in getGroupManager().findAll() %}
+                <option value="{{ group.getId() }}" selected>{{ group.getName() }}</option>
+            {%  endfor %}
+        </select>
+        <hr />
+        {{ 'copy access from'|trans }}
+        <select class="form-control" ng-model="accessEntry.forumFrom" id="accessFormForumList">
+        </select>
+        <label>{{ 'or'|trans }}</label>
+        {{ 'set accesslevel'|trans }}
+        <select class="form-control" ng-model="accessEntry.set">
+            <option value="1">{{ 'no access'|trans }}</option>
+            <option value="2">{{ 'readonly'|trans }}</option>
+            <option value="3">{{ 'normal'|trans }}</option>
+            <option value="4">{{ 'full'|trans }}</option>
+            <option value="5">{{ 'moderator'|trans }}</option>
+        </select>
+        <label>{{ 'Include subforums'|trans }}</label> <br/>
+        <input type="checkbox" value="1" ng-model="accessEntry.childs" />
+    </symbb-modal-form>
     <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Forum'|trans }}">
         <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name" />
         <label>{{ 'Type'|trans }}</label>

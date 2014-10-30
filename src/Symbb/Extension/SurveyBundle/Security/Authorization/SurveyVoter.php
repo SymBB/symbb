@@ -32,6 +32,21 @@ class SurveyVoter extends AbstractVoter implements VoterInterface
         );
     }
 
+    public function getAccessSets(){
+        return array(
+            // full (add extension access)
+            "default_3" => array(
+                self::CREATE_SURVEY,
+                self::VIEW_SURVEY
+            ),
+            // moderator
+            "default_4" => array(
+                self::CREATE_SURVEY,
+                self::VIEW_SURVEY
+            )
+        );
+    }
+
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $check = parent::vote($token, $object, $attributes);
