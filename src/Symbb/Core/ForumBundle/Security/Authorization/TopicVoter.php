@@ -22,6 +22,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
     const DELETE = 'delete';
     const MOVE = 'move';
     const SPLIT = 'split';
+    const REPLY = 'reply';
 
     public function getGroupedAttributes()
     {
@@ -32,6 +33,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
                 self::DELETE,
                 self::MOVE,
                 self::SPLIT,
+                self::REPLY,
             )
         );
     }
@@ -100,6 +102,14 @@ class TopicVoter extends AbstractVoter implements VoterInterface
                 $forum = $object->getForum();
                 $this->accessManager->addAccessCheck(ForumVoter::SPLIT_TOPIC, $forum);
                 if ($this->accessManager->hasAccess()) {
+                    return VoterInterface::ACCESS_GRANTED;
+                }
+                break;
+
+            case self::REPLY:
+                $forum = $object->getForum();
+                $this->accessManager->addAccessCheck(ForumVoter::CREATE_POST, $forum);
+                if ($this->accessManager->hasAccess() && !$object->isLocked()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;

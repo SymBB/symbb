@@ -94,9 +94,10 @@ class AbstractManager
         $this->debug("XML: ".$content, $value);
 
         $response = new \Symfony\Component\HttpFoundation\Response();
-        $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
+        $response->headers->set('Content-Type', 'text/xml');
         $response->setContent($content);
-
+        $response->setPrivate();
+        $response->setMaxAge(100);
 
 
         if($login){
@@ -110,8 +111,10 @@ class AbstractManager
             $user = $this->userManager->getCurrentUser();
             if ($user->getSymbbType() === 'user') {
                 $response->headers->set('Mobiquo_is_login', true);
+                $this->debug("Mobiquo_is_login: true");
             } else {
                 $response->headers->set('Mobiquo_is_login', false);
+                $this->debug("Mobiquo_is_login: false");
             }
         }
 

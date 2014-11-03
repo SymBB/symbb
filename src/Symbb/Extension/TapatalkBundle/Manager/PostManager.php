@@ -9,6 +9,9 @@
 
 namespace Symbb\Extension\TapatalkBundle\Manager;
 
+use Symbb\Core\ForumBundle\Security\Authorization\PostVoter;
+use Symbb\Core\ForumBundle\Security\Authorization\TopicVoter;
+
 /**
  * http://tapatalk.com/api/api_section.php?id=4
  */
@@ -26,6 +29,9 @@ class PostManager extends AbstractManager
         $posts = $this->postManager->findByTopic($topic, $limit, $page);
         $forum = $topic->getForum();
 
+        $this->accessManager->addAccessCheck(TopicVoter::REPLY, $topic);
+        $replyAccess = $this->accessManager->hasAccess();
+
         $configList = array(
             'total_post_num' => new \Zend\XmlRpc\Value\Integer(count($posts)),
             'forum_id' => new \Zend\XmlRpc\Value\String($forum->getId()),
@@ -38,7 +44,7 @@ class PostManager extends AbstractManager
             'is_poll' => new \Zend\XmlRpc\Value\Boolean(false),
             'is_closed' => new \Zend\XmlRpc\Value\Boolean(false),
             'can_report' => new \Zend\XmlRpc\Value\Boolean(false),
-            'can_reply' => new \Zend\XmlRpc\Value\Boolean(false),
+            'can_reply' => new \Zend\XmlRpc\Value\Boolean($replyAccess),
             'breadcrumb' => array(),
             'posts' => array(),
         );

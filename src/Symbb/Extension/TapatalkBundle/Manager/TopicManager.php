@@ -123,12 +123,16 @@ class TopicManager extends AbstractManager
 
         $forum = $this->forumManager->find($forumId);
         $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
+        $viewAccess = $this->accessManager->hasAccess();
+
+        $this->accessManager->addAccessCheck(ForumVoter::CREATE_TOPIC, $forum);
+        $writeAccess = $this->accessManager->hasAccess();
 
         $configList = array(
             'total_topic_num' => new \Zend\XmlRpc\Value\Integer(0),
             'forum_id' => new \Zend\XmlRpc\Value\String(0),
             'forum_name' => new \Zend\XmlRpc\Value\Base64(""),
-            'can_post' => new \Zend\XmlRpc\Value\Boolean(false),
+            'can_post' => new \Zend\XmlRpc\Value\Boolean($writeAccess),
             'unread_sticky_count' => new \Zend\XmlRpc\Value\Integer(0),
             'unread_announce_count' => new \Zend\XmlRpc\Value\Integer(0),
             'can_subscribe' => new \Zend\XmlRpc\Value\Boolean(false),
@@ -140,14 +144,11 @@ class TopicManager extends AbstractManager
             'topics' => array(),
         );
 
-        if ($this->accessManager->hasAccess() && !in_array(strtoupper($mode), array('TOP', 'ANN'))) {
+        if ($viewAccess && !in_array(strtoupper($mode), array('TOP', 'ANN'))) {
             $page = 1;
             $limit = 20;
             $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
 
-            $writeAccess = false;
-
-            $forum = $this->forumManager->find($forumId);
             $topics = $this->forumManager->findTopics($forum, $page, $limit);
             $this->debug('getTopic: count -> '.count($topics));
             $this->debug('getTopic: page -> '.$page.', limit -> '.$limit);
