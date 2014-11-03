@@ -85,9 +85,9 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
      * @Route("/api/post/delete", name="symbb_api_post_delete")
      * @Method({"DELETE"})
      */
-    public function postDeleteAction($id = 0, Request $request)
+    public function postDeleteAction(Request $request, $id = null)
     {
-        if(!$id){
+        if($id === null){
             $id = (int) $request->get('id');
         }
         $params = array();
@@ -281,7 +281,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         if(is_object($topic)){
             $mainPostId = $topic->getMainPost()->getId();
         }
-        return $this->postDeleteAction($mainPostId);
+        return $this->postDeleteAction($request, $mainPostId);
     }
 
     /**
