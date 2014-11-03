@@ -1,8 +1,22 @@
 .symbb_editor textarea{
     width: 100%;
     min-height: 20em;
-    border: 1px solid #CCC;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.symbb_editor_content {
     padding: 5px;
+    border-left: 1px solid #E4E4E4;
+    border-right: 1px solid #E4E4E4;
+}
+
+.symbb_editor {
+    width: 80%;
+    float: left;
+    margin: 0;
+    padding: 0;
 }
 
 .symbb_bbcodes {
@@ -19,12 +33,10 @@
 }
 .symbb_bbcodes_group .symbb_bbcode_btn:first-child {
     background-color: #FFF;
-    border-radius: 3px 0 0 3px;
 }
 
 .symbb_bbcodes_group .symbb_bbcode_btn:last-child {
     background-color: #FFF;
-    border-radius: 0 3px 3px 0;
 }
 
 .symbb_bbcodes_group .symbb_bbcode_btn:hover {
@@ -54,9 +66,19 @@
 }
 
 .preview {
+    clear: both;
     border: 1px solid #CCC;
-    border-radius: 3px;
     padding: 10px;
-    margin-top: 5px;
     background-color: #EEE;
+}
+
+.symbb_emoticons {
+    float: right;
+    width: 20%;
+}
+
+.symbb_emoticons .emoticon {
+    margin: 5px;
+    float: left;
+    cursor: pointer;
 }

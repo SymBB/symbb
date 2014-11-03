@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\BBCodeBundle\DependencyInjection;
 
+use Symbb\Core\BBCodeBundle\Entity\Emoticon;
+use Symbb\Core\BBCodeBundle\Entity\Set;
 use Symbb\Core\BBCodeBundle\Form\Type\BBCode;
 use Symbb\Core\SiteBundle\Manager\SiteManager;
 
@@ -67,6 +69,7 @@ class BBCodeManager
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
+        $bbcodes += $this->getEmoticons($setId);
 
         $this->handleSpecialCasesByRef($text, $bbcodes);
 
@@ -116,6 +119,7 @@ class BBCodeManager
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
+        $bbcodes += $this->getEmoticons($setId);
 
         foreach ($bbcodes as $bbcode) {
             if ($bbcode->getSearchRegex() != "") {
@@ -128,14 +132,42 @@ class BBCodeManager
         return $text;
     }
 
+    /**
+     * @param int $set
+     * @return \Symbb\Core\BBCodeBundle\Entity\Emoticon[]
+     */
     public function getEmoticons($set = 1)
     {
-        return array();
+
+        $emoticons = array();
+        $smilies = array(
+            ':D' => "/bundles/symbbtemplatedefault/images/emoticon/default/Big-Grin.png",
+            ':)' => "/bundles/symbbtemplatedefault/images/emoticon/default/smile.png",
+            ';)' => "/bundles/symbbtemplatedefault/images/emoticon/default/Winking.png",
+            ':cool:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Cool.png",
+            ':lol:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Laughing.png",
+            ':?' => "/bundles/symbbtemplatedefault/images/emoticon/default/Confused.png",
+            ':zzz:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Sleeping.png"
+        );
+
+        $i = 0;
+        foreach($smilies as $smilie => $image){
+            $bbcodeListItem = new Emoticon();
+            $bbcodeListItem->setName($smilie);
+            $bbcodeListItem->setSearchRegex('# '.preg_quote($smilie).' #');
+            $bbcodeListItem->setReplaceRegex('<img class="smilie" src="'.$image.'" />');
+            $bbcodeListItem->setButtonRegex(' '.$smilie.' ');
+            $bbcodeListItem->setImage($image);
+            $bbcodeListItem->setPosition($i++);
+            $emoticons[] = $bbcodeListItem;
+        }
+
+        return $emoticons;
     }
 
     /**
      * get a list of grouped BBCodes
-     * @return \Symbb\Core\BBCodeBundle\Entity\BBCode
+     * @return \Symbb\Core\BBCodeBundle\Entity\BBCode[]
      */
     public function getBBCodes($setId = 1)
     {

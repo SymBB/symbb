@@ -63,7 +63,10 @@ class BBCodeManagerExtension extends \Twig_Extension
         $sets = $this->bbcodeManager->getSets();
         foreach ($sets as $set) {
             $data[$set->getId()] = array();
-            foreach ($set->getCodes() as $code) {
+            foreach ($this->bbcodeManager->getBBCodes($set->getId()) as $code) {
+                $data[$set->getId()][] = $this->serializer->serialize($code, 'json');
+            }
+            foreach ($this->bbcodeManager->getEmoticons($set->getId()) as $code) {
                 $data[$set->getId()][] = $this->serializer->serialize($code, 'json');
             }
         }

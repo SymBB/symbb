@@ -142,26 +142,45 @@ var BBCodeEditor = {
     createEditor: function(parentDiv){
 
         var btnGroup = $(parentDiv).find('.symbb_bbcodes_group');
+        var smilieGroup = $(parentDiv).find('.symbb_emoticons');
         var bbcodeSet = 'default';
         
         $(this.setData[bbcodeSet]).each(function(key, bbcode){
-            var btn = $('<div>');
-            btn.addClass('btn btn-default btn-sm symbb_bbcode_code');
-            btn.data('tag-code', bbcode.buttonRegex);
-            btn.attr('title', bbcode.name);
-            if(bbcode.image !== ""){
-                var btnImg = $('<img>');
-                btnImg.attr('alt', bbcode.name);
-                btnImg.attr('title', bbcode.name);
-                btnImg.attr('src', bbcode.image);
-                btn.append(btnImg);
+            if(!bbcode.emoticon){
+                var btn = $('<div>');
+                btn.addClass('btn btn-default btn-sm symbb_bbcode_code');
+                btn.data('tag-code', bbcode.buttonRegex);
+                btn.attr('title', bbcode.name);
+                if(bbcode.image !== ""){
+                    var btnImg = $('<img>');
+                    btnImg.attr('alt', bbcode.name);
+                    btnImg.attr('title', bbcode.name);
+                    btnImg.attr('src', bbcode.image);
+                    btn.append(btnImg);
+                } else {
+                    btn.append(bbcode.name);
+                }
+                eval('btn = '+bbcode.js_function+'(btn, parentDiv, bbcode)');
+                $(btnGroup).append(btn);
             } else {
-                btn.append(bbcode.name);
+                var btn = $('<div>');
+                btn.addClass('emoticon');
+                btn.data('tag-code', bbcode.buttonRegex);
+                btn.attr('title', bbcode.name);
+                if(bbcode.image !== ""){
+                    var btnImg = $('<img>');
+                    btnImg.attr('alt', bbcode.name);
+                    btnImg.attr('title', bbcode.name);
+                    btnImg.attr('src', bbcode.image);
+                    btn.append(btnImg);
+                } else {
+                    btn.append(bbcode.name);
+                }
+                eval('btn = '+bbcode.js_function+'(btn, parentDiv, bbcode)');
+                $(smilieGroup).append(btn);
             }
-            eval('btn = '+bbcode.js_function+'(btn, parentDiv, bbcode)');
-            $(btnGroup).append(btn);
-            BBCodeEditor.preparePreview(parentDiv, bbcodeSet);
         });
+        BBCodeEditor.preparePreview(parentDiv, bbcodeSet);
     },
     
     prepareUpdatePreview: function(parentDiv, set){
@@ -177,25 +196,23 @@ var BBCodeEditor = {
     updatePreview: function(parentDiv, set){
         var html = $(parentDiv).find('textarea').val();
         $(BBCodeEditor.setData[set]).each(function(key, codes){
-            $(codes).each(function(){
-                try {
-                    var pattern = codes.search_regex;
-                    var temp = pattern[0];
-                    var temp2 = pattern.split(temp);
-                    var modifier = temp2[2];
-                    var pattern = temp2[1];
-                    modifier = modifier.replace('s', 'm');
-                    modifier = modifier.replace('U', '');
-                    if(!modifier.match('g')){
-                        modifier = modifier + 'g';
-                    }
-                    pattern = pattern.replace('(?|', '(?:');
-                    var regex = new RegExp(pattern, modifier);
-                    html = html.replace(regex, codes.replace_regex);
-                } catch(e){
-                    console.debug(e);
+            try {
+                var pattern = codes.search_regex;
+                var temp = pattern[0];
+                var temp2 = pattern.split(temp);
+                var modifier = temp2[2];
+                var pattern = temp2[1];
+                modifier = modifier.replace('s', 'm');
+                modifier = modifier.replace('U', '');
+                if(!modifier.match('g')){
+                    modifier = modifier + 'g';
                 }
-            });
+                pattern = pattern.replace('(?|', '(?:');
+                var regex = new RegExp(pattern, modifier);
+                html = html.replace(regex, codes.replace_regex);
+            } catch(e){
+                console.debug(e);
+            }
         });
         html = html.replace(/\n/g, '<br />');
         $(parentDiv).find('.preview').html(html);
