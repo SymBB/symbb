@@ -53,11 +53,12 @@
                 <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" symbb-request="symbb_api_topic_mark_as_read" param-id="[[object.id]]">
                     <span class="glyphicon glyphicon-ok"></span>
                 </button>
-                <symbb-topic-move ng-if="user.type != 'guest'" param-id="[[object.id]]"></symbb-topic-move>
-                <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-request="symbb_api_forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}">
+                <symbb-topic-move ng-if="object.access.move" param-id="[[object.id]]">
+                </symbb-topic-move>
+                <button ng-if="object.access.editTopic" type="button" class="btn btn-default btn-xs" symbb-request="symbb_api_forum_topic_close" param-id="[[object.id]]" title="{% trans %}close Topic{% endtrans %}">
                     <span class="glyphicon glyphicon-lock"></span>
                 </button>
-                <button ng-if="user.type != 'guest'" type="button" class="btn btn-default btn-xs" symbb-delete-request="symbb_api_forum_topic_delete" param-id="[[object.id]]" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}">
+                <button ng-if="object.access.delete" type="button" class="btn btn-default btn-xs" symbb-delete-request="symbb_api_forum_topic_delete" param-id="[[object.id]]" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             </div>

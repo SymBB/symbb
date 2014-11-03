@@ -56,9 +56,9 @@ class TopicVoter extends AbstractVoter implements VoterInterface
         $attribute = strtolower($attributes[0]);
 
         switch($attribute) {
-            case 'view':
+            case self::VIEW:
                 $forum = $object->getForum();
-                $this->accessManager->addAccessCheck('VIEW', $forum);
+                $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
                 // the data object could have for example a method isPrivate()
                 // which checks the Boolean attribute $private
                 if ($this->accessManager->hasAccess()) {
@@ -66,39 +66,39 @@ class TopicVoter extends AbstractVoter implements VoterInterface
                 }
                 break;
 
-            case 'edit':
+            case self::EDIT:
                 if ($user->getId() === $object->getAuthor()->getId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getForum();
-                $this->accessManager->addAccessCheck('EDIT_TOPIC', $forum);
+                $this->accessManager->addAccessCheck(ForumVoter::EDIT_TOPIC, $forum);
                 if ($this->accessManager->hasAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
 
-            case 'delete':
+            case self::DELETE:
                 if ($user->getId() === $object->getAuthor()->getId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getForum();
-                $this->accessManager->addAccessCheck('DELETE_TOPIC', $forum);
+                $this->accessManager->addAccessCheck(ForumVoter::DELETE_TOPIC, $forum);
                 if ($this->accessManager->hasAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
 
-            case 'move':
+            case self::MOVE:
                 $forum = $object->getForum();
-                $this->accessManager->addAccessCheck('MOVE_TOPIC', $forum);
+                $this->accessManager->addAccessCheck(ForumVoter::MOVE_TOPIC, $forum);
                 if ($this->accessManager->hasAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
 
-            case 'split':
+            case self::SPLIT:
                 $forum = $object->getForum();
-                $this->accessManager->addAccessCheck('SPLIT_TOPIC', $forum);
+                $this->accessManager->addAccessCheck(ForumVoter::SPLIT_TOPIC, $forum);
                 if ($this->accessManager->hasAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }

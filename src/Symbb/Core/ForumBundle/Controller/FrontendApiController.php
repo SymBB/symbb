@@ -13,6 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post\History;
+use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\ForumBundle\Security\Authorization\PostVoter;
+use Symbb\Core\ForumBundle\Security\Authorization\TopicVoter;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
@@ -757,16 +760,18 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                 }
 
 
-                $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
-                $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
-                $deleteAccess = $this->get('security.context')->isGranted('DELETE', $topic);
-                $moveAccess = $this->get('security.context')->isGranted('MOVE_TOPIC', $topic->getForum());
+                $writePostAccess = $this->get('security.context')->isGranted(ForumVoter::CREATE_POST, $topic->getForum());
+                $editAccess = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
+                $deleteAccess = $this->get('security.context')->isGranted(TopicVoter::DELETE, $topic);
+                $moveAccess = $this->get('security.context')->isGranted(TopicVoter::MOVE, $topic);
+                $splitAccess = $this->get('security.context')->isGranted(TopicVoter::SPLIT, $topic);
 
                 $array['access'] = array(
                     'createPost' => $writePostAccess,
                     'edit' => $editAccess,
                     'delete' => $deleteAccess,
-                    'move' => $moveAccess
+                    'move' => $moveAccess,
+                    'split' => $splitAccess
                 );
 
                 if ($topic->isLocked()) {
@@ -860,10 +865,10 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
             $array['seo']['name'] = $forum->getSeoName();
 
-            $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
-            $writePostAccess = $this->get('security.context')->isGranted('CREATE_POST', $forum);
-            $moveTopicAccess = $this->get('security.context')->isGranted('MOVE_TOPIC', $forum);
-            $movePostAccess = $this->get('security.context')->isGranted('MOVE_POST', $forum);
+            $writeAccess = $this->get('security.context')->isGranted(ForumVoter::CREATE_TOPIC, $forum);
+            $writePostAccess = $this->get('security.context')->isGranted(ForumVoter::CREATE_POST, $forum);
+            $moveTopicAccess = $this->get('security.context')->isGranted(ForumVoter::MOVE_TOPIC, $forum);
+            $movePostAccess = $this->get('security.context')->isGranted(ForumVoter::MOVE_POST, $forum);
 
             $array['access'] = array(
                 'createTopic' => $writeAccess,
@@ -986,16 +991,12 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                     foreach ($post->getFiles() as $file) {
                         $array['files'][] = $file->getPath();
                     }
-                    $editAccess = $this->get('security.context')->isGranted('EDIT', $post);
-                    $deleteAccess = $this->get('security.context')->isGranted('DELETE', $post);
-                    $createAccess = false;
-                    if(!$post->getTopic()->isLocked()){
-                        $createAccess = $this->get('security.context')->isGranted('CREATE_POST', $post->getTopic()->getForum());
-                    }
+                    $editAccess = $this->get('security.context')->isGranted(PostVoter::EDIT, $post);
+                    $deleteAccess = $this->get('security.context')->isGranted(PostVoter::DELETE, $post);
+
                     $array['access'] = array(
                         'edit' => $editAccess,
-                        'delete' => $deleteAccess,
-                        'create' => $createAccess
+                        'delete' => $deleteAccess
                     );
 
                     foreach($post->getHistories() as $history){

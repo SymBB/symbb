@@ -55,7 +55,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
         $attribute = strtolower($attributes[0]);
 
         switch($attribute) {
-            case 'view':
+            case self::VIEW:
                 $forum = $object->getTopic()->getForum();
                 $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
                 if ($this->accessManager->hasAccess()) {
@@ -63,7 +63,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
                 }
                 break;
 
-            case 'edit':
+            case self::EDIT:
                 if ($user->getId() === $object->getAuthor()->getId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
@@ -74,7 +74,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
                 }
                 break;
 
-            case 'delete':
+            case self::DELETE:
                 if ($user->getId() === $object->getAuthor()->getId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
@@ -85,7 +85,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
                 }
                 break;
 
-            case 'move':
+            case self::MOVE:
                 $forum = $object->getTopic()->getForum();
                 $this->accessManager->addAccessCheck(ForumVoter::MOVE_POST, $forum);
                 if ($this->accessManager->hasAccess()) {
