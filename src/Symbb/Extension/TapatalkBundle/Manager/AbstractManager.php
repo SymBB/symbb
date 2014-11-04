@@ -69,6 +69,8 @@ class AbstractManager
      */
     protected $request;
 
+    protected $securityContext;
+
     public function __construct(AccessManager $accessManager, UserManager $userManager, ForumManager $forumManager, TopicManager $topicManager, PostManager $postManager, Logger $logger, MessageManager $messageManager)
     {
         $this->accessManager = $accessManager;
@@ -82,6 +84,7 @@ class AbstractManager
 
     public function setContainer(Container $container){
         $this->request = $container->get('request');
+        $this->securityContext = $container->get('security.context');
     }
 
     protected function getResponse($value, $type, $login = false)

@@ -45,7 +45,7 @@ services:
             
     symbb.core.user.access.twig:
         class: Symbb\Core\UserBundle\Twig\AccessExtension
-        arguments: ['@symbb.core.access.manager']
+        arguments: ['@symbb.core.access.manager', '@security.context']
         tags:
             - { name: twig.extension } 
             

@@ -25,7 +25,7 @@ class TopicManager extends AbstractManager
         $success = true;
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $access = $this->accessManager->isGranted(ForumVoter::VIEW, $topic->getForum());
+            $access = $this->securityContext->isGranted(ForumVoter::VIEW, $topic->getForum());
             if ($access) {
                 if($topic){
                     $this->topicManager->markAsRead($topic);
@@ -49,7 +49,7 @@ class TopicManager extends AbstractManager
         $data = array();
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $access = $this->accessManager->isGranted(ForumVoter::VIEW, $topic->getForum());
+            $access = $this->securityContext->isGranted(ForumVoter::VIEW, $topic->getForum());
             if ($access && $topic) {
                 $ignored = $this->forumManager->isIgnored($topic->getForum());
                 $datetime = $topic->getLastPost()->getCreated();
@@ -82,7 +82,7 @@ class TopicManager extends AbstractManager
         $this->debug("newTopic");
 
         $forum = $this->forumManager->find($forumId);
-        $access = $this->accessManager->isGranted(ForumVoter::CREATE_TOPIC, $forum);
+        $access = $this->securityContext->isGranted(ForumVoter::CREATE_TOPIC, $forum);
         $success = false;
         $topicId = 0;
         if ($access) {
@@ -122,8 +122,8 @@ class TopicManager extends AbstractManager
         $this->debug("getTopic");
 
         $forum = $this->forumManager->find($forumId);
-        $viewAccess = $this->accessManager->isGranted(ForumVoter::VIEW, $forum);
-        $writeAccess = $this->accessManager->isGranted(ForumVoter::CREATE_TOPIC, $forum);
+        $viewAccess = $this->securityContext->isGranted(ForumVoter::VIEW, $forum);
+        $writeAccess = $this->securityContext->isGranted(ForumVoter::CREATE_TOPIC, $forum);
 
         $configList = array(
             'total_topic_num' => new \Zend\XmlRpc\Value\Integer(0),

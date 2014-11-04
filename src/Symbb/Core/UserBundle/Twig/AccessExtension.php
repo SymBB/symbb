@@ -17,9 +17,12 @@ class AccessExtension extends \Twig_Extension
      * @var AccessManager 
      */
     protected $accessManager;
+
+    protected $securityContext;
     
-    public function __construct(AccessManager $accessManager) {
+    public function __construct(AccessManager $accessManager, $securityContext) {
         $this->accessManager = $accessManager;
+        $this->securityContext = $securityContext;
     }
 
     public function getFunctions()
@@ -31,7 +34,7 @@ class AccessExtension extends \Twig_Extension
     
     public function hasSymbbAccess( $access, $element, $user = null)
     {
-        $access = $this->accessManager->isGranted($access, $element, $user);
+        $access = $this->securityContext->isGranted($access, $element, $user);
         return $access;
     }
     

@@ -181,7 +181,7 @@ class ForumManager extends AbstractManager
         $this->debug("getForumData");
         $forumData = null;
 
-        $access = $this->accessManager->isGranted(ForumVoter::VIEW, $forum);
+        $access = $this->securityContext->isGranted(ForumVoter::VIEW, $forum);
 
         if ($access) {
             $parent = $forum->getParent();

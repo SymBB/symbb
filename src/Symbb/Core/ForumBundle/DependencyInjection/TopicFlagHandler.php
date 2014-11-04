@@ -9,6 +9,7 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
 
@@ -62,7 +63,7 @@ class TopicFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\Abstr
         // if we add a topic "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
         if ($flag === 'new') {
-            $access = $this->securityContext->isGranted('VIEW', $object->getForum(), $user);
+            $access = $this->securityContext->isGranted(ForumVoter::VIEW, $object->getForum(), $user);
             if ($access) {
                 $ignore = $this->forumFlagHandler->checkFlag($object->getForum(), 'ignore', $user);
             } else {

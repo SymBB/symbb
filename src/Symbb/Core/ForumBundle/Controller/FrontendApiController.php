@@ -11,6 +11,7 @@ namespace Symbb\Core\ForumBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post\History;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
@@ -94,7 +95,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
-            $accessCheck = $this->get('security.context')->isGranted('DELETE', $post);
+            $accessCheck = $this->get('security.context')->isGranted(PostVoter::DELETE, $post);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_DELETE_POST);
             } else {
@@ -153,7 +154,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
-            $accessCheck = $this->get('security.context')->isGranted('EDIT', $post);
+            $accessCheck = $this->get('security.context')->isGranted(PostVoter::EDIT, $post);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_EDIT_POST);
             }
@@ -163,7 +164,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             if (isset($topicData['id']) && $topicData['id'] > 0) {
                 $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicData['id']);
                 $post->setTopic($topic);
-                $accessCheck = $this->get('security.context')->isGranted('CREATE_POST', $topic->getForum());
+                $accessCheck = $this->get('security.context')->isGranted(ForumVoter::CREATE_POST, $topic->getForum());
                 if (!$accessCheck) {
                     $this->addErrorMessage(self::ERROR_ACCESS_CREATE_POST);
                 }
@@ -237,7 +238,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $post = new \Symbb\Core\ForumBundle\Entity\Post();
         if ($id > 0) {
             $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($id);
-            $accessCheck = $this->get('security.context')->isGranted('VIEW', $post->getTopic()->getForum());
+            $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $post->getTopic()->getForum());
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
             }
@@ -250,7 +251,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                     $qoutePost = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')->find($quoteId);
                     $post->setText('[quote="' . $qoutePost->getAuthor()->getUsername() . '"]' . $qoutePost->getText() . '[/quote]');
                 }
-                $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
+                $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $topic->getForum());
                 if (!$accessCheck) {
                     $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
                 }
@@ -298,7 +299,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
         if(is_object($topic) && $topic->getId() > 0){
             if(is_object($targetForum) && $targetForum->getId() > 0){
-                $access = $this->get('security.context')->isGranted('EDIT', $topic);
+                $access = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
                 if($access){
                     $topic->setForum($targetForum);
                     $em = $this->getDoctrine()->getManager('symbb');
@@ -326,7 +327,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $topicId = (int) $request->get('id');
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
         if(is_object($topic) && $topic->getId() > 0){
-            $access = $this->get('security.context')->isGranted('EDIT', $topic);
+            $access = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
             if($access){
                 $topic->setLocked(true);
                 $em = $this->getDoctrine()->getManager('symbb');
@@ -361,14 +362,14 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
 
             if (is_object($forum)) {
-                $writeAccess = $this->get('security.context')->isGranted('CREATE_TOPIC', $forum);
+                $writeAccess = $this->get('security.context')->isGranted(ForumVoter::CREATE_TOPIC, $forum);
 
                 if ($writeAccess) {
 
                     if ($topicId > 0) {
                         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
                         $mainPost = $topic->getMainPost();
-                        $editAccess = $this->get('security.context')->isGranted('EDIT', $topic);
+                        $editAccess = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
                     } else {
                         $topic = new \Symbb\Core\ForumBundle\Entity\Topic();
                         $topic->setAuthor($this->getUser());
@@ -466,7 +467,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $page = $request->get('page');
         if($forumId > 0){
             $forum = $this->get('symbb.core.forum.manager')->find($forumId);
-            $accessCheck = $this->get('security.context')->isGranted('VIEW', $forum);
+            $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $forum);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_ACCESS_VIEW_FORUM);
             }
@@ -509,7 +510,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         }
 
         if (!$this->hasError()) {
-            $accessCheck = $this->get('security.context')->isGranted('VIEW', $topic->getForum());
+            $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $topic->getForum());
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
@@ -642,7 +643,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $parent = null;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($id);
-            $accessCheck = $this->get('security.context')->isGranted('VIEW', $parent);
+            $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $parent);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
@@ -839,7 +840,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             }
             foreach ($forum->getChildren() as $child) {
 
-                $viewAccess = $this->get('security.context')->isGranted('VIEW', $child);
+                $viewAccess = $this->get('security.context')->isGranted(ForumVoter::VIEW, $child);
 
                 if($viewAccess){
                     $array['children'][] = $this->getForumAsArray($child, false);
