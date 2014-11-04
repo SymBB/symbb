@@ -57,8 +57,8 @@ class PostVoter extends AbstractVoter implements VoterInterface
         switch($attribute) {
             case self::VIEW:
                 $forum = $object->getTopic()->getForum();
-                $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
-                if ($this->accessManager->hasAccess()) {
+                $this->accessManager->addVoterAccessCheck(ForumVoter::VIEW, $forum);
+                if ($this->accessManager->hasVoterAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
@@ -68,8 +68,8 @@ class PostVoter extends AbstractVoter implements VoterInterface
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getTopic()->getForum();
-                $this->accessManager->addAccessCheck(ForumVoter::EDIT_POST, $forum);
-                if ($this->accessManager->hasAccess()) {
+                $this->accessManager->addVoterAccessCheck(ForumVoter::EDIT_POST, $forum);
+                if ($this->accessManager->hasVoterAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
@@ -79,16 +79,16 @@ class PostVoter extends AbstractVoter implements VoterInterface
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getTopic()->getForum();
-                $this->accessManager->addAccessCheck(ForumVoter::DELETE_POST, $forum);
-                if ($this->accessManager->hasAccess()) {
+                $this->accessManager->addVoterAccessCheck(ForumVoter::DELETE_POST, $forum);
+                if ($this->accessManager->hasVoterAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
 
             case self::MOVE:
                 $forum = $object->getTopic()->getForum();
-                $this->accessManager->addAccessCheck(ForumVoter::MOVE_POST, $forum);
-                if ($this->accessManager->hasAccess()) {
+                $this->accessManager->addVoterAccessCheck(ForumVoter::MOVE_POST, $forum);
+                if ($this->accessManager->hasVoterAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;

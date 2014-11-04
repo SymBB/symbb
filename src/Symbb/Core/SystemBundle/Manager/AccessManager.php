@@ -46,6 +46,18 @@ class AccessManager
         $this->symbbConfig = $symbbConfig;
         $this->em =  $this->container->get('doctrine.orm.symbb_entity_manager');
         $this->memcache = $container->get('memcache.acl');
+        $this->security = $container->get('security.context');
+    }
+
+    /**
+     * check the access for the given object for the current/given user
+     * @param $accessSctring
+     * @param $object
+     * @param null $identity
+     * @return mixed
+     */
+    public function isGranted($accessSctring, $object, $identity = null){
+        return $this->security->isGranted($accessSctring, $object, $identity);
     }
 
     /**
@@ -122,7 +134,7 @@ class AccessManager
      * @param array|null $indentityObject
      * @return bool
      */
-    public function addAccessCheck($access, $object, $identity = null)
+    public function addVoterAccessCheck($access, $object, $identity = null)
     {
         if ($identity === null) {
             $identity = $this->getUser();
@@ -158,7 +170,7 @@ class AccessManager
     /**
      * @return bool
      */
-    public function hasAccess()
+    public function hasVoterAccess()
     {
         $access = false;
         foreach ($this->accessChecks as $data) {

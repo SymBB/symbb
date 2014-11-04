@@ -29,8 +29,7 @@ class PostManager extends AbstractManager
         $posts = $this->postManager->findByTopic($topic, $limit, $page);
         $forum = $topic->getForum();
 
-        $this->accessManager->addAccessCheck(TopicVoter::REPLY, $topic);
-        $replyAccess = $this->accessManager->hasAccess();
+        $replyAccess = $this->accessManager->isGranted(TopicVoter::REPLY, $topic);
 
         $configList = array(
             'total_post_num' => new \Zend\XmlRpc\Value\Integer(count($posts)),

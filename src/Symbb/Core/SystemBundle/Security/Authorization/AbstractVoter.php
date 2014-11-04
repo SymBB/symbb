@@ -111,8 +111,8 @@ abstract class AbstractVoter implements VoterInterface
 
         switch($attribute) {
             default:
-                $this->accessManager->addAccessCheck($attribute, $object);
-                if ($this->accessManager->hasAccess()) {
+                $this->accessManager->addVoterAccessCheck($attribute, $object);
+                if ($this->accessManager->hasVoterAccess()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;

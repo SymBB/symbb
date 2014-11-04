@@ -31,8 +31,7 @@ class AccessExtension extends \Twig_Extension
     
     public function hasSymbbAccess( $access, $element, $user = null)
     {
-        $this->accessManager->addAccessCheck($access, $element, $user);
-        $access             = $this->accessManager->hasAccess();
+        $access = $this->accessManager->isGranted($access, $element, $user);
         return $access;
     }
     

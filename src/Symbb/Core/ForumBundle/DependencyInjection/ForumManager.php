@@ -284,8 +284,7 @@ class ForumManager extends AbstractManager
         foreach ($entries as $entity) {
             $access = true;
             if($checkAccess){
-                $this->accessManager->addAccessCheck(ForumVoter::VIEW, $entity);
-                $access = $this->accessManager->hasAccess();
+                $access = $this->accessManager->isGranted(ForumVoter::VIEW, $entity);
             }
             if($access){
                 if(in_array($entity->getType(), $types) || empty($types)){

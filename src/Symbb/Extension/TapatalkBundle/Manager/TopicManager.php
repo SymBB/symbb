@@ -25,8 +25,8 @@ class TopicManager extends AbstractManager
         $success = true;
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $this->accessManager->addAccessCheck(ForumVoter::VIEW, $topic->getForum());
-            if ($this->accessManager->hasAccess()) {
+            $access = $this->accessManager->isGranted(ForumVoter::VIEW, $topic->getForum());
+            if ($access) {
                 if($topic){
                     $this->topicManager->markAsRead($topic);
                 }
@@ -49,8 +49,8 @@ class TopicManager extends AbstractManager
         $data = array();
         foreach($topicIds as $topicId){
             $topic = $this->topicManager->find($topicId);
-            $this->accessManager->addAccessCheck(ForumVoter::VIEW, $topic->getForum());
-            if ($this->accessManager->hasAccess() && $topic) {
+            $access = $this->accessManager->isGranted(ForumVoter::VIEW, $topic->getForum());
+            if ($access && $topic) {
                 $ignored = $this->forumManager->isIgnored($topic->getForum());
                 $datetime = $topic->getLastPost()->getCreated();
                 $datetime->setTimezone($this->userManager->getTimezone());
@@ -82,10 +82,10 @@ class TopicManager extends AbstractManager
         $this->debug("newTopic");
 
         $forum = $this->forumManager->find($forumId);
-        $this->accessManager->addAccessCheck(ForumVoter::CREATE_TOPIC, $forum);
+        $access = $this->accessManager->isGranted(ForumVoter::CREATE_TOPIC, $forum);
         $success = false;
         $topicId = 0;
-        if ($this->accessManager->hasAccess()) {
+        if ($access) {
             if ($forum) {
                 $topic = new Topic();
                 $topic->setAuthor($this->userManager->getCurrentUser());
@@ -122,11 +122,8 @@ class TopicManager extends AbstractManager
         $this->debug("getTopic");
 
         $forum = $this->forumManager->find($forumId);
-        $this->accessManager->addAccessCheck(ForumVoter::VIEW, $forum);
-        $viewAccess = $this->accessManager->hasAccess();
-
-        $this->accessManager->addAccessCheck(ForumVoter::CREATE_TOPIC, $forum);
-        $writeAccess = $this->accessManager->hasAccess();
+        $viewAccess = $this->accessManager->isGranted(ForumVoter::VIEW, $forum);
+        $writeAccess = $this->accessManager->isGranted(ForumVoter::CREATE_TOPIC, $forum);
 
         $configList = array(
             'total_topic_num' => new \Zend\XmlRpc\Value\Integer(0),

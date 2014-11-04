@@ -113,11 +113,6 @@ abstract class AbstractManager
 
     }
 
-    public function checkAccess($extension, $access, $identity){
-        $this->accessManager->addAccessCheck($extension, $access, $identity);
-        return $this->accessManager->hasAccess();
-    }
-
 
     public function createPagination($query, $page, $limit){
 

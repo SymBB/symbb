@@ -42,7 +42,7 @@ abstract class AbstractApi
     /**
      * @var AccessManager
      */
-    protected$accessManager;
+    protected $accessManager;
 
     /**
      * @var UserManager
@@ -163,17 +163,6 @@ abstract class AbstractApi
         }
         return $this->user;
 
-    }
-
-    /**
-     * @param $extension
-     * @param $access
-     * @param $identity
-     * @return bool
-     */
-    public function checkAccess($extension, $access, $identity){
-        $this->accessManager->addAccessCheck($extension, $access, $identity);
-        return $this->accessManager->hasAccess();
     }
 
     /**

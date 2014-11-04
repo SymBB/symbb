@@ -62,14 +62,14 @@ class SurveyVoter extends AbstractVoter implements VoterInterface
 
         if($object instanceof Post){
             $forum = $object->getTopic()->getForum();
-            $this->accessManager->addAccessCheck($attribute, $forum);
-            if ($this->accessManager->hasAccess()) {
+            $this->accessManager->addVoterAccessCheck($attribute, $forum);
+            if ($this->accessManager->hasVoterAccess()) {
                 return VoterInterface::ACCESS_GRANTED;
             }
         } else if($object instanceof Topic){
             $forum = $object->getForum();
-            $this->accessManager->addAccessCheck($attribute, $forum);
-            if ($this->accessManager->hasAccess()) {
+            $this->accessManager->addVoterAccessCheck($attribute, $forum);
+            if ($this->accessManager->hasVoterAccess()) {
                 return VoterInterface::ACCESS_GRANTED;
             }
         }

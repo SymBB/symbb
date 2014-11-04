@@ -12,6 +12,7 @@ namespace Symbb\Extension\TapatalkBundle\Manager;
 use Monolog\Logger;
 use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
 use \Symbb\Core\SystemBundle\Manager\AccessManager;
+use Symbb\Core\UserBundle\Form\Type\SecurityOption;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
