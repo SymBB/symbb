@@ -496,4 +496,8 @@ class UserManager
 
         return $pagination;
     }
+
+    public function isGranted($access, $object, $identity = null){
+        return $this->securityContext->isGranted($access, $object, $identity);
+    }
 }
