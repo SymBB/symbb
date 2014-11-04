@@ -19,7 +19,12 @@ class XmlrpcController extends Controller
     public function indexAction(Request $request)
     {
         $this->get('monolog.logger.tapatalk')->debug('############################');
-        $this->get('monolog.logger.tapatalk')->debug($this->get('request'));
+        $this->get('monolog.logger.tapatalk')->debug('Current User:'. $this->get('symbb.core.user.manager')->getCurrentUser()->getUsername());
+        $this->get('monolog.logger.tapatalk')->debug("Has Session: ".$request->hasPreviousSession());
+        foreach($request->headers as $name => $param){
+            $this->get('monolog.logger.tapatalk')->debug("Request Header (".$name."): ".implode(", ",$param));
+        }
+
         $server = new \Zend\XmlRpc\Server;
         $server->setReturnResponse(true);
         $server->setClass($this->get('symbb.extension.tapatalk.manager.call'));
@@ -35,6 +40,10 @@ class XmlrpcController extends Controller
         }
 
         $sfResponse = $this->addResponseHeader($sfResponse);
+
+        foreach($sfResponse->headers as $name => $param){
+            $this->get('monolog.logger.tapatalk')->debug("Response Header (".$name."): ".implode(", ",$param));
+        }
 
         return $sfResponse;
     }

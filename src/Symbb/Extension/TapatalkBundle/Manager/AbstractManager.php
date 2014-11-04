@@ -85,13 +85,12 @@ class AbstractManager
 
     protected function getResponse($value, $type, $login = false)
     {
-        $this->debug('Current User:'. $this->userManager->getCurrentUser()->getUsername());
-        $valueObject = \Zend\XmlRpc\AbstractValue::getXmlRpcValue($value, $type);
 
+        $valueObject = \Zend\XmlRpc\AbstractValue::getXmlRpcValue($value, $type);
 
         $content = '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param>'.$valueObject->saveXml().'</param></params></methodResponse>';
 
-        $this->debug("XML: ".$content, $value);
+        $this->debug("XML: ".$content);
 
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'text/xml');
@@ -99,26 +98,12 @@ class AbstractManager
         $response->setPrivate();
         $response->setMaxAge(100);
 
-
-        if($login){
-            $cookies = array();
-            foreach($this->request->cookies->all() as $name => $cookie) {
-                $cookies[] = $name."=".$cookie;
-            }
-            $response->headers->set("Set-Cookie", implode('; ', $cookies));
+        $user = $this->userManager->getCurrentUser();
+        if ($user->getSymbbType() === 'user') {
+            $response->headers->set('Mobiquo_is_login', "true");
+        } else {
             $response->headers->set('Mobiquo_is_login', false);
-         } else {
-            $user = $this->userManager->getCurrentUser();
-            if ($user->getSymbbType() === 'user') {
-                $response->headers->set('Mobiquo_is_login', true);
-                $this->debug("Mobiquo_is_login: true");
-            } else {
-                $response->headers->set('Mobiquo_is_login', false);
-                $this->debug("Mobiquo_is_login: false");
-            }
         }
-
-        $this->debug('Response Header:', $response->headers->all());
 
         return $response;
     }
