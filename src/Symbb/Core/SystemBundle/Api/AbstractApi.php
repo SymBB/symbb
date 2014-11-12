@@ -387,6 +387,8 @@ abstract class AbstractApi
                 foreach($parts as $key => $part){
                     $setter .= ucfirst($part);
                 }
+                var_dump($field);
+                var_dump($data[$field]);
                 $object->$setter($data[$field]);
             }
         }

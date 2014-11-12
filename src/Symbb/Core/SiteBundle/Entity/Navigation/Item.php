@@ -234,7 +234,9 @@ class Item
      */
     public function setSymfonyRouteParams($symfonyRouteParams)
     {
-        $symfonyRouteParams = json_encode($symfonyRouteParams);
+        if(is_array($symfonyRouteParams)){
+            $symfonyRouteParams = json_encode($symfonyRouteParams);
+        }
         $this->symfonyRouteParams = $symfonyRouteParams;
     }
 
