@@ -28,7 +28,7 @@
                 </div>
                 <div class="description">
                     {% trans with {'%user%': "[[object.author.username]]"} %}from %user%{% endtrans %} </br>
-                    {% trans with {'%date%': "[[ object.changed | date:'dd.MM.yyyy']]", '%time%': "[[ object.changed | date:'HH:mm']]"} %} %date% at %time%{% endtrans %}
+                    {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH:mm']]"} %} %date% at %time%{% endtrans %}
                 </div>
             </div>
         </div>
