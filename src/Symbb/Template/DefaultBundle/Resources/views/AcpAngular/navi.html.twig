@@ -74,6 +74,7 @@
             </li>
         </ul>
     </li>
+    {% if app.environment == "dev" %}
     <li ng-class="{'active': currNavi == 'access'}">
         <a href="" ng-click="currNavi = 'access'">
             <i class="glyphicon glyphicon-lock"></i>
@@ -90,7 +91,9 @@
             </li>
         </ul>
     </li>
+    {% endif %}
     <li class="line dk"></li>
+    {% if app.environment == "dev" %}
     <li ng-class="{'active': currNavi == 'settings'}">
         <a href="" ng-click="currNavi = 'settings'">
             <i class="glyphicon glyphicon-cog"></i>
@@ -130,8 +133,9 @@
         </a>
     </li>
     <li class="line dk"></li>
+    {% endif %}
     <li>
-        <a href="">
+        <a href="/de/_trans/">
             <i class="glyphicon glyphicon-sort-by-alphabet"></i>
             <span class="font-bold ng-scope" >{{ 'Translations'|trans }}</span>
         </a>

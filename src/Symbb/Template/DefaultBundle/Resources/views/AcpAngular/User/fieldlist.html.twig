@@ -64,13 +64,13 @@
                     <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
                         <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
                     </button>
-                    <symbb-rest-pagination route="symbb_backend_api_user_group_list"></symbb-rest-pagination>
+                    <symbb-rest-pagination route="symbb_backend_api_user_field_list"></symbb-rest-pagination>
                 </td>
             </tr>
             </tfoot>
         </table>
     </div>
-    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Group'|trans }}">
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Field'|trans }}">
         <button ng-if="restCrudSaving" class="btn btn-warning btn-xs">
             <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
         </button>
