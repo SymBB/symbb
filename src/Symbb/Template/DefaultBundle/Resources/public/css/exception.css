@@ -22,6 +22,37 @@ html, body {
     position: relative;
 }
 
+.bg503 {
+    background-image: url('/bundles/symbbtemplatedefault/images/exception/503bg.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: #ffffff;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bg503 .message {
+    top: 42px;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    color: #FFF;
+    font-size: 40px;
+}
+
+.bg503 .code {
+    top: 300px;
+    font-size: 150px;
+    width: 100%;
+    text-align: center;
+    background: #CC4400;
+    position: absolute;
+    height: 100%;
+    color: #fff;
+    border-top: 5px solid #000;
+}
+
 .code {
     top: 300px;
     font-size: 150px;
