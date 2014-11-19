@@ -28,11 +28,13 @@ symbbControllers.controller('UserListCtrl', ["$scope", "$symbbRestCrud", "$http"
         service.beforeEdit = function(entry){
             $.each($scope.groupSelectItems, function(key, value){
                 $scope.groupSelectItems[key].selected = false;
-                $.each(entry.groups, function(key2, value2){
-                    if(value.id === value2){
-                        $scope.groupSelectItems[key].selected = true;
-                    }
-                });
+                if(entry.groups && entry.groups.length > 0){
+                    $.each(entry.groups, function(key2, value2){
+                        if(value.id === value2){
+                            $scope.groupSelectItems[key].selected = true;
+                        }
+                    });
+                }
 
             });
             return entry;
