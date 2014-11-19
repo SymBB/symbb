@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-10-07T15:03:57Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-11-19T13:08:00Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -15,27 +15,27 @@
       <trans-unit id="7f2fffbe9d4feea443cf8193d4e597d8d9aeb1b0" resname="Your Password need a minimum of 1 lowercase character">
         <source>Your Password need a minimum of 1 lowercase character</source>
         <target>Dein Passwort muss mindestens einen Kleinbuchstaben enthalten</target>
-        <jms:reference-file line="397">UserBundle/Manager/UserManager.php</jms:reference-file>
+        <jms:reference-file line="402">UserBundle/Manager/UserManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="1224d3f9b32a13f04d827eeac3955e180e530357" resname="Your Password need a minimum of 1 none word character">
         <source>Your Password need a minimum of 1 none word character</source>
         <target>Dein Passwort muss mindestens ein Sonderzeichen enthalten</target>
-        <jms:reference-file line="413">UserBundle/Manager/UserManager.php</jms:reference-file>
+        <jms:reference-file line="418">UserBundle/Manager/UserManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="048ddab9eb084de6692ea2d3b922bb9e02b14e5a" resname="Your Password need a minimum of 1 number">
         <source>Your Password need a minimum of 1 number</source>
         <target>Dein Passwort muss mindestens eine Zahl enthalten</target>
-        <jms:reference-file line="405">UserBundle/Manager/UserManager.php</jms:reference-file>
+        <jms:reference-file line="410">UserBundle/Manager/UserManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="889d109e26df2612c431bf06ceceb756b866e802" resname="Your Password need a minimum of 1 uppercase character">
         <source>Your Password need a minimum of 1 uppercase character</source>
         <target>Dein Passwort muss mindestens einen Großbuchstaben enthalten</target>
-        <jms:reference-file line="385">UserBundle/Manager/UserManager.php</jms:reference-file>
+        <jms:reference-file line="390">UserBundle/Manager/UserManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="79cac407e7e85fcfe8dba3c7580e6be32ed257d3" resname="Your Password need a minimum of 6 characters">
         <source>Your Password need a minimum of 6 characters</source>
         <target>Dein Passwort muss mindestens 6 Zeichen lang sein</target>
-        <jms:reference-file line="389">UserBundle/Manager/UserManager.php</jms:reference-file>
+        <jms:reference-file line="394">UserBundle/Manager/UserManager.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f48ccf84018671218aac090abf90770212497b70" resname="fos_user.email.already_used">
         <source>fos_user.email.already_used</source>

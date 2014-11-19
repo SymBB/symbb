@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-10-07T15:15:52Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2014-11-19T13:08:12Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -11,7 +11,6 @@
         <target> %date% um %time%</target>
         <jms:reference-file line="31">Angular/Forum/topicEntry.html.twig</jms:reference-file>
         <jms:reference-file line="41">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="56">views/Angular/forumList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6f3abbe484abd8e9daf633a69dd56750b01ea9f8" resname="Abort">
         <source>Abort</source>
@@ -137,7 +136,7 @@
         <source>Loading ...</source>
         <target>Daten werden geladen ...</target>
         <jms:reference-file line="62">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="67">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="68">Angular/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c1ee860bc3a94be1ae96eaa05833713b79c6634b" resname="Mark as read">
         <source>Mark as read</source>
@@ -155,7 +154,8 @@
         <source>Messages</source>
         <target>Nachrichten</target>
         <jms:reference-file line="176">MessageBundle/Controller/FrontendApiController.php</jms:reference-file>
-        <jms:reference-file line="22">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="25">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="27">Angular/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="709a23220f2c3d64d1e1d6d18c4d5280f8d82fca" resname="Name">
         <source>Name</source>
@@ -247,7 +247,7 @@
       <trans-unit id="6fba0da1774ac060ad8547a3ab05500e9046956e" resname="Registration is currently closed.">
         <source>Registration is currently closed.</source>
         <target>Anmeldung ist derzeit geschlossen.</target>
-        <jms:reference-file line="9">views/Registration/disabled.html.twig</jms:reference-file>
+        <jms:reference-file line="10">views/Registration/disabled.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e963907dac5cd5c017869b4c96c18021c9bd058b" resname="Remove">
         <source>Remove</source>
@@ -412,7 +412,7 @@
       <trans-unit id="75261cd0ff4da0845a054f0702d4c12b30ca0e42" resname="close Topic">
         <source>close Topic</source>
         <target>Thema schließen</target>
-        <jms:reference-file line="57">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="58">Angular/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="af0e5e11b37186ddf11095e44708ea53424b0b83" resname="close topic">
         <source>close topic</source>
@@ -423,7 +423,7 @@
       <trans-unit id="d9c174bf977c74a221a34b63d34d91d7a2cc5d85" resname="delete Topic">
         <source>delete Topic</source>
         <target>Theme löschen</target>
-        <jms:reference-file line="60">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="61">Angular/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7d7dd0edce203aaa59bde03f0decad460fed9b12" resname="edit by %user% on %date% at %time%">
         <source>edit by %user% on %date% at %time%</source>
@@ -453,6 +453,7 @@
         <source>home</source>
         <target>Startseite</target>
         <jms:reference-file line="7">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="9">Angular/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a87e204501ad92c7b3b065acdd52828df8228d88" resname="http://deine-avatar.url">
         <source>http://deine-avatar.url</source>
@@ -501,7 +502,7 @@
         <source>no topics</source>
         <target>keine Themen</target>
         <jms:reference-file line="65">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="70">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="71">Angular/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8489d7e85f7913db0a5004fe063bd089a6ed5028" resname="on %date% at %time%">
         <source>on %date% at %time%</source>
@@ -519,7 +520,8 @@
       <trans-unit id="5d45a009b0383b5b3064b9820c18530333c910f9" resname="profile">
         <source>profile</source>
         <target>Profil</target>
-        <jms:reference-file line="12">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="13">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="15">Angular/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a7afddb68260a60f86c02a021efba7f216c2e7cf" resname="read">
         <source>read</source>
@@ -549,7 +551,8 @@
       <trans-unit id="8eec7bc461808e0b8a28783d0bec1a3a22eb0821" resname="security">
         <source>security</source>
         <target>Sicherheit</target>
-        <jms:reference-file line="17">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="19">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="21">Angular/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="63f638ffb46305026944dee6afa7b8a945272eff" resname="sent Messages">
         <source>sent Messages</source>
@@ -562,12 +565,17 @@
         <jms:reference-file line="14">Angular/Message/show.html.twig</jms:reference-file>
         <jms:reference-file line="13">Angular/Message/new.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="595b3b2e30abdbbeb9e997f1bf2d7eebb4b41125" resname="written on %date% at %time%">
+        <source>written on %date% at %time%</source>
+        <target>%date% at %time%</target>
+        <jms:reference-file line="56">views/Angular/forumList.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="06aaa601f0989272ff0be58c2e516c4329320d27" resname="you really want to delete the entry?">
         <source>you really want to delete the entry?</source>
         <target>möchtest du den Eintrag wirklich löschen?</target>
         <jms:reference-file line="31">Angular/Forum/search.html.twig</jms:reference-file>
         <jms:reference-file line="42">Angular/Forum/topicShow.html.twig</jms:reference-file>
-        <jms:reference-file line="60">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="61">Angular/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>

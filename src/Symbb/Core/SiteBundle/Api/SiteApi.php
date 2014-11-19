@@ -105,7 +105,7 @@ class SiteApi extends AbstractApi
     protected function getFieldsForObject($object, $direction){
 
         //todo get it form navi api
-
+        $fields = array();
         if($object instanceof Item){
             // only this fields are allowed
             $fields = array(
