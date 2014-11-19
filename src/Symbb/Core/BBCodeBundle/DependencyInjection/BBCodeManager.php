@@ -69,14 +69,15 @@ class BBCodeManager
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
-        $bbcodes += $this->getEmoticons($setId);
+        $bbcodes2 = $this->getEmoticons($setId);
+        $bbcodes = array_merge($bbcodes, $bbcodes2);
 
         $this->handleSpecialCasesByRef($text, $bbcodes);
 
         foreach ($bbcodes as $bbcode) {
             if ($bbcode->getRemoveNewLines()) {
                 $regex = $bbcode->getSearchRegex();
-                $regex = \str_replace('(.+)', '(\s\s+)', $regex);
+                \str_replace('(.+)', '(\s\s+)', $regex);
                 //$text = \preg_replace($regex, $bbcode->getReplaceRegex(), $text);
             }
             $text = \preg_replace($bbcode->getSearchRegex(), $bbcode->getReplaceRegex(), $text);
@@ -119,7 +120,8 @@ class BBCodeManager
         $text = strip_tags($text);
 
         $bbcodes = $this->getBBCodes($setId);
-        $bbcodes += $this->getEmoticons($setId);
+        $bbcodes2 = $this->getEmoticons($setId);
+        $bbcodes = array_merge($bbcodes, $bbcodes2);
 
         foreach ($bbcodes as $bbcode) {
             if ($bbcode->getSearchRegex() != "") {
