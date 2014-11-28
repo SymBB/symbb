@@ -69,7 +69,7 @@ class UserApi extends AbstractApi
             $objectData = $object;
             $newPassword = "";
             $groups = array();
-            if($object['id'] > 0){
+            if(isset($object['id']) && $object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
                 $object = new User();
