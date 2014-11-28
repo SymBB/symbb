@@ -68,7 +68,6 @@ class UserApi extends AbstractApi
         if(is_array($object)){
             $objectData = $object;
             $newPassword = "";
-            $groups = array();
             if(isset($object['id']) && $object['id'] > 0){
                 $object = $this->find($object['id']);
             } else {
@@ -85,6 +84,7 @@ class UserApi extends AbstractApi
             unset($objectData['enabled']);
             if(isset($objectData['groups'])){
                 $groups = $objectData['groups'];
+                $groups = array_unique($groups);
                 $object->setGroups(array());
                 foreach($groups as $groupId){
                     $group = $this->groupManager->find($groupId);
@@ -162,6 +162,7 @@ class UserApi extends AbstractApi
                 'name'
             );
         }
+
         return $fields;
     }
 
