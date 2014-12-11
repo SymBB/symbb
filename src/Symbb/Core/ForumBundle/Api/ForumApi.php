@@ -10,7 +10,7 @@
 namespace Symbb\Core\ForumBundle\Api;
 
 use Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
-use Symbb\Core\ForumBundle\Entity\Feed;
+use Symbb\Core\ForumBundle\Entity\Forum\Feed;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
@@ -142,7 +142,8 @@ class ForumApi extends AbstractApi
             $fields = array(
                 'id',
                 'url',
-                'regex',
+                'filter_regex',
+                'link_regex',
             );
         }
         return $fields;
