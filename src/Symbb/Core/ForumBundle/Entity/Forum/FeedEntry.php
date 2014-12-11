@@ -7,7 +7,7 @@
  *
  */
 
-namespace Symbb\Core\ForumBundle\Entity\Forum\Feed;
+namespace Symbb\Core\ForumBundle\Entity\Forum;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="forum_feed_entries")
  * @ORM\Entity()
  */
-class Entry
+class FeedEntry
 {
 
     /**
@@ -40,6 +40,12 @@ class Entry
      * @ORM\JoinColumn(name="feed_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $feed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Forum", inversedBy="feedEntries")
+     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $forum;
 
     /**
      * @ORM\Column(type="datetime")
@@ -113,4 +119,54 @@ class Entry
     {
         $this->feed = $feed;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param mixed $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getForum()
+    {
+        return $this->forum;
+    }
+
+    /**
+     * @param mixed $forum
+     */
+    public function setForum($forum)
+    {
+        $this->forum = $forum;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+
 }

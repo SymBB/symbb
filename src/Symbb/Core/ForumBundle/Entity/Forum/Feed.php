@@ -48,7 +48,7 @@ class Feed
     private $forum;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed\Entry", mappedBy="feed", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="feed", orphanRemoval=true, cascade={"persist"})
      * @var ArrayCollection
      */
     protected $entries;

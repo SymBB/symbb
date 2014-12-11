@@ -101,6 +101,13 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $feeds;
 
     /**
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OrderBy("created" = "DESC"})
+     * @var ArrayCollection
+     */
+    protected $feedEntries;
+
+    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $active = true;
