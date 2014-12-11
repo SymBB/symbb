@@ -15,6 +15,34 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
             });
         };
 
+        $scope.removeForumFeedEntry = function(index){
+            console.debug(index);
+            if($scope.formEntry){
+                if($scope.formEntry.feeds){
+                    var newList = [];
+                    for(var i = 0; i < $scope.formEntry.feeds.length; i++){
+                        if(i != index){
+                            newList[newList.length] = $scope.formEntry.feeds[i];
+                        }
+                    }
+                    $scope.formEntry.feeds = newList;
+                }
+            }
+        };
+
+        $scope.addForumFeedEntry = function(){
+            if($scope.formEntry){
+                if(!$scope.formEntry.feeds){
+                    $scope.formEntry.feeds = [];
+                }
+                $scope.formEntry.feeds[$scope.formEntry.feeds.length] = {
+                    url: "",
+                    regex: ""
+                };
+            }
+            console.debug($scope.formEntry.feeds);
+        };
+
         $scope.access = function(node){
 
             $scope.accessEntry = {

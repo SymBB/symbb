@@ -86,6 +86,7 @@
             <option value="link">{{ 'Link'|trans }}</option>
             <option value="forum">{{ 'Forum'|trans }}</option>
             <option value="category">{{ 'Category'|trans }}</option>
+            <option value="feed">{{ 'Feed List'|trans }}</option>
         </select>
         <label>{{ 'Description'|trans }}</label><textarea class="form-control" ng-model="formEntry.description" ></textarea>
         <div ng-if="formEntry.type != 'link'">
@@ -96,6 +97,17 @@
             <label>{{ 'Link'|trans }}</label><input  class="form-control" ng-model="formEntry.link" />
             <label>{{ 'Count Link calls'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.count_link_calls" />
         </div>
-
+        <div ng-if="formEntry.type == 'feed'">
+            <hr>
+            <h4>{{ 'Feeds'|trans }}</h4>
+            <div ng-repeat="link in formEntry.feeds">
+                <label>{{ 'feed Url'|trans }}</label><input  class="form-control" ng-model="link.url" />
+                <label>{{ 'Regular Expression'|trans }}</label><input class="form-control" ng-model="link.regex" />
+                <button class="btn" ng-click="removeForumFeedEntry($index)">{{ 'remove'|trans }}</button>
+                <br>
+                <br>
+            </div>
+            <button class="btn" ng-click="addForumFeedEntry()">{{ 'add feed'|trans }}</button>
+        </div>
     </symbb-modal-form>
 {% endblock %}

@@ -383,10 +383,39 @@ abstract class AbstractApi
             // only assign if the key is set
             if(isset($data[$field]) && $field !== "id"){
                 $setter = 'set';
+                $getter = 'get';
                 $parts = explode('_', $field);
                 foreach($parts as $key => $part){
                     $setter .= ucfirst($part);
+                    $getter .= ucfirst($part);
                 }
+
+                $test = null;
+                if(method_exists($object, $getter)){
+                    $test = $object->$getter();
+                }
+                // test if it is an array or object
+                if (
+                    $test instanceof ArrayCollection ||
+                    $test instanceof PersistentCollection ||
+                    is_array($test)
+                ){
+                    if(!is_array($test)){
+                        $newValue = new ArrayCollection();
+                    } else {
+                        $newValue = array();
+                    }
+                    foreach($data[$field] as $key => $value2){
+                        $subobject = $this->createNewSubobject($object, $field);
+                        if($subobject){
+                            $newValue[$key] = $this->assignArrayToObject($subobject, $value2);
+                        }
+                    }
+                    $data[$field] = $newValue;
+                } else if(is_object($test)){
+                    $data[$field] = $this->createArrayOfObject($data[$field]);
+                }
+                // set the value
                 $object->$setter($data[$field]);
             }
         }
@@ -398,5 +427,9 @@ abstract class AbstractApi
         }
 
         return $object;
+    }
+
+    protected function createNewSubobject($parent, $field){
+        return null;
     }
 }

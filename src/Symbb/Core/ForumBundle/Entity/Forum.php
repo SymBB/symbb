@@ -77,7 +77,7 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
-     * @var ArrayCollection 
+     * @var ArrayCollection
      */
     protected $children;
 
@@ -90,9 +90,15 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
      * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
-     * @var ArrayCollection 
+     * @var ArrayCollection
      */
     protected $topics;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
+     * @var ArrayCollection
+     */
+    protected $feeds;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -121,102 +127,157 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
      */
     protected $updatedAt;
 
+    /**
+     * @var null
+     */
     protected $topicCount = null;
 
+    /**
+     * @var null
+     */
     protected $postCount = null;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->feeds = new ArrayCollection();
 
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getLink()
     {
         return $this->link;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setLink($value)
     {
         $this->link = $value;
 
     }
 
+    /**
+     * @return bool
+     */
     public function getCountLinkCalls()
     {
         return $this->countLinkCalls;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setCountLinkCalls($value)
     {
         $this->countLinkCalls = $value;
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getDescription()
     {
         return $this->description;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setDescription($value)
     {
         $this->description = $value;
 
     }
 
+    /**
+     * @return bool
+     */
     public function isActive()
     {
         return $this->active;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setActive($value)
     {
         $this->active = $value;
 
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setType($value)
     {
         $this->type = $value;
 
     }
 
+    /**
+     * @return bool
+     */
     public function hasShowSubForumList()
     {
         return $this->showSubForumList;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setShowSubForumList($value)
     {
         $this->showSubForumList = $value;
 
     }
 
+    /**
+     * @return int
+     */
     public function getEntriesPerPage()
     {
         return $this->entriesPerPage;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setEntriesPerPage($value)
     {
         $this->entriesPerPage = $value;
 
     }
 
+    /**
+     * @param $object
+     */
     public function setParent($object)
     {
         $this->parent = $object;
@@ -232,29 +293,47 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
 
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getChildren()
     {
         return $this->children;
 
     }
-    
-    public function hasChildren(){
-        if($this->getChildren()->count() > 0){
+
+    /**
+     * @return bool
+     */
+    public function hasChildren()
+    {
+        if ($this->getChildren()->count() > 0) {
             return true;
         }
+
         return false;
     }
 
-    public function setChildren($children){
+    /**
+     * @param $children
+     */
+    public function setChildren($children)
+    {
         $this->children = $children;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getTopics()
     {
         return $this->topics;
 
     }
 
+    /**
+     * @return int|null
+     */
     public function getTopicCount()
     {
         $count = $this->topicCount;
@@ -267,10 +346,14 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
             }
             $this->topicCount = $count;
         }
+
         return $count;
 
     }
 
+    /**
+     * @return int|null
+     */
     public function getPostCount()
     {
         $count = $this->postCount;
@@ -288,10 +371,14 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
             }
             $this->postCount = $count;
         }
+
         return $count;
 
     }
 
+    /**
+     * @return null
+     */
     public function getLastPost()
     {
         $lastPost = null;
@@ -301,8 +388,8 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
             if (
                 \is_object($currLastPost) &&
                 (
-                !$lastPost ||
-                $currLastPost->getChanged() > $lastPost->getChanged()
+                    !$lastPost ||
+                    $currLastPost->getChanged() > $lastPost->getChanged()
                 )
             ) {
                 $lastPost = $currLastPost;
@@ -314,27 +401,35 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
             if (
                 is_object($lastChildPost) &&
                 (
-                !$lastPost ||
-                $lastChildPost->getChanged() > $lastPost->getChanged()
+                    !$lastPost ||
+                    $lastChildPost->getChanged() > $lastPost->getChanged()
                 )
             ) {
                 $lastPost = $lastChildPost;
             }
         }
+
         return $lastPost;
 
     }
 
+    /**
+     * @return bool
+     */
     public function hasTopics()
     {
         $topics = $this->getTopics();
         if ($topics->count() > 0) {
             return true;
         }
+
         return false;
 
     }
 
+    /**
+     * @param $image
+     */
     public function setImage($image)
     {
         $this->image = $image;
@@ -355,21 +450,77 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
 
     }
 
+    /**
+     * @return File
+     */
     public function getImage()
     {
         return $this->image;
 
     }
 
+    /**
+     * @return string
+     */
     public function getImageName()
     {
         return $this->imageName;
 
     }
 
+    /**
+     * @param $name
+     */
     public function setImageName($name)
     {
         $this->imageName = $name;
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableTypes()
+    {
+        return array(
+            'forum',
+            'category',
+            'link',
+            'rss'
+        );
+    }
+
+
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getFeeds()
+    {
+        return $this->feeds;
+
+    }
+
+    /**
+     *
+     */
+    public function removeFeeds(){
+        $this->feeds->clear();
+    }
+
+    /**
+     * @param Feed $feed
+     */
+    public function addFeed(Feed $feed){
+        $feed->setForum($this);
+        $this->feeds->add($feed);
+    }
+
+    /**
+     * @param ArrayCollection $feeds
+     */
+    public function setFeeds(ArrayCollection $feeds){
+        $this->feeds->clear();
+        $this->feeds = $feeds;
     }
 }

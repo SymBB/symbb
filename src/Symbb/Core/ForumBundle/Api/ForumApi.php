@@ -10,6 +10,7 @@
 namespace Symbb\Core\ForumBundle\Api;
 
 use Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
+use Symbb\Core\ForumBundle\Entity\Feed;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
@@ -129,13 +130,31 @@ class ForumApi extends AbstractApi
                 'active',
                 'show_sub_forum_list',
                 'entries_per_page',
-                'position'
+                'position',
+                'feeds'
             );
             if($direction == "toArray"){
                 $fields[] = 'children';
+                $fields[] = 'feeds';
             }
+        } else if($object instanceof Feed){
+            // only this fields are allowed
+            $fields = array(
+                'id',
+                'url',
+                'regex',
+            );
         }
         return $fields;
+    }
+
+    protected function createNewSubobject($parent, $field){
+        if($field == "feeds"){
+            $subobject = new Feed();
+            $subobject->setForum($parent);
+            return $subobject;
+        }
+        return null;
     }
 
     /**
@@ -145,10 +164,22 @@ class ForumApi extends AbstractApi
         $this->forumManager = $manager;
     }
 
+    /**
+     * @param Forum $forumFrom
+     * @param Forum $forumTo
+     * @param GroupInterface $group
+     * @param bool $childs
+     */
     public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $childs = false){
         $this->forumManager->copyAccessOfGroup($forumFrom, $forumTo, $group, $childs);
     }
 
+    /**
+     * @param Forum $forum
+     * @param GroupInterface $group
+     * @param $accessSet
+     * @param bool $childs
+     */
     public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $childs = false){
         $this->forumManager->applyAccessSetForGroup($forum, $group, $accessSet, $childs);
     }

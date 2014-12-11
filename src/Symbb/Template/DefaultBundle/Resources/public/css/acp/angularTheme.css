@@ -382,6 +382,7 @@ h1, .h1 {
     left: 0;
     width: 100%;
     z-index: 1000;
+    width: 200px;
 }
 
 .symbb_flash_messages .alert {
