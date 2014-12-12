@@ -1,0 +1,96 @@
+{% trans_default_domain "symbb_frontend" %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    
+    {% block stylesheets %} 
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        {% stylesheets 
+            '@SymbbTemplateDefaultBundle/Resources/public/css/acp/theme.css' filter='?uglifycss'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/jstree/themes/default/style.css' filter='?uglifycss'
+         %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {{ executeSymbbEvent('template.acp.stylesheets') }}
+    {% endblock %}
+        
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+        
+    {% block javascripts %} 
+        {% javascripts 
+            '@SymbbTemplateDefaultBundle/Resources/public/js/jstree/jstree.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {{ executeSymbbEvent('template.acp.javascripts') }}
+    {% endblock %}
+    <script>
+    $(function () {
+        $('#jstree_demo_div').on('select_node.jstree', function (e, data) {
+            window.location.href=data.node.a_attr.href;
+        }).jstree(); 
+    });</script>
+    </head>
+
+    <body>
+        
+        <div class="symbb_navi">
+            {% block symbb_navi %} 
+                {% include getSymbbTemplate('acp') ~ ':Acp:navi.html.twig' %}
+            {% endblock %}
+        </div>
+        
+        <div class="symbb_container">
+            
+            <div class="clear"></div>
+
+            {% block symbb_sidebar_container %}
+                <div class="symbb_sidebar">
+                    {% block symbb_sidebar %}
+
+                    {% endblock %}
+                </div>
+            {% endblock %}
+            
+            <div class="symbb_body">
+
+                <div class="symbb_actions">
+
+                {% if app.getUser.getSymbbType() == 'guest' %}
+                    <div class="alert alert-info">{% trans %}You are not currently logged.{% endtrans %}</div>
+                {% endif %}
+
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {% block symbb_actions %}
+
+                {% endblock %}
+                </div>
+                
+                {% block symbb_body %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,94 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'Navigations'|trans }}{% endblock %}
+{% block subtitle %}
+    {{ 'You can manage your Navigations for every Site on this Pages'|trans }}
+    <select class="form-control" ng-model="currSite" ng-change="changeSelectedSite()">
+        <option value="">{{ 'Select a Site'|trans }}</option>
+        <option ng-repeat="site in data" value="[[site.id]]">[[site.name]]</option>
+    </select>
+    <div class="" ng-if="currSite">
+        <hr />
+        <button ng-click="newNavigation()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Navigation'|trans }}
+        </button>
+    </div>
+{% endblock %}
+{% block content %}
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle class="bg-info">
+            [[ navigation.title ]]
+            <div class="pull-right">
+                <button class="btn btn-default btn-xs" ng-click="newItem(navigation)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    {{ 'new subitem'|trans }}
+                </button>
+                <button class="btn btn-default btn-xs" ng-click="editNavigation(navigation)">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    {{ 'edit'|trans }}
+                </button>
+                <button class="btn btn-default btn-xs" ng-click="deleteNavigation(navigation)">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    {{ 'delete'|trans }}
+                </button>
+            </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="navigation.items" class="angular-ui-tree-nodes">
+            <li ng-repeat="node in navigation.items" ui-tree-node ng-include="'nodes_items_renderer.html'" class="angular-ui-tree-node">
+            </li>
+        </ol>
+    </script>
+    <script type="text/ng-template" id="nodes_items_renderer.html">
+        <div ui-tree-handle>
+            [[ node.title ]]
+            <div class="pull-right">
+                <button class="btn btn-default btn-xs" ng-click="newItem(navigation, node)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    {{ 'new subitem'|trans }}
+                </button>
+                <button class="btn btn-default btn-xs" ng-click="editItem(navigation, node)">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    {{ 'edit'|trans }}
+                </button>
+                <button class="btn btn-default btn-xs" ng-click="deleteItem(navigation, node, $parent.$parent.$parent.$parent.$modelValue)">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    {{ 'delete'|trans }}
+                </button>
+            </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.children" class="angular-ui-tree-nodes">
+            <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_items_renderer.html'" class="angular-ui-tree-node">
+            </li>
+        </ol>
+    </script>
+
+    <div ui-tree>
+        <ol ui-tree-nodes="" ng-model="currSiteData.navigations" id="tree-root" class="angular-ui-tree-nodes">
+            <li ng-repeat="navigation in currSiteData.navigations" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node"></li>
+        </ol>
+    </div>
+
+    <symbb-modal-form id="naviForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Navigation'|trans }}">
+        <label>{{ 'Title'|trans }}</label><input class="form-control" ng-model="navigationForm.title" />
+        <label>{{ 'Key'|trans }}</label><input class="form-control" ng-model="navigationForm.nav_key" />
+    </symbb-modal-form>
+    <symbb-modal-form id="naviItemForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Navigation Item'|trans }}">
+        <label>{{ 'Title'|trans }}</label><input class="form-control" ng-model="navigationItemForm.title" />
+        <label>{{ 'Type'|trans }}</label>
+        <select class="form-control" ng-model="navigationItemForm.type" ngRequired="true">
+            <option value="symfony">{{ 'System Link'|trans }}</option>
+            <option value="url">{{ 'URL'|trans }}</option>
+        </select>
+        <div ng-show="navigationItemForm.type=='symfony'">
+        <label>{{ 'Symfony Route'|trans }}</label><input placeholder="{{ 'Internally key of the route'|trans }}" class="form-control" ng-model="navigationItemForm.symfony_route" />
+        <label>{{ 'Route Params'|trans }}</label><input placeholder="{{ 'Array of Params as JSON'|trans }}" class="form-control" ng-model="navigationItemForm.symfony_route_params" />
+        </div>
+        <div ng-show="navigationItemForm.type=='url'">
+        <label>{{ 'Url'|trans }}</label><input placeholder="{{ 'Url with http://'|trans }}" class="form-control" ng-model="navigationItemForm.fix_url" />
+        </div>
+        <label>{{ 'Position'|trans }}</label><input class="form-control" ng-model="navigationItemForm.position" type="number" />
+    </symbb-modal-form>
+{% endblock %}

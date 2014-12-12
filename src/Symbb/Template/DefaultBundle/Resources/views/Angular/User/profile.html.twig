@@ -1,0 +1,50 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+
+{% block section_content %}
+<div class="section_content">
+    <div class="row profile">
+        <div class="avatar">
+            <img ng-src="[[profile.avatar]]">
+        </div>
+        <div class="infos">
+            <div class="">
+                <h1>[[profile.username]]</h1>
+                <div class="countDiv">
+                    <div class="count">[[ profile.created | date:'dd.MM.yyyy' ]]</div>
+                    <div class="title">{{ 'Join Date'|trans }}</div>
+                </div>
+                <div class="countDiv">
+                    <div class="count">[[profile.count.post]]</div>
+                    <div class="title">{{ 'Posts'|trans }}</div>
+                </div>
+                <div class="countDiv last">
+                    <div class="count">[[profile.count.topic]]</div>
+                    <div class="title">{{ 'Topics'|trans }}</div>
+                </div>
+                <div class="clear"></div>
+                <table class="table">
+                    <tr ng-repeat="field in userfields">
+                        <td for="user_options_signature">[[field.label]]: </td>
+                        <td ng-switch="field.formType">
+                        <span ng-switch-when="textarea">
+                            [[profile.fields[$index].value]]
+                        </span>
+                        <span ng-switch-when="checkbox">
+                            <span class="glyphicon glyphicon-ok" ng-if="profile.fields[$index].value"></span>
+                            <span class="glyphicon glyphicon-remove" ng-if="!profile.fields[$index].value"></span>
+                        </span>
+                        <span ng-switch-default>
+                            [[profile.fields[$index].value]]
+                        </span>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'Forum'|trans }}{% endblock %}
+{% block subtitle %}
+    {{ 'You can manage your Forum and Categories on this Pages'|trans }}
+    <div class="clear"></div>
+    <div class="pull-left">
+        <span><div class="forumtype-category box"></div>{{ 'Category'|trans }}</span>
+        <span><div class="forumtype-forum box"></div>{{ 'Forum'|trans }}</span>
+        <span><div class="forumtype-link box"></div>{{ 'Link'|trans }}</span>
+    </div>
+    <div class="pull-right">
+
+        <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+        </button>
+        <button ng-click="create()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Forum'|trans }}
+        </button>
+    </div>
+{% endblock %}
+{% block content %}
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle ng-class="node.type">
+            [[ node.name ]]
+            <div class="pull-right">
+                <button ng-click="create(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {{ 'New'|trans }}
+                </button>
+                <button ng-click="edit(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    {{ 'Edit'|trans }}
+                </button>
+                <button ng-click="access(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-lock"></span>
+                    {{ 'Access'|trans }}
+                </button>
+                <button ng-click="delete(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    {{ 'Delete'|trans }}
+                </button>
+            </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.children" class="angular-ui-tree-nodes">
+            <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node">
+            </li>
+        </ol>
+    </script>
+    <div ui-tree>
+        <ol ui-tree-nodes="" ng-model="data" id="tree-root" class="angular-ui-tree-nodes">
+            <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node"></li>
+        </ol>
+    </div>
+    <symbb-modal-form id="accessForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Access'|trans }}">
+
+        <label>1) {{ 'Group'|trans }}</label>
+        <select class="form-control" ng-model="accessEntry.group">
+            {% for group in getGroupManager().findAll() %}
+                <option value="{{ group.getId() }}" selected>{{ group.getName() }}</option>
+            {%  endfor %}
+        </select>
+        <hr />
+        {{ 'copy access from'|trans }}
+        <select class="form-control" ng-model="accessEntry.forumFrom" id="accessFormForumList">
+        </select>
+        <label>{{ 'or'|trans }}</label>
+        {{ 'set accesslevel'|trans }}
+        <select class="form-control" ng-model="accessEntry.set">
+            <option value="1">{{ 'no access'|trans }}</option>
+            <option value="2">{{ 'readonly'|trans }}</option>
+            <option value="3">{{ 'normal'|trans }}</option>
+            <option value="4">{{ 'full'|trans }}</option>
+            <option value="5">{{ 'moderator'|trans }}</option>
+        </select>
+        <label>{{ 'Include subforums'|trans }}</label> <br/>
+        <input type="checkbox" value="1" ng-model="accessEntry.childs" />
+    </symbb-modal-form>
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Forum'|trans }}">
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name" />
+        <label>{{ 'Type'|trans }}</label>
+        <select class="form-control" ng-model="formEntry.type">
+            <option value="link">{{ 'Link'|trans }}</option>
+            <option value="forum">{{ 'Forum'|trans }}</option>
+            <option value="category">{{ 'Category'|trans }}</option>
+            <option value="feed">{{ 'Feed List'|trans }}</option>
+        </select>
+        <label>{{ 'Description'|trans }}</label><textarea class="form-control" ng-model="formEntry.description" ></textarea>
+        <div ng-if="formEntry.type != 'link'">
+            <label>{{ 'Show sub forum list'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.show_sub_forum_list" />
+            <label>{{ 'Entries per page'|trans }}</label><input type="number" class="form-control" ng-model="formEntry.entries_per_page" />
+        </div>
+        <div ng-if="formEntry.type == 'link'">
+            <label>{{ 'Link'|trans }}</label><input  class="form-control" ng-model="formEntry.link" />
+            <label>{{ 'Count Link calls'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.count_link_calls" />
+        </div>
+        <div ng-if="formEntry.type == 'feed'">
+            <hr>
+            <h4>{{ 'Feeds'|trans }}</h4>
+            <div ng-repeat="link in formEntry.feeds">
+                <label>{{ 'feed Url'|trans }}</label><input  class="form-control" ng-model="link.url" />
+                <label>{{ 'Filter Regex'|trans }}</label><input class="form-control" ng-model="link.filter_regex" />
+                <label>{{ 'Link Regex'|trans }}</label><input class="form-control" ng-model="link.link_regex" />
+                <button class="btn" ng-click="removeForumFeedEntry($index)">{{ 'remove'|trans }}</button>
+                <br>
+                <br>
+            </div>
+            <button class="btn" ng-click="addForumFeedEntry()">{{ 'add feed'|trans }}</button>
+        </div>
+    </symbb-modal-form>
+{% endblock %}

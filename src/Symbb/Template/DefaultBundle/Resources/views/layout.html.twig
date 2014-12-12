@@ -1,0 +1,90 @@
+{% trans_default_domain "symbb_frontend" %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" ng-app="app">
+  <head>
+    <title>{% block title %}{{getSymbbSite().getName()}}{% endblock %}</title>
+    <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="{{getSymbbSite().getMetaDataDescription()}}">
+    <meta name="keywords" content="{{getSymbbSite().getMetaDataKeywords()}}">
+    
+    {% block stylesheets %}
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+        {% stylesheets filter='?uglifycss'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/theme.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/form.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/navi.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/search.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/select2.css'
+            '@SymbbTemplateDefaultBundle/Resources/public/css/select2-bootstrap.css'
+         %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+        {{ executeSymbbEvent('template.global.stylesheets') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
+        {% javascripts filter='?uglifyjs2'
+        '@SymbbTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
+        '@SymbbTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
+        '@SymbbTemplateDefaultBundle/Resources/public/js/select2.js'
+        '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {{ executeSymbbEvent('template.global.javascripts') }}
+    {% endblock %}
+    </head>
+
+    <body>
+        <div id="wrap">
+            
+            <div class="symbb_header">
+                {% block symbb_header %}
+                {% endblock %}
+            </div>
+
+            <div class="topnavi">
+                {% block symbb_topnavi %}
+                    <div class="symbb_menu">
+                        {{ knp_menu_render('main') }}
+                    </div>
+                {% endblock %}
+            </div>
+
+            <div class="symbb_container">
+                <div class="symbb_content">
+                    {% block symbb_body_container %}
+                        {% block symbb_body %}
+                        {% endblock %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        <footer id="page-footer">
+            <div id="footer-menu" class="wrap">
+                {{ knp_menu_render('footer') }}
+            </div>
+            <div class="copyright">
+                <div class="wrap">
+                    Powered by <a href="https://www.symbb.de/">Symbb</a>® Forum Software © symbb.de
+                    <br>Theme Created by symbb.de
+                </div>
+                <div>
+                    <a id="bottom" accesskey="z"></a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

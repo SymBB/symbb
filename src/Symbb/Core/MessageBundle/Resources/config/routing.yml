@@ -1,0 +1,6 @@
+symbb_api_message:
+    resource: "@SymbbCoreMessageBundle/Controller"
+    type: annotation
+
+
+

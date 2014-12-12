@@ -1,0 +1,7 @@
+symbb_api_extension_shoutbox_list:
+    pattern:  /api/extension/shoutbox/list
+    defaults: { _controller: SymbbExtensionShoutboxBundle:FrontendApi:list}
+
+symbb_api_extension_shoutbox_save:
+    pattern:  /api/extension/shoutbox/save
+    defaults: { _controller: SymbbExtensionShoutboxBundle:FrontendApi:save}

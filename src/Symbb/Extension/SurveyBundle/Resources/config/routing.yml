@@ -1,0 +1,3 @@
+symbb_api_extension_survey_vote:
+    pattern:  /api/extension/survey/vote
+    defaults: { _controller: SymbbExtensionSurveyBundle:Default:vote}

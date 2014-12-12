@@ -1,0 +1,3 @@
+symbb_backend_api_user:
+    resource: "@SymbbCoreUserBundle/Controller"
+    type: annotation

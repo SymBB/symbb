@@ -1,0 +1,24 @@
+{
+    "name": "symbb/extension-shoutbox",
+    "type": "symbb-extension",
+    "description": "Symbb Shoutbox Extension",
+    "keywords": ["Symbb","Extension", "Shoutbox"],
+    "homepage": "https://github.com/SymBB/symbb",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Christian Wielath",
+            "email": "christianwielath@gmail.com",
+            "homepage": "https://github.com/seyon/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "symbb/symbb": "dev-master"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "Symbb\\Extension": "" }
+    },
+    "target-dir": "Symbb/Extension"
+}

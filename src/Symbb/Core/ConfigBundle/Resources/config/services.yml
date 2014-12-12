@@ -1,0 +1,6 @@
+services:
+    symbb.fos_user.registration.form.type:
+        class: Symbb\FOS\UserBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type, alias: symbb_fos_user_registration }
+        arguments: ['%fos_user.model.user.class%', '@symbb.core.user.manager']

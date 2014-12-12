@@ -1,0 +1,44 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'Dashboard'|trans }}{% endblock %}
+{% block subtitle %}{{ 'Welcome to Symbb Application'|trans }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5">
+            <div class="row row-sm text-center">
+                <div class="col-xs-6">
+                    <div class="panel padder-v item">
+                        <div class="h1 text-info font-thin h1">[[ statistic.countData.post ]]</div>
+                        <span class="text-muted text-xs">{{ 'Posts'|trans }}</span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="panel padder-v bg-info item">
+                        <span class="text-white font-thin h1 block">[[ statistic.countData.topic ]]</span>
+                        <span class="text-muted text-xs">{{ 'Topics'|trans }}</span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="panel padder-v bg-info item">
+                        <span class="text-white font-thin h1 block">[[ statistic.countData.activeUser ]]</span>
+                        <span class="text-muted text-xs">{{ 'active Users'|trans }}</span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="panel padder-v item">
+                        <div class="font-thin h1">[[ statistic.countData.inactiveUser ]]</div>
+                        <span class="text-muted text-xs">{{ 'inactive Users'|trans }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="panel wrapper">
+                <h4 class="font-thin m-t-none m-b text-muted">{{ 'Visitors'|trans }}</h4>
+                <div id="symbb_acp_dashboard_statistic_visitors" class="graph-container"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

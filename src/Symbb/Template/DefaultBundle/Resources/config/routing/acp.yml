@@ -1,0 +1,107 @@
+# Routings to get the Templates
+symbb_template_acp_angular:
+    pattern:  /angular/template/acp/{file}
+    methods:  [GET]
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpTemplateFile }
+
+# AngularJs Controller Routings
+# This will create a SF Controller AND a AngularJs Controller automaticly
+# and provide the correct content
+_symbb_acp:
+    pattern:  /
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: DashboardCtrl
+      symbb_angular_api_route: symbb_backend_api_dashboard_data
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'dashboard'
+
+symbb_acp_dashboard:
+    pattern:  /dashboard
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: DashboardCtrl
+      symbb_angular_api_route: symbb_backend_api_dashboard_data
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'dashboard'
+
+
+## SITE BUNDLE
+symbb_acp_site_list:
+    pattern:  /site
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: SiteListCtrl
+      symbb_angular_api_route: symbb_backend_api_site_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'Site|list'
+symbb_acp_site_navigation_list:
+    pattern:  /site/navigations
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: SiteNavigationListCtrl
+      symbb_angular_api_route: symbb_backend_api_site_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'Site|navigationList'
+
+## USER BUNDLE
+symbb_acp_user_list:
+    pattern:  /user
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: UserListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|userlist'
+
+symbb_acp_user_group_list:
+    pattern:  /usergroup
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: UserGroupListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_group_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|grouplist'
+
+symbb_acp_user_field_list:
+    pattern:  /user/field
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: UserFieldListCtrl
+      symbb_angular_api_route: symbb_backend_api_user_field_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'User|fieldlist'
+
+## FORUM BUNDLE
+symbb_acp_forum_list:
+    pattern:  /forum
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: ForumListCtrl
+      symbb_angular_api_route: symbb_backend_api_forum_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'Forum|list'

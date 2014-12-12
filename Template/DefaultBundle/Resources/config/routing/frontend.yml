@@ -1,5 +1,0 @@
-symbb_template_default_angular:
-    pattern:  /angular/template/default/{file}
-    methods:  [GET]
-    defaults: { _controller: SymBBTemplateDefaultBundle:Angular:templateFile }
-    

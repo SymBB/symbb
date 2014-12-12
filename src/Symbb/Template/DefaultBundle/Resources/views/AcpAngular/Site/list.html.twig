@@ -1,0 +1,61 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'Sites'|trans }}{% endblock %}
+{% block subtitle %}
+    {{ 'You can manage your Sites and Domains on this Pages'|trans }}
+    <div class="pull-right">
+        <button ng-click="addSite()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Site'|trans }}
+        </button>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="panel panel-default" ng-repeat="site in data">
+        <div class="panel-heading">
+            <h3 class="panel-title">[[site.name]]
+                <div class="pull-right">
+                    <button ng-if="siteLoading[site.id]" ng-click="saveSite(site)" class="btn btn-warning btn-xs">
+                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+                    </button>
+                    <button ng-click="saveSite(site)" class="btn btn-success btn-xs">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> {{ 'Save'|trans }}</button>
+                    <button ng-click="showSite[site.id] = 1" class="btn btn-xs btn-info">
+                        <span class="glyphicon glyphicon-chevron-down"></span> {{ 'Edit'|trans }}
+                    </button>
+                    <button ng-click="deleteSite(site)" class="btn btn-xs btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span> {{ 'Delete'|trans }}
+                    </button>
+                </div>
+            </h3>
+        </div>
+        <div class="panel-body" ng-class="{'hide': !showSite[site.id]}">
+            <div class="form-group">
+                <label>{{ 'Name'|trans }}</label>
+                <input class="form-control" ng-model="site.name">
+            </div>
+            <div class="form-group">
+                <label>{{ 'Domains'|trans }}</label>
+                <textarea class="form-control" ng-model="site.domains"></textarea>
+            </div>
+            <div class="form-group">
+                <label>{{ 'Media Domain'|trans }}</label>
+                <input class="form-control" ng-model="site.media_domain">
+            </div>
+            <div class="form-group">
+                <label>{{ 'Announcement'|trans }}</label>
+                <textarea class="form-control" ng-model="site.announcement"></textarea>
+            </div>
+            <div class="form-group">
+                <label>{{ 'Metadata: Description'|trans }}</label>
+                <textarea class="form-control" ng-model="site.meta_data_description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>{{ 'Metadata: Keywords'|trans }}</label>
+                <textarea class="form-control" ng-model="site.meta_data_keywords"></textarea>
+            </div>
+        </div>
+    </div>
+{% endblock %}

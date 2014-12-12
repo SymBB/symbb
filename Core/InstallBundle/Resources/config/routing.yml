@@ -1,7 +1,0 @@
-symbb_install:
-    pattern:  /symbb/install
-    defaults: { _controller: SymBBCoreInstallBundle:Install:step, step: 1} 
-
-symbb_install_step:
-    pattern:  /symbb/install/{step}
-    defaults: { _controller: SymBBCoreInstallBundle:Install:step} 

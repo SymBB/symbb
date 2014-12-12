@@ -1,0 +1,21 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
+
+{% block symbb_body %}
+
+{% include getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<div class="fos_user_content">
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+</div>
+{% endblock %}

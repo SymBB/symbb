@@ -1,0 +1,27 @@
+services:
+    symbb.listener.post.rating:
+        class: Symbb\Extension\RatingBundle\EventListener\TemplateListener
+        tags:
+            - { priority: -255, name: kernel.event_listener, event: symbb.post.template.before.actions, method: beforeActions }
+            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: topicStylesheets }
+   
+    symbb.extensionrating.util:
+        twig.extension.symbb.extensionrating.util:
+        class: Symbb\Extension\RatingBundle\Twig\UtilExtension
+        arguments: ['@doctrine', '@security.context']
+        tags:
+            - { name: twig.extension }
+
+    symbb.extension.rating.listener.api.data:
+        class: Symbb\Extension\RatingBundle\EventListener\ApiListener
+        arguments: ['@security.context', '@doctrine.orm.symbb_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
+            - { name: kernel.event_listener, event: symbb.api.topic.data, method: topicData }
+
+    symbb.extension.rating.security.access.survey_voter:
+        class:      Symbb\Extension\RatingBundle\Security\Authorization\RatingVoter
+        public:     false
+        arguments: ['@symbb.core.access.manager']
+        tags:
+           - { name: security.voter }

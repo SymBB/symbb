@@ -1,0 +1,16 @@
+symbb_backend_api_system:
+    resource: "@SymbbCoreSystemBundle/Controller"
+    type: annotation
+
+# other symbb bundles
+_symbb_template_default_backend:
+    resource: "@SymbbTemplateDefaultBundle/Resources/config/routing/acp.yml"
+    prefix: /
+
+_symbb_core_site_backend:
+    resource: "@SymbbCoreSiteBundle/Resources/config/routing/acp.yml"
+    prefix: /
+
+_symbb_core_user_backend:
+    resource: "@SymbbCoreUserBundle/Resources/config/routing/acp.yml"
+    prefix: /

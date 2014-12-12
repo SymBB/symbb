@@ -1,0 +1,20 @@
+{% trans_default_domain "symbb_frontend" %}
+{% if app.user.getSymbbType() == "user" %}
+<div class="symbb_extension_scoutbox" symbb-extension-shoutbox>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'Shoutbox'|trans }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="shoutbox_content">
+                <div class="shoutbox_row" ng-repeat="entry in extension.shoutbox.entries">
+                    ([[ entry.date | date:'dd.MM.yyyy HH:mm']]) [[entry.author.username]]: [[entry.message]]
+                </div>
+            </div>
+            <div class="shoutbox_input">
+                <input id="symbb_extension_shoutbox_input" class="form-control" ng-model="extension.shoutbox.newMessage" />
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

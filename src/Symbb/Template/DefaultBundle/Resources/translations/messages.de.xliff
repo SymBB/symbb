@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2014-11-19T13:08:00Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="4e7afebcfbae000b22c7c85e5560f89a2a0280b4" resname="Admin">
+        <source>Admin</source>
+        <target>Admin</target>
+        <jms:reference-file line="40">DataFixtures/ORM/LoadUserData.php</jms:reference-file>
+        <jms:reference-file line="39">DataFixtures/ORM/LoadUserGroupData.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="8a017f2bc47a9924fad47a7110ffe8189f1f0593" resname="Adminpanel">
+        <source>Adminpanel</source>
+        <target>Adminbereich</target>
+        <jms:reference-file line="38">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="40">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="cf1d2c9702ec3c2c9c19d4853cd487b92618fb0c" resname="Forum">
+        <source>Forum</source>
+        <target>Forum</target>
+        <jms:reference-file line="5">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="7">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="face83ee3014bdc8f98203cc94e2e89222452e90" resname="Guest">
+        <source>Guest</source>
+        <target>Gast</target>
+        <jms:reference-file line="38">DataFixtures/ORM/LoadUserData.php</jms:reference-file>
+        <jms:reference-file line="38">DataFixtures/ORM/LoadUserGroupData.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e43d612e11f1568f2373e719d4c4b08dcecdc7cc" resname="Logout">
+        <source>Logout</source>
+        <target>Abmelden</target>
+        <jms:reference-file line="60">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="62">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1cb449c1126609b4b41e1d87f65f0d7cd19b49b9" resname="Members">
+        <source>Members</source>
+        <target>Mitglieder</target>
+        <jms:reference-file line="31">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="33">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f1702b4686278becffc88baabe6f4b7a8355532c" resname="Messages">
+        <source>Messages</source>
+        <target>Nachrichten</target>
+        <jms:reference-file line="18">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="20">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3a61aa8348531feb4090e490f536a0acdfe5017e" resname="Newest Posts">
+        <source>Newest Posts</source>
+        <target>neuste Beiträge</target>
+        <jms:reference-file line="24">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="26">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6bf5da9c080bee3a8142586c412aa39971137eee" resname="Options">
+        <source>Options</source>
+        <target>Optionen</target>
+        <jms:reference-file line="12">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="14">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0719708d1cc814839bd818fdc27d446652f03383" resname="Passwort">
+        <source>Passwort</source>
+        <target>Passwort</target>
+        <jms:reference-file line="166">UserBundle/Controller/FrontendApiController.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ada2e9e96fa9ce85430225b412068b5b62b79800" resname="Sign in">
+        <source>Sign in</source>
+        <target>Anmelden</target>
+        <jms:reference-file line="47">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="49">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0b81497c8589af2714a1ddbeb62b3a4be679c318" resname="Sign up">
+        <source>Sign up</source>
+        <target>Registrieren</target>
+        <jms:reference-file line="53">Angular/Forum/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="55">Angular/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="9f8a2389a20ca0752aa9e95093515517e90e194c" resname="User">
+        <source>User</source>
+        <target>Benutzer</target>
+        <jms:reference-file line="39">DataFixtures/ORM/LoadUserData.php</jms:reference-file>
+        <jms:reference-file line="40">DataFixtures/ORM/LoadUserGroupData.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c24e0cbf523e951628e3daed3a5524a2901da8f1" resname="You are not currently logged.">
+        <source>You are not currently logged.</source>
+        <target>Du bist derzeit nicht angemeldet!</target>
+        <jms:reference-file line="60">views/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="f12dc235aa3bcf323ad91daad98979b784eb65c8" resname="new Link">
+        <source>new Link</source>
+        <target>neuer Link</target>
+        <jms:reference-file line="64">Acp/Site/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5cb4b6cb6620815603f8f3ca665f9446a7ed162c" resname="new Navigation">
+        <source>new Navigation</source>
+        <target>neue Navigation</target>
+        <jms:reference-file line="37">Acp/Site/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a560d2a92ab23ca60ef2b07a542bb683c4adb2a6" resname="new Site">
+        <source>new Site</source>
+        <target>neuer Internetauftritt</target>
+        <jms:reference-file line="43">Acp/Site/list.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

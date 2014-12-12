@@ -1,0 +1,3 @@
+symbb_backend_api_site:
+    resource: "@SymbbCoreSiteBundle/Controller"
+    type: annotation

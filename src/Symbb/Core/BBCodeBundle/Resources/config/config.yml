@@ -1,0 +1,92 @@
+symbb_core_bb_code:
+  bbcodes:
+    default:
+      -
+        b: 
+          code: "[b]{0}[/b]"
+          image: /bundles/symbbcorebbcode/images/text_bold.png
+        i: 
+          code: "[i]{0}[/i]"
+          image: /bundles/symbbcorebbcode/images/text_italic.png
+        u: 
+          code: "[u]{0}[/u]"
+          image: /bundles/symbbcorebbcode/images/text_underline.png
+        hr: 
+          code: "[hr]"
+          image: /bundles/symbbcorebbcode/images/text_horizontalrule.png
+        h1:
+          code: "[h1]{0}[/h1]"
+          image: /bundles/symbbcorebbcode/images/text_heading_1.png
+        h2:
+          code: "[h2]{0}[/h2]"
+          image: /bundles/symbbcorebbcode/images/text_heading_2.png
+        list:
+          code: "[list][*]{0}[/*][/list]"
+          image: /bundles/symbbcorebbcode/images/text_list_bullets.png
+      -
+        left: 
+          code: "[left]{0}[/left]"
+          image: /bundles/symbbcorebbcode/images/text_align_left.png
+        right: 
+          code: "[right]{0}[/right]"
+          image: /bundles/symbbcorebbcode/images/text_align_right.png
+        center: 
+          code: "[center]{0}[/center]"
+          image: /bundles/symbbcorebbcode/images/text_align_center.png
+        justify: 
+          code: "[justify]{0}[/justify]"
+          image: /bundles/symbbcorebbcode/images/text_align_justify.png
+      -
+        link: 
+          code: "[link]{0}[/link]"
+          image: /bundles/symbbcorebbcode/images/link_add.png
+        email: 
+          code: "[email]{0}[/email]"
+          image: /bundles/symbbcorebbcode/images/email_link.png
+        code: 
+          code: "[code]{0}[/code]"
+          image: /bundles/symbbcorebbcode/images/script_code.png
+        quote: 
+          code: "[quote]{0}[/quote]"
+          image: /bundles/symbbcorebbcode/images/comment.png
+        video: 
+          code: "[video]{0}[/video]"
+          image: /bundles/symbbcorebbcode/images/film_add.png
+          
+    signature:
+      -
+        b: 
+          code: "[b]{0}[/b]"
+          image: /bundles/symbbcorebbcode/images/text_bold.png
+        i: 
+          code: "[i]{0}[/i]"
+          image: /bundles/symbbcorebbcode/images/text_italic.png
+        u: 
+          code: "[u]{0}[/u]"
+          image: /bundles/symbbcorebbcode/images/text_underline.png
+      -
+        left: 
+          code: "[left]{0}[/left]"
+          image: /bundles/symbbcorebbcode/images/text_align_left.png
+        right: 
+          code: "[right]{0}[/right]"
+          image: /bundles/symbbcorebbcode/images/text_align_right.png
+        center: 
+          code: "[center]{0}[/center]"
+          image: /bundles/symbbcorebbcode/images/text_align_center.png
+        justify: 
+          code: "[justify]{0}[/justify]"
+          image: /bundles/symbbcorebbcode/images/text_align_justify.png
+      -
+        link: 
+          code: "[link]{0}[/link]"
+          image: /bundles/symbbcorebbcode/images/link_add.png
+        email: 
+          code: "[email]{0}[/email]"
+          image: /bundles/symbbcorebbcode/images/email_link.png
+        code: 
+          code: "[code]{0}[/code]"
+          image: /bundles/symbbcorebbcode/images/script_code.png
+        quote: 
+          code: "[quote]{0}[/quote]"
+          image: /bundles/symbbcorebbcode/images/comment.png

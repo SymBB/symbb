@@ -1,0 +1,7 @@
+services:
+    symbb.core.event.twig:
+        twig.extension.symbb.core.event.twig:
+        class: Symbb\Core\EventBundle\Twig\EventExtension
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension } 

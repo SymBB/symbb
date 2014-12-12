@@ -1,0 +1,86 @@
+{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Latest compiled and minified CSS -->
+    {% stylesheets filter='?uglifycss'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/angular/*.css'
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {{ executeSymbbEvent('template.angular.stylesheets') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts filter='?uglifyjs2'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/0_module.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/1_app.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angularHelper.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/angularDirectives.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/3_directives.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/2_controllers.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/moment/moment.js'
+    '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    'js/fos_js_routes.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
+    <script>
+        // init user data for frontend
+        var symbbUser = {
+            id: {{app.user.id}},
+            avatar: '{{getSymbbUserAvatar(app.user)}}',
+            lang: '{{ app.request.locale }}'
+        };
+        moment.lang(symbbUser.lang);
+        angularConfig.angularRoutes = {{ getAngularRouter().createAngularRouteJson() | raw}};
+    </script>
+    {{ executeSymbbEvent('template.forum.javascripts') }}
+    <base href="/">
+{% endblock %}
+
+{% block symbb_body_container %}
+    <div class="symbb_flash_messages" id="symbbMessages">
+        {% if app.getUser.getSymbbType() == 'guest' %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {% trans %}You are not currently logged.{% endtrans %}
+            </div>
+        {% endif %}
+
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="system_announcement">
+        {% if getSymbbSite().getAnnouncement() %}
+            <div class="alert alert-warning">
+                {{ getSymbbSite().getAnnouncement() }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="clear"></div>
+
+    {% block symbb_body %}
+        {{ executeSymbbEvent('template.forum.beforeBody') }}
+        <div ng-view  show-default="true"></div>
+        {{ executeSymbbEvent('template.forum.afterBody') }}
+    {% endblock %}
+
+{% endblock %}

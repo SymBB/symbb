@@ -1,0 +1,60 @@
+services:
+    symbb.core.user.data:
+        class: Symbb\Core\UserBundle\Twig\UserDataExtension
+        arguments: ['@symbb.core.user.manager', '@symbb.core.user.group.manager']
+        tags:
+            - { name: twig.extension } 
+            
+    symbb.core.user.manager:
+        class: Symbb\Core\UserBundle\Manager\UserManager
+        arguments: ["@service_container"]
+        
+    symbb.core.user.group.manager:
+        parent: symbb.core.abstract.manager
+        class: Symbb\Core\UserBundle\Manager\GroupManager
+        arguments: ["@service_container"]
+
+    symbb.core.user.field.manager:
+        parent: symbb.core.abstract.manager
+        class: Symbb\Core\UserBundle\Manager\FieldManager
+
+    symbb.core.api.user:
+        class: Symbb\Core\UserBundle\Api\UserApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setUserManager', ['@symbb.core.user.manager']]
+          - ['setGroupManager', ['@symbb.core.user.group.manager']]
+
+    symbb.core.api.user.group:
+        class: Symbb\Core\UserBundle\Api\GroupApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setGroupManager', ['@symbb.core.user.group.manager']]
+
+    symbb.core.api.user.field:
+        class: Symbb\Core\UserBundle\Api\FieldApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setFieldManager', ['@symbb.core.user.field.manager']]
+        
+    symbb.core.user.metadata:
+        class: Symbb\Core\UserBundle\EventListener\DoctrineMetaDataListener
+        arguments: ['@service_container']
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: symbb }
+            
+    symbb.core.user.access.twig:
+        class: Symbb\Core\UserBundle\Twig\AccessExtension
+        arguments: ['@symbb.core.access.manager', '@security.context']
+        tags:
+            - { name: twig.extension } 
+            
+    symbb.core.user.whoisonline.manager:
+        class: Symbb\Core\UserBundle\DependencyInjection\WhoIsOnlineManager
+        arguments: ['@symbb.core.user.manager', '@security.context', '@memcache.default']
+        
+    symbb.core.user.whoisonline.manager.twig:
+        class: Symbb\Core\UserBundle\Twig\WhoIsOnlineExtension
+        arguments: ['@symbb.core.user.whoisonline.manager']
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,14 @@
+services:
+    symbb.core.angular.router:
+        class: Symbb\Core\AngularBundle\Routing\AngularRouter
+        arguments: ['@event_dispatcher', '@router']
+
+    symbb.core.angular.to.twig.converter:
+        class: Symbb\Core\AngularBundle\DependencyInjection\AngularToTwigConverter
+        arguments: ['@router']
+
+    symbb.core.angular.router.twig:
+        class: Symbb\Core\AngularBundle\Twig\RouterExtension
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }

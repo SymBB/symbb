@@ -1,0 +1,4 @@
+services:
+    symbb.core.message.manager:
+        parent:  symbb.core.abstract.manager
+        class:      Symbb\Core\MessageBundle\DependencyInjection\MessageManager
