@@ -9,11 +9,10 @@
     <meta name="keywords" content="{{getSymbbSite().getMetaDataKeywords()}}">
     
     {% block stylesheets %}
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
         {% stylesheets filter='?uglifycss'
+            'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'
+            'http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'
+            'http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css'
             '@SymbbTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
             '@SymbbTemplateDefaultBundle/Resources/public/css/theme.css'
             '@SymbbTemplateDefaultBundle/Resources/public/css/form.css'

@@ -17,6 +17,9 @@ security:
         login:
             pattern:  ^/([^/]*)/(login$|register|resetting)  
             anonymous: true
+            stateless: false
+            simple_preauth:
+                authenticator: symbb.security.authentication.guest
         install:
             pattern:  ^/symbb/install 
             security: false
