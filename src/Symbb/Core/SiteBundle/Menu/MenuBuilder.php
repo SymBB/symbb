@@ -61,6 +61,8 @@ class MenuBuilder
                     $uri = $router->generate($child->getSymfonyRoute(), $child->getSymfonyRouteParams());
                     //$childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute(), 'routeParameters' => $child->getSymfonyRouteParams()));
                     $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
+                    // because not every page is a angular js page
+                    $childMenu->setLinkAttributes(array('target' => '_self'));
                 } catch(\Exception $e) {
 
                 }
