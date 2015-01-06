@@ -29,7 +29,10 @@ security:
             logout:
               path:   symbb_logout
               target: /
-            anonymous:    true
+            anonymous: true
+            stateless: false
+            simple_preauth:
+                authenticator: symbb.security.authentication.guest
             remember_me:
                 key:      %secret%
                 lifetime: 604800

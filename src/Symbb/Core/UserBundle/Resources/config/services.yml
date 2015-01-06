@@ -58,3 +58,7 @@ services:
         arguments: ['@symbb.core.user.whoisonline.manager']
         tags:
             - { name: twig.extension }
+
+    symbb.security.authentication.guest:
+        class: Symbb\Core\UserBundle\Security\GuestAuthenticator
+        arguments: ['@symbb.core.user.manager']

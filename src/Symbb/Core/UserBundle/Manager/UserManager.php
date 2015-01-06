@@ -500,4 +500,12 @@ class UserManager
     public function isGranted($access, $object, $identity = null){
         return $this->securityContext->isGranted($access, $object, $identity);
     }
+
+    /**
+     * @return UserInterface
+     */
+    public function getGuestUser(){
+        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        return $user;
+    }
 }
