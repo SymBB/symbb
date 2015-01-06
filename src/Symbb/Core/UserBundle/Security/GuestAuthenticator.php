@@ -14,28 +14,25 @@ use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 class GuestAuthenticator implements SimplePreAuthenticatorInterface
 {
-    protected $userManager;
+    protected $em;
 
-    public function __construct(UserManager $userManager)
+    public function __construct($em)
     {
-        $this->userManager  = $userManager;
+        $this->em  = $em;
     }
 
     public function createToken(Request $request, $providerKey)
     {
-        $user = $this->userManager->getGuestUser();
-
         return new PreAuthenticatedToken(
-            $user,
+            'anon.',
             "symbb_guest",
-            $providerKey,
-            $user->getRoles()
+            $providerKey
         );
     }
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        $user = $this->userManager->getGuestUser();
+        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
 
         return new PreAuthenticatedToken(
             $user,

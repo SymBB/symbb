@@ -61,4 +61,4 @@ services:
 
     symbb.security.authentication.guest:
         class: Symbb\Core\UserBundle\Security\GuestAuthenticator
-        arguments: ['@symbb.core.user.manager']
+        arguments: ['@doctrine.orm.symbb_entity_manager']
