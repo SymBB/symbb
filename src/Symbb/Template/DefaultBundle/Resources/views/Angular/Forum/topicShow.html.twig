@@ -58,10 +58,10 @@
             {{ executeSymbbTemplatePostEvent('after.text') }}
 
             <div class="history" ng-if="object.history[0]">
-                <span class="pointer" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <span class="pointer" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapse-history-[[object.id]]">
                     {% trans with {'%count%': "[[ object.history.length ]]"} %}edited %count% times (click for details){% endtrans %}
                 </span>
-                <div class="collapse" id="collapseExample">
+                <div class="collapse" ng-attr-id="collapse-history-[[object.id]]">
                     <div class="well">
                         <div ng-repeat="historyEntry in object.history" class="historyEntry">
                             {% trans with {'%date%': "[[ historyEntry.date | date:'dd.MM.yyyy']]", '%time%': "[[ historyEntry.date | date:'HH:mm']]", '%user%': "[[historyEntry.editor.username]]"} %}edit by %user% on %date% at %time%{% endtrans %} <span ng-if="historyEntry.reason">([[historyEntry.reason]])</span>
