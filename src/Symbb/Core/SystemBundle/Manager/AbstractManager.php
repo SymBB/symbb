@@ -14,7 +14,7 @@ use Doctrine\ORM\Query;
 use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -87,9 +87,9 @@ abstract class AbstractManager
     }
 
     /**
-     * @param Translator $translator
+     * @param TranslatorInterface $translator
      */
-    public function setTranslator(Translator $translator){
+    public function setTranslator(TranslatorInterface $translator){
         $this->translator = $translator;
     }
 

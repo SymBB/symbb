@@ -33,7 +33,7 @@ class TopicType extends AbstractType
 
     /**
      *
-     * @var \Symfony\Component\Translation\Translator 
+     * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
 

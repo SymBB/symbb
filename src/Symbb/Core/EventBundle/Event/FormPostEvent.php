@@ -31,7 +31,7 @@ class FormPostEvent extends Event
 
     /**
      *
-     * @var \Symfony\Component\Translation\Translator 
+     * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
 
@@ -78,7 +78,7 @@ class FormPostEvent extends Event
 
     /**
      * 
-     * @return \Symfony\Component\Translation\Translator
+     * @return \Symfony\Component\Translation\TranslatorInterface
      */
     public function getTranslator()
     {

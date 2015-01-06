@@ -14,7 +14,7 @@ use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
 use Symbb\Core\SystemBundle\Manager\AccessManager;
 use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,7 +55,7 @@ abstract class AbstractApi
     protected $paginator;
 
     /**
-     * @var Translator
+     * @var TranslatorInterface
      */
     protected $translator;
 
@@ -139,9 +139,9 @@ abstract class AbstractApi
     }
 
     /**
-     * @param Translator $translator
+     * @param TranslatorInterface $translator
      */
-    public function setTranslator(Translator $translator){
+    public function setTranslator(TranslatorInterface $translator){
         $this->translator = $translator;
     }
 

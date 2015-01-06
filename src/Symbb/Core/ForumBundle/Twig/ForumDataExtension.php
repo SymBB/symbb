@@ -26,7 +26,7 @@ class ForumDataExtension extends \Twig_Extension
     
     /**
      *
-     * @var \Symfony\Component\Translation\Translator
+     * @var \Symfony\Component\Translation\TranslatorInterface
      */
     protected $translator;
     
