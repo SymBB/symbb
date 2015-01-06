@@ -163,14 +163,13 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
         request: function(config) {
             // console.log(config); // Contains the data about the request before it is sent.
             // Return the config or wrap it in a promise if blank.
-            $injector.get('$rootScope').symbbLoading = true;
+            symbbAngularUtils.startLoading($injector.get('$rootScope'));
             return config || $q.when(config);
         },
         // On request failure
         requestError: function(rejection) {
             // console.log(rejection); // Contains the data about the error on the request.
             // Return the promise rejection.
-            $injector.get('$rootScope').symbbLoading = false;
             return $q.reject(rejection);
         },
         // On response success
@@ -178,7 +177,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
             if(typeof response.data  === 'object'){
                 response.data = symbbAngularUtils.checkResponse(response.data, $injector);
             }
-            $injector.get('$rootScope').symbbLoading = false;
+            symbbAngularUtils.cancelLoading($injector.get('$rootScope'));
             // Return the response or promise.
             return response || $q.when(response);
         },
@@ -187,7 +186,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
             symbbAngularUtils.checkResponse(rejection, $injector);
             //console.log(rejection); // Contains the data about the error.
             // Return the promise rejection.
-            $injector.get('$rootScope').symbbLoading = false;
+            symbbAngularUtils.cancelLoading($injector.get('$rootScope'));
             return $q.reject(rejection);
         }
     };
@@ -252,6 +251,28 @@ var textMatchOneLine = function(){
 var symbbAngularUtils = {
 
     breadcrumbElement: null,
+
+    startLoading: function($scope){
+        $scope.symbbLoading = true;
+        if(!$scope.symbbLoadings){
+            $scope.symbbLoadings = [];
+        }
+        $scope.symbbLoadings[$scope.symbbLoadings.length] = true;
+    },
+
+    cancelLoading: function($scope){
+
+        if($scope.symbbLoadings){
+            $scope.symbbLoadings = $scope.symbbLoadings.shift();
+            if($scope.symbbLoadings.length <= 0){
+                $scope.symbbLoading = false;
+            }
+        } else {
+            $scope.symbbLoading = false;
+        }
+
+
+    },
 
     checkResponse: function(data, $injector){
 
