@@ -6,7 +6,7 @@
 {% block breadcrumb %}
     <symbb-breadcrumb >
         <li class="pull-right" ng-if="topic.access.createPost">
-            <button symbb-js-link="symbb_forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-primary btn-xs pull-left" data-toggle="collapse" data-target="#answer"><span class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</button>
+            <a ng-if="topic.access.createPost" symbb-link="symbb_forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-primary btn-sm pull-left"><span class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</a>
         </li>
     </symbb-breadcrumb>
 {% endblock %}
@@ -78,7 +78,7 @@
     </article>
 
     <div>
-        <button ng-if="topic.access.createPost" symbb-js-link="symbb_forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-primary btn-sm pull-left" data-toggle="collapse" data-target="#answer"><span class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</button>
+        <a ng-if="topic.access.createPost" symbb-link="symbb_forum_post_create" param-topic="[[topic.id]]" type="button" class="btn btn-primary btn-sm pull-left"><span class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</a>
         <div class="pull-right"><pagination route="symbb_forum_topic_show" param-id="[[topic.id]]" param-name="[[topic.seo.name]]"></pagination></div>
         <div class="clear"></div>
     </div>
