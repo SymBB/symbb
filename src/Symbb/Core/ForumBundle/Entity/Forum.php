@@ -11,6 +11,7 @@ namespace Symbb\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symbb\Core\ForumBundle\Entity\Forum\Feed;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
