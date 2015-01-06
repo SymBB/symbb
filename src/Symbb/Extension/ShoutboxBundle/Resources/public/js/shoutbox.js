@@ -22,7 +22,7 @@ symbbControllers.directive('symbbExtensionShoutbox', ['$http', '$timeout', funct
                         scope.saveExtensionShoutboxMessage();
                     }
                 })
-            }, 300); // make a timeout, if not it will be loaded before the forum itself...
+            }, 1000); // make a timeout, if not it will be loaded before the forum itself...
         }
     };
 }]);
