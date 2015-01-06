@@ -4,6 +4,13 @@
     {{ parent() }}
     <!-- Latest compiled and minified CSS -->
     {% stylesheets filter='?uglifycss'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/search.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/select2.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/select2-bootstrap.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/form.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/angular/*.css'
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
@@ -33,6 +40,10 @@
     '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/2_controllers.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/moment/moment.js'
     '@FOSJsRoutingBundle/Resources/public/js/router.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/select2.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js'
     'js/fos_js_routes.js'
     %}
     <script src="{{ asset_url }}"></script>
