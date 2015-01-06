@@ -62,7 +62,7 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      * @var ArrayCollection
      */
@@ -75,20 +75,20 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
+     * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
      * @var ArrayCollection
      */
     protected $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed", mappedBy="forum", orphanRemoval=true, cascade={"persist"}, fetch="EXTRA_LAZY")
      * @var ArrayCollection
      */
     protected $feeds;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="forum", orphanRemoval=true, cascade={"persist"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"created" = "DESC"})
      * @var ArrayCollection
      */

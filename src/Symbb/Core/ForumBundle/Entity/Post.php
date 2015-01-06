@@ -65,13 +65,13 @@ class Post
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\File", orphanRemoval=true, mappedBy="post", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $files;
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"changed" = "DESC"})
      */
     private $histories;

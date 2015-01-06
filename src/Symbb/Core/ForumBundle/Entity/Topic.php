@@ -45,13 +45,13 @@ class Topic
     private $mainPost;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post", mappedBy="topic")
+     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post", mappedBy="topic", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"created" = "ASC"})
      */
     private $posts;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics")
+     * @ORM\ManyToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Topic\Tag", inversedBy="topics", fetch="EXTRA_LAZY")
      * @ORM\JoinTable(name="forum_topics_to_tags",
      *      joinColumns={@ORM\JoinColumn(name="topic_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="id")}
