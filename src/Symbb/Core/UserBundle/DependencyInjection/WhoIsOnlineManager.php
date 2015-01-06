@@ -59,7 +59,7 @@ class WhoIsOnlineManager
     public function addCurrent($request)
     {
         $user = $this->getUser();
-        if($user){
+        if(is_object($user)){
             $this->addUser($user, $request->getClientIp());
         }
     }

@@ -23,9 +23,8 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
 
     public function createToken(Request $request, $providerKey)
     {
-        $user = $this->userManager->getGuestUser();
         return new PreAuthenticatedToken(
-            $user,
+            'anon.',
             "symbb_guest",
             $providerKey
         );
