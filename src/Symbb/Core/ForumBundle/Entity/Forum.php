@@ -506,7 +506,7 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      * @param Feed $feed
      */
-    public function addFeed(Feed $feed){
+    public function addFeed($feed){
         $feed->setForum($this);
         $this->feeds->add($feed);
     }
