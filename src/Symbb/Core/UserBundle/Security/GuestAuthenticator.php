@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
-class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface
+class GuestAuthenticator implements SimplePreAuthenticatorInterface
 {
     protected $userManager;
 
