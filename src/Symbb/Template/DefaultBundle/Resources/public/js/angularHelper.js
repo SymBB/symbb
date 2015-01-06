@@ -263,7 +263,7 @@ var symbbAngularUtils = {
     cancelLoading: function($scope){
 
         if($scope.symbbLoadings){
-            $scope.symbbLoadings = $scope.symbbLoadings.shift();
+            $scope.symbbLoadings.shift();
             if($scope.symbbLoadings.length <= 0){
                 $scope.symbbLoading = false;
             }
