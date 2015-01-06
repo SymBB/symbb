@@ -163,12 +163,14 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
         request: function(config) {
             // console.log(config); // Contains the data about the request before it is sent.
             // Return the config or wrap it in a promise if blank.
+            $injector.get('$rootScope').symbbLoading = true;
             return config || $q.when(config);
         },
         // On request failure
         requestError: function(rejection) {
             // console.log(rejection); // Contains the data about the error on the request.
             // Return the promise rejection.
+            $injector.get('$rootScope').symbbLoading = false;
             return $q.reject(rejection);
         },
         // On response success
@@ -176,6 +178,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
             if(typeof response.data  === 'object'){
                 response.data = symbbAngularUtils.checkResponse(response.data, $injector);
             }
+            $injector.get('$rootScope').symbbLoading = false;
             // Return the response or promise.
             return response || $q.when(response);
         },
@@ -184,6 +187,7 @@ app.factory('symbbApiHttpInterceptor', function($q, $injector) {
             symbbAngularUtils.checkResponse(rejection, $injector);
             //console.log(rejection); // Contains the data about the error.
             // Return the promise rejection.
+            $injector.get('$rootScope').symbbLoading = false;
             return $q.reject(rejection);
         }
     };

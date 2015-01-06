@@ -19,7 +19,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope.searchPagination = new ScrollPagination('symbb_api_forum_topic_list', {forum: forumId}, 'topics');
             }
         });
-        defaultForumListStuff($scope, $cookieStore, $anchorScroll);
+        defaultForumListStuff($scope, $anchorScroll);
     }
 ]).controller('ForumSearchCtrl', ['$scope', '$http', '$timeout', '$anchorScroll', '$cookieStore', '$routeParams', 'ScrollPagination',
     function($scope, $http, $timeout, $anchorScroll, $cookieStore, $routeParams, ScrollPagination) {
@@ -40,8 +40,8 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
                 $scope[key] = value;
             });
         });
-        
-        $anchorScroll();
+
+        defaultForumListStuff($scope, $anchorScroll);
     }
 ]).controller('ForumTopicEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll', '$timeout',
     function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
@@ -76,7 +76,7 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             
         });
 
-        $anchorScroll();
+        defaultForumListStuff($scope, $anchorScroll);
     }
 ]).controller('ForumPostEditCtrl', ['$scope', '$http', '$routeParams', '$fileUploader', '$injector', '$location', '$anchorScroll', '$timeout',
     function($scope, $http, $routeParams, $fileUploader, $injector, $location, $anchorScroll, $timeout) {
@@ -108,13 +108,13 @@ symbbControllers.controller('ForumCtrl', ['$scope', '$http', '$routeParams', '$t
             symbbAngularUtils.createPostUploader($scope, $fileUploader, $scope.post, $injector)
         });
 
-        $anchorScroll();
+        defaultForumListStuff($scope, $anchorScroll);
     }
 ]);
 
 
 
-function defaultForumListStuff($scope, $cookieStore, $anchorScroll){
+function defaultForumListStuff($scope, $anchorScroll){
     $anchorScroll();
 }
 
