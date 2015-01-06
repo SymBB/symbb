@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symbb\Core\MessageBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="user_message_receivers")

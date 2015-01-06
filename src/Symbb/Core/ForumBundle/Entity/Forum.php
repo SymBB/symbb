@@ -13,12 +13,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="forums")
  * @ORM\Entity()
- * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
 class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
@@ -30,17 +28,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @Assert\File(
-     *     maxSize="1M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
-     * )
-     * @Vich\UploadableField(mapping="symbb_forum_image", fileNameProperty="imageName")
-     *
-     * @var File $image
-     */
-    protected $image;
 
     /**
      * @ORM\Column(type="string", length=255, name="image_name", nullable=true)

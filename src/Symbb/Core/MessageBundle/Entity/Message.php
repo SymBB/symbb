@@ -12,10 +12,8 @@ namespace Symbb\Core\MessageBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symbb\Core\MessageBundle\Entity\Message\Receiver;
-use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="user_messages")

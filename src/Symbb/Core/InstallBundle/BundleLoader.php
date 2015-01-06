@@ -59,7 +59,6 @@ class BundleLoader
             //
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
-            '\Vich\UploaderBundle\VichUploaderBundle',
             '\Liip\ImagineBundle\LiipImagineBundle',
             //important! need for json post request from angular
             '\FOS\RestBundle\FOSRestBundle',

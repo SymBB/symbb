@@ -30,7 +30,6 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('lsw_memcache.yml');
         $loader->load('swiftmailer.yml');
         $loader->load('framework.yml');
-        $loader->load('vich_uploader.yml');
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
         $loader->load('fosjsrouting.yml');

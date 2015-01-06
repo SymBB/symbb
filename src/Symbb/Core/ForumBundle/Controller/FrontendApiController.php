@@ -859,10 +859,6 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                     $array['lastPosts'][] = $this->getPostAsArray($post, true);
                 }
             }
-            $helper = $this->container->get('vich_uploader.templating.helper.uploader_helper');
-            if ($forum->getImageName()) {
-                $array['backgroundImage'] = $helper->asset($forum, 'symbb_forum_image');
-            }
 
             $array['seo']['name'] = $forum->getSeoName();
 
