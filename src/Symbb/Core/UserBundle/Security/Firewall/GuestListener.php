@@ -6,22 +6,26 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+
 namespace Symbb\Core\UserBundle\Security\Firewall;
 
+
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use \Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 
 class GuestListener implements ListenerInterface
 {
     private $em;
 
-    public function __construct(SecurityContextInterface $context, $key, \Psr\Log\LoggerInterface $logger = null, $em)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager, $em)
     {
-        $this->context = $context;
-        $this->key     = $key;
-        $this->logger  = $logger;
+        $this->tokenStorage = $tokenStorage;
+        $this->authenticationManager = $authenticationManager;
         $this->em      = $em;
     }
     
@@ -32,20 +36,17 @@ class GuestListener implements ListenerInterface
      */
     public function handle(GetResponseEvent $event)
     {
-
-        if (null !== $this->context->getToken()) {
+        $token = $this->tokenStorage->getToken();
+        if (null !== $token) {
             return;
         }
 
         $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
         
         if(\is_object($user)){
-           
-            $this->context->setToken(new AnonymousToken($this->key, $user, array()));
-
-            if (null !== $this->logger) {
-                $this->logger->info('Populated SecurityContext with an anonymous Token');
-            }
+            $token = new AnonymousToken($this->key, $user, array());
+            $authToken = $this->authenticationManager->authenticate($token);
+            $this->tokenStorage->setToken($authToken);
         }
     }
 }
