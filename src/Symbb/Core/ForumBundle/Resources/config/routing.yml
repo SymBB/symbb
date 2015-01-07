@@ -1,3 +1,13 @@
 symbb_api_forum:
     resource: "@SymbbCoreForumBundle/Controller"
     type: annotation
+
+
+symbb_forum_index:
+    pattern:  /forum/
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:index }
+
+
+symbb_forum_show:
+    pattern:  /f-{id}-{name}/show/{page}/
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:showForum, page: 1 }

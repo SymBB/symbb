@@ -518,4 +518,32 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
         $this->feeds->clear();
         $this->feeds = $feeds;
     }
+
+    /**
+     * @return bool
+     */
+    public function isCategory(){
+        return $this->getType() == "category";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLink(){
+        return $this->getType() == "link";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForum(){
+        return $this->getType() == "forum";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFeed(){
+        return $this->getType() == "rss";
+    }
 }

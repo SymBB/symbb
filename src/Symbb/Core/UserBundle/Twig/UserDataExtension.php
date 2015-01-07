@@ -67,8 +67,11 @@ class UserDataExtension extends \Twig_Extension
         return $this->userManager->getSignature($user);
     }
 
-    public function isSymbbGuest(\Symbb\Core\UserBundle\Entity\UserInterface $user)
+    public function isSymbbGuest(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
+        if(!$user){
+            $user = $this->userManager->getCurrentUser();
+        }
         if ($user->getSymbbType() == 'guest') {
             return true;
         }

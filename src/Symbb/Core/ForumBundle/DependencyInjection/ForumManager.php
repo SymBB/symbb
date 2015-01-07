@@ -13,6 +13,7 @@ use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symbb\Core\UserBundle\Entity\GroupInterface;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 use \Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post;
@@ -138,7 +139,7 @@ class ForumManager extends AbstractManager
      */
     public function getChildIds(Forum $parent, $childIds = array())
     {
-        $childs = $parent->getChildren();
+        $childs = $this->getChildren($parent);
         $childIds[] = $parent->getId();
         foreach ($childs as $child) {
             $childIds[] = $child->getId();
@@ -184,58 +185,39 @@ class ForumManager extends AbstractManager
             $parentId = null;
         }
 
-        if(!$page){
-            $page = 1;
-        }
-
-        if(!$limit){
-            $limit = 999;
-        }
-
-
-        $parentWhere = 'f.parent = ?0';
+        $parentWhere = 'WHERE f.parent = ?0';
         if(!$parentId){
-            $parentWhere = 'f.parent IS NULL';
+            $parentWhere = 'WHERE f.parent IS NULL';
         }
-
-
-        $configUsermanager  = $this->configManager->getSymbbConfig('usermanager');
-        $configGroupManager = $this->configManager->getSymbbConfig('groupmanager');
-
-        $userlcass = $configUsermanager['user_class'];
-        $groupclass = $configGroupManager['group_class'];
 
         $accessWhere = "";
 
         if($checkAccess){
-            $accessWhere = "AND
+            $accessWhere = "
+                JOIN
+                    SymbbCoreSystemBundle:Access a
+                ".$parentWhere." AND
+                    a.object = ?1 AND
+                    a.objectId = f.id AND
+                    a.access = ?2 AND
+                    (
                         (
-                            ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
-                                a.objectId = f.id AND
-                                a.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
-                                a.identity = '".$userlcass."' AND
-                                a.identityId = ?1 AND
-                                a.access = 'view'
-                                ORDER BY a.id
-                            ) > 0 OR
-                            ( SELECT COUNT(a2.id) FROM SymbbCoreSystemBundle:Access a2 WHERE
-                                a2.objectId = f.id AND
-                                a2.object = 'Symbb\Core\ForumBundle\Entity\Forum' AND
-                                a2.identity = '".$groupclass."' AND
-                                a2.identityId IN (?2) AND
-                                a2.access = 'view'
-                                ORDER BY a2.id
-                            ) > 0
-                        )";
+                          a.identity = ?3 AND
+                          a.identityId = ?4
+                        ) OR
+                        (
+                          a.identity = ?5 AND
+                          a.identityId IN (?6)
+                        )
+                    )
+                ";
         }
 
         $sql = "SELECT
                     f
                 FROM
                     SymbbCoreForumBundle:Forum f
-                WHERE
-                    ".$parentWhere."
-                    ".$accessWhere."
+                ".$accessWhere."
                 ORDER BY
                     f.position ASC";
 
@@ -245,12 +227,26 @@ class ForumManager extends AbstractManager
         }
 
         $query = $this->em->createQuery($sql);
+
         if($parentId){
             $query->setParameter(0, $parentId);
         }
+
         if($checkAccess) {
-            $query->setParameter(1, $this->getUser()->getId());
-            $query->setParameter(2, $groupIds);
+
+            $groupClass = "";
+            $groupIds = array();
+            foreach( $this->getUser()->getGroups() as $group){
+                $groupClass = get_class($group);
+                $groupIds[] = $group->getId();
+            }
+
+            $query->setParameter(1, "Symbb\Core\ForumBundle\Entity\Forum");
+            $query->setParameter(2, ForumVoter::VIEW);
+            $query->setParameter(3, get_class($this->getUser()));
+            $query->setParameter(4, $this->getUser()->getId());
+            $query->setParameter(5, $groupClass);
+            $query->setParameter(6, $groupIds);
         }
 
         $pagination = $this->createPagination($query, $page, $limit);
@@ -326,13 +322,106 @@ class ForumManager extends AbstractManager
      */
     private function addChildsToArray($entity, &$array)
     {
-        $childs = $entity->getChildren();
+        $childs = $this->getChildren($entity);
         if (!empty($childs) && count($childs) > 0) {
             foreach ($childs as $child) {
                 $array[$child->getId()] = $child;
                 $this->addChildsToArray($child, $array);
             }
         }
+    }
+
+    /**
+     * @param Forum $forum
+     * @return int
+     */
+    public function getTopicCount(Forum $forum){
+        $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum = ?0";
+        $query = $this->em->createQuery($sql);
+        $query->setParameter(0, $forum->getId());
+        $count = $query->getSingleScalarResult();
+        if(!$count){
+            $count = 0;
+        }
+        return $count;
+    }
+
+    public function getPostCount(Forum $forum){
+        $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum = ?0";
+        $query = $this->em->createQuery($sql);
+        $query->setParameter(0, $forum->getId());
+        $count = $query->getSingleScalarResult();
+        if(!$count){
+            $count = 0;
+        }
+        return $count;
+    }
+
+    /**
+     * @param Forum $forum
+     * @param int $page
+     * @param int $limit
+     * @return Forum[]
+     */
+    public function getChildren(Forum $forum, $page = 1, $limit = 20, $checkAccess = true){
+
+
+        $i = 0;
+        $wherePart = " WHERE f.parent IS NULL ";
+        if($forum->getId() > 0 ){
+            $wherePart = " WHERE f.parent = ?0 ";
+        }
+
+        if($checkAccess){
+            $wherePart = "
+            JOIN
+                SymbbCoreSystemBundle:Access a
+            ".$wherePart." AND
+                a.object = ?1 AND
+                a.objectId = f.id AND
+                a.access = ?2 AND
+                (
+                    (
+                      a.identity = ?3 AND
+                      a.identityId = ?4
+                    ) OR
+                    (
+                      a.identity = ?5 AND
+                      a.identityId IN (?6)
+                    )
+                    )
+            ";
+        }
+
+        $sql = "SELECT
+                f
+            FROM
+                SymbbCoreForumBundle:Forum f
+            ".$wherePart."
+            ORDER BY
+                f.position ASC";
+
+        $groupClass = "";
+        $groupIds = array();
+        foreach( $this->getUser()->getGroups() as $group){
+            $groupClass = get_class($group);
+            $groupIds[] = $group->getId();
+        }
+
+        $query = $this->em->createQuery($sql);
+        if($forum->getId() > 0){
+            $query->setParameter(0, $forum->getId());
+        }
+        $query->setParameter(1, get_class($forum));
+        $query->setParameter(2, ForumVoter::VIEW);
+        $query->setParameter(3, get_class($this->getUser()));
+        $query->setParameter(4, $this->getUser()->getId());
+        $query->setParameter(5, $groupClass);
+        $query->setParameter(6, $groupIds);
+
+        $pagination = $this->createPagination($query, $page, $limit);
+
+        return $pagination;
     }
 
     /**
@@ -377,7 +466,7 @@ class ForumManager extends AbstractManager
     public function ignoreForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->insertFlag($forum, 'ignore');
-        $subForms = $forum->getChildren();
+        $subForms = $this->getChildren($forum);
         foreach ($subForms as $subForm) {
             $this->ignoreForum($subForm, $flagHandler);
         }
@@ -392,7 +481,7 @@ class ForumManager extends AbstractManager
     public function watchForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
     {
         $flagHandler->removeFlag($forum, 'ignore');
-        $subForms = $forum->getChildren();
+        $subForms = $this->getChildren($forum);
         foreach ($subForms as $subForm) {
             $this->watchForum($subForm, $flagHandler);
         }
@@ -463,7 +552,7 @@ class ForumManager extends AbstractManager
     public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $includeChilds = false){
         $this->accessManager->copyAccessForIdentity($forumFrom, $forumTo, $group);
         if($includeChilds){
-            foreach($forumTo->getChildren() as $child ){
+            foreach($this->getChildren($forumTo) as $child ){
                 $this->copyAccessOfGroup($forumFrom, $child, $group, $includeChilds);
             }
         }
@@ -478,9 +567,43 @@ class ForumManager extends AbstractManager
     public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $includeChilds = false){
         $this->accessManager->applyAccessSetForIdentity($forum, $group, $accessSet);
         if($includeChilds){
-            foreach($forum->getChildren() as $child ){
+            foreach($this->getChildren($forum) as $child ){
                 $this->applyAccessSetForGroup($child, $group, $accessSet, $includeChilds);
             }
         }
+    }
+
+    /**
+     * @param Forum $forum
+     * @param $flag
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function hasFlag(Forum $forum, $flag, UserInterface $user = null){
+        return $this->forumFlagHandler->checkFlag($forum, $flag, $user = null);
+    }
+
+    /**
+     * @param Forum $forum
+     * @return Post
+     */
+    public function getLastPost(Forum $forum){
+        $sql = "SELECT
+                    p
+                FROM
+                    SymbbCoreForumBundle:Post p
+                JOIN
+                    p.topic t
+                WHERE
+                    t.forum = ?0
+                ORDER BY
+                    p.created DESC";
+
+        $query = $this->em->createQuery($sql);
+        $query->setParameter(0, $forum->getId());
+        $query->setMaxResults(1);
+
+        $post = $query->getOneOrNullResult();
+        return $post;
     }
 }

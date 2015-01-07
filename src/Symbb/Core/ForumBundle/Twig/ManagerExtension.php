@@ -38,7 +38,8 @@ class ManagerExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('getSymbbPostManager', array($this, 'getPostManager')),
-            new \Twig_SimpleFunction('getSymbbForumManager', array($this, 'getForumManager'))
+            new \Twig_SimpleFunction('getSymbbForumManager', array($this, 'getForumManager')),
+            new \Twig_SimpleFunction('getSymbbTopicManager', array($this, 'getTopicManager'))
         );
 
     }
@@ -60,6 +61,16 @@ class ManagerExtension extends \Twig_Extension
     public function getForumManager()
     {
         return $this->forumManager;
+
+    }
+
+    /**
+     *
+     * @return \Symbb\Core\ForumBundle\DependencyInjection\TopicManager
+     */
+    public function getTopicManager()
+    {
+        return $this->getTopicManager();
 
     }
 

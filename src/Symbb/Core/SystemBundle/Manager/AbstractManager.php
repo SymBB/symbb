@@ -119,8 +119,17 @@ abstract class AbstractManager
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
 
+        // get sql, get the from part and remove all other fields then the id field
+        // so that we have a query who select only one field
+        // for count this is better because we dont need the data
         $queryCount = $query->getSql();
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCountTmp = explode("FROM", $queryCount);
+        $queryCountSelect = reset($queryCountTmp);
+        $queryCountEnd = end($queryCountTmp);
+        $queryCountSelect = explode(",", $queryCountSelect);
+        $queryCountSelect = reset($queryCountSelect);
+        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCountSelect." FROM ".$queryCountEnd.") as temp";
+        // create now the query based on the native sql query and get the count
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();

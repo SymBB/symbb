@@ -641,24 +641,26 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         }
 
         $parent = null;
+        $loadChilds = 2;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $parent);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
-        } else {
-            $parent = new Forum();
-            $childs = $this->get('symbb.core.forum.manager')->findAll();
-            $parent->setChildren($childs);
+            $loadChilds = 1;
         }
 
         if(!$this->hasError()){
             $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
             $this->addBreadcrumbItems($breadcrumbItems);
 
+            if(!$parent){
+                $parent = new Forum();
+            }
+
             $params = array(
-                'forum' => $this->getForumAsArray($parent)
+                'forum' => $this->getForumAsArray($parent, $loadChilds)
             );
         }
 
@@ -796,7 +798,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
      * @param \Symbb\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
-    protected function getForumAsArray(\Symbb\Core\ForumBundle\Entity\Forum $forum = null)
+    protected function getForumAsArray(\Symbb\Core\ForumBundle\Entity\Forum $forum = null, $loadChilds = 1)
     {
 
         $array = array();
@@ -831,19 +833,27 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             $array['id'] = $forum->getId();
             $array['name'] = $forum->getName();
             $array['description'] = $forum->getDescription();
-            $array['count']['topic'] = $forum->getTopicCount();
-            $array['count']['post'] = $forum->getPostCount();
+            $array['count']['topic'] = $this->get("symbb.core.forum.manager")->getTopicCount($forum);
+            $array['count']['post'] = $this->get("symbb.core.forum.manager")->getPostCount($forum);
             $array['showSubForumList'] = $forum->hasShowSubForumList();
 
             foreach ($this->get('symbb.core.forum.flag')->findAll($forum) as $flag) {
                 $array['flags'][$flag->getFlag()] = $this->getFlagAsArray($flag);
             }
-            foreach ($forum->getChildren() as $child) {
+
+            $childs = array();
+            if($loadChilds > 0){
+                $childs = $this->get("symbb.core.forum.manager")->getChildren($forum);
+                $loadChilds--;
+            }
+
+
+            foreach ($childs as $child) {
 
                 $viewAccess = $this->get('security.context')->isGranted(ForumVoter::VIEW, $child);
 
                 if($viewAccess){
-                    $array['children'][] = $this->getForumAsArray($child, false);
+                    $array['children'][] = $this->getForumAsArray($child, $loadChilds);
                     if($child->getType() === 'forum'){
                         $array['count']['forum']++;
                     } else if($child->getType() === 'category'){

@@ -1,0 +1,88 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% if topics|length() > 0 %}
+
+    <div class="row symbb_forum_header_row">
+        <div class="col-md-5">{{ 'Topics'|trans }}</div>
+        <div class="col-md-2 number-align">{{ 'Replies'|trans }} </div>
+        <div class="col-md-3">{{ 'Last post'|trans }}</div>
+        <div class="col-md-2"></div>
+    </div>
+
+{% elseif forum.isForum() %}
+    <div class="simplerow">
+        <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
+    </div>
+{%  endif %}
+
+{% for object in topics %}
+
+    <div class="row symbb_forum_body_row">
+        <div class="col-md-5 col">
+            <span class="forumimage">
+                <div class="avatar">
+                    <img title="{{ getSymbbTopicManager().getLastPost().getAuthor().getUsername() }}" src="getSymbbUserManager().getAvatar(getSymbbTopicManager().getLastPost().getAuthor())" />
+                </div>
+                <div class="clear"></div>
+            </span>
+            <div class="pull-left">
+                <div class="title">
+                    <a href="{{ path("symbb_forum_topic_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a>
+                    <div class="labels">
+                        {% for flag in object.getFlags() %}
+                            <span  class="label label-flag.getType()">{{ flag.getTitle() }}</span>
+                        {% endfor %}
+                        {% for tag in object.getTags() if tag.status %}
+                            <span  class="label label-default label-{{ tag.getType() }}">{{ tag.getTitle() }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="description">
+                    {% trans with {'%user%': object.getAuthor().getUsername() } %}from %user%{% endtrans %} </br>
+                    {% trans with {'%date%': object.getCreated() | date("d.m.Y"), '%time%': object.getCreated() | date("H:i")} %} %date% at %time%{% endtrans %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col number-align">{{ object.getPosts().count() }}</div>
+        <div class="col-md-3 col" >
+            <div ng-if="object.latestPost.id">
+                <div class="text pull-left" >
+                    <a href="{{ path("symbb_forum_topic_show", {"id": object.getId(), "name": object.getSeoName(), "page": "last"}) }}">>{{ 'Re'|trans }}: {{ object.getName() }}</a></br>
+                    {% trans with {'%user%': getSymbbTopicManager().getLastPost(object).getAuthor().getUsername()} %}from %user%{% endtrans %} </br>
+                    {% trans with {'%date%': getSymbbTopicManager().getLastPost(object).getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost(object).getCreated() | date("H:i")} %} %date% at %time%{% endtrans %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col">
+            <div class="btn-group pull-right">
+                <a type="button" class="btn btn-default btn-xs" title="{{ 'read'|trans }}" href="{{ path("symbb_forum_topic_show", {"id": object.getId(), "name": object.getSeoName()}) }}">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+                {% if is_granted(constant('Symbb\Core\ForumBundle\Security\Authorization\TopicVoter::CREATE_POST'), object) %}
+                <a type="button" class="btn btn-default btn-xs" title="{{ 'answer'|trans }}" href="{{ path("symbb_forum_post_create", {"topic": object.id}) }}">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                </a>
+                {% endif %}
+                {% if not isSymbbGuest() %}
+                <a  type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" href="{{ path("symbb_api_topic_mark_as_read", {"id": object.id}) }}">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </a>
+                {% endif %}
+                <symbb-topic-move ng-if="object.access.move" param-id="[[object.id]]">
+                </symbb-topic-move>
+                {% if is_granted(constant('Symbb\Core\ForumBundle\Security\Authorization\TopicVoter::EDIT'), object) %}
+                <a type="button" class="btn btn-default btn-xs"  href="{{ path("symbb_api_topic_close", {"id": object.id}) }}"  title="{% trans %}close Topic{% endtrans %}">
+                    <span class="glyphicon glyphicon-lock"></span>
+                </a>
+                {% endif %}
+                {% if is_granted(constant('Symbb\Core\ForumBundle\Security\Authorization\TopicVoter::DELETE'), object) %}
+                <a type="button" class="btn btn-default btn-xs symbb-confirm-btn"  href="{{ path("symbb_api_topic_delete", {"id": object.id}) }}" message="{% trans %}you really want to delete the entry?{% endtrans %}" title="{% trans %}delete Topic{% endtrans %}">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endfor %}

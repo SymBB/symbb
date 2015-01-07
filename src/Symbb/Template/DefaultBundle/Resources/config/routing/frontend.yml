@@ -26,17 +26,6 @@ symbb_template_user_angular:
 
 ## FORUM BUNDLE
 
-symbb_forum_index:
-    pattern:  /forum/
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: ForumCtrl
-      symbb_angular_api_route: symbb_api_forum_data
-      symbb_angular_template:
-          route: symbb_template_default_angular
-          params:
-              file: 'forumList'
-
 symbb_forum_show:
     pattern:  /f-{id}-{name}/show/{page}/
     defaults: { _controller: SymbbCoreAngularBundle:Angular:index, page: 1 }
