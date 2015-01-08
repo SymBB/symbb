@@ -97,6 +97,8 @@
 
 {% endfor %}
 
-<div class="row symbb_forum_body_row">
-    {{ knp_pagination_render(topics, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
-</div>
+{% if topics and topics.getPageCount() > 1 %}
+    <div class="row symbb_forum_body_row">
+        {{ knp_pagination_render(topics, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+    </div>
+{% endif %}

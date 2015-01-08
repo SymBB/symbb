@@ -24,7 +24,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
     public function indexAction()
     {
         $forum = new Forum();
-        $topics = array();
+        $topics = null;
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
     }
 
@@ -35,7 +35,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
     public function showForumAction(Request $request, $id)
     {
         $forum = $this->get("symbb.core.forum.manager")->find($id);
-        $topics = array();
+        $topics = null;
         if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::VIEW, $forum)) {
             throw $this->createAccessDeniedException();
         }
