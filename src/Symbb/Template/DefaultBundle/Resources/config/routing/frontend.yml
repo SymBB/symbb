@@ -39,19 +39,6 @@ symbb_forum_search:
           params:
               file: 'search'
 
-symbb_forum_topic_show:
-    pattern:  /t-{id}-{name}/{page}/
-    defaults:
-        page: 1
-        _controller: SymbbCoreAngularBundle:Angular:index
-    options:
-      symbb_angular_controller: ForumTopicShowCtrl
-      symbb_angular_api_route: symbb_api_topic_data
-      symbb_angular_template:
-          route: symbb_template_forum_angular
-          params:
-              file: 'topicShow'
-
 symbb_forum_topic_create:
     pattern:  /f-{forum}/topic/new/
     defaults: { _controller: SymbbCoreAngularBundle:Angular:index }

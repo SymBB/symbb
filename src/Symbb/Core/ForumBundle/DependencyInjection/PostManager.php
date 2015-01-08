@@ -185,5 +185,20 @@ class PostManager extends AbstractManager
         return $pagination;
     }
 
+    /**
+     * @param Post $post
+     * @param $flag
+     * @return bool
+     */
+    public function hasFlag(Post $post, $flag){
+        return $this->postFlagHandler->checkFlag($post, $flag);
+    }
 
+    /**
+     * @param Post $post
+     * @return \Symbb\Core\SystemBundle\Entity\Flag[]
+     */
+    public function getFlags(Post $post){
+        return $this->postFlagHandler->findAll($post);
+    }
 }

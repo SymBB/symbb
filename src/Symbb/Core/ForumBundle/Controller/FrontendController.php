@@ -233,4 +233,24 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->returnToLastPage($request);
     }
 
+    public function viewTopicAction(Request $request){
+        $id = $request->get('id');
+        $topic = $this->get("symbb.core.topic.manager")->find($id);
+        if(is_object($topic) && $topic->getId() > 0){
+            if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::VIEW, $topic)) {
+                throw $this->createAccessDeniedException();
+            }
+            $page = $request->get("page");
+            $posts = $this->get("symbb.core.topic.manager")->findPosts($topic, $page, null, "asc");
+            return $this->render(
+                $this->getTemplateBundleName('forum') . ':Forum:topicView.html.twig',
+                array("topic" => $topic, "posts" => $posts)
+            );
+        } else {
+            $this->addError("Topic not found.", $request);
+        }
+        return $this->returnToLastPage($request);
+
+    }
+
 }

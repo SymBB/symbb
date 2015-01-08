@@ -43,3 +43,7 @@ symbb_forum_topic_open:
 symbb_forum_topic_mark_as_read:
     pattern:  /topic/{id}/markAsRead
     defaults: { _controller: SymbbCoreForumBundle:Frontend:markAsReadTopic }
+
+symbb_forum_topic_show:
+    pattern:  /t-{id}-{name}/{page}/
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:viewTopic, page: 1 }
