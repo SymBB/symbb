@@ -60,7 +60,7 @@
                         </li>
                         <li>
                             <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
-                                <span class="glyphicon glyphicon-comment" ng-class="{'glyphicon-danger': user.count.newMessages}"><span class="message_count">[[user.count.newMessages]]</span></span>
+                                <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}"><span class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>
                                 <span class="glyphicon-label">{% trans %}Messages{% endtrans %}</span>
                             </a>
                         </li>

@@ -29,7 +29,13 @@ class MessageManager extends AbstractManager
      * @return Message
      */
     public function find($id){
-        $message = $this->em->getRepository('SymbbCoreMessageBundle:Message')->find($id);
+
+        $cacheKey = implode("_", array("find", $id));
+        $message = $this->getCacheData($cacheKey);
+        if($message === null){
+            $message = $this->em->getRepository('SymbbCoreMessageBundle:Message')->find($id);
+            $this->setCacheData($cacheKey, $message);
+        }
         return $message;
     }
 
@@ -96,7 +102,11 @@ class MessageManager extends AbstractManager
             $sender = $this->getUser();
         }
 
-        $sql = "SELECT
+        $cacheKey = implode("_", array("findSentMessages", $sender->getId(), $page, $limit));
+        $pagination = $this->getCacheData($cacheKey);
+
+        if($pagination === null){
+            $sql = "SELECT
                     m
                 FROM
                     SymbbCoreMessageBundle:Message m
@@ -105,10 +115,12 @@ class MessageManager extends AbstractManager
                 ORDER BY
                   m.date DESC";
 
-        $query = $this->em->createQuery($sql);
-        $query->setParameter(1, $sender->getId());
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(1, $sender->getId());
 
-        $pagination = $this->createPagination($query, $page, $limit);
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cacheKey, $pagination);
+        }
 
         return $pagination;
     }
@@ -125,14 +137,18 @@ class MessageManager extends AbstractManager
             $receiver = $this->getUser();
         }
 
-        $where = '';
-        if($new === true){
-            $where = " AND r.new = 1 ";
-        } else if($new === false){
-            $where = " AND r.new = 0 ";
-        }
+        $cacheKey = implode("_", array("findReceivedMessages", $receiver->getId(), $page, $limit, $new));
+        $pagination = $this->getCacheData($cacheKey);
 
-        $sql = "SELECT
+        if($pagination === null){
+            $where = '';
+            if($new === true){
+                $where = " AND r.new = 1 ";
+            } else if($new === false){
+                $where = " AND r.new = 0 ";
+            }
+
+            $sql = "SELECT
                     m
                 FROM
                     SymbbCoreMessageBundle:Message m
@@ -145,10 +161,12 @@ class MessageManager extends AbstractManager
                 ORDER BY
                   m.date DESC";
 
-        $query = $this->em->createQuery($sql);
-        $query->setParameter(1, $receiver->getId());
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(1, $receiver->getId());
 
-        $pagination = $this->createPagination($query, $page, $limit);
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cacheKey, $pagination);
+        }
 
         return $pagination;
     }
@@ -189,8 +207,14 @@ class MessageManager extends AbstractManager
         if(!$user){
             $user = $this->getUser();
         }
-        $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
-        return count($recievedNewMessages);
+        $cacheKey = "user_count_new_messages_".$user->getId();
+        $recievedNewMessages = $this->getCacheData($cacheKey);
+        if($recievedNewMessages === null){
+            $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
+            $recievedNewMessages = count($recievedNewMessages);
+            $this->setCacheData($cacheKey, $recievedNewMessages);
+        }
+        return $recievedNewMessages;
     }
 
     /**
@@ -201,8 +225,15 @@ class MessageManager extends AbstractManager
         if(!$user){
             $user = $this->getUser();
         }
-        $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
-        return count($recievedNewMessages);
+        $cacheKey = "user_count_messages_".$user->getId();
+        $recievedMessages = $this->getCacheData($cacheKey);
+        if($recievedMessages === null){
+            $recievedMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
+            $recievedMessages = count($recievedMessages);
+            $this->setCacheData($cacheKey, $recievedMessages);
+        }
+
+        return $recievedMessages;
     }
 
     /**

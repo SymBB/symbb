@@ -58,6 +58,11 @@ abstract class AbstractManager
     protected $eventDispatcher;
 
     /**
+     * @var array
+     */
+    protected $cacheData = array();
+
+    /**
      * @param AccessManager $manager
      */
     public function setAccessManager(AccessManager $manager){
@@ -153,5 +158,21 @@ abstract class AbstractManager
         );
 
         return $pagination;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setCacheData($key, $value){
+        $this->cacheData[$key] = $value;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getCacheData($key){
+        return $this->cacheData[$key];
     }
 }

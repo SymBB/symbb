@@ -22,4 +22,11 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
     }
 
+    public function showForumAction($id)
+    {
+        $forum = $this->get("symbb.core.forum.manager")->find($id);
+        $topics = array();
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
+    }
+
 }

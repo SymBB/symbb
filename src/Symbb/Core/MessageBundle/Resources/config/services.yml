@@ -2,3 +2,8 @@ services:
     symbb.core.message.manager:
         parent:  symbb.core.abstract.manager
         class:      Symbb\Core\MessageBundle\DependencyInjection\MessageManager
+    symbb.core.message.twig.extension:
+        class: Symbb\Core\MessageBundle\Twig\ManagerExtension
+        arguments: ['@symbb.core.message.manager']
+        tags:
+            - { name: twig.extension }
