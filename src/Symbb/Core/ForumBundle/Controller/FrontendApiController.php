@@ -641,14 +641,12 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         }
 
         $parent = null;
-        $loadChilds = 2;
         if ($id > 0) {
             $parent = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($id);
             $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $parent);
             if (!$accessCheck) {
                 $this->addErrorMessage(self::ERROR_NOT_FOUND_FORUM);
             }
-            $loadChilds = 1;
         }
 
         if(!$this->hasError()){
@@ -660,7 +658,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             }
 
             $params = array(
-                'forum' => $this->getForumAsArray($parent, $loadChilds)
+                'forum' => $this->getForumAsArray($parent)
             );
         }
 
@@ -844,7 +842,6 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
             $childs = array();
             if($loadChilds > 0){
                 $childs = $this->get("symbb.core.forum.manager")->getChildren($forum);
-                $loadChilds--;
             }
 
 
@@ -853,7 +850,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
                 $viewAccess = $this->get('security.context')->isGranted(ForumVoter::VIEW, $child);
 
                 if($viewAccess){
-                    $array['children'][] = $this->getForumAsArray($child, $loadChilds);
+                    $array['children'][] = $this->getForumAsArray($child, false);
                     if($child->getType() === 'forum'){
                         $array['count']['forum']++;
                     } else if($child->getType() === 'category'){

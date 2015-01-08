@@ -4,13 +4,20 @@
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
-        <li><a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a> </li>
-        <li>TODO BREADCRUMB</li>
+        {% for item in getSymbbForumManager().getBreadcrumbData(forum) %}
+            <li>
+                {% if item.type == "home" %}
+                    <a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a>
+                {% else %}
+                    <a href="{{ path("symbb_forum_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
         {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_TOPIC'), forum) and forum.isForum() %}
         <li class="pull-right">
-            <button title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" symbb-js-link="symbb_forum_topic_create" param-forum="[[forum.id]]" param-name="[[forum.seo.name]]">
+            <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" href="{{ path("symbb_forum_topic_create", {"forum": forum.getId()}) }}">
                 <span class="glyphicon glyphicon-plus"></span> {% trans %}new Topic{% endtrans %}
-            </button>
+            </a>
         </li>
         {% endif %}
     </ol>
@@ -163,22 +170,22 @@
                 {% if not object.isLink() %}
                     <div class="btn-group pull-right">
                         {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_TOPIC'), object) and object.isForum() %}
-                            <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" href="{{ path("symbb_forum_topic_create", {"id": object.getId(), "name": object.getSeoName() }) }}">
+                            <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs" href="{{ path("symbb_forum_topic_create", {"forum": object.getId()}) }}">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         {% endif %}
                         {% if not isSymbbGuest() and object.isForum() %}
-                        <a  type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" href="{{ path("symbb_api_forum_mark_as_read", {"id": object.getId()}) }}">
+                        <a  type="button" class="btn btn-default btn-xs" title="{% trans %}Mark as read{% endtrans %}" href="{{ path("symbb_forum_mark_as_read", {"id": object.getId()}) }}">
                             <span class="glyphicon glyphicon-ok"></span>
                         </a>
                         {% endif %}
                         {% if not isSymbbGuest() and getSymbbForumManager().hasFlag(object, "ignore") %}
-                        <a  id="symbbForumIgnoreButton" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-warning btn-xs" href="{{ path("symbb_api_forum_unignore", {"id": object.getId()}) }}">
+                        <a  id="symbbForumIgnoreButton" title="{{ 'You ignore the forum'|trans }}" type="button" class="btn btn-warning btn-xs" href="{{ path("symbb_forum_unignore", {"id": object.getId()}) }}">
                             <span class="glyphicon glyphicon-eye-close" ></span>
                         </a>
                         {% endif %}
                         {% if not isSymbbGuest() and not getSymbbForumManager().hasFlag(object, "ignore") %}
-                        <a  id="symbbForumWatchButton" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-success btn-xs" href="{{ path("symbb_api_forum_ignore", {"id": object.getId()}) }}">
+                        <a  id="symbbForumWatchButton" title="{{ 'You watch the forum'|trans }}" type="button" class="btn btn-success btn-xs" href="{{ path("symbb_forum_ignore", {"id": object.getId()}) }}">
                             <span class="glyphicon glyphicon glyphicon-eye-open" ></span>
                         </a>
                         {% endif %}

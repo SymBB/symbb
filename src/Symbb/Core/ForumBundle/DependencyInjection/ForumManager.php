@@ -64,13 +64,18 @@ class ForumManager extends AbstractManager
      * @param string $orderDir
      * @return array
      */
-    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc', $flags = array())
+    public function findTopics(Forum $forum, $page = 1, $limit = null, $orderDir = 'desc')
     {
-        if ($limit === null) {
-            $limit = $forum->getEntriesPerPage();
-        }
 
-        $sql = "SELECT
+        $cackeKey = implode("_", array("findTopics", $forum->getId(), $page, $limit, $orderDir));
+        $pagination = $this->getCacheData($cackeKey);
+
+        if($pagination === null){
+            if ($limit === null) {
+                $limit = $forum->getEntriesPerPage();
+            }
+
+            $sql = "SELECT
                     t
                 FROM
                     SymbbCoreForumBundle:Topic t
@@ -84,13 +89,14 @@ class ForumManager extends AbstractManager
                 GROUP BY
                   t.id
                 ORDER BY
-                  tag.priority DESC, p.created DESC";
+                  tag.priority ".strtoupper($orderDir).", p.created ".strtoupper($orderDir);
 
-        $query = $this->em->createQuery($sql);
-        $query->setParameter(1, $forum->getId());
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(1, $forum->getId());
 
-
-        $pagination = $this->createPagination($query, $page, $limit);
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cackeKey, $pagination);
+        }
 
         return $pagination;
     }
@@ -336,24 +342,44 @@ class ForumManager extends AbstractManager
      * @return int
      */
     public function getTopicCount(Forum $forum){
-        $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum = ?0";
-        $query = $this->em->createQuery($sql);
-        $query->setParameter(0, $forum->getId());
-        $count = $query->getSingleScalarResult();
-        if(!$count){
-            $count = 0;
+
+        $cacheKey = implode("_", array("getTopicCount", $forum->getId()));
+        $count = $this->getCacheData($cacheKey);
+
+        if($count === null){
+            $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum = ?0";
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(0, $forum->getId());
+            $count = $query->getSingleScalarResult();
+            if(!$count){
+                $count = 0;
+            }
+            $this->setCacheData($cacheKey, $count);
         }
+
         return $count;
     }
 
+    /**
+     * @param Forum $forum
+     * @return int|mixed
+     */
     public function getPostCount(Forum $forum){
-        $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum = ?0";
-        $query = $this->em->createQuery($sql);
-        $query->setParameter(0, $forum->getId());
-        $count = $query->getSingleScalarResult();
-        if(!$count){
-            $count = 0;
+
+        $cacheKey = implode("_", array("getPostCount", $forum->getId()));
+        $count = $this->getCacheData($cacheKey);
+
+        if($count === null){
+            $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum = ?0";
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(0, $forum->getId());
+            $count = $query->getSingleScalarResult();
+            if(!$count){
+                $count = 0;
+            }
+            $this->setCacheData($cacheKey, $count);
         }
+
         return $count;
     }
 
@@ -366,14 +392,19 @@ class ForumManager extends AbstractManager
     public function getChildren(Forum $forum, $page = 1, $limit = 20, $checkAccess = true){
 
 
-        $i = 0;
-        $wherePart = " WHERE f.parent IS NULL ";
-        if($forum->getId() > 0 ){
-            $wherePart = " WHERE f.parent = ?0 ";
-        }
+        $cacheKey = implode("_", array("getPostCount", $forum->getId(), $page, $limit, $checkAccess));
+        $pagination = $this->getCacheData($cacheKey);
 
-        if($checkAccess){
-            $wherePart = "
+        if($pagination === null){
+
+            $i = 0;
+            $wherePart = " WHERE f.parent IS NULL ";
+            if($forum->getId() > 0 ){
+                $wherePart = " WHERE f.parent = ?0 ";
+            }
+
+            if($checkAccess){
+                $wherePart = "
             JOIN
                 SymbbCoreSystemBundle:Access a
             ".$wherePart." AND
@@ -391,9 +422,9 @@ class ForumManager extends AbstractManager
                     )
                     )
             ";
-        }
+            }
 
-        $sql = "SELECT
+            $sql = "SELECT
                 f
             FROM
                 SymbbCoreForumBundle:Forum f
@@ -401,25 +432,27 @@ class ForumManager extends AbstractManager
             ORDER BY
                 f.position ASC";
 
-        $groupClass = "";
-        $groupIds = array();
-        foreach( $this->getUser()->getGroups() as $group){
-            $groupClass = get_class($group);
-            $groupIds[] = $group->getId();
-        }
+            $groupClass = "";
+            $groupIds = array();
+            foreach( $this->getUser()->getGroups() as $group){
+                $groupClass = get_class($group);
+                $groupIds[] = $group->getId();
+            }
 
-        $query = $this->em->createQuery($sql);
-        if($forum->getId() > 0){
-            $query->setParameter(0, $forum->getId());
-        }
-        $query->setParameter(1, get_class($forum));
-        $query->setParameter(2, ForumVoter::VIEW);
-        $query->setParameter(3, get_class($this->getUser()));
-        $query->setParameter(4, $this->getUser()->getId());
-        $query->setParameter(5, $groupClass);
-        $query->setParameter(6, $groupIds);
+            $query = $this->em->createQuery($sql);
+            if($forum->getId() > 0){
+                $query->setParameter(0, $forum->getId());
+            }
+            $query->setParameter(1, get_class($forum));
+            $query->setParameter(2, ForumVoter::VIEW);
+            $query->setParameter(3, get_class($this->getUser()));
+            $query->setParameter(4, $this->getUser()->getId());
+            $query->setParameter(5, $groupClass);
+            $query->setParameter(6, $groupIds);
 
-        $pagination = $this->createPagination($query, $page, $limit);
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cacheKey, $pagination);
+        }
 
         return $pagination;
     }
@@ -463,12 +496,12 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function ignoreForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function ignoreForum(\Symbb\Core\ForumBundle\Entity\Forum $forum)
     {
-        $flagHandler->insertFlag($forum, 'ignore');
+        $this->forumFlagHandler->insertFlag($forum, 'ignore');
         $subForms = $this->getChildren($forum);
         foreach ($subForms as $subForm) {
-            $this->ignoreForum($subForm, $flagHandler);
+            $this->ignoreForum($subForm);
         }
         return true;
     }
@@ -478,16 +511,23 @@ class ForumManager extends AbstractManager
      * @param ForumFlagHandler $flagHandler
      * @return bool
      */
-    public function watchForum(\Symbb\Core\ForumBundle\Entity\Forum $forum, ForumFlagHandler $flagHandler)
+    public function watchForum(Forum $forum)
     {
-        $flagHandler->removeFlag($forum, 'ignore');
+        $this->forumFlagHandler->removeFlag($forum, 'ignore');
         $subForms = $this->getChildren($forum);
         foreach ($subForms as $subForm) {
-            $this->watchForum($subForm, $flagHandler);
+            $this->watchForum($subForm);
         }
         return true;
     }
 
+    /**
+     * @param Forum $forum
+     * @return bool
+     */
+    public function unignoreForum(Forum $forum){
+        return $this->watchForum($forum);
+    }
     /**
      * @return bool
      */

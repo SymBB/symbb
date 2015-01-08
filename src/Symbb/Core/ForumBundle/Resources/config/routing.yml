@@ -11,3 +11,35 @@ symbb_forum_index:
 symbb_forum_show:
     pattern:  /f-{id}-{name}/show/{page}/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:showForum, page: 1 }
+
+symbb_forum_ignore:
+    pattern:  /forum/{id}/ignore
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:ignoreForum }
+
+symbb_forum_unignore:
+    pattern:  /forum/{id}/unignore
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:unignoreForum }
+
+symbb_forum_mark_as_read:
+    pattern:  /forum/{id}/markAsRead
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:markAsReadForum }
+
+symbb_forum_topic_move:
+    pattern:  /topic/move
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:moveTopic }
+
+symbb_forum_topic_delete:
+    pattern:  /topic/{id}/delete
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:deleteTopic }
+
+symbb_forum_topic_close:
+    pattern:  /topic/{id}/close
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:closeTopic }
+
+symbb_forum_topic_open:
+    pattern:  /topic/{id}/open
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:openTopic }
+
+symbb_forum_topic_mark_as_read:
+    pattern:  /topic/{id}/markAsRead
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:markAsReadTopic }

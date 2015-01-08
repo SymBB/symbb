@@ -23,7 +23,7 @@ services:
     symbb.core.forum.managers.twig:
         twig.extension.symbb.core.forum.managers.twig:
         class: Symbb\Core\ForumBundle\Twig\ManagerExtension
-        arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager']
+        arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager', '@symbb.core.topic.manager']
         tags:
             - { name: twig.extension }
 

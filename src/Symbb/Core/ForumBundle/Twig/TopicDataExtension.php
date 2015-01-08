@@ -34,33 +34,11 @@ class TopicDataExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('getTopicPagination', array($this, 'getTopicPagination')),
             new \Twig_SimpleFunction('checkSymbbForTopicNewFlag', array($this, 'checkSymbbForNewPostFlag')),
             new \Twig_SimpleFunction('checkSymbbForTopicAnsweredFlag', array($this, 'checkSymbbForAnsweredPostFlag')),
             new \Twig_SimpleFunction('checkSymbbForTopicFlag', array($this, 'checkForFlag')),
-            new \Twig_SimpleFunction('checkSymbbTopicLabels', array($this, 'getLabels')),
+            new \Twig_SimpleFunction('getSymbbTopicLabels', array($this, 'getLabels')),
         );
-    }
-    
-    public function getTopicPagination($forum, $request){
-        
-        $qb     = $this->em->createQueryBuilder();
-        $qb     ->select('t')
-                ->from('Symbb\Core\ForumBundle\Entity\Topic', 't')
-                ->where('t.forum = '.$forum->getId())
-                ->orderBy('t.changed', 'DESC');
-        $dql    = $qb->getDql(); 
-        $query  = $this->em->createQuery($dql);
-
-        $pagination = $this->paginator->paginate(
-            $query,
-            $request->query->get('page', 1)/*page number*/,
-            $forum->getEntriesPerPage()/*limit per page*/
-        );
-        
-        $pagination->setTemplate($this->getTemplateBundleName('forum').':Pagination:pagination.html.twig');
-
-        return $pagination;
     }
     
     public function checkSymbbForNewPostFlag($element)

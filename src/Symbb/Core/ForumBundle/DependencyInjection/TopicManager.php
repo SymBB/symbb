@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
@@ -50,42 +52,43 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     /**
      * 
      * @param int $topicId
-     * @return array(<\Symbb\Core\ForumBundle\Entity\Topic>)
+     * @return Post[]
      */
     public function findPosts(\Symbb\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
-        if ($limit === null) {
-            $limit = $topic->getForum()->getEntriesPerPage();
+        $cacheKey = implode("_", array("findPosts", $topic->getId(), $page, $limit, $orderDir));
+        $pagination = $this->getCacheData($cacheKey);
+        if($pagination === null){
+            if ($limit === null) {
+                $limit = $topic->getForum()->getEntriesPerPage();
+            }
+
+            $sql = "SELECT
+                    p
+                FROM
+                    SymbbCoreForumBundle:Post p
+                WHERE
+                  p.topic = ?1
+                ORDER BY
+                  p.created DESC";
+
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(1, $topic->getId());
+
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cacheKey, $pagination);
         }
-
-        $qbPage = $this->em->createQueryBuilder();
-        $qbPage->add('select', 'count(p)')
-            ->add('from', 'SymbbCoreForumBundle:Post p')
-            ->add('where', 'p.topic = ?1')
-            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic->getId());
-        $queryPage = $qbPage->getQuery();
-        $count = $queryPage->getSingleScalarResult();
-
-        $qb = $this->em->createQueryBuilder();
-        $qb->add('select', 'p')
-            ->add('from', 'SymbbCoreForumBundle:Post p')
-            ->add('where', 'p.topic = ?1')
-            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic->getId());
-
-        $query = $qb->getQuery();
-        $query->setHint('knp_paginator.count', $count);
-
-        if ($page === 'last') {
-            $page = \ceil($count / $limit);
-        }
-
-        $pagination = $this->paginator->paginate(
-            $query, $page, $limit, array('distinct' => false)
-        );
 
         return $pagination;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return Post
+     */
+    public function getLastPost(Topic $topic){
+        $posts = $this->findPosts($topic, 1, 1, "desc");
+        return $posts->current();
     }
 
     /**
@@ -154,9 +157,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                     t
                 FROM
                     SymbbCoreForumBundle:Topic t
-                INNER JOIN
-                    SymbbCoreForumBundle:Post p WITH
-                    p.topic = t.id
+                JOIN
+                    t.posts p
                 WHERE
                     p.author = ?0
                 GROUP BY
@@ -175,5 +177,54 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         $pagination = $this->createPagination($query, $page, $limit);
 
         return $pagination;
+    }
+
+    /**
+     * @param Topic $topic
+     * @param Forum $forum
+     * @return bool
+     */
+    public function move(Topic $topic, Forum $forum){
+        $topic->setForum($forum);
+        $this->em->persist($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function delete(Topic $topic){
+        $this->em->remove($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     */
+    public function close(Topic $topic){
+        $topic->setLocked(true);
+        $this->em->persist($topic);
+        $this->em->flush();
+        $this->topicFlagHandler->insertFlags($topic, 'locked');
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function open(Topic $topic){
+        $topic->setLocked(false);
+        $this->em->persist($topic);
+        $this->em->flush();
+        $this->topicFlagHandler->removeFlag($topic, 'locked');
+
+        return true;
     }
 }

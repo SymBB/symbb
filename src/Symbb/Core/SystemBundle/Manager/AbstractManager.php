@@ -129,8 +129,8 @@ abstract class AbstractManager
         // for count this is better because we dont need the data
         $queryCount = $query->getSql();
         $queryCountTmp = explode("FROM", $queryCount);
-        $queryCountSelect = reset($queryCountTmp);
-        $queryCountEnd = end($queryCountTmp);
+        $queryCountSelect = array_shift($queryCountTmp);
+        $queryCountEnd = implode("FROM", $queryCountTmp);
         $queryCountSelect = explode(",", $queryCountSelect);
         $queryCountSelect = reset($queryCountSelect);
         $queryCount = "SELECT COUNT(*) as count FROM (".$queryCountSelect." FROM ".$queryCountEnd.") as temp";
