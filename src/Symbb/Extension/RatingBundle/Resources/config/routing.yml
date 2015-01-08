@@ -1,3 +1,7 @@
 symbb_api_extension_rating_like:
     pattern:  /api/post/extension/rate/{id}/{like}
-    defaults: { _controller: SymbbExtensionRatingBundle:Default:ratePost}
+    defaults: { _controller: SymbbExtensionRatingBundle:Default:ratePostApi}
+
+symbb_extension_rating_like:
+        pattern:  /post/extension/rate/{id}/{like}
+        defaults: { _controller: SymbbExtensionRatingBundle:Default:ratePost}

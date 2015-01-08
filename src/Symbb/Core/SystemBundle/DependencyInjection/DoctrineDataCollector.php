@@ -56,15 +56,24 @@ class DoctrineDataCollector extends DataCollector
                 $problematic = true;
                 $queryData["problems"][] = "Query is slow.";
             }
-            if($queryData["explainable"]){
-                $explainData = $this->explainQuery($queryData["sql"], $queryData["params"]);
-                foreach($explainData as $explain){
-                    if(
-                        $explain["type"] == "ALL"
-                    ){
-                        $problematic = true;
-                        $queryData["problems"][] = "type is ALL";
+            if(
+                $queryData["explainable"] &&
+                strpos($queryData["sql"], "TRANSACTION") === false &&
+                strpos($queryData["sql"], "COMMIT") === false &&
+                strpos($queryData["sql"], "ROLLBACK") === false
+            ){
+                try {
+                    $explainData = $this->explainQuery($queryData["sql"], $queryData["params"]);
+                    foreach($explainData as $explain){
+                        if(
+                            $explain["type"] == "ALL"
+                        ){
+                            $problematic = true;
+                            $queryData["problems"][] = "type is ALL";
+                        }
                     }
+                } catch (\Exception $e) {
+
                 }
             }
             if($problematic){

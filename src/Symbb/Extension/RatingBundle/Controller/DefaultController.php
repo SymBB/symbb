@@ -11,11 +11,12 @@ namespace Symbb\Extension\RatingBundle\Controller;
 
 use Symbb\Core\SystemBundle\Controller\AbstractApiController;
 use Symbb\Extension\RatingBundle\Security\Authorization\RatingVoter;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractApiController
 {
 
-    public function ratePostAction($id, $like)
+    public function ratePostApiAction($id, $like)
     {
 
         $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')
@@ -127,5 +128,10 @@ class DefaultController extends AbstractApiController
         }
 
         $em->flush();
+    }
+
+    public function ratePostAction(Request $request, $id, $like){
+        $this->ratePostApiAction($id, $like);
+        return $this->returnToLastPage($request);
     }
 }

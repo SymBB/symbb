@@ -47,3 +47,7 @@ symbb_forum_topic_mark_as_read:
 symbb_forum_topic_show:
     pattern:  /t-{id}-{name}/{page}/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:viewTopic, page: 1 }
+
+symbb_forum_post_delete:
+    pattern:  /post/{id}/delete
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:deletePost }

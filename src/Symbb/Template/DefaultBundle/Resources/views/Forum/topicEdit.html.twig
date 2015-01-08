@@ -1,0 +1,23 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        {% for item in getSymbbForumManager().getBreadcrumbData(forum) %}
+            <li>
+                {% if item.type == "home" %}
+                    <a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a>
+                {% elseif item.type == "forum" %}
+                    <a href="{{ path("symbb_forum_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
+                {% else %}
+                    {{ item.name }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+{% endblock %}
+
+{% block section_content %}
+
+
+{% endblock %}

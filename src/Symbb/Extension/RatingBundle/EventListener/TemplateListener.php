@@ -14,7 +14,7 @@ class TemplateListener
     
     public function beforeActions(\Symbb\Core\EventBundle\Event\TemplatePostEvent $event)
     {
-        $event->render('SymbbExtensionRatingBundle:Post:rating.html.twig', array());
+        $event->render('SymbbExtensionRatingBundle:Post:rating.html.twig', array("post" => $event->getPost()));
     }
     
     public function topicStylesheets(\Symbb\Core\EventBundle\Event\TemplateDefaultEvent $event){

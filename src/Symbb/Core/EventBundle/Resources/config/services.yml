@@ -2,6 +2,6 @@ services:
     symbb.core.event.twig:
         twig.extension.symbb.core.event.twig:
         class: Symbb\Core\EventBundle\Twig\EventExtension
-        arguments: ['@service_container']
+        arguments: ['@event_dispatcher']
         tags:
             - { name: twig.extension } 

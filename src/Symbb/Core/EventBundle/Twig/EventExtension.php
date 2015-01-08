@@ -15,84 +15,84 @@ use \Symbb\Core\EventBundle\Event\TemplateFormTopicEvent;
 
 class EventExtension extends \Twig_Extension
 {
-    protected $container;
+    protected $dispatcher;
     protected $env;
 
-    public function __construct($container) {
-        $this->container        = $container;
-    }
-
-    public function initRuntime(\Twig_Environment $environment){
-        parent::initRuntime($environment);
-        $this->env = $environment;
+    public function __construct($dispatcher) {
+        $this->dispatcher = $dispatcher;
     }
     
     public function getFunctions()
     {
         return array(
             new \Twig_SimpleFunction('executeSymbbTemplatePostEvent', array($this, 'executeSymbbTemplatePostEvent'), array(
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
+                'needs_environment' => true
             )),
             new \Twig_SimpleFunction('executeSymbbTemplateTopicEvent', array($this, 'executeSymbbTemplateTopicEvent'), array(
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
+                'needs_environment' => true
             )),
             new \Twig_SimpleFunction('executeSymbbTemplateFormTopicEvent', array($this, 'executeSymbbTemplateFormTopicEvent'), array(
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
+                'needs_environment' => true
             )),
             new \Twig_SimpleFunction('executeSymbbTemplateFormPostEvent', array($this, 'executeSymbbTemplateFormPostEvent'), array(
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
+                'needs_environment' => true
             )),
             new \Twig_SimpleFunction('executeSymbbEvent', array($this, 'executeSymbbEvent'), array(
-                'is_safe' => array('html')
+                'is_safe' => array('html'),
+                'needs_environment' => true
             )),
         );
     }
 
-    public function executeSymbbEvent($eventName)
+    public function executeSymbbEvent($env, $eventName)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new \Symbb\Core\EventBundle\Event\TemplateDefaultEvent($this->env);
+        $dispatcher = $this->dispatcher;
+        $event      = new \Symbb\Core\EventBundle\Event\TemplateDefaultEvent($env);
         $dispatcher->dispatch('symbb.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
 
-    public function executeSymbbTemplateFormTopicEvent($eventName)
+    public function executeSymbbTemplateFormTopicEvent($env, $eventName)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new TemplateFormTopicEvent($this->env);
+        $dispatcher = $this->dispatcher;
+        $event      = new TemplateFormTopicEvent($env);
         $dispatcher->dispatch('symbb.topic.template.form.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
     
-    public function executeSymbbTemplateFormPostEvent($eventName)
+    public function executeSymbbTemplateFormPostEvent($env, $eventName)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new TemplateFormPostEvent($this->env);
+        $dispatcher = $this->dispatcher;
+        $event      = new TemplateFormPostEvent($env);
         $dispatcher->dispatch('symbb.post.template.form.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
 
-    public function executeSymbbTemplatePostEvent($eventName)
+    public function executeSymbbTemplatePostEvent($env, $eventName, $post)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new TemplatePostEvent($this->env);
+        $dispatcher = $this->dispatcher;
+        $event      = new TemplatePostEvent($env, $post);
         $dispatcher->dispatch('symbb.post.template.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
 
-    public function executeSymbbTemplateTopicEvent($eventName, \Symbb\Core\ForumBundle\Entity\Topic $topic)
+    public function executeSymbbTemplateTopicEvent($env, $eventName, \Symbb\Core\ForumBundle\Entity\Topic $topic)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->container->get('event_dispatcher');
-        $event      = new TemplateTopicEvent($this->env, $topic);
+        $dispatcher = $this->dispatcher;
+        $event      = new TemplateTopicEvent($env, $topic);
         $dispatcher->dispatch('symbb.topic.template.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;

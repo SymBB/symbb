@@ -1,10 +1,18 @@
-<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.dislike]">
-    <span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-down" symbb-request="symbb_api_extension_rating_like" param-id="[[object.id]]" param-like="dislike"></span>
-    <span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-down"></span>
-    [[object.extension.rating.count.dislike]]
-</div>
-<div class="rating-group" ng-if="object.access.viewRating" ng-class="{true: 'active'}[object.extension.rating.like]">
-    <span ng-if="object.access.createRating" class="glyphicon glyphicon-thumbs-up" symbb-request="symbb_api_extension_rating_like" param-id="[[object.id]]" param-like="like"></span>
-    <span ng-if="!object.access.createRating" class="glyphicon glyphicon-thumbs-up"></span>
-    [[object.extension.rating.count.like]]
-</div>
+{% if is_granted(constant('Symbb\\Extension\\RatingBundle\\Security\\Authorization\\RatingVoter::VIEW_RATING'), post.getTopic().getForum()) %}
+    <div class="rating-group {% if checkSymbbExtensionRatingDislike(post) %}active{% endif %}">
+        {% if is_granted(constant('Symbb\\Extension\\RatingBundle\\Security\\Authorization\\RatingVoter::CREATE_RATING'), post.getTopic().getForum()) %}
+            <a class="glyphicon glyphicon-thumbs-down" href="{{ path("symbb_extension_rating_like", {"id": post.getId(), "like": "dislike"}) }}"></a>
+        {% else %}
+            <span class="glyphicon glyphicon-thumbs-down"></span>
+        {% endif %}
+        {{ getSymbbDislikeCount(post) }}
+    </div>
+    <div class="rating-group {% if checkSymbbExtensionRatingLike(post) %}active{% endif %}">
+        {% if is_granted(constant('Symbb\\Extension\\RatingBundle\\Security\\Authorization\\RatingVoter::CREATE_RATING'), post.getTopic().getForum()) %}
+            <a  class="glyphicon glyphicon-thumbs-up" href="{{ path("symbb_extension_rating_like", {"id": post.getId(), "like": "like"}) }}"></a>
+        {% else %}
+            <span  class="glyphicon glyphicon-thumbs-up"></span>
+        {% endif %}
+        {{ getSymbbLikeCount(post) }}
+    </div>
+{% endif %}
