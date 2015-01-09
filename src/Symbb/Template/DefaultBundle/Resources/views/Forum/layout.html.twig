@@ -14,6 +14,7 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts filter='?uglifyjs2'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/aloha.min.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js'
     %}
     <script src="{{ asset_url }}"></script>

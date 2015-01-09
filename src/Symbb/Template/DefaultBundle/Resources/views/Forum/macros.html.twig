@@ -21,7 +21,7 @@
     {% set topic = object.getTopic() %}
     {% set forum = topic.getForum() %}
 
-    <article class="symbb_post" itemtype="http://schema.org/Article" >
+    <article class="symbb_post " itemtype="http://schema.org/Article" >
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
             <a class="avatar" href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
