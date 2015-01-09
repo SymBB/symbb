@@ -18,3 +18,12 @@ symbb_api_user_data:
     pattern:  /api/user/data
     defaults: { _controller: SymbbCoreUserBundle:FrontendApi:data }
 
+symbb_userlist:
+    pattern:  /users/{page}
+    defaults:
+      _controller: SymbbCoreUserBundle:Frontend:userlist
+
+symbb_user_profile:
+    pattern:  /user/{id}/{username}
+    defaults:
+      _controller: SymbbCoreUserBundle:Frontend:view

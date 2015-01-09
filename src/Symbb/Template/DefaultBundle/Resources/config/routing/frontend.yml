@@ -153,26 +153,3 @@ symbb_user_ucp_security:
         route: symbb_template_ucp_angular
         params:
             file: 'security'
-
-symbb_userlist:
-    pattern:  /users/{page}
-    defaults:
-      _controller: SymbbCoreAngularBundle:Angular:index
-    options:
-      symbb_angular_controller: DefaultApiCtrl
-      symbb_angular_api_route: symbb_api_userlist
-      symbb_angular_template:
-        route: symbb_template_default_angular
-        params:
-            file: 'userlist'
-
-symbb_user_profile:
-    pattern:  /user/{id}/{username}
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: DefaultApiCtrl
-      symbb_angular_api_route: symbb_api_user_data
-      symbb_angular_template:
-        route: symbb_template_user_angular
-        params:
-            file: 'profile'
