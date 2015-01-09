@@ -43,7 +43,7 @@ class TemplateListener
     {
         $post = $event->getPost();
         $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
-        $survey = $repo->findOneBy(array('post' => $post));
+        $survey = $repo->findOneOrNullBy(array('post' => $post));
         return array('post' => $post, 'survey' => $survey);
     }
 

@@ -36,6 +36,7 @@ class FrontendApiController extends AbstractApiController
                 'id' => $result->getId(),
                 'message' => $result->getMessage(),
                 'date' => $this->getISO8601ForUser($result->getDate()),
+                'dateTimestamp' => $result->getDate()->getTimestamp(),
                 'author' => array(
                     'id' => $author->getId(),
                     'username' => $author->getUsername(),

@@ -11,6 +11,7 @@ namespace Symbb\Core\SystemBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractController extends Controller
 {

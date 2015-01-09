@@ -61,6 +61,10 @@ class DefaultController extends AbstractApiController
     )
     {
 
+        if (!$this->get('security.authorization_checker')->isGranted(RatingVoter::CREATE_RATING, $post->getTopic()->getForum(), $user)) {
+            throw $this->createAccessDeniedException();
+        }
+
         $likes = $this->get('doctrine')->getRepository('SymbbExtensionRatingBundle:Like', 'symbb')
             ->findBy(array('post' => $post, 'user' => $user));
 
