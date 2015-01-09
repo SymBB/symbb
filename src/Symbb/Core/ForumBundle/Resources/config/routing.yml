@@ -7,6 +7,9 @@ symbb_forum_index:
     pattern:  /forum/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:index }
 
+symbb_forum_search:
+    pattern:  /forum/search/{page}/
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:searchForum, page: 1 }
 
 symbb_forum_show:
     pattern:  /f-{id}-{name}/show/{page}/

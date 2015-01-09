@@ -1,0 +1,26 @@
+
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% import getSymbbTemplate('forum') ~ ':Forum:macros.html.twig' as forumMacros %}
+
+{% block section_content %}
+
+    {% for object in posts %}
+        <div class="symbb_post_breadcrumb">
+            <ol class="breadcrumb">
+                {{ forumMacros.breadcrumbForTopic(object.getTopic()) }}
+            </ol>
+        </div>
+        {{ forumMacros.post(object) }}
+    {% endfor %}
+
+    {% if posts.count() == 0 %}
+        <div class="simplerow">
+            <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
+        </div>
+    {% else %}
+        <div class="symbb_action_row">
+            {{ knp_pagination_render(posts, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+        </div>
+    {% endif %}
+{% endblock %}

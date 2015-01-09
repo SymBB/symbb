@@ -28,6 +28,12 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
     }
 
+    public function searchForumAction(Request $request){
+        $page = $request->get("page", 1);
+        $posts = $this->get('symbb.core.post.manager')->search($page);
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:search.html.twig', array("posts" => $posts));
+    }
+
     /**
      * @param $id
      * @return mixed

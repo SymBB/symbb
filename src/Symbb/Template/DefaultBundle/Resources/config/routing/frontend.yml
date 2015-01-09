@@ -1,43 +1,8 @@
-# Routings to get the Templates
-symbb_template_default_angular:
-    pattern:  /angular/template/default/{file}
-    methods:  [GET]
-    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:templateFile }
-
-symbb_template_forum_angular:
-    pattern:  /angular/template/forum/{file}
-    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:forumTemplateFile }
-
-symbb_template_message_angular:
-    pattern:  /angular/template/message/{file}
-    defaults: { _controller: SymbbCoreMessageBundle:Angular:templateFile }
-
-symbb_template_ucp_angular:
-    pattern:  /angular/template/ucp/{file}
-    defaults: { _controller: SymbbCoreUserBundle:Angular:ucpTemplateFile }
-
-symbb_template_user_angular:
-    pattern:  /angular/template/user/{file}
-    defaults: { _controller: SymbbCoreUserBundle:Angular:userTemplateFile }
-
 # AngularJs Controller Routings
 # This will create a SF Controller AND a AngularJs Controller automaticly
 # and provide the correct content
 
 ## FORUM BUNDLE
-
-symbb_forum_search:
-    pattern:  /forum/search/{page}/
-    defaults:
-        page: 1
-        _controller: SymbbCoreAngularBundle:Angular:index
-    options:
-      symbb_angular_controller: ForumSearchCtrl
-      symbb_angular_api_route: symbb_api_post_search
-      symbb_angular_template:
-          route: symbb_template_forum_angular
-          params:
-              file: 'search'
 
 symbb_forum_topic_create:
     pattern:  /f-{forum}/topic/new/

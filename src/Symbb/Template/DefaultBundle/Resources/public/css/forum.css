@@ -66,6 +66,17 @@
     font-size: 34px;
 }
 
+.symbb_post_breadcrumb {
+    width: 100%;
+    background-color: #FFF;
+    margin-top: 0px;
+    border: 1px solid #CCC;
+    border-bottom: 0px;
+}
+
+.symbb_post_breadcrumb .breadcrumb {
+    margin-bottom: 0;
+}
 
 .symbb_forum_header_row,
 .symbb_category_header_row {

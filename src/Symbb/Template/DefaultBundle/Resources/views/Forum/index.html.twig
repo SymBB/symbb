@@ -1,18 +1,10 @@
 {% trans_default_domain "symbb_frontend" %}
-
 {% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% import getSymbbTemplate('forum') ~ ':Forum:macros.html.twig' as forumMacros %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
-        {% for item in getSymbbForumManager().getBreadcrumbData(forum) %}
-            <li>
-                {% if item.type == "home" %}
-                    <a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a>
-                {% else %}
-                    <a href="{{ path("symbb_forum_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
-                {% endif %}
-            </li>
-        {% endfor %}
+        {{ forumMacros.breadcrumbForForum(forum) }}
         {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_TOPIC'), forum) and forum.isForum() %}
         <li class="pull-right">
             <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs" href="{{ path("symbb_forum_topic_create", {"forum": forum.getId()}) }}">
