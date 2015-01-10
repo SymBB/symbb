@@ -227,4 +227,15 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 
         return true;
     }
+
+    public function getAvailableTags(){
+        $sql = "SELECT
+                    tag
+                FROM
+                    SymbbCoreForumBundle:Topic\Tag tag
+                ORDER BY
+                    tag.priority DESC ";
+        $query = $this->em->createQuery($sql);
+        return $query->getResult();
+    }
 }

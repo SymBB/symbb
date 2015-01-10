@@ -11,6 +11,9 @@ namespace Symbb\Core\ForumBundle\Controller;
 
 
 use Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\ForumBundle\Form\Type\TopicType;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symbb\Core\ForumBundle\Security\Authorization\TopicVoter;
 use Symfony\Component\HttpFoundation\Request;
@@ -256,6 +259,26 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $this->addError("Topic not found.", $request);
         }
         return $this->returnToLastPage($request);
+
+    }
+
+    public function createTopicAction(Request $request){
+        $forumId = $request->get("forum");
+        $forum = $this->get('symbb.core.forum.manager')->find($forumId);
+
+        if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_TOPIC, $forum)) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $topic = new Topic();
+        $post = new Post();
+        $topic->setForum($forum);
+        $topic->setMainPost($post);
+        $form = $this->createForm("topic", $topic, array("attr" => array("class" => "css-form form-horizontal")));
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:topicEdit.html.twig', array("topic" => $topic, "form" => $form->createView()));
+    }
+
+    public function saveTopic(){
 
     }
 

@@ -19,7 +19,7 @@ use Symbb\Core\ForumBundle\Security\Authorization\PostVoter;
 use Symbb\Core\ForumBundle\Security\Authorization\TopicVoter;
 use Symfony\Component\HttpFoundation\Request;
 
-class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
+class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
     const ERROR_NOT_FOUND_FORUM = 'forum not found';

@@ -101,3 +101,25 @@ services:
         arguments: ['@symbb.core.access.manager']
         tags:
            - { name: security.voter }
+
+    symbb.core.forum.form.topic:
+        class: Symbb\Core\ForumBundle\Form\Type\TopicType
+        tags:
+           - { name: form.type, alias: topic }
+        calls:
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setTranslator, ['@translator']]
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setGroupManager, ['@symbb.core.user.group.manager']]
+            - [setTopicManager, ['@symbb.core.topic.manager']]
+
+    symbb.core.forum.form.post:
+        class: Symbb\Core\ForumBundle\Form\Type\PostType
+        tags:
+           - { name: form.type, alias: post }
+        calls:
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setTranslator, ['@translator']]
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setGroupManager, ['@symbb.core.user.group.manager']]
+            - [setPostManager, ['@symbb.core.post.manager']]

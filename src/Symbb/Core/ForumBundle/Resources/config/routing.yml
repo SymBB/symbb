@@ -1,8 +1,8 @@
 symbb_api_forum:
-    resource: "@SymbbCoreForumBundle/Controller"
+    resource: "@SymbbCoreForumBundle/Controller/BackendApiController.php"
     type: annotation
 
-
+# forum routes
 symbb_forum_index:
     pattern:  /forum/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:index }
@@ -27,6 +27,7 @@ symbb_forum_mark_as_read:
     pattern:  /forum/{id}/markAsRead
     defaults: { _controller: SymbbCoreForumBundle:Frontend:markAsReadForum }
 
+# topic routes
 symbb_forum_topic_move:
     pattern:  /topic/move
     defaults: { _controller: SymbbCoreForumBundle:Frontend:moveTopic }
@@ -51,6 +52,12 @@ symbb_forum_topic_show:
     pattern:  /t-{id}-{name}/{page}/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:viewTopic, page: 1 }
 
+symbb_forum_topic_create:
+    pattern:  /f-{forum}/topic/new/
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:createTopic }
+
+
+# post routes
 symbb_forum_post_delete:
     pattern:  /post/{id}/delete
     defaults: { _controller: SymbbCoreForumBundle:Frontend:deletePost }

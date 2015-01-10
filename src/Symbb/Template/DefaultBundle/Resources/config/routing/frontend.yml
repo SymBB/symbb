@@ -4,17 +4,6 @@
 
 ## FORUM BUNDLE
 
-symbb_forum_topic_create:
-    pattern:  /f-{forum}/topic/new/
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: ForumTopicEditCtrl
-      symbb_angular_api_route: symbb_api_topic_data
-      symbb_angular_template:
-          route: symbb_template_forum_angular
-          params:
-              file: 'topic'
-
 symbb_forum_topic_edit:
     pattern:  /f-{forum}/topic/{id}/edit
     defaults: { _controller: SymbbCoreAngularBundle:Angular:index }

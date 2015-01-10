@@ -9,6 +9,7 @@
 
 namespace Symbb\Core\EventBundle\Event;
 
+use Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
 use Symfony\Component\EventDispatcher\Event;
 use \Symbb\Core\ForumBundle\Entity\Topic;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,10 +19,6 @@ use \Symbb\Core\UserBundle\Manager\GroupManager;
 class FormTopicEvent extends Event
 {
 
-    /**
-     * @var Topic 
-     */
-    protected $topic;
 
     /**
      *
@@ -37,9 +34,9 @@ class FormTopicEvent extends Event
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManager 
+     * @var TopicManager
      */
-    protected $em;
+    protected $topicManager;
 
     /**
      * @var \Symbb\Core\UserBundle\Manager\UserManager
@@ -52,66 +49,53 @@ class FormTopicEvent extends Event
      */
     protected $groupManager;
 
-    public function __construct(Topic $topic, FormBuilderInterface $builder, $translator, $em, UserManager $userManager, GroupManager $groupManager)
+    public function __construct(FormBuilderInterface $builder, $translator, TopicManager $topicManager, UserManager $userManager, GroupManager $groupManager)
     {
-        $this->topic = $topic;
         $this->builder = $builder;
         $this->translator = $translator;
-        $this->em = $em;
+        $this->topicManager = $topicManager;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
-
-    }
-
-    public function getTopic()
-    {
-        return $this->topic;
-
-    }
-
-    public function getBuilder()
-    {
-        return $this->builder;
-
     }
 
     /**
-     * 
+     * @return FormBuilderInterface
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
      * @return \Symfony\Component\Translation\TranslatorInterface
      */
     public function getTranslator()
     {
         return $this->translator;
-
     }
 
     /**
-     * 
-     * @return \Doctrine\ORM\EntityManager
+     * @return TopicManager
      */
-    public function getEntityManager()
+    public function getTopicManager()
     {
-        return $this->em;
-
+        return $this->topicManager;
     }
 
     /**
-     * 
-     * @return \Symbb\Core\UserBundle\Manager\GroupManager
-     */
-    public function getGroupManager()
-    {
-        return $this->groupManager;
-
-    }
-
-    /**
-     * 
-     * @return \Symbb\Core\UserBundle\Manager\UserManager
+     * @return UserManager
      */
     public function getUserManager()
     {
         return $this->userManager;
-
     }
+
+    /**
+     * @return GroupManager
+     */
+    public function getGroupManager()
+    {
+        return $this->groupManager;
+    }
+
 }

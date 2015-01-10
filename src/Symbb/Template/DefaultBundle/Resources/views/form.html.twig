@@ -2,11 +2,14 @@
 
 {% block form_row %}
 {% spaceless %}
-    <div class="input-group">
-        <span class="input-group-addon">{{ form_label(form) }}</span>
-        {{ form_widget(form) }}
+    <div class="form-group">
+        <span class="col-sm-2 control-label">{{ form_label(form) }}</span>
+        <div class="col-sm-10">
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+        </div>
+        <div class="clear"></div>
     </div>
-    {{ form_errors(form) }}
 {% endspaceless %}
 {% endblock form_row %}
 

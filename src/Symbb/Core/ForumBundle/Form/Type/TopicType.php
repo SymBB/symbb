@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\ForumBundle\Form\Type;
 
+use Symbb\Core\EventBundle\Event\FormTopicEvent;
+use Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -18,12 +20,6 @@ use \Symbb\Core\UserBundle\Manager\GroupManager;
 class TopicType extends AbstractType
 {
 
-    protected $url;
-
-    /**
-     * @var \Symbb\Core\ForumBundle\Entity\Topic
-     */
-    protected $topic;
 
     /**
      *
@@ -39,9 +35,9 @@ class TopicType extends AbstractType
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManager 
+     * @var TopicManager
      */
-    protected $em;
+    protected $topicManager;
 
     /**
      * @var \Symbb\Core\UserBundle\Manager\UserManager
@@ -54,31 +50,52 @@ class TopicType extends AbstractType
      */
     protected $groupManager;
 
-    public function __construct($url, \Symbb\Core\ForumBundle\Entity\Topic $topic, $dispatcher, $translator, $em, UserManager $userManager, GroupManager $groupManager)
-    {
-        $this->url = $url;
-        $this->topic = $topic;
-        $this->dispatcher = $dispatcher;
-        $this->translator = $translator;
-        $this->em = $em;
-        $this->userManager = $userManager;
-        $this->groupManager = $groupManager;
+    public function setDispatcher($object){
+        $this->dispatcher = $object;
+    }
 
+    public function setTranslator($object){
+        $this->translator = $object;
+    }
+
+    /**
+     * @param UserManager $object
+     */
+    public function setUserManager(UserManager $object){
+        $this->userManager = $object;
+    }
+
+    /**
+     * @param GroupManager $object
+     */
+    public function setGroupManager(GroupManager $object){
+        $this->groupManager = $object;
+    }
+
+    /**
+     * @param TopicManager $object
+     */
+    public function setTopicManager(TopicManager $object){
+        $this->topicManager = $object;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $postType = new PostType('', $this->topic->getMainPost(), $this->dispatcher, $this->translator, $this->em, $this->userManager, $this->groupManager);
+        $tags =  $this->topicManager->getAvailableTags();
+
         $builder
             ->add('name', 'text', array('label' => 'Titel', 'required' => true, 'attr' => array('placeholder' => 'Enter a name here')))
-            ->add('mainPost', $postType)
+            ->add('mainPost', "post")
+            ->add('tags', 'choice', array(
+                "choices" => $tags,
+                'required'  => false
+            ))
             ->add('locked', 'checkbox', array('required' => false, 'label' => 'close topic'))
             ->add('id', 'hidden')
-            ->add('forum', 'entity', array('class' => 'SymbbCoreForumBundle:Forum', 'disabled' => true))
-            ->setAction($this->url);
+            ->add('forum', 'entity', array('class' => 'SymbbCoreForumBundle:Forum', 'disabled' => true));
 
         // create Event to manipulate Post Form
-        $event = new \Symbb\Core\EventBundle\Event\FormTopicEvent($this->topic, $builder, $this->translator, $this->em, $this->userManager, $this->groupManager);
+        $event = new FormTopicEvent($builder, $this->translator, $this->topicManager, $this->userManager, $this->groupManager);
         $this->dispatcher->dispatch('symbb.topic.controller.form', $event);
 
     }

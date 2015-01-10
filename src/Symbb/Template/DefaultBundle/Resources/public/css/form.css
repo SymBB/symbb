@@ -101,3 +101,5 @@ form .collection_item .symbb_bbcode_btn {
     cursor: pointer;
     margin-left: 5px;
 }
+
+form .input-group .input-group-addon:first-child
