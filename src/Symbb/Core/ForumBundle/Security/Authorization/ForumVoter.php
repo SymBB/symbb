@@ -27,6 +27,7 @@ class ForumVoter extends AbstractVoter implements VoterInterface
     const MOVE_POST = 'move_post';
     const MOVE_TOPIC = 'move_topic';
     const SPLIT_TOPIC = 'split_topic';
+    const UPLOAD_FILE = 'upload_file';
 
     public function getGroupedAttributes()
     {
@@ -35,6 +36,7 @@ class ForumVoter extends AbstractVoter implements VoterInterface
                 self::VIEW,
                 self::CREATE_POST,
                 self::CREATE_TOPIC,
+                self::UPLOAD_FILE
             ),
             AbstractVoter::GROUP_MOD => array(
                 self::EDIT_POST,
@@ -67,13 +69,15 @@ class ForumVoter extends AbstractVoter implements VoterInterface
             "default_4" => array(
                 self::VIEW,
                 self::CREATE_POST,
-                self::CREATE_TOPIC
+                self::CREATE_TOPIC,
+                self::UPLOAD_FILE
             ),
             // moderator
             "default_5" => array(
                 self::VIEW,
                 self::CREATE_POST,
                 self::CREATE_TOPIC,
+                self::UPLOAD_FILE,
                 self::EDIT_POST,
                 self::EDIT_TOPIC,
                 self::DELETE_POST,

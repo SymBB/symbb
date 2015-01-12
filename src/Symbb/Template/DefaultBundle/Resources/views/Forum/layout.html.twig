@@ -3,6 +3,11 @@
 {% block stylesheets %}
     {{ parent() }}
     {% stylesheets filter='?uglifycss'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/font-awesome.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_editor.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_content.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_style.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/themes/gray.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
     %}
@@ -14,12 +19,28 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts filter='?uglifyjs2'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/aloha.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/froala_editor.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/colors.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/char_counter.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/file_upload.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/font_size.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/lists.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/tables.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/video.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_us.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_gb.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/de.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {{ executeSymbbEvent('template.forum.javascripts') }}
+    <script>
+        jQuery( document ).ready(function( ) {
+            symbbForum.initEditor("{{ path("symbb_forum_post_upload") }}", "{{ app.request.locale }}");
+            symbbForum.prepareCollection();
+        });
+    </script>
 {% endblock %}
 
 {% block symbb_body_container %}

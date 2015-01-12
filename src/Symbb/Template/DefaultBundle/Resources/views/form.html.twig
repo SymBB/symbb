@@ -83,8 +83,9 @@
 {% endblock form_errors %}
     
 {% block textarea_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' form-control')|trim}) %}
 {% spaceless %}
-    <textarea class="form-control" {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
 {% endspaceless %}
 {% endblock textarea_widget %}
  

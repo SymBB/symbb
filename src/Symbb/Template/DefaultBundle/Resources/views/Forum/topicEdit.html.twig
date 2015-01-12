@@ -23,7 +23,8 @@
                         {{ form_errors(form.name) }}
                         {{ form_widget(form.name) }}
                     </div>
-                    <div id="topic_text_editor_{{ topic.getId() }}">
+                    <div class="symbb_editor" data-id="{{ topic.getMainPost().getId() }}" data-forum="{{ topic.getForum().getId() }}">
+                        {{ form_row(form.mainPost.id) }}
                         {{ form_widget(form.mainPost.text) }}
                     </div>
                     <div class="m-top-1"></div>
@@ -54,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-success" type="submit" onclick="symbbForum.submitTopicForm({{ topic.getId() }})">{{ 'Save'|trans }}</a>
+                    <a class="btn btn-success" type="submit" onclick="return symbbForum.saveEditor(true)">{{ 'Save'|trans }}</a>
                     <a class="btn btn-danger" href="{{ path("symbb_forum_show", {id: topic.getForum().getId(), name: topic.getForum().getSeoName()}) }}">{{ 'Abort'|trans }}</a>
                 </div>
             </div>

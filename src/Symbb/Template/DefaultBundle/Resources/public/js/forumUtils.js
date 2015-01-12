@@ -1,14 +1,39 @@
 var symbbForum = {
 
-    initEditor: function(){
-        var editable = document.querySelector('.symbb-editable');
-        aloha(editable);
+    initEditor: function(uploadPath, lang){
+        $(".symbb_editor").each(function(key, element){
+            var textarea = $(element).find("textarea");
+            parentId = $(element).data("id");
+            parentId = parseInt(parentId);
+            forum = $(parent).data("forum");
+            forum = parseInt(forum);
+            var editor = $(textarea).editable(
+                {
+                    inlineMode: false,
+                    imageUploadURL: uploadPath,
+                    imageUploadParams: {'id': parentId, 'forum': forum},
+                    language: lang,
+                    autosave: true,
+                    autosaveInterval: 500,
+                    toolbarFixed: false,
+                    theme: 'gray'
+                }
+            );
+            $(textarea).on('editable.beforeSave', function (e, editor) {
+                var html = editor.getHTML();
+                $(textarea).html(html);
+                //dont send save request we will put the text into the from field
+                return false;
+            });
+        });
     },
 
-    submitTopicForm: function(topicId){
-        var value = $('#topic_text_editor_'+topicId).html();
-        console.debug(value);
-        $('#topic_text_'+topicId).val(value);
+    saveEditor: function(bSubmit){
+        $(".symbb_editor textarea").editable("sync");
+        if(bSubmit){
+            submit();
+        }
+        return true;
     },
 
     prepareCollection: function(){
@@ -75,9 +100,4 @@ var symbbForum = {
             $newLinkLi.before($newFormLi);
         }
     }
-}
-
-jQuery( document ).ready(function( ) {
-    //symbbForum.initEditor();
-    symbbForum.prepareCollection();
-});
+};

@@ -282,4 +282,39 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
     }
 
+
+    public function postUploadAction(Request $request)
+    {
+
+        $id = (int)$request->get('id');
+        $forum = (int)$request->get('forum');
+        $forum = $this->get("symbb.core.forum.manager")->find($forum);
+
+        $params = array();
+
+        //if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::UPLOAD_FILE, $forum)) {
+        //    throw $this->createAccessDeniedException();
+        //}
+
+        $files = $request->files;
+
+        if (\is_object($files)) {
+            $uploadManager = $this->get('symbb.core.upload.manager');
+            $uploadSet = 'tmp';
+            if ($id > 0) {
+                $uploadSet = 'post';
+            }
+            $fileData = $uploadManager->handleUpload($request, $uploadSet);
+            $fileData = reset($fileData);
+            $params["link"] = $fileData["url"];
+            $params["files"] = $fileData;
+        } else {
+            $params["error"] = "Error while uploading file.";
+        }
+
+        $response = new \Symfony\Component\HttpFoundation\Response(json_encode($params));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

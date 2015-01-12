@@ -61,3 +61,7 @@ symbb_forum_topic_create:
 symbb_forum_post_delete:
     pattern:  /post/{id}/delete
     defaults: { _controller: SymbbCoreForumBundle:Frontend:deletePost }
+
+symbb_forum_post_upload:
+    pattern:  /post/upload
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:postUpload }

@@ -1,10 +1,4 @@
 services:
-    symbb.core.bbcode.listener.template:
-        class: Symbb\Core\BBCodeBundle\EventListener\TemplateListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }
-            
     symbb.core.bbcode.listener.parse:
         class: Symbb\Core\BBCodeBundle\EventListener\ParseListener
         arguments: ['@symbb.core.bbcode.manager']

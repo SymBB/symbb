@@ -80,7 +80,7 @@ class PostType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', 'textarea', array('attr' => array('placeholder' => 'Give Your text here')));
+        $builder->add('text', 'textarea', array('attr' => array('placeholder' => 'Give Your text here', "class" => "symbb-editable")));
         $builder->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me'));
         $builder->add('id', 'hidden');
 
