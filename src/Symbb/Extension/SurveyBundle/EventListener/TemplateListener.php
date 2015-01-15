@@ -9,6 +9,8 @@
 
 namespace Symbb\Extension\SurveyBundle\EventListener;
 
+use Symbb\Core\EventBundle\Event\TemplateFormTopicEvent;
+
 class TemplateListener
 {
 
@@ -34,9 +36,10 @@ class TemplateListener
         $event->render('SymbbExtensionSurveyBundle:Topic:tab.html.twig', array());
     }
 
-    public function addTopicTabContent($event)
+    public function addTopicTabContent(TemplateFormTopicEvent $event)
     {
-        $event->render('SymbbExtensionSurveyBundle:Topic:tabcontent.html.twig', array());
+        $form = $event->getForm();
+        $event->render('SymbbExtensionSurveyBundle:Topic:tabcontent.html.twig', array("form" => $form));
     }
 
     public function addSurveyBlockData($event)

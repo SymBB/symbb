@@ -3,8 +3,12 @@
 {% block form_row %}
 {% spaceless %}
     <div class="form-group">
-        <span class="col-sm-2 control-label">{{ form_label(form) }}</span>
-        <div class="col-sm-10">
+        {{ form_labelbootstrap(form) }}
+        {% if label is not sameas(false) %}
+            <div class="col-sm-10">
+        {% else %}
+            <div class="col-sm-12">
+        {% endif %}
             {{ form_errors(form) }}
             {{ form_widget(form) }}
         </div>

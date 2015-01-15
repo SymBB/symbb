@@ -14,11 +14,13 @@ class BaseTemplateEvent extends Event
 {
     
     protected $env;
+    protected $form;
     protected $html = '';
 
 
-    public function __construct($env) {
+    public function __construct($env, $form = null) {
         $this->env = $env;
+        $this->form = $form;
     }
     
     public function render($templateName, $params){
@@ -31,5 +33,9 @@ class BaseTemplateEvent extends Event
     
     public function getHtml(){
         return $this->html;
+    }
+
+    public function getForm(){
+        return $this->form;
     }
 }

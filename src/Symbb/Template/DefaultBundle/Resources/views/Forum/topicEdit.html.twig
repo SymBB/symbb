@@ -32,11 +32,11 @@
                         <div class="panel-heading">
                             <ul class="nav nav-tabs nav-justified">
                                 <li class="active"><a class="symbb_tab" data-tab="option">{{ 'Options'|trans }}</a></li>
-                                {{ executeSymbbTemplateFormTopicEvent('options.tabs') }}
+                                {{ executeSymbbTemplateFormTopicEvent('options.tabs', form) }}
                             </ul>
                         </div>
                         <div class="panel-body">
-                            {{ executeSymbbTemplateFormTopicEvent('options.tabcontents') }}
+                            {{ executeSymbbTemplateFormTopicEvent('options.tabcontents', form) }}
                             <div class="symbb_tabcontent active" data-tab="option">
                                 <div class="panel panel-default">
                                     {{ form_row(form.locked) }}

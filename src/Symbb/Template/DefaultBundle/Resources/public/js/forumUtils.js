@@ -16,7 +16,8 @@ var symbbForum = {
                     autosave: true,
                     autosaveInterval: 500,
                     toolbarFixed: false,
-                    theme: 'gray'
+                    theme: 'gray',
+                    minHeight: 300
                 }
             );
             $(textarea).on('editable.beforeSave', function (e, editor) {

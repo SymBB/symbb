@@ -10,11 +10,10 @@ services:
             - { name: kernel.event_listener, event: symbb.post.template.before.text, method: addSurveyBlock }
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
 
-    symbb.extension.survey.listener.api.data:
-        class: Symbb\Extension\SurveyBundle\EventListener\ApiListener
-        arguments: ['@security.context']
+    symbb.extension.survey.listener.post.form:
+        class: Symbb\Extension\SurveyBundle\EventListener\FormListener
         tags:
-            - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
+            - { name: kernel.event_listener, event: symbb.post.controller.form, method: postForm }
 
     symbb.listener.post.survey.save:
         class: Symbb\Extension\SurveyBundle\EventListener\SaveListener
