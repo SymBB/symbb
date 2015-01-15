@@ -13,11 +13,18 @@ namespace Symbb\Core\ForumBundle\Controller;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
-use Symbb\Core\ForumBundle\Form\Type\TopicType;
+use Symbb\Core\ForumBundle\Event\PostFormSaveEvent;
+use Symbb\Core\ForumBundle\Event\TopicFormSaveEvent;
+use Symbb\Core\ForumBundle\Form\TopicType;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\ForumBundle\Security\Authorization\PostVoter;
 use Symbb\Core\ForumBundle\Security\Authorization\TopicVoter;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class FrontendController
+ * @package Symbb\Core\ForumBundle\Controller
+ */
 class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
 
@@ -31,6 +38,10 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function searchForumAction(Request $request){
         $page = $request->get("page", 1);
         $posts = $this->get('symbb.core.post.manager')->search($page);
@@ -242,6 +253,10 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->returnToLastPage($request);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function viewTopicAction(Request $request){
         $id = $request->get('id');
         $topic = $this->get("symbb.core.topic.manager")->find($id);
@@ -262,27 +277,168 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function createTopicAction(Request $request){
         $forumId = $request->get("forum");
         $forum = $this->get('symbb.core.forum.manager')->find($forumId);
 
-        if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_TOPIC, $forum)) {
+        if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_TOPIC, $forum) || $forum->getId() <= 0) {
             throw $this->createAccessDeniedException();
         }
 
         $topic = new Topic();
         $post = new Post();
+        $post->setAuthor($this->getUser());
+        $topic->setAuthor($this->getUser());
+        $post->setTopic($topic);
         $topic->setForum($forum);
         $topic->setMainPost($post);
+        return $this->handleTopic($request, $topic);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function editPostAction(Request $request){
+        $postId = $request->get("id");
+        $post = $this->get('symbb.core.post.manager')->find($postId);
+
+        if (!$this->get('security.authorization_checker')->isGranted(PostVoter::EDIT, $post)) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if($post->getTopic()->getMainPost()->getId() == $post->getId()){
+            return $this->handleTopic($request, $post->getTopic());
+        } else {
+            return $this->handlePost($request, $post);
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @param Topic $topic
+     * @return mixed
+     */
+    public function handleTopic(Request $request, Topic $topic){
+
+        $editReason = null;
+        if($topic->getId() > 0){
+            if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::EDIT, $topic)) {
+                throw $this->createAccessDeniedException();
+            }
+            $editReason = $request->get("editReason", "");
+        } else {
+            if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_TOPIC, $topic->getForum())) {
+                throw $this->createAccessDeniedException();
+            }
+        }
+
         $form = $this->createForm("topic", $topic, array("attr" => array("class" => "css-form form-horizontal")));
+
+        $oldText = $topic->getMainPost()->getText();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            // insert edit history
+            if($editReason !== null){
+                $history = new Post\History();
+                $history->setPost($topic->getMainPost());
+                $history->setChanged(new \DateTime());
+                $history->setEditor($this->getUser());
+                $history->setOldText($oldText);
+                $history->setReason($editReason);
+                $topic->getMainPost()->addHistory($history);
+            }
+
+            $event = new TopicFormSaveEvent($topic, $request, $form);
+            $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.topic.before.save', $event);
+            $this->get("symbb.core.topic.manager")->save($topic);
+            $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.topic.after.save', $event);
+
+            if ($request->get("notifyMe", false)) {
+                $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
+            } else {
+                $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+            }
+
+            $this->get('symbb.core.post.flag')->insertFlags($topic->getMainPost(), 'new');
+
+            return $this->redirect($this->generateUrl('symbb_forum_topic_show', array("id" => $topic->getId(), "name" => $topic->getSeoName(), "page" => 1)));
+        }
+
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:topicEdit.html.twig', array("topic" => $topic, "form" => $form->createView()));
     }
 
-    public function saveTopic(){
 
+    /**
+     * @param Request $request
+     * @param Post $post
+     * @return mixed
+     */
+    public function handlePost(Request $request, Post $post){
+
+        $editReason = null;
+        if($post->getId() > 0){
+            if (!$this->get('security.authorization_checker')->isGranted(PostVoter::EDIT, $post)) {
+                throw $this->createAccessDeniedException();
+            }
+            $editReason = $request->get("editReason", "");
+        } else {
+            if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $post->getTopic()->getForum())) {
+                throw $this->createAccessDeniedException();
+            }
+        }
+
+        $form = $this->createForm("post", $post, array("attr" => array("class" => "css-form form-horizontal")));
+
+        $oldText = $post->getText();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            // insert edit history
+            if($editReason !== null){
+                $history = new Post\History();
+                $history->setPost($post);
+                $history->setChanged(new \DateTime());
+                $history->setEditor($this->getUser());
+                $history->setOldText($oldText);
+                $history->setReason($editReason);
+                $post->addHistory($history);
+            }
+
+            $event = new PostFormSaveEvent($post, $request);
+            $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.post.before.save', $event);
+            $this->get("symbb.core.post.manager")->save($post);
+            $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.post.after.save', $event);
+
+            if ($request->get("notifyMe", false)) {
+                $this->get('symbb.core.topic.flag')->insertFlag($post->getTopic(), 'notify');
+            } else {
+                $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
+            }
+
+            $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
+
+            return $this->redirect($this->generateUrl('symbb_forum_topic_show', array("id" => $post->getTopic()->getId(), "name" => $post->getTopic()->getSeoName(), "page" => "last")));
+        }
+
+        return $this->render($this->getTemplateBundleName('forum') . ':Forum:postEdit.html.twig', array("post" => $post, "form" => $form->createView()));
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postUploadAction(Request $request)
     {
 
@@ -292,18 +448,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
         $params = array();
 
-        //if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::UPLOAD_FILE, $forum)) {
-        //    throw $this->createAccessDeniedException();
-        //}
+        if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::UPLOAD_FILE, $forum)) {
+            throw $this->createAccessDeniedException();
+        }
 
         $files = $request->files;
 
         if (\is_object($files)) {
             $uploadManager = $this->get('symbb.core.upload.manager');
-            $uploadSet = 'tmp';
-            if ($id > 0) {
-                $uploadSet = 'post';
-            }
+            $uploadSet = 'editor';
             $fileData = $uploadManager->handleUpload($request, $uploadSet);
             $fileData = reset($fileData);
             $params["link"] = $fileData["url"];

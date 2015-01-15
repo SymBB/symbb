@@ -40,7 +40,7 @@ class Topic
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $mainPost;
 
@@ -62,13 +62,13 @@ class Topic
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Forum", inversedBy="topics")
-     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $forum;
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="topics")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION", nullable=false)
      */
     private $author;
 

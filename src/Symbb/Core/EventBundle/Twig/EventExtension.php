@@ -9,7 +9,6 @@
 namespace Symbb\Core\EventBundle\Twig;
 
 use \Symbb\Core\EventBundle\Event\TemplatePostEvent;
-use \Symbb\Core\EventBundle\Event\TemplateTopicEvent;
 use \Symbb\Core\EventBundle\Event\TemplateFormPostEvent;
 use \Symbb\Core\EventBundle\Event\TemplateFormTopicEvent;
 
@@ -25,19 +24,15 @@ class EventExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('executeSymbbTemplatePostEvent', array($this, 'executeSymbbTemplatePostEvent'), array(
-                'is_safe' => array('html'),
-                'needs_environment' => true
-            )),
-            new \Twig_SimpleFunction('executeSymbbTemplateTopicEvent', array($this, 'executeSymbbTemplateTopicEvent'), array(
-                'is_safe' => array('html'),
-                'needs_environment' => true
-            )),
             new \Twig_SimpleFunction('executeSymbbTemplateFormTopicEvent', array($this, 'executeSymbbTemplateFormTopicEvent'), array(
                 'is_safe' => array('html'),
                 'needs_environment' => true
             )),
             new \Twig_SimpleFunction('executeSymbbTemplateFormPostEvent', array($this, 'executeSymbbTemplateFormPostEvent'), array(
+                'is_safe' => array('html'),
+                'needs_environment' => true
+            )),
+            new \Twig_SimpleFunction('executeSymbbTemplatePostEvent', array($this, 'executeSymbbTemplatePostEvent'), array(
                 'is_safe' => array('html'),
                 'needs_environment' => true
             )),
@@ -58,22 +53,24 @@ class EventExtension extends \Twig_Extension
         return $html;
     }
 
+
+
     public function executeSymbbTemplateFormTopicEvent($env, $eventName, $form)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
         $event      = new TemplateFormTopicEvent($env, $form);
-        $dispatcher->dispatch('symbb.topic.template.form.'.$eventName, $event);
+        $dispatcher->dispatch('symbb.core.forum.topic.template.form.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
-    
+
     public function executeSymbbTemplateFormPostEvent($env, $eventName)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
         $event      = new TemplateFormPostEvent($env);
-        $dispatcher->dispatch('symbb.post.template.form.'.$eventName, $event);
+        $dispatcher->dispatch('symbb.core.forum.post.template.form.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }
@@ -83,17 +80,7 @@ class EventExtension extends \Twig_Extension
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
         $event      = new TemplatePostEvent($env, $post);
-        $dispatcher->dispatch('symbb.post.template.'.$eventName, $event);
-        $html       = $event->getHtml();
-        return $html;
-    }
-
-    public function executeSymbbTemplateTopicEvent($env, $eventName, \Symbb\Core\ForumBundle\Entity\Topic $topic)
-    {
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->dispatcher;
-        $event      = new TemplateTopicEvent($env, $topic);
-        $dispatcher->dispatch('symbb.topic.template.'.$eventName, $event);
+        $dispatcher->dispatch('symbb.core.forum.post.template.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
     }

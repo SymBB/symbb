@@ -10,6 +10,7 @@
 namespace Symbb\Extension\SurveyBundle\EventListener;
 
 use Symbb\Core\EventBundle\Event\TemplateFormTopicEvent;
+use Symbb\Core\EventBundle\Event\TemplatePostEvent;
 
 class TemplateListener
 {
@@ -42,17 +43,12 @@ class TemplateListener
         $event->render('SymbbExtensionSurveyBundle:Topic:tabcontent.html.twig', array("form" => $form));
     }
 
-    public function addSurveyBlockData($event)
+    public function addSurveyBlock(TemplatePostEvent $event)
     {
         $post = $event->getPost();
         $repo = $this->em->getRepository('SymbbExtensionSurveyBundle:Survey');
-        $survey = $repo->findOneOrNullBy(array('post' => $post));
-        return array('post' => $post, 'survey' => $survey);
-    }
-
-    public function addSurveyBlock($event)
-    {
-        $event->render('SymbbExtensionSurveyBundle:Post:survey.html.twig', array('post' => array(), 'survey' => array()));
+        $survey = $repo->findOneBy(array('post' => $post));
+        $event->render('SymbbExtensionSurveyBundle:Post:survey.html.twig', array('post' => $post, 'survey' => $survey));
     }
 
     public function stylesheets($event)

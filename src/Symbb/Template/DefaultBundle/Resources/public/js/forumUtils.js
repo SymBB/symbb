@@ -30,10 +30,14 @@ var symbbForum = {
     },
 
     saveEditor: function(bSubmit){
-        $(".symbb_editor textarea").editable("sync");
-        if(bSubmit){
-            submit();
-        }
+        var editorTextareas = $(".symbb_editor textarea");
+        $(editorTextareas).each(function(key, element){
+            $(element).editable("sync");
+            if(bSubmit){
+                $(element).closest("form").submit();
+                return true;
+            }
+        });
         return true;
     },
 

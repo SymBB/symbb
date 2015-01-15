@@ -7,17 +7,16 @@
  *
  */
 
-namespace Symbb\Core\ForumBundle\Form\Type;
+namespace Symbb\Core\ForumBundle\Form;
 
-use Symbb\Core\EventBundle\Event\FormTopicEvent;
-use Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
+use Symbb\Core\ForumBundle\DependencyInjection\PostManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\UserBundle\Manager\GroupManager;
 
-class TopicType extends AbstractType
+class PostType extends AbstractType
 {
 
 
@@ -35,9 +34,9 @@ class TopicType extends AbstractType
 
     /**
      *
-     * @var TopicManager
+     * @var PostManager
      */
-    protected $topicManager;
+    protected $postManager;
 
     /**
      * @var \Symbb\Core\UserBundle\Manager\UserManager
@@ -73,46 +72,41 @@ class TopicType extends AbstractType
     }
 
     /**
-     * @param TopicManager $object
+     * @param PostManager $object
      */
-    public function setTopicManager(TopicManager $object){
-        $this->topicManager = $object;
+    public function setPostManager(PostManager $object){
+        $this->postManager = $object;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $tags =  $this->topicManager->getAvailableTags();
+        $builder->add('name', "text", array('label' => 'Titel', 'required' => true, 'attr' => array('placeholder' => 'Enter a name here')));
+        $builder->add('text', 'textarea', array('attr' => array('placeholder' => 'Give Your text here', "class" => "symbb-editable")));
+        $builder->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me'));
+        $builder->add('id', 'hidden');
 
-        $builder
-            ->add('name', 'text', array('label' => 'Titel', 'required' => true, 'attr' => array('placeholder' => 'Enter a name here')))
-            ->add('mainPost', "post")
-            ->add('tags', 'choice', array(
-                "choices" => $tags,
-                'required'  => false
-            ))
-            ->add('locked', 'checkbox', array('required' => false, 'label' => 'close topic'))
-            ->add('id', 'hidden')
-            ->add('forum', 'entity', array('class' => 'SymbbCoreForumBundle:Forum', 'disabled' => true));
 
         // create Event to manipulate Post Form
-        $event = new FormTopicEvent($builder, $this->translator, $this->topicManager, $this->userManager, $this->groupManager);
-        $this->dispatcher->dispatch('symbb.topic.controller.form', $event);
+        $event = new \Symbb\Core\EventBundle\Event\FormPostEvent($builder, $this->translator, $this->postManager, $this->userManager, $this->groupManager);
+        $this->dispatcher->dispatch('symbb.core.forum.topic.post.create', $event);
+        //
 
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Symbb\Core\ForumBundle\Entity\Topic',
+            'data_class' => 'Symbb\Core\ForumBundle\Entity\Post',
             'translation_domain' => 'symbb_frontend',
-            'cascade_validation' => true
+            'cascade_validation' => true,
+            'error_bubbling' => true
         ));
 
     }
 
     public function getName()
     {
-        return 'topic';
+        return 'post';
 
     }
 }

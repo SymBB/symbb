@@ -21,6 +21,8 @@ class BBCodeManager
 
     protected $setCache = array();
 
+    protected $allowHtml = true;
+
     /**
      * @var SiteManager
      */
@@ -65,8 +67,10 @@ class BBCodeManager
 
     public function parse($text, $setId = null)
     {
-        $text = htmlspecialchars($text, ENT_HTML5, 'UTF-8');
-        $text = strip_tags($text);
+        if(!$this->allowHtml){
+            $text = htmlspecialchars($text, ENT_HTML5, 'UTF-8');
+            $text = strip_tags($text);
+        }
 
         $bbcodes = $this->getBBCodes($setId);
         $bbcodes2 = $this->getEmoticons($setId);

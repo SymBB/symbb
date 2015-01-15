@@ -240,6 +240,7 @@ class Survey
     {
         $answers = $this->getAnswers();
         $answers = nl2br($answers);
+        $answers = str_replace(",", "<br />", $answers);
         $answers = explode('<br />', $answers);
         return $answers;
 
@@ -251,6 +252,7 @@ class Survey
      */
     public function getAnswerPercent($number)
     {
+
         $votes = $this->getVotes();
         $max = count($votes);
         $percent = 0;
@@ -302,7 +304,7 @@ class Survey
         $now = $now->getTimestamp();
 
         // if the time is over, no new Votes are allowed
-        if ($end && $now > $end) {
+        if ($end > 0 && $now > $end) {
             return false;
         }
 
@@ -322,7 +324,6 @@ class Survey
                 $count++;
             }
         }
-
         // or if the user haven not used all choices
         if ($count < $this->getChoices()) {
             return true;

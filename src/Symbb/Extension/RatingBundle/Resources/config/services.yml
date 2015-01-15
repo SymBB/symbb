@@ -2,7 +2,7 @@ services:
     symbb.listener.post.rating:
         class: Symbb\Extension\RatingBundle\EventListener\TemplateListener
         tags:
-            - { priority: -255, name: kernel.event_listener, event: symbb.post.template.before.actions, method: beforeActions }
+            - { priority: -255, name: kernel.event_listener, event: symbb.core.forum.post.template.before.actions, method: beforeActions }
             - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: topicStylesheets }
    
     symbb.extensionrating.util:

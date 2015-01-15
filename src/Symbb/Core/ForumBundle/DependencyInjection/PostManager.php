@@ -45,7 +45,7 @@ class PostManager extends AbstractManager
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, (string)$text);
-        $this->eventDispatcher->dispatch('symbb.post.manager.parse.text', $event);
+        $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.parse.text', $event);
         $text = $event->getText();
 
         return $text;
@@ -55,7 +55,7 @@ class PostManager extends AbstractManager
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, $text);
-        $this->eventDispatcher->dispatch('symbb.post.manager.clean.text', $event);
+        $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.clean.text', $event);
         $text = $event->getText();
         return $text;
     }

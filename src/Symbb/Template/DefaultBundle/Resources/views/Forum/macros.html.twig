@@ -71,14 +71,14 @@
             <div class="text">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
             {{ executeSymbbTemplatePostEvent('after.text', object) }}
 
-            {% if object.getHistories().count() > 0 %}
+            {% if object.getHistory().count() > 0 %}
                 <div class="history">
                         <span class="pointer" data-toggle="collapse" href="#collapse-history-{{ object.getId() }}" aria-expanded="false" aria-controls="collapse-history-{{ object.getId() }}">
-                            {% trans with {'%count%': object.getHistories().count()} %}edited %count% times (click for details){% endtrans %}
+                            {% trans with {'%count%': object.getHistory().count()} %}edited %count% times (click for details){% endtrans %}
                         </span>
                     <div class="collapse" id="collapse-history-{{ object.getId() }}">
                         <div class="well">
-                            {% for historyEntry in object.getHistories() %}
+                            {% for historyEntry in object.getHistory() %}
                                 <div class="historyEntry">
                                     {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}<span >({{ historyEntry.getReason() }})</span>{% endif %}
                                 </div>

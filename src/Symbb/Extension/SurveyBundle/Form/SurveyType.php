@@ -9,6 +9,7 @@
 
 namespace Symbb\Extension\SurveyBundle\Form;
 
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -16,14 +17,24 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class SurveyType extends AbstractType
 {
 
+    /**
+     * @var UserInterface
+     */
+    protected $user;
+
+    public function __construct(UserInterface $user){
+        $this->user = $user;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $timezone =  $this->user->getSymbbData()->getTimezone();
         $builder
             ->add('question', 'text', array("required" => false))
             ->add('answers', "text", array("required" => false))
             ->add('choices', "number", array("required" => false))
-            ->add('choicesChangeable', "choice", array("required" => false))
-            ->add('end', "datetime", array("required" => false));
+            ->add('choicesChangeable', "checkbox", array("required" => false))
+            ->add('end', "datetime", array("required" => false, "input" => "timestamp", "view_timezone" => $timezone, "widget" => "single_text"));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

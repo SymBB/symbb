@@ -103,7 +103,7 @@ services:
            - { name: security.voter }
 
     symbb.core.forum.form.topic:
-        class: Symbb\Core\ForumBundle\Form\Type\TopicType
+        class: Symbb\Core\ForumBundle\Form\TopicType
         tags:
            - { name: form.type, alias: topic }
         calls:
@@ -114,7 +114,7 @@ services:
             - [setTopicManager, ['@symbb.core.topic.manager']]
 
     symbb.core.forum.form.post:
-        class: Symbb\Core\ForumBundle\Form\Type\PostType
+        class: Symbb\Core\ForumBundle\Form\PostType
         tags:
            - { name: form.type, alias: post }
         calls:

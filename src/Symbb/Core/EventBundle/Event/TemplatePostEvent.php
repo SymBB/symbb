@@ -18,7 +18,7 @@ class TemplatePostEvent extends BaseTemplateEvent
     protected $post;
 
     public function __construct($env, $post) {
-        $this->env = $env;
+        parent::__construct($env);
         $this->post = $post;
     }
 

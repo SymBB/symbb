@@ -3,3 +3,5 @@ upload:
         directory: /symbb/upload/tmp/
     post:
         directory: /symbb/upload/post/
+    editor:
+        directory: /symbb/upload/editor/

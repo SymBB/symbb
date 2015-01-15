@@ -18,17 +18,18 @@
                 <div class="panel-body">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            {{ form_label(form.name) }}
+                            {{ form_label(form.mainPost.name) }}
                         </span>
-                        {{ form_errors(form.name) }}
-                        {{ form_widget(form.name) }}
+                        {{ form_widget(form.mainPost.name) }}
                     </div>
+                    {{ form_errors(form.mainPost.name) }}
                     <div class="symbb_editor" data-id="{{ topic.getMainPost().getId() }}" data-forum="{{ topic.getForum().getId() }}">
                         {{ form_row(form.mainPost.id) }}
                         {{ form_widget(form.mainPost.text) }}
+                        {{ form_errors(form.mainPost.text) }}
                     </div>
                     <div class="m-top-1"></div>
-                    <div class="panel panel-default" symbb-form-tabs>
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <ul class="nav nav-tabs nav-justified">
                                 <li class="active"><a class="symbb_tab" data-tab="option">{{ 'Options'|trans }}</a></li>

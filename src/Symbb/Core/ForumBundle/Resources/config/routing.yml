@@ -56,6 +56,10 @@ symbb_forum_topic_create:
     pattern:  /f-{forum}/topic/new/
     defaults: { _controller: SymbbCoreForumBundle:Frontend:createTopic }
 
+symbb_forum_post_edit:
+    pattern:  /p-{id}/edit
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:editPost }
+
 
 # post routes
 symbb_forum_post_delete:

@@ -28,13 +28,13 @@ class DefaultController extends AbstractController
                 throw $this->createAccessDeniedException();
             }
 
-            $em = $this->get("doctrine")->getEntityManager();
+            $em = $this->get("doctrine.orm.symbb_entity_manager");
 
             $survey = $em->getRepository('SymbbExtensionSurveyBundle:Survey')
                 ->findOneBy(array('post' => $post));
 
             if (is_object($survey) && $survey->checkIfVoteable($user)) {
-                $votes = $this->get("doctrine")->getRepository('SymbbExtensionSurveyBundle:Vote')
+                $votes = $em->getRepository('SymbbExtensionSurveyBundle:Vote')
                     ->findBy(array('survey' => $survey, 'user' => $user));
 
                 $currentVotes = array();
@@ -46,8 +46,9 @@ class DefaultController extends AbstractController
                         }
                     }
                 } else {
-                    $answers = array_flip($answers);
+                    $answers = array((int)$answers => 1);
                 }
+
 
                 if (count($answers) <= $survey->getChoices()) {
 
