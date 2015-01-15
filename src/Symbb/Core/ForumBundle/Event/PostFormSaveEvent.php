@@ -26,11 +26,14 @@ class PostFormSaveEvent extends Event
      */
     protected $request;
 
-    public function __construct(Post $post, Request $request)
+
+    protected $form;
+
+    public function __construct(Post $post, Request $request, $form)
     {
         $this->post = $post;
         $this->request = $request;
-
+        $this->form = $form;
     }
 
     /**
@@ -49,6 +52,12 @@ class PostFormSaveEvent extends Event
         return $this->request;
     }
 
-
+    /**
+     * @return mixed
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 
 }

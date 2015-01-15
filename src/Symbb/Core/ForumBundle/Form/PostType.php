@@ -10,11 +10,14 @@
 namespace Symbb\Core\ForumBundle\Form;
 
 use Symbb\Core\ForumBundle\DependencyInjection\PostManager;
+use Symbb\Core\ForumBundle\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\UserBundle\Manager\GroupManager;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class PostType extends AbstractType
 {
@@ -82,15 +85,21 @@ class PostType extends AbstractType
     {
         $builder->add('name', "text", array('label' => 'Titel', 'required' => true, 'attr' => array('placeholder' => 'Enter a name here')));
         $builder->add('text', 'textarea', array('attr' => array('placeholder' => 'Give Your text here', "class" => "symbb-editable")));
-        $builder->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me'));
         $builder->add('id', 'hidden');
 
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder)
+        {
+            $data = $event->getData();
+            /* Check we're looking at the right data/form */
+            if ($data instanceof Post)
+            {
+                $builder->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me'));
+            }
+        });
 
         // create Event to manipulate Post Form
         $event = new \Symbb\Core\EventBundle\Event\FormPostEvent($builder, $this->translator, $this->postManager, $this->userManager, $this->groupManager);
         $this->dispatcher->dispatch('symbb.core.forum.topic.post.create', $event);
-        //
-
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

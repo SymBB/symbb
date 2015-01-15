@@ -321,6 +321,59 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
     /**
      * @param Request $request
+     * @return mixed
+     */
+    public function createPostAction(Request $request){
+        $topicId = $request->get("topic");
+        $topic = $this->get('symbb.core.topic.manager')->find($topicId);
+
+        if(is_object($topic)){
+            if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())) {
+                throw $this->createAccessDeniedException();
+            }
+
+            $post = new Post();
+            $post->setAuthor($this->getUser());
+            $post->setTopic($topic);
+            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend")." ".$topic->getName());
+
+            return $this->handlePost($request, $post);
+        }
+
+        $this->addError("Topic not found!", $request);
+        return $this->returnToLastPage($request);
+
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function quotePostAction(Request $request){
+        $topicId = $request->get("topic");
+        $quoteId = $request->get("quoteId");
+        $topic = $this->get('symbb.core.topic.manager')->find($topicId);
+
+        if(is_object($topic)){
+
+            $quotePost = $this->get('symbb.core.post.manager')->find($quoteId);
+            if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())) {
+                throw $this->createAccessDeniedException();
+            }
+            $post = new Post();
+            $post->setAuthor($this->getUser());
+            $post->setText("[quote=".$quotePost->getAuthor()->getUsername()."]".$quotePost->getText()."[/quote]");
+            $post->setTopic($topic);
+            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend")." ".$topic->getName());
+            return $this->handlePost($request, $post);
+        }
+
+        $this->addError("Topic not found!", $request);
+        return $this->returnToLastPage($request);
+    }
+
+    /**
+     * @param Request $request
      * @param Topic $topic
      * @return mixed
      */
@@ -415,12 +468,13 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
                 $post->addHistory($history);
             }
 
-            $event = new PostFormSaveEvent($post, $request);
+            $event = new PostFormSaveEvent($post, $request, $form);
             $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.post.before.save', $event);
             $this->get("symbb.core.post.manager")->save($post);
             $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.post.after.save', $event);
+            $data = $request->get("post");
 
-            if ($request->get("notifyMe", false)) {
+            if ($data["notifyMe"]) {
                 $this->get('symbb.core.topic.flag')->insertFlag($post->getTopic(), 'notify');
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');

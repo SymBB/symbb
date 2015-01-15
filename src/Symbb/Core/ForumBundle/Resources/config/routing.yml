@@ -60,6 +60,13 @@ symbb_forum_post_edit:
     pattern:  /p-{id}/edit
     defaults: { _controller: SymbbCoreForumBundle:Frontend:editPost }
 
+symbb_forum_post_create:
+    pattern:  /t-{topic}/post/new
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:createPost }
+
+symbb_forum_post_quote:
+    pattern:  /p-{topic}/quote/{quoteId}
+    defaults: { _controller: SymbbCoreForumBundle:Frontend:quotePost }
 
 # post routes
 symbb_forum_post_delete:

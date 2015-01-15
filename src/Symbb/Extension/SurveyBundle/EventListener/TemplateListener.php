@@ -29,7 +29,8 @@ class TemplateListener
 
     public function addPostTabContent($event)
     {
-        $event->render('SymbbExtensionSurveyBundle:Post:tabcontent.html.twig', array());
+        $form = $event->getForm();
+        $event->render('SymbbExtensionSurveyBundle:Post:tabcontent.html.twig', array("form" => $form));
     }
 
     public function addTopicTab($event)

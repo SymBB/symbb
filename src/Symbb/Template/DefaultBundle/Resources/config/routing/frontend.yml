@@ -2,31 +2,6 @@
 # This will create a SF Controller AND a AngularJs Controller automaticly
 # and provide the correct content
 
-## FORUM BUNDLE
-
-symbb_forum_post_create:
-    pattern:  /t-{topic}/post/new
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: ForumPostEditCtrl
-      symbb_angular_api_route: symbb_api_post_data
-      symbb_angular_template:
-          route: symbb_template_forum_angular
-          params:
-              file: 'post'
-
-symbb_forum_post_quote:
-    pattern:  /p-{topic}/quote/{quoteId}
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: ForumPostEditCtrl
-      symbb_angular_api_route: symbb_api_post_data
-      symbb_angular_template:
-          route: symbb_template_forum_angular
-          params:
-              file: 'post'
-
-
 ## MESSAGE BUNDLE
 
 symbb_message_list:

@@ -1,0 +1,65 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% import getSymbbTemplate('forum') ~ ':Forum:macros.html.twig' as forumMacros %}
+{% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        {{ forumMacros.breadcrumbForTopic(post.getTopic()) }}
+    </ol>
+{% endblock %}
+
+{% block section_content %}
+
+    <div class="symbb_topic ">
+        {{ form_start(form) }}
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ "Answer on:"|trans }}{{ post.getTopic().getName() }}</div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            {{ form_label(form.name) }}
+                        </span>
+                        {{ form_widget(form.name) }}
+                    </div>
+                    {{ form_errors(form.name) }}
+                    <div class="symbb_editor" data-id="{{ post.getId() }}" data-forum="{{ post.getId() }}">
+                        {{ form_row(form.id) }}
+                        {{ form_widget(form.text) }}
+                        {{ form_errors(form.text) }}
+                    </div>
+                    <div class="m-top-1"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a class="symbb_tab" data-tab="option">{{ 'Options'|trans }}</a></li>
+                                {{ executeSymbbTemplateFormPostEvent('options.tabs', form) }}
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            {{ executeSymbbTemplateFormPostEvent('options.tabcontents', form) }}
+                            <div class="symbb_tabcontent active" data-tab="option">
+                                <div class="panel panel-default">
+                                    {{ form_row(form.notifyMe) }}
+                                    {% if post.getId() > 0 %}
+                                        <div class="form-group">
+                                            <label for="post_editReason" class="col-sm-2 control-label">{{'edit reason'|trans}}</label>
+                                            <div class="col-sm-10">
+                                                <input value="" class="form-control" name="editReason" id="post_editReason_{{ post.getId() }}">
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    {% endif %}
+                                    {{ form_rest(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-success" type="submit" onclick="return symbbForum.saveEditor(true)">{{ 'Save'|trans }}</a>
+                    <a class="btn btn-danger" href="{{ path("symbb_forum_topic_show", {id: post.getTopic().getId(), name:  post.getTopic().getSeoName()}) }}">{{ 'Abort'|trans }}</a>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

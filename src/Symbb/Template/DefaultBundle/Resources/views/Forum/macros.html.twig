@@ -104,6 +104,8 @@
         <li>
             {% if item.type == "home" %}
                 <a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a>
+            {% elseif item.type == "topic" %}
+                <a href="{{ path("symbb_forum_topic_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
             {% else %}
                 <a href="{{ path("symbb_forum_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
             {% endif %}

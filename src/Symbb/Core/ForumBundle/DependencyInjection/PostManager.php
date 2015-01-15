@@ -201,4 +201,16 @@ class PostManager extends AbstractManager
     public function getFlags(Post $post){
         return $this->postFlagHandler->findAll($post);
     }
+
+
+
+    /**
+     * @param Post $post
+     * @return bool
+     */
+    public function save(Post $post){
+        $this->em->persist($post);
+        $this->em->flush();
+        return true;
+    }
 }

@@ -70,7 +70,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 WHERE
                   p.topic = ?1
                 ORDER BY
-                  p.created DESC";
+                  p.created ".strtoupper($orderDir);
 
             $query = $this->em->createQuery($sql);
             $query->setParameter(1, $topic->getId());

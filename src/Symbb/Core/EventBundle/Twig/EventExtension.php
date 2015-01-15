@@ -65,11 +65,11 @@ class EventExtension extends \Twig_Extension
         return $html;
     }
 
-    public function executeSymbbTemplateFormPostEvent($env, $eventName)
+    public function executeSymbbTemplateFormPostEvent($env, $eventName, $form)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
-        $event      = new TemplateFormPostEvent($env);
+        $event      = new TemplateFormPostEvent($env, $form);
         $dispatcher->dispatch('symbb.core.forum.post.template.form.'.$eventName, $event);
         $html       = $event->getHtml();
         return $html;
