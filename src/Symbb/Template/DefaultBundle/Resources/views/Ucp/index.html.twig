@@ -1,0 +1,26 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+{% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block section_content %}
+    <div class="symbb_content_bg">
+        {{ form_start(form) }}
+        <fieldset>
+            <div id="legend">
+                <legend class="">{{ 'Profil'|trans }}
+                </legend>
+            </div>
+            {{ form_row(form.avatar) }}
+            {{ form_row(form.signature) }}
+            {{ form_rest(form) }}
+            <div class="pull-right btn-group">
+                <a class="btn btn-success" type="submit"
+                   onclick="return symbbForum.saveEditor(true)">{{ 'Save'|trans }}</a>
+                <a class="btn btn-danger"
+                   href="{{ path("symbb_user_ucp") }}">{{ 'Abort'|trans }}</a>
+            </div>
+            <div class="clear"></div>
+        </fieldset>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -40,23 +40,3 @@ symbb_message_new:
               file: 'new'
 
 ## USER BUNDLE
-
-symbb_user_ucp:
-    pattern:  /ucp/
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: UcpCtrl
-      symbb_angular_template:
-        route: symbb_template_ucp_angular
-        params:
-            file: 'index'
-
-symbb_user_ucp_security:
-    pattern:  /ucp/security
-    defaults: { _controller: SymbbCoreAngularBundle:Angular:index }
-    options:
-      symbb_angular_controller: UcpSecurityCtrl
-      symbb_angular_template:
-        route: symbb_template_ucp_angular
-        params:
-            file: 'security'

@@ -27,3 +27,11 @@ symbb_user_profile:
     pattern:  /user/{id}/{username}
     defaults:
       _controller: SymbbCoreUserBundle:Frontend:view
+
+symbb_user_ucp:
+    pattern:  /ucp/
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:index }
+
+symbb_user_ucp_security:
+    pattern:  /ucp/security
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:security }

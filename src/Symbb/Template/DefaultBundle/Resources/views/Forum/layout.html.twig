@@ -77,6 +77,8 @@
     <div class="clear"></div>
 
     {{ executeSymbbEvent('template.forum.beforeBody') }}
+
+    <div class="symbb_body">
     {% block symbb_body %}
         <div class="section_tabs">
             {% block section_tabs %}
@@ -155,9 +157,13 @@
 
         {{ executeSymbbEvent('template.forum.afterMenu') }}
 
+        <div class="section_content">
         {% block section_content %}
         {% endblock %}
+        </div>
     {% endblock %}
+        <div class="clear"></div>
+    </div>
     {{ executeSymbbEvent('template.forum.afterBody') }}
 
 {% endblock %}

@@ -94,6 +94,9 @@ class User extends BaseUser implements UserInterface
      */
     private $changed;
 
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -252,6 +255,9 @@ class User extends BaseUser implements UserInterface
         return $data;
     }
 
+    /**
+     * @param string $pw
+     */
     public function setPlainPassword($pw)
     {
         if (!empty($pw)) {
@@ -260,6 +266,9 @@ class User extends BaseUser implements UserInterface
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         if ($this->enabled === 0 || $this->enabled === false) {
@@ -268,16 +277,25 @@ class User extends BaseUser implements UserInterface
         return true;
     }
 
+    /**
+     *
+     */
     public function disable()
     {
         $this->enabled = 0;
     }
 
+    /**
+     *
+     */
     public function enable()
     {
         $this->enabled = 1;
     }
 
+    /**
+     * @return array|ArrayCollection
+     */
     public function getFieldValues()
     {
         return $this->symbbFieldValues;

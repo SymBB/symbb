@@ -7,12 +7,53 @@
 }
 
 .symbb_extension_scoutbox .shoutbox_content {
-    height: 100px;
-    max-height: 100px;
     overflow: hidden;
     overflow-y: scroll;
+    max-height: 500px;
 }
 
 .symbb_extension_scoutbox .form-controll {
     float: left;
+}
+
+.symbb_extension_scoutbox {
+    width: 300px;
+    float: right;
+    min-height: 300px;
+}
+
+.symbb_extension_scoutbox .panel {
+
+    margin-left: 20px;
+}
+
+.symbb_extension_scoutbox .panel-title {
+    height: 27px;
+    line-height: 27px;
+}
+
+.section_content {
+    width: 100%;
+    width: calc(100% - 300px);
+    float: left;
+}
+
+.shoutbox_user {
+    color: #CCC;
+    display: block;
+}
+
+.shoutbox_text {
+    border-bottom: 1px solid #CCC;
+    display: block;
+}
+
+.shoutbox_input {
+    margin-bottom: 5px;
+}
+
+.symbb_extension_scoutbox.fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
 }

@@ -453,15 +453,6 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     margin-right: 5px;
 }
 
-.symbb_body .btn-default {
-    position: relative;
-    float: left;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.428571429;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
 
 .spacer-bottom {
     margin-bottom: 20px;
@@ -729,9 +720,6 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 }
 
 .section_content {
-    background-color: #ffffff;
-    border: 1px solid #CCC;
-    padding: 10px;
 }
 
 .loading-spinner-icon {
@@ -795,4 +783,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 
 .profile .countDiv .title {
     color: #666666;
+}
+
+.symbb_content_bg {
+    background-color: #FFF;
+    padding: 10px;
+    border: 1px solid #ccc;
 }
