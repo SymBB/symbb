@@ -80,6 +80,11 @@
     margin-bottom: 0;
 }
 
+.symbb_forum_body_row + .symbb_forum_header_row,
+.symbb_forum_body_row + .symbb_category_header_row {
+    margin-top: 20px;
+}
+
 .symbb_forum_header_row,
 .symbb_category_header_row {
     background-color: #428BCA;
@@ -107,14 +112,20 @@
     border-right: 1px solid #428bca;
 }
 
+.symbb_forum_body_row.last {
+    border-bottom: 1px solid #428bca;
+}
+
+.symbb_forum_body_row + .symbb_category_header_row::before {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #428bca;
+}
+
 .symbb_forum_body_row:nth-child(even) {
     background-color: #FAFAFA;
 }
 
-.symbb_forum_body_row:last-child {
-    border-bottom: 1px solid #428bca;
-    margin-bottom: 15px;
-}
 
 .symbb_forum_body_row:hover {
     background-color: #ABDCF2;

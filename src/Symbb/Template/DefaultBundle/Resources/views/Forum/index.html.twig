@@ -37,7 +37,7 @@
                     <div class="col-md-2"></div>
                 </div>
             {% endif %}
-            <div class="row symbb_forum_body_row">
+            <div class="row symbb_forum_body_row {% if loop.last %}last{% endif %}">
                 {{ _self.symbbForumRow(object) }}
             </div>
             {% set forumHeader = false %}
