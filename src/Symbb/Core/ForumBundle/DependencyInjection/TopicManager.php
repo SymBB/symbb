@@ -228,7 +228,6 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         $topic->setLocked(true);
         $this->em->persist($topic);
         $this->em->flush();
-        $this->topicFlagHandler->insertFlags($topic, 'locked');
 
         return true;
     }
@@ -242,7 +241,6 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         $topic->setLocked(false);
         $this->em->persist($topic);
         $this->em->flush();
-        $this->topicFlagHandler->removeFlag($topic, 'locked');
 
         return true;
     }
