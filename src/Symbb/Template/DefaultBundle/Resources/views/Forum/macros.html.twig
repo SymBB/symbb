@@ -3,7 +3,7 @@
 {% macro answer_btn(topic, posts) %}
     {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) or posts.getPageCount() > 1 %}
         <div class="symbb_action_row">
-            <div style="padding: 5px;">
+            <div >
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
                     <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}"
                        class="btn btn-primary btn-sm pull-left"><span
