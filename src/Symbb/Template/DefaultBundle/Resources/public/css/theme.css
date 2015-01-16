@@ -349,12 +349,12 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 }
 
 .symbb_action_row {
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     height: 42px;
     width: 100%;
-    background-color: #FFF;
+    background-color: #F5F5F5;
     margin-top: 0px;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
     padding: 5px;
 }
 
