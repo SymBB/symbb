@@ -269,6 +269,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
     {
         $id = $request->get('id');
         $topic = $this->get("symbb.core.topic.manager")->find($id);
+
         if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::VIEW, $topic)) {
                 throw $this->createAccessDeniedException();
@@ -282,7 +283,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         } else {
             $this->addError("Topic not found.", $request);
         }
-        return $this->returnToLastPage($request);
+
+        return $this->indexAction();
 
     }
 
@@ -430,6 +432,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.topic.after.save', $event);
 
             if ($form->get("mainPost")->get("notifyMe")->getData()) {
+                Var_dump(get_class($topic));
                 $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
@@ -490,6 +493,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $data = $request->get("post");
 
             if ($data["notifyMe"]) {
+                Var_dump(get_class($post->getTopic()));
                 $this->get('symbb.core.topic.flag')->insertFlag($post->getTopic(), 'notify');
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
@@ -503,6 +507,29 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:postEdit.html.twig', array("post" => $post, "form" => $form->createView()));
     }
 
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function deletePostAction(Request $request, $id)
+    {
+        $post = $this->get("symbb.core.post.manager")->find($id);
+        if (is_object($post) && $post->getId() > 0) {
+            if (!$this->get('security.authorization_checker')->isGranted(PostVoter::DELETE, $post)) {
+                throw $this->createAccessDeniedException();
+            }
+            $success = $this->get("symbb.core.post.manager")->delete($post);
+            if ($success) {
+                $this->addSuccess("Post was deleted.", $request);
+            } else {
+                $this->addError("Error while deleteing the post.", $request);
+            }
+        } else {
+            $this->addError("Post not found.", $request);
+        }
+        return $this->returnToLastPage($request);
+    }
 
     /**
      * @param Request $request

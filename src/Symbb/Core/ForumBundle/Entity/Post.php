@@ -52,7 +52,7 @@ class Post
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts")
      * @ORM\JoinColumn(name="topic_id", referencedColumnName="id", onDelete="cascade", nullable=false)
      */
     private $topic;

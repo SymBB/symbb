@@ -216,4 +216,16 @@ class PostManager extends AbstractManager
         $this->em->flush();
         return true;
     }
+
+    /**
+     * @param Post $post
+     * @return bool
+     */
+    public function delete(Post $post)
+    {
+        $this->em->remove($post);
+        $this->em->flush();
+
+        return true;
+    }
 }

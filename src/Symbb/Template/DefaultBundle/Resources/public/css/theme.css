@@ -723,7 +723,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     text-align: center;
 }
 
-.section_tabs .breadcrumb button {
+.section_tabs .breadcrumb .btn {
     margin-top: -3px;
 }
 

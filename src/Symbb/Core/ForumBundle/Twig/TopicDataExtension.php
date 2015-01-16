@@ -89,7 +89,7 @@ class TopicDataExtension extends \Twig_Extension
                 $label["type"] = 'warning';
             }
 
-            $labels[] = $label;
+            $labels[$label["title"]] = $label;
         }
 
         $event = new \Symbb\Core\EventBundle\Event\TopicLabelsEvent($element, $labels);

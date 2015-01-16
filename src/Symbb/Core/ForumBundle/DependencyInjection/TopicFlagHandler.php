@@ -9,6 +9,7 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
 use Symbb\Core\SystemBundle\Entity\Flag;
 use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
@@ -47,19 +48,21 @@ class TopicFlagHandler extends AbstractFlagHandler
      */
     protected function addStaticFlags($object, $flags, $searchFlag = null)
     {
-        if ($object->isLocked() && ($searchFlag === null || $searchFlag == "locked")) {
-            $flag = new Flag();
-            $flag->setFlag("locked");
-            $flag->setObject($object);
-            $flag->setUser($this->getUser());
-            $flags[] = $flag;
-        }
-        if ($object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
-            $flag = new Flag();
-            $flag->setFlag("author");
-            $flag->setObject($object);
-            $flag->setUser($this->getUser());
-            $flags[] = $flag;
+        if($object instanceof Topic){
+            if ($object->isLocked() && ($searchFlag === null || $searchFlag == "locked")) {
+                $flag = new Flag();
+                $flag->setFlag("locked");
+                $flag->setObject($object);
+                $flag->setUser($this->getUser());
+                $flags[] = $flag;
+            }
+            if ($object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
+                $flag = new Flag();
+                $flag->setFlag("author");
+                $flag->setObject($object);
+                $flag->setUser($this->getUser());
+                $flags[] = $flag;
+            }
         }
         return $flags;
     }

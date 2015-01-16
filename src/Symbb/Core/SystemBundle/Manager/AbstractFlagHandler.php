@@ -201,7 +201,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         // only if the user is a real "user" and not a guest or bot
         if ($user->getSymbbType() === 'user') {
             $flagObject = $this->findOne($flag, $object, $user);
-            if (is_object($flagObject)) {
+            if (is_object($flagObject) && $flagObject->getId() > 0) {
                 $this->em->remove($flagObject);
                 $this->em->flush();
             }

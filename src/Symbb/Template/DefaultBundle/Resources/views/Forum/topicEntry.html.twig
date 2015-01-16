@@ -101,8 +101,8 @@
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::DELETE'), object) %}
                     <a class="btn btn-default btn-xs symbb-confirm-btn"
                        href="{{ path("symbb_forum_topic_delete", {"id": object.id}) }}"
-                       onclick="return confirm("{% trans %}you really want to delete the
-                       entry?{% endtrans %}");" title="{% trans %}delete Topic{% endtrans %}">
+                       onclick="return confirm('{{ 'you really want to delete the entry?'|trans }}')"
+                       title="{% trans %}delete Topic{% endtrans %}">
                     <span class="glyphicon glyphicon-remove"></span>
                     </a>
                 {% endif %}
