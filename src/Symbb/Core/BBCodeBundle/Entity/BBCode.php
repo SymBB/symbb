@@ -30,7 +30,7 @@ class BBCode extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      * @ORM\ManyToMany(targetEntity="Set", mappedBy="codes")
      * @Exclude
-     * @var ArrayCollection 
+     * @var ArrayCollection
      */
     protected $sets;
 

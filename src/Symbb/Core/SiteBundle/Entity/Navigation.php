@@ -63,8 +63,8 @@ class Navigation
     {
         $items = $this->items;
         $itemFinal = array();
-        foreach($items as $item){
-            if(!$item->getParentItem()){
+        foreach ($items as $item) {
+            if (!$item->getParentItem()) {
                 $itemFinal[] = $item;
             }
         }
@@ -135,7 +135,6 @@ class Navigation
     {
         return $this->navKey;
     }
-
 
 
 }

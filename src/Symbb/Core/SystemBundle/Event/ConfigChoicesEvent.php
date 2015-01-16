@@ -17,12 +17,12 @@ class ConfigChoicesEvent extends Event
     protected $key;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection 
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $options;
 
     protected $section = "default";
-    
+
     protected $container;
 
     public function __construct($key, $section, $container)
@@ -32,8 +32,9 @@ class ConfigChoicesEvent extends Event
         $this->container = $container;
         $this->options = new \Doctrine\Common\Collections\ArrayCollection;
     }
-    
-    public function getContainer(){
+
+    public function getContainer()
+    {
         return $this->container;
     }
 

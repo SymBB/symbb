@@ -25,40 +25,42 @@ class AngularRouter
 
     protected $sfRouter;
 
-    public function __construct($eventDispatcher, $router){
+    public function __construct($eventDispatcher, $router)
+    {
         $this->eventDispatcher = $eventDispatcher;
         $this->sfRouter = $router;
         $this->load();
     }
 
-    public function load(){
+    public function load()
+    {
         $sfRoutes = $this->sfRouter->getRouteCollection();
-        foreach($sfRoutes as $routeKey => $currRoute){
+        foreach ($sfRoutes as $routeKey => $currRoute) {
             $options = $currRoute->getOptions();
             // if a symbb angular option is set
             // configure the route
 
-            if(
+            if (
                 array_key_exists('symbb_angular_api', $options) ||
                 array_key_exists('symbb_angular_controller', $options) ||
                 array_key_exists('symbb_angular_template', $options)
-            ){
+            ) {
                 $defaults = $currRoute->getDefaults();
                 $defaults['_controller'] = 'SymbbCoreAngularBundle:Angular:index';
                 $currRoute->setDefaults($defaults);
                 // If no api route and no controller is provided
                 // used default controller without api call
-                if(
+                if (
                     !isset($options['symbb_angular_api_route']) &&
                     !isset($options['symbb_angular_controller'])
-                ){
+                ) {
                     $options['symbb_angular_controller'] = 'DefaultCtrl';
                     // if only controller is missing
                     // use DefaultApiController
-                } else if(
+                } else if (
                     !isset($options['symbb_angular_controller']) &&
                     isset($options['symbb_angular_api_route'])
-                ){
+                ) {
                     $options['symbb_angular_controller'] = 'DefaultApiCtrl';
                 }
                 $currRoute->setOptions($options);
@@ -71,7 +73,8 @@ class AngularRouter
      * @param $route
      * @param $key
      */
-    public function addRoute($currRoute, $routeKey) {
+    public function addRoute($currRoute, $routeKey)
+    {
         $pattern = $currRoute->getPattern();
         $defaults = $currRoute->getDefaults();
         $options = $currRoute->getOptions();
@@ -79,16 +82,16 @@ class AngularRouter
         $templateOptions = array();
         $controller = '';
         $section = '';
-        if(isset($options['symbb_angular_api_route'])){
+        if (isset($options['symbb_angular_api_route'])) {
             $apiRoute = $options['symbb_angular_api_route'];
         }
-        if(isset($options['symbb_angular_template'])){
+        if (isset($options['symbb_angular_template'])) {
             $templateOptions = $options['symbb_angular_template'];
         }
-        if(isset($options['symbb_angular_controller'])){
+        if (isset($options['symbb_angular_controller'])) {
             $controller = $options['symbb_angular_controller'];
         }
-        if(isset($options['symbb_angular_section'])){
+        if (isset($options['symbb_angular_section'])) {
             $section = $options['symbb_angular_section'];
         }
         $angularRoute = new AngularRoute(
@@ -100,8 +103,7 @@ class AngularRouter
                 'defaults' => $defaults,
                 'section' => $section
             ),
-            $this->sfRouter)
-        ;
+            $this->sfRouter);
         $this->frontend[$routeKey] = $angularRoute;
     }
 
@@ -122,7 +124,7 @@ class AngularRouter
 
             // if we want to filter check the section of the routing
             // and continue if it do not match
-            if($filterBySection !== null && $section !== $filterBySection ){
+            if ($filterBySection !== null && $section !== $filterBySection) {
                 continue;
             }
 
@@ -139,13 +141,13 @@ class AngularRouter
                 $data[$key]['pattern'][] = $routing->getAngularPattern();
                 $data[$key]['controller'] = $routing->getAngularController();
                 $data[$key]['defaults'] = $routing->getDefaults();
-                if($routing->hasTemplateRoute()){
+                if ($routing->hasTemplateRoute()) {
                     $data[$key]['template'] = array(
                         'route' => $routing->getTemplateRoute(),
                         'params' => $routing->getTemplateParams()
                     );
                 }
-                if($routing->hasApiRoute()){
+                if ($routing->hasApiRoute()) {
                     $data[$key]['api'] = array(
                         'route' => $routing->getApiRoute()
                     );

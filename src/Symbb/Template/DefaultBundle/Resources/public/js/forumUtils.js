@@ -1,7 +1,7 @@
 var symbbForum = {
 
-    initEditor: function(uploadPath, lang){
-        $(".symbb_editor").each(function(key, element){
+    initEditor: function (uploadPath, lang) {
+        $(".symbb_editor").each(function (key, element) {
             var textarea = $(element).find("textarea");
             parentId = $(element).data("id");
             parentId = parseInt(parentId);
@@ -29,11 +29,11 @@ var symbbForum = {
         });
     },
 
-    saveEditor: function(bSubmit){
+    saveEditor: function (bSubmit) {
         var editorTextareas = $(".symbb_editor textarea");
-        $(editorTextareas).each(function(key, element){
+        $(editorTextareas).each(function (key, element) {
             $(element).editable("sync");
-            if(bSubmit){
+            if (bSubmit) {
                 $(element).closest("form").submit();
                 return true;
             }
@@ -41,7 +41,7 @@ var symbbForum = {
         return true;
     },
 
-    prepareCollection: function(){
+    prepareCollection: function () {
         var $collectionHolder;
 
         // setup an "add a tag" link
@@ -58,7 +58,7 @@ var symbbForum = {
         // index when inserting a new item (e.g. 2)
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-        $addTagLink.on('click', function(e) {
+        $addTagLink.on('click', function (e) {
             // prevent the link from creating a "#" on the URL
             e.preventDefault();
 
@@ -67,7 +67,7 @@ var symbbForum = {
         });
 
         // add a delete link to all of the existing tag form li elements
-        $collectionHolder.find('.symbb_collection_row').each(function() {
+        $collectionHolder.find('.symbb_collection_row').each(function () {
             addTagFormDeleteLink($(this));
         });
 
@@ -75,7 +75,7 @@ var symbbForum = {
             var $removeFormA = $('<button class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>');
             $tagFormLi.append($removeFormA);
 
-            $removeFormA.on('click', function(e) {
+            $removeFormA.on('click', function (e) {
                 // prevent the link from creating a "#" on the URL
                 e.preventDefault();
 

@@ -38,7 +38,7 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
          */
         $routeData = $symbbRouter->getFrontendRouting();
 
-        if(isset($routeData[$route['_route']])){
+        if (isset($routeData[$route['_route']])) {
 
             $angularRoute = $routeData[$route['_route']];
             /**
@@ -47,17 +47,17 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
             $routeCollection = $router->getRouteCollection();
             $templateRoute = $routeCollection->get($angularRoute->getTemplateRoute());
 
-            if(is_object($templateRoute)){
+            if (is_object($templateRoute)) {
 
                 $controller = $templateRoute->getDefault('_controller');
 
-                if(!empty($controller)){
+                if (!empty($controller)) {
 
                     $controllerCall = $this->generateControllerCallName($controller);
 
                     $data = array();
 
-                    if(!empty($controllerCall) ){
+                    if (!empty($controllerCall)) {
 
                         $params = $angularRoute->getTemplateParams();
 
@@ -70,14 +70,14 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
                         $twigHtml = $converter->convert();
 
                         $apiRoute = $routeCollection->get($angularRoute->getApiRoute());
-                        if(is_object($apiRoute)){
+                        if (is_object($apiRoute)) {
                             $apiController = $apiRoute->getDefault('_controller');
-                            foreach($route as $key => $value){
+                            foreach ($route as $key => $value) {
                                 $request->request->set($key, $value);
                             }
                             $apiControllerCall = $this->generateControllerCallName($apiController, array());
 
-                            if(!empty($apiControllerCall) ){
+                            if (!empty($apiControllerCall)) {
                                 $response = $this->forward($apiControllerCall, array());
                                 $json = $response->getContent();
                                 $data = json_decode($json, true);
@@ -93,7 +93,8 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
         }
     }
 
-    protected function generateControllerCallName($controller){
+    protected function generateControllerCallName($controller)
+    {
         $tmp = explode('::', $controller);
         $controllerAction = end($tmp);
         $controllerAction = str_replace('Action', '', $controllerAction);
@@ -106,19 +107,19 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
         $bundles = $this->get('kernel')->getBundles();
         $bundleName = '';
 
-        foreach($bundles as $type=>$bundle){
+        foreach ($bundles as $type => $bundle) {
             $className = get_class($bundle);
-            $entityClass = substr($namespace,0,strpos($namespace,'\\Controller\\'));
+            $entityClass = substr($namespace, 0, strpos($namespace, '\\Controller\\'));
 
-            if(strpos($className,$entityClass) !== FALSE) {
+            if (strpos($className, $entityClass) !== FALSE) {
                 $bundleName = $type;
             }
         }
 
         $controllerCall = '';
 
-        if(!empty($bundleName) && !empty($controlelrName) && !empty($controllerAction)){
-            $controllerCall = $bundleName .':'.$controlelrName.':'.$controllerAction;
+        if (!empty($bundleName) && !empty($controlelrName) && !empty($controllerAction)) {
+            $controllerCall = $bundleName . ':' . $controlelrName . ':' . $controllerAction;
         }
 
         return $controllerCall;

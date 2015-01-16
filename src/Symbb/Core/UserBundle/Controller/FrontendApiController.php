@@ -8,13 +8,15 @@
  */
 
 namespace Symbb\Core\UserBundle\Controller;
+
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\AbstractApiController
 {
 
-    public function dataAction(Request $request){
+    public function dataAction(Request $request)
+    {
 
         $id = (int)$request->get('id');
         $user = $this->get('symbb.core.user.manager')->find($id);
@@ -30,21 +32,21 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
     public function searchAction(Request $request)
     {
         $limit = 20;
-        if($request->get('limit') !== null){
+        if ($request->get('limit') !== null) {
             $limit = (int)$request->get('limit');
         }
 
         $search = array('symbbType' => 'user');
-        if($request->get('q') !== null){
+        if ($request->get('q') !== null) {
             $query = (string)$request->get('q');
-            $search['username'] = array('LIKE', '%'.$query.'%');
+            $search['username'] = array('LIKE', '%' . $query . '%');
         }
 
         $usermanager = $this->get('symbb.core.user.manager');
         $users = $usermanager->findBy($search, $limit, 1);
         $this->addPaginationData($users);
         $data = array('entries' => array());
-        foreach($users as $user){
+        foreach ($users as $user) {
             $data['entries'][] = $this->getUserAsArray($user, array());
         }
 
@@ -74,7 +76,9 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $this->addPaginationData($users);
         return $this->getJsonResponse($params);
     }
-    protected function getFieldsAsArray($fieldFilter){
+
+    protected function getFieldsAsArray($fieldFilter)
+    {
         $em = $this->getDoctrine()->getManager('symbb');
         $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findBy($fieldFilter);
         $dataFinal = array();
@@ -89,7 +93,8 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         return $dataFinal;
     }
 
-    protected function getUserAsArray(UserInterface $user, $fieldFilter){
+    protected function getUserAsArray(UserInterface $user, $fieldFilter)
+    {
 
         $em = $this->getDoctrine()->getManager('symbb');
         $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findBy($fieldFilter);
@@ -162,12 +167,12 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         $errors = new \Symfony\Component\Validator\ConstraintViolationList();
         if (!empty($passwordRepeat['repeat']) and $passwordRepeat['password'] === $passwordRepeat['repeat']) {
             $errors = $this->get('symbb.core.user.manager')->changeUserPassword($user, $passwordRepeat['password']);
-            foreach($errors as $key => $error){
-                $this->addErrorMessage($this->trans('Passwort').': '.$error->getMessage());
+            foreach ($errors as $key => $error) {
+                $this->addErrorMessage($this->trans('Passwort') . ': ' . $error->getMessage());
             }
         }
 
-        if($errors->count() === 0){
+        if ($errors->count() === 0) {
             $em = $this->getDoctrine()->getManager('symbb');
             $allFields = $em->getRepository('SymbbCoreUserBundle:Field')->findAll();
             foreach ($allFields as $field) {
@@ -184,11 +189,11 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
 
             $errors = $this->get('symbb.core.user.manager')->updateUserData($symbbData);
 
-            if($errors->count() === 0){
+            if ($errors->count() === 0) {
                 $this->addSuccessMessage("saved successfully.");
             } else {
-                foreach($errors as $key => $error){
-                    $this->addErrorMessage($this->trans($key).': '.$error->getMessage());
+                foreach ($errors as $key => $error) {
+                    $this->addErrorMessage($this->trans($key) . ': ' . $error->getMessage());
                 }
             }
         }

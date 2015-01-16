@@ -28,11 +28,12 @@ class MessageManager extends AbstractManager
      * @param $id
      * @return Message
      */
-    public function find($id){
+    public function find($id)
+    {
 
         $cacheKey = implode("_", array("find", $id));
         $message = $this->getCacheData($cacheKey);
-        if($message === null){
+        if ($message === null) {
             $message = $this->em->getRepository('SymbbCoreMessageBundle:Message')->find($id);
             $this->setCacheData($cacheKey, $message);
         }
@@ -46,22 +47,23 @@ class MessageManager extends AbstractManager
      * @param UserInterface $sender
      * @return array
      */
-    public function sendMessage($subject, $messageText, $receivers, &$errors, UserInterface $sender = null){
+    public function sendMessage($subject, $messageText, $receivers, &$errors, UserInterface $sender = null)
+    {
 
         //todo event beforSend
 
-        if(!$sender){
+        if (!$sender) {
             $sender = $this->getUser();
         }
 
-        if($sender->getSymbbType() !== 'user'){
+        if ($sender->getSymbbType() !== 'user') {
             $errors[] = self::ERROR_NOT_ALLOWED;
         }
 
-        if(empty($subject)){
+        if (empty($subject)) {
             $errors[] = self::ERROR_SUBJECT_EMPTY;
         }
-        if(empty($messageText)){
+        if (empty($messageText)) {
             $errors[] = self::ERROR_MESSAGE_EMPTY;
         }
 
@@ -69,8 +71,8 @@ class MessageManager extends AbstractManager
         $message->setSubject($subject);
         $message->setMessage($messageText);
         $message->setSender($sender);
-        foreach($receivers as $receiver){
-            if($receiver instanceof UserInterface){
+        foreach ($receivers as $receiver) {
+            if ($receiver instanceof UserInterface) {
                 $receiverObject = new Receiver();
                 $receiverObject->setUser($receiver);
                 $receiverObject->setMessage($message);
@@ -80,7 +82,7 @@ class MessageManager extends AbstractManager
             }
         }
 
-        if(empty($errors)){
+        if (empty($errors)) {
             // "send" means in first step saving into database, notify user if option is actived,...
             $this->em->persist($message);
             $this->em->flush();
@@ -96,16 +98,17 @@ class MessageManager extends AbstractManager
      * @param int $limit
      * @return Message[]
      */
-    public function findSentMessages(UserInterface $sender = null, $page = 1, $limit = 20){
+    public function findSentMessages(UserInterface $sender = null, $page = 1, $limit = 20)
+    {
 
-        if(!$sender){
+        if (!$sender) {
             $sender = $this->getUser();
         }
 
         $cacheKey = implode("_", array("findSentMessages", $sender->getId(), $page, $limit));
         $pagination = $this->getCacheData($cacheKey);
 
-        if($pagination === null){
+        if ($pagination === null) {
             $sql = "SELECT
                     m
                 FROM
@@ -131,20 +134,21 @@ class MessageManager extends AbstractManager
      * @param int $limit
      * @return Message[]
      */
-    public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20, $new = null){
+    public function findReceivedMessages(UserInterface $receiver = null, $page = 1, $limit = 20, $new = null)
+    {
 
-        if(!$receiver){
+        if (!$receiver) {
             $receiver = $this->getUser();
         }
 
         $cacheKey = implode("_", array("findReceivedMessages", $receiver->getId(), $page, $limit, $new));
         $pagination = $this->getCacheData($cacheKey);
 
-        if($pagination === null){
+        if ($pagination === null) {
             $where = '';
-            if($new === true){
+            if ($new === true) {
                 $where = " AND r.new = 1 ";
-            } else if($new === false){
+            } else if ($new === false) {
                 $where = " AND r.new = 0 ";
             }
 
@@ -155,7 +159,7 @@ class MessageManager extends AbstractManager
                 LEFT JOIN
                     m.receivers r
                 WHERE
-                  r.user = ?1 ".$where."
+                  r.user = ?1 " . $where . "
                 GROUP BY
                     m.id
                 ORDER BY
@@ -184,7 +188,8 @@ class MessageManager extends AbstractManager
     /**
      * @param Receiver $receiver
      */
-    public function read(Receiver $receiver){
+    public function read(Receiver $receiver)
+    {
         $receiver->setNew(false);
         $this->em->persist($receiver);
         $this->em->flush();
@@ -193,7 +198,8 @@ class MessageManager extends AbstractManager
     /**
      * @param Receiver $receiver
      */
-    public function unread(Receiver $receiver){
+    public function unread(Receiver $receiver)
+    {
         $receiver->setNew(true);
         $this->em->persist($receiver);
         $this->em->flush();
@@ -203,13 +209,14 @@ class MessageManager extends AbstractManager
      * @param UserInterface $user
      * @return int
      */
-    public function countNewMessages(UserInterface $user = null){
-        if(!$user){
+    public function countNewMessages(UserInterface $user = null)
+    {
+        if (!$user) {
             $user = $this->getUser();
         }
-        $cacheKey = "user_count_new_messages_".$user->getId();
+        $cacheKey = "user_count_new_messages_" . $user->getId();
         $recievedNewMessages = $this->getCacheData($cacheKey);
-        if($recievedNewMessages === null){
+        if ($recievedNewMessages === null) {
             $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
             $recievedNewMessages = count($recievedNewMessages);
             $this->setCacheData($cacheKey, $recievedNewMessages);
@@ -221,13 +228,14 @@ class MessageManager extends AbstractManager
      * @param UserInterface $user
      * @return int
      */
-    public function countMessages(UserInterface $user = null){
-        if(!$user){
+    public function countMessages(UserInterface $user = null)
+    {
+        if (!$user) {
             $user = $this->getUser();
         }
-        $cacheKey = "user_count_messages_".$user->getId();
+        $cacheKey = "user_count_messages_" . $user->getId();
         $recievedMessages = $this->getCacheData($cacheKey);
-        if($recievedMessages === null){
+        if ($recievedMessages === null) {
             $recievedMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
             $recievedMessages = count($recievedMessages);
             $this->setCacheData($cacheKey, $recievedMessages);
@@ -240,7 +248,8 @@ class MessageManager extends AbstractManager
      * @param Message $message
      * @return bool
      */
-    public function remove(Message $message){
+    public function remove(Message $message)
+    {
         $this->em->remove($message);
         $this->em->persist();
         return true;

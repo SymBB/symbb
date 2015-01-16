@@ -64,7 +64,7 @@ class File
         }
 
     }
-    
+
     public function setPost(\Symbb\Core\ForumBundle\Entity\Post $object)
     {
         $this->post = $object;

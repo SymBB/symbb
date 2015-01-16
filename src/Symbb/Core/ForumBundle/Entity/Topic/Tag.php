@@ -111,11 +111,13 @@ class Tag
         return $this->name;
     }
 
-    public function setPosition($value){
+    public function setPosition($value)
+    {
         $this->priority = $value;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getName();
     }
 

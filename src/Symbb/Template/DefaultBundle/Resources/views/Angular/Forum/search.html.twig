@@ -5,65 +5,82 @@
 
 {% block section_content %}
 
-<div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy' infinite-scroll-distance='1'>
-    <div ng-repeat="object in searchPagination.items" class="symbb_post">
-        <dl class="postprofile">
-            {{ executeSymbbTemplatePostEvent('before.avatar', post) }}
-            <a class="avatar" symbb-link="symbb_user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">
-                <img ng-src="[[object.author.avatar]]" />
-            </a>
-            {{ executeSymbbTemplatePostEvent('after.avatar', post) }}
-            {{ executeSymbbTemplatePostEvent('before.username', post) }}
-            <a class="username" symbb-link="symbb_user_profile" param-id="[[object.author.id]]" param-username="[[object.author.username]]">[[object.author.username]]</a>
-            {{ executeSymbbTemplatePostEvent('after.username', post) }}
-            {{ executeSymbbTemplatePostEvent('before.userdata', post) }}
-            <dd><strong>{% trans %}posts{% endtrans %}:</strong> [[object.author.count.post]]</dd>
-            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> [[ object.author.created | date:'dd.MM.yyyy']]</dd>
-            {{ executeSymbbTemplatePostEvent('after.userdata', post) }}
-        </dl>
-        <div class="postbody">
-            <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
-            <div class="actions">
-                {{ executeSymbbTemplatePostEvent('before.actions', post) }}
-                <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" symbb-js-link="symbb_forum_post_quote" param-topic="[[object.topic.id]]" param-quote-id="[[object.id]]"></div>
-                <div ng-if="object.access.edit && object.id != topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="symbb_forum_post_edit" param-id="[[object.id]]"></div>
-                <div ng-if="object.access.edit && object.id == topic.mainPost.id" title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" symbb-js-link="symbb_forum_topic_edit" param-forum="[[topic.forum.id]]" param-id="[[topic.id]]"></div>
-                <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" symbb-delete-request="symbb_api_forum_post_delete" param-id="[[object.id]]" message="{{'you really want to delete the entry?'|trans}}"></div>
-                {{ executeSymbbTemplatePostEvent('after.actions', post) }}
-            </div>
-            <div class="clear-left"></div>
-            <div class="title" itemprop="name">[[ object.name ]]</div>
-            <div class="labels">
-                <span ng-repeat="tag in object.tags" ng-if="tag.status" class="label label-primary">[[tag.name]]</span>
-                <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
-            </div>
-            <div class="clear-left"></div>
-            <div class="date">
-                {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH:mm']]"} %}on %date% at %time%{% endtrans %}
-            </div>
-            <div class="clear-left"></div>
-            {{ executeSymbbTemplatePostEvent('before.text', post) }}
-            <div class="text" ng-bind-html-unsafe="object.text"></div>
-            {{ executeSymbbTemplatePostEvent('after.text', post) }}
-
-            <div class="history" ng-if="object.history[0]">
-                <div ng-repeat="historyEntry in object.history" class="historyEntry">
-                    {% trans with {'%date%': "[[ historyEntry.date | date:'dd.MM.yyyy']]", '%time%': "[[ historyEntry.date | date:'HH:mm']]", '%user%': "[[historyEntry.editor.username]]"} %}edit by %user% on %date% at %time%{% endtrans %} ([[historyEntry.reason]])
+    <div infinite-scroll='searchPagination.nextPage()' infinite-scroll-disabled='searchPagination.busy'
+         infinite-scroll-distance='1'>
+        <div ng-repeat="object in searchPagination.items" class="symbb_post">
+            <dl class="postprofile">
+                {{ executeSymbbTemplatePostEvent('before.avatar', post) }}
+                <a class="avatar" symbb-link="symbb_user_profile" param-id="[[object.author.id]]"
+                   param-username="[[object.author.username]]">
+                    <img ng-src="[[object.author.avatar]]"/>
+                </a>
+                {{ executeSymbbTemplatePostEvent('after.avatar', post) }}
+                {{ executeSymbbTemplatePostEvent('before.username', post) }}
+                <a class="username" symbb-link="symbb_user_profile" param-id="[[object.author.id]]"
+                   param-username="[[object.author.username]]">[[object.author.username]]</a>
+                {{ executeSymbbTemplatePostEvent('after.username', post) }}
+                {{ executeSymbbTemplatePostEvent('before.userdata', post) }}
+                <dd><strong>{% trans %}posts{% endtrans %}:</strong> [[object.author.count.post]]</dd>
+                <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> [[ object.author.created | date:'dd.MM.yyyy']]
+                </dd>
+                {{ executeSymbbTemplatePostEvent('after.userdata', post) }}
+            </dl>
+            <div class="postbody">
+                <symbb-breadcrumb-mini objectName="object"></symbb-breadcrumb-mini>
+                <div class="actions">
+                    {{ executeSymbbTemplatePostEvent('before.actions', post) }}
+                    <div ng-if="object.access.create" title="{% trans %}Quote{% endtrans %}"
+                         class="glyphicon glyphicon-comment" symbb-js-link="symbb_forum_post_quote"
+                         param-topic="[[object.topic.id]]" param-quote-id="[[object.id]]"></div>
+                    <div ng-if="object.access.edit && object.id != topic.mainPost.id"
+                         title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                         symbb-js-link="symbb_forum_post_edit" param-id="[[object.id]]"></div>
+                    <div ng-if="object.access.edit && object.id == topic.mainPost.id"
+                         title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                         symbb-js-link="symbb_forum_topic_edit" param-forum="[[topic.forum.id]]"
+                         param-id="[[topic.id]]"></div>
+                    <div ng-if="object.access.delete" title="{% trans %}Delete{% endtrans %}"
+                         class="glyphicon glyphicon-remove" symbb-delete-request="symbb_api_forum_post_delete"
+                         param-id="[[object.id]]" message="{{ 'you really want to delete the entry?'|trans }}"></div>
+                    {{ executeSymbbTemplatePostEvent('after.actions', post) }}
                 </div>
-            </div>
+                <div class="clear-left"></div>
+                <div class="title" itemprop="name">[[ object.name ]]</div>
+                <div class="labels">
+                    <span ng-repeat="tag in object.tags" ng-if="tag.status"
+                          class="label label-primary">[[tag.name]]</span>
+                    <span ng-repeat="flag in object.flags" class="label label-[[flag.type]]">[[flag.title]]</span>
+                </div>
+                <div class="clear-left"></div>
+                <div class="date">
+                    {% trans with {'%date%': "[[ object.created | date:'dd.MM.yyyy']]", '%time%': "[[ object.created | date:'HH:mm']]"} %}
+                    on %date% at %time%{% endtrans %}
+                </div>
+                <div class="clear-left"></div>
+                {{ executeSymbbTemplatePostEvent('before.text', post) }}
+                <div class="text" ng-bind-html-unsafe="object.text"></div>
+                {{ executeSymbbTemplatePostEvent('after.text', post) }}
 
-            {{ executeSymbbTemplatePostEvent('before.signature', post) }}
-            <div ng-if="object.signature" ng-bind-html-unsafe="object.signature" class="signature"></div>
-            {{ executeSymbbTemplatePostEvent('after.signature', post) }}
+                <div class="history" ng-if="object.history[0]">
+                    <div ng-repeat="historyEntry in object.history" class="historyEntry">
+                        {% trans with {'%date%': "[[ historyEntry.date | date:'dd.MM.yyyy']]", '%time%': "[[ historyEntry.date | date:'HH:mm']]", '%user%': "[[historyEntry.editor.username]]"} %}
+                        edit by %user% on %date% at %time%{% endtrans %} ([[historyEntry.reason]])
+                    </div>
+                </div>
+
+                {{ executeSymbbTemplatePostEvent('before.signature', post) }}
+                <div ng-if="object.signature" ng-bind-html-unsafe="object.signature" class="signature"></div>
+                {{ executeSymbbTemplatePostEvent('after.signature', post) }}
+            </div>
+            <div class="clear"></div>
         </div>
-        <div class="clear"></div>
+        <div class="simplerow" ng-show='searchPagination.busy'>
+            <div class="alert alert-info"><img src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}
+                Loading ...{% endtrans %}</div>
+        </div>
+        <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>
+            <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
+        </div>
     </div>
-    <div class="simplerow" ng-show='searchPagination.busy'>
-        <div class="alert alert-info"><img src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}</div>
-    </div>
-    <div class="simplerow" ng-if='!searchPagination.busy && searchPagination.count <= 0'>
-        <div class="alert alert-warning">{% trans %}no topics{% endtrans %}</div>
-    </div>
-</div>
 
 {% endblock %}

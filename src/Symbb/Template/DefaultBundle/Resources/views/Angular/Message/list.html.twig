@@ -21,7 +21,8 @@
                         <li>
                             <a href="#" ng-click="paginateReceivedBack()">«</a>
                         </li>
-                        <li ng-repeat="page in paginationDataRecevied.pagesInRange" ng-class='(page==paginationDataRecevied.current) ? "active" : "inactive"'>
+                        <li ng-repeat="page in paginationDataRecevied.pagesInRange"
+                            ng-class='(page==paginationDataRecevied.current) ? "active" : "inactive"'>
                             <a href="#" ng-click="getReceivedMessages(page)">[[page]]</a>
                         </li>
                         <li>
@@ -64,7 +65,8 @@
                         <li>
                             <a href="#" ng-click="paginateSentBack()">«</a>
                         </li>
-                        <li ng-repeat="page in paginationDataSent.pagesInRange" ng-class='(page==paginationDataSent.current) ? "active" : "inactive"'>
+                        <li ng-repeat="page in paginationDataSent.pagesInRange"
+                            ng-class='(page==paginationDataSent.current) ? "active" : "inactive"'>
                             <a href="#" ng-click="getSentMessages(page)">[[page]]</a>
                         </li>
                         <li>
@@ -83,7 +85,9 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="entry in entriesSent" symbb-js-link="symbb_message_show" param-id="[[entry.id]]">
-                        <td><div ng-repeat="receiver in entry.receivers">[[receiver.username]]</div></td>
+                        <td>
+                            <div ng-repeat="receiver in entry.receivers">[[receiver.username]]</div>
+                        </td>
                         <td>[[entry.subject]]</td>
                         <td>[[entry.date | date:'dd.MM.yyyy H:mm']]</td>
                     </tr>

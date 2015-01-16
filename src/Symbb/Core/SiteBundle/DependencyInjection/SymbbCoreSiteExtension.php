@@ -27,6 +27,6 @@ class SymbbCoreSiteExtension extends Extension implements PrependExtensionInterf
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        
+
     }
 }

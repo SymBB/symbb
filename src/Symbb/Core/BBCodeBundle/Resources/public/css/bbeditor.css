@@ -1,4 +1,4 @@
-.symbb_editor textarea{
+.symbb_editor textarea {
     width: 100%;
     min-height: 20em;
     border: none;
@@ -23,6 +23,7 @@
     background-color: #F5F5F5;
     padding: 5px;
 }
+
 .symbb_bbcode_btn {
     background-color: #FFF;
     border: 1px solid #E4E4E4;
@@ -31,6 +32,7 @@
     padding: 3px;
     cursor: pointer;
 }
+
 .symbb_bbcodes_group .symbb_bbcode_btn:first-child {
     background-color: #FFF;
 }
@@ -55,12 +57,15 @@
 .fontsize-verysmall {
     font-size: 60%;
 }
+
 .fontsize-small {
     font-size: 80%;
 }
+
 .fontsize-big {
     font-size: 120%;
 }
+
 .fontsize-verybig {
     font-size: 140%;
 }

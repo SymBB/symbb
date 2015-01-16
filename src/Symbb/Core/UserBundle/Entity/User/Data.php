@@ -50,7 +50,7 @@ class Data
 
     public function getSignature()
     {
-        return (string) $this->signature;
+        return (string)$this->signature;
 
     }
 
@@ -62,7 +62,7 @@ class Data
 
     public function getAvatar()
     {
-        return (string) $this->avatar;
+        return (string)$this->avatar;
 
     }
 
@@ -104,7 +104,7 @@ class Data
     }
 
     /**
-     * 
+     *
      * @param string $tz
      */
     public function setTimezone($tz)

@@ -24,9 +24,10 @@ class SiteApi extends AbstractApi
      */
     protected $siteManager;
 
-    public function find($id){
+    public function find($id)
+    {
         $site = $this->siteManager->find($id);
-        if(!is_object($site)){
+        if (!is_object($site)) {
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
         return $site;
@@ -36,11 +37,12 @@ class SiteApi extends AbstractApi
      * return a array with all Sites
      * @return array
      */
-    public function getList(){
+    public function getList()
+    {
         $sites = $this->siteManager->findAll();
         $this->addPaginationData($sites);
         $sites = $sites->getItems();
-        if(empty($sites)){
+        if (empty($sites)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
         return $sites;
@@ -53,23 +55,24 @@ class SiteApi extends AbstractApi
      * @param Site|array $site
      * @return Site
      */
-    public function save($site){
+    public function save($site)
+    {
 
-        if(is_array($site)){
+        if (is_array($site)) {
             $siteData = $site;
-            if($site['id'] > 0){
+            if ($site['id'] > 0) {
                 $site = $this->find($site['id']);
             } else {
                 $site = new Site();
             }
             $this->assignArrayToObject($site, $siteData);
-        } else if(!($site instanceof Site)) {
+        } else if (!($site instanceof Site)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->siteManager->save($site);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
@@ -81,15 +84,16 @@ class SiteApi extends AbstractApi
      * @param int|Site $site
      * @return bool
      */
-    public function delete($site){
-        if(is_numeric($site)){
+    public function delete($site)
+    {
+        if (is_numeric($site)) {
             $site = $this->find($site);
-        } else if(!($site instanceof Site)) {
+        } else if (!($site instanceof Site)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->siteManager->remove($site);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
             return $check;
@@ -102,11 +106,12 @@ class SiteApi extends AbstractApi
      * @param $direction
      * @return array|null
      */
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
 
         //todo get it form navi api
         $fields = array();
-        if($object instanceof Item){
+        if ($object instanceof Item) {
             // only this fields are allowed
             $fields = array(
                 'id',
@@ -117,19 +122,19 @@ class SiteApi extends AbstractApi
                 'fix_url',
                 'position'
             );
-            if($direction == "toArray"){
+            if ($direction == "toArray") {
                 $fields[] = 'children';
             }
-        } else if($object instanceof Navigation){
+        } else if ($object instanceof Navigation) {
             $fields = array(
                 'id',
                 'title',
                 'nav_key'
             );
-            if($direction == "toArray"){
+            if ($direction == "toArray") {
                 $fields[] = 'items';
             }
-        } else if($object instanceof Site){
+        } else if ($object instanceof Site) {
             // only this fields are allowed
             $fields = array(
                 'id',
@@ -144,7 +149,7 @@ class SiteApi extends AbstractApi
                 'template_forum',
                 'template_portal'
             );
-            if($direction == "toArray"){
+            if ($direction == "toArray") {
                 $fields[] = 'navigations';
             }
         }
@@ -152,7 +157,8 @@ class SiteApi extends AbstractApi
         return $fields;
     }
 
-    public function setSiteManager(SiteManager $siteManager){
+    public function setSiteManager(SiteManager $siteManager)
+    {
         $this->siteManager = $siteManager;
     }
 }

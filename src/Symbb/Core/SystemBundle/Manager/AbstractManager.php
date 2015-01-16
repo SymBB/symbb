@@ -65,21 +65,24 @@ abstract class AbstractManager
     /**
      * @param AccessManager $manager
      */
-    public function setAccessManager(AccessManager $manager){
+    public function setAccessManager(AccessManager $manager)
+    {
         $this->accessManager = $manager;
     }
 
     /**
      * @param UserManager $manager
      */
-    public function setUserManager(UserManager $manager){
+    public function setUserManager(UserManager $manager)
+    {
         $this->userManager = $manager;
     }
 
     /**
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher){
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -87,21 +90,24 @@ abstract class AbstractManager
     /**
      * @param $paginator
      */
-    public function setPaginator($paginator){
+    public function setPaginator($paginator)
+    {
         $this->paginator = $paginator;
     }
 
     /**
      * @param TranslatorInterface $translator
      */
-    public function setTranslator(TranslatorInterface $translator){
+    public function setTranslator(TranslatorInterface $translator)
+    {
         $this->translator = $translator;
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(EntityManager $em){
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
     }
 
@@ -119,7 +125,8 @@ abstract class AbstractManager
     }
 
 
-    public function createPagination($query, $page, $limit){
+    public function createPagination($query, $page, $limit)
+    {
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
@@ -133,21 +140,26 @@ abstract class AbstractManager
         $queryCountEnd = implode("FROM", $queryCountTmp);
         $queryCountSelect = explode(",", $queryCountSelect);
         $queryCountSelect = reset($queryCountSelect);
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCountSelect." FROM ".$queryCountEnd.") as temp";
+        if(strpos($queryCountEnd, "GROUP BY") === false){
+            $queryCount = " SELECT COUNT(*) FROM " . $queryCountEnd;
+        } else {
+            $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCountSelect . " FROM " . $queryCountEnd . ") as temp";
+        }
+
         // create now the query based on the native sql query and get the count
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
-        if(!$count){
+        if (!$count) {
             $count = 0;
         }
 
-        if($page === 'last'){
+        if ($page === 'last') {
             $page = $count / $limit;
             $page = ceil($page);
         }
 
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
 
@@ -164,7 +176,8 @@ abstract class AbstractManager
      * @param $key
      * @param $value
      */
-    public function setCacheData($key, $value){
+    public function setCacheData($key, $value)
+    {
         $this->cacheData[$key] = $value;
     }
 
@@ -172,7 +185,8 @@ abstract class AbstractManager
      * @param $key
      * @return mixed
      */
-    public function getCacheData($key){
+    public function getCacheData($key)
+    {
         return $this->cacheData[$key];
     }
 }

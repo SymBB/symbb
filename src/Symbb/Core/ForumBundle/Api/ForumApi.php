@@ -29,9 +29,10 @@ class ForumApi extends AbstractApi
      * @param $id
      * @return Forum
      */
-    public function find($id){
+    public function find($id)
+    {
         $object = $this->forumManager->find($id);
-        if(!is_object($object)){
+        if (!is_object($object)) {
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
         return $object;
@@ -42,11 +43,12 @@ class ForumApi extends AbstractApi
      * @param $page
      * @return Forum[]
      */
-    public function findAll($parentId, $limit, $page){
+    public function findAll($parentId, $limit, $page)
+    {
         $objects = $this->forumManager->findAll($parentId, $limit, $page, $this->entityAccessCheck);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
-        if(empty($objects)){
+        if (empty($objects)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
         return $objects;
@@ -59,30 +61,31 @@ class ForumApi extends AbstractApi
      * @param Forum|array $object
      * @return Forum
      */
-    public function save($object){
+    public function save($object)
+    {
 
-        if(is_array($object)){
+        if (is_array($object)) {
             $objectData = $object;
-            if(isset($object['id']) && $object['id'] > 0){
+            if (isset($object['id']) && $object['id'] > 0) {
                 $object = $this->find($object['id']);
             } else {
                 $object = new Forum();
             }
-            if(isset($objectData['parent'])){
+            if (isset($objectData['parent'])) {
                 $parent = $this->find($objectData['parent']);
-                if($parent){
+                if ($parent) {
                     $object->setParent($parent);
                 }
                 unset($objectData['parent']);
             }
             $this->assignArrayToObject($object, $objectData);
-        } else if(!($object instanceof Forum)) {
+        } else if (!($object instanceof Forum)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->forumManager->update($object);
-            if($check === true){
+            if ($check === true) {
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
@@ -94,15 +97,16 @@ class ForumApi extends AbstractApi
      * @param int|Forum $object
      * @return bool
      */
-    public function delete($object){
-        if(is_numeric($object)){
+    public function delete($object)
+    {
+        if (is_numeric($object)) {
             $object = $this->find($object);
-        } else if(!($object instanceof Forum)) {
+        } else if (!($object instanceof Forum)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->forumManager->remove($object);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
             return $check;
@@ -115,9 +119,10 @@ class ForumApi extends AbstractApi
      * @param $direction
      * @return array|null
      */
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
         $fields = array();
-        if($object instanceof Forum){
+        if ($object instanceof Forum) {
             // only this fields are allowed
             $fields = array(
                 'id',
@@ -133,11 +138,11 @@ class ForumApi extends AbstractApi
                 'position',
                 'feeds'
             );
-            if($direction == "toArray"){
+            if ($direction == "toArray") {
                 $fields[] = 'children';
                 $fields[] = 'feeds';
             }
-        } else if($object instanceof Feed){
+        } else if ($object instanceof Feed) {
             // only this fields are allowed
             $fields = array(
                 'id',
@@ -149,8 +154,9 @@ class ForumApi extends AbstractApi
         return $fields;
     }
 
-    protected function createNewSubobject($parent, $field){
-        if($field == "feeds"){
+    protected function createNewSubobject($parent, $field)
+    {
+        if ($field == "feeds") {
             $subobject = new Feed();
             $subobject->setForum($parent);
             return $subobject;
@@ -161,7 +167,8 @@ class ForumApi extends AbstractApi
     /**
      * @param ForumManager $manager
      */
-    public function setForumManager(ForumManager $manager){
+    public function setForumManager(ForumManager $manager)
+    {
         $this->forumManager = $manager;
     }
 
@@ -171,7 +178,8 @@ class ForumApi extends AbstractApi
      * @param GroupInterface $group
      * @param bool $childs
      */
-    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $childs = false){
+    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $childs = false)
+    {
         $this->forumManager->copyAccessOfGroup($forumFrom, $forumTo, $group, $childs);
     }
 
@@ -181,7 +189,8 @@ class ForumApi extends AbstractApi
      * @param $accessSet
      * @param bool $childs
      */
-    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $childs = false){
+    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $childs = false)
+    {
         $this->forumManager->applyAccessSetForGroup($forum, $group, $accessSet, $childs);
     }
 }

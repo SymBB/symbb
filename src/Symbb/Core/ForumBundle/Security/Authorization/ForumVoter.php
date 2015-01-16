@@ -50,11 +50,11 @@ class ForumVoter extends AbstractVoter implements VoterInterface
         );
     }
 
-    public function getAccessSets(){
+    public function getAccessSets()
+    {
         return array(
             // no access
-            "default_1" => array(
-            ),
+            "default_1" => array(),
             // readonly
             "default_2" => array(
                 self::VIEW

@@ -70,7 +70,7 @@ class ForumManager extends AbstractManager
         $cackeKey = implode("_", array("findTopics", $forum->getId(), $page, $limit, $orderDir));
         $pagination = $this->getCacheData($cackeKey);
 
-        if($pagination === null){
+        if ($pagination === null) {
             if ($limit === null) {
                 $limit = $forum->getEntriesPerPage();
             }
@@ -89,7 +89,7 @@ class ForumManager extends AbstractManager
                 GROUP BY
                   t.id
                 ORDER BY
-                  tag.priority ".strtoupper($orderDir).", p.created ".strtoupper($orderDir);
+                  tag.priority " . strtoupper($orderDir) . ", p.created " . strtoupper($orderDir);
 
             $query = $this->em->createQuery($sql);
             $query->setParameter(1, $forum->getId());
@@ -192,17 +192,17 @@ class ForumManager extends AbstractManager
         }
 
         $parentWhere = 'WHERE f.parent = ?0';
-        if(!$parentId){
+        if (!$parentId) {
             $parentWhere = 'WHERE f.parent IS NULL';
         }
 
         $accessWhere = "";
 
-        if($checkAccess){
+        if ($checkAccess) {
             $accessWhere = "
                 JOIN
                     SymbbCoreSystemBundle:Access a
-                ".$parentWhere." AND
+                " . $parentWhere . " AND
                     a.object = ?1 AND
                     a.objectId = f.id AND
                     a.access = ?2 AND
@@ -223,26 +223,26 @@ class ForumManager extends AbstractManager
                     f
                 FROM
                     SymbbCoreForumBundle:Forum f
-                ".$accessWhere."
+                " . $accessWhere . "
                 ORDER BY
                     f.position ASC";
 
         $groupIds = array();
-        foreach($this->getUser()->getGroups() as $group){
-            $groupIds[]  = $group->getId();
+        foreach ($this->getUser()->getGroups() as $group) {
+            $groupIds[] = $group->getId();
         }
 
         $query = $this->em->createQuery($sql);
 
-        if($parentId){
+        if ($parentId) {
             $query->setParameter(0, $parentId);
         }
 
-        if($checkAccess) {
+        if ($checkAccess) {
 
             $groupClass = "";
             $groupIds = array();
-            foreach( $this->getUser()->getGroups() as $group){
+            foreach ($this->getUser()->getGroups() as $group) {
                 $groupClass = get_class($group);
                 $groupIds[] = $group->getId();
             }
@@ -285,11 +285,11 @@ class ForumManager extends AbstractManager
         $entries = $repo->findBy($by, array('position' => 'ASC', 'name' => 'ASC'));
         foreach ($entries as $entity) {
             $access = true;
-            if($checkAccess){
+            if ($checkAccess) {
                 $access = $this->userManager->isGranted(ForumVoter::VIEW, $entity);
             }
-            if($access){
-                if(in_array($entity->getType(), $types) || empty($types)){
+            if ($access) {
+                if (in_array($entity->getType(), $types) || empty($types)) {
                     $list[$entity->getId()] = $entity;
                 }
                 $this->addChildsToArray($entity, $list);
@@ -316,7 +316,7 @@ class ForumManager extends AbstractManager
     {
         $parent = $forum->getParent();
         if (is_object($parent)) {
-            $name = $parent->getName(). ' > ' . $name;
+            $name = $parent->getName() . ' > ' . $name;
             $name = $this->addSpaceForParents($parent, $name);
         }
         return $name;
@@ -341,17 +341,18 @@ class ForumManager extends AbstractManager
      * @param Forum $forum
      * @return int
      */
-    public function getTopicCount(Forum $forum){
+    public function getTopicCount(Forum $forum)
+    {
 
         $cacheKey = implode("_", array("getTopicCount", $forum->getId()));
         $count = $this->getCacheData($cacheKey);
 
-        if($count === null){
+        if ($count === null) {
             $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum = ?0";
             $query = $this->em->createQuery($sql);
             $query->setParameter(0, $forum->getId());
             $count = $query->getSingleScalarResult();
-            if(!$count){
+            if (!$count) {
                 $count = 0;
             }
             $this->setCacheData($cacheKey, $count);
@@ -364,17 +365,18 @@ class ForumManager extends AbstractManager
      * @param Forum $forum
      * @return int|mixed
      */
-    public function getPostCount(Forum $forum){
+    public function getPostCount(Forum $forum)
+    {
 
         $cacheKey = implode("_", array("getPostCount", $forum->getId()));
         $count = $this->getCacheData($cacheKey);
 
-        if($count === null){
+        if ($count === null) {
             $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum = ?0";
             $query = $this->em->createQuery($sql);
             $query->setParameter(0, $forum->getId());
             $count = $query->getSingleScalarResult();
-            if(!$count){
+            if (!$count) {
                 $count = 0;
             }
             $this->setCacheData($cacheKey, $count);
@@ -389,25 +391,26 @@ class ForumManager extends AbstractManager
      * @param int $limit
      * @return Forum[]
      */
-    public function getChildren(Forum $forum, $page = 1, $limit = 20, $checkAccess = true){
+    public function getChildren(Forum $forum, $page = 1, $limit = 20, $checkAccess = true)
+    {
 
 
         $cacheKey = implode("_", array("getPostCount", $forum->getId(), $page, $limit, $checkAccess));
         $pagination = $this->getCacheData($cacheKey);
 
-        if($pagination === null){
+        if ($pagination === null) {
 
             $i = 0;
             $wherePart = " WHERE f.parent IS NULL ";
-            if($forum->getId() > 0 ){
+            if ($forum->getId() > 0) {
                 $wherePart = " WHERE f.parent = ?0 ";
             }
 
-            if($checkAccess){
+            if ($checkAccess) {
                 $wherePart = "
             JOIN
                 SymbbCoreSystemBundle:Access a
-            ".$wherePart." AND
+            " . $wherePart . " AND
                 a.object = ?1 AND
                 a.objectId = f.id AND
                 a.access = ?2 AND
@@ -428,19 +431,19 @@ class ForumManager extends AbstractManager
                 f
             FROM
                 SymbbCoreForumBundle:Forum f
-            ".$wherePart."
+            " . $wherePart . "
             ORDER BY
                 f.position ASC";
 
             $groupClass = "";
             $groupIds = array();
-            foreach( $this->getUser()->getGroups() as $group){
+            foreach ($this->getUser()->getGroups() as $group) {
                 $groupClass = get_class($group);
                 $groupIds[] = $group->getId();
             }
 
             $query = $this->em->createQuery($sql);
-            if($forum->getId() > 0){
+            if ($forum->getId() > 0) {
                 $query->setParameter(0, $forum->getId());
             }
             $query->setParameter(1, get_class($forum));
@@ -525,15 +528,18 @@ class ForumManager extends AbstractManager
      * @param Forum $forum
      * @return bool
      */
-    public function unignoreForum(Forum $forum){
+    public function unignoreForum(Forum $forum)
+    {
         return $this->watchForum($forum);
     }
+
     /**
      * @return bool
      */
-    public function markAllAsRead(){
-        $forums = $this->findAll(null, 999 , 1);
-        foreach($forums as $forum){
+    public function markAllAsRead()
+    {
+        $forums = $this->findAll(null, 999, 1);
+        foreach ($forums as $forum) {
             $this->markAsRead($forum);
         }
         return true;
@@ -566,7 +572,8 @@ class ForumManager extends AbstractManager
      * @param Forum $object
      * @return bool
      */
-    public function update(Forum $object){
+    public function update(Forum $object)
+    {
         $this->em->persist($object);
         $this->em->flush();
         return true;
@@ -576,7 +583,8 @@ class ForumManager extends AbstractManager
      * @param Forum $object
      * @return bool
      */
-    public function remove(Forum $object){
+    public function remove(Forum $object)
+    {
         $this->em->remove($object);
         $this->em->flush();
         return true;
@@ -589,10 +597,11 @@ class ForumManager extends AbstractManager
      * @param GroupInterface $group
      * @param bool $includeChilds
      */
-    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $includeChilds = false){
+    public function copyAccessOfGroup(Forum $forumFrom, Forum $forumTo, GroupInterface $group, $includeChilds = false)
+    {
         $this->accessManager->copyAccessForIdentity($forumFrom, $forumTo, $group);
-        if($includeChilds){
-            foreach($this->getChildren($forumTo) as $child ){
+        if ($includeChilds) {
+            foreach ($this->getChildren($forumTo) as $child) {
                 $this->copyAccessOfGroup($forumFrom, $child, $group, $includeChilds);
             }
         }
@@ -604,10 +613,11 @@ class ForumManager extends AbstractManager
      * @param $accessSet
      * @param bool $includeChilds
      */
-    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $includeChilds = false){
+    public function applyAccessSetForGroup(Forum $forum, GroupInterface $group, $accessSet, $includeChilds = false)
+    {
         $this->accessManager->applyAccessSetForIdentity($forum, $group, $accessSet);
-        if($includeChilds){
-            foreach($this->getChildren($forum) as $child ){
+        if ($includeChilds) {
+            foreach ($this->getChildren($forum) as $child) {
                 $this->applyAccessSetForGroup($child, $group, $accessSet, $includeChilds);
             }
         }
@@ -619,7 +629,8 @@ class ForumManager extends AbstractManager
      * @param UserInterface $user
      * @return bool
      */
-    public function hasFlag(Forum $forum, $flag, UserInterface $user = null){
+    public function hasFlag(Forum $forum, $flag, UserInterface $user = null)
+    {
         return $this->forumFlagHandler->checkFlag($forum, $flag, $user = null);
     }
 
@@ -627,7 +638,8 @@ class ForumManager extends AbstractManager
      * @param Forum $forum
      * @return Post
      */
-    public function getLastPost(Forum $forum){
+    public function getLastPost(Forum $forum)
+    {
         $sql = "SELECT
                     p
                 FROM

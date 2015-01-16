@@ -7,7 +7,7 @@
  *
  */
 
-namespace Symbb\Core\ForumBundle\DependencyInjection;
+namespace Symbb\Core\SystemBundle\Manager;
 
 use Doctrine\Common\Util\ClassUtils;
 use Symbb\Core\SystemBundle\Entity\Flag;
@@ -15,16 +15,20 @@ use \Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\SystemBundle\Manager\AccessManager;
 
+/**
+ * Class AbstractFlagHandler
+ * @package Symbb\Core\ForumBundle\DependencyInjection
+ */
 abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager 
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
     /**
-     * @var UserManager 
+     * @var UserManager
      */
     protected $userManager;
 
@@ -33,14 +37,33 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
      * @var AccessManager 
      */
 
+    /**
+     * @var AccessManager
+     */
     protected $accessManager;
 
+    /**
+     * @var
+     */
     protected $memcache;
 
+    /**
+     * @var string
+     */
     protected $enviroment = 'prod';
 
+    /**
+     *
+     */
     const LIFETIME = 86400; // 1day
 
+    /**
+     * @param $em
+     * @param UserManager $userManager
+     * @param AccessManager $accessManager
+     * @param $securityContext
+     * @param $memcache
+     */
     public function __construct($em, UserManager $userManager, AccessManager $accessManager, $securityContext, $memcache)
     {
         $this->em = $em;
@@ -50,12 +73,22 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         $this->memcache = $memcache;
     }
 
+    /**
+     * @param $env
+     */
     public function setEnviroment($env)
     {
         $this->enviroment = $env;
     }
 
-    public function findOne($flag, $object, \Symbb\Core\UserBundle\Entity\UserInterface $user = null){
+    /**
+     * @param $flag
+     * @param $object
+     * @param UserInterface $user
+     * @return mixed
+     */
+    public function findOne($flag, $object, \Symbb\Core\UserBundle\Entity\UserInterface $user = null)
+    {
         if (!$user) {
             $user = $this->getUser();
         }
@@ -65,7 +98,19 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
             'user' => $user->getId(),
             'flag' => (string)$flag
         ));
-        return $flag;
+        $flags = array($flag);
+        //static stuff who is not assigned to an user
+        $flags = $this->addStaticFlags($object, $flags, $flag);
+        return reset($flags);
+    }
+
+    /**
+     * @param $object
+     * @param $flags
+     * @return mixed
+     */
+    protected function addStaticFlags($object, $flags, $searchFlag = null){
+        return $flags;
     }
 
     /**
@@ -73,7 +118,8 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
      * @param UserInterface $user
      * @return Flag[]
      */
-    public function findAll($object, UserInterface $user = null){
+    public function findAll($object, UserInterface $user = null)
+    {
         if (!$user) {
             $user = $this->getUser();
         }
@@ -82,31 +128,57 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
             'objectId' => $object->getId(),
             'user' => (string)$user->getId()
         ));
+        //static stuff who is not assigned to an user
+        $flags = $this->addStaticFlags($object, $flags);
         return $flags;
     }
 
-    public function findFlagsByObjectAndFlag($object, $flag){
+    /**
+     * @param $object
+     * @param $flag
+     * @return mixed
+     */
+    public function findFlagsByObjectAndFlag($object, $flag)
+    {
         $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
             'flag' => (string)$flag
         ));
+        //static stuff who is not assigned to an user
+        $flags = $this->addStaticFlags($object, $flags, $flag);
         return $flags;
     }
 
-    public function findFlagsByClassAndFlag($object, $flag, UserInterface $user = null){
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     * @return mixed
+     */
+    public function findFlagsByClassAndFlag($object, $flag, UserInterface $user = null)
+    {
         if (!$user) {
             $user = $this->getUser();
         }
         $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
-                'objectClass' => ClassUtils::getRealClass(get_class($object)),
-                'flag' => (string)$flag,
-                'user' => (string)$user->getId()
-            ));
+            'objectClass' => ClassUtils::getRealClass(get_class($object)),
+            'flag' => (string)$flag,
+            'user' => (string)$user->getId()
+        ));
+        //static stuff who is not assigned to an user
+        $flags = $this->addStaticFlags($object, $flags, $flag);
         return $flags;
     }
 
-    public function createNewFlag($object, \Symbb\Core\UserBundle\Entity\UserInterface $user, $flag){
+    /**
+     * @param $object
+     * @param UserInterface $user
+     * @param $flag
+     * @return Flag
+     */
+    public function createNewFlag($object, \Symbb\Core\UserBundle\Entity\UserInterface $user, $flag)
+    {
         $flagObject = new Flag();
         $flagObject->setObject($object);
         $flagObject->setUser($user);
@@ -114,6 +186,11 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         return $flagObject;
     }
 
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     */
     public function removeFlag($object, $flag, UserInterface $user = null)
     {
 
@@ -127,11 +204,14 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
             if (is_object($flagObject)) {
                 $this->em->remove($flagObject);
                 $this->em->flush();
-                $this->removeFromMemchache($flag, $object, $user);
             }
         }
     }
 
+    /**
+     * @param $object
+     * @param string $flag
+     */
     public function insertFlags($object, $flag = 'new')
     {
 
@@ -142,8 +222,8 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
                 if (
                     $user->getSymbbType() === 'user' &&
                     (
-                    $flag !== 'new' ||
-                    $user->getId() != $this->getUser()->getId() // new flag only by "other" users
+                        $flag !== 'new' ||
+                        $user->getId() != $this->getUser()->getId() // new flag only by "other" users
                     )
                 ) {
                     $this->insertFlag($object, $flag, $user, false);
@@ -154,6 +234,12 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         }
     }
 
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     * @param bool $flushEm
+     */
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)
     {
 
@@ -172,11 +258,6 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
                 // save into database
                 $flagObject = $this->createNewFlag($object, $user, $flag);
                 $this->em->persist($flagObject);
-
-                // save into memcache
-                $users[$userId] = $flagObject->getCreated()->getTimestamp();
-                $key = $this->_getMemcacheKey($flag, $object);
-                $this->memcache->set($key, $users, self::LIFETIME);
             }
         }
 
@@ -185,6 +266,12 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         }
     }
 
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     * @return bool
+     */
     public function checkFlag($object, $flag, UserInterface $user = null)
     {
 
@@ -199,7 +286,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
             $user->getSymbbType() === 'user'
         ) {
             $users = $this->getUsersForFlag($flag, $object);
-            foreach ($users as $userId => $timestamp) {
+            foreach ($users as $userId => $flagKey) {
                 if (
                     $userId == $user->getId()
                 ) {
@@ -212,61 +299,19 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         return $check;
     }
 
-    protected function getMemcacheKey($flag, $object){
-        $key = ClassUtils::getRealClass(get_class($object)).'_'.$object->getId().'_'.$flag;
-        return $key;
-    }
-
-    private function _getMemcacheKey($flag, $object)
-    {
-        $key = $this->getMemcacheKey($flag, $object);
-        $key = $key . "_symbb_" . $this->enviroment;
-        
-        return $key;
-    }
-
-    protected function fillMemcache($flag, $object)
-    {
-        $finalFlags = $this->prepareForMemcache($flag, $object);
-        $key = $this->_getMemcacheKey($flag, $object);
-        $this->memcache->set($key, $finalFlags, self::LIFETIME);
-    }
-
-    protected function prepareForMemcache($flag, $object)
+    /**
+     * @param $flag
+     * @param $object
+     * @return array
+     */
+    public function getUsersForFlag($flag, $object)
     {
         $flags = $this->findFlagsByObjectAndFlag($object, $flag);
-
         $finalFlags = array();
         foreach ($flags as $flagObject) {
             $userId = $flagObject->getUser()->getId();
-            $finalFlags[$userId] = $userId;
+            $finalFlags[$userId] = $flagObject->getFlag();
         }
         return $finalFlags;
-    }
-
-    protected function removeFromMemchache($flag, $object, UserInterface $user)
-    {
-        $key = $this->_getMemcacheKey($flag, $object);
-        $users = $this->getUsersForFlag($flag, $object);
-        if (!$user) {
-            $user = $this->getUser();
-        }
-        $userId = $user->getId();
-        if (isset($users[$userId])) {
-            unset($users[$userId]);
-            $key = $this->_getMemcacheKey($flag, $object);
-            $this->memcache->set($key, $users, self::LIFETIME);
-        }
-    }
-
-    public function getUsersForFlag($flag, $object)
-    {
-        $key = $this->_getMemcacheKey($flag, $object);
-        $users = $this->memcache->get($key);
-        if (!is_array($users)) {
-            $this->fillMemcache($flag, $object);
-            $users = (array) $this->memcache->get($key);
-        }
-        return $users;
     }
 }

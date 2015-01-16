@@ -9,9 +9,8 @@
     '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_style.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/themes/gray.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+    '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
     {{ executeSymbbEvent('template.forum.stylesheets') }}
 {% endblock %}
@@ -30,13 +29,12 @@
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_us.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_gb.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/de.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js'
-    %}
+    '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {{ executeSymbbEvent('template.forum.javascripts') }}
     <script>
-        jQuery( document ).ready(function( ) {
+        jQuery(document).ready(function () {
             symbbForum.initEditor("{{ path("symbb_forum_post_upload") }}", "{{ app.request.locale }}");
             symbbForum.prepareCollection();
         });
@@ -98,12 +96,14 @@
                         </li>
                         <li>
                             <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
-                                <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}"><span class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>
+                                <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}"><span
+                                            class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>
                                 <span class="glyphicon-label">{% trans %}Messages{% endtrans %}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('symbb_forum_search', {page: 1}) }}" title="{% trans %}Newest Posts{% endtrans %}">
+                            <a href="{{ path('symbb_forum_search', {page: 1}) }}"
+                               title="{% trans %}Newest Posts{% endtrans %}">
                                 <span class="glyphicon glyphicon-fire"></span>
                                 <span class="glyphicon-label">{% trans %}Newest Posts{% endtrans %}</span>
                             </a>
@@ -117,7 +117,8 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                         <li>
-                            <a href="{{ path('_symbb_acp') }}" target="_self" title="{% trans %}Adminpanel{% endtrans %}">
+                            <a href="{{ path('_symbb_acp') }}" target="_self"
+                               title="{% trans %}Adminpanel{% endtrans %}">
                                 <span class="glyphicon glyphicon-tasks glyphicon-warning"></span>
                                 <span class="glyphicon-label">{% trans %}Adminpanel{% endtrans %}</span>
                             </a>
@@ -132,7 +133,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('symbb_register') }}" target="_self" title="{% trans %}Sign up{% endtrans %}">
+                            <a href="{{ path('symbb_register') }}" target="_self"
+                               title="{% trans %}Sign up{% endtrans %}">
                                 <span class="glyphicon glyphicon-plus-sign glyphicon-success"></span>
                                 <span class="glyphicon-label">{% trans %}Sign up{% endtrans %}</span>
                             </a>

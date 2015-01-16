@@ -21,7 +21,7 @@ class ManagerExtension extends \Twig_Extension
      * @var \Symbb\Core\ForumBundle\DependencyInjection\PostManager
      */
     protected $postManager;
-    
+
     /**
      *
      * @var \Symbb\Core\ForumBundle\DependencyInjection\ForumManager
@@ -53,7 +53,7 @@ class ManagerExtension extends \Twig_Extension
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\DependencyInjection\PostManager
      */
     public function getPostManager()
@@ -63,7 +63,7 @@ class ManagerExtension extends \Twig_Extension
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\DependencyInjection\ForumManager
      */
     public function getForumManager()

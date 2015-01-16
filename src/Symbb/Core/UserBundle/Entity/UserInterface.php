@@ -8,6 +8,7 @@
  */
 
 namespace Symbb\Core\UserBundle\Entity;
+
 use \Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 interface UserInterface extends AdvancedUserInterface
@@ -24,9 +25,9 @@ interface UserInterface extends AdvancedUserInterface
     public function getGroups();
 
     public function getSymbbType();
-    
+
     public function getFieldValues();
-    
+
     public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field);
 
     /**
@@ -35,18 +36,18 @@ interface UserInterface extends AdvancedUserInterface
     public function getSymbbData();
 
     public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value);
-    
+
     /**
      * this method need to set some other data e.g a "changed" field
      * if not than doctrine will not save the entity if only the PW is changed ( because the postUpdate event are not called )
      * @param string $pw
      */
     public function setPlainPassword($pw);
-    
+
     public function isEnabled();
-    
+
     public function enable();
-    
+
     public function disable();
 
     public function setChangedValue();

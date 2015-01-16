@@ -9,10 +9,12 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
 
-class ForumFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+class ForumFlagHandler extends AbstractFlagHandler
 {
+
 
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)
     {
@@ -43,9 +45,9 @@ class ForumFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\Abstr
         parent::removeFlag($object, $flag, $user);
 
         /** remove recusivly to the childs */
-        foreach($object->getTopics() as $topic){
+        foreach ($object->getTopics() as $topic) {
             parent::removeFlag($topic, $flag, $user);
-            foreach($topic->getPosts() as $post){
+            foreach ($topic->getPosts() as $post) {
                 parent::removeFlag($post, $flag, $user);
             }
         }

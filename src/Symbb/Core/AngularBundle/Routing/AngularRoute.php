@@ -51,7 +51,8 @@ class AngularRoute
         $this->router = $router;
     }
 
-    public function getSection(){
+    public function getSection()
+    {
         return $this->section;
     }
 

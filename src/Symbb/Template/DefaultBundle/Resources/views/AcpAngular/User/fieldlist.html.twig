@@ -6,7 +6,8 @@
 {% block subtitle %}
     {{ 'You can manage your Userfields on this Pages'|trans }}
     <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
-        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
+        ...{% endtrans %}
     </button>
     <div class="pull-right">
         <button ng-click="create()" class="btn btn-default btn-xs">
@@ -19,20 +20,20 @@
     <div class="bg-white-only table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <colgroup>
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
-                <col style="width: 20%" />
+                <col style="width: 20%"/>
+                <col style="width: 20%"/>
+                <col style="width: 20%"/>
+                <col style="width: 20%"/>
+                <col style="width: 20%"/>
             </colgroup>
             <thead>
-                <tr>
-                    <th>{{ 'Label'|trans }}</th>
-                    <th>{{ 'Type'|trans }}</th>
-                    <th>{{ 'Display Forum'|trans }}</th>
-                    <th>{{ 'Display Memberlist'|trans }}</th>
-                    <th>{{ 'Aktion'|trans }}</th>
-                </tr>
+            <tr>
+                <th>{{ 'Label'|trans }}</th>
+                <th>{{ 'Type'|trans }}</th>
+                <th>{{ 'Display Forum'|trans }}</th>
+                <th>{{ 'Display Memberlist'|trans }}</th>
+                <th>{{ 'Aktion'|trans }}</th>
+            </tr>
             </thead>
             <tbody>
             <tr ng-repeat="entry in data">
@@ -62,7 +63,8 @@
             <tr>
                 <td colspan="5">
                     <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
-                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}
+                        Loading ...{% endtrans %}
                     </button>
                     <symbb-rest-pagination route="symbb_backend_api_user_field_list"></symbb-rest-pagination>
                 </td>
@@ -72,23 +74,25 @@
     </div>
     <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Field'|trans }}">
         <button ng-if="restCrudSaving" class="btn btn-warning btn-xs">
-            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
+            ...{% endtrans %}
         </button>
-        <label>{{ 'Label'|trans }}</label><input class="form-control" ng-model="formEntry.label" />
+        <label>{{ 'Label'|trans }}</label><input class="form-control" ng-model="formEntry.label"/>
         <label>{{ 'Type'|trans }}</label>
         <select class="form-control" ng-model="formEntry.data_type">
             <option value="string">{{ 'short Text' }}</option>
             <option value="text">{{ 'long Text' }}</option>
             <option value="boolean">{{ 'Yes/No' }}</option>
         </select>
+
         <div class="checkbox">
             <label>
-                <input type="checkbox" ng-model="formEntry.display_in_forum" />  {{ 'Display in Forum'|trans }}
+                <input type="checkbox" ng-model="formEntry.display_in_forum"/>  {{ 'Display in Forum'|trans }}
             </label>
         </div>
         <div class="checkbox">
             <label>
-                <input type="checkbox" ng-model="formEntry.display_in_memberlist" />  {{ 'Display in Memberlist'|trans }}
+                <input type="checkbox" ng-model="formEntry.display_in_memberlist"/>  {{ 'Display in Memberlist'|trans }}
             </label>
         </div>
     </symbb-modal-form>

@@ -16,7 +16,7 @@ class PostManagerParseTextEvent extends Event
 {
 
     /**
-     * @var Post 
+     * @var Post
      */
     protected $post;
 

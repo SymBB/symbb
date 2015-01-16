@@ -8,6 +8,7 @@
  */
 
 namespace Symbb\Core\BBCodeBundle\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractController
@@ -16,14 +17,14 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
     public function templateFileAction($file, $set = 1)
     {
         $response = $this->render(
-            'SymbbCoreBBCodeBundle:Angular:'.$file.'.html.twig',
+            'SymbbCoreBBCodeBundle:Angular:' . $file . '.html.twig',
             array('bbcodeset' => $set)
         );
-        
+
         $response->setPublic();
         $response->setSharedMaxAge(600);
-        
+
         return $response;
     }
-    
+
 }

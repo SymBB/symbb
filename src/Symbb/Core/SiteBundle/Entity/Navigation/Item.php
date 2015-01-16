@@ -221,9 +221,10 @@ class Item
     /**
      * @return bool
      */
-    public function hasChildren(){
+    public function hasChildren()
+    {
         $childs = $this->getChildren();
-        if(!empty($childs)){
+        if (!empty($childs)) {
             return true;
         }
         return false;
@@ -234,7 +235,7 @@ class Item
      */
     public function setSymfonyRouteParams($symfonyRouteParams)
     {
-        if(is_array($symfonyRouteParams)){
+        if (is_array($symfonyRouteParams)) {
             $symfonyRouteParams = json_encode($symfonyRouteParams);
         }
         $this->symfonyRouteParams = $symfonyRouteParams;
@@ -246,12 +247,12 @@ class Item
     public function getSymfonyRouteParams()
     {
         $params = $this->symfonyRouteParams;
-        if(empty($params)){
+        if (empty($params)) {
             $params = array();
         } else {
             $params = json_decode($params, true);
         }
-        if(!is_array($params)){
+        if (!is_array($params)) {
             $params = array();
         }
 

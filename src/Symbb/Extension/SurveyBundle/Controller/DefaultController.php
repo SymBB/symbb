@@ -23,7 +23,7 @@ class DefaultController extends AbstractController
         $user = $this->getUser();
         $post = $this->get('symbb.core.post.manager')->find($postId);
 
-        if($post !== null){
+        if ($post !== null) {
             if (!$this->get('security.authorization_checker')->isGranted(SurveyVoter::VIEW_SURVEY, $post->getTopic()->getForum())) {
                 throw $this->createAccessDeniedException();
             }
@@ -39,9 +39,9 @@ class DefaultController extends AbstractController
 
                 $currentVotes = array();
 
-                if($survey->getChoices() > 1){
+                if ($survey->getChoices() > 1) {
                     foreach ($answers as $key => $answer) {
-                        if ((int) $answer !== 1) {
+                        if ((int)$answer !== 1) {
                             unset($answers[$key]);
                         }
                     }
@@ -57,7 +57,7 @@ class DefaultController extends AbstractController
                         $voteFound = null;
 
                         foreach ($votes as $vote) {
-                            if ($vote->getAnswer() === (int) $key) {
+                            if ($vote->getAnswer() === (int)$key) {
                                 $currentVotes[] = $vote->getId();
                                 $voteFound = $vote;
                                 break;

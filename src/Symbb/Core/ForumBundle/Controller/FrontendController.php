@@ -42,7 +42,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function searchForumAction(Request $request){
+    public function searchForumAction(Request $request)
+    {
         $page = $request->get("page", 1);
         $posts = $this->get('symbb.core.post.manager')->search($page);
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:search.html.twig', array("posts" => $posts));
@@ -59,7 +60,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::VIEW, $forum)) {
             throw $this->createAccessDeniedException();
         }
-        if($forum->isForum()){
+        if ($forum->isForum()) {
             $topics = $this->get("symbb.core.forum.manager")->findTopics($forum, $request->get("page"));
         }
         return $this->render($this->getTemplateBundleName('forum') . ':Forum:index.html.twig', array("forum" => $forum, "topics" => $topics));
@@ -69,14 +70,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function markAsReadForumAction(Request $request, $id){
+    public function markAsReadForumAction(Request $request, $id)
+    {
         $forum = $this->get("symbb.core.forum.manager")->find($id);
-        if(is_object($forum) && $forum->getId() > 0){
+        if (is_object($forum) && $forum->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::VIEW, $forum)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.forum.manager")->markAsRead($forum);
-            if($success){
+            if ($success) {
                 $this->addSuccess("The forum has been marked as read.", $request);
             } else {
                 $this->addError("An error occurred while marking the forum as read.", $request);
@@ -91,14 +93,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function ignoreForumAction(Request $request, $id){
+    public function ignoreForumAction(Request $request, $id)
+    {
         $forum = $this->get("symbb.core.forum.manager")->find($id);
-        if(is_object($forum) && $forum->getId() > 0){
+        if (is_object($forum) && $forum->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::VIEW, $forum)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.forum.manager")->ignoreForum($forum);
-            if($success){
+            if ($success) {
                 $this->addSuccess("Forum was ignored.", $request);
             } else {
                 $this->addError("Error while ignoring the forum.", $request);
@@ -113,14 +116,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function unignoreForumAction(Request $request, $id){
+    public function unignoreForumAction(Request $request, $id)
+    {
         $forum = $this->get("symbb.core.forum.manager")->find($id);
-        if(is_object($forum) && $forum->getId() > 0){
+        if (is_object($forum) && $forum->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::VIEW, $forum)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.forum.manager")->unignoreForum($forum);
-            if($success){
+            if ($success) {
                 $this->addSuccess("Forum was ignored.", $request);
             } else {
                 $this->addError("Error while ignoring the forum.", $request);
@@ -132,19 +136,19 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
     }
 
 
-
     /**
      * @param Request $request
      * @return mixed
      */
-    public function markAsReadTopicAction(Request $request, $id){
+    public function markAsReadTopicAction(Request $request, $id)
+    {
         $topic = $this->get("symbb.core.topic.manager")->find($id);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::VIEW, $topic)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.topic.manager")->markAsRead($topic);
-            if($success){
+            if ($success) {
                 $this->addSuccess("The topic has been marked as read.", $request);
             } else {
                 $this->addError("An error occurred while marking the topic as read.", $request);
@@ -159,21 +163,22 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function moveTopicAction(Request $request){
+    public function moveTopicAction(Request $request)
+    {
 
         $topicId = (int)$request->get("topic");
         $topic = $this->get("symbb.core.topic.manager")->find($topicId);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::MOVE, $topic)) {
                 throw $this->createAccessDeniedException();
             }
             $targetForumId = (int)$request->get("targetForum");
             $forum = $this->get("symbb.core.forum.manager")->find($targetForumId);
 
-            if(is_object($forum) && $forum->getId() > 0){
+            if (is_object($forum) && $forum->getId() > 0) {
                 $success = $this->get("symbb.core.topic.manager")->move($topic, $forum);
 
-                if($success){
+                if ($success) {
                     $this->addSuccess("Topic was moved.", $request);
                 } else {
                     $this->addError("Error while moving the topic.", $request);
@@ -191,14 +196,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function deleteTopicAction(Request $request, $id){
+    public function deleteTopicAction(Request $request, $id)
+    {
         $topic = $this->get("symbb.core.topic.manager")->find($id);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::DELETE, $topic)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.topic.manager")->delete($topic);
-            if($success){
+            if ($success) {
                 $this->addSuccess("Topic was deleted.", $request);
             } else {
                 $this->addError("Error while deleteing the topic.", $request);
@@ -213,14 +219,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function closeTopicAction(Request $request, $id){
+    public function closeTopicAction(Request $request, $id)
+    {
         $topic = $this->get("symbb.core.topic.manager")->find($id);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::EDIT, $topic)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.topic.manager")->close($topic);
-            if($success){
+            if ($success) {
                 $this->addSuccess("Topic was closed.", $request);
             } else {
                 $this->addError("Error while closing the topic.", $request);
@@ -235,14 +242,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function openTopicAction(Request $request, $id){
+    public function openTopicAction(Request $request, $id)
+    {
         $topic = $this->get("symbb.core.topic.manager")->find($id);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::EDIT, $topic)) {
                 throw $this->createAccessDeniedException();
             }
             $success = $this->get("symbb.core.topic.manager")->open($topic);
-            if($success){
+            if ($success) {
                 $this->addSuccess("Topic was open opened.", $request);
             } else {
                 $this->addError("Error while opening the topic.", $request);
@@ -257,10 +265,11 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function viewTopicAction(Request $request){
+    public function viewTopicAction(Request $request)
+    {
         $id = $request->get('id');
         $topic = $this->get("symbb.core.topic.manager")->find($id);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::VIEW, $topic)) {
                 throw $this->createAccessDeniedException();
             }
@@ -281,7 +290,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function createTopicAction(Request $request){
+    public function createTopicAction(Request $request)
+    {
         $forumId = $request->get("forum");
         $forum = $this->get('symbb.core.forum.manager')->find($forumId);
 
@@ -303,7 +313,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function editPostAction(Request $request){
+    public function editPostAction(Request $request)
+    {
         $postId = $request->get("id");
         $post = $this->get('symbb.core.post.manager')->find($postId);
 
@@ -311,7 +322,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             throw $this->createAccessDeniedException();
         }
 
-        if($post->getTopic()->getMainPost()->getId() == $post->getId()){
+        if ($post->getTopic()->getMainPost()->getId() == $post->getId()) {
             return $this->handleTopic($request, $post->getTopic());
         } else {
             return $this->handlePost($request, $post);
@@ -323,11 +334,12 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function createPostAction(Request $request){
+    public function createPostAction(Request $request)
+    {
         $topicId = $request->get("topic");
         $topic = $this->get('symbb.core.topic.manager')->find($topicId);
 
-        if(is_object($topic)){
+        if (is_object($topic)) {
             if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())) {
                 throw $this->createAccessDeniedException();
             }
@@ -335,7 +347,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $post = new Post();
             $post->setAuthor($this->getUser());
             $post->setTopic($topic);
-            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend")." ".$topic->getName());
+            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
 
             return $this->handlePost($request, $post);
         }
@@ -349,12 +361,13 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Request $request
      * @return mixed
      */
-    public function quotePostAction(Request $request){
+    public function quotePostAction(Request $request)
+    {
         $topicId = $request->get("topic");
         $quoteId = $request->get("quoteId");
         $topic = $this->get('symbb.core.topic.manager')->find($topicId);
 
-        if(is_object($topic)){
+        if (is_object($topic)) {
 
             $quotePost = $this->get('symbb.core.post.manager')->find($quoteId);
             if (!$this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())) {
@@ -362,9 +375,9 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             }
             $post = new Post();
             $post->setAuthor($this->getUser());
-            $post->setText("[quote=".$quotePost->getAuthor()->getUsername()."]".$quotePost->getText()."[/quote]");
+            $post->setText("[quote=" . $quotePost->getAuthor()->getUsername() . "]" . $quotePost->getText() . "[/quote]");
             $post->setTopic($topic);
-            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend")." ".$topic->getName());
+            $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
             return $this->handlePost($request, $post);
         }
 
@@ -377,10 +390,11 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Topic $topic
      * @return mixed
      */
-    public function handleTopic(Request $request, Topic $topic){
+    public function handleTopic(Request $request, Topic $topic)
+    {
 
         $editReason = null;
-        if($topic->getId() > 0){
+        if ($topic->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::EDIT, $topic)) {
                 throw $this->createAccessDeniedException();
             }
@@ -400,7 +414,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         if ($form->isValid()) {
 
             // insert edit history
-            if($editReason !== null){
+            if ($editReason !== null) {
                 $history = new Post\History();
                 $history->setPost($topic->getMainPost());
                 $history->setChanged(new \DateTime());
@@ -415,7 +429,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $this->get("symbb.core.topic.manager")->save($topic);
             $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.topic.after.save', $event);
 
-            if ($request->get("notifyMe", false)) {
+            if ($form->get("mainPost")->get("notifyMe")->getData()) {
                 $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
             } else {
                 $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
@@ -435,10 +449,11 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
      * @param Post $post
      * @return mixed
      */
-    public function handlePost(Request $request, Post $post){
+    public function handlePost(Request $request, Post $post)
+    {
 
         $editReason = null;
-        if($post->getId() > 0){
+        if ($post->getId() > 0) {
             if (!$this->get('security.authorization_checker')->isGranted(PostVoter::EDIT, $post)) {
                 throw $this->createAccessDeniedException();
             }
@@ -458,7 +473,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         if ($form->isValid()) {
 
             // insert edit history
-            if($editReason !== null){
+            if ($editReason !== null) {
                 $history = new Post\History();
                 $history->setPost($post);
                 $history->setChanged(new \DateTime());

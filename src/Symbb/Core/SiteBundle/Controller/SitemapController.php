@@ -11,5 +11,5 @@ namespace Symbb\Core\SiteBundle\Controller;
 
 class SitemapController extends \Symbb\Core\SystemBundle\Controller\AbstractController
 {
-    
+
 }

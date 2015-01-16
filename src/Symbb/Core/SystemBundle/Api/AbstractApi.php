@@ -105,28 +105,32 @@ abstract class AbstractApi
     /**
      * @param AccessManager $manager
      */
-    public function setAccessManager(AccessManager $manager){
+    public function setAccessManager(AccessManager $manager)
+    {
         $this->accessManager = $manager;
     }
 
     /**
      * @param UserManager $manager
      */
-    public function setUserManager(UserManager $manager){
+    public function setUserManager(UserManager $manager)
+    {
         $this->userManager = $manager;
     }
 
     /**
      * @param MessageManager $manager
      */
-    public function setMessageManager(MessageManager $manager){
+    public function setMessageManager(MessageManager $manager)
+    {
         $this->messageManager = $manager;
     }
 
     /**
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher){
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -134,21 +138,24 @@ abstract class AbstractApi
     /**
      * @param $paginator
      */
-    public function setPaginator($paginator){
+    public function setPaginator($paginator)
+    {
         $this->paginator = $paginator;
     }
 
     /**
      * @param TranslatorInterface $translator
      */
-    public function setTranslator(TranslatorInterface $translator){
+    public function setTranslator(TranslatorInterface $translator)
+    {
         $this->translator = $translator;
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(EntityManager $em){
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
     }
 
@@ -317,7 +324,8 @@ abstract class AbstractApi
         return $this->translator->trans($msg, $param, 'symbb_frontend');
     }
 
-    public function setSerializer($serializer){
+    public function setSerializer($serializer)
+    {
         $this->serializer = $serializer;
     }
 
@@ -325,39 +333,40 @@ abstract class AbstractApi
      * @param object|array $object
      * @return array
      */
-    public function createArrayOfObject($object){
+    public function createArrayOfObject($object)
+    {
         $array = array();
         $fields = $this->getFieldsForObject($object, 'toArray');
-        if($object){
-            if(!$fields || empty($fields)){
+        if ($object) {
+            if (!$fields || empty($fields)) {
                 $json = $this->serializer->serialize($object, 'json');
                 $array = json_decode($json, 1);
             } else {
-                foreach($fields as $field){
+                foreach ($fields as $field) {
                     $method = '';
                     $parts = explode('_', $field);
-                    foreach($parts as $key => $part){
+                    foreach ($parts as $key => $part) {
                         $method .= ucfirst($part);
                     }
-                    $getter = 'get'.$method;
-                    $is = 'is'.$method;
+                    $getter = 'get' . $method;
+                    $is = 'is' . $method;
                     $value = null;
-                    if(method_exists($object, $getter)){
+                    if (method_exists($object, $getter)) {
                         $value = $object->$getter();
-                    } else if(method_exists($object, $is)){
+                    } else if (method_exists($object, $is)) {
                         $value = $object->$is();
                     }
                     if (
                         $value instanceof ArrayCollection ||
                         $value instanceof PersistentCollection ||
                         is_array($value)
-                    ){
+                    ) {
                         $newValue = array();
-                        foreach($value as $key => $value2){
+                        foreach ($value as $key => $value2) {
                             $newValue[$key] = $this->createArrayOfObject($value2);
                         }
                         $value = $newValue;
-                    } else if(is_object($value)){
+                    } else if (is_object($value)) {
                         $value = $this->createArrayOfObject($value);
                     }
                     $array[$field] = $value;
@@ -375,23 +384,24 @@ abstract class AbstractApi
      * @param $data
      * @return object
      */
-    public function assignArrayToObject($object, $data){
+    public function assignArrayToObject($object, $data)
+    {
 
         $fields = $this->getFieldsForObject($object, 'toObject');
 
-        foreach($fields as $field){
+        foreach ($fields as $field) {
             // only assign if the key is set
-            if(isset($data[$field]) && $field !== "id"){
+            if (isset($data[$field]) && $field !== "id") {
                 $setter = 'set';
                 $getter = 'get';
                 $parts = explode('_', $field);
-                foreach($parts as $key => $part){
+                foreach ($parts as $key => $part) {
                     $setter .= ucfirst($part);
                     $getter .= ucfirst($part);
                 }
 
                 $test = null;
-                if(method_exists($object, $getter)){
+                if (method_exists($object, $getter)) {
                     $test = $object->$getter();
                 }
                 // test if it is an array or object
@@ -399,20 +409,20 @@ abstract class AbstractApi
                     $test instanceof ArrayCollection ||
                     $test instanceof PersistentCollection ||
                     is_array($test)
-                ){
-                    if(!is_array($test)){
+                ) {
+                    if (!is_array($test)) {
                         $newValue = new ArrayCollection();
                     } else {
                         $newValue = array();
                     }
-                    foreach($data[$field] as $key => $value2){
+                    foreach ($data[$field] as $key => $value2) {
                         $subobject = $this->createNewSubobject($object, $field);
-                        if($subobject){
+                        if ($subobject) {
                             $newValue[$key] = $this->assignArrayToObject($subobject, $value2);
                         }
                     }
                     $data[$field] = $newValue;
-                } else if(is_object($test)){
+                } else if (is_object($test)) {
                     $data[$field] = $this->createArrayOfObject($data[$field]);
                 }
                 // set the value
@@ -420,8 +430,8 @@ abstract class AbstractApi
             }
         }
 
-        foreach($data as $key => $value){
-            if(!in_array($key, $fields) && $key !== 'id'){
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $fields) && $key !== 'id') {
                 $this->addInfoMessage(self::INFO_UNKNOWN_FIELD, array('%field%' => $key));
             }
         }
@@ -429,7 +439,8 @@ abstract class AbstractApi
         return $object;
     }
 
-    protected function createNewSubobject($parent, $field){
+    protected function createNewSubobject($parent, $field)
+    {
         return null;
     }
 }

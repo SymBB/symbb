@@ -80,7 +80,7 @@ class Site
      * @ORM\OrderBy()
      */
     protected $navigations;
-    
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -100,23 +100,27 @@ class Site
     {
         $this->name = $name;
     }
-    
-    public function getMetaDataDescription(){
+
+    public function getMetaDataDescription()
+    {
         return $this->metaDataDescription;
     }
-    
-    public function setMetaDataDescription($value){
+
+    public function setMetaDataDescription($value)
+    {
         $this->metaDataDescription = $value;
     }
-    
-    public function getMetaDataKeywords(){
+
+    public function getMetaDataKeywords()
+    {
         return $this->metaDataKeywords;
     }
-    
-    public function setMetaDataKeywords($value){
+
+    public function setMetaDataKeywords($value)
+    {
         $this->metaDataKeywords = $value;
     }
-    
+
     public function getTemplateAcp()
     {
         return $this->templateAcp;
@@ -131,7 +135,7 @@ class Site
     {
         $this->templateForum = $template;
     }
-    
+
     public function getTemplateForum()
     {
         return $this->templateForum;
@@ -141,17 +145,17 @@ class Site
     {
         $this->templateEmail = $template;
     }
-    
+
     public function getTemplateEmail()
     {
         return $this->templateEmail;
     }
-    
+
     public function getTemplatePortal()
     {
         return $this->templatePortal;
     }
-    
+
     public function setTemplatePortal($template)
     {
         $this->templatePortal = $template;
@@ -161,18 +165,20 @@ class Site
     {
         return $this->domains;
     }
-    
-    public function getGoogleAnalyticsCode(){
+
+    public function getGoogleAnalyticsCode()
+    {
         return $this->googleAnalyticsCode;
     }
-    
-    public function setGoogleAnalyticsCode($value){
+
+    public function setGoogleAnalyticsCode($value)
+    {
         $this->googleAnalyticsCode = $value;
     }
-    
+
     public function getDomainArray()
     {
-        $domans =  $this->domains;
+        $domans = $this->domains;
         $domans = \explode(',', $domans);
         return $domans;
     }
@@ -182,28 +188,31 @@ class Site
         $this->domains = $domains;
     }
 
-    public function getMediaDomain(){
+    public function getMediaDomain()
+    {
         $domain = $this->mediaDomain;
-        if(empty($domain)){
+        if (empty($domain)) {
             $domains = $this->getDomainArray();
             $domain = reset($domains);
         }
-        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0){
-            $domain = 'http://'.$domain;
+        if (strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0) {
+            $domain = 'http://' . $domain;
         }
         return $domain;
     }
 
-    public function setMediaDomain($domain){
-        if(strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0 && !empty($domain)){
-            $domain = 'http://'.$domain;
-        } else if($domain === 'http://'){
+    public function setMediaDomain($domain)
+    {
+        if (strpos($domain, 'http') !== 0 && strpos($domain, 'ftp') !== 0 && !empty($domain)) {
+            $domain = 'http://' . $domain;
+        } else if ($domain === 'http://') {
             $domain = '';
         }
         $this->mediaDomain = $domain;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->getName();
     }
 

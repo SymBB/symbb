@@ -14,19 +14,21 @@
                     <th> {{ 'Dabei seit'|trans() }} </th>
                     <th> {{ 'letzer Login'|trans() }} </th>
                     {% for field in userfields %}
-                        <th > {{ field.getLabel() }} </th>
+                        <th> {{ field.getLabel() }} </th>
                     {% endfor %}
                 </tr>
                 </thead>
                 <tbody>
-                    {% for entry in entries %}
-                        <tr>
-                            <td><a href="{{ path("symbb_user_profile", {id: entry.getId(), username: entry.getUsername()}) }}">{{ entry.getUsername() }}</a></td>
-                            <td>{{ getUserManager().getPostCount(entry) }}</td>
-                            <td>{{ entry.getCreated() | date("d.m.Y") }}</td>
-                            <td>{{ entry.getLastLogin() | date("d.m.Y") }}</td>
-                            {% for field in userfields %}
-                                <th >
+                {% for entry in entries %}
+                    <tr>
+                        <td>
+                            <a href="{{ path("symbb_user_profile", {id: entry.getId(), username: entry.getUsername()}) }}">{{ entry.getUsername() }}</a>
+                        </td>
+                        <td>{{ getUserManager().getPostCount(entry) }}</td>
+                        <td>{{ entry.getCreated() | date("d.m.Y") }}</td>
+                        <td>{{ entry.getLastLogin() | date("d.m.Y") }}</td>
+                        {% for field in userfields %}
+                            <th>
                                 {% set fieldValue = entry.getFieldValue(field) %}
                                 {% if field.getDataType() == "boolean" %}
                                     {% if fieldValue.getValue() %}
@@ -37,10 +39,10 @@
                                 {% else %}
                                     {{ fieldValue.getValue() }}
                                 {% endif %}
-                                </th>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
             {{ knp_pagination_render(entries, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}

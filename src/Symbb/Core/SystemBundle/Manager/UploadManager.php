@@ -68,7 +68,7 @@ class UploadManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         if (\strpos($path, $rootPart) === false) {
             $path = $this->rootDir . '/../web' . $path;
         }
-        
+
         return $path;
     }
 
@@ -95,8 +95,9 @@ class UploadManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         return $file;
     }
 
-    public function checkDir($dir){
-        if(!is_dir($this->addRootDir($dir))){
+    public function checkDir($dir)
+    {
+        if (!is_dir($this->addRootDir($dir))) {
             mkdir($this->addRootDir($dir));
         }
     }

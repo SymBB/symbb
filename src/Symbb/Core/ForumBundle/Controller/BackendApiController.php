@@ -30,7 +30,7 @@ class BackendApiController extends AbstractController
         $objects = $api->findAll($request->get('parent', 0), $request->get('limit', 20), $request->get('page', 1));
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -122,7 +122,7 @@ class BackendApiController extends AbstractController
         $group = $groupApi->find($data['group']);
         $set = $data['set'];
         $childs = (bool)$data['childs'];
-        $set = "default_".$set;
+        $set = "default_" . $set;
 
         $api->applyAccessSetForGroup($forumTo, $group, $set, $childs);
         $api->addSuccessMessage(AbstractApi::SUCCESS_SAVED);

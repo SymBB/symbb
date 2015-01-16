@@ -19,7 +19,7 @@ class ParseListener
     protected $userManager;
 
     protected $router;
-    
+
     public function __construct($userManager, $router)
     {
         $this->userManager = $userManager;
@@ -40,7 +40,7 @@ class ParseListener
                 $userFound = $this->userManager->findByUsername($username);
                 if (\is_object($userFound)) {
                     $uri = $this->router->generate('symbb_user_profile', array('id' => $userFound->getId(), 'name' => $userFound->getUsername()));
-                    $text = \str_replace("@" . $username, "<a href='".$uri."'>@" . $userFound->getUsername() . "</a>", $text);
+                    $text = \str_replace("@" . $username, "<a href='" . $uri . "'>@" . $userFound->getUsername() . "</a>", $text);
                 }
             }
         }

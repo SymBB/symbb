@@ -102,7 +102,7 @@ class Survey
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
@@ -116,14 +116,14 @@ class Survey
      */
     public function setEnd($value = null)
     {
-        if($value instanceof \DateTime){
+        if ($value instanceof \DateTime) {
             $value = $value->getTimestamp();
         }
         $this->end = $value;
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function getEnd()
@@ -223,7 +223,7 @@ class Survey
     }
 
     /**
-     * 
+     *
      * @return Vote
      */
     public function getVotes()

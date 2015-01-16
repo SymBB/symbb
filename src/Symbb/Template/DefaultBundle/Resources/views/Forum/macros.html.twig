@@ -5,7 +5,9 @@
         <div class="symbb_action_row">
             <div style="padding: 5px;">
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
-                    <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}" class="btn btn-primary btn-sm pull-left"><span class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</a>
+                    <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}"
+                       class="btn btn-primary btn-sm pull-left"><span
+                                class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</a>
                 {% endif %}
             </div>
             <div class="pull-right">
@@ -21,37 +23,46 @@
     {% set topic = object.getTopic() %}
     {% set forum = topic.getForum() %}
 
-    <article class="symbb_post " itemtype="http://schema.org/Article" >
+    <article class="symbb_post " itemtype="http://schema.org/Article">
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
-            <a class="avatar" href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
-                <img src="getSymbbAvatar(object.getAuthor())" />
+            <a class="avatar"
+               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
+                <img src="getSymbbAvatar(object.getAuthor())"/>
             </a>
             {{ executeSymbbTemplatePostEvent('after.avatar', object) }}
             {{ executeSymbbTemplatePostEvent('before.username', object) }}
-            <a class="username" href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">{{ object.getAuthor().getUsername() }}</a>
+            <a class="username"
+               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">{{ object.getAuthor().getUsername() }}</a>
             {{ executeSymbbTemplatePostEvent('after.username', object) }}
             {{ executeSymbbTemplatePostEvent('before.userdata', object) }}
-            <dd><strong>{% trans %}posts{% endtrans %}:</strong> {{ getUserManager().getPostCount(object.getAuthor()) }}</dd>
-            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
+            <dd><strong>{% trans %}posts{% endtrans %}:</strong> {{ getUserManager().getPostCount(object.getAuthor()) }}
+            </dd>
+            <dd><strong>{% trans %}Join Date{% endtrans %}
+                    :</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
             {{ executeSymbbTemplatePostEvent('after.userdata', object) }}
         </dl>
         <div class="postbody">
             <div class="actions">
                 {{ executeSymbbTemplatePostEvent('before.actions', object) }}
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
-                    <a title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment" href="{{ path("symbb_forum_post_quote", {"topic": topic.getId(), "quoteId": object.getId()}) }}" ></a>
+                    <a title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment"
+                       href="{{ path("symbb_forum_post_quote", {"topic": topic.getId(), "quoteId": object.getId()}) }}"></a>
                 {% endif %}
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::EDIT'), object) %}
                     {% if object.getId() == topic.getId() %}
-                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" href="{{ path("symbb_forum_topic_edit", {"id": object.getId(), "forum": topic.getForum().getId()}) }}"></a>
+                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                           href="{{ path("symbb_forum_topic_edit", {"id": object.getId(), "forum": topic.getForum().getId()}) }}"></a>
                     {% else %}
-                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil" href="{{ path("symbb_forum_post_edit", {"id": object.getId()}) }}"></a>
+                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                           href="{{ path("symbb_forum_post_edit", {"id": object.getId()}) }}"></a>
                     {% endif %}
                 {% endif %}
 
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::DELETE'), object) %}
-                    <a title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove" href="{{ path("symbb_forum_post_delete", {"id": object.getId()}) }}"  onclick="return confirm('{{'you really want to delete the entry?'|trans}}')"></a>
+                    <a title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove"
+                       href="{{ path("symbb_forum_post_delete", {"id": object.getId()}) }}"
+                       onclick="return confirm('{{ 'you really want to delete the entry?'|trans }}')"></a>
                 {% endif %}
                 {{ executeSymbbTemplatePostEvent('after.actions', object) }}
             </div>
@@ -59,12 +70,13 @@
             <div class="title" itemprop="name">{{ object.getName() }}</div>
             <div class="labels">
                 {% for flag in getSymbbPostManager().getFlags(object) %}
-                    <span  class="label label-{{ flag.getType() }}">{{ flag.getName() }}</span>
+                    <span class="label label-{{ flag.getType() }}">{{ flag.getName() }}</span>
                 {% endfor %}
             </div>
             <div class="clear-left"></div>
             <div class="date">
-                {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}on %date% at %time%{% endtrans %}
+                {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}
+                on %date% at %time%{% endtrans %}
             </div>
             <div class="clear-left"></div>
             {{ executeSymbbTemplatePostEvent('before.text', object) }}
@@ -73,14 +85,18 @@
 
             {% if object.getHistory().count() > 0 %}
                 <div class="history">
-                        <span class="pointer" data-toggle="collapse" href="#collapse-history-{{ object.getId() }}" aria-expanded="false" aria-controls="collapse-history-{{ object.getId() }}">
+                        <span class="pointer" data-toggle="collapse" href="#collapse-history-{{ object.getId() }}"
+                              aria-expanded="false" aria-controls="collapse-history-{{ object.getId() }}">
                             {% trans with {'%count%': object.getHistory().count()} %}edited %count% times (click for details){% endtrans %}
                         </span>
+
                     <div class="collapse" id="collapse-history-{{ object.getId() }}">
                         <div class="well">
                             {% for historyEntry in object.getHistory() %}
                                 <div class="historyEntry">
-                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}<span >({{ historyEntry.getReason() }})</span>{% endif %}
+                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}
+                                    edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
+                                        <span>({{ historyEntry.getReason() }})</span>{% endif %}
                                 </div>
                             {% endfor %}
                         </div>

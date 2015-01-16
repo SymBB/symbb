@@ -123,3 +123,4 @@ services:
             - [setUserManager, ['@symbb.core.user.manager']]
             - [setGroupManager, ['@symbb.core.user.group.manager']]
             - [setPostManager, ['@symbb.core.post.manager']]
+            - [setTopicManager, ['@symbb.core.topic.manager']]

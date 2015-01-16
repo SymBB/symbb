@@ -29,6 +29,6 @@ class SymbbExtensionCalendarExtension extends Extension implements PrependExtens
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        
+
     }
 }

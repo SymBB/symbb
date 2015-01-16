@@ -49,8 +49,8 @@ class User extends AbstractType
                     'constraints' => array(
                         new \Symfony\Component\Validator\Constraints\Email(
                             array(
-                            'checkMX' => true,
-                            'message' => 'The email "{{ value }}" is not a valid email.'
+                                'checkMX' => true,
+                                'message' => 'The email "{{ value }}" is not a valid email.'
                             )
                         )
                     )

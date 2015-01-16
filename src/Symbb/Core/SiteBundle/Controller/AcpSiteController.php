@@ -21,7 +21,6 @@ class AcpSiteController extends \Symbb\Core\AdminBundle\Controller\Base\CrudCont
     protected $formClass = '\Symbb\Core\SiteBundle\Form\Type\Site';
 
 
-
     protected function getForm(Request $request)
     {
         $entity = $this->getFormEntity($request);
@@ -29,7 +28,8 @@ class AcpSiteController extends \Symbb\Core\AdminBundle\Controller\Base\CrudCont
         return $form;
     }
 
-    public function listAction($parent = null){
+    public function listAction($parent = null)
+    {
 
         $repo = $this->get('doctrine')->getRepository('SymbbCoreSiteBundle:Site', 'symbb');
         $sites = $repo->findAll();

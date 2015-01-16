@@ -165,7 +165,8 @@ class Message
     /**
      * @param Receiver $receiver
      */
-    public function addReceiver(Receiver $receiver){
+    public function addReceiver(Receiver $receiver)
+    {
         $this->receivers->add($receiver);
     }
 

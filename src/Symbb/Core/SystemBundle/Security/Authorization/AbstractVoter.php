@@ -30,13 +30,15 @@ abstract class AbstractVoter implements VoterInterface
     /**
      * @param AccessManager $accessManager
      */
-    public function __construct(AccessManager $accessManager){
+    public function __construct(AccessManager $accessManager)
+    {
         $this->accessManager = $accessManager;
     }
 
     abstract public function getGroupedAttributes();
 
-    public function getAccessSets(){
+    public function getAccessSets()
+    {
         return array();
     }
 
@@ -48,8 +50,8 @@ abstract class AbstractVoter implements VoterInterface
     {
         $attribute = strtolower($attribute);
         $groupedAttributes = $this->getGroupedAttributes();
-        foreach($groupedAttributes as $attributes){
-            if(in_array($attribute, $attributes)){
+        foreach ($groupedAttributes as $attributes) {
+            if (in_array($attribute, $attributes)) {
                 return true;
             }
         }
@@ -62,8 +64,8 @@ abstract class AbstractVoter implements VoterInterface
      */
     public function supportsClass($class)
     {
-        foreach($this->supportedClasses as $supportedClass){
-            if($supportedClass === $class || is_subclass_of($class, $supportedClass)){
+        foreach ($this->supportedClasses as $supportedClass) {
+            if ($supportedClass === $class || is_subclass_of($class, $supportedClass)) {
                 return true;
             }
         }
@@ -87,7 +89,7 @@ abstract class AbstractVoter implements VoterInterface
         // check if the voter is used correct, only allow one attribute
         // this isn't a requirement, it's just one easy way for you to
         // design your voter
-        if(1 !== count($attributes)) {
+        if (1 !== count($attributes)) {
             throw new InvalidArgumentException(
                 'Only one attribute is allowed'
             );
@@ -109,7 +111,7 @@ abstract class AbstractVoter implements VoterInterface
             return VoterInterface::ACCESS_DENIED;
         }
 
-        switch($attribute) {
+        switch ($attribute) {
             default:
                 $this->accessManager->addVoterAccessCheck($attribute, $object);
                 if ($this->accessManager->hasVoterAccess()) {

@@ -6,44 +6,44 @@
         lastElementDate: 0,
         listOfElements: [],
 
-        loadSymbbExtensionShoutboxData: function(route){
-            $.get( "{{ path("symbb_api_extension_shoutbox_list") }}", function( data ) {
-                $(data.shoutboxEntries).each(function(key, element){
-                    if(element.dateTimestamp > symbbExtensionShoutbox.lastElementDate){
+        loadSymbbExtensionShoutboxData: function (route) {
+            $.get("{{ path("symbb_api_extension_shoutbox_list") }}", function (data) {
+                $(data.shoutboxEntries).each(function (key, element) {
+                    if (element.dateTimestamp > symbbExtensionShoutbox.lastElementDate) {
                         symbbExtensionShoutbox.listOfElements[symbbExtensionShoutbox.listOfElements.length] = element;
                         symbbExtensionShoutbox.addToList(element);
                         symbbExtensionShoutbox.lastElementDate = element.dateTimestamp;
                     }
                 });
                 //scroll down
-                $('#symbb_extension_shoutbox_entries').animate({scrollTop:  3000});
-            }, "json" );
+                $('#symbb_extension_shoutbox_entries').animate({scrollTop: 3000});
+            }, "json");
         },
 
-        addToList: function(element){
+        addToList: function (element) {
             var div = $("<div>", {"class": "shoutbox_row"});
             var date = new Date(element.date);
-            div.html("["+date.toLocaleDateString()+" "+date.getHours()+":"+date.getMinutes()+"] "+element.author.username+": "+element.message);
+            div.html("[" + date.toLocaleDateString() + " " + date.getHours() + ":" + date.getMinutes() + "] " + element.author.username + ": " + element.message);
             $("#symbb_extension_shoutbox_entries").append(div);
         }
     };
 
 
-    $( window ).load(function() {
+    $(window).load(function () {
         //load firsttime
         symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
 
         //load every 60s again
-        setInterval(function() {
+        setInterval(function () {
             symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
         }, 60000);
 
 
         // send message if press enter
-        $('#symbb_extension_shoutbox_input').keypress(function(event){
-            if ( event.which == 13 ) {
+        $('#symbb_extension_shoutbox_input').keypress(function (event) {
+            if (event.which == 13) {
                 var that = this;
-                $.post( "{{ path("symbb_api_extension_shoutbox_save") }}", {message: this.value}, function( data ) {
+                $.post("{{ path("symbb_api_extension_shoutbox_save") }}", {message: this.value}, function (data) {
                     symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
                     that.placeholder = "";
                 }, "json");

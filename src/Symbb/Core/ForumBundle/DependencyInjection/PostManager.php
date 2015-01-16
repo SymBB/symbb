@@ -97,13 +97,14 @@ class PostManager extends AbstractManager
         return $breadcrumb;
     }
 
-    public function search($page = 1, $limit = 0){
+    public function search($page = 1, $limit = 0)
+    {
 
-        if($limit === null || $limit === 0){
+        if ($limit === null || $limit === 0) {
             $limit = $this->configManager->get('newpost.max', "forum");
         }
 
-        $configUsermanager  = $this->configManager->getSymbbConfig('usermanager');
+        $configUsermanager = $this->configManager->getSymbbConfig('usermanager');
         $configGroupManager = $this->configManager->getSymbbConfig('groupmanager');
 
         $userlcass = $configUsermanager['user_class'];
@@ -147,8 +148,8 @@ class PostManager extends AbstractManager
                     p.created DESC ";
 
         $groupIds = array();
-        foreach($this->getUser()->getGroups() as $group){
-            $groupIds[]  = $group->getId();
+        foreach ($this->getUser()->getGroups() as $group) {
+            $groupIds[] = $group->getId();
         }
 
         //// count
@@ -156,7 +157,7 @@ class PostManager extends AbstractManager
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
         $queryCount = $query->getSQL();
-        $queryCount = "SELECT COUNT(*) count FROM (".$queryCount.") as temp";
+        $queryCount = "SELECT COUNT(*) count FROM (" . $queryCount . ") as temp";
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameter(0, $this->getUser()->getId());
         $queryCount->setParameter(1, $this->getUser()->getId());
@@ -167,7 +168,7 @@ class PostManager extends AbstractManager
         $count = $queryCount->getSingleScalarResult();
         ////
 
-        if(!$count){
+        if (!$count) {
             $count = 0;
         }
 
@@ -190,7 +191,8 @@ class PostManager extends AbstractManager
      * @param $flag
      * @return bool
      */
-    public function hasFlag(Post $post, $flag){
+    public function hasFlag(Post $post, $flag)
+    {
         return $this->postFlagHandler->checkFlag($post, $flag);
     }
 
@@ -198,17 +200,18 @@ class PostManager extends AbstractManager
      * @param Post $post
      * @return \Symbb\Core\SystemBundle\Entity\Flag[]
      */
-    public function getFlags(Post $post){
+    public function getFlags(Post $post)
+    {
         return $this->postFlagHandler->findAll($post);
     }
-
 
 
     /**
      * @param Post $post
      * @return bool
      */
-    public function save(Post $post){
+    public function save(Post $post)
+    {
         $this->em->persist($post);
         $this->em->flush();
         return true;

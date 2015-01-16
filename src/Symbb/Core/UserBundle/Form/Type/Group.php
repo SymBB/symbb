@@ -20,7 +20,7 @@ class Group extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain'    => 'symbb_frontend'
+            'translation_domain' => 'symbb_frontend'
         ));
 
     }
@@ -28,8 +28,7 @@ class Group extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('name', 'text', array('required' => true ,'attr' => array('placeholder' => 'Name of the Group')))
-                ;
+        $builder->add('name', 'text', array('required' => true, 'attr' => array('placeholder' => 'Name of the Group')));
     }
 
 

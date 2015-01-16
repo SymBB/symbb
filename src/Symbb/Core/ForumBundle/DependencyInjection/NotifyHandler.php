@@ -47,11 +47,12 @@ class NotifyHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         $this->translator = $container->get('translator');
         $this->container = $container;
         $this->configManager = $container->get('symbb.core.config.manager');
-        
+
 
     }
-    
-    public function getLocale(){
+
+    public function getLocale()
+    {
         $locale = $this->container->get('request')->getLocale();
         if (strpos('_', $locale) !== false) {
             $locale = explode('_', $locale);
@@ -76,11 +77,10 @@ class NotifyHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
             ->setFrom($sender)
             ->setTo($recipient)
             ->setBody(
-            $this->container->get('twig')->render(
-                $this->configManager->get('template.email') . ':Email:topic_notify.' . $this->getLocale() . '.html.twig', array('topic' => $topic, 'user' => $user, 'symbbConfigManager' => $this->configManager)
-            ), 'text/html'
-            )
-        ;
+                $this->container->get('twig')->render(
+                    $this->configManager->get('template.email') . ':Email:topic_notify.' . $this->getLocale() . '.html.twig', array('topic' => $topic, 'user' => $user, 'symbbConfigManager' => $this->configManager)
+                ), 'text/html'
+            );
 
         $this->mailer->send($message);
 

@@ -11,6 +11,7 @@
             <div class="infos">
                 <div class="">
                     <h1>{{ profileUser.getUsername() }}</h1>
+
                     <div class="countDiv">
                         <div class="count">{{ profileUser.getCreated() | date("d.m.Y") }}</div>
                         <div class="title">{{ 'Join Date'|trans }}</div>
@@ -26,7 +27,7 @@
                     <div class="clear"></div>
                     <table class="table">
                         {% for field in userfields %}
-                            <tr >
+                            <tr>
                                 <td>
                                     {{ field.getLabel() }}:
                                 </td>

@@ -24,7 +24,7 @@ class PostManager extends AbstractManager
         $limit = 50;
         $page = 1;
         $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
-        
+
         $topic = $this->topicManager->find($topicId);
         $posts = $this->postManager->findByTopic($topic, $limit, $page);
         $forum = $topic->getForum();

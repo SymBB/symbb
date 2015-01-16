@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -20,7 +20,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
      * @var ContainerInterface
      */
     private $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -28,28 +28,28 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     {
         $this->container = $container;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        
-        $guestName      = $this->container->get('translator')->trans('Guest');
-        $userName       = $this->container->get('translator')->trans('User');
-        $adminName      = $this->container->get('translator')->trans('Admin');
-        
-        $userManager    = $this->container->get('symbb.core.user.manager');
-        
-        $userGuest      = $userManager->createUser();
+
+        $guestName = $this->container->get('translator')->trans('Guest');
+        $userName = $this->container->get('translator')->trans('User');
+        $adminName = $this->container->get('translator')->trans('Admin');
+
+        $userManager = $this->container->get('symbb.core.user.manager');
+
+        $userGuest = $userManager->createUser();
         $userGuest->setUsername($guestName);
         $userGuest->setSymbbType('guest');
         $userGuest->addGroup($this->getReference('guest-group'));
         $userGuest->setPlainPassword('guest');
         $userGuest->setEnabled(false);
         $userGuest->setEmail('guest@no-email.com');
-        
-        $userUser       = $userManager->createUser();
+
+        $userUser = $userManager->createUser();
         $userUser->setUsername($userName);
         $userUser->setSymbbType('user');
         $userUser->setPlainPassword('user');
@@ -57,8 +57,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userUser->setEnabled(true);
         $userUser->addGroup($this->getReference('guest-group'));
         $userUser->addGroup($this->getReference('user-group'));
-        
-        $userAdmin      = $userManager->createUser();
+
+        $userAdmin = $userManager->createUser();
         $userAdmin->setUsername($adminName);
         $userAdmin->setSymbbType('user'); // admin is also "user" only the group is different
         $userAdmin->setPlainPassword('admin');
@@ -67,7 +67,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $userAdmin->addGroup($this->getReference('guest-group'));
         $userAdmin->addGroup($this->getReference('user-group'));
         $userAdmin->addGroup($this->getReference('admin-group'));
-       
+
         $userManager->updateUser($userGuest);
         $userManager->updateUser($userUser);
         $userManager->updateUser($userAdmin);

@@ -32,7 +32,8 @@ class SurveyVoter extends AbstractVoter implements VoterInterface
         );
     }
 
-    public function getAccessSets(){
+    public function getAccessSets()
+    {
         return array(
             // full (add extension access)
             "default_3" => array(
@@ -50,7 +51,7 @@ class SurveyVoter extends AbstractVoter implements VoterInterface
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $check = parent::vote($token, $object, $attributes);
-        if($check){
+        if ($check) {
             return $check;
         }
 
@@ -60,13 +61,13 @@ class SurveyVoter extends AbstractVoter implements VoterInterface
         // set the attribute to check against
         $attribute = $attributes[0];
 
-        if($object instanceof Post){
+        if ($object instanceof Post) {
             $forum = $object->getTopic()->getForum();
             $this->accessManager->addVoterAccessCheck($attribute, $forum);
             if ($this->accessManager->hasVoterAccess()) {
                 return VoterInterface::ACCESS_GRANTED;
             }
-        } else if($object instanceof Topic){
+        } else if ($object instanceof Topic) {
             $forum = $object->getForum();
             $this->accessManager->addVoterAccessCheck($attribute, $forum);
             if ($this->accessManager->hasVoterAccess()) {

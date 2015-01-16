@@ -42,7 +42,7 @@ class SaveListener
             $survey->setPost($post);
             $this->em->persist($survey);
             $this->em->flush();
-        } else if($survey->getId() > 0) {
+        } else if ($survey->getId() > 0) {
             $this->em->remove($survey);
             $this->em->flush();
         }
@@ -61,7 +61,7 @@ class SaveListener
             $survey->setPost($post);
             $this->em->persist($survey);
             $this->em->flush();
-        } else if($survey->getId() > 0) {
+        } else if ($survey->getId() > 0) {
             $this->em->remove($survey);
             $this->em->flush();
         }

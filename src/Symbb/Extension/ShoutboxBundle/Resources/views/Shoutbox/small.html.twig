@@ -1,17 +1,17 @@
 {% trans_default_domain "symbb_frontend" %}
 {% if app.user.getSymbbType() == "user" %}
-<div class="symbb_extension_scoutbox" id="symbb_extension_shoutbox">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ 'Shoutbox'|trans }}</h3>
-        </div>
-        <div class="panel-body">
-            <div class="shoutbox_content"  id="symbb_extension_shoutbox_entries">
+    <div class="symbb_extension_scoutbox" id="symbb_extension_shoutbox">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'Shoutbox'|trans }}</h3>
             </div>
-            <div class="shoutbox_input">
-                <input id="symbb_extension_shoutbox_input" class="form-control" />
+            <div class="panel-body">
+                <div class="shoutbox_content" id="symbb_extension_shoutbox_entries">
+                </div>
+                <div class="shoutbox_input">
+                    <input id="symbb_extension_shoutbox_input" class="form-control"/>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endif %}

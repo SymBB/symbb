@@ -21,7 +21,7 @@ class SecurityOption extends AbstractType
      * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $usermanager;
-    
+
     public function __construct($usermanager)
     {
         $this->usermanager = $usermanager;
@@ -30,7 +30,7 @@ class SecurityOption extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain'    => 'symbb_frontend'
+            'translation_domain' => 'symbb_frontend'
         ));
 
     }
@@ -39,15 +39,15 @@ class SecurityOption extends AbstractType
     {
 
         $builder->add('password', 'repeated', array(
-                    'type' => 'password',
-                    'invalid_message' => 'The password fields must match.',
-                    'options' => array('attr' => array('class' => 'password-field')),
-                    'required' => true,
-                    'first_options'  => array('label' => 'Password'),
-                    'second_options' => array('label' => 'Repeat Password'),
-                    'constraints' => $this->usermanager->getPasswordValidatorConstraints()
-                ))
-                ->add('save', 'submit', array('attr' => array('class' => 'btn-success', 'onclick' => 'submit();')));
+            'type' => 'password',
+            'invalid_message' => 'The password fields must match.',
+            'options' => array('attr' => array('class' => 'password-field')),
+            'required' => true,
+            'first_options' => array('label' => 'Password'),
+            'second_options' => array('label' => 'Repeat Password'),
+            'constraints' => $this->usermanager->getPasswordValidatorConstraints()
+        ))
+            ->add('save', 'submit', array('attr' => array('class' => 'btn-success', 'onclick' => 'submit();')));
     }
 
 
@@ -56,5 +56,5 @@ class SecurityOption extends AbstractType
         return 'user_options_security';
 
     }
-    
+
 }

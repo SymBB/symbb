@@ -74,7 +74,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
@@ -96,7 +96,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getStartDate()
@@ -106,7 +106,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getEndDate()
@@ -125,7 +125,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @param array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">) $groups
      */
     public function setGroups($groups)
@@ -135,7 +135,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -145,7 +145,7 @@ class Event
     }
 
     /**
-     * 
+     *
      * @param string $title
      */
     public function setName($title)

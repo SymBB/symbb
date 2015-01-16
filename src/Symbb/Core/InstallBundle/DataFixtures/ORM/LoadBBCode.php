@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -16,17 +16,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadBBCode extends AbstractFixture
 {
-    
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        
+
         $setDefault = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setDefault->setId('default');
         $setDefault->setName("Default");
-        
+
         $setSignature = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setSignature->setId('signature');
         $setSignature->setName("Signature");
@@ -34,7 +34,7 @@ class LoadBBCode extends AbstractFixture
         $setPm = new \Symbb\Core\BBCodeBundle\Entity\Set();
         $setPm->setId('pm');
         $setPm->setName("Private Message");
-        
+
         $pos = 0;
         $bbcodeSize = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeSize->setName('Font Size');
@@ -46,7 +46,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeSize->setJsFunction('BBCodeEditor.prepareFontBtn');
         $manager->persist($bbcodeSize);
         $pos++;
-        
+
         $bbcodeB = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeB->setName('Bold');
         $bbcodeB->setSearchRegex('#\[b\]([\s\S]+?)\[\/b\]#');
@@ -56,7 +56,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeB->setPosition($pos);
         $manager->persist($bbcodeB);
         $pos++;
-        
+
         $bbcodeU = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeU->setName('U');
         $bbcodeU->setSearchRegex('#\[u\]([\s\S]+?)\[\/u\]#');
@@ -66,7 +66,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeU->setPosition($pos);
         $manager->persist($bbcodeU);
         $pos++;
-        
+
         $bbcodeI = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeI->setName('I');
         $bbcodeI->setSearchRegex('#\[i\]([\s\S]+?)\[\/i\]#');
@@ -76,7 +76,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeI->setPosition($pos);
         $manager->persist($bbcodeI);
         $pos++;
-        
+
         $bbcodeH1 = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeH1->setName('H1');
         $bbcodeH1->setSearchRegex('#\[h([0-9]+)\](.+?)\[\/h([0-9]+)\]#');
@@ -108,7 +108,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeHr->setPosition($pos);
         $manager->persist($bbcodeHr);
         $pos++;
-        
+
         $bbcodeLink = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeLink->setName('Link');
         $bbcodeLink->setSearchRegex('#\[link(?:=(.*)\](.*)|\]((.*)))\[\/link]#iUs');
@@ -119,7 +119,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeLink->setRemoveNewLines(true);
         $manager->persist($bbcodeLink);
         $pos++;
-        
+
         $bbcodeImage = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeImage->setName('Image');
         $bbcodeImage->setSearchRegex('#\[img\](.+)\[\/img\]#iUs');
@@ -130,7 +130,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeImage->setRemoveNewLines(true);
         $manager->persist($bbcodeImage);
         $pos++;
-        
+
         $bbcodeQuote = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeQuote->setName('Quote');
         $bbcodeQuote->setSearchRegex('#\[quote(?:=(.+)\](.+)|\](([\s\S]*?)))\[\/quote]#iUs');
@@ -140,8 +140,8 @@ class LoadBBCode extends AbstractFixture
         $bbcodeQuote->setPosition($pos);
         $manager->persist($bbcodeQuote);
         $pos++;
-        
-        
+
+
         $bbcodeCode = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeCode->setName('Code');
         $bbcodeCode->setSearchRegex('#\[code\](.+)\[\/code\]#');
@@ -149,10 +149,10 @@ class LoadBBCode extends AbstractFixture
         $bbcodeCode->setButtonRegex('[code]{text}[/code]');
         $bbcodeCode->setImage('/bundles/symbbcorebbcode/images/page_white_code.png');
         $bbcodeCode->setPosition($pos);
-        $manager->persist($bbcodeCode); 
+        $manager->persist($bbcodeCode);
         $pos++;
-        
-        
+
+
         $bbcodeList = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeList->setName('List');
         $bbcodeList->setSearchRegex('#\[list\]([\s\S]+)\[\/list\]#iUs');
@@ -162,7 +162,7 @@ class LoadBBCode extends AbstractFixture
         $bbcodeList->setPosition($pos);
         $manager->persist($bbcodeList);
         $pos++;
-        
+
         $bbcodeListItem = new \Symbb\Core\BBCodeBundle\Entity\BBCode();
         $bbcodeListItem->setName('List Item');
         $bbcodeListItem->setSearchRegex('#\[\*\](.*)#');
@@ -172,8 +172,8 @@ class LoadBBCode extends AbstractFixture
         $bbcodeListItem->setPosition($pos);
         $manager->persist($bbcodeListItem);
         $pos++;
-        
-        
+
+
         $setDefault->addCode($bbcodeSize);
         $setDefault->addCode($bbcodeB);
         $setDefault->addCode($bbcodeU);
@@ -211,12 +211,12 @@ class LoadBBCode extends AbstractFixture
         $setSignature->addCode($bbcodeQuote);
         $setSignature->addCode($bbcodeList);
         $setSignature->addCode($bbcodeListItem);
-        
+
         $manager->persist($setDefault);
         $manager->persist($setSignature);
         $manager->persist($setPm);
-        
+
         $manager->flush();
-        
+
     }
 }

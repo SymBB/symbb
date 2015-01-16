@@ -11,6 +11,7 @@ namespace Symbb\Core\ForumBundle\Form;
 
 use Symbb\Core\ForumBundle\DependencyInjection\PostManager;
 use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -25,7 +26,7 @@ class PostType extends AbstractType
 
     /**
      *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher 
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
 
@@ -42,6 +43,11 @@ class PostType extends AbstractType
     protected $postManager;
 
     /**
+     * @var TopicManager
+     */
+    protected $topicManager;
+
+    /**
      * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $userManager;
@@ -52,33 +58,46 @@ class PostType extends AbstractType
      */
     protected $groupManager;
 
-    public function setDispatcher($object){
+    public function setDispatcher($object)
+    {
         $this->dispatcher = $object;
     }
 
-    public function setTranslator($object){
+    public function setTranslator($object)
+    {
         $this->translator = $object;
     }
 
     /**
      * @param UserManager $object
      */
-    public function setUserManager(UserManager $object){
+    public function setUserManager(UserManager $object)
+    {
         $this->userManager = $object;
     }
 
     /**
      * @param GroupManager $object
      */
-    public function setGroupManager(GroupManager $object){
+    public function setGroupManager(GroupManager $object)
+    {
         $this->groupManager = $object;
     }
 
     /**
      * @param PostManager $object
      */
-    public function setPostManager(PostManager $object){
+    public function setPostManager(PostManager $object)
+    {
         $this->postManager = $object;
+    }
+
+    /**
+     * @param PostManager $object
+     */
+    public function setTopicManager(TopicManager $object)
+    {
+        $this->topicManager = $object;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -87,13 +106,12 @@ class PostType extends AbstractType
         $builder->add('text', 'textarea', array('attr' => array('placeholder' => 'Give Your text here', "class" => "symbb-editable")));
         $builder->add('id', 'hidden');
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder)
-        {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($builder) {
             $data = $event->getData();
             /* Check we're looking at the right data/form */
-            if ($data instanceof Post)
-            {
-                $builder->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me'));
+            if ($data instanceof Post) {
+                $form = $event->getForm();
+                $form->add('notifyMe', 'checkbox', array("mapped" => false, 'required' => false, 'label' => 'Notify me', "data" => $this->topicManager->checkFlag($data->getTopic(), "notify", $this->userManager->getCurrentUser())));
             }
         });
 

@@ -1,45 +1,53 @@
 {% if survey and survey.getQuestion() and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::VIEW_SURVEY'), post.getTopic().getForum()) %}
-<div class="survey">
-    <div class="answers">
-        <form action="{{ path("symbb_extension_survey_vote", {"post": post.getId()}) }}" method="post" id="extensionSurveyForm">
-            <ul class="list-group">
-                <li class="list-group-item active">{{ survey.getQuestion() }}</li>
-                {% for answer in survey.getAnswersArray() %}
-                <li class="list-group-item">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ survey.getAnswerPercent(loop.index0) }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ survey.getAnswerPercent(loop.index0) }}%;">
-                            <span class="sr-only">{{ survey.getAnswerPercent(loop.index) }}% : answer </span>
-                        </div>
-                    </div>
-                    <div class="answer">
-                        <div class="animate-switch-container pull-left">
-                            {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
-                                {% if survey.getChoices() > 1 %}
-                                    <div class="animate-switch">
-                                        <input type="hidden"  name="answers[{{ loop.index0 }}]" value="0">
-                                        <input type="checkbox" {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %} name="answers[{{ loop.index0 }}]" value="1">
-                                    </div>
-                                {% else %}
-                                    <div class="animate-switch">
-                                        <input type="radio"  {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %} name="answers" value="{{ loop.index0 }}">
-                                    </div>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                        <div class="pull-left">{{ answer }} ( {{ survey.getAnswerPercent(loop.index0) }}% )</div>
-                    </div>
-                    <div class="clear"></div>
-                </li>
-                {% endfor %}
-                {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
-                    <li class="list-group-item">
-                        <a onclick="$('#extensionSurveyForm').submit();" class="btn btn-default">{{ 'vote'|trans}}</a>
-                        <div class="clear"></div>
-                    </li>
-                {% endif %}
-            </ul>
-        </form>
+    <div class="survey">
+        <div class="answers">
+            <form action="{{ path("symbb_extension_survey_vote", {"post": post.getId()}) }}" method="post"
+                  id="extensionSurveyForm">
+                <ul class="list-group">
+                    <li class="list-group-item active">{{ survey.getQuestion() }}</li>
+                    {% for answer in survey.getAnswersArray() %}
+                        <li class="list-group-item">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"
+                                     aria-valuenow="{{ survey.getAnswerPercent(loop.index0) }}" aria-valuemin="0"
+                                     aria-valuemax="100" style="width: {{ survey.getAnswerPercent(loop.index0) }}%;">
+                                    <span class="sr-only">{{ survey.getAnswerPercent(loop.index) }}% : answer </span>
+                                </div>
+                            </div>
+                            <div class="answer">
+                                <div class="animate-switch-container pull-left">
+                                    {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
+                                        {% if survey.getChoices() > 1 %}
+                                            <div class="animate-switch">
+                                                <input type="hidden" name="answers[{{ loop.index0 }}]" value="0">
+                                                <input type="checkbox" {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %}
+                                                       name="answers[{{ loop.index0 }}]" value="1">
+                                            </div>
+                                        {% else %}
+                                            <div class="animate-switch">
+                                                <input type="radio"  {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %}
+                                                       name="answers" value="{{ loop.index0 }}">
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="pull-left">{{ answer }} ( {{ survey.getAnswerPercent(loop.index0) }}% )
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </li>
+                    {% endfor %}
+                    {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
+                        <li class="list-group-item">
+                            <a onclick="$('#extensionSurveyForm').submit();"
+                               class="btn btn-default">{{ 'vote'|trans }}</a>
+
+                            <div class="clear"></div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </form>
+        </div>
     </div>
-</div>
 
 {% endif %}

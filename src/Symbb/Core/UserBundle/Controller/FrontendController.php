@@ -8,6 +8,7 @@
  */
 
 namespace Symbb\Core\UserBundle\Controller;
+
 use Symbb\Core\SystemBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +28,7 @@ class FrontendController extends AbstractController
         $params['profileUser'] = $user;
 
         $response = $this->render(
-            $this->getTemplateBundleName('forum').':User:view.html.twig',
+            $this->getTemplateBundleName('forum') . ':User:view.html.twig',
             $params
         );
 
@@ -52,7 +53,7 @@ class FrontendController extends AbstractController
         $params['entries'] = $users;
 
         $response = $this->render(
-            $this->getTemplateBundleName('forum').':User:list.html.twig',
+            $this->getTemplateBundleName('forum') . ':User:list.html.twig',
             $params
         );
 

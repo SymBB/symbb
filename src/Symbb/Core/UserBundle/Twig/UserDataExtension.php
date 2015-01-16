@@ -38,10 +38,10 @@ class UserDataExtension extends \Twig_Extension
             new \Twig_SimpleFunction('getGroupManager', array($this, 'getGroupManager')),
             new \Twig_SimpleFunction('getSymbbUserAvatar', array($this, 'getSymbbUserAvatar'), array(
                 'is_safe' => array('html')
-                )),
+            )),
             new \Twig_SimpleFunction('getSymbbUserSignature', array($this, 'getSymbbUserSignature'), array(
                 'is_safe' => array('html')
-                ))
+            ))
         );
     }
 
@@ -69,7 +69,7 @@ class UserDataExtension extends \Twig_Extension
 
     public function isSymbbGuest(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
     {
-        if(!$user){
+        if (!$user) {
             $user = $this->userManager->getCurrentUser();
         }
         if ($user->getSymbbType() == 'guest') {

@@ -37,7 +37,7 @@ class UserManager
     protected $securityFactory;
 
     /**
-     * @var string 
+     * @var string
      */
     protected $userClass = '';
 
@@ -58,7 +58,7 @@ class UserManager
     protected $container;
 
     protected $postCountCache = array();
-    
+
     protected $symbbDataCache = array();
 
     public function __construct($container)
@@ -76,7 +76,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Request
      */
     protected function getRequest()
@@ -85,7 +85,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function getCurrentUser()
@@ -146,7 +146,7 @@ class UserManager
         $passwordConstraints[] = new \Symfony\Component\Validator\Constraints\NotBlank();
         $errorsPassword = $validator->validateValue($newPassword, $passwordConstraints);
 
-        if($errorsPassword->count() === 0){
+        if ($errorsPassword->count() === 0) {
             $this->em->persist($user);
             $this->em->flush();
         }
@@ -166,7 +166,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param type $userId
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -177,7 +177,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param string $username
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -188,10 +188,10 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
      */
-    public function findUsers($limit = 20 , $page = 1)
+    public function findUsers($limit = 20, $page = 1)
     {
         $users = $this->findBy(array(), $limit, $page);
         return $users;
@@ -226,7 +226,7 @@ class UserManager
             $qb->setParameter($i, $value);
             $i++;
         }
-        if(!empty($whereParts)){
+        if (!empty($whereParts)) {
             $qb->add("where", implode(' AND ', $whereParts));
         }
         $qb->orderBy("u.username", "ASC");
@@ -299,7 +299,7 @@ class UserManager
         if (!$user) {
             $user = $this->getCurrentUser();
         }
-        
+
         if (!isset($this->postCountCache[$user->getId()])) {
             $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
@@ -442,7 +442,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param string $username
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -461,30 +461,31 @@ class UserManager
     }
 
 
-    public function createPagination($query, $page, $limit){
+    public function createPagination($query, $page, $limit)
+    {
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
 
         $queryCount = $query->getSql();
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCount . ") as temp";
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
-        if(!$count){
+        if (!$count) {
             $count = 0;
         }
 
-        if(!$limit){
+        if (!$limit) {
             $limit = 20;
         }
 
-        if($page === 'last'){
+        if ($page === 'last') {
             $page = $count / $limit;
             $page = ceil($page);
         }
 
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
 
@@ -497,14 +498,16 @@ class UserManager
         return $pagination;
     }
 
-    public function isGranted($access, $object, $identity = null){
+    public function isGranted($access, $object, $identity = null)
+    {
         return $this->securityContext->isGranted($access, $object, $identity);
     }
 
     /**
      * @return UserInterface
      */
-    public function getGuestUser(){
+    public function getGuestUser()
+    {
         $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
         return $user;
     }

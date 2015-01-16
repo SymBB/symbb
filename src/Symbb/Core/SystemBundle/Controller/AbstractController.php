@@ -31,28 +31,32 @@ abstract class AbstractController extends Controller
         return $this->templateBundle;
     }
 
-    public function addSuccess($message, $request){
+    public function addSuccess($message, $request)
+    {
         $request->getSession()->getFlashBag()->add(
             'success',
             $message
         );
     }
 
-    public function addError($message, $request){
+    public function addError($message, $request)
+    {
         $request->getSession()->getFlashBag()->add(
             'error',
             $message
         );
     }
 
-    public function addInfo($message, $request){
+    public function addInfo($message, $request)
+    {
         $request->getSession()->getFlashBag()->add(
             'notice',
             $message
         );
     }
 
-    public function returnToLastPage($request){
+    public function returnToLastPage($request)
+    {
         $referer = $request->headers->get('referer');
         return new RedirectResponse($referer);
     }

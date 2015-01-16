@@ -18,7 +18,8 @@
             <h3 class="panel-title">[[site.name]]
                 <div class="pull-right">
                     <button ng-if="siteLoading[site.id]" ng-click="saveSite(site)" class="btn btn-warning btn-xs">
-                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+                        <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}
+                        Loading ...{% endtrans %}
                     </button>
                     <button ng-click="saveSite(site)" class="btn btn-success btn-xs">
                         <span class="glyphicon glyphicon-floppy-disk"></span> {{ 'Save'|trans }}</button>

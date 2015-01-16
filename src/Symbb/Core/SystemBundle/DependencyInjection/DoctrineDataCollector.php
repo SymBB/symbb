@@ -25,7 +25,8 @@ class DoctrineDataCollector extends DataCollector
 
     protected $em;
 
-    public function __construct($em){
+    public function __construct($em)
+    {
         $this->em = $em;
         $this->logger = new \Doctrine\DBAL\Logging\DebugStack();
         $loggerChain = $em
@@ -35,11 +36,13 @@ class DoctrineDataCollector extends DataCollector
         $loggerChain->addLogger($this->logger);
     }
 
-    public function getCount(){
+    public function getCount()
+    {
         return $this->data["count"];
     }
 
-    public function getQueries(){
+    public function getQueries()
+    {
         return $this->data["queries"];
     }
 
@@ -49,25 +52,25 @@ class DoctrineDataCollector extends DataCollector
         $problematicQueries = array();
         $queries = $this->logger->queries;
         $queries = $this->sanitizeQueries($queries);
-        foreach($queries as $queryData){
+        foreach ($queries as $queryData) {
             $problematic = false;
             $queryData["problems"] = array();
-            if($queryData["executionMS"] > 10){
+            if ($queryData["executionMS"] > 10) {
                 $problematic = true;
                 $queryData["problems"][] = "Query is slow.";
             }
-            if(
+            if (
                 $queryData["explainable"] &&
                 strpos($queryData["sql"], "TRANSACTION") === false &&
                 strpos($queryData["sql"], "COMMIT") === false &&
                 strpos($queryData["sql"], "ROLLBACK") === false
-            ){
+            ) {
                 try {
                     $explainData = $this->explainQuery($queryData["sql"], $queryData["params"]);
-                    foreach($explainData as $explain){
-                        if(
+                    foreach ($explainData as $explain) {
+                        if (
                             $explain["type"] == "ALL"
-                        ){
+                        ) {
                             $problematic = true;
                             $queryData["problems"][] = "type is ALL";
                         }
@@ -76,7 +79,7 @@ class DoctrineDataCollector extends DataCollector
 
                 }
             }
-            if($problematic){
+            if ($problematic) {
                 $problematicQueries[] = $queryData;
             }
         }
@@ -87,8 +90,9 @@ class DoctrineDataCollector extends DataCollector
         );
     }
 
-    public function explainQuery($sql, $params){
-        $rows = $this->em->getConnection()->fetchAll("EXPLAIN ".$sql, $params);
+    public function explainQuery($sql, $params)
+    {
+        $rows = $this->em->getConnection()->fetchAll("EXPLAIN " . $sql, $params);
         return $rows;
     }
 
@@ -108,7 +112,7 @@ class DoctrineDataCollector extends DataCollector
     private function sanitizeQuery($query)
     {
         $query['explainable'] = true;
-        $query['params'] = (array) $query['params'];
+        $query['params'] = (array)$query['params'];
         foreach ($query['params'] as $j => &$param) {
             if (isset($query['types'][$j])) {
                 // Transform the param according to the type
@@ -127,6 +131,7 @@ class DoctrineDataCollector extends DataCollector
         }
         return $query;
     }
+
     /**
      * Sanitizes a param.
      *

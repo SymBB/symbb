@@ -22,13 +22,14 @@ class SurveyType extends AbstractType
      */
     protected $user;
 
-    public function __construct(UserInterface $user){
+    public function __construct(UserInterface $user)
+    {
         $this->user = $user;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $timezone =  $this->user->getSymbbData()->getTimezone();
+        $timezone = $this->user->getSymbbData()->getTimezone();
         $builder
             ->add('question', 'text', array("required" => false))
             ->add('answers', "text", array("required" => false))

@@ -37,7 +37,6 @@ class InstallController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
             $output[] = $result['output'];
 
 
-
             $result = $executer->execute('asset:install --env=' . $env);
             $output[] = $result['output'];
 
@@ -95,8 +94,8 @@ class InstallController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
                 $extensionTapatalk->setBundleClass('\Symbb\Extension\TapatalkBundle\SymbbExtensionTapatalkBundle');
                 $extensionTapatalk->enable();
                 $extensionTapatalk->setPackage('symbb/extension-tapatalk');
-                
-                
+
+
                 $api->remove('symbb/extension-post-upload');
                 $api->remove('symbb/extension-survey');
                 $api->remove('symbb/extension-bbcode');
@@ -111,7 +110,7 @@ class InstallController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
                 $api->addExtension($extensionPostCalendar);
                 $api->addExtension($extensionUserTag);
                 $api->addExtension($extensionTapatalk);
-                
+
             } else {
                 $errors[] = 'Permission denied (/app/config/extensions.yml)';
                 $step = 2;

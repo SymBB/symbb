@@ -34,15 +34,15 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
          */
         $receiverIds = (array)$request->get('receivers');
         $receivers = array();
-        foreach($receiverIds as $receiverId){
+        foreach ($receiverIds as $receiverId) {
             $receivers[] = $userManager->find((int)$receiverId);
         }
 
         $errors = array();
         $message = $this->get('symbb.core.message.manager')->sendMessage($subject, $message, $receivers, $errors);
 
-        if(!empty($errors)){
-            foreach($errors as $error){
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
                 $this->addErrorMessage($error);
             }
         }
@@ -92,23 +92,23 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
     {
         $id = (int)$request->get('id');
         $params = array();
-        if($id > 0){
+        if ($id > 0) {
             $message = $this->get('symbb.core.message.manager')->find($id);
             $isReceiver = false;
             $isSender = false;
-            foreach($message->getReceivers() as $receiver){
-                if($receiver->getUser()->getId() == $this->getUser()->getId()){
+            foreach ($message->getReceivers() as $receiver) {
+                if ($receiver->getUser()->getId() == $this->getUser()->getId()) {
                     $isReceiver = true;
                     $this->get('symbb.core.message.manager')->read($receiver);
                     break;
                 }
             }
 
-            if($this->getUser()->getId() === $message->getSender()->getid()){
+            if ($this->getUser()->getId() === $message->getSender()->getid()) {
                 $isSender = true;
             }
 
-            if($isSender || $isReceiver){
+            if ($isSender || $isReceiver) {
                 $breadcrumb = $this->getBreadcrumbData($message);
                 $this->addBreadcrumbItems($breadcrumb);
                 $params['message'] = $this->getMessageAsArray($message);
@@ -119,13 +119,14 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
         return $this->getJsonResponse($params);
     }
 
-    protected function getMessageAsArray(Message $message){
+    protected function getMessageAsArray(Message $message)
+    {
 
         $receivers = array();
         $new = false;
-        foreach($message->getReceivers() as $receiver){
+        foreach ($message->getReceivers() as $receiver) {
             $receivers[] = $this->getUserAsArray($receiver->getUser());
-            if($receiver->getUser()->getId() == $this->getUser()->getid()){
+            if ($receiver->getUser()->getId() == $this->getUser()->getid()) {
                 $new = $receiver->getNew();
             }
         }
@@ -164,7 +165,7 @@ class FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstract
     {
         $breadcrumb = array();
 
-        if($message){
+        if ($message) {
             $breadcrumb[] = array(
                 'type' => 'message',
                 'name' => $message->getSubject(),

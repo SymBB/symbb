@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -20,7 +20,7 @@ class LoadForumExampleData extends AbstractFixture implements OrderedFixtureInte
      * @var ContainerInterface
      */
     private $container;
-    
+
     /**
      * {@inheritDoc}
      */
@@ -28,7 +28,7 @@ class LoadForumExampleData extends AbstractFixture implements OrderedFixtureInte
     {
         $this->container = $container;
     }
-    
+
     /**
      * {@inheritDoc}
      */

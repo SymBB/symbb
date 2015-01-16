@@ -7,14 +7,14 @@
 {% block symbb_edit_header %}{{ 'save entry'|trans }}{% endblock %}
 
 {% block symbb_edit_body %}
-{{ form_startbootstrap(form) }}
+    {{ form_startbootstrap(form) }}
 
-        {{ form_row(form._token) }}
-        {{ form_restbootstrap(form) }}
-        <input type="hidden" name="id" value="{{ entity.getId() }}" />
+    {{ form_row(form._token) }}
+    {{ form_restbootstrap(form) }}
+    <input type="hidden" name="id" value="{{ entity.getId() }}"/>
 
-        <button onclick="submit();" type="button" class="btn btn-info">{{ 'save'|trans({}) }}</button>
-        <div class="clear"></div>
+    <button onclick="submit();" type="button" class="btn btn-info">{{ 'save'|trans({}) }}</button>
+    <div class="clear"></div>
 
-{{ form_end(form) }}
+    {{ form_end(form) }}
 {% endblock %}

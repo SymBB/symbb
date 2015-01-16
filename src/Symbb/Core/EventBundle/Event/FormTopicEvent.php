@@ -22,7 +22,7 @@ class FormTopicEvent extends Event
 
     /**
      *
-     * @var FormBuilderInterface 
+     * @var FormBuilderInterface
      */
     protected $builder;
 

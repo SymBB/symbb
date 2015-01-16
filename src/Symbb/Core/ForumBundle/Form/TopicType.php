@@ -23,7 +23,7 @@ class TopicType extends AbstractType
 
     /**
      *
-     * @var \Symfony\Component\EventDispatcher\EventDispatcher 
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $dispatcher;
 
@@ -50,45 +50,50 @@ class TopicType extends AbstractType
      */
     protected $groupManager;
 
-    public function setDispatcher($object){
+    public function setDispatcher($object)
+    {
         $this->dispatcher = $object;
     }
 
-    public function setTranslator($object){
+    public function setTranslator($object)
+    {
         $this->translator = $object;
     }
 
     /**
      * @param UserManager $object
      */
-    public function setUserManager(UserManager $object){
+    public function setUserManager(UserManager $object)
+    {
         $this->userManager = $object;
     }
 
     /**
      * @param GroupManager $object
      */
-    public function setGroupManager(GroupManager $object){
+    public function setGroupManager(GroupManager $object)
+    {
         $this->groupManager = $object;
     }
 
     /**
      * @param TopicManager $object
      */
-    public function setTopicManager(TopicManager $object){
+    public function setTopicManager(TopicManager $object)
+    {
         $this->topicManager = $object;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $tags =  $this->topicManager->getAvailableTags();
+        $tags = $this->topicManager->getAvailableTags();
 
         $builder
             ->add('mainPost', "post")
             ->add('tags', 'entity', array(
                 "choices" => $tags,
                 'class' => 'SymbbCoreForumBundle:Topic\Tag',
-                'required'  => false,
+                'required' => false,
                 "multiple" => true
             ))
             ->add('locked', 'checkbox', array('required' => false, 'label' => 'close topic'))

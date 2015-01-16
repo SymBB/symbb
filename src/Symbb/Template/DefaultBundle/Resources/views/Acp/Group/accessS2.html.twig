@@ -4,11 +4,10 @@
 
 {% form_theme form getSymbbTemplate('acp') ~ '::form.html.twig' %}
 
-{% block javascripts %} 
+{% block javascripts %}
     {{ parent() }}
-    {% javascripts 
-        '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?uglifyjs2'
-     %}
+    {% javascripts
+    '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js' filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
@@ -18,51 +17,56 @@
     {{ form_row(form._token) }}
     {{ form_row(form.subforum) }}
 
-        <div class="page-header">
-            <b>{{ 'Gruppe'|trans }}: {{ group.getName() }}</b>                  
-        </div>
+    <div class="page-header">
+        <b>{{ 'Gruppe'|trans }}: {{ group.getName() }}</b>
+    </div>
 
-        {% for forum in forumList %}
-    
+    {% for forum in forumList %}
+
         <div class="page-header">
-            {{forum.getName()}} <small>{% if subforum %}{{ 'and all subforums'|trans }}{% endif %}</small>                
+            {{ forum.getName() }}
+            <small>{% if subforum %}{{ 'and all subforums'|trans }}{% endif %}</small>
         </div>
         <div>
-            
+
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
 
-                {% set tabCount = 0%}
+                {% set tabCount = 0 %}
                 {% for extension, accessList in accessVoterManager.getAccessList(forum) %}
                     <li {% if loop.first %} class="active" {% endif %}>
                         <a data-toggle="tab" href="#tabX{{ forum.getId() }}X{{ tabCount }}">
                             {{ extension|trans({}, 'symbb_access') }}
                         </a>
                     </li>
-                    {% set tabCount = tabCount + 1%}
+                    {% set tabCount = tabCount + 1 %}
                 {% endfor %}
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
-                {% set count = 0%}
-                {% set tabCount = 0%}
+                {% set count = 0 %}
+                {% set tabCount = 0 %}
                 {% for extension, accessList in accessVoterManager.getAccessList(forum) %}
-                    <div class="tab-pane {% if loop.first %} active {% else %} fade {% endif %}" id="tabX{{ forum.getId() }}X{{ tabCount }}">
+                    <div class="tab-pane {% if loop.first %} active {% else %} fade {% endif %}"
+                         id="tabX{{ forum.getId() }}X{{ tabCount }}">
                         {% for access in accessList %}
                             <div>
-                                <input {% if hasSymbbAccess(access, forum, group) %} checked="checked" {% endif %} type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ access }}]" id="access-{{ forum.getId() }}-{{count}}" > <label for="access-{{ forum.getId() }}-{{count}}">{{ access|trans({}, 'symbb_access') }}</label>
+                                <input {% if hasSymbbAccess(access, forum, group) %} checked="checked" {% endif %}
+                                        type="checkbox" value="1" name="access_{{ forum.getId() }}[{{ access }}]"
+                                        id="access-{{ forum.getId() }}-{{ count }}"> <label
+                                        for="access-{{ forum.getId() }}-{{ count }}">{{ access|trans({}, 'symbb_access') }}</label>
                             </div>
-                            {% set count = count + 1%}
+                            {% set count = count + 1 %}
                         {% endfor %}
                     </div>
-                    {% set tabCount = tabCount + 1%}
+                    {% set tabCount = tabCount + 1 %}
                 {% endfor %}
             </div>
         </div>
-        {% endfor %}
-        {{ form_row(form.save) }}
-        {{ form_row(form.back) }}
+    {% endfor %}
+    {{ form_row(form.save) }}
+    {{ form_row(form.back) }}
 
     {{ form_end(form) }}
 {% endblock %}

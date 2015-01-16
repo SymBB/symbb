@@ -35,7 +35,7 @@ class BBCodeManager
     }
 
     /**
-     * 
+     *
      * @param string $setId
      * @return \Symbb\Core\BBCodeBundle\Entity\Set
      */
@@ -56,7 +56,7 @@ class BBCodeManager
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\BBCodeBundle\Entity\Set[]
      */
     public function getSets()
@@ -67,7 +67,7 @@ class BBCodeManager
 
     public function parse($text, $setId = null)
     {
-        if(!$this->allowHtml){
+        if (!$this->allowHtml) {
             $text = htmlspecialchars($text, ENT_HTML5, 'UTF-8');
             $text = strip_tags($text);
         }
@@ -95,19 +95,20 @@ class BBCodeManager
      * @param $text
      * @param BBCode[] $bbcodes
      */
-    public function handleSpecialCasesByRef(&$text, $bbcodes){
+    public function handleSpecialCasesByRef(&$text, $bbcodes)
+    {
 
-        foreach($bbcodes as $bbcode){
-            if($bbcode->getName() === "Image"){
-                $text = preg_replace_callback('#\[img\](.+)\[\/img\]#iUs', function($matches){
+        foreach ($bbcodes as $bbcode) {
+            if ($bbcode->getName() === "Image") {
+                $text = preg_replace_callback('#\[img\](.+)\[\/img\]#iUs', function ($matches) {
                     $completeBBCode = $matches[0];
                     $newUrl = $url = $matches[1];
-                    if(strpos($newUrl, 'http') !== 0){
+                    if (strpos($newUrl, 'http') !== 0) {
                         $domain = $this->siteManager->getSite()->getMediaDomain();
-                        if(substr($domain, 1 , -1) === "/"){
+                        if (substr($domain, 1, -1) === "/") {
                             $domain = rtrim($domain, '/');
                         }
-                        $newUrl = $domain.$url;
+                        $newUrl = $domain . $url;
                     }
                     return str_replace($url, $newUrl, $completeBBCode);
                 }, $text);
@@ -157,12 +158,12 @@ class BBCodeManager
         );
 
         $i = 0;
-        foreach($smilies as $smilie => $image){
+        foreach ($smilies as $smilie => $image) {
             $bbcodeListItem = new Emoticon();
             $bbcodeListItem->setName($smilie);
-            $bbcodeListItem->setSearchRegex('# '.preg_quote($smilie).' #');
-            $bbcodeListItem->setReplaceRegex('<img class="smilie" src="'.$image.'" />');
-            $bbcodeListItem->setButtonRegex(' '.$smilie.' ');
+            $bbcodeListItem->setSearchRegex('# ' . preg_quote($smilie) . ' #');
+            $bbcodeListItem->setReplaceRegex('<img class="smilie" src="' . $image . '" />');
+            $bbcodeListItem->setButtonRegex(' ' . $smilie . ' ');
             $bbcodeListItem->setImage($image);
             $bbcodeListItem->setPosition($i++);
             $emoticons[] = $bbcodeListItem;

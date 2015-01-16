@@ -16,17 +16,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\UserBundle\Manager\GroupManager;
 
-class FormPostEvent extends Event 
+class FormPostEvent extends Event
 {
 
     /**
-     * @var Post 
+     * @var Post
      */
     protected $post;
 
     /**
      *
-     * @var FormBuilderInterface 
+     * @var FormBuilderInterface
      */
     protected $builder;
 
@@ -52,7 +52,7 @@ class FormPostEvent extends Event
      * @var \Symbb\Core\UserBundle\Manager\GroupManager
      */
     protected $groupManager;
-    
+
 
     public function __construct(FormBuilderInterface $builder, $translator, PostManager $postManager, UserManager $userManager, GroupManager $groupManager)
     {

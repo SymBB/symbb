@@ -5,24 +5,23 @@
 {% endblock %}
 
     
-{% block javascripts %} 
+{% block javascripts %}
     {{ parent() }}
-    {% javascripts 
-        '@SymbbTemplateDefaultBundle/Resources/public/js/acp/sorting.js' filter='?uglifyjs2'
-     %}
+    {% javascripts
+    '@SymbbTemplateDefaultBundle/Resources/public/js/acp/sorting.js' filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
     
 {% block symbb_body %}
-    
+
     <div class="page-header">
-        {% block symbb_list_header %}{% endblock %}                               
+        {% block symbb_list_header %}{% endblock %}
     </div>
 
     <div class="table_overflow_fix">
-    {% block symbb_list_table %} 
+        {% block symbb_list_table %}
 
-    {% endblock %}
+        {% endblock %}
     </div>
 {% endblock %}

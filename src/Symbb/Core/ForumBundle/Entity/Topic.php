@@ -40,7 +40,7 @@ class Topic
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
      */
     private $mainPost;
 
@@ -86,7 +86,7 @@ class Topic
 
     public function getId()
     {
-        return (int) $this->id;
+        return (int)$this->id;
 
     }
 
@@ -103,7 +103,7 @@ class Topic
     }
 
     /**
-     * 
+     *
      * @return Forum
      */
     public function getForum()
@@ -165,7 +165,7 @@ class Topic
         return $this->mainPost;
 
     }
-  
+
     /**
      * @ORM\PrePersist
      */
@@ -251,11 +251,13 @@ class Topic
         return $this->tags;
     }
 
-    public function addTag(Tag $tag){
+    public function addTag(Tag $tag)
+    {
         $this->tags->add($tag);
     }
 
-    public function removeTags(){
+    public function removeTags()
+    {
         $this->tags->clear();
     }
 

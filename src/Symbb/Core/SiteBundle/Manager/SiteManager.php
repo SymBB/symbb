@@ -18,13 +18,14 @@ class SiteManager extends AbstractManager
 
     /**
      *
-     * @var \Symfony\Component\DependencyInjection\Container 
+     * @var \Symfony\Component\DependencyInjection\Container
      */
     protected $container;
 
     protected $site = null;
 
-    public function setContainer($container){
+    public function setContainer($container)
+    {
         $this->container = $container;
     }
 
@@ -89,13 +90,14 @@ class SiteManager extends AbstractManager
         return $host;
     }
 
-    public function getNavigation(Site $site = null, $naviKey = ''){
+    public function getNavigation(Site $site = null, $naviKey = '')
+    {
 
-        if(!$site){
+        if (!$site) {
             $site = $this->getSite();
         }
 
-        if(!empty($naviKey)){
+        if (!empty($naviKey)) {
             $navigation = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->findOneBy(array('site' => $site, 'navKey' => $naviKey));
         } else {
             $navigation = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->findOneBy(array('site' => $site));
@@ -108,7 +110,8 @@ class SiteManager extends AbstractManager
      * @param int $id
      * @return Site
      */
-    public function find($id){
+    public function find($id)
+    {
         $site = $this->em->getRepository('SymbbCoreSiteBundle:Site')->find($id);
         return $site;
     }
@@ -116,14 +119,15 @@ class SiteManager extends AbstractManager
     /**
      * @return Object $objects KNP Paginator
      */
-    public function findAll($page = 1, $limit = 20){
+    public function findAll($page = 1, $limit = 20)
+    {
         $qb = $this->em->getRepository('SymbbCoreSiteBundle:Site')->createQueryBuilder('s');
         $qb->select("s, n, i");
         $qb->leftJoin('s.navigations', 'n');
         $qb->leftJoin('n.items', 'i');
         $qb->where("i.parentItem IS NULL");
         $qb->orderBy("s.id", "ASC");
-        $qb->add('orderBy','s.id ASC, n.id ASC','i.position ASC');
+        $qb->add('orderBy', 's.id ASC, n.id ASC', 'i.position ASC');
         $query = $qb->getQuery();
         $objects = $this->createPagination($query, $page, $limit);
         return $objects;
@@ -133,7 +137,8 @@ class SiteManager extends AbstractManager
      * @param Site $site
      * @return bool
      */
-    public function save($site){
+    public function save($site)
+    {
         $this->em->persist($site);
         $this->em->flush();
         return true;
@@ -143,7 +148,8 @@ class SiteManager extends AbstractManager
      * @param Site $site
      * @return bool
      */
-    public function remove($site){
+    public function remove($site)
+    {
         $this->em->remove($site);
         $this->em->flush();
         return true;

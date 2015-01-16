@@ -1,11 +1,11 @@
 <?
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\EventBundle\Twig;
 
 use \Symbb\Core\EventBundle\Event\TemplatePostEvent;
@@ -17,10 +17,11 @@ class EventExtension extends \Twig_Extension
     protected $dispatcher;
     protected $env;
 
-    public function __construct($dispatcher) {
+    public function __construct($dispatcher)
+    {
         $this->dispatcher = $dispatcher;
     }
-    
+
     public function getFunctions()
     {
         return array(
@@ -47,21 +48,20 @@ class EventExtension extends \Twig_Extension
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
-        $event      = new \Symbb\Core\EventBundle\Event\TemplateDefaultEvent($env);
-        $dispatcher->dispatch('symbb.'.$eventName, $event);
-        $html       = $event->getHtml();
+        $event = new \Symbb\Core\EventBundle\Event\TemplateDefaultEvent($env);
+        $dispatcher->dispatch('symbb.' . $eventName, $event);
+        $html = $event->getHtml();
         return $html;
     }
-
 
 
     public function executeSymbbTemplateFormTopicEvent($env, $eventName, $form)
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
-        $event      = new TemplateFormTopicEvent($env, $form);
-        $dispatcher->dispatch('symbb.core.forum.topic.template.form.'.$eventName, $event);
-        $html       = $event->getHtml();
+        $event = new TemplateFormTopicEvent($env, $form);
+        $dispatcher->dispatch('symbb.core.forum.topic.template.form.' . $eventName, $event);
+        $html = $event->getHtml();
         return $html;
     }
 
@@ -69,9 +69,9 @@ class EventExtension extends \Twig_Extension
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
-        $event      = new TemplateFormPostEvent($env, $form);
-        $dispatcher->dispatch('symbb.core.forum.post.template.form.'.$eventName, $event);
-        $html       = $event->getHtml();
+        $event = new TemplateFormPostEvent($env, $form);
+        $dispatcher->dispatch('symbb.core.forum.post.template.form.' . $eventName, $event);
+        $html = $event->getHtml();
         return $html;
     }
 
@@ -79,12 +79,12 @@ class EventExtension extends \Twig_Extension
     {
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->dispatcher;
-        $event      = new TemplatePostEvent($env, $post);
-        $dispatcher->dispatch('symbb.core.forum.post.template.'.$eventName, $event);
-        $html       = $event->getHtml();
+        $event = new TemplatePostEvent($env, $post);
+        $dispatcher->dispatch('symbb.core.forum.post.template.' . $eventName, $event);
+        $html = $event->getHtml();
         return $html;
     }
-    
+
     public function getName()
     {
         return 'symbb_core_event';

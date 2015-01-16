@@ -1,8 +1,8 @@
-$(function() {
+$(function () {
     $('.sortable_table').sortable({
         axis: 'y',
         placeholder: "ui-state-highlight",
-        handle: ".mover" ,
+        handle: ".mover",
         stop: function (event, ui) {
             var data = $(this).sortable('serialize');
             var url = $(this).data('url');

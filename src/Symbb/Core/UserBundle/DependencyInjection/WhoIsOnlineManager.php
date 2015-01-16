@@ -22,7 +22,7 @@ class WhoIsOnlineManager
 
     /**
      *
-     * @var \Symfony\Component\Security\Core\SecurityContextInterface 
+     * @var \Symfony\Component\Security\Core\SecurityContextInterface
      */
     protected $securityContext;
 
@@ -59,7 +59,7 @@ class WhoIsOnlineManager
     public function addCurrent($request)
     {
         $user = $this->getUser();
-        if(is_object($user)){
+        if (is_object($user)) {
             $this->addUser($user, $request->getClientIp());
         }
     }
@@ -94,7 +94,7 @@ class WhoIsOnlineManager
             $count = 1;
             $ips = array($ip);
             $userlist[] = array(
-                'id' => (int) $user->getId(),
+                'id' => (int)$user->getId(),
                 'added' => $now,
                 'username' => $user->getUsername(),
                 'type' => $user->getSymbbType(),

@@ -61,7 +61,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function postUploadImageAction(Request $request)
     {
 
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $params = array();
 
@@ -88,8 +88,8 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function postDeleteAction(Request $request, $id = null)
     {
-        if($id === null){
-            $id = (int) $request->get('id');
+        if ($id === null) {
+            $id = (int)$request->get('id');
         }
         $params = array();
 
@@ -135,8 +135,8 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     protected function handleEvent($eventName, $eventObject)
     {
         $this->get('event_dispatcher')->dispatch($eventName, $eventObject);
-        $messages = (array) $eventObject->getMessages();
-        $callbacks = (array) $eventObject->getCallbacks();
+        $messages = (array)$eventObject->getMessages();
+        $callbacks = (array)$eventObject->getCallbacks();
         $this->messages = array_merge($this->messages, $messages);
         $this->callbacks = array_merge($this->callbacks, $callbacks);
     }
@@ -147,7 +147,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function postSaveAction(Request $request)
     {
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
         $topicData = $request->get('topic');
         $params = array();
         $accessCheck = false;
@@ -180,7 +180,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
             $editReason = (string)$request->get('editReason');
 
-            if($post->getId() > 0){
+            if ($post->getId() > 0) {
                 $historyEntry = new History();
                 $historyEntry->setPost($post);
                 $historyEntry->setChanged(new \DateTime());
@@ -196,9 +196,9 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                 $post->setAuthor($this->getUser());
             }
 
-            $this->handlePostImages($post, (array) $request->get('files'), $em);
+            $this->handlePostImages($post, (array)$request->get('files'), $em);
 
-            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
+            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array)$request->get('extension'));
             $this->handleEvent('symbb.api.post.before.save', $event);
 
             if (!$this->hasError()) {
@@ -208,7 +208,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                 $em->flush();
             }
 
-            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array) $request->get('extension'));
+            $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($post, (array)$request->get('extension'));
             $this->handleEvent('symbb.api.post.after.save', $event);
 
             $params['id'] = $post->getId();
@@ -230,9 +230,9 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function postDataAction(Request $request)
     {
-        $id = (int) $request->get('id');
-        $topicId = (int) $request->get('topic');
-        $quoteId = (int) $request->get('quoteId');
+        $id = (int)$request->get('id');
+        $topicId = (int)$request->get('topic');
+        $quoteId = (int)$request->get('quoteId');
         $params = array();
 
         $post = new \Symbb\Core\ForumBundle\Entity\Post();
@@ -276,10 +276,10 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function topicDeleteAction(Request $request)
     {
-        $topicId = (int) $request->get('id');
+        $topicId = (int)$request->get('id');
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
         $mainPostId = 0;
-        if(is_object($topic)){
+        if (is_object($topic)) {
             $mainPostId = $topic->getMainPost()->getId();
         }
         return $this->postDeleteAction($request, $mainPostId);
@@ -291,16 +291,16 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function topicMoveAction(Request $request)
     {
-        $topicId = (int) $request->get('id');
-        $forumId = (int) $request->get('forum');
+        $topicId = (int)$request->get('id');
+        $forumId = (int)$request->get('forum');
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
         $targetForum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumId);
 
 
-        if(is_object($topic) && $topic->getId() > 0){
-            if(is_object($targetForum) && $targetForum->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
+            if (is_object($targetForum) && $targetForum->getId() > 0) {
                 $access = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
-                if($access){
+                if ($access) {
                     $topic->setForum($targetForum);
                     $em = $this->getDoctrine()->getManager('symbb');
                     $em->persist($topic);
@@ -324,11 +324,11 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function topicCloseAction(Request $request)
     {
-        $topicId = (int) $request->get('id');
+        $topicId = (int)$request->get('id');
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->find($topicId);
-        if(is_object($topic) && $topic->getId() > 0){
+        if (is_object($topic) && $topic->getId() > 0) {
             $access = $this->get('security.context')->isGranted(TopicVoter::EDIT, $topic);
-            if($access){
+            if ($access) {
                 $topic->setLocked(true);
                 $em = $this->getDoctrine()->getManager('symbb');
                 $em->persist($topic);
@@ -338,13 +338,13 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             } else {
                 $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
             }
-        }else {
+        } else {
             $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
         }
 
         return $this->getJsonResponse();
     }
-    
+
     /**
      * @Route("/api/topic/save", name="symbb_api_topic_save")
      * @Method({"POST"})
@@ -352,11 +352,11 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function topicSaveAction(Request $request)
     {
 
-        $topicId = (int) $request->get('id');
-        $forumData = (array) $request->get('forum');
+        $topicId = (int)$request->get('id');
+        $forumData = (array)$request->get('forum');
 
         $params = array();
-            
+
         if (isset($forumData['id'])) {
 
             $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')->find($forumData['id']);
@@ -392,10 +392,10 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                         $mainPost->setText($mainPostData['rawText']);
 
                         $topic->removeTags();
-                        foreach($request->get('tags') as $tagId => $tag){
-                            if($tag['status'] === true){
+                        foreach ($request->get('tags') as $tagId => $tag) {
+                            if ($tag['status'] === true) {
                                 $myTag = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic\tag', 'symbb')->find($tag['id']);
-                                if(is_object($myTag)){
+                                if (is_object($myTag)) {
                                     $topic->addTag($myTag);
                                 }
                             }
@@ -403,7 +403,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
                         $this->handlePostImages($mainPost, $mainPostData['files'], $em);
 
-                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
+                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array)$request->get('extension'));
                         $this->handleEvent('symbb.api.topic.before.save', $event);
 
                         if (!$this->hasError()) {
@@ -413,7 +413,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
                             $editReason = (string)$request->get('editReason');
 
-                            if($mainPost->getId() > 0){
+                            if ($mainPost->getId() > 0) {
                                 $historyEntry = new History();
                                 $historyEntry->setPost($mainPost);
                                 $historyEntry->setChanged(new \DateTime());
@@ -438,7 +438,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                             $params['id'] = $topic->getId();
                         }
 
-                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array) $request->get('extension'));
+                        $event = new \Symbb\Core\EventBundle\Event\ApiSaveEvent($topic, (array)$request->get('extension'));
                         $this->handleEvent('symbb.api.topic.after.save', $event);
                     } else {
                         $this->addErrorMessage(self::ERROR_ACCESS_EDIT_TOPIC);
@@ -463,9 +463,9 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function forumTopicListAction(Request $request)
     {
         $list = array();
-        $forumId = (int) $request->get('forum');
+        $forumId = (int)$request->get('forum');
         $page = $request->get('page');
-        if($forumId > 0){
+        if ($forumId > 0) {
             $forum = $this->get('symbb.core.forum.manager')->find($forumId);
             $accessCheck = $this->get('security.context')->isGranted(ForumVoter::VIEW, $forum);
             if (!$accessCheck) {
@@ -475,7 +475,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             if (!$this->hasError()) {
                 $topics = $this->get('symbb.core.forum.manager')->findTopics($forum, $page);
                 $this->addPaginationData($topics);
-                foreach($topics as $topic){
+                foreach ($topics as $topic) {
                     $list[] = $this->getTopicAsArray($topic);
                 }
             }
@@ -489,8 +489,8 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function topicDataAction(Request $request)
     {
-        $id = (int) $request->get('id');
-        $forumId = (int) $request->get('forum');
+        $id = (int)$request->get('id');
+        $forumId = (int)$request->get('forum');
         $params = array();
 
         $topic = new \Symbb\Core\ForumBundle\Entity\Topic();
@@ -505,7 +505,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             }
         }
 
-        if(!is_object($topic)){
+        if (!is_object($topic)) {
             $this->addErrorMessage(self::ERROR_NOT_FOUND_TOPIC);
         }
 
@@ -522,7 +522,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
             $posts = $this->get('symbb.core.topic.manager')->findPosts($topic, $page, null, 'asc');
             $params['topic']['posts'] = array();
-            foreach($posts as $post){
+            foreach ($posts as $post) {
                 $params['topic']['posts'][] = $this->getPostAsArray($post);
             }
             $this->addPaginationData($posts);
@@ -541,7 +541,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function forumIgnore(Request $request)
     {
 
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -560,7 +560,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function forumUnignore(Request $request)
     {
 
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -579,7 +579,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function forumMarkAsRead(Request $request)
     {
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $forum = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Forum', 'symbb')
             ->find($id);
@@ -597,7 +597,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function topicMarkAsRead(Request $request)
     {
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $topic = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Topic', 'symbb')
             ->find($id);
@@ -616,7 +616,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
      */
     public function postMarkAsRead(Request $request)
     {
-        $id = (int) $request->get('id');
+        $id = (int)$request->get('id');
 
         $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')
             ->find($id);
@@ -635,8 +635,8 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     public function forumDataAction(Request $request)
     {
 
-        $id = (int) $request->get('id');
-        if ((int) $id === 0) {
+        $id = (int)$request->get('id');
+        if ((int)$id === 0) {
             $id = null;
         }
 
@@ -649,11 +649,11 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             }
         }
 
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $breadcrumbItems = $this->get('symbb.core.forum.manager')->getBreadcrumbData($parent);
             $this->addBreadcrumbItems($breadcrumbItems);
 
-            if(!$parent){
+            if (!$parent) {
                 $parent = new Forum();
             }
 
@@ -666,7 +666,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\ForumBundle\Entity\Topic $topic
      * @return array
      */
@@ -699,7 +699,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
         $array['author'] = $this->getAuthorAsArray();
         $array['tags'] = array();
         $array['paginationData'] = array();
-        foreach($tags as $tag){
+        foreach ($tags as $tag) {
 
             $translation = $this->get('translator')->trans($tag->getName(), array(), 'symbb_variables');
 
@@ -749,10 +749,10 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                 $array['rawText'] = $array['mainPost']['rawText'];
                 $array['breadcrumb'] = $array['mainPost']['breadcrumb'];
                 $array['author'] = $this->getAuthorAsArray($topic->getAuthor());
-                foreach($tags as $tag){
+                foreach ($tags as $tag) {
                     $status = false;
-                    foreach($topic->getTags() as $currTag){
-                        if($tag->getId() == $currTag->getId()){
+                    foreach ($topic->getTags() as $currTag) {
+                        if ($tag->getId() == $currTag->getId()) {
                             $status = true;
                             break;
                         }
@@ -792,7 +792,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\ForumBundle\Entity\Forum $forum
      * @return type
      */
@@ -840,7 +840,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             }
 
             $childs = array();
-            if($loadChilds > 0){
+            if ($loadChilds > 0) {
                 $childs = $this->get("symbb.core.forum.manager")->getChildren($forum);
             }
 
@@ -849,18 +849,18 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
                 $viewAccess = $this->get('security.context')->isGranted(ForumVoter::VIEW, $child);
 
-                if($viewAccess){
+                if ($viewAccess) {
                     $array['children'][] = $this->getForumAsArray($child, false);
-                    if($child->getType() === 'forum'){
+                    if ($child->getType() === 'forum') {
                         $array['count']['forum']++;
-                    } else if($child->getType() === 'category'){
+                    } else if ($child->getType() === 'category') {
                         $array['count']['category']++;
-                    } else if($child->getType() === 'link'){
+                    } else if ($child->getType() === 'link') {
                         $array['count']['link']++;
                     }
                 }
             }
-            if($forum->getId() > 0){
+            if ($forum->getId() > 0) {
                 $lastPosts = $this->get('symbb.core.forum.manager')->findPosts($forum, 10);
                 foreach ($lastPosts as $post) {
                     $array['lastPosts'][] = $this->getPostAsArray($post, true);
@@ -885,8 +885,8 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
 
             if ($forum->getType() === 'link') {
                 $link = $forum->getLink();
-                if(strpos($link, 'http') !== 0){
-                    $link = 'http://'.$link;
+                if (strpos($link, 'http') !== 0) {
+                    $link = 'http://' . $link;
                 }
                 $array['isLink'] = true;
                 $array['link'] = $link;
@@ -909,7 +909,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\SystemBundle\Entity\Flag $flag
      * @return array
      */
@@ -934,7 +934,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\ForumBundle\Entity\Post $post
      * @return array
      */
@@ -953,7 +953,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
         $array['topic']['name'] = '';
         $array['topic']['seo']['name'] = '';
 
-        if(!$bshort){
+        if (!$bshort) {
             $array['text'] = '';
             $array['rawText'] = '';
             $array['signature'] = '';
@@ -966,7 +966,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
         }
 
         if (is_object($post)) {
-            $array['id'] = (int) $post->getId();
+            $array['id'] = (int)$post->getId();
             $array['name'] = $post->getName();
             $array['changed'] = $this->getISO8601ForUser($post->getChanged());
             $array['created'] = $this->getISO8601ForUser($post->getCreated());
@@ -979,7 +979,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             $array['topic']['name'] = $post->getTopic()->getName();
             $array['topic']['seo']['name'] = $post->getTopic()->getSeoName();
 
-            if(!$bshort){
+            if (!$bshort) {
                 $array['text'] = $this->get('symbb.core.post.manager')->parseText($post);
                 $array['rawText'] = $post->getText();
                 $array['signature'] = $this->get('symbb.core.user.manager')->getSignature($post->getAuthor());
@@ -1003,7 +1003,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
                         'delete' => $deleteAccess
                     );
 
-                    foreach($post->getHistories() as $history){
+                    foreach ($post->getHistories() as $history) {
                         $array['history'][] = array(
                             'reason' => $history->getReason(),
                             'editor' => $this->getAuthorAsArray($history->getEditor()),
@@ -1016,7 +1016,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
             $array['author'] = $this->getAuthorAsArray();
         }
 
-        if(!$bshort && is_object($post)){
+        if (!$bshort && is_object($post)) {
             $event = new \Symbb\Core\EventBundle\Event\ApiDataEvent($post);
             $this->handleEvent('symbb.api.post.data', $event);
             $array['extension'] = $event->getExtensionData();
@@ -1030,7 +1030,7 @@ class __FrontendApiController extends \Symbb\Core\SystemBundle\Controller\Abstra
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\UserBundle\Entity\UserInterface $author
      * @return array
      */

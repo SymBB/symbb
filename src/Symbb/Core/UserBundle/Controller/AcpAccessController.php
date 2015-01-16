@@ -18,7 +18,7 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
 
     public function groupAction($step, Request $request)
     {
-        $name = "groupStep" . (int) $step . 'Action';
+        $name = "groupStep" . (int)$step . 'Action';
         return $this->$name($request);
     }
 
@@ -36,14 +36,14 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
         $form = $this->get('form.factory')->createNamedBuilder('step1', 'form', $defaultData, array('translation_domain' => 'symbb_backend'))
             ->setAction($this->generateUrl('_symbbcoreuserbundle_group_access', array('step' => 1)))
             ->add('group', 'choice', array('choices' => $groupList, 'constraints' => array(
-                    new NotBlank()
+                new NotBlank()
             )))
             ->add('forum', 'choice', array(
                 'choices' => $forumList,
                 'multiple' => true,
                 'constraints' => array(
                     new NotBlank()
-            )))
+                )))
             ->add('subforum', 'checkbox', array('required' => false))
             ->add('next', 'submit', array('attr' => array('class' => 'btn-success')))
             ->add('back', 'submit', array('attr' => array('class' => 'btn-danger')))
@@ -91,8 +91,8 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
                 ->setAction($this->generateUrl('_symbbcoreuserbundle_group_access', array('step' => 2)))
                 ->add('save', 'submit', array('attr' => array('class' => 'btn-success')))
                 ->add('back', 'submit', array('attr' => array('class' => 'btn-danger')))
-                ->add('subforum', 'hidden', array('data' => (int) $subforum))
-                ->add('group', 'hidden', array('data' => (int) $groupId))
+                ->add('subforum', 'hidden', array('data' => (int)$subforum))
+                ->add('group', 'hidden', array('data' => (int)$groupId))
                 ->add('forum', 'hidden', array('data' => implode(',', $forumIds)))
                 ->getForm();
 
@@ -139,8 +139,8 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
     {
         $this->get('symbb.core.access.manager')->removeAllAccess($forum, $group);
 
-        foreach ((array) $accessList as $access => $value) {
-            if($value){
+        foreach ((array)$accessList as $access => $value) {
+            if ($value) {
                 $this->get('symbb.core.access.manager')->grantAccess($access, $forum, $group);
             }
         }

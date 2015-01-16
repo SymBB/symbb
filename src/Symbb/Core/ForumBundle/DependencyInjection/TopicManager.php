@@ -20,7 +20,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 
     /**
      *
-     * @var ConfigManager 
+     * @var ConfigManager
      */
     protected $configManager;
 
@@ -31,7 +31,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     protected $topicFlagHandler;
 
     public function __construct(
-    TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
+        TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
@@ -39,7 +39,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $topicId
      * @return \Symbb\Core\ForumBundle\Entity\Topic
      */
@@ -50,7 +50,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $topicId
      * @return Post[]
      */
@@ -58,7 +58,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     {
         $cacheKey = implode("_", array("findPosts", $topic->getId(), $page, $limit, $orderDir));
         $pagination = $this->getCacheData($cacheKey);
-        if($pagination === null){
+        if ($pagination === null) {
             if ($limit === null) {
                 $limit = $topic->getForum()->getEntriesPerPage();
             }
@@ -70,7 +70,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 WHERE
                   p.topic = ?1
                 ORDER BY
-                  p.created ".strtoupper($orderDir);
+                  p.created " . strtoupper($orderDir);
 
             $query = $this->em->createQuery($sql);
             $query->setParameter(1, $topic->getId());
@@ -86,13 +86,14 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Topic $topic
      * @return Post
      */
-    public function getLastPost(Topic $topic){
+    public function getLastPost(Topic $topic)
+    {
         $posts = $this->findPosts($topic, 1, 1, "desc");
         return $posts->current();
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler
      */
     public function getFlagHandler()
@@ -120,7 +121,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Topic $topic
      * @return bool
      */
-    public function markAsRead(Topic $topic){
+    public function markAsRead(Topic $topic)
+    {
         $this->topicFlagHandler->removeFlag($topic, 'new');
         return true;
     }
@@ -130,19 +132,32 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param string $flag
      * @return bool
      */
-    public function checkFlag(Topic $topic, $flag = 'new'){
+    public function checkFlag(Topic $topic, $searchForFlag = 'new')
+    {
         foreach ($this->topicFlagHandler->findAll($topic) as $flag) {
-            if($flag->getFlag() == 'new'){
+            if ($flag->getFlag() == $searchForFlag) {
                 return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * @param Topic $topic
+     * @param string $flag
+     * @return bool
+     */
+    public function hasFlag(Topic $topic, $flag = 'new')
+    {
+        return $this->checkFlag($topic, $flag);
     }
 
     /**
      * @param Topic $topic
      * @return bool
      */
-    public function save(Topic $topic){
+    public function save(Topic $topic)
+    {
         $this->em->persist($topic);
         $this->em->persist($topic->getMainPost());
         $this->em->flush();
@@ -166,7 +181,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 ORDER BY
                     p.created DESC ";
 
-        if(!$user){
+        if (!$user) {
             $user = $this->getUser();
         }
 
@@ -184,7 +199,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Forum $forum
      * @return bool
      */
-    public function move(Topic $topic, Forum $forum){
+    public function move(Topic $topic, Forum $forum)
+    {
         $topic->setForum($forum);
         $this->em->persist($topic);
         $this->em->flush();
@@ -196,7 +212,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Topic $topic
      * @return bool
      */
-    public function delete(Topic $topic){
+    public function delete(Topic $topic)
+    {
         $this->em->remove($topic);
         $this->em->flush();
 
@@ -206,7 +223,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     /**
      * @param Topic $topic
      */
-    public function close(Topic $topic){
+    public function close(Topic $topic)
+    {
         $topic->setLocked(true);
         $this->em->persist($topic);
         $this->em->flush();
@@ -219,7 +237,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Topic $topic
      * @return bool
      */
-    public function open(Topic $topic){
+    public function open(Topic $topic)
+    {
         $topic->setLocked(false);
         $this->em->persist($topic);
         $this->em->flush();
@@ -228,7 +247,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
         return true;
     }
 
-    public function getAvailableTags(){
+    public function getAvailableTags()
+    {
         $sql = "SELECT
                     tag
                 FROM

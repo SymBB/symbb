@@ -52,7 +52,7 @@ class Post
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="topic_id", referencedColumnName="id", onDelete="cascade", nullable=false)
      */
     private $topic;
@@ -75,7 +75,6 @@ class Post
      * @ORM\OrderBy({"changed" = "DESC"})
      */
     private $history;
-
 
 
     public function __construct()
@@ -140,7 +139,7 @@ class Post
     }
 
     /**
-     * 
+     *
      * @return Topic
      */
     public function getTopic()
@@ -223,7 +222,8 @@ class Post
         return $this->history;
     }
 
-    public function addHistory($history){
+    public function addHistory($history)
+    {
         $this->history->add($history);
     }
 

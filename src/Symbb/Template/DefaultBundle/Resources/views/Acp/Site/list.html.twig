@@ -3,8 +3,7 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts
-    '@SymbbTemplateDefaultBundle/Resources/public/js/acp/sorting.js' filter='?uglifyjs2'
-    %}
+    '@SymbbTemplateDefaultBundle/Resources/public/js/acp/sorting.js' filter='?uglifyjs2' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
@@ -21,25 +20,29 @@
                 <li data-jstree='{"opened":false, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/application.png"}'>
                     <span>
                         <span onclick="window.location.href='{{ path('_symbbcoresitebundle_site_edit', {id: site.getId()}) }}';">{{ site.getName() }}</span>
-                        <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_site_remove', {id: site.getId()}) }}'}" class="glyphicon glyphicon-remove"></span>
+                        <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_site_remove', {id: site.getId()}) }}'}"
+                              class="glyphicon glyphicon-remove"></span>
                     </span>
                     <ul>
                         {% for navigation in site.getNavigations() %}
                             <li data-jstree='{"opened":false, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/layout.png"}'>
                                 <span>
                                     <span onclick="window.location.href='{{ path('_symbbcoresitebundle_navigation_edit', {id: navigation.getId()}) }}';">{{ navigation.getTitle() }}</span>
-                                    <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_navigation_remove', {id: navigation.getId()}) }}'}"  class="glyphicon glyphicon-remove"></span>
+                                    <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_navigation_remove', {id: navigation.getId()}) }}'}"
+                                          class="glyphicon glyphicon-remove"></span>
                                 </span>
                                 {{ _self.navItems(navigation.getItems(), navigation.getId(), 0) }}
                             </li>
                         {% endfor %}
-                        <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/layout_add.png"}' class="grey">
+                        <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/layout_add.png"}'
+                            class="grey">
                             <a href="{{ path('_symbbcoresitebundle_navigation_new', {'site': site.getId()}) }}">{{ 'new Navigation'|trans }}</a>
                         </li>
                     </ul>
                 </li>
             {% endfor %}
-            <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/application_add.png"}' class="grey">
+            <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/application_add.png"}'
+                class="grey">
                 <a href="{{ path('_symbbcoresitebundle_site_new') }}">{{ 'new Site'|trans }}</a>
             </li>
         </ul>
@@ -53,14 +56,16 @@
             <li data-jstree='{"opened":false, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/link.png"}'>
                 <span>
                     <span onclick="window.location.href='{{ path('_symbbcoresitebundle_navigation_item_edit', {id: item.getId()}) }}';">{{ item.getTitle() }}</span>
-                    <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_navigation_item_remove', {id: item.getId()}) }}'}" class="glyphicon glyphicon-remove"></span>
+                    <span onclick="if(confirm()){ window.location.href='{{ path('_symbbcoresitebundle_navigation_item_remove', {id: item.getId()}) }}'}"
+                          class="glyphicon glyphicon-remove"></span>
                 </span>
                 {% if item.hasChildren() %}
                     {{ _self.navItems(item.getChildren(), navigationId, item.getId()) }}
                 {% endif %}
             </li>
         {% endfor %}
-        <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/link_add.png"}' class="grey">
+        <li data-jstree='{"opened":true, "icon":"/bundles/symbbtemplatedefault/images/icons/16_16/link_add.png"}'
+            class="grey">
             <a href="{{ path('_symbbcoresitebundle_navigation_item_new', {'navigation': navigationId, 'parent': parentId}) }}">{{ 'new Link'|trans }}</a>
         </li>
     </ul>

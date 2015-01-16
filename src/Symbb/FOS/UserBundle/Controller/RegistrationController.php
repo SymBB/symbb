@@ -23,8 +23,7 @@ class RegistrationController extends \FOS\UserBundle\Controller\RegistrationCont
 
             $template = $this->getTemplateBundleName();
 
-            return $this->container->get('templating')->renderResponse($template . ':Registration:disabled.html.twig', array(
-            ));
+            return $this->container->get('templating')->renderResponse($template . ':Registration:disabled.html.twig', array());
         }
     }
 
