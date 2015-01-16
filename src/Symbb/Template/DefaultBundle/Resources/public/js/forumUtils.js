@@ -7,6 +7,10 @@ var symbbForum = {
             parentId = parseInt(parentId);
             forum = $(parent).data("forum");
             forum = parseInt(forum);
+            var height = 300;
+            if($(element).hasClass("small")){
+                var height = 150;
+            }
             var editor = $(textarea).editable(
                 {
                     inlineMode: false,
@@ -17,7 +21,7 @@ var symbbForum = {
                     autosaveInterval: 500,
                     toolbarFixed: false,
                     theme: 'gray',
-                    minHeight: 300
+                    minHeight: height
                 }
             );
             $(textarea).on('editable.beforeSave', function (e, editor) {

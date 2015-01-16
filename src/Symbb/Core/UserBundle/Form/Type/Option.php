@@ -37,7 +37,7 @@ class Option extends AbstractType
     {
 
         $builder->add('avatar', 'text', array('required' => false, 'attr' => array('placeholder' => 'http://deine-avatar.url')))
-            ->add('signature', 'textarea', array('required' => false, 'attr' => array()))
+            ->add('signature', 'textarea', array('required' => false, 'attr' => array('placeholder' => 'Give Your text here')))
             ->add('timezone', 'timezone', array('required' => true));
 
         $currValues = $this->entity->getFieldValues();
