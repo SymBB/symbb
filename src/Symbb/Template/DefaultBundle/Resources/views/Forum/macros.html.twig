@@ -28,7 +28,7 @@
             {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
             <a class="avatar"
                href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
-                <img src="getSymbbAvatar(object.getAuthor())"/>
+                <img src="{{ getSymbbAvatar(object.getAuthor()) }}"/>
             </a>
             {{ executeSymbbTemplatePostEvent('after.avatar', object) }}
             {{ executeSymbbTemplatePostEvent('before.username', object) }}
