@@ -148,7 +148,7 @@ abstract class AbstractManager
         $queryCountSelect = explode(",", $queryCountSelect);
         $queryCountSelect = reset($queryCountSelect);
         if(strpos($queryCountEnd, "GROUP BY") === false){
-            $queryCount = " SELECT COUNT(*) FROM " . $queryCountEnd;
+            $queryCount = " SELECT COUNT(*) as count FROM " . $queryCountEnd;
         } else {
             $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCountSelect . " FROM " . $queryCountEnd . ") as temp";
         }
@@ -157,10 +157,10 @@ abstract class AbstractManager
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
+
         if (!$count) {
             $count = 0;
         }
-
         if ($page === 'last') {
             $page = $count / $limit;
             $page = ceil($page);
