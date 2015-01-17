@@ -19,8 +19,7 @@
         '@SymbbTemplateDefaultBundle/Resources/public/css/navi.css'
         '@SymbbTemplateDefaultBundle/Resources/public/css/search.css'
         '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
-        '@SymbbTemplateDefaultBundle/Resources/public/css/select2.css'
-        '@SymbbTemplateDefaultBundle/Resources/public/css/select2-bootstrap.css' %}
+        %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         {{ executeSymbbEvent('template.global.stylesheets') }}
@@ -35,7 +34,6 @@
         {% javascripts filter='?uglifyjs2'
         '@SymbbTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
         '@SymbbTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
-        '@SymbbTemplateDefaultBundle/Resources/public/js/select2.js'
         '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}

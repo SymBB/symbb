@@ -9,6 +9,7 @@
     '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_style.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/themes/gray.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/chosen/chosen.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
@@ -29,6 +30,7 @@
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_us.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_gb.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/de.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/chosen/chosen.jquery.js'
     '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -37,6 +39,7 @@
         jQuery(document).ready(function () {
             symbbForum.initEditor("{{ path("symbb_forum_post_upload") }}", "{{ app.request.locale }}");
             symbbForum.prepareCollection();
+            $(".chosen-select").chosen();
         });
     </script>
 {% endblock %}

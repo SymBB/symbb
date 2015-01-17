@@ -31,6 +31,7 @@ services:
             - [setTranslator, ['@translator']]
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
             - [setEventDispatcher, ['@event_dispatcher']]
+            - [setValidator, ['@validator']]
 
     symbb.core.abstract.api:
         abstract: true

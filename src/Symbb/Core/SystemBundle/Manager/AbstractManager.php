@@ -17,6 +17,8 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Validator\Validator;
+use Symfony\Component\Validator\ValidatorInterface;
 
 abstract class AbstractManager
 {
@@ -56,6 +58,11 @@ abstract class AbstractManager
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     protected $eventDispatcher;
+
+    /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
 
     /**
      * @var array
@@ -188,5 +195,13 @@ abstract class AbstractManager
     public function getCacheData($key)
     {
         return $this->cacheData[$key];
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     */
+    public function setValidator(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
     }
 }

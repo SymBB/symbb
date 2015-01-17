@@ -32,16 +32,23 @@ class Message
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $subject;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     protected $message;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message", cascade={"persist"})
+     * @Assert\NotBlank()
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You must specify at least one receiver"
+     * )
      * @var ArrayCollection
      */
     protected $receivers;
@@ -49,12 +56,13 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_sent")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @Assert\NotBlank()
      */
     protected $sender;
 
     /**
      * @ORM\Column(type="datetime")
-     *
+     * @Assert\NotNull()
      * @var \DateTime $date
      */
     protected $date;
@@ -122,7 +130,7 @@ class Message
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Receiver[]
      */
     public function getReceivers()
     {

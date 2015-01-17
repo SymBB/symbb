@@ -197,7 +197,7 @@ class UserManager
 
     /**
      *
-     * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
+     * @return UserInterface[]
      */
     public function findUsers($limit = 20, $page = 1)
     {
@@ -484,12 +484,12 @@ class UserManager
             $count = 0;
         }
 
-        if (!$limit) {
+        if ($limit === null) {
             $limit = 20;
         }
 
         if ($page === 'last') {
-            $page = $count / $limit;
+            $page = $count / (int)$limit;
             $page = ceil($page);
         }
 
