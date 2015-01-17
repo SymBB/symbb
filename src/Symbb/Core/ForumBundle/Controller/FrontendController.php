@@ -284,6 +284,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
             $formView = null;
 
+            $this->get("symbb.core.topic.manager")->markAsRead($topic);
+
             //quick answer part
             if($this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())){
 
