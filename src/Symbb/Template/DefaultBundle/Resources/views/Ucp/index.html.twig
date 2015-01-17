@@ -2,6 +2,9 @@
 {% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
 {% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
 
+{% block symbb_flash_messages %}
+{% endblock %}
+
 {% block section_content %}
     <div class="symbb_content_bg">
         {{ form_start(form) }}
@@ -10,6 +13,16 @@
                 <legend class="">{{ 'Profil'|trans }}
                 </legend>
             </div>
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
             {{ form_row(form.avatar) }}
             <div class="symbb_editor small">
                 {{ form_row(form.signature) }}

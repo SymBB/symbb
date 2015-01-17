@@ -16,13 +16,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class Option extends AbstractType
 {
 
-    protected $em;
+    protected $fields;
 
     protected $entity;
 
-    public function __construct($em, $entity)
+    public function __construct($fields, $entity)
     {
-        $this->em = $em;
+        $this->fields = $fields;
         $this->entity = $entity;
     }
 
@@ -42,7 +42,7 @@ class Option extends AbstractType
 
         $currValues = $this->entity->getFieldValues();
 
-        $fields = $this->em->getRepository('SymbbCoreUserBundle:Field')->findBy(array(), array('position' => 'asc', 'id' => 'asc'));
+        $fields = $this->fields;
         foreach ($fields as $field) {
             $data = null;
             foreach ($currValues as $currValue) {
@@ -51,7 +51,7 @@ class Option extends AbstractType
                     break;
                 }
             }
-            $builder->add('field:' . $field->getId(), $field->getFormType(), array('required' => false, 'mapped' => false, 'data' => $data, 'label' => $field->getLabel()));
+            $builder->add('field_' . $field->getId(), $field->getFormType(), array('required' => false, 'mapped' => false, 'data' => $data, 'label' => $field->getLabel()));
         }
     }
 

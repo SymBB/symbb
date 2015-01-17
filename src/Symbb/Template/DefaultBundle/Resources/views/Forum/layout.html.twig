@@ -42,30 +42,35 @@
 {% endblock %}
 
 {% block symbb_body_container %}
-    <div class="symbb_flash_messages" id="symbbMessages">
-        {% if app.getUser.getSymbbType() == 'guest' %}
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {% trans %}You are not currently logged.{% endtrans %}
-            </div>
-        {% endif %}
 
-        {% for flashMessage in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-        {% for flashMessage in app.session.flashbag.get('error') %}
-            <div class="alert alert-danger">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-        {% for flashMessage in app.session.flashbag.get('info') %}
-            <div class="alert alert-info">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    </div>
+    {% block symbb_flash_messages %}
+
+        <div class="symbb_flash_messages" id="symbbMessages">
+            {% if app.getUser.getSymbbType() == 'guest' %}
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {% trans %}You are not currently logged.{% endtrans %}
+                </div>
+            {% endif %}
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-info">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endblock %}
 
     <div class="system_announcement">
         {% if getSymbbSite().getAnnouncement() %}

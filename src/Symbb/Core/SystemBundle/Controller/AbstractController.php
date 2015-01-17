@@ -60,4 +60,9 @@ abstract class AbstractController extends Controller
         $referer = $request->headers->get('referer');
         return new RedirectResponse($referer);
     }
+
+    public function addSavedSuccess(Request $request){
+        $message = $this->get("translator")->trans("Saved successful.", array(), "symbb_frontend");
+        $this->addSuccess($message, $request);
+    }
 }

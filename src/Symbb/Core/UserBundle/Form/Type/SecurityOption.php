@@ -37,8 +37,7 @@ class SecurityOption extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $builder->add('password', 'repeated', array(
+        $builder->add('plainPassword', 'repeated', array(
             'type' => 'password',
             'invalid_message' => 'The password fields must match.',
             'options' => array('attr' => array('class' => 'password-field')),
@@ -46,8 +45,7 @@ class SecurityOption extends AbstractType
             'first_options' => array('label' => 'Password'),
             'second_options' => array('label' => 'Repeat Password'),
             'constraints' => $this->usermanager->getPasswordValidatorConstraints()
-        ))
-            ->add('save', 'submit', array('attr' => array('class' => 'btn-success', 'onclick' => 'submit();')));
+        ));
     }
 
 

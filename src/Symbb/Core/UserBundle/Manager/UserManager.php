@@ -15,6 +15,8 @@ use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator;
 
 /**
  *
@@ -110,10 +112,12 @@ class UserManager
      * update the given user data
      * @param \Symbb\Core\UserBundle\Entity\User\Data $user
      */
-    public function updateUserData(Data $data)
+    public function updateUserData(Data $data, $flush = true)
     {
         $this->em->persist($data);
-        $this->em->flush();
+        if($flush){
+            $this->em->flush();
+        }
 
         //return array with sf validator errors
         return new \Symfony\Component\Validator\ConstraintViolationList();
@@ -131,9 +135,9 @@ class UserManager
     }
 
     /**
-     * change the password of an user
-     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
-     * @param string $newPassword
+     * @param UserInterface $user
+     * @param $newPassword
+     * @return ConstraintViolationList
      */
     public function changeUserPassword(UserInterface $user, $newPassword)
     {
@@ -141,6 +145,10 @@ class UserManager
         $encoder = $this->securityFactory->getEncoder($user);
         $password = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($password);
+
+        /**
+         * @var $validator Validator
+         */
         $validator = $this->container->get('validator');
         $passwordConstraints = $this->getPasswordValidatorConstraints();
         $passwordConstraints[] = new \Symfony\Component\Validator\Constraints\NotBlank();

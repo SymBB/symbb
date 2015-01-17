@@ -251,6 +251,7 @@ class User extends BaseUser implements UserInterface
         $data = $this->symbbData;
         if (!is_object($data)) {
             $this->symbbData = $data = new User\Data();
+            $data->setUser($this);
         }
         return $data;
     }
