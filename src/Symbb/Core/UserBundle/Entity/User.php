@@ -37,8 +37,8 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="\Symbb\Core\UserBundle\Entity\Group", cascade={"persist"})
      * @ORM\JoinTable(name="user_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="NO ACTION")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="NO ACTION")},
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="CASCADE")},
      * )
      * @var \Symbb\Core\UserBundle\Entity\GroupInterface[]
      */
