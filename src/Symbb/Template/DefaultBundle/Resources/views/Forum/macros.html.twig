@@ -1,7 +1,7 @@
 {% trans_default_domain "symbb_frontend" %}
 
 {% macro answer_btn(topic, posts) %}
-    {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) or posts.getPageCount() > 1 %}
+    {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) or posts.count() > 1 %}
         <div class="symbb_action_row">
             <div >
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
