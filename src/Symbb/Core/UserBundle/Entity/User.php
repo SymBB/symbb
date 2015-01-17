@@ -37,34 +37,34 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\ManyToMany(targetEntity="\Symbb\Core\UserBundle\Entity\Group", cascade={"persist"})
      * @ORM\JoinTable(name="user_groups",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")},
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="NO ACTION")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id", onDelete="NO ACTION")},
      * )
-     * @var array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
+     * @var \Symbb\Core\UserBundle\Entity\GroupInterface[]
      */
     protected $groups;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Topic", mappedBy="author")
-     * @var array(<"\Symbb\Core\ForumBundle\Entity\Topic">)
+     * @var \Symbb\Core\ForumBundle\Entity\Topic[]
      */
     private $topics;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Post", mappedBy="author")
-     * @var array(<"\Symbb\Core\ForumBundle\Entity\Post">)
+     * @var \Symbb\Core\ForumBundle\Entity\Post[]
      */
     private $posts;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="user", cascade={"persist"})
-     * @var array(<"\Symbb\Core\MessageBundle\Entity\Message\Receiver">)
+     * @var \Symbb\Core\MessageBundle\Entity\Message\Receiver[]
      */
     private $messages_receive;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message", mappedBy="sender")
-     * @var array(<"\Symbb\Core\MessageBundle\Entity\Message">)
+     * @var \Symbb\Core\MessageBundle\Entity\Message[]
      */
     private $messages_sent;
 
@@ -72,7 +72,7 @@ class User extends BaseUser implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
-     * @var array(<"\Symbb\Core\UserBundle\Entity\User\Data">)
+     * @var \Symbb\Core\UserBundle\Entity\User\Data
      */
     private $symbbData;
 
