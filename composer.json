@@ -33,7 +33,7 @@
         "friendsofsymfony/user-bundle": ">=2.0",
         "friendsofsymfony/jsrouting-bundle": ">=1.1",
         "friendsofsymfony/rest-bundle": ">=0.13",
-        "knplabs/knp-menu-bundle": "2.0.*@dev",
+        "knplabs/knp-menu-bundle": "2.0.0",
         "knplabs/knp-paginator-bundle": "~2.4",
         "sonata-project/intl-bundle": "2.2.*@dev",
         "leaseweb/memcache-bundle": "1.1.*@dev",
