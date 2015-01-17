@@ -102,8 +102,7 @@ class FrontendController extends AbstractController
             }
 
             if(!$saved){
-                $breadcrumb = $this->getBreadcrumbData($message);
-                return $this->render($this->getTemplateBundleName('forum') . ':Message:show.html.twig', array("message" => $message, "breadcrumb" => $breadcrumb, "isReceiver" => $isReceiver, "isSender" => $isSender, "form" => $form->createView()));
+                return $this->render($this->getTemplateBundleName('forum') . ':Message:show.html.twig', array("message" => $message, "isReceiver" => $isReceiver, "isSender" => $isSender, "form" => $form->createView()));
             } else {
                 return $this->sentListAction($request);
             }
@@ -161,31 +160,4 @@ class FrontendController extends AbstractController
         return $form;
     }
 
-
-    /**
-     * @param null $message
-     * @return array
-     */
-    protected function getBreadcrumbData($message = null)
-    {
-        $breadcrumb = array();
-
-        if ($message) {
-            $breadcrumb[] = array(
-                'type' => 'message',
-                'name' => $message->getSubject(),
-                'seoName' => $message->getSubject(),
-                'id' => $message->getId()
-            );
-        }
-
-        $home = $this->get('translator')->trans('Messages', array(), 'symbb_frontend');
-        $breadcrumb[] = array('name' => $home, 'type' => 'message_home');
-
-        $home = $this->get('translator')->trans('Home', array(), 'symbb_frontend');
-        $breadcrumb[] = array('name' => $home, 'type' => 'home');
-        $breadcrumb = array_reverse($breadcrumb);
-
-        return $breadcrumb;
-    }
 }

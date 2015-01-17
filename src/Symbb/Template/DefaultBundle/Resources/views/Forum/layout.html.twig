@@ -39,7 +39,12 @@
         jQuery(document).ready(function () {
             symbbForum.initEditor("{{ path("symbb_forum_post_upload") }}", "{{ app.request.locale }}");
             symbbForum.prepareCollection();
-            $(".chosen-select").chosen();
+            $(".chosen-select").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "{{ "Oops, nothing found!"|trans }}",
+                placeholder_text_multiple: "{{ "Please select something"|trans }}",
+                placeholder_text_single: "{{ "Please select something"|trans }}"
+            });
         });
     </script>
 {% endblock %}
