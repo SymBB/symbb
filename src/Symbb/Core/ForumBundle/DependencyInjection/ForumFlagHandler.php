@@ -21,7 +21,7 @@ class ForumFlagHandler extends AbstractFlagHandler
         $ignore = false;
         // if we add a topic "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
-        if ($flag === 'new') {
+        if ($flag === AbstractFlagHandler::FLAG_NEW) {
             $access = $this->securityContext->isGranted('VIEW', $object, $user);
             if ($access) {
                 $ignore = $this->checkFlag($object, 'ignore', $user);

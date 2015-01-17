@@ -21,6 +21,9 @@ use \Symbb\Core\SystemBundle\Manager\AccessManager;
  */
 abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
+    const FLAG_NEW = "new";
+    const FLAG_NOTIFY = "notify";
+    const FLAG_ANSWERED = "answered";
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -136,7 +139,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
     /**
      * @param $object
      * @param $flag
-     * @return mixed
+     * @return Flag[]
      */
     public function findFlagsByObjectAndFlag($object, $flag)
     {
@@ -154,7 +157,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
      * @param $object
      * @param $flag
      * @param UserInterface $user
-     * @return mixed
+     * @return Flag[]
      */
     public function findFlagsByClassAndFlag($object, $flag, UserInterface $user = null)
     {
@@ -212,9 +215,11 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
      * @param $object
      * @param string $flag
      */
-    public function insertFlags($object, $flag = 'new')
+    public function insertFlags($object, $flag = null)
     {
-
+        if(!$flag){
+            $flag = AbstractFlagHandler::FLAG_NEW;
+        }
         if (is_object($this->getUser())) {
             // adding user flags
             $users = $this->userManager->findUsers();
@@ -222,7 +227,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
                 if (
                     $user->getSymbbType() === 'user' &&
                     (
-                        $flag !== 'new' ||
+                        $flag !== AbstractFlagHandler::FLAG_NEW ||
                         $user->getId() != $this->getUser()->getId() // new flag only by "other" users
                     )
                 ) {

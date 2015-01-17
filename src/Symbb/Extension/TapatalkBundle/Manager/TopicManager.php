@@ -12,6 +12,7 @@ namespace Symbb\Extension\TapatalkBundle\Manager;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 
 /**
  * http://tapatalk.com/api/api_section.php?id=3
@@ -61,7 +62,7 @@ class TopicManager extends AbstractManager
                     'can_subscribe' => true,
                     'is_closed' => $topic->isLocked(),
                     'last_reply_time' => $datetimeString,
-                    'new_post' => $this->topicManager->checkFlag($topic, 'new'),
+                    'new_post' => $this->topicManager->checkFlag($topic, AbstractFlagHandler::FLAG_NEW),
                     'reply_number' => $topic->getPostCount(),
                     'view_number' => 0
                 );

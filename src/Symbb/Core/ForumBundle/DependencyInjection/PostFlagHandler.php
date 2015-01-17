@@ -51,7 +51,7 @@ class PostFlagHandler extends AbstractFlagHandler
 
         // if we add a post "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
-        if ($flag === 'new') {
+        if ($flag === AbstractFlagHandler::FLAG_NEW) {
             $access = $this->securityContext->isGranted(ForumVoter::VIEW, $object->getTopic()->getForum(), $user);
             if ($access) {
                 $ignore = $this->forumFlagHandler->checkFlag($object->getTopic()->getForum(), 'ignore', $user);
@@ -63,7 +63,7 @@ class PostFlagHandler extends AbstractFlagHandler
         if (!$ignore) {
             parent::insertFlag($object, $flag, $user, $flushEm);
 
-            if ($flag === 'new') {
+            if ($flag === AbstractFlagHandler::FLAG_NEW) {
                 // insert to topic (parent)
                 parent::insertFlag($object->getTopic(), $flag, $user, $flushEm);
                 // insert to all parents ( recrusivly )

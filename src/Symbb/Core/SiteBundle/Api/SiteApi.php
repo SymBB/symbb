@@ -144,6 +144,7 @@ class SiteApi extends AbstractApi
                 'meta_data_description',
                 'meta_data_keywords',
                 'name',
+                'email',
                 'template_acp',
                 'template_email',
                 'template_forum',

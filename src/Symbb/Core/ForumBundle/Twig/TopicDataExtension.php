@@ -9,6 +9,7 @@
 namespace Symbb\Core\ForumBundle\Twig;
 
 use Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 
 class TopicDataExtension extends \Twig_Extension
 {
@@ -49,12 +50,12 @@ class TopicDataExtension extends \Twig_Extension
 
     public function checkSymbbForNewPostFlag($element)
     {
-        return $this->checkForFlag($element, 'new');
+        return $this->checkForFlag($element, AbstractFlagHandler::FLAG_NEW);
     }
 
     public function checkSymbbForAnsweredPostFlag($element)
     {
-        return $this->checkForFlag($element, 'answered');
+        return $this->checkForFlag($element, AbstractFlagHandler::FLAG_NEW);
     }
 
     public function checkForFlag($element, $flag)

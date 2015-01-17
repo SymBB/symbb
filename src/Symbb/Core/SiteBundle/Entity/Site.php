@@ -86,6 +86,11 @@ class Site
      */
     protected $googleAnalyticsCode = "";
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $email = "";
+
     public function getId()
     {
         return $this->id;
@@ -248,5 +253,20 @@ class Site
         return $this->announcement;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
 }

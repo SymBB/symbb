@@ -56,7 +56,7 @@ class TopicFlagHandler extends AbstractFlagHandler
                 $flag->setUser($this->getUser());
                 $flags[] = $flag;
             }
-            if ($object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
+            if ($object->getAuthor() && $object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
                 $flag = new Flag();
                 $flag->setFlag("author");
                 $flag->setObject($object);
@@ -113,7 +113,7 @@ class TopicFlagHandler extends AbstractFlagHandler
 
         // if we add a topic "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
-        if ($flag === 'new') {
+        if ($flag === AbstractFlagHandler::FLAG_NEW) {
             $access = $this->securityContext->isGranted(ForumVoter::VIEW, $object->getForum(), $user);
             if ($access) {
                 $ignore = $this->forumFlagHandler->checkFlag($object->getForum(), 'ignore', $user);
@@ -125,7 +125,7 @@ class TopicFlagHandler extends AbstractFlagHandler
         if (!$ignore) {
             parent::insertFlag($object, $flag, $user, $flushEm);
 
-            if ($flag === 'new') {
+            if ($flag === AbstractFlagHandler::FLAG_NEW) {
                 // insert to all parents ( recrusivly )
                 $parent = $object->getForum();
                 do {

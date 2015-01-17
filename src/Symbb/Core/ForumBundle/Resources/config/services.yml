@@ -35,7 +35,7 @@ services:
     symbb.core.post.manager:
         parent:  symbb.core.abstract.manager
         class: Symbb\Core\ForumBundle\DependencyInjection\PostManager
-        arguments: ['@symbb.core.post.flag', '@symbb.core.config.manager']
+        arguments: ['@symbb.core.post.flag', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@symbb.core.forum.notify']
 
     symbb.core.topic.manager:
         parent:  symbb.core.abstract.manager

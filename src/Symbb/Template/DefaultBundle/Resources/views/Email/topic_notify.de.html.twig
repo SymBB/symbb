@@ -1,6 +1,11 @@
-Hallo {{ user.getUsername }}.
+Hallo {{ user.getUsername }}.<br/>
+<br/>
 Es wurde eine Antwort auf den Beitrag "{{ topic.getName() }}" verfasst.<br/>
-Klicke <a
-        href="{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId(), 'page': 'last'}) }}">hier</a> um den kompletten Beitrag zu lesen.
-
-Du erhälst diese Nachricht weil du bei {{ symbbConfigManager.get('system.name') }} angemeldet bist.
+Klicke <a href="{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId(), 'page': 'last'}) }}">hier</a> um den kompletten Beitrag zu lesen.
+<br/><br/>
+<hr>
+<i style="font-size: 80%">
+Du erhälst diese Nachricht weil du bei {{ site.getName() }} angemeldet bist.<br/>
+Du möchtest keine weitere Nachrichten erhalten? <br/>
+In deinem <a href="{{ url("symbb_user_ucp_notifications") }}">Profil</a> kannst du diese jederzeit deaktivieren!
+</i>

@@ -12,10 +12,12 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
 class PostManager extends AbstractManager
@@ -33,12 +35,28 @@ class PostManager extends AbstractManager
      */
     protected $postFlagHandler;
 
+    /**
+     *
+     * @var TopicFlagHandler
+     */
+    protected $topicFlagHandler;
+
+    /**
+     * @var NotifyHandler
+     */
+    protected $notifyHandler;
+
     public function __construct(
-        PostFlagHandler $postFlagHandler, ConfigManager $configManager
+        PostFlagHandler $postFlagHandler,
+        TopicFlagHandler $topicFlagHandler,
+        ConfigManager $configManager,
+        NotifyHandler $notifyHandler
     )
     {
         $this->postFlagHandler = $postFlagHandler;
+        $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
+        $this->notifyHandler = $notifyHandler;
     }
 
     public function parseText(Post $post)
@@ -122,7 +140,7 @@ class PostManager extends AbstractManager
                         f.objectClass = 'Symbb\Core\ForumBundle\Entity\Post' AND
                         f.objectId = p.id AND
                         f.user = :user AND
-                        f.flag = 'new'
+                        f.flag = '".AbstractFlagHandler::FLAG_NEW."'
                 WHERE
                     p.author != :user AND
                     (
@@ -212,8 +230,26 @@ class PostManager extends AbstractManager
      */
     public function save(Post $post)
     {
+        $new = false;
+        if($post->getId() <= 0){
+            $new = true;
+        }
         $this->em->persist($post);
         $this->em->flush();
+
+        // if it is a new answer of an existing topic
+        if($post->getTopic()->getId() > 0 && $new){
+            // get all notify flags for this topic
+            $flags = $this->topicFlagHandler->findFlagsByObjectAndFlag($post->getTopic(), AbstractFlagHandler::FLAG_NOTIFY);
+            foreach($flags as $flag){
+                // if the notify user is not the author of the new post
+                if($flag->getUser()->getId() !== $post->getAuthor()->getId()){
+                    // send a notify
+                    $this->notifyHandler->sendTopicNotifications($post->getTopic(), $flag->getUser());
+                }
+            }
+        }
+
         return true;
     }
 
@@ -227,5 +263,13 @@ class PostManager extends AbstractManager
         $this->em->flush();
 
         return true;
+    }
+
+    /**
+     * mark the post as new for all users
+     * @param Post $post
+     */
+    public function markAsNew(Post $post){
+        $this->postFlagHandler->insertFlags($post, PostFlagHandler::FLAG_NEW);
     }
 }

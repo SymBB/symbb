@@ -10,6 +10,7 @@ namespace Symbb\Core\ForumBundle\Twig;
 
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumManager;
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 
 class ForumDataExtension extends \Twig_Extension
 {
@@ -55,7 +56,7 @@ class ForumDataExtension extends \Twig_Extension
 
     public function checkSymbbForNewPostFlag($element)
     {
-        $check = $this->checkForFlag($element, 'new');
+        $check = $this->checkForFlag($element, AbstractFlagHandler::FLAG_NEW);
         return $check;
     }
 

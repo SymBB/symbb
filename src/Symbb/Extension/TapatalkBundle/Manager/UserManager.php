@@ -9,6 +9,7 @@
 
 namespace Symbb\Extension\TapatalkBundle\Manager;
 
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -66,7 +67,7 @@ class UserManager extends AbstractManager
     {
         $this->debug('getInboxStat');
 
-        $topics = $this->topicManager->getFlagHandler()->findFlagsByClassAndFlag('Symbb\Core\Forum\Entity\Topic', 'new');
+        $topics = $this->topicManager->getFlagHandler()->findFlagsByClassAndFlag('Symbb\Core\Forum\Entity\Topic', AbstractFlagHandler::FLAG_NEW);
         $messages = $this->messageManager->countNewMessages();
 
         $result['inbox_unread_count'] = new \Zend\XmlRpc\Value\Integer($messages);

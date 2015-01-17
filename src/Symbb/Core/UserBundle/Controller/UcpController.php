@@ -9,7 +9,11 @@
 
 namespace Symbb\Core\UserBundle\Controller;
 
+use Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
+use Symbb\Core\ForumBundle\DependencyInjection\TopicManager;
+use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\SystemBundle\Controller\AbstractController;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symbb\Core\UserBundle\Form\Type\Option;
 use Symbb\Core\UserBundle\Form\Type\SecurityOption;
@@ -106,5 +110,43 @@ class UcpController extends AbstractController
         }
 
         return $this->render($this->getTemplateBundleName('forum') . ':Ucp:security.html.twig', array("form" => $form->createView()));
+    }
+
+    public function notificationAction(Request $request){
+
+        $topicIds = array();
+        $page = $request->get("page", 1);
+        /**
+         * @var $topicManager TopicManager
+         */
+        $topicManager = $this->get("symbb.core.topic.manager");
+        /**
+         * @var $topicFlagHandler TopicFlagHandler
+         */
+        $topicFlagHandler = $this->get("symbb.core.topic.flag");
+        $topic = new Topic();
+        $flags = $topicFlagHandler->findFlagsByClassAndFlag($topic, AbstractFlagHandler::FLAG_NOTIFY, $this->getUser());
+        foreach($flags as $flag){
+            $topicIds[] = $flag->getObjectId();
+        }
+        $topics = $topicManager->findBy(array("id" => array("operator" => "IN", "value" => $topicIds)), $page);
+
+        return $this->render($this->getTemplateBundleName('forum') . ':Ucp:notification.html.twig', array("topics" => $topics));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function notificationUnsubscribeAction(Request $request){
+        $topicId = $request->get("id");
+        /**
+         * @var $topicManager TopicManager
+         */
+        $topicManager = $this->get("symbb.core.topic.manager");
+        $topic = $topicManager->find($topicId);
+        $topicManager->unsubscribeNotification($topic);
+
+        return $this->notificationAction($request);
     }
 }

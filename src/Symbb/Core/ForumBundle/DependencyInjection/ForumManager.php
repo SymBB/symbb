@@ -12,6 +12,7 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symbb\Core\UserBundle\Entity\GroupInterface;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
@@ -553,11 +554,11 @@ class ForumManager extends AbstractManager
     public function markAsRead(\Symbb\Core\ForumBundle\Entity\Forum $forum)
     {
 
-        $this->forumFlagHandler->removeFlag($forum, 'new');
+        $this->forumFlagHandler->removeFlag($forum, AbstractFlagHandler::FLAG_NEW);
 
         $topics = $forum->getTopics();
         foreach ($topics as $topic) {
-            $this->topicFlagHandler->removeFlag($topic, 'new');
+            $this->topicFlagHandler->removeFlag($topic, AbstractFlagHandler::FLAG_NEW);
         }
 
         $subForms = $forum->getChildren();

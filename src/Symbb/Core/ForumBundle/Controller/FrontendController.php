@@ -10,6 +10,8 @@
 namespace Symbb\Core\ForumBundle\Controller;
 
 
+use Symbb\Core\ForumBundle\DependencyInjection\PostFlagHandler;
+use Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
@@ -432,13 +434,12 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $this->get("event_dispatcher")->dispatch('symbb.core.forum.form.topic.after.save', $event);
 
             if ($form->get("mainPost")->get("notifyMe")->getData()) {
-                Var_dump(get_class($topic));
-                $this->get('symbb.core.topic.flag')->insertFlag($topic, 'notify');
+                $this->get("symbb.core.topic.manager")->subscribeNotification($topic);
             } else {
-                $this->get('symbb.core.topic.flag')->removeFlag($topic, 'notify');
+                $this->get("symbb.core.topic.manager")->unsubscribeNotification($topic);
             }
 
-            $this->get('symbb.core.post.flag')->insertFlags($topic->getMainPost(), 'new');
+            $this->get('symbb.core.post.flag')->insertFlags($topic->getMainPost(), PostFlagHandler::FLAG_NEW);
 
             return $this->redirect($this->generateUrl('symbb_forum_topic_show', array("id" => $topic->getId(), "name" => $topic->getSeoName(), "page" => 1)));
         }
@@ -493,13 +494,12 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $data = $request->get("post");
 
             if ($data["notifyMe"]) {
-                Var_dump(get_class($post->getTopic()));
-                $this->get('symbb.core.topic.flag')->insertFlag($post->getTopic(), 'notify');
+                $this->get("symbb.core.topic.manager")->subscribeNotification($post->getTopic());
             } else {
-                $this->get('symbb.core.topic.flag')->removeFlag($post->getTopic(), 'notify');
+                $this->get("symbb.core.topic.manager")->unsubscribeNotification($post->getTopic());
             }
 
-            $this->get('symbb.core.post.flag')->insertFlags($post, 'new');
+            $this->get("symbb.core.post.manager")->markAsNew($post);
 
             return $this->redirect($this->generateUrl('symbb_forum_topic_show', array("id" => $post->getTopic()->getId(), "name" => $post->getTopic()->getSeoName(), "page" => "last")));
         }

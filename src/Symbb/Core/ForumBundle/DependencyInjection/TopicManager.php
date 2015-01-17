@@ -12,6 +12,7 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 
@@ -123,17 +124,20 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      */
     public function markAsRead(Topic $topic)
     {
-        $this->topicFlagHandler->removeFlag($topic, 'new');
+        $this->topicFlagHandler->removeFlag($topic, AbstractFlagHandler::FLAG_NEW);
         return true;
     }
 
     /**
      * @param Topic $topic
-     * @param string $flag
+     * @param string $searchForFlag
      * @return bool
      */
-    public function checkFlag(Topic $topic, $searchForFlag = 'new')
+    public function checkFlag(Topic $topic, $searchForFlag = '')
     {
+        if(empty($searchForFlag)){
+            $searchForFlag = AbstractFlagHandler::FLAG_NEW;
+        }
         foreach ($this->topicFlagHandler->findAll($topic) as $flag) {
             if ($flag->getFlag() == $searchForFlag) {
                 return true;
@@ -147,8 +151,11 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param string $flag
      * @return bool
      */
-    public function hasFlag(Topic $topic, $flag = 'new')
+    public function hasFlag(Topic $topic, $flag = null)
     {
+        if(!$flag){
+            $flag = AbstractFlagHandler::FLAG_NEW;
+        }
         return $this->checkFlag($topic, $flag);
     }
 
@@ -185,9 +192,51 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
             $user = $this->getUser();
         }
 
-        //// count
         $query = $this->em->createQuery($sql);
         $query->setParameter(0, $user->getId());
+
+        $pagination = $this->createPagination($query, $page, $limit);
+
+        return $pagination;
+    }
+
+    public function findBy($criteria, $page = 1, $limit = 20){
+
+        $where = "WHERE ";
+        $values = array();
+        $valueKey = 0;
+        foreach($criteria as $field => $crit){
+            $where .= "t.".$field;
+            if(is_array($crit)){
+                if(!isset($crit["operator"]) || !isset($crit["value"])){
+                    throw new \Exception("Criteria array need to have a operator and value element");
+                }
+                if($crit["operator"] == "IN"){
+                    $where .= " IN (?".$valueKey.")";
+                } else {
+                    $where .= " ".$crit["operator"]." ?".$valueKey;
+                }
+                $values[$valueKey] = $crit["value"];
+            } else {
+                $where .= " = ?".$valueKey;
+                $values[$valueKey] = $crit;
+            }
+            $valueKey++;
+        }
+
+        $sql = "SELECT
+                    t
+                FROM
+                    SymbbCoreForumBundle:Topic t
+                ".$where."
+                ORDER BY
+                    t.id DESC ";
+
+
+        $query = $this->em->createQuery($sql);
+        foreach($values as $key => $value){
+            $query->setParameter($key, $value);
+        }
 
         $pagination = $this->createPagination($query, $page, $limit);
 
@@ -255,5 +304,21 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                     tag.priority DESC ";
         $query = $this->em->createQuery($sql);
         return $query->getResult();
+    }
+
+    /**
+     * @param Topic $topic
+     * @param UserInterface $user
+     */
+    public function subscribeNotification(Topic $topic, UserInterface $user = null){
+        $this->topicFlagHandler->insertFlag($topic, TopicFlagHandler::FLAG_NOTIFY, $user);
+    }
+
+    /**
+     * @param Topic $topic
+     * @param UserInterface $user
+     */
+    public function unsubscribeNotification(Topic $topic, UserInterface $user = null){
+        $this->topicFlagHandler->removeFlag($topic, TopicFlagHandler::FLAG_NOTIFY, $user);
     }
 }

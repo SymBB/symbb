@@ -110,4 +110,14 @@ class Flag
     {
         $this->created = new \DateTime();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 }

@@ -22,6 +22,13 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('symbb_user_ucp_notifications') }}" title="{{ 'security'|trans }}">
+                <span class=" glyphicon glyphicon-volume-up"></span>
+                <span class="glyphicon-label">{% trans %}notifications{% endtrans %}</span>
+            </a>
+        </li>
+
+        <li>
             <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
                 <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}">
                 <span class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>

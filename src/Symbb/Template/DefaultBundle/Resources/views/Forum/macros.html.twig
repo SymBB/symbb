@@ -69,8 +69,8 @@
             <div class="clear-left"></div>
             <div class="title" itemprop="name">{{ object.getName() }}</div>
             <div class="labels">
-                {% for flag in getSymbbPostManager().getFlags(object) %}
-                    <span class="label label-{{ flag.getType() }}">{{ flag.getName() }}</span>
+                {% for flag in getSymbbPostManager().getFlags(object) %} 
+                    <span class="label label-default">{{ flag.getFlag() }}</span>
                 {% endfor %}
             </div>
             <div class="clear-left"></div>
