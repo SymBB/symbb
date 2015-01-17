@@ -7,7 +7,7 @@
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
                     <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}"
                        class="btn btn-primary btn-sm pull-left"><span
-                                class="glyphicon glyphicon-share-alt"></span> {{ 'Answer'|trans }}</a>
+                                class="glyphicon glyphicon-share-alt"></span> {{ 'Leave a Reply'|trans }}</a>
                 {% endif %}
             </div>
             <div class="pull-right">
@@ -38,8 +38,7 @@
             {{ executeSymbbTemplatePostEvent('before.userdata', object) }}
             <dd><strong>{% trans %}posts{% endtrans %}:</strong> {{ getUserManager().getPostCount(object.getAuthor()) }}
             </dd>
-            <dd><strong>{% trans %}Join Date{% endtrans %}
-                    :</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
+            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
             {{ executeSymbbTemplatePostEvent('after.userdata', object) }}
         </dl>
         <div class="postbody">
@@ -69,14 +68,13 @@
             <div class="clear-left"></div>
             <div class="title" itemprop="name">{{ object.getName() }}</div>
             <div class="labels">
-                {% for flag in getSymbbPostManager().getFlags(object) %} 
+                {% for flag in getSymbbPostManager().getFlags(object) %}
                     <span class="label label-default">{{ flag.getFlag() }}</span>
                 {% endfor %}
             </div>
             <div class="clear-left"></div>
             <div class="date">
-                {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}
-                on %date% at %time%{% endtrans %}
+                {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}on %date% at %time%{% endtrans %}
             </div>
             <div class="clear-left"></div>
             {{ executeSymbbTemplatePostEvent('before.text', object) }}
@@ -94,8 +92,7 @@
                         <div class="well">
                             {% for historyEntry in object.getHistory() %}
                                 <div class="historyEntry">
-                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}
-                                    edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
+                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
                                         <span>({{ historyEntry.getReason() }})</span>{% endif %}
                                 </div>
                             {% endfor %}

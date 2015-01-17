@@ -43,8 +43,7 @@
                 </div>
                 <div class="description">
                     {% trans with {'%user%': object.getAuthor().getUsername() } %}from %user%{% endtrans %} </br>
-                    {% trans with {'%date%': object.getCreated() | date("d.m.Y"), '%time%': object.getCreated() | date("H:i")} %}
-                    %date% at %time%{% endtrans %}
+                    {% trans with {'%date%': object.getCreated() | date("d.m.Y"), '%time%': object.getCreated() | date("H:i")} %}%date% at %time%{% endtrans %}
                 </div>
             </div>
         </div>

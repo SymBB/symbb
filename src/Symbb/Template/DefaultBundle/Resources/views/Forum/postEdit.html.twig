@@ -23,7 +23,7 @@
                     {{ form_widget(form.name) }}
                 </div>
                 {{ form_errors(form.name) }}
-                <div class="symbb_editor" data-id="{{ post.getId() }}" data-forum="{{ post.getId() }}">
+                <div class="symbb_editor" data-id="{{ post.getId() }}" data-forum="{{ post.getTopic().getForum().getId() }}">
                     {{ form_row(form.id) }}
                     {{ form_widget(form.text) }}
                     {{ form_errors(form.text) }}

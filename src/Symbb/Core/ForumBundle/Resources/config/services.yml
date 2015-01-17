@@ -124,3 +124,8 @@ services:
             - [setGroupManager, ['@symbb.core.user.group.manager']]
             - [setPostManager, ['@symbb.core.post.manager']]
             - [setTopicManager, ['@symbb.core.topic.manager']]
+
+    symbb.core.forum.form.post.quick:
+        class: Symbb\Core\ForumBundle\Form\QuickPostType
+        tags:
+           - { name: form.type, alias: quick_post }

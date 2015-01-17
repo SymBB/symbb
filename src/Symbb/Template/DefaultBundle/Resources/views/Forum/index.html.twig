@@ -114,8 +114,7 @@
                              src="getSymbbUserManager().getAvatar(getSymbbTopicManager().getLastPost().getAuthor())"/>
                     </div>
                     <div class="text pull-left">
-                        {% trans with {'%user%': getSymbbTopicManager().getLastPost().getAuthor().getUsername(), '%date%': getSymbbTopicManager().getLastPost().getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost().getCreated() | date("H:i")} %}
-                        from %user% on %date% at %time%{% endtrans %}
+                        {% trans with {'%user%': getSymbbTopicManager().getLastPost().getAuthor().getUsername(), '%date%': getSymbbTopicManager().getLastPost().getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost().getCreated() | date("H:i")} %}from %user% on %date% at %time%{% endtrans %}
                     </div>
                 </a>
             {% endif %}
@@ -167,10 +166,8 @@
                     <div>
                         <div class="text pull-left">
                             <a href="{{ path("symbb_forum_topic_show", {"page": "last", "id": getSymbbForumManager().getLastPost(object).getTopic().getId(), "name": getSymbbForumManager().getLastPost(object).getTopic().getSeoName()}) }}">{{ getSymbbForumManager().getLastPost(object).getName() }}</a></br>
-                            <a href="{{ path("symbb_user_profile", {"id": getSymbbForumManager().getLastPost(object).getAuthor().getId(), "username": getSymbbForumManager().getLastPost(object).getAuthor().getUsername()}) }}">{% trans with {'%user%': getSymbbForumManager().getLastPost(object).getAuthor().getUsername()} %}
-                                from %user%{% endtrans %}</a> </br>
-                            {% trans with {'%date%': getSymbbForumManager().getLastPost(object).getChanged()|date("d.m.Y"), '%time%': getSymbbForumManager().getLastPost(object).getChanged()|date("H:i")} %}
-                            written on %date% at %time%{% endtrans %}
+                            <a href="{{ path("symbb_user_profile", {"id": getSymbbForumManager().getLastPost(object).getAuthor().getId(), "username": getSymbbForumManager().getLastPost(object).getAuthor().getUsername()}) }}">{% trans with {'%user%': getSymbbForumManager().getLastPost(object).getAuthor().getUsername()} %}from %user%{% endtrans %}</a> </br>
+                            {% trans with {'%date%': getSymbbForumManager().getLastPost(object).getChanged()|date("d.m.Y"), '%time%': getSymbbForumManager().getLastPost(object).getChanged()|date("H:i")} %}written on %date% at %time%{% endtrans %}
                         </div>
                     </div>
                 {% endif %}

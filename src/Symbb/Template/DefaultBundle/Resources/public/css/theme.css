@@ -350,7 +350,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 
 .symbb_action_row {
     margin-bottom: 0px;
-    height: 42px;
+    min-height: 42px;
     width: 100%;
     background-color: #F5F5F5;
     margin-top: 0px;
@@ -508,6 +508,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     background-color: #FFF;
     border: 1px solid #CCC;
     padding: 10px;
+}
+
+.danger {
+    color: #d9534f !important;
 }
 
 .glyphicon-danger {

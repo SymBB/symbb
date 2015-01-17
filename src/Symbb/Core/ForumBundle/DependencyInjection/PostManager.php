@@ -237,6 +237,10 @@ class PostManager extends AbstractManager
         $this->em->persist($post);
         $this->em->flush();
 
+        if($new){
+            $this->markAsNew($post);
+        }
+
         // if it is a new answer of an existing topic
         if($post->getTopic()->getId() > 0 && $new){
             // get all notify flags for this topic

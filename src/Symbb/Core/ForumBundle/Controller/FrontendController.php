@@ -272,15 +272,42 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
         $id = $request->get('id');
         $topic = $this->get("symbb.core.topic.manager")->find($id);
 
+        // only if valid topic
         if (is_object($topic) && $topic->getId() > 0) {
+
+            // check view access of topic
             if (!$this->get('security.authorization_checker')->isGranted(TopicVoter::VIEW, $topic)) {
                 throw $this->createAccessDeniedException();
             }
+
             $page = $request->get("page");
+
+            $formView = null;
+
+            //quick answer part
+            if($this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())){
+
+                $post = new Post();
+                $post->setAuthor($this->getUser());
+                $post->setTopic($topic);
+                $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
+                $form = $this->createForm("quick_post", $post);
+                $formView = $form->createView();
+
+                $form->handleRequest($request);
+
+                if ($form->isValid()) {
+                    $this->get("symbb.core.post.manager")->save($post);
+                    $page = "last";
+                    $this->addSavedSuccess($request);
+                }
+            }
+
             $posts = $this->get("symbb.core.topic.manager")->findPosts($topic, $page, null, "asc");
+
             return $this->render(
                 $this->getTemplateBundleName('forum') . ':Forum:topicView.html.twig',
-                array("topic" => $topic, "posts" => $posts)
+                array("topic" => $topic, "posts" => $posts, "form" => $formView)
             );
         } else {
             $this->addError("Topic not found.", $request);
@@ -468,7 +495,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             }
         }
 
-        $form = $this->createForm("post", $post, array("attr" => array("class" => "css-form form-horizontal")));
+        $form = $this->createForm("post", $post);
 
         $oldText = $post->getText();
 
@@ -498,8 +525,6 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             } else {
                 $this->get("symbb.core.topic.manager")->unsubscribeNotification($post->getTopic());
             }
-
-            $this->get("symbb.core.post.manager")->markAsNew($post);
 
             return $this->redirect($this->generateUrl('symbb_forum_topic_show', array("id" => $post->getTopic()->getId(), "name" => $post->getTopic()->getSeoName(), "page" => "last")));
         }
