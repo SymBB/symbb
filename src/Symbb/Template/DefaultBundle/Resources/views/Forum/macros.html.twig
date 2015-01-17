@@ -49,13 +49,8 @@
                        href="{{ path("symbb_forum_post_quote", {"topic": topic.getId(), "quoteId": object.getId()}) }}"></a>
                 {% endif %}
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::EDIT'), object) %}
-                    {% if object.getId() == topic.getId() %}
-                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
-                           href="{{ path("symbb_forum_topic_edit", {"id": object.getId(), "forum": topic.getForum().getId()}) }}"></a>
-                    {% else %}
-                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
-                           href="{{ path("symbb_forum_post_edit", {"id": object.getId()}) }}"></a>
-                    {% endif %}
+                    <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                       href="{{ path("symbb_forum_post_edit", {"id": object.getId()}) }}"></a>
                 {% endif %}
 
                 {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::DELETE'), object) %}
