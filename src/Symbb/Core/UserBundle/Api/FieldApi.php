@@ -26,9 +26,10 @@ class FieldApi extends AbstractApi
      * @param $id
      * @return Field
      */
-    public function find($id){
+    public function find($id)
+    {
         $object = $this->fieldManager->find($id);
-        if(!is_object($object)){
+        if (!is_object($object)) {
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
         return $object;
@@ -39,11 +40,12 @@ class FieldApi extends AbstractApi
      * @param $page
      * @return array
      */
-    public function findAll($limit, $page){
+    public function findAll($limit, $page)
+    {
         $objects = $this->fieldManager->findAll($limit, $page);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
-        if(empty($objects)){
+        if (empty($objects)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
         return $objects;
@@ -56,23 +58,24 @@ class FieldApi extends AbstractApi
      * @param Field|array $object
      * @return Field
      */
-    public function save($object){
+    public function save($object)
+    {
 
-        if(is_array($object)){
+        if (is_array($object)) {
             $objectData = $object;
-            if($object['id'] > 0){
+            if ($object['id'] > 0) {
                 $object = $this->find($object['id']);
             } else {
                 $object = new Field();
             }
             $this->assignArrayToObject($object, $objectData);
-        } else if(!($object instanceof Field)) {
+        } else if (!($object instanceof Field)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->fieldManager->update($object);
-            if($check === true){
+            if ($check === true) {
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
@@ -84,15 +87,16 @@ class FieldApi extends AbstractApi
      * @param int|Field $object
      * @return bool
      */
-    public function delete($object){
-        if(is_numeric($object)){
+    public function delete($object)
+    {
+        if (is_numeric($object)) {
             $object = $this->find($object);
-        } else if(!($object instanceof Field)) {
+        } else if (!($object instanceof Field)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->fieldManager->removeUser($object);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
             return $check;
@@ -105,7 +109,8 @@ class FieldApi extends AbstractApi
      * @param $direction
      * @return array|null
      */
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
         // only this fields are allowed
         $fields = array(
             'id',
@@ -121,7 +126,8 @@ class FieldApi extends AbstractApi
     /**
      * @param FieldManager $manager
      */
-    public function setFieldManager(FieldManager $manager){
+    public function setFieldManager(FieldManager $manager)
+    {
         $this->fieldManager = $manager;
     }
 

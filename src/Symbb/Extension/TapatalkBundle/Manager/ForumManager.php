@@ -73,9 +73,9 @@ class ForumManager extends AbstractManager
     {
         $this->debug("markAllAsRead");
         $success = false;
-        if($forumId > 0){
-            $forum =$this->forumManager->find($forumId);
-            if($forum){
+        if ($forumId > 0) {
+            $forum = $this->forumManager->find($forumId);
+            if ($forum) {
                 $success = $this->forumManager->markAsRead($forum);
             }
         } else {
@@ -131,7 +131,7 @@ class ForumManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @return \Zend\XmlRpc\Value\Struct
      */
     protected function getConfigStats()
@@ -162,12 +162,12 @@ class ForumManager extends AbstractManager
         } else {
             $forums[] = $this->forumManager->find($forumId);
         }
-        $this->debug('getForum: currentUser -> '.$this->userManager->getCurrentUser()->getUsername());
-        $this->debug('getForum: count -> '.count($forums));
+        $this->debug('getForum: currentUser -> ' . $this->userManager->getCurrentUser()->getUsername());
+        $this->debug('getForum: count -> ' . count($forums));
         foreach ($forums as $forum) {
             if (\is_object($forum)) {
                 $data = $this->getForumData($forum);
-                if(!empty($data)){
+                if (!empty($data)) {
                     $forumData[] = $data;
                 }
             }

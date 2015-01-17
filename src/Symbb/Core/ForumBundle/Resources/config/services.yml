@@ -23,7 +23,7 @@ services:
     symbb.core.forum.managers.twig:
         twig.extension.symbb.core.forum.managers.twig:
         class: Symbb\Core\ForumBundle\Twig\ManagerExtension
-        arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager']
+        arguments: ['@symbb.core.post.manager', '@symbb.core.forum.manager', '@symbb.core.topic.manager']
         tags:
             - { name: twig.extension }
 
@@ -35,7 +35,7 @@ services:
     symbb.core.post.manager:
         parent:  symbb.core.abstract.manager
         class: Symbb\Core\ForumBundle\DependencyInjection\PostManager
-        arguments: ['@symbb.core.post.flag', '@symbb.core.config.manager']
+        arguments: ['@symbb.core.post.flag', '@symbb.core.topic.flag', '@symbb.core.config.manager', '@symbb.core.forum.notify']
 
     symbb.core.topic.manager:
         parent:  symbb.core.abstract.manager
@@ -101,3 +101,31 @@ services:
         arguments: ['@symbb.core.access.manager']
         tags:
            - { name: security.voter }
+
+    symbb.core.forum.form.topic:
+        class: Symbb\Core\ForumBundle\Form\TopicType
+        tags:
+           - { name: form.type, alias: topic }
+        calls:
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setTranslator, ['@translator']]
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setGroupManager, ['@symbb.core.user.group.manager']]
+            - [setTopicManager, ['@symbb.core.topic.manager']]
+
+    symbb.core.forum.form.post:
+        class: Symbb\Core\ForumBundle\Form\PostType
+        tags:
+           - { name: form.type, alias: post }
+        calls:
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setTranslator, ['@translator']]
+            - [setUserManager, ['@symbb.core.user.manager']]
+            - [setGroupManager, ['@symbb.core.user.group.manager']]
+            - [setPostManager, ['@symbb.core.post.manager']]
+            - [setTopicManager, ['@symbb.core.topic.manager']]
+
+    symbb.core.forum.form.post.quick:
+        class: Symbb\Core\ForumBundle\Form\QuickPostType
+        tags:
+           - { name: form.type, alias: quick_post }

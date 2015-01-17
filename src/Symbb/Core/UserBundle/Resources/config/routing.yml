@@ -18,3 +18,30 @@ symbb_api_user_data:
     pattern:  /api/user/data
     defaults: { _controller: SymbbCoreUserBundle:FrontendApi:data }
 
+symbb_userlist:
+    pattern:  /users/{page}
+    defaults:
+      _controller: SymbbCoreUserBundle:Frontend:userlist
+
+symbb_user_profile:
+    pattern:  /user/{id}/{username}
+    defaults:
+      _controller: SymbbCoreUserBundle:Frontend:view
+
+symbb_user_ucp:
+    pattern:  /ucp/
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:index }
+
+symbb_user_ucp_notifications:
+    pattern:  /ucp/notifications/{page}
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:notification, page: 1 }
+
+symbb_user_ucp_notification_unsubscribe:
+    pattern:  /ucp/notification/{id}/unsubscribe
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:notificationUnsubscribe }
+
+
+
+symbb_user_ucp_security:
+    pattern:  /ucp/security
+    defaults: { _controller: SymbbCoreUserBundle:Ucp:security }

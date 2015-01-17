@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-11-19T13:08:12Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2015-01-17T19:57:32Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -9,201 +9,154 @@
       <trans-unit id="f220318f9294bfe6ae246f3481e79bf8bfffe444" resname=" %date% at %time%">
         <source> %date% at %time%</source>
         <target> %date% um %time%</target>
-        <jms:reference-file line="31">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="41">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="59">views/Forum/topicEntry.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5907e1b6eb7fe8ab0c47a0147026f0c0adfebf1e" resname="%date% at %time%">
+        <source>%date% at %time%</source>
+        <target>%date% um %time%</target>
+        <jms:reference-file line="46">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6f3abbe484abd8e9daf633a69dd56750b01ea9f8" resname="Abort">
         <source>Abort</source>
         <target>abbrechen</target>
-        <jms:reference-file line="127">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="150">Angular/Forum/topic.html.twig</jms:reference-file>
-        <jms:reference-file line="56">Angular/Ucp/index.html.twig</jms:reference-file>
-        <jms:reference-file line="27">Angular/Ucp/security.html.twig</jms:reference-file>
+        <jms:reference-file line="31">views/Message/show.html.twig</jms:reference-file>
+        <jms:reference-file line="18">views/Message/new.html.twig</jms:reference-file>
+        <jms:reference-file line="66">views/Forum/topicEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="64">views/Forum/postEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="34">views/Ucp/index.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/Ucp/security.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
-        <source>Actions</source>
-        <target>Aktionen</target>
-        <jms:reference-file line="59">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="82">Angular/Forum/topic.html.twig</jms:reference-file>
+      <trans-unit id="97c89a4d6630adeb18fa12ba9976a31413fe293e" resname="Action">
+        <source>Action</source>
+        <target>Aktion</target>
+        <jms:reference-file line="18">views/Ucp/notification.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="a16a4eda7cb2c8e91d7edd25e809ae9d392c7498" resname="Answer">
-        <source>Answer</source>
-        <target>Antwort</target>
-        <jms:reference-file line="9">Angular/Forum/topicShow.html.twig</jms:reference-file>
-        <jms:reference-file line="74">Angular/Forum/topicShow.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="7631b26ea80b1b601c313b15cc4e2ab03faedf30" resname="Avatar">
-        <source>Avatar</source>
-        <target>Avatar</target>
-        <jms:reference-file line="15">Angular/Ucp/index.html.twig</jms:reference-file>
+      <trans-unit id="8c48ca7ec4eed0c737ea148c233af1bdbea773a2" resname="Answer on:">
+        <source>Answer on:</source>
+        <target>Antwort auf:</target>
+        <jms:reference-file line="17">views/Forum/postEdit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="386038b259a0a80b2083c642220b70f73d4a6ffc" resname="Beiträge">
         <source>Beiträge</source>
         <target>Beiträge</target>
-        <jms:reference-file line="14">views/Angular/userlist.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="77dfd2135f4db726c47299bb55be26f7f4525a46" resname="Cancel">
-        <source>Cancel</source>
-        <target>Abrechen</target>
-        <jms:reference-file line="93">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="116">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="ae1f9ef7dc1cee4760e7f208f36c225e3ab1aa1f" resname="Cancel all">
-        <source>Cancel all</source>
-        <target>Alle abbrechen</target>
-        <jms:reference-file line="115">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="138">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="13">views/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6631bd8bd1c705aa29a27180a80007a0cd310c83" resname="Dabei seit">
         <source>Dabei seit</source>
         <target>Dabei seit</target>
-        <jms:reference-file line="15">views/Angular/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="eb9a4bc1c0c153e4e4b042a79113b815b7e3021d" resname="Date">
         <source>Date</source>
         <target>Datum</target>
-        <jms:reference-file line="38">Angular/Message/list.html.twig</jms:reference-file>
-        <jms:reference-file line="81">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="34">views/Message/sentList.html.twig</jms:reference-file>
+        <jms:reference-file line="34">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
         <target>Löschen</target>
-        <jms:reference-file line="31">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="42">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="62">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5301648dcf6b53cefc9ed52999aaa92d4603cae0" resname="Edit">
         <source>Edit</source>
         <target>Editieren</target>
-        <jms:reference-file line="29">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="30">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="40">Angular/Forum/topicShow.html.twig</jms:reference-file>
-        <jms:reference-file line="41">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="53">views/Forum/macros.html.twig</jms:reference-file>
+        <jms:reference-file line="56">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b648d3196cc4428682a40b34e04c9e73ffb4b8dd" resname="Enter a name here">
         <source>Enter a name here</source>
         <target>Trage her einen Namen ein</target>
-        <jms:reference-file line="73">Form/Type/TopicType.php</jms:reference-file>
-        <jms:reference-file line="18">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="6ce6c512ea433a7fc5c8841628e7696cd0ff7f2b" resname="Files">
-        <source>Files</source>
-        <target>Dateien</target>
-        <jms:reference-file line="26">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="33">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="105">ForumBundle/Form/PostType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf1d2c9702ec3c2c9c19d4853cd487b92618fb0c" resname="Forum">
         <source>Forum</source>
         <target>Forum</target>
-        <jms:reference-file line="148">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="34">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9360529b8e7f1ae1246f83799022645feb84eda2" resname="Give Your text here">
         <source>Give Your text here</source>
         <target>Trage hier deinen Text ein</target>
-        <jms:reference-file line="72">Form/Type/PostType.php</jms:reference-file>
-        <jms:reference-file line="20">Angular/Message/show.html.twig</jms:reference-file>
-        <jms:reference-file line="19">Angular/Message/new.html.twig</jms:reference-file>
-        <jms:reference-file line="17">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="25">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="106">ForumBundle/Form/PostType.php</jms:reference-file>
+        <jms:reference-file line="28">ForumBundle/Form/QuickPostType.php</jms:reference-file>
+        <jms:reference-file line="40">Form/Type/Option.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="70f8bb9a8a5393ef080507a89e4b98d139000d65" resname="Home">
         <source>Home</source>
         <target>Home</target>
         <jms:reference-file line="61">ForumBundle/Twig/BreadcrumbExtension.php</jms:reference-file>
-        <jms:reference-file line="355">ForumBundle/DependencyInjection/ForumManager.php</jms:reference-file>
-        <jms:reference-file line="179">MessageBundle/Controller/FrontendApiController.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="95802daab3a23990338179f72248350c1434cf39" resname="Insert">
-        <source>Insert</source>
-        <target>Einfügen</target>
-        <jms:reference-file line="87">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="110">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="481">ForumBundle/DependencyInjection/ForumManager.php</jms:reference-file>
+        <jms:reference-file line="119">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2e672f856b41ed3cd814dadf9b0dc9c7f50a9f75" resname="Join Date">
         <source>Join Date</source>
         <target>Dabei seit</target>
-        <jms:reference-file line="21">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="33">Angular/Forum/topicShow.html.twig</jms:reference-file>
-        <jms:reference-file line="16">Angular/User/profile.html.twig</jms:reference-file>
+        <jms:reference-file line="41">views/Forum/macros.html.twig</jms:reference-file>
+        <jms:reference-file line="19">views/User/view.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a9588d8774f1258a78c0efd526f52ad905d06ae1" resname="Last post">
         <source>Last post</source>
         <target>letzer Beitrag</target>
-        <jms:reference-file line="8">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="21">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="150">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="36">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="59">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="8">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="530afa5bce434b05e3a10e83ff2567f7f8622af9" resname="Loading ...">
-        <source>Loading ...</source>
-        <target>Daten werden geladen ...</target>
-        <jms:reference-file line="62">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="68">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+      <trans-unit id="a7f99fef683dc45e6bf0abae40d10393f06bbe37" resname="Leave a Reply">
+        <source>Leave a Reply</source>
+        <target>Antwort verfassen</target>
+        <jms:reference-file line="42">views/Forum/topicView.html.twig</jms:reference-file>
+        <jms:reference-file line="10">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c1ee860bc3a94be1ae96eaa05833713b79c6634b" resname="Mark as read">
         <source>Mark as read</source>
         <target>Als gelesen markieren</target>
-        <jms:reference-file line="53">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="65">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="186">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="77">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1cb449c1126609b4b41e1d87f65f0d7cd19b49b9" resname="Members">
         <source>Members</source>
         <target>Mitglieder</target>
         <jms:reference-file line="82">ForumBundle/Twig/BreadcrumbExtension.php</jms:reference-file>
-        <jms:reference-file line="8">views/Angular/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="7">views/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1702b4686278becffc88baabe6f4b7a8355532c" resname="Messages">
         <source>Messages</source>
         <target>Nachrichten</target>
-        <jms:reference-file line="176">MessageBundle/Controller/FrontendApiController.php</jms:reference-file>
-        <jms:reference-file line="25">Angular/Ucp/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="27">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="32">views/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="35">views/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="709a23220f2c3d64d1e1d6d18c4d5280f8d82fca" resname="Name">
-        <source>Name</source>
-        <target>Name</target>
-        <jms:reference-file line="55">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="78">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="5df188611239c8c1426aaf14bb8f3930e15eb87a" resname="Name of the Group">
-        <source>Name of the Group</source>
-        <target>Name der Gruppe</target>
-        <jms:reference-file line="31">Form/Type/Group.php</jms:reference-file>
+      <trans-unit id="1c3b20d39ec83dd2b62e5827adadc05132f62392" resname="New Message">
+        <source>New Message</source>
+        <target>Neue Nachricht</target>
+        <jms:reference-file line="7">views/Message/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc981983e7f547dc62e19a1e383acfe00782a6d5" resname="Next">
         <source>Next</source>
         <target>weiter</target>
         <jms:reference-file line="63">views/Pagination/pagination.html.twig</jms:reference-file>
-        <jms:reference-file line="67">views/Pagination/pagination.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="3671e23f1940b7b79f11eaed7ae8df5f3c34d222" resname="No Topics">
-        <source>No Topics</source>
-        <target>Keine Themen</target>
-        <jms:reference-file line="26">Angular/Forum/topicList.html.twig</jms:reference-file>
+        <jms:reference-file line="68">views/Pagination/pagination.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0d5511a43ac13a828613a13a7fb598d981ff435" resname="Notify me">
         <source>Notify me</source>
         <target>Benachrichtige mich bei einer Antwort</target>
-        <jms:reference-file line="73">Form/Type/PostType.php</jms:reference-file>
-        <jms:reference-file line="35">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="42">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="114">ForumBundle/Form/PostType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="6bf5da9c080bee3a8142586c412aa39971137eee" resname="Options">
         <source>Options</source>
         <target>Optionen</target>
-        <jms:reference-file line="25">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="32">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="36">views/Forum/topicEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="35">views/Forum/postEdit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8be3c943b1609fffbfc51aad666d0a04adf83c9d" resname="Password">
         <source>Password</source>
         <target>Passwort</target>
-        <jms:reference-file line="46">Form/Type/SecurityOption.php</jms:reference-file>
-        <jms:reference-file line="14">Angular/Ucp/security.html.twig</jms:reference-file>
+        <jms:reference-file line="45">Form/Type/SecurityOption.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0ca0c3198947ded7419101f3e83d48a9cb41f2a" resname="Posts">
         <source>Posts</source>
         <target>Beiträge</target>
-        <jms:reference-file line="20">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="149">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="20">Angular/User/profile.html.twig</jms:reference-file>
+        <jms:reference-file line="35">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="58">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="23">views/User/view.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="50f94286ba30706a19070d3ec0a0c8d34d6cf6eb" resname="Previous">
         <source>Previous</source>
@@ -214,114 +167,87 @@
       <trans-unit id="669fe25a324eff442416374f3aaba9bf9f2c78fb" resname="Profil">
         <source>Profil</source>
         <target>Profil</target>
-        <jms:reference-file line="11">Angular/Ucp/index.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="1b90271d66cf2d3ac755d49a550fe5f31b9eca5f" resname="Progress">
-        <source>Progress</source>
-        <target>Fortschritt</target>
-        <jms:reference-file line="57">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="80">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="12b92d8b85ed1d740bb7bd187661874be6dc595e" resname="Queue progress">
-        <source>Queue progress</source>
-        <target>Fortschritt der Liste</target>
-        <jms:reference-file line="105">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="128">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/Ucp/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="309028a9e01273ac7a88142bf26446f3f2a8f06c" resname="Quote">
         <source>Quote</source>
         <target>Zittieren</target>
-        <jms:reference-file line="28">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="39">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="48">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e39422d2f459423ed57d70f33d3dcd32ee31ff97" resname="Re">
         <source>Re</source>
         <target>Antwort</target>
-        <jms:reference-file line="39">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="54">views/Forum/topicEntry.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="653cb074bbcf56021d8507a27d4b749d72f9e0a1" resname="Re:">
+        <source>Re:</source>
+        <target>Re:</target>
+        <jms:reference-file line="293">ForumBundle/Controller/FrontendController.php</jms:reference-file>
+        <jms:reference-file line="381">ForumBundle/Controller/FrontendController.php</jms:reference-file>
+        <jms:reference-file line="411">ForumBundle/Controller/FrontendController.php</jms:reference-file>
+        <jms:reference-file line="93">MessageBundle/Controller/FrontendController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8434c52b54f0df88fc7f845d21a20f6a6d5ff880" resname="Receiver">
         <source>Receiver</source>
         <target>Empfänger</target>
-        <jms:reference-file line="79">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="32">views/Message/sentList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6fba0da1774ac060ad8547a3ab05500e9046956e" resname="Registration is currently closed.">
         <source>Registration is currently closed.</source>
         <target>Anmeldung ist derzeit geschlossen.</target>
         <jms:reference-file line="10">views/Registration/disabled.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="e963907dac5cd5c017869b4c96c18021c9bd058b" resname="Remove">
-        <source>Remove</source>
-        <target>Löschen</target>
-        <jms:reference-file line="96">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="119">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="4100ef4df528ba73c142af7f2de8568c48ee7744" resname="Remove all">
-        <source>Remove all</source>
-        <target>Alle löschen</target>
-        <jms:reference-file line="118">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="141">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="bab9bc458f38d4d574e5baa63c72341db6ddaa30" resname="Repeat Password">
         <source>Repeat Password</source>
         <target>Passwort wiederholen</target>
-        <jms:reference-file line="47">Form/Type/SecurityOption.php</jms:reference-file>
+        <jms:reference-file line="46">Form/Type/SecurityOption.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c8a103c73005ccd029f388a9b7336a994cad85ba" resname="Replies">
         <source>Replies</source>
         <target>Antworten</target>
-        <jms:reference-file line="7">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="7">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6c2bb735a46a8ff307fe2e638d581295b2a49e09" resname="Reply">
         <source>Reply</source>
         <target>Antwort</target>
-        <jms:reference-file line="12">Angular/Message/show.html.twig</jms:reference-file>
+        <jms:reference-file line="21">views/Message/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="efc007a393f66cdb14d57d385822a3d9e36ef873" resname="Save">
         <source>Save</source>
         <target>speichern</target>
-        <jms:reference-file line="126">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="149">Angular/Forum/topic.html.twig</jms:reference-file>
-        <jms:reference-file line="55">Angular/Ucp/index.html.twig</jms:reference-file>
-        <jms:reference-file line="26">Angular/Ucp/security.html.twig</jms:reference-file>
+        <jms:reference-file line="29">views/Message/show.html.twig</jms:reference-file>
+        <jms:reference-file line="16">views/Message/new.html.twig</jms:reference-file>
+        <jms:reference-file line="64">views/Forum/topicEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="62">views/Forum/postEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="32">views/Ucp/index.html.twig</jms:reference-file>
+        <jms:reference-file line="31">views/Ucp/security.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d4ad0e697c1cf08e9dfddbeb53418deea4270381" resname="Saved successful.">
+        <source>Saved successful.</source>
+        <target>Erfolgreich gespeichert.</target>
+        <jms:reference-file line="65">SystemBundle/Controller/AbstractController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f25ce1b8a399bd8621a57427a20039b4b13935db" resname="Security">
         <source>Security</source>
         <target>Sicherheit</target>
-        <jms:reference-file line="10">Angular/Ucp/security.html.twig</jms:reference-file>
+        <jms:reference-file line="13">views/Ucp/security.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="17b874d289117b1353bc5080960074585aed4227" resname="Sender">
         <source>Sender</source>
         <target>Absender</target>
-        <jms:reference-file line="36">Angular/Message/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="2f32be1dc74166373c988ec03b0bd86f0a576919" resname="Signature">
-        <source>Signature</source>
-        <target>Signatur</target>
-        <jms:reference-file line="47">Angular/Ucp/index.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="b7152342a267362add3c0d7f69f720f7a9c76c9e" resname="Size">
-        <source>Size</source>
-        <target>Dateigröße</target>
-        <jms:reference-file line="56">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="79">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="bae7d5be70820ed56467bd9a63744e23b47bd711" resname="Status">
-        <source>Status</source>
-        <target>Status</target>
-        <jms:reference-file line="58">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="81">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="32">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4613cdbe95e35a429d0cc20a1b06878be0d2c4ff" resname="Subforums">
         <source>Subforums</source>
         <target>Unterforen</target>
-        <jms:reference-file line="42">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="117">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="91">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="145">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8d183dbdcea3b29906090bd83fa6fa37923cc8ec" resname="Subject">
         <source>Subject</source>
         <target>Betreff</target>
-        <jms:reference-file line="37">Angular/Message/list.html.twig</jms:reference-file>
-        <jms:reference-file line="80">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/Message/sentList.html.twig</jms:reference-file>
+        <jms:reference-file line="33">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="eef5c6436bc9007a13cd83d00eb8560a41e406d6" resname="This Topic is locked">
         <source>This Topic is locked</source>
@@ -336,124 +262,112 @@
       <trans-unit id="12469e70152f4b4fd8a2bb57064e003786e1bf28" resname="This topic is closed.">
         <source>This topic is closed.</source>
         <target>Das Thema ist geschlossen</target>
-        <jms:reference-file line="17">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="24">views/Forum/topicView.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="950701e758d18a72134a6b8948c7cf42867c0eb9" resname="Titel">
         <source>Titel</source>
         <target>Titel</target>
-        <jms:reference-file line="73">Form/Type/TopicType.php</jms:reference-file>
+        <jms:reference-file line="105">ForumBundle/Form/PostType.php</jms:reference-file>
       </trans-unit>
-      <trans-unit id="768e0c1c69573fb588f61f1308a015c11468e05f" resname="Title">
-        <source>Title</source>
-        <target>Titel</target>
-        <jms:reference-file line="16">Angular/Forum/topic.html.twig</jms:reference-file>
+      <trans-unit id="7e13bd176f89a12f0b614b55ffc19c14515ef920" resname="Topic">
+        <source>Topic</source>
+        <target>Thema</target>
+        <jms:reference-file line="17">views/Ucp/notification.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1cfee518fbb209572db1fef9341396f4a0b0c203" resname="Topic Notifications">
+        <source>Topic Notifications</source>
+        <target>Thema Benachrichtigungen</target>
+        <jms:reference-file line="9">views/Ucp/notification.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="07e4f9c27860c8f452d481954e498a807cd27a98" resname="Topics">
         <source>Topics</source>
         <target>Themen</target>
-        <jms:reference-file line="6">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="20">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="149">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="24">Angular/User/profile.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="8bdf057f91e76ae328b2a21d35f682daa08a0ec0" resname="Upload">
-        <source>Upload</source>
-        <target>Hochladen</target>
-        <jms:reference-file line="90">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="113">Angular/Forum/topic.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="78bad55ecae0deeeafee55b14d8bc3ee4ce55d17" resname="Upload all">
-        <source>Upload all</source>
-        <target>Alle hochladen</target>
-        <jms:reference-file line="112">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="135">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="35">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="58">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="6">views/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="27">views/User/view.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="84c29015de33e5d22422382a372caba5c58f8c01" resname="Username">
         <source>Username</source>
         <target>Benutzername</target>
-        <jms:reference-file line="13">views/Angular/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/User/list.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="c24e0cbf523e951628e3daed3a5524a2901da8f1" resname="You are not currently logged.">
-        <source>You are not currently logged.</source>
-        <target>Du bist derzeit nicht angemeldet!</target>
-        <jms:reference-file line="70">views/Acp/layout.html.twig</jms:reference-file>
+      <trans-unit id="83a0eacba5cb933d076cb89b3ba5aca5d06ad0ab" resname="Warning this is not the last page! Are you sure now to post a reply?">
+        <source>Warning this is not the last page! Are you sure now to post a reply?</source>
+        <target>Achtung, dies ist nicht die letzte Seite! Bist du dir sicher jetzt schon eine Antwort zu verfassen?</target>
+        <jms:reference-file line="55">views/Forum/topicView.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb16b122c52beb1832dd3199ca6773e6e8db3cd0" resname="You ignore the forum">
         <source>You ignore the forum</source>
         <target>Du ignorierst das Forum</target>
-        <jms:reference-file line="68">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="192">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d7a87ff595127df83dc68ca6b4396db1e7fa71c0" resname="You watch the forum">
         <source>You watch the forum</source>
         <target>Du beobachtest das Forum</target>
-        <jms:reference-file line="71">views/Angular/forumList.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="81a47dc3b08355fce5b4aefd903a895848d4742e" resname="You will be redirected...">
-        <source>You will be redirected...</source>
-        <target>Du wirst in kürze weitergeleitet...</target>
-        <jms:reference-file line="7">Site/Navigation/redirectToList.html.twig</jms:reference-file>
+        <jms:reference-file line="199">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="25dc282b5a3dcba62a9a777a856c65dd8a4ae8c4" resname="answer">
         <source>answer</source>
         <target>Antworten</target>
-        <jms:reference-file line="26">Angular/Message/show.html.twig</jms:reference-file>
-        <jms:reference-file line="50">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="71">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="61bb8d29b5be7db307cb29005bff087ebe300454" resname="back">
-        <source>back</source>
-        <target>zurück</target>
-        <jms:reference-file line="27">Angular/Message/show.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="be559265b406b3af739f3532db561e8b2feb38b2" resname="by %user% on %date% at %time%">
-        <source>by %user% on %date% at %time%</source>
-        <target>von %user% am %date% um %time%</target>
-        <jms:reference-file line="7">Angular/Message/show.html.twig</jms:reference-file>
+      <trans-unit id="6ae6ab6467da86a18f166fbf2a5456d57028faba" resname="by %user% on %date% at %time%&#10;    ">
+        <source>by %user% on %date% at %time%
+    </source>
+        <target>von %user% am %date% um %time%
+    </target>
+        <jms:reference-file line="7">views/Message/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="75261cd0ff4da0845a054f0702d4c12b30ca0e42" resname="close Topic">
         <source>close Topic</source>
         <target>Thema schließen</target>
-        <jms:reference-file line="58">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="89">views/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="95">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="af0e5e11b37186ddf11095e44708ea53424b0b83" resname="close topic">
         <source>close topic</source>
         <target>Thema schließen</target>
-        <jms:reference-file line="75">Form/Type/TopicType.php</jms:reference-file>
-        <jms:reference-file line="49">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="99">ForumBundle/Form/TopicType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="d9c174bf977c74a221a34b63d34d91d7a2cc5d85" resname="delete Topic">
         <source>delete Topic</source>
         <target>Theme löschen</target>
-        <jms:reference-file line="61">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="104">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7d7dd0edce203aaa59bde03f0decad460fed9b12" resname="edit by %user% on %date% at %time%">
         <source>edit by %user% on %date% at %time%</source>
-        <target>editert von %user% am %date% um %time%</target>
-        <jms:reference-file line="51">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="62">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <target>bearbeitet von %user% am %date% um %time%</target>
+        <jms:reference-file line="95">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3aa00e72200f35da9aaea9193791eb48b250a6cc" resname="edit reason">
         <source>edit reason</source>
         <target>Bearbeitungsgrund</target>
-        <jms:reference-file line="42">Angular/Forum/post.html.twig</jms:reference-file>
-        <jms:reference-file line="65">Angular/Forum/topic.html.twig</jms:reference-file>
+        <jms:reference-file line="50">views/Forum/topicEdit.html.twig</jms:reference-file>
+        <jms:reference-file line="47">views/Forum/postEdit.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="01f68d2cad065b3af55f1faf7f52cc5737bca7f3" resname="edited %count% times (click for details)">
+        <source>edited %count% times (click for details)</source>
+        <target>%count% mal bearbeitet (klick für mehr infos)</target>
+        <jms:reference-file line="88">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d1639b40b1ef69e94d2e806029b0e5daf56e1234" resname="from %user%">
         <source>from %user%</source>
         <target>von %user%</target>
-        <jms:reference-file line="30">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="40">Angular/Forum/topicEntry.html.twig</jms:reference-file>
-        <jms:reference-file line="55">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="169">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="45">views/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="58">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e396717f13a125e1431630701ee5ecad53129408" resname="from %user% on %date% at %time%">
         <source>from %user% on %date% at %time%</source>
         <target>von %user% am %date% um %time%</target>
-        <jms:reference-file line="132">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="117">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e83249bd3ba79932e16fb1fb5100dafade9954c2" resname="home">
         <source>home</source>
         <target>Startseite</target>
-        <jms:reference-file line="7">Angular/Ucp/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="9">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="7">views/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="9">views/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a87e204501ad92c7b3b065acdd52828df8228d88" resname="http://deine-avatar.url">
         <source>http://deine-avatar.url</source>
@@ -463,119 +377,123 @@
       <trans-unit id="1156ad220463863384a21274551e8549c0fc6d87" resname="letzer Login">
         <source>letzer Login</source>
         <target>letzer Login</target>
-        <jms:reference-file line="16">views/Angular/userlist.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="6f9b9af3cd6e8b8a73c2cdced37fe9f59226e27d" resname="message">
-        <source>message</source>
-        <target>Nachricht</target>
-        <jms:reference-file line="18">Angular/Message/show.html.twig</jms:reference-file>
-        <jms:reference-file line="17">Angular/Message/new.html.twig</jms:reference-file>
+        <jms:reference-file line="15">views/User/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="379d6ce99a8a95a7096ab579d454784c82a994d8" resname="move">
         <source>move</source>
         <target>verschieben</target>
-        <jms:reference-file line="23">Angular/Forum/moveTopic.html.twig</jms:reference-file>
+        <jms:reference-file line="29">views/Forum/moveTopic.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1b978e02e1b8903a80df94ca6b01ad11c5e487af" resname="move topic">
         <source>move topic</source>
         <target>Thema verschieben</target>
-        <jms:reference-file line="10">Angular/Forum/moveTopic.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/Forum/moveTopic.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c2a6b03f190dfb2b4aa91f8af8d477a9bc3401dc" resname="new">
         <source>new</source>
         <target>Neu</target>
-        <jms:reference-file line="46">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="47">views/Message/receivedList.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="843c0de01ef635d4663e85d7123272e00a9785ba" resname="new Answer">
+        <source>new Answer</source>
+        <target>neue Antwort</target>
+        <jms:reference-file line="10">views/Forum/topicView.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/Forum/topicView.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="868ef8d2eb235c522b8ee02ae135ba1eb48404a1" resname="new Message">
         <source>new Message</source>
         <target>neue Nachricht</target>
-        <jms:reference-file line="10">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/Message/sentList.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d0f3eed5953c45e403bc958e7d4fa475f19a05fe" resname="new Topic">
         <source>new Topic</source>
         <target>neues Thema</target>
-        <jms:reference-file line="8">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="9">views/Angular/forumList.html.twig</jms:reference-file>
-        <jms:reference-file line="62">views/Angular/forumList.html.twig</jms:reference-file>
+        <jms:reference-file line="10">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/Forum/index.html.twig</jms:reference-file>
+        <jms:reference-file line="179">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="aceb01f2475e7731bc2c759d99ab5469cf038529" resname="no topics">
         <source>no topics</source>
         <target>keine Themen</target>
-        <jms:reference-file line="65">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="71">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="18">views/Forum/search.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/Forum/topicEntry.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1b60d2ed7158736cbc1353d72a6dc44a6772147f" resname="notifications">
+        <source>notifications</source>
+        <target>Benachrichtigungen</target>
+        <jms:reference-file line="27">views/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8489d7e85f7913db0a5004fe063bd089a6ed5028" resname="on %date% at %time%">
         <source>on %date% at %time%</source>
         <target>am %date% um %time%</target>
-        <jms:reference-file line="21">Angular/Forum/topicList.html.twig</jms:reference-file>
-        <jms:reference-file line="42">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="53">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="77">views/Forum/macros.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ede1809f37c496e55f717c5a1ec8924440b6d5e6" resname="or write a quick answer">
+        <source>or write a quick answer</source>
+        <target>oder verfasse eine Schnellantwort</target>
+        <jms:reference-file line="53">views/Forum/topicView.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="87e38948d5e85c16362140ded9b90d9171b5fa1b" resname="posts">
         <source>posts</source>
         <target>Beiträge</target>
-        <jms:reference-file line="20">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="32">Angular/Forum/topicShow.html.twig</jms:reference-file>
+        <jms:reference-file line="39">views/Forum/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5d45a009b0383b5b3064b9820c18530333c910f9" resname="profile">
         <source>profile</source>
         <target>Profil</target>
-        <jms:reference-file line="13">Angular/Ucp/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="15">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="13">views/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="15">views/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a7afddb68260a60f86c02a021efba7f216c2e7cf" resname="read">
         <source>read</source>
         <target>lesen</target>
-        <jms:reference-file line="47">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="66">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="11fae224a1fdf51ce8c21d68e749b28a0b4b390c" resname="received Messages">
         <source>received Messages</source>
         <target>empfangene Nachrichten</target>
-        <jms:reference-file line="19">Angular/Message/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="3a7b86669af96d5e0286821132865835171a624a" resname="receivers">
-        <source>receivers</source>
-        <target>Empfänger</target>
-        <jms:reference-file line="9">Angular/Message/new.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="36a26fbd99d8368411818575cc40d47e879c300c" resname="repeat Password">
-        <source>repeat Password</source>
-        <target>Passwort wiederholen</target>
-        <jms:reference-file line="20">Angular/Ucp/security.html.twig</jms:reference-file>
+        <jms:reference-file line="11">views/Message/sentList.html.twig</jms:reference-file>
+        <jms:reference-file line="24">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13a4a11319d31c1b323d5774f44240a9ffc984d0" resname="save">
         <source>save</source>
         <target>speichern</target>
-        <jms:reference-file line="22">Angular/Message/new.html.twig</jms:reference-file>
+        <jms:reference-file line="62">views/Forum/topicView.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8eec7bc461808e0b8a28783d0bec1a3a22eb0821" resname="security">
         <source>security</source>
         <target>Sicherheit</target>
-        <jms:reference-file line="19">Angular/Ucp/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="21">Angular/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="19">views/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="21">views/Ucp/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="25">views/Ucp/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="63f638ffb46305026944dee6afa7b8a945272eff" resname="sent Messages">
         <source>sent Messages</source>
         <target>gesendete Nachrichten</target>
-        <jms:reference-file line="62">Angular/Message/list.html.twig</jms:reference-file>
+        <jms:reference-file line="24">views/Message/sentList.html.twig</jms:reference-file>
+        <jms:reference-file line="11">views/Message/receivedList.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="335ce16b3fe40346cc3af2a4efce2ef04bc4ea55" resname="subject">
-        <source>subject</source>
-        <target>Betreff</target>
-        <jms:reference-file line="14">Angular/Message/show.html.twig</jms:reference-file>
-        <jms:reference-file line="13">Angular/Message/new.html.twig</jms:reference-file>
+      <trans-unit id="1b9aebd6c04d25979fd542b8fac744ac3abc3972" resname="unread">
+        <source>unread</source>
+        <target>ungelesen</target>
+        <jms:reference-file line="50">views/Message/sentList.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="fa64642003487da379238275904d5b1add52aba4" resname="unsubscribe">
+        <source>unsubscribe</source>
+        <target>austragen</target>
+        <jms:reference-file line="28">views/Ucp/notification.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="595b3b2e30abdbbeb9e997f1bf2d7eebb4b41125" resname="written on %date% at %time%">
         <source>written on %date% at %time%</source>
-        <target>%date% at %time%</target>
-        <jms:reference-file line="56">views/Angular/forumList.html.twig</jms:reference-file>
+        <target>geschrieben am %date% um %time%</target>
+        <jms:reference-file line="170">views/Forum/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="06aaa601f0989272ff0be58c2e516c4329320d27" resname="you really want to delete the entry?">
         <source>you really want to delete the entry?</source>
         <target>möchtest du den Eintrag wirklich löschen?</target>
-        <jms:reference-file line="31">Angular/Forum/search.html.twig</jms:reference-file>
-        <jms:reference-file line="42">Angular/Forum/topicShow.html.twig</jms:reference-file>
-        <jms:reference-file line="61">Angular/Forum/topicEntry.html.twig</jms:reference-file>
+        <jms:reference-file line="64">views/Forum/macros.html.twig</jms:reference-file>
+        <jms:reference-file line="103">views/Forum/topicEntry.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>

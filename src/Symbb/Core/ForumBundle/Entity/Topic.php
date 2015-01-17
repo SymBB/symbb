@@ -62,13 +62,13 @@ class Topic
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Forum", inversedBy="topics")
-     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="forum_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
      */
     private $forum;
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="topics")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION", nullable=false)
      */
     private $author;
 
@@ -86,7 +86,7 @@ class Topic
 
     public function getId()
     {
-        return (int) $this->id;
+        return (int)$this->id;
 
     }
 
@@ -103,7 +103,7 @@ class Topic
     }
 
     /**
-     * 
+     *
      * @return Forum
      */
     public function getForum()
@@ -165,7 +165,7 @@ class Topic
         return $this->mainPost;
 
     }
-  
+
     /**
      * @ORM\PrePersist
      */
@@ -251,11 +251,13 @@ class Topic
         return $this->tags;
     }
 
-    public function addTag(Tag $tag){
+    public function addTag(Tag $tag)
+    {
         $this->tags->add($tag);
     }
 
-    public function removeTags(){
+    public function removeTags()
+    {
         $this->tags->clear();
     }
 

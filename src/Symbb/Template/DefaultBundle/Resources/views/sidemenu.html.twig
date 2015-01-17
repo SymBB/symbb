@@ -1,74 +1,74 @@
 {% extends 'knp_menu.html.twig' %}
 
 {% block item %}
-{% if item.displayed %}
-{# building the class of the item #}
-    {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
-    {%- set classes = classes|merge(['list-group-item']) %}
-    {%- if matcher.isCurrent(item) %}
-        {%- set classes = classes|merge(['active']) %}
-    {%- elseif matcher.isAncestor(item, options.depth) %}
-        {%- set classes = classes|merge([options.ancestorClass]) %}
-    {%- endif %}
-    {%- if item.actsLikeFirst %}
-        {%- set classes = classes|merge([options.firstClass]) %}
-    {%- endif %}
-    {%- if item.actsLikeLast %}
-        {%- set classes = classes|merge([options.lastClass]) %}
-    {%- endif %}
-    {%- set attributes = item.attributes %}
-    {%- if classes is not empty %}
-        {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
-    {%- endif %}
-{# displaying the item #}
-    {% import _self as knp_menu %}
+    {% if item.displayed %}
+        {# building the class of the item #}
+        {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
+        {%- set classes = classes|merge(['list-group-item']) %}
+        {%- if matcher.isCurrent(item) %}
+            {%- set classes = classes|merge(['active']) %}
+        {%- elseif matcher.isAncestor(item, options.depth) %}
+            {%- set classes = classes|merge([options.ancestorClass]) %}
+        {%- endif %}
+        {%- if item.actsLikeFirst %}
+            {%- set classes = classes|merge([options.firstClass]) %}
+        {%- endif %}
+        {%- if item.actsLikeLast %}
+            {%- set classes = classes|merge([options.lastClass]) %}
+        {%- endif %}
+        {%- set attributes = item.attributes %}
+        {%- if classes is not empty %}
+            {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+        {%- endif %}
+        {# displaying the item #}
+        {% import _self as knp_menu %}
 
         {%- if item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
-        {{ block('linkElement') }}
+            {{ block('linkElement') }}
         {%- else %}
-        {{ block('spanElement') }}
+            {{ block('spanElement') }}
         {%- endif %}
-{# render the list of children#}
+        {# render the list of children#}
         {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
         {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
         {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
         {{ block('list') }}
 
-{% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block linkElement %}
-{% import _self as knp_menu %}
+    {% import _self as knp_menu %}
 
-{%- set classes = [] %}
-{%- set classes = classes|merge(['list-group-item']) %}
-{%- set attributes = item.linkAttributes %}
-{%- if matcher.isCurrent(item) %}
-    {%- set classes = classes|merge(['active']) %}
-{%- elseif matcher.isAncestor(item, options.depth) %}
-    {%- set classes = classes|merge([options.ancestorClass]) %}
-{%- endif %}
-{%- if classes is not empty %}
-    {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
-{%- endif %}
-<a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }} target="_self">{{ block('label') }}</a>{% endblock %}
+    {%- set classes = [] %}
+    {%- set classes = classes|merge(['list-group-item']) %}
+    {%- set attributes = item.linkAttributes %}
+    {%- if matcher.isCurrent(item) %}
+        {%- set classes = classes|merge(['active']) %}
+    {%- elseif matcher.isAncestor(item, options.depth) %}
+        {%- set classes = classes|merge([options.ancestorClass]) %}
+    {%- endif %}
+    {%- if classes is not empty %}
+        {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+    {%- endif %}
+    <a href="{{ item.uri }}"{{ knp_menu.attributes(attributes) }} target="_self">{{ block('label') }}</a>{% endblock %}
 
 
 {% macro attributes(attributes) %}
-{% for name, value in attributes %}
-    {%- if value is not none and value is not sameas(false) -%}
-        {{- ' %s="%s"'|format(name, value is sameas(true) ? name|e : value|e)|raw -}}
-    {%- endif -%}
-{%- endfor -%}
+    {% for name, value in attributes %}
+        {%- if value is not none and value is not sameas(false) -%}
+            {{- ' %s="%s"'|format(name, value is sameas(true) ? name|e : value|e)|raw -}}
+        {%- endif -%}
+    {%- endfor -%}
 {% endmacro %}
 
 {% block list %}
-{% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
-    {% import _self as knp_menu %}
-    <div class="list-group">
-        {{ block('children') }}
-    </div>
-{% endif %}
+    {% if item.hasChildren and options.depth is not sameas(0) and item.displayChildren %}
+        {% import _self as knp_menu %}
+        <div class="list-group">
+            {{ block('children') }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block label %}{{ item.label|trans(item.getExtra('translation_params', {}), item.getExtra('translation_domain', 'symbb_backend')) }}{% endblock %}

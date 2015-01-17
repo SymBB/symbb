@@ -1,0 +1,38 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+{% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+
+{% block symbb_flash_messages %}
+{% endblock %}
+
+{% block section_content_ucp %}
+    {{ form_start(form) }}
+    <fieldset>
+        <div id="legend">
+            <legend class="">{{ 'Security'|trans }}
+            </legend>
+        </div>
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-danger">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        {{ form_row(form.plainPassword) }}
+        {{ form_errors(form.plainPassword) }}
+        {{ form_rest(form) }}
+        <div class="pull-right btn-group">
+            <a class="btn btn-success" type="submit"
+               onclick="$('form').get(0).submit()">{{ 'Save'|trans }}</a>
+            <a class="btn btn-danger"
+               href="{{ path("symbb_user_ucp") }}">{{ 'Abort'|trans }}</a>
+        </div>
+        <div class="clear"></div>
+    </fieldset>
+    {{ form_end(form) }}
+{% endblock %}

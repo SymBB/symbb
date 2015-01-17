@@ -32,7 +32,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'main');
         $items = array();
-        if(is_object($navi)){
+        if (is_object($navi)) {
             $items = $navi->getItems();
         }
         $this->addChildren($menu, $items, $siteManager, $router);
@@ -45,7 +45,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
         $navi = $siteManager->getNavigation(null, 'footer');
         $items = array();
-        if(is_object($navi)){
+        if (is_object($navi)) {
             $items = $navi->getItems();
         }
         $this->addChildren($menu, $items, $siteManager, $router);
@@ -53,38 +53,37 @@ class MenuBuilder
         return $menu;
     }
 
-    protected function addChildren($menu, $children, SiteManager $siteManager, $router){
-        foreach($children as $child){
-            if($child->getType() == 'symfony'){
+    protected function addChildren($menu, $children, SiteManager $siteManager, $router)
+    {
+        foreach ($children as $child) {
+            if ($child->getType() == 'symfony') {
                 try {
                     // generate directly to check if route realy exist
                     $uri = $router->generate($child->getSymfonyRoute(), $child->getSymfonyRouteParams());
                     //$childMenu = $menu->addChild($child->getTitle(), array('route' => $child->getSymfonyRoute(), 'routeParameters' => $child->getSymfonyRouteParams()));
                     $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
-                    // because not every page is a angular js page
-                    $childMenu->setLinkAttributes(array('target' => '_self'));
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
 
                 }
             } else {
                 $uri = $child->getFixUrl();
                 $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
-                if(strpos($uri, "www.") !== false || strpos($uri, "http") === 0){
+                if (strpos($uri, "www.") !== false || strpos($uri, "http") === 0) {
                     $domains = $siteManager->getSite()->getDomainArray();
                     $found = false;
-                    foreach($domains as $domain){
+                    foreach ($domains as $domain) {
                         $domain = str_replace(array('https://', 'http://', 'www.'), '', $domain);
-                        if(!empty($uri) && !empty($domain) && strpos($uri, $domain) !== false){
+                        if (!empty($uri) && !empty($domain) && strpos($uri, $domain) !== false) {
                             $found = true;
                             break;
                         }
                     }
-                    if(!$found){
+                    if (!$found) {
                         $childMenu->setLinkAttributes(array('target' => '_blank'));
                     }
                 }
             }
-            if(isset($childMenu) && isset($child) && $child->hasChildren()){
+            if (isset($childMenu) && isset($child) && $child->hasChildren()) {
                 $this->addChildren($childMenu, $child->getChildren(), $siteManager, $router);
             }
         }

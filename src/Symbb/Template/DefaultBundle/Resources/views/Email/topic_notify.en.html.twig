@@ -1,2 +1,11 @@
-It was written a new answer to "{{ topic.getName() }}". <br/>
-Click <a href="{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId(), 'page': 'last'}) }}">here</a> to read the complete article.
+Hello {{ user.getUsername }}.<br/>
+<br/>
+It was a response to the article "{{topic.getName ()}}" written. <br/>
+Click <a href="{{ path('symbb_forum_topic_show', {'name': topic.getSeoName(), 'id': topic.getId(), 'page': 'last'}) }}"> here </a> to read the complete article.
+<br/>
+<hr>
+<i style = "font-size: 80%">
+    You are receiving this message because you are registered with {{site.getName ()}}. <br/>
+    To stop receiving further messages? <br/>
+    You can change this setting in your <a href="{{ url("symbb_user_ucp_notifications") }}">profile</a>, at any time.
+</i>

@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Core\InstallBundle\Composer;
 
@@ -14,11 +14,11 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Composer\Script\CommandEvent;
 
 /**
- * 
+ *
  */
 class ScriptHandler
 {
- 
+
     public static function composerInstall(CommandEvent $event)
     {
 
@@ -36,13 +36,13 @@ class ScriptHandler
 
         static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'doctrine:fixtures:load --em=symbb --env=dev', $options['process-timeout']);
-        
+
         static::executeCommand($event, $appDir, 'cache:clear --env=prod', $options['process-timeout']);
         static::executeCommand($event, $appDir, 'cache:clear --env=dev', $options['process-timeout']);
-        
+
         static::executeCommand($event, $appDir, 'assetic:dump --env=prod', $options['process-timeout']);
     }
-    
+
     public static function composerUpdate(CommandEvent $event)
     {
         $options = self::getOptions($event);
@@ -62,13 +62,15 @@ class ScriptHandler
     protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
-        $console = escapeshellarg($appDir.'/console');
+        $console = escapeshellarg($appDir . '/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
+        $process = new Process($php . ' ' . $console . ' ' . $cmd, null, null, null, $timeout);
+        $process->run(function ($type, $buffer) use ($event) {
+                $event->getIO()->write($buffer, false);
+            });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }

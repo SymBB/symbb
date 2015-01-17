@@ -1,21 +1,20 @@
 <!-- Symbb Core BBCode -->
 {% javascripts  filter='?uglifyjs2'
-    '@SymbbCoreBBCodeBundle/Resources/public/js/bbeditor.js'
-    '@SymbbCoreBBCodeBundle/Resources/public/js/colpick/colpick.js'
-    '@SymbbCoreBBCodeBundle/Resources/public/js/prettify/prettify.js'
-    '@SymbbCoreBBCodeBundle/Resources/public/js/angular/*.js'
- %}
+'@SymbbCoreBBCodeBundle/Resources/public/js/bbeditor.js'
+'@SymbbCoreBBCodeBundle/Resources/public/js/colpick/colpick.js'
+'@SymbbCoreBBCodeBundle/Resources/public/js/prettify/prettify.js'
+'@SymbbCoreBBCodeBundle/Resources/public/js/angular/*.js' %}
 <script src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% spaceless %}
-<script>
-{% for setId, codes in getSymbbBBCodeDataForJs() %}
-{% for key, code in codes %}
-{% spaceless %}
-BBCodeEditor.addBBCode('{{setId}}', {{code |raw}});
-{% endspaceless %}
-{% endfor %}
-{% endfor %} 
-</script>
+    <script>
+        {% for setId, codes in getSymbbBBCodeDataForJs() %}
+        {% for key, code in codes %}
+        {% spaceless %}
+        BBCodeEditor.addBBCode('{{setId}}', {{code |raw}});
+        {% endspaceless %}
+        {% endfor %}
+        {% endfor %}
+    </script>
 {% endspaceless %}
 <!-- /Symbb Core BBCode -->

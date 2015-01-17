@@ -3,19 +3,18 @@
 <html lang="{{ app.request.locale }}" ng-app="app">
 <head>
     <title>{% block title %}{{ 'Administration'|trans }}{% endblock %}</title>
-    <meta http-equiv="Content-Language" content="{{ app.request.locale }}" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="{{ app.request.locale }}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     {% block stylesheets %}
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"/>
         {% stylesheets filter='?uglifycss'
         '@SymbbTemplateDefaultBundle/Resources/public/css/angular/loading-bar.css'
         '@SymbbTemplateDefaultBundle/Resources/public/css/angular/angular-multi-select.css'
         '@SymbbTemplateDefaultBundle/Resources/public/css/angular/angular-ui-tree.min.css'
-        '@SymbbTemplateDefaultBundle/Resources/public/css/acp/angularTheme.css'
-        %}
-        <link rel="stylesheet" href="{{ asset_url }}" />
+        '@SymbbTemplateDefaultBundle/Resources/public/css/acp/angularTheme.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
         {{ executeSymbbEvent('template.acp.stylesheets') }}
     {% endblock %}
@@ -47,11 +46,10 @@
         '@SymbbTemplateDefaultBundle/Resources/public/js/flot/jquery.flot.js'
         '@SymbbTemplateDefaultBundle/Resources/public/js/flot/jquery.flot.time.js'
         '@FOSJsRoutingBundle/Resources/public/js/router.js'
-        'js/fos_js_routes.js'
-        %}
+        'js/fos_js_routes.js' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        <script src="{{asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
+        <script src="{{ asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js') }}"></script>
         <script>
             // init user data for frontend
             var symbbUser = {
@@ -67,61 +65,66 @@
     <base href="/">
 </head>
 <body>
-    <div class="app-header-fixed">
-        <div class="app-header navbar ">
-            <div class="navbar-header bg-info">
-                <!-- brand -->
-                <a href="{{ path('symbb_forum_index') }}" target="_self" class="navbar-brand text-lt">
-                    <span class="hidden-folded m-l-xs ng-binding">Symbb</span>
-                </a>
-                <!-- / brand -->
-            </div>
-            <div class="collapse navbar-collapse box-shadow bg-white-only">
-                <!-- nabar right -->
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown hidden-sm" is-open="lang.isopen">
-                        <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {% if app.getRequest().getLocale() != 'de' %} {{ 'English'|trans }} {% else %} {{ 'German'|trans }} {% endif %} <b class="caret"></b>
-                        </a>
-                        <!-- dropdown -->
-                        <ul class="dropdown-menu animated fadeInRight w">
-                            <li class="ng-scope">
-                                <a href="{{ path('_symbb_acp', {_locale: 'de'}) }}" target="_self" class="ng-binding">{{ 'German'|trans }}</a>
-                            </li>
-                            <li class="ng-scope">
-                                <a href="{{ path('_symbb_acp', {_locale: 'en'}) }}" target="_self" class="ng-binding">{{ 'English'|trans }}</a>
-                            </li>
-                        </ul>
-                        <!-- / dropdown -->
-                    </li>
-                    <li class="dropdown">
-                        <a href="" class="dropdown-toggle clear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="hidden-sm hidden-md">{{ app.user.getUsername() }}</span>
-                        </a>
-                    </li>
-                </ul>
-                <!-- / navbar right -->
-            </div>
+<div class="app-header-fixed">
+    <div class="app-header navbar ">
+        <div class="navbar-header bg-info">
+            <!-- brand -->
+            <a href="{{ path('symbb_forum_index') }}" target="_self" class="navbar-brand text-lt">
+                <span class="hidden-folded m-l-xs ng-binding">Symbb</span>
+            </a>
+            <!-- / brand -->
+        </div>
+        <div class="collapse navbar-collapse box-shadow bg-white-only">
+            <!-- nabar right -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown hidden-sm" is-open="lang.isopen">
+                    <a href="" class="dropdown-toggle ng-binding" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        {% if app.getRequest().getLocale() != 'de' %} {{ 'English'|trans }} {% else %} {{ 'German'|trans }} {% endif %}
+                        <b class="caret"></b>
+                    </a>
+                    <!-- dropdown -->
+                    <ul class="dropdown-menu animated fadeInRight w">
+                        <li class="ng-scope">
+                            <a href="{{ path('_symbb_acp', {_locale: 'de'}) }}" target="_self"
+                               class="ng-binding">{{ 'German'|trans }}</a>
+                        </li>
+                        <li class="ng-scope">
+                            <a href="{{ path('_symbb_acp', {_locale: 'en'}) }}" target="_self"
+                               class="ng-binding">{{ 'English'|trans }}</a>
+                        </li>
+                    </ul>
+                    <!-- / dropdown -->
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle clear" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span class="hidden-sm hidden-md">{{ app.user.getUsername() }}</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- / navbar right -->
         </div>
     </div>
-    <div class="clear-fix"></div>
-    <div class="app-aside hidden-xs bg-black">
-        <nav class="navi">
-            {% include getSymbbTemplate('acp') ~ ':AcpAngular:navi.html.twig' %}
-        </nav>
-    </div>
-    <div class="app-content">
-        <div class="app-content-boy">
-            <div class="hbox">
-                <div class="col">
-                    <div ng-view  show-default="true">
-                        {% block body %}
-                        {% endblock %}
-                    </div>
-                    <div class="symbb_flash_messages" id="symbbMessages"></div>
+</div>
+<div class="clear-fix"></div>
+<div class="app-aside hidden-xs bg-black">
+    <nav class="navi">
+        {% include getSymbbTemplate('acp') ~ ':AcpAngular:navi.html.twig' %}
+    </nav>
+</div>
+<div class="app-content">
+    <div class="app-content-boy">
+        <div class="hbox">
+            <div class="col">
+                <div ng-view show-default="true">
+                    {% block body %}
+                    {% endblock %}
                 </div>
+                <div class="symbb_flash_messages" id="symbbMessages"></div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

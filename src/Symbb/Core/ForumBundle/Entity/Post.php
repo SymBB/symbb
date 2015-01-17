@@ -53,13 +53,13 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="Topic", inversedBy="posts")
-     * @ORM\JoinColumn(name="topic_id", referencedColumnName="id", onDelete="cascade")
+     * @ORM\JoinColumn(name="topic_id", referencedColumnName="id", onDelete="cascade", nullable=false)
      */
     private $topic;
 
     /**
      * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="posts")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION", nullable=false)
      */
     private $author;
 
@@ -74,8 +74,7 @@ class Post
      * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Post\History", orphanRemoval=true, mappedBy="post", cascade={"persist"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"changed" = "DESC"})
      */
-    private $histories;
-
+    private $history;
 
 
     public function __construct()
@@ -83,6 +82,7 @@ class Post
         $this->likes = new ArrayCollection();
         $this->dislikes = new ArrayCollection();
         $this->files = new ArrayCollection();
+        $this->history = new ArrayCollection();
     }
 
     public function getId()
@@ -139,7 +139,7 @@ class Post
     }
 
     /**
-     * 
+     *
      * @return Topic
      */
     public function getTopic()
@@ -207,19 +207,24 @@ class Post
     }
 
     /**
-     * @param History[] $histories
+     * @param History[] $history
      */
-    public function setHistories($histories)
+    public function setHistory($history)
     {
-        $this->histories = $histories;
+        $this->history = $history;
     }
 
     /**
      * @return History[]
      */
-    public function getHistories()
+    public function getHistory()
     {
-        return $this->histories;
+        return $this->history;
+    }
+
+    public function addHistory($history)
+    {
+        $this->history->add($history);
     }
 
 

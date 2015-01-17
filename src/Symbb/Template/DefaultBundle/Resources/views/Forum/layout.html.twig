@@ -2,82 +2,83 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- Latest compiled and minified CSS -->
     {% stylesheets filter='?uglifycss'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/search.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/font-awesome.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_editor.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_content.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/froala_style.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/froala_editor/themes/gray.css'
     '@SymbbTemplateDefaultBundle/Resources/public/css/forum.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/select2.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/select2-bootstrap.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/magnific-popup.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/form.css'
-    '@SymbbTemplateDefaultBundle/Resources/public/css/angular/*.css'
-    %}
-    <link rel="stylesheet" href="{{ asset_url }}" />
+    '@SymbbTemplateDefaultBundle/Resources/public/css/chosen/chosen.css'
+    '@SymbbTemplateDefaultBundle/Resources/public/css/topic.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-    {{ executeSymbbEvent('template.angular.stylesheets') }}
+    {{ executeSymbbEvent('template.forum.stylesheets') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     {% javascripts filter='?uglifyjs2'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-mocks.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-animate.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-cookies.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-routing.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-sanitize.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-file-upload.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/angular-tumb.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/datetimepicker.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/loading-bar.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angular/ng-infinite-scroll.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/0_module.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/1_app.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angularHelper.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/angularDirectives.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/3_directives.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/frontend/2_controllers.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/moment/moment.js'
-    '@FOSJsRoutingBundle/Resources/public/js/router.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/select2.js'
-    '@SymbbTemplateDefaultBundle/Resources/public/js/tabs.js'
-    'js/fos_js_routes.js'
-    %}
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/froala_editor.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/colors.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/char_counter.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/file_upload.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/font_size.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/lists.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/tables.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/plugins/video.min.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_us.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/en_gb.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/froala_editor/langs/de.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/chosen/chosen.jquery.js'
+    '@SymbbTemplateDefaultBundle/Resources/public/js/forumUtils.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <script src="{{asset('/bundles/symbbtemplatedefault/js/moment/i18n/' ~ app.request.locale ~ '.js')}}"></script>
-    <script>
-        // init user data for frontend
-        var symbbUser = {
-            id: {{app.user.id}},
-            avatar: '{{getSymbbUserAvatar(app.user)}}',
-            lang: '{{ app.request.locale }}'
-        };
-        moment.lang(symbbUser.lang);
-        angularConfig.angularRoutes = {{ getAngularRouter().createAngularRouteJson() | raw}};
-    </script>
     {{ executeSymbbEvent('template.forum.javascripts') }}
-    <base href="/">
+    <script>
+        jQuery(document).ready(function () {
+            symbbForum.initEditor("{{ path("symbb_forum_post_upload") }}", "{{ app.request.locale }}");
+            symbbForum.prepareCollection();
+            $(".chosen-select").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "{{ "Oops, nothing found!"|trans }}",
+                placeholder_text_multiple: "{{ "Please select something"|trans }}",
+                placeholder_text_single: "{{ "Please select something"|trans }}"
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block symbb_body_container %}
-    <div class="symbb_flash_messages" id="symbbMessages">
-        {% if app.getUser.getSymbbType() == 'guest' %}
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                {% trans %}You are not currently logged.{% endtrans %}
-            </div>
-        {% endif %}
 
-        {% for flashMessage in app.session.flashbag.get('success') %}
-            <div class="alert alert-success">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    </div>
+    {% block symbb_flash_messages %}
+
+        <div class="symbb_flash_messages" id="symbbMessages">
+            {% if app.getUser.getSymbbType() == 'guest' %}
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {% trans %}You are not currently logged.{% endtrans %}
+                </div>
+            {% endif %}
+
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-info">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endblock %}
 
     <div class="system_announcement">
         {% if getSymbbSite().getAnnouncement() %}
@@ -88,10 +89,94 @@
     </div>
     <div class="clear"></div>
 
+    {{ executeSymbbEvent('template.forum.beforeBody') }}
+
+    <div class="symbb_body">
     {% block symbb_body %}
-        {{ executeSymbbEvent('template.forum.beforeBody') }}
-        <div ng-view  show-default="true"></div>
-        {{ executeSymbbEvent('template.forum.afterBody') }}
+        <div class="section_tabs">
+            {% block section_tabs %}
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="{{ path('symbb_forum_index') }}" title="{% trans %}Forum{% endtrans %}">
+                            <span class="glyphicon glyphicon-home glyphicon-success"></span>
+                            <span class="glyphicon-label">{% trans %}Forum{% endtrans %}</span>
+                        </a>
+                    </li>
+                    {% if app.user.getSymbbType != 'guest' %}
+                        <li>
+                            <a href="{{ path('symbb_user_ucp') }}" title="{% trans %}Options{% endtrans %}">
+                                <span class="glyphicon glyphicon-cog"></span>
+                                <span class="glyphicon-label">{% trans %}Options{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
+                                <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}"><span
+                                            class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>
+                                <span class="glyphicon-label">{% trans %}Messages{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('symbb_forum_search', {page: 1}) }}"
+                               title="{% trans %}Newest Posts{% endtrans %}">
+                                <span class="glyphicon glyphicon-fire"></span>
+                                <span class="glyphicon-label">{% trans %}Newest Posts{% endtrans %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{{ path('symbb_userlist', {page: 1}) }}" title="{% trans %}Members{% endtrans %}">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                            <span class="glyphicon-label">{% trans %}Members{% endtrans %}</span>
+                        </a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="{{ path('_symbb_acp') }}" target="_self"
+                               title="{% trans %}Adminpanel{% endtrans %}">
+                                <span class="glyphicon glyphicon-tasks glyphicon-warning"></span>
+                                <span class="glyphicon-label">{% trans %}Adminpanel{% endtrans %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if app.user.getSymbbType == 'guest' %}
+                        <li>
+                            <a href="{{ path('symbb_login') }}" target="_self" title="{% trans %}Sign in{% endtrans %}">
+                                <span class="glyphicon glyphicon-off glyphicon-success"></span>
+                                <span class="glyphicon-label">{% trans %}Sign in{% endtrans %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('symbb_register') }}" target="_self"
+                               title="{% trans %}Sign up{% endtrans %}">
+                                <span class="glyphicon glyphicon-plus-sign glyphicon-success"></span>
+                                <span class="glyphicon-label">{% trans %}Sign up{% endtrans %}</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('symbb_logout') }}" target="_self" title="{% trans %}Logout{% endtrans %}">
+                                <span class="glyphicon glyphicon-off glyphicon-danger"></span>
+                                <span class="glyphicon-label">{% trans %}Logout{% endtrans %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endblock %}
+            {% block breadcrumb %}
+            {% endblock %}
+        </div>
+
+        {{ executeSymbbEvent('template.forum.afterMenu') }}
+
+        <div class="section_content">
+        {% block section_content %}
+        {% endblock %}
+        </div>
     {% endblock %}
+        <div class="clear"></div>
+    </div>
+    {{ executeSymbbEvent('template.forum.afterBody') }}
 
 {% endblock %}

@@ -33,9 +33,10 @@ class UserApi extends AbstractApi
      * @param $id
      * @return UserInterface
      */
-    public function find($id){
+    public function find($id)
+    {
         $object = $this->userManager->find($id);
-        if(!is_object($object)){
+        if (!is_object($object)) {
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
         return $object;
@@ -46,11 +47,12 @@ class UserApi extends AbstractApi
      * @param $page
      * @return array
      */
-    public function getList($limit, $page){
+    public function getList($limit, $page)
+    {
         $objects = $this->userManager->findUsers($limit, $page);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
-        if(empty($objects)){
+        if (empty($objects)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
         return $objects;
@@ -63,45 +65,46 @@ class UserApi extends AbstractApi
      * @param UserInterface|array $object
      * @return UserInterface
      */
-    public function save($object){
+    public function save($object)
+    {
 
-        if(is_array($object)){
+        if (is_array($object)) {
             $objectData = $object;
             $newPassword = "";
-            if(isset($object['id']) && $object['id'] > 0){
+            if (isset($object['id']) && $object['id'] > 0) {
                 $object = $this->find($object['id']);
             } else {
                 $object = new User();
             }
-            if(isset($objectData['password'])){
+            if (isset($objectData['password'])) {
                 $newPassword = $objectData['password'];
             }
-            if(isset($objectData['enabled']) && $objectData['enabled']){
+            if (isset($objectData['enabled']) && $objectData['enabled']) {
                 $object->enable();
             } else {
                 $object->disable();
             }
             unset($objectData['enabled']);
-            if(isset($objectData['groups'])){
+            if (isset($objectData['groups'])) {
                 $groups = $objectData['groups'];
                 $groups = array_unique($groups);
                 $object->setGroups(array());
-                foreach($groups as $groupId){
+                foreach ($groups as $groupId) {
                     $group = $this->groupManager->find($groupId);
                     $object->addGroup($group);
                 }
                 unset($objectData['groups']);
             }
             $this->assignArrayToObject($object, $objectData);
-        } else if(!($object instanceof UserInterface)) {
+        } else if (!($object instanceof UserInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
-        if(!$this->hasError()){
-            if(!empty($newPassword)){
+        if (!$this->hasError()) {
+            if (!empty($newPassword)) {
                 $check = $this->userManager->changeUserPassword($object, $newPassword);
-                if($check !== true){
-                    foreach($check as $pwError){
+                if ($check !== true) {
+                    foreach ($check as $pwError) {
                         $this->addErrorMessage($pwError);
                     }
                     $check = false;
@@ -109,7 +112,7 @@ class UserApi extends AbstractApi
             } else {
                 $check = $this->userManager->updateUser($object);
             }
-            if($check === true){
+            if ($check === true) {
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
@@ -121,15 +124,16 @@ class UserApi extends AbstractApi
      * @param int|UserInterface $object
      * @return bool
      */
-    public function delete($object){
-        if(is_numeric($object)){
+    public function delete($object)
+    {
+        if (is_numeric($object)) {
             $object = $this->find($object);
-        } else if(!($object instanceof UserInterface)) {
+        } else if (!($object instanceof UserInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->userManager->removeUser($object);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
             return $check;
@@ -142,10 +146,11 @@ class UserApi extends AbstractApi
      * @param $direction
      * @return array|null
      */
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
         $fields = array();
         // only this fields are allowed
-        if($object instanceof UserInterface){
+        if ($object instanceof UserInterface) {
             $fields = array(
                 'id',
                 'username',
@@ -153,10 +158,10 @@ class UserApi extends AbstractApi
                 'password',
                 'symbbType'
             );
-            if($direction == "toArray"){
+            if ($direction == "toArray") {
                 $fields[] = "groups";
             }
-        } else if($object instanceof GroupInterface){
+        } else if ($object instanceof GroupInterface) {
             $fields = array(
                 'id',
                 'name'
@@ -169,14 +174,16 @@ class UserApi extends AbstractApi
     /**
      * @param UserManager $manager
      */
-    public function setUserManager(UserManager $manager){
+    public function setUserManager(UserManager $manager)
+    {
         $this->userManager = $manager;
     }
 
     /**
      * @param GroupManager $manager
      */
-    public function setGroupManager(GroupManager $manager){
+    public function setGroupManager(GroupManager $manager)
+    {
         $this->groupManager = $manager;
     }
 
@@ -184,10 +191,11 @@ class UserApi extends AbstractApi
      * @param object|array $object
      * @return array
      */
-    public function createArrayOfObject($object){
+    public function createArrayOfObject($object)
+    {
         $array = array();
-        if(is_array($object)){
-            foreach($object as $currObject){
+        if (is_array($object)) {
+            foreach ($object as $currObject) {
                 $array[] = $this->_createArrayOfObject($currObject);
             }
         } else {
@@ -196,9 +204,10 @@ class UserApi extends AbstractApi
         return $array;
     }
 
-    protected function _createArrayOfObject(UserInterface $object){
+    protected function _createArrayOfObject(UserInterface $object)
+    {
         $array = array(
-            'id' =>0,
+            'id' => 0,
             'username' => '',
             'email' => '',
             'last_login' => '',
@@ -206,7 +215,7 @@ class UserApi extends AbstractApi
             'enabled' => 0,
             'groups' => array()
         );
-        if(is_object($object)){
+        if (is_object($object)) {
             $array['id'] = $object->getId();
             $array['username'] = $object->getUsername();
             $array['email'] = $object->getEmail();
@@ -214,7 +223,7 @@ class UserApi extends AbstractApi
             $array['created'] = $this->getISO8601ForUser($object->getCreated());
             $array['enabled'] = $object->isEnabled();
             $groups = $object->getGroups();
-            foreach($groups as $group){
+            foreach ($groups as $group) {
                 $array['groups'][] = $group->getId();
             }
         }

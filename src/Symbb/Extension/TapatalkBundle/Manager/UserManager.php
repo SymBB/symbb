@@ -9,6 +9,7 @@
 
 namespace Symbb\Extension\TapatalkBundle\Manager;
 
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -25,7 +26,7 @@ class UserManager extends AbstractManager
         $response->headers->set('Content-Type', 'text/xml; charset=UTF-8');
 
         $result = array();
-        $this->debug('user: '.$username);
+        $this->debug('user: ' . $username);
         $userLoggedIn = $this->userManager->login($username, $password, $request, $providerKey, $response);
 
         $user = $this->userManager->getCurrentUser();
@@ -62,10 +63,11 @@ class UserManager extends AbstractManager
         return $response;
     }
 
-    public function getInboxStat(){
+    public function getInboxStat()
+    {
         $this->debug('getInboxStat');
 
-        $topics = $this->topicManager->getFlagHandler()->findFlagsByClassAndFlag('Symbb\Core\Forum\Entity\Topic', 'new');
+        $topics = $this->topicManager->getFlagHandler()->findFlagsByClassAndFlag('Symbb\Core\Forum\Entity\Topic', AbstractFlagHandler::FLAG_NEW);
         $messages = $this->messageManager->countNewMessages();
 
         $result['inbox_unread_count'] = new \Zend\XmlRpc\Value\Integer($messages);
@@ -85,25 +87,26 @@ class UserManager extends AbstractManager
      * @param $pmId
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createMessage($userName, $subject, $textBody, $action, $pmId){
+    public function createMessage($userName, $subject, $textBody, $action, $pmId)
+    {
 
         $this->debug('createMessage');
         $receivers = array();
         $success = true;
         $error = "";
 
-        if($action == 1){
+        if ($action == 1) {
             $oldPm = $this->messageManager->find($pmId);
             $userName[] = $oldPm->getSender()->getUsername();
             $userName = array_unique($userName);
-        } else if ($action == 2){
+        } else if ($action == 2) {
             $oldPm = $this->messageManager->find($pmId);
-            $textBody .= "[quote]".$oldPm->getMessage()."[/quote]";
+            $textBody .= "[quote]" . $oldPm->getMessage() . "[/quote]";
         }
 
-        foreach($userName as $currUserName){
+        foreach ($userName as $currUserName) {
             $user = $this->userManager->findByUsername($currUserName);
-            if($user){
+            if ($user) {
                 $receivers[$user->getId()] = $user;
             } else {
                 $success = false;
@@ -114,12 +117,12 @@ class UserManager extends AbstractManager
 
         $id = 0;
 
-        if($success){
+        if ($success) {
             $errors = array();
             $this->debug("Tapatalk: sendMessage");
             $message = $this->messageManager->sendMessage($subject, $textBody, $receivers, $errors);
 
-            if(!empty($errors)){
+            if (!empty($errors)) {
                 $error = implode(', ', $errors);
                 $success = false;
             } else {
@@ -128,7 +131,7 @@ class UserManager extends AbstractManager
         }
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean($success);
-        if(!empty($error)){
+        if (!empty($error)) {
             $result['result_text'] = new \Zend\XmlRpc\Value\Base64($error);
         }
         $result['msg_id'] = new \Zend\XmlRpc\Value\String($id);
@@ -142,7 +145,8 @@ class UserManager extends AbstractManager
      * https://tapatalk.com/api/api_section.php?id=7#get_box_info
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getBoxInfo(){
+    public function getBoxInfo()
+    {
         $this->debug('getBoxInfo');
 
         $boxInbox = new \Zend\XmlRpc\Value\Struct(array(
@@ -175,23 +179,24 @@ class UserManager extends AbstractManager
      * https://tapatalk.com/api/api_section.php?id=7#get_box
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getBox($boxId, $startNum = null, $endNum = null){
+    public function getBox($boxId, $startNum = null, $endNum = null)
+    {
 
         $this->debug('getBox');
         $page = 1;
         $limit = 20;
 
-        if($startNum && $endNum){
+        if ($startNum && $endNum) {
             $this->calcLimitandPage($startNum, $endNum, $limit, $page);
         }
 
-        if($boxId == "inbox"){
+        if ($boxId == "inbox") {
             $messages = $this->messageManager->findReceivedMessages(null, $page, $limit);
             $newMessageCount = $this->messageManager->countNewMessages();
-        } else if($boxId == "sent"){
+        } else if ($boxId == "sent") {
             $messages = $this->messageManager->findSentMessages(null, $page, $limit);
             $newMessageCount = 0;
-        } else if($boxId == "unread"){
+        } else if ($boxId == "unread") {
             $messages = $this->messageManager->findReceivedMessages(null, $page, $limit, true);
             $newMessageCount = count($messages);
         }
@@ -202,13 +207,13 @@ class UserManager extends AbstractManager
 
 
         $result['list'] = array();
-        foreach($messages as $message){
+        foreach ($messages as $message) {
 
             $state = 2;
             $msgTo = array();
-            foreach($message->getReceivers() as $reciver){
-                if($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()){
-                    if($reciver->getNew()){
+            foreach ($message->getReceivers() as $reciver) {
+                if ($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()) {
+                    if ($reciver->getNew()) {
                         $state = 1;
                     }
                 }
@@ -240,20 +245,20 @@ class UserManager extends AbstractManager
      * https://tapatalk.com/api/api_section.php?id=7#get_message
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getMessage($messageId, $boxId){
+    public function getMessage($messageId, $boxId)
+    {
 
         $this->debug('getMessage');
         $message = $this->messageManager->find($messageId);
         $text = $message->getMessage();
 
         $msgTo = array();
-        foreach($message->getReceivers() as $reciver){
+        foreach ($message->getReceivers() as $reciver) {
             $msgTo[] = new \Zend\XmlRpc\Value\Struct(array(
                 'user_id' => new \Zend\XmlRpc\Value\String($reciver->getUser()->getId()),
                 'username' => new \Zend\XmlRpc\Value\Base64($reciver->getUser()->getUsername())
             ));
         }
-
 
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
@@ -274,12 +279,13 @@ class UserManager extends AbstractManager
      *
      * https://tapatalk.com/api/api_section.php?id=7#get_quote_pm
      */
-    public function getQuotePm($messageId){
+    public function getQuotePm($messageId)
+    {
 
         $this->debug('getQuotePm');
         $message = $this->messageManager->find($messageId);
         $text = $message->getMessage();
-        $text = '[quote]'.$text.'[/quote]';
+        $text = '[quote]' . $text . '[/quote]';
 
         $result['result'] = new \Zend\XmlRpc\Value\Boolean(true);
         $result['msg_id'] = new \Zend\XmlRpc\Value\String($message->getId());
@@ -295,7 +301,8 @@ class UserManager extends AbstractManager
      * @param $messageId
      * @param $boxId
      */
-    public function deleteMessage($messageId, $boxId){
+    public function deleteMessage($messageId, $boxId)
+    {
         $this->debug('$messageId');
         $message = $this->messageManager->find($messageId);
         $success = $this->messageManager->remove($message);
@@ -307,17 +314,17 @@ class UserManager extends AbstractManager
     }
 
 
-
     /**
      * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
      * @param $messageId
      */
-    public function markPmUnread($messageId){
+    public function markPmUnread($messageId)
+    {
         $this->debug('markPmUnread');
         $message = $this->messageManager->find($messageId);
 
-        foreach($message->getReceivers() as $reciver){
-            if($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()){
+        foreach ($message->getReceivers() as $reciver) {
+            if ($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()) {
                 $this->messageManager->unread($reciver);
             }
         }
@@ -332,15 +339,16 @@ class UserManager extends AbstractManager
      * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
      * @param $messageId
      */
-    public function markPmRead($messageIds){
+    public function markPmRead($messageIds)
+    {
         $this->debug('markPmRead');
         $messageIds = explode(',', $messageIds);
 
-        foreach($messageIds as $messageId){
+        foreach ($messageIds as $messageId) {
             $message = $this->messageManager->find($messageId);
 
-            foreach($message->getReceivers() as $reciver){
-                if($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()){
+            foreach ($message->getReceivers() as $reciver) {
+                if ($reciver->getUser()->getId() == $this->userManager->getCurrentUser()->getId()) {
                     $this->messageManager->read($reciver);
                 }
             }

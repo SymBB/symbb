@@ -486,7 +486,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     }
 
 
-
     /**
      * @return ArrayCollection
      */
@@ -499,14 +498,16 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      *
      */
-    public function removeFeeds(){
+    public function removeFeeds()
+    {
         $this->feeds->clear();
     }
 
     /**
      * @param Feed $feed
      */
-    public function addFeed(Feed $feed){
+    public function addFeed(Feed $feed)
+    {
         $feed->setForum($this);
         $this->feeds->add($feed);
     }
@@ -514,8 +515,41 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     /**
      * @param ArrayCollection $feeds
      */
-    public function setFeeds(ArrayCollection $feeds){
+    public function setFeeds(ArrayCollection $feeds)
+    {
         $this->feeds->clear();
         $this->feeds = $feeds;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCategory()
+    {
+        return $this->getType() == "category";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLink()
+    {
+        return $this->getType() == "link";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForum()
+    {
+        return $this->getType() == "forum";
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFeed()
+    {
+        return $this->getType() == "rss";
     }
 }

@@ -11,23 +11,24 @@ namespace Symbb\Extension\RatingBundle\Controller;
 
 use Symbb\Core\SystemBundle\Controller\AbstractApiController;
 use Symbb\Extension\RatingBundle\Security\Authorization\RatingVoter;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends AbstractApiController
 {
 
-    public function ratePostAction($id, $like)
+    public function ratePostApiAction($id, $like)
     {
 
         $post = $this->get('doctrine')->getRepository('SymbbCoreForumBundle:Post', 'symbb')
             ->find($id);
 
-        if(is_object($post) && $post->getId() > 0){
+        if (is_object($post) && $post->getId() > 0) {
             $topic = $post->getTopic();
-            if(is_object($topic) && $topic->getId() > 0){
+            if (is_object($topic) && $topic->getId() > 0) {
                 $forum = $topic->getForum();
-                if(is_object($forum) && $forum->getId() > 0){
+                if (is_object($forum) && $forum->getId() > 0) {
                     $user = $this->getUser();
-                    if(is_object($user) && $user->getId() > 0 && $user->getSymbbType() === 'user'){
+                    if (is_object($user) && $user->getId() > 0 && $user->getSymbbType() === 'user') {
                         $createSurvey = $this->get('security.context')->isGranted(RatingVoter::CREATE_RATING, $forum);
                         if ($createSurvey) {
                             if ($like === 'like') {
@@ -56,9 +57,13 @@ class DefaultController extends AbstractApiController
     }
 
     protected function addPostLike(
-    \Symbb\Core\ForumBundle\Entity\Post $post, \Symbb\Core\UserBundle\Entity\UserInterface $user, $asDislike = false
+        \Symbb\Core\ForumBundle\Entity\Post $post, \Symbb\Core\UserBundle\Entity\UserInterface $user, $asDislike = false
     )
     {
+
+        if (!$this->get('security.authorization_checker')->isGranted(RatingVoter::CREATE_RATING, $post->getTopic()->getForum(), $user)) {
+            throw $this->createAccessDeniedException();
+        }
 
         $likes = $this->get('doctrine')->getRepository('SymbbExtensionRatingBundle:Like', 'symbb')
             ->findBy(array('post' => $post, 'user' => $user));
@@ -127,5 +132,11 @@ class DefaultController extends AbstractApiController
         }
 
         $em->flush();
+    }
+
+    public function ratePostAction(Request $request, $id, $like)
+    {
+        $this->ratePostApiAction($id, $like);
+        return $this->returnToLastPage($request);
     }
 }

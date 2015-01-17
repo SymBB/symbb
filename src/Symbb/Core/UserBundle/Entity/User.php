@@ -69,7 +69,6 @@ class User extends BaseUser implements UserInterface
     private $messages_sent;
 
 
-
     /**
      * @ORM\OneToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
@@ -95,6 +94,9 @@ class User extends BaseUser implements UserInterface
      */
     private $changed;
 
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -106,7 +108,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return array(<"\Symbb\Core\ForumBundle\Entity\Topic">)
      */
     public function getTopics()
@@ -115,7 +117,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return array(<"\Symbb\Core\ForumBundle\Entity\Post">)
      */
     public function getPosts()
@@ -124,7 +126,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @param \Symbb\Core\UserBundle\Entity\User\Data $value
      */
     public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value)
@@ -133,7 +135,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getEmail()
@@ -142,7 +144,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return integer
      */
     public function getId()
@@ -151,7 +153,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getUsername()
@@ -160,7 +162,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     public function getGroups()
@@ -169,12 +171,12 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @param array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">) $value
      */
     public function setGroups($value)
     {
-        if(is_array($value)){
+        if (is_array($value)) {
             $value = new ArrayCollection($value);
         }
         $this->groups = $value;
@@ -183,12 +185,13 @@ class User extends BaseUser implements UserInterface
     /**
      * @param GroupInterface $group
      */
-    public function addGroup(\FOS\UserBundle\Model\GroupInterface $group){
+    public function addGroup(\FOS\UserBundle\Model\GroupInterface $group)
+    {
         $this->groups->add($group);
     }
 
     /**
-     * 
+     *
      * @param string $value
      */
     public function setSymbbType($value)
@@ -197,7 +200,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getSymbbType()
@@ -206,7 +209,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return \DateTime
      */
     public function getCreated()
@@ -240,7 +243,7 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\UserBundle\Entity\User\Data
      */
     public function getSymbbData()
@@ -248,18 +251,25 @@ class User extends BaseUser implements UserInterface
         $data = $this->symbbData;
         if (!is_object($data)) {
             $this->symbbData = $data = new User\Data();
+            $data->setUser($this);
         }
         return $data;
     }
 
+    /**
+     * @param string $pw
+     */
     public function setPlainPassword($pw)
     {
-        if(!empty($pw)){
+        if (!empty($pw)) {
             parent::setPlainPassword($pw);
             $this->changed = new \DateTime();
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isEnabled()
     {
         if ($this->enabled === 0 || $this->enabled === false) {
@@ -268,16 +278,25 @@ class User extends BaseUser implements UserInterface
         return true;
     }
 
+    /**
+     *
+     */
     public function disable()
     {
         $this->enabled = 0;
     }
 
+    /**
+     *
+     */
     public function enable()
     {
         $this->enabled = 1;
     }
 
+    /**
+     * @return array|ArrayCollection
+     */
     public function getFieldValues()
     {
         return $this->symbbFieldValues;

@@ -38,7 +38,7 @@ class History
     protected $changed;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post", inversedBy="histories")
+     * @ORM\ManyToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post", inversedBy="history")
      * @ORM\JoinColumn(referencedColumnName="id", onDelete="cascade")
      *
      * @var Post $post

@@ -67,7 +67,7 @@ class BundleLoader
         foreach ($symbbBundles as $symbbBundle) {
             $found = false;
             foreach ($bundles as $bundle) {
-                if ($bundle instanceof $symbbBundle) { 
+                if ($bundle instanceof $symbbBundle) {
                     $found = true;
                     break;
                 }

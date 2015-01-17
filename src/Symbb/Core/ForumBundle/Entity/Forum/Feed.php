@@ -53,7 +53,8 @@ class Feed
      */
     protected $entries;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->entries = new ArrayCollection();
     }
 
@@ -137,8 +138,9 @@ class Feed
         $this->url = $url;
     }
 
-    public function __toString(){
-        return "FeedId ( ".$this->id." )";
+    public function __toString()
+    {
+        return "FeedId ( " . $this->id . " )";
     }
 
 }

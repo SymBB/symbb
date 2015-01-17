@@ -12,10 +12,12 @@ namespace Symbb\Core\ForumBundle\DependencyInjection;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
+use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
 class PostManager extends AbstractManager
@@ -33,19 +35,35 @@ class PostManager extends AbstractManager
      */
     protected $postFlagHandler;
 
+    /**
+     *
+     * @var TopicFlagHandler
+     */
+    protected $topicFlagHandler;
+
+    /**
+     * @var NotifyHandler
+     */
+    protected $notifyHandler;
+
     public function __construct(
-        PostFlagHandler $postFlagHandler, ConfigManager $configManager
+        PostFlagHandler $postFlagHandler,
+        TopicFlagHandler $topicFlagHandler,
+        ConfigManager $configManager,
+        NotifyHandler $notifyHandler
     )
     {
         $this->postFlagHandler = $postFlagHandler;
+        $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
+        $this->notifyHandler = $notifyHandler;
     }
 
     public function parseText(Post $post)
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, (string)$text);
-        $this->eventDispatcher->dispatch('symbb.post.manager.parse.text', $event);
+        $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.parse.text', $event);
         $text = $event->getText();
 
         return $text;
@@ -55,7 +73,7 @@ class PostManager extends AbstractManager
     {
         $text = $post->getText();
         $event = new PostManagerParseTextEvent($post, $text);
-        $this->eventDispatcher->dispatch('symbb.post.manager.clean.text', $event);
+        $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.clean.text', $event);
         $text = $event->getText();
         return $text;
     }
@@ -97,13 +115,14 @@ class PostManager extends AbstractManager
         return $breadcrumb;
     }
 
-    public function search($page = 1, $limit = 0){
+    public function search($page = 1, $limit = 0)
+    {
 
-        if($limit === null || $limit === 0){
+        if ($limit === null || $limit === 0) {
             $limit = $this->configManager->get('newpost.max', "forum");
         }
 
-        $configUsermanager  = $this->configManager->getSymbbConfig('usermanager');
+        $configUsermanager = $this->configManager->getSymbbConfig('usermanager');
         $configGroupManager = $this->configManager->getSymbbConfig('groupmanager');
 
         $userlcass = $configUsermanager['user_class'];
@@ -121,7 +140,7 @@ class PostManager extends AbstractManager
                         f.objectClass = 'Symbb\Core\ForumBundle\Entity\Post' AND
                         f.objectId = p.id AND
                         f.user = :user AND
-                        f.flag = 'new'
+                        f.flag = '".AbstractFlagHandler::FLAG_NEW."'
                 WHERE
                     p.author != :user AND
                     (
@@ -147,8 +166,8 @@ class PostManager extends AbstractManager
                     p.created DESC ";
 
         $groupIds = array();
-        foreach($this->getUser()->getGroups() as $group){
-            $groupIds[]  = $group->getId();
+        foreach ($this->getUser()->getGroups() as $group) {
+            $groupIds[] = $group->getId();
         }
 
         //// count
@@ -156,7 +175,7 @@ class PostManager extends AbstractManager
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
         $queryCount = $query->getSQL();
-        $queryCount = "SELECT COUNT(*) count FROM (".$queryCount.") as temp";
+        $queryCount = "SELECT COUNT(*) count FROM (" . $queryCount . ") as temp";
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameter(0, $this->getUser()->getId());
         $queryCount->setParameter(1, $this->getUser()->getId());
@@ -167,7 +186,7 @@ class PostManager extends AbstractManager
         $count = $queryCount->getSingleScalarResult();
         ////
 
-        if(!$count){
+        if (!$count) {
             $count = 0;
         }
 
@@ -185,5 +204,76 @@ class PostManager extends AbstractManager
         return $pagination;
     }
 
+    /**
+     * @param Post $post
+     * @param $flag
+     * @return bool
+     */
+    public function hasFlag(Post $post, $flag)
+    {
+        return $this->postFlagHandler->checkFlag($post, $flag);
+    }
 
+    /**
+     * @param Post $post
+     * @return \Symbb\Core\SystemBundle\Entity\Flag[]
+     */
+    public function getFlags(Post $post)
+    {
+        return $this->postFlagHandler->findAll($post);
+    }
+
+
+    /**
+     * @param Post $post
+     * @return bool
+     */
+    public function save(Post $post)
+    {
+        $new = false;
+        if($post->getId() <= 0){
+            $new = true;
+        }
+        $this->em->persist($post);
+        $this->em->flush();
+
+        if($new){
+            $this->markAsNew($post);
+        }
+
+        // if it is a new answer of an existing topic
+        if($post->getTopic()->getId() > 0 && $new){
+            // get all notify flags for this topic
+            $flags = $this->topicFlagHandler->findFlagsByObjectAndFlag($post->getTopic(), AbstractFlagHandler::FLAG_NOTIFY);
+            foreach($flags as $flag){
+                // if the notify user is not the author of the new post
+                if($flag->getUser()->getId() !== $post->getAuthor()->getId()){
+                    // send a notify
+                    $this->notifyHandler->sendTopicNotifications($post->getTopic(), $flag->getUser());
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Post $post
+     * @return bool
+     */
+    public function delete(Post $post)
+    {
+        $this->em->remove($post);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * mark the post as new for all users
+     * @param Post $post
+     */
+    public function markAsNew(Post $post){
+        $this->postFlagHandler->insertFlags($post, PostFlagHandler::FLAG_NEW);
+    }
 }

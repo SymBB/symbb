@@ -17,7 +17,7 @@ class NavigationManager extends AbstractManager
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager 
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
@@ -27,7 +27,7 @@ class NavigationManager extends AbstractManager
     protected $dispatcher;
 
     /**
-     * 
+     *
      * @param type $em
      */
     public function __construct($em, $dispatcher)
@@ -40,7 +40,8 @@ class NavigationManager extends AbstractManager
      * @param int $id
      * @return Navigation
      */
-    public function find($id){
+    public function find($id)
+    {
         $object = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->find($id);
         return $object;
     }
@@ -48,7 +49,8 @@ class NavigationManager extends AbstractManager
     /**
      * @return Object $objects KNP Paginator
      */
-    public function findAll($page = 1, $limit = 20){
+    public function findAll($page = 1, $limit = 20)
+    {
         $qb = $this->em->getRepository('SymbbCoreSiteBundle:Navigation')->createQueryBuilder('n');
         $qb->select("n");
         $qb->leftJoin('n.items', 'i');
@@ -63,7 +65,8 @@ class NavigationManager extends AbstractManager
      * @param Navigation $object
      * @return bool
      */
-    public function save(Navigation $object){
+    public function save(Navigation $object)
+    {
         //@todo validate entity
         $this->em->persist($object);
         $this->em->flush();
@@ -74,19 +77,20 @@ class NavigationManager extends AbstractManager
      * @param Navigation $object
      * @return bool
      */
-    public function remove(Navigation $object){
+    public function remove(Navigation $object)
+    {
         $this->em->remove($object);
         $this->em->flush();
         return true;
     }
 
 
-
     /**
      * @param int $id
      * @return Navigation\Item
      */
-    public function findItem($id){
+    public function findItem($id)
+    {
         $object = $this->em->getRepository('SymbbCoreSiteBundle:Navigation\Item')->find($id);
         return $object;
     }
@@ -96,7 +100,8 @@ class NavigationManager extends AbstractManager
      * @param Navigation $navigation
      * @return object $objects KNP Paginator
      */
-    public function findAllItems(Navigation $navigation, $page = 1, $limit = 20){
+    public function findAllItems(Navigation $navigation, $page = 1, $limit = 20)
+    {
         $qb = $this->em->getRepository('SymbbCoreSiteBundle:Navigation\Item')->createQueryBuilder('i');
         $qb->select("i");
         $qb->where("i.navigation = :navgation");
@@ -111,7 +116,8 @@ class NavigationManager extends AbstractManager
      * @param Navigation\Item $object
      * @return bool
      */
-    public function saveItem(Navigation\Item $object){
+    public function saveItem(Navigation\Item $object)
+    {
         //@todo validate entity
         $this->em->persist($object);
         $this->em->flush();
@@ -122,7 +128,8 @@ class NavigationManager extends AbstractManager
      * @param Navigation\Item $object
      * @return bool
      */
-    public function removeItem(Navigation\Item $object){
+    public function removeItem(Navigation\Item $object)
+    {
         $this->em->remove($object);
         $this->em->flush();
         return true;

@@ -62,6 +62,9 @@ class Survey
      */
     private $votes;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -71,18 +74,27 @@ class Survey
     # Default Get and Set
     ############################################################################
 
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setId($value)
     {
         $this->id = $value;
 
     }
 
+    /**
+     * @param $object
+     */
     public function setPost($object)
     {
         $this->post = $object;
@@ -90,7 +102,7 @@ class Survey
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\ForumBundle\Entity\Post
      */
     public function getPost()
@@ -99,14 +111,19 @@ class Survey
 
     }
 
+    /**
+     * @param null $value
+     */
     public function setEnd($value = null)
     {
+        if ($value instanceof \DateTime) {
+            $value = $value->getTimestamp();
+        }
         $this->end = $value;
-
     }
 
     /**
-     * 
+     *
      * @return int
      */
     public function getEnd()
@@ -115,60 +132,90 @@ class Survey
 
     }
 
+    /**
+     * @param $value
+     */
     public function setChoicesChangeable($value)
     {
         $this->choicesChangeable = $value;
 
     }
 
+    /**
+     * @return bool
+     */
     public function getChoicesChangeable()
     {
         return $this->choicesChangeable;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setChoices($value)
     {
         $this->choices = $value;
 
     }
 
+    /**
+     * @return int
+     */
     public function getChoices()
     {
         return $this->choices;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setAnswers($value)
     {
         $this->answers = $value;
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getAnswers()
     {
         return $this->answers;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setQuestion($value)
     {
         $this->question = $value;
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuestion()
     {
         return $this->question;
 
     }
 
+    /**
+     * @param $value
+     */
     public function setVotes($value)
     {
         $this->votes = $value;
 
     }
 
+    /**
+     * @param Vote $value
+     */
     public function addVote(Vote $value)
     {
         $this->votes->add($value);
@@ -176,7 +223,7 @@ class Survey
     }
 
     /**
-     * 
+     *
      * @return Vote
      */
     public function getVotes()
@@ -186,17 +233,26 @@ class Survey
     }
     ############################################################################
 
+    /**
+     * @return array|mixed|string
+     */
     public function getAnswersArray()
     {
         $answers = $this->getAnswers();
         $answers = nl2br($answers);
+        $answers = str_replace(",", "<br />", $answers);
         $answers = explode('<br />', $answers);
         return $answers;
 
     }
 
+    /**
+     * @param $number
+     * @return float|int
+     */
     public function getAnswerPercent($number)
     {
+
         $votes = $this->getVotes();
         $max = count($votes);
         $percent = 0;
@@ -215,6 +271,11 @@ class Survey
 
     }
 
+    /**
+     * @param $answerKey
+     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
+     * @return bool
+     */
     public function checkForVote($answerKey, \Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         $votes = $this->getVotes();
@@ -231,6 +292,10 @@ class Survey
 
     }
 
+    /**
+     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
+     * @return bool
+     */
     public function checkIfVoteable(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
 
@@ -239,7 +304,7 @@ class Survey
         $now = $now->getTimestamp();
 
         // if the time is over, no new Votes are allowed
-        if ($end && $now > $end) {
+        if ($end > 0 && $now > $end) {
             return false;
         }
 
@@ -259,7 +324,6 @@ class Survey
                 $count++;
             }
         }
-
         // or if the user haven not used all choices
         if ($count < $this->getChoices()) {
             return true;

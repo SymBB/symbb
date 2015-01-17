@@ -13,5 +13,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SymbbExtensionCalendarBundle extends Bundle
 {
-    
+
 }

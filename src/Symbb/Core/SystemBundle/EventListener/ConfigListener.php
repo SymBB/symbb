@@ -26,7 +26,7 @@ As a user you agree to any information you have entered to being stored in a dat
         $event->setDefaultConfig('system.imprint', '', "bbcode", $this->getSection());
         $event->setDefaultConfig('system.terms', $terms, "bbcode", $this->getSection());
         $event->setDefaultConfig('system.registration.enabled', true, "checkbox", $this->getSection());
-        
+
     }
 
     protected function getSection()

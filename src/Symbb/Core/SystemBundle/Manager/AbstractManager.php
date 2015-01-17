@@ -17,6 +17,8 @@ use \Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Validator\Validator;
+use Symfony\Component\Validator\ValidatorInterface;
 
 abstract class AbstractManager
 {
@@ -58,23 +60,36 @@ abstract class AbstractManager
     protected $eventDispatcher;
 
     /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
+    /**
+     * @var array
+     */
+    protected $cacheData = array();
+
+    /**
      * @param AccessManager $manager
      */
-    public function setAccessManager(AccessManager $manager){
+    public function setAccessManager(AccessManager $manager)
+    {
         $this->accessManager = $manager;
     }
 
     /**
      * @param UserManager $manager
      */
-    public function setUserManager(UserManager $manager){
+    public function setUserManager(UserManager $manager)
+    {
         $this->userManager = $manager;
     }
 
     /**
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher
      */
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher){
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -82,21 +97,24 @@ abstract class AbstractManager
     /**
      * @param $paginator
      */
-    public function setPaginator($paginator){
+    public function setPaginator($paginator)
+    {
         $this->paginator = $paginator;
     }
 
     /**
      * @param TranslatorInterface $translator
      */
-    public function setTranslator(TranslatorInterface $translator){
+    public function setTranslator(TranslatorInterface $translator)
+    {
         $this->translator = $translator;
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEntityManager(EntityManager $em){
+    public function setEntityManager(EntityManager $em)
+    {
         $this->em = $em;
     }
 
@@ -114,26 +132,41 @@ abstract class AbstractManager
     }
 
 
-    public function createPagination($query, $page, $limit){
+    public function createPagination($query, $page, $limit)
+    {
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
 
+        // get sql, get the from part and remove all other fields then the id field
+        // so that we have a query who select only one field
+        // for count this is better because we dont need the data
         $queryCount = $query->getSql();
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCountTmp = explode("FROM", $queryCount);
+        $queryCountSelect = array_shift($queryCountTmp);
+        $queryCountEnd = implode("FROM", $queryCountTmp);
+        $queryCountSelect = explode(",", $queryCountSelect);
+        $queryCountSelect = reset($queryCountSelect);
+        if(strpos($queryCountEnd, "GROUP BY") === false){
+            $queryCount = " SELECT COUNT(*) as count FROM " . $queryCountEnd;
+        } else {
+            $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCountSelect . " FROM " . $queryCountEnd . ") as temp";
+        }
+
+        // create now the query based on the native sql query and get the count
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
-        if(!$count){
+
+        if (!$count) {
             $count = 0;
         }
-
-        if($page === 'last'){
+        if ($page === 'last') {
             $page = $count / $limit;
             $page = ceil($page);
         }
 
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
 
@@ -144,5 +177,31 @@ abstract class AbstractManager
         );
 
         return $pagination;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setCacheData($key, $value)
+    {
+        $this->cacheData[$key] = $value;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getCacheData($key)
+    {
+        return $this->cacheData[$key];
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     */
+    public function setValidator(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
     }
 }

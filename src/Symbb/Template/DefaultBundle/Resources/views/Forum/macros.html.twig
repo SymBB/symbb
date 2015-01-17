@@ -1,0 +1,135 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% macro answer_btn(topic, posts) %}
+    {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) or posts.getPageCount() > 1 %}
+        <div class="symbb_action_row">
+            <div >
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
+                    <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}"
+                       class="btn btn-primary btn-sm pull-left"><span
+                                class="glyphicon glyphicon-share-alt"></span> {{ 'Leave a Reply'|trans }}</a>
+                {% endif %}
+            </div>
+            <div class="pull-right">
+                {{ knp_pagination_render(posts, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+                <div class="clear"></div>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro post(object) %}
+
+    {% set topic = object.getTopic() %}
+    {% set forum = topic.getForum() %}
+
+    <article class="symbb_post " itemtype="http://schema.org/Article">
+        <dl class="postprofile">
+            {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
+            <a class="avatar"
+               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
+                <img src="getSymbbAvatar(object.getAuthor())"/>
+            </a>
+            {{ executeSymbbTemplatePostEvent('after.avatar', object) }}
+            {{ executeSymbbTemplatePostEvent('before.username', object) }}
+            <a class="username"
+               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">{{ object.getAuthor().getUsername() }}</a>
+            {{ executeSymbbTemplatePostEvent('after.username', object) }}
+            {{ executeSymbbTemplatePostEvent('before.userdata', object) }}
+            <dd><strong>{% trans %}posts{% endtrans %}:</strong> {{ getUserManager().getPostCount(object.getAuthor()) }}
+            </dd>
+            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
+            {{ executeSymbbTemplatePostEvent('after.userdata', object) }}
+        </dl>
+        <div class="postbody">
+            <div class="actions">
+                {{ executeSymbbTemplatePostEvent('before.actions', object) }}
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
+                    <a title="{% trans %}Quote{% endtrans %}" class="glyphicon glyphicon-comment"
+                       href="{{ path("symbb_forum_post_quote", {"topic": topic.getId(), "quoteId": object.getId()}) }}"></a>
+                {% endif %}
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::EDIT'), object) %}
+                    {% if object.getId() == topic.getId() %}
+                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                           href="{{ path("symbb_forum_topic_edit", {"id": object.getId(), "forum": topic.getForum().getId()}) }}"></a>
+                    {% else %}
+                        <a title="{% trans %}Edit{% endtrans %}" class="glyphicon glyphicon-pencil"
+                           href="{{ path("symbb_forum_post_edit", {"id": object.getId()}) }}"></a>
+                    {% endif %}
+                {% endif %}
+
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\PostVoter::DELETE'), object) %}
+                    <a title="{% trans %}Delete{% endtrans %}" class="glyphicon glyphicon-remove"
+                       href="{{ path("symbb_forum_post_delete", {"id": object.getId()}) }}"
+                       onclick="return confirm('{{ 'you really want to delete the entry?'|trans }}')"></a>
+                {% endif %}
+                {{ executeSymbbTemplatePostEvent('after.actions', object) }}
+            </div>
+            <div class="clear-left"></div>
+            <div class="title" itemprop="name">{{ object.getName() }}</div>
+            <div class="labels">
+                {% for flag in getSymbbPostManager().getFlags(object) %}
+                    <span class="label label-default">{{ flag.getFlag() }}</span>
+                {% endfor %}
+            </div>
+            <div class="clear-left"></div>
+            <div class="date">
+                {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}on %date% at %time%{% endtrans %}
+            </div>
+            <div class="clear-left"></div>
+            {{ executeSymbbTemplatePostEvent('before.text', object) }}
+            <div class="text">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
+            {{ executeSymbbTemplatePostEvent('after.text', object) }}
+
+            {% if object.getHistory().count() > 0 %}
+                <div class="history">
+                        <span class="pointer" data-toggle="collapse" href="#collapse-history-{{ object.getId() }}"
+                              aria-expanded="false" aria-controls="collapse-history-{{ object.getId() }}">
+                            {% trans with {'%count%': object.getHistory().count()} %}edited %count% times (click for details){% endtrans %}
+                        </span>
+
+                    <div class="collapse" id="collapse-history-{{ object.getId() }}">
+                        <div class="well">
+                            {% for historyEntry in object.getHistory() %}
+                                <div class="historyEntry">
+                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
+                                        <span>({{ historyEntry.getReason() }})</span>{% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {{ executeSymbbTemplatePostEvent('before.signature', object) }}
+            {% if getSymbbUserSignature(object.getAuthor()) %}
+                <div class="signature">
+                    {{ getSymbbUserSignature(object.getAuthor()) | raw }}
+                </div>
+            {% endif %}
+            {{ executeSymbbTemplatePostEvent('after.signature', object) }}
+        </div>
+        <div class="clear"></div>
+    </article>
+{% endmacro %}
+
+{% macro breadcrumb(items) %}
+    {% for item in items %}
+        <li>
+            {% if item.type == "home" %}
+                <a href="{{ path("symbb_forum_index") }}">{{ "Home"|trans }}</a>
+            {% elseif item.type == "topic" %}
+                <a href="{{ path("symbb_forum_topic_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
+            {% else %}
+                <a href="{{ path("symbb_forum_show", {"id": item.id, "name": item.seoName}) }}">{{ item.name }}</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endmacro %}
+
+{% macro breadcrumbForForum(object) %}
+    {{ _self.breadcrumb(getSymbbForumManager().getBreadcrumbData(object)) }}
+{% endmacro %}
+
+{% macro breadcrumbForTopic(object) %}
+    {{ _self.breadcrumb(getSymbbTopicManager().getBreadcrumbData(object, getSymbbForumManager())) }}
+{% endmacro %}

@@ -20,10 +20,6 @@ _symbb_frontend_routings:
     resource: "@SymbbCoreSystemBundle/Resources/config/routing/frontend.yml"
     prefix: /
 
-_symbb_template_default_frontend:
-    resource: "@SymbbTemplateDefaultBundle/Resources/config/routing/frontend.yml"
-    prefix: /
-
 _symbb_acp_routings:
     resource: "@SymbbCoreSystemBundle/Resources/config/routing/acp.yml"
     prefix: /acp

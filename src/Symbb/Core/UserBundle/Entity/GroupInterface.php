@@ -13,9 +13,9 @@ interface GroupInterface extends \FOS\UserBundle\Model\GroupInterface
 {
 
     public function getId();
-    
+
     public function getName();
-    
+
     public function setName($name);
 
     public function getType();
@@ -23,7 +23,7 @@ interface GroupInterface extends \FOS\UserBundle\Model\GroupInterface
     public function setType($value);
 
     public function getParent();
-    
+
     public function __toString();
-    
+
 }

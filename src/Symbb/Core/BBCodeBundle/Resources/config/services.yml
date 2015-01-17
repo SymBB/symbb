@@ -1,16 +1,10 @@
 services:
-    symbb.core.bbcode.listener.template:
-        class: Symbb\Core\BBCodeBundle\EventListener\TemplateListener
-        tags:
-            - { name: kernel.event_listener, event: symbb.template.global.stylesheets, method: stylesheets }
-            - { name: kernel.event_listener, event: symbb.template.forum.javascripts, method: javascripts }
-            
     symbb.core.bbcode.listener.parse:
         class: Symbb\Core\BBCodeBundle\EventListener\ParseListener
         arguments: ['@symbb.core.bbcode.manager']
         tags:
-            - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.parse.text, method: parsePostText }
-            - { priority: 0, name: kernel.event_listener, event: symbb.post.manager.clean.text, method: cleanPostText }
+            - { priority: 0, name: kernel.event_listener, event: symbb.core.forum.post.manager.parse.text, method: parsePostText }
+            - { priority: 0, name: kernel.event_listener, event: symbb.core.forum.post.manager.clean.text, method: cleanPostText }
             - { priority: 0, name: kernel.event_listener, event: symbb.core.user.parse.signature, method: parseUserSignature }
             - { priority: 0, name: kernel.event_listener, event: symbb.core.message.manager.parse.message, method: parseMessageText }
            

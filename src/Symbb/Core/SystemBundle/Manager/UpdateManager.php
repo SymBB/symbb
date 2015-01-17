@@ -14,9 +14,9 @@ class UpdateManager
 {
 
     private $kernel;
-    
+
     private $data;
-    
+
     private $symbbData;
 
     /**
@@ -33,41 +33,41 @@ class UpdateManager
     {
 
         $rootDir = realpath($this->kernel->getRootDir() . '/../');
-        $installed = json_decode(file_get_contents($rootDir.'/composer.lock'), true);
-        $require = json_decode(file_get_contents($rootDir.'/composer.json'));
+        $installed = json_decode(file_get_contents($rootDir . '/composer.lock'), true);
+        $require = json_decode(file_get_contents($rootDir . '/composer.json'));
         $require = (array)$require->require;
-        $lastUpdate = filemtime($rootDir.'/app/SymfonyRequirements.php');
+        $lastUpdate = filemtime($rootDir . '/app/SymfonyRequirements.php');
         $packages = array();
-        $packageCount=0;
-        $unstablePackageCount=0;
-        foreach ($installed['packages'] as $package)
-        {
-            
+        $packageCount = 0;
+        $unstablePackageCount = 0;
+        foreach ($installed['packages'] as $package) {
+
             $name = $package["name"];
-            if(isset($package["description"])){
+            if (isset($package["description"])) {
                 $description = $package["description"];
             }
             $version = $package["source"]["reference"];
-            $required = isset($require[$name])?$require[$name]:'-';
-            $unstable = strlen($version)==40;
-            $packages[] = compact('name','required','version','unstable','description');
+            $required = isset($require[$name]) ? $require[$name] : '-';
+            $unstable = strlen($version) == 40;
+            $packages[] = compact('name', 'required', 'version', 'unstable', 'description');
             // update counters
-            $unstablePackageCount+=$unstable;
+            $unstablePackageCount += $unstable;
             $packageCount++;
         }
 
-        $this->data = compact('lastUpdate','packages','packageCount','unstablePackageCount');
+        $this->data = compact('lastUpdate', 'packages', 'packageCount', 'unstablePackageCount');
         $this->symbbData = array();
-        foreach($this->data["packages"] as $pakage){
-            if(\strpos($pakage["name"], 'symbb') !== false){
+        foreach ($this->data["packages"] as $pakage) {
+            if (\strpos($pakage["name"], 'symbb') !== false) {
                 $this->symbbData[] = $pakage;
             }
         }
-        
+
         return $this->data;
     }
-    
-    public function getSymbbData(){
+
+    public function getSymbbData()
+    {
         return $this->symbbData;
     }
 
@@ -89,7 +89,7 @@ class UpdateManager
      */
     public function getDays()
     {
-        return round((time()-$this->data['lastUpdate'])/86400);
+        return round((time() - $this->data['lastUpdate']) / 86400);
     }
 
 

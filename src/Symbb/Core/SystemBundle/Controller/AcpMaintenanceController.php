@@ -18,7 +18,7 @@ class AcpMaintenanceController extends \Symbb\Core\SystemBundle\Controller\Abstr
         $manager = $this->get('symbb.core.update.manager');
         $data = $manager->collect();
         var_dump($manager->getSymbbData());
-        
+
         return $this->render(
             $this->getTemplateBundleName('acp') . ':Acp:System\maintenance.html.twig', array()
         );

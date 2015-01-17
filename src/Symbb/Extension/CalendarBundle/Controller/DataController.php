@@ -34,7 +34,7 @@ class DataController extends Controller
                 $em = $this->get('doctrine.orm.symbb_entity_manager');
 
                 $query = $em->createQuery(
-                        'SELECT 
+                    'SELECT
                         e
                     FROM 
                         SymbbExtensionCalendarBundle:Event e
@@ -44,7 +44,7 @@ class DataController extends Controller
                         e.post > 0
                     ORDER BY 
                         e.startDate, e.name ASC'
-                    )
+                )
                     ->setParameter('from', $from->format('Y-m-d H:i:s'))
                     ->setParameter('until', $until->format('Y-m-d H:i:s'));
 
@@ -99,9 +99,6 @@ class DataController extends Controller
         }
 
 
-
-
-
         $data = array('success' => 1, 'result' => $eventList);
 
         $response = new \Symfony\Component\HttpFoundation\JsonResponse();
@@ -115,7 +112,7 @@ class DataController extends Controller
     {
 
         return $this->render(
-                'SymbbExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
+            'SymbbExtensionCalendarBundle:Template:' . $template . '.html.twig', array()
         );
 
     }

@@ -21,7 +21,8 @@ class StatisticApi extends AbstractApi
     /**
      * @param $memcache
      */
-    public function setMemcache($memcache){
+    public function setMemcache($memcache)
+    {
         $this->memcache = $memcache;
     }
 
@@ -29,7 +30,8 @@ class StatisticApi extends AbstractApi
      * get the count of all posts in the system
      * @return int
      */
-    public function getPostCount(){
+    public function getPostCount()
+    {
         $entries = $this->em->getRepository('SymbbCoreForumBundle:Post')->findAll();
         return count($entries);
     }
@@ -39,7 +41,8 @@ class StatisticApi extends AbstractApi
      * get the count of all topics systems
      * @return int
      */
-    public function getTopicCount(){
+    public function getTopicCount()
+    {
         $entries = $this->em->getRepository('SymbbCoreForumBundle:Topic')->findAll();
         return count($entries);
     }
@@ -49,7 +52,8 @@ class StatisticApi extends AbstractApi
      * get the number of active users
      * @return int
      */
-    public function getActiveUserCount(){
+    public function getActiveUserCount()
+    {
         $users = $this->userManager->findUsers();
         return count($users);
     }
@@ -59,7 +63,8 @@ class StatisticApi extends AbstractApi
      * @todo
      * @return int
      */
-    public function getInactiveUserCount(){
+    public function getInactiveUserCount()
+    {
         return 0;
     }
 
@@ -71,7 +76,8 @@ class StatisticApi extends AbstractApi
      * @param UserInterface $user
      * @param Request $request
      */
-    public function addVisitor(UserInterface $user, Request $request){
+    public function addVisitor(UserInterface $user, Request $request)
+    {
 
         $days = 30;
         $ip = $request->getClientIp();
@@ -79,10 +85,10 @@ class StatisticApi extends AbstractApi
         $date = new \DateTime();
         $currTimestamp = $date->getTimestamp();
         // entries should be only hourly
-        $date->setTime($date->format('H'),0,0);
+        $date->setTime($date->format('H'), 0, 0);
         $todayTimestamp = $date->getTimestamp();
 
-        if(!isset($data[$todayTimestamp])){
+        if (!isset($data[$todayTimestamp])) {
             $data[$todayTimestamp] = array();
         }
 
@@ -99,17 +105,17 @@ class StatisticApi extends AbstractApi
 
         // remove entries who are to old
         $maxOldDate = new \DateTime();
-        $maxOldDate->setTime(0,0,0);
-        $maxOldDate->modify('-'.$days.'days');
-        foreach($data as $timestamp => $tmp){
-            if(!is_numeric($timestamp) || $timestamp < $maxOldDate->getTimestamp()){
+        $maxOldDate->setTime(0, 0, 0);
+        $maxOldDate->modify('-' . $days . 'days');
+        foreach ($data as $timestamp => $tmp) {
+            if (!is_numeric($timestamp) || $timestamp < $maxOldDate->getTimestamp()) {
                 unset($data[$timestamp]);
             }
         }
 
-        foreach($data[$todayTimestamp] as $key => $visitor){
+        foreach ($data[$todayTimestamp] as $key => $visitor) {
 
-            if(
+            if (
                 // case 1: guest -> check ip
                 (
                     $currVisitor['type'] == 'guest' &&
@@ -122,7 +128,7 @@ class StatisticApi extends AbstractApi
                     $visitor['type'] == $currVisitor['type'] &&
                     $visitor['id'] == $currVisitor['id']
                 )
-            ){
+            ) {
                 $overwriteKey = $key;
                 break;
             }
@@ -131,7 +137,7 @@ class StatisticApi extends AbstractApi
         // if we have found the same visitor in the data
         // then we will overwrite it
         // if not we will add the vistor
-        if($overwriteKey !== null){
+        if ($overwriteKey !== null) {
             $data[$todayTimestamp][$overwriteKey] = $currVisitor;
         } else {
             $data[$todayTimestamp][] = $currVisitor;
@@ -152,15 +158,17 @@ class StatisticApi extends AbstractApi
      * one visitor has the information id/type/ip/lastVisiting
      * @return array
      */
-    public function getVisitors(){
+    public function getVisitors()
+    {
         $data = $this->memcache->get(self::MEMCACHE_VISITOR_KEY);
-        if(!$data){
+        if (!$data) {
             $data = array();
         }
         return (array)$data;
     }
 
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
         return array();
     }
 }

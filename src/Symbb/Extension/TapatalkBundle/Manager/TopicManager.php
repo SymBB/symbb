@@ -12,6 +12,7 @@ namespace Symbb\Extension\TapatalkBundle\Manager;
 use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 
 /**
  * http://tapatalk.com/api/api_section.php?id=3
@@ -23,11 +24,11 @@ class TopicManager extends AbstractManager
     {
         $this->debug("markTopicRead");
         $success = true;
-        foreach($topicIds as $topicId){
+        foreach ($topicIds as $topicId) {
             $topic = $this->topicManager->find($topicId);
             $access = $this->securityContext->isGranted(ForumVoter::VIEW, $topic->getForum());
             if ($access) {
-                if($topic){
+                if ($topic) {
                     $this->topicManager->markAsRead($topic);
                 }
             } else {
@@ -47,7 +48,7 @@ class TopicManager extends AbstractManager
         $this->debug("getTopicStatus");
 
         $data = array();
-        foreach($topicIds as $topicId){
+        foreach ($topicIds as $topicId) {
             $topic = $this->topicManager->find($topicId);
             $access = $this->securityContext->isGranted(ForumVoter::VIEW, $topic->getForum());
             if ($access && $topic) {
@@ -61,7 +62,7 @@ class TopicManager extends AbstractManager
                     'can_subscribe' => true,
                     'is_closed' => $topic->isLocked(),
                     'last_reply_time' => $datetimeString,
-                    'new_post' => $this->topicManager->checkFlag($topic, 'new'),
+                    'new_post' => $this->topicManager->checkFlag($topic, AbstractFlagHandler::FLAG_NEW),
                     'reply_number' => $topic->getPostCount(),
                     'view_number' => 0
                 );
@@ -147,8 +148,8 @@ class TopicManager extends AbstractManager
             $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
 
             $topics = $this->forumManager->findTopics($forum, $page, $limit);
-            $this->debug('getTopic: count -> '.count($topics));
-            $this->debug('getTopic: page -> '.$page.', limit -> '.$limit);
+            $this->debug('getTopic: count -> ' . count($topics));
+            $this->debug('getTopic: page -> ' . $page . ', limit -> ' . $limit);
 
             $configList['total_topic_num'] = new \Zend\XmlRpc\Value\Integer($forum->getTopicCount());
             $configList['forum_id'] = new \Zend\XmlRpc\Value\String($forum->getId());
@@ -201,9 +202,9 @@ class TopicManager extends AbstractManager
         $this->calcLimitAndPage($startNumber, $lastNumber, $limit, $page);
 
         $pagination = $this->postManager->search($page, $limit);
-        $this->debug('getParticipatedTopic: $startNumber: '.$startNumber.' , $lastNumber: '.$lastNumber);
-        $this->debug('getParticipatedTopic: page: '.$page.' , limit: '.$limit);
-        $this->debug('getParticipatedTopic: count: '.count($pagination));
+        $this->debug('getParticipatedTopic: $startNumber: ' . $startNumber . ' , $lastNumber: ' . $lastNumber);
+        $this->debug('getParticipatedTopic: page: ' . $page . ' , limit: ' . $limit);
+        $this->debug('getParticipatedTopic: count: ' . count($pagination));
 
         $configList = array(
             'result' => new \Zend\XmlRpc\Value\Boolean(true),
@@ -220,7 +221,8 @@ class TopicManager extends AbstractManager
         return $this->getResponse($configList, 'struct');
     }
 
-    protected function getTopicAsStruct(Topic $topic){
+    protected function getTopicAsStruct(Topic $topic)
+    {
         $forum = $topic->getForum();
         $author = $topic->getAuthor();
         $closed = $topic->isLocked();
@@ -260,13 +262,13 @@ class TopicManager extends AbstractManager
         $count = 0;
         $unread = 0;
 
-        if($user){
+        if ($user) {
             $limit = 50;
             $page = 1;
             $this->calcLimitandPage($startNumber, $lastNumber, $limit, $page);
             $topics = $this->topicManager->getParticipatedTopics($page, $limit, $user);
             $count = count($topics);
-            foreach($topics as $key => $topic){
+            foreach ($topics as $key => $topic) {
                 $topicData[] = $this->getTopicAsStruct($topic);
             }
         } else {

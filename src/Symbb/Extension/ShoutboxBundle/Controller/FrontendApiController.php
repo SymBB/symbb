@@ -30,12 +30,13 @@ class FrontendApiController extends AbstractApiController
         $data = array();
         $data['shoutboxEntries'] = array();
 
-        foreach($pagination as $result){
+        foreach ($pagination as $result) {
             $author = $result->getAuthor();
             $data['shoutboxEntries'][] = array(
                 'id' => $result->getId(),
                 'message' => $result->getMessage(),
                 'date' => $this->getISO8601ForUser($result->getDate()),
+                'dateTimestamp' => $result->getDate()->getTimestamp(),
                 'author' => array(
                     'id' => $author->getId(),
                     'username' => $author->getUsername(),
@@ -54,7 +55,7 @@ class FrontendApiController extends AbstractApiController
 
         $messageBody = $request->get('message');
 
-        if(!empty($messageBody)){
+        if (!empty($messageBody)) {
             $message = new Message();
             $message->setAuthor($this->getUser());
             $message->setMessage($messageBody);

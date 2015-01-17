@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2014-11-19T13:08:00Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2015-01-17T19:58:25Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
     </header>
     <body>
+      <trans-unit id="c25801b64ffa696aa0d04d16300da43dedba5267" resname="                        Loading ...">
+        <source>                        Loading ...</source>
+        <target state="new">                        Loading ...</target>
+        <jms:reference-file line="21">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="66">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="66">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="51">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="2f81a22de0af5e9eab19326e19693f86ce612518" resname="Access">
         <source>Access</source>
         <target>Rechte</target>
-        <jms:reference-file line="40">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="58">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="41">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="61">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="781bbdff8955dc6a6c4bd273f6b0067a337f9abf" resname="Accessmanagment">
         <source>Accessmanagment</source>
         <target>Rechteverwaltung</target>
-        <jms:reference-file line="80">views/AcpAngular/navi.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
-        <source>Actions</source>
-        <target>Aktionen</target>
-        <jms:reference-file line="58">Acp/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="33">Forum/TopicTag/list.html.twig</jms:reference-file>
-        <jms:reference-file line="32">Acp/UserField/list.html.twig</jms:reference-file>
-        <jms:reference-file line="34">Acp/BBCode/list.html.twig</jms:reference-file>
-        <jms:reference-file line="29">Acp/User/list.html.twig</jms:reference-file>
-        <jms:reference-file line="30">Acp/Group/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="92ef08325a4813563a3110359906076374683282" resname="Activate">
-        <source>Activate</source>
-        <target>Aktivieren</target>
-        <jms:reference-file line="33">Acp/System/extensions.html.twig</jms:reference-file>
+        <jms:reference-file line="84">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b8be3d1264310c3b8c848d4b90d5206179a40cc4" resname="Administration">
         <source>Administration</source>
@@ -40,53 +33,45 @@
       <trans-unit id="276e2316b9517d0e33f7b33b7be4fdf705e732b6" resname="Aktion">
         <source>Aktion</source>
         <target>Aktion</target>
-        <jms:reference-file line="34">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="36">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="28">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="21">Acp/System/extensions.html.twig</jms:reference-file>
+        <jms:reference-file line="35">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="37">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="29">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf84a98d6cf7f156862a08ba8236467b6f471004" resname="Announcement">
         <source>Announcement</source>
         <target>Ankündigung</target>
-        <jms:reference-file line="48">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="53">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="91e5e396c06e0f99df69fe3fd8dbcfa988e2f843" resname="Array of Params as JSON">
         <source>Array of Params as JSON</source>
         <target>Array von Parametern als JSON</target>
-        <jms:reference-file line="87">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="44fb8d733008294aeef226b7c09f1cb0718d17a3" resname="BBCode">
-        <source>BBCode</source>
-        <target>BBCode</target>
-        <jms:reference-file line="31">Acp/BBCode/list.html.twig</jms:reference-file>
+        <jms:reference-file line="94">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3f77edcf0d967eb8109b7a78ee86ed8f1cd2452b" resname="BBCodes">
         <source>BBCodes</source>
         <target>BBCodes</target>
-        <jms:reference-file line="110">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/BBCode/list.html.twig</jms:reference-file>
+        <jms:reference-file line="118">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a3c686e711e4720f99b4562bb3dbaae7ab658cf2" resname="Category">
         <source>Category</source>
         <target>Kategory</target>
         <jms:reference-file line="10">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="88">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="91">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="06066d15b44b667cd41b0811a762ee41be91511f" resname="Count Link calls">
         <source>Count Link calls</source>
         <target>zähle Linkaufrufe</target>
-        <jms:reference-file line="97">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="105">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="accf40c89baa4fa88e6a7ff11e1f805beecafd3f" resname="Created">
         <source>Created</source>
         <target>Erzeugt</target>
-        <jms:reference-file line="34">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="35">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="143b179529aecd0bdc5aa86599fe60057b83d32b" resname="Custom Fields">
         <source>Custom Fields</source>
         <target>Eigene Felder</target>
-        <jms:reference-file line="72">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/UserField/list.html.twig</jms:reference-file>
+        <jms:reference-file line="75">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d87f47b47e4d5794d53fe0734c49417bd046cde0" resname="Dashboard">
         <source>Dashboard</source>
@@ -94,286 +79,258 @@
         <jms:reference-file line="5">views/AcpAngular/dashboard.html.twig</jms:reference-file>
         <jms:reference-file line="9">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="f1ba1057370fd6efe205fc45ff196d83eef61685" resname="Deaktivate">
-        <source>Deaktivate</source>
-        <target>Deaktivieren</target>
-        <jms:reference-file line="31">Acp/System/extensions.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="f6fdbe48dc54dd86f63097a03bd24094dedd713a" resname="Delete">
         <source>Delete</source>
         <target>Löschen</target>
-        <jms:reference-file line="44">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="29">AcpAngular/Site/list.html.twig</jms:reference-file>
-        <jms:reference-file line="69">Acp/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="44">Forum/TopicTag/list.html.twig</jms:reference-file>
-        <jms:reference-file line="43">Acp/UserField/list.html.twig</jms:reference-file>
-        <jms:reference-file line="46">Acp/BBCode/list.html.twig</jms:reference-file>
-        <jms:reference-file line="48">Acp/User/list.html.twig</jms:reference-file>
-        <jms:reference-file line="39">Acp/Group/list.html.twig</jms:reference-file>
+        <jms:reference-file line="45">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="30">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="55f8ebc805e65b5b71ddafdae390e3be2bcd69af" resname="Description">
         <source>Description</source>
         <target>Beschreibung</target>
-        <jms:reference-file line="90">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="94">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="aa419d386d8ee4521e93e6fd8cc2245288d76c44" resname="Display Forum">
         <source>Display Forum</source>
         <target>Forum anzeigen</target>
-        <jms:reference-file line="32">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="33">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1b23871a1bbc65a7108704e9b1bda8b700ee447c" resname="Display Memberlist">
         <source>Display Memberlist</source>
         <target>Mitgliederliste anzeigen</target>
-        <jms:reference-file line="33">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="34">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="abb17deaa9c47a614c782ec0522615ce4798ef2f" resname="Display in Forum">
         <source>Display in Forum</source>
         <target>Im Forum anzeigen</target>
-        <jms:reference-file line="86">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="90">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b98c020315291cc93c0f9256d278d3ebaea26a9c" resname="Display in Memberlist">
         <source>Display in Memberlist</source>
         <target>In der Mitgliederliste anzeigen</target>
-        <jms:reference-file line="91">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="95">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0d641b3f1afe93a0323a0128a013778c7d8ae93" resname="Domains">
         <source>Domains</source>
         <target>Domains</target>
-        <jms:reference-file line="40">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="45">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9eeffe4b7b6e5e1e997946906659420d101fba64" resname="E-Mail">
         <source>E-Mail</source>
         <target>E-Mail</target>
-        <jms:reference-file line="32">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="41">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="33">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0d01e2e86669e98441ab4dce5520696c318b7098" resname="E-mail">
         <source>E-mail</source>
         <target>E-Mail</target>
-        <jms:reference-file line="78">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="81">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5301648dcf6b53cefc9ed52999aaa92d4603cae0" resname="Edit">
         <source>Edit</source>
         <target>Bearbeiten</target>
-        <jms:reference-file line="36">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="26">AcpAngular/Site/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="f7265d405b8ca90fcaecee4fca42d325222cc88b" resname="Editieren">
-        <source>Editieren</source>
-        <target>Editieren</target>
-        <jms:reference-file line="68">Acp/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="43">Forum/TopicTag/list.html.twig</jms:reference-file>
-        <jms:reference-file line="42">Acp/UserField/list.html.twig</jms:reference-file>
-        <jms:reference-file line="45">Acp/BBCode/list.html.twig</jms:reference-file>
-        <jms:reference-file line="46">Acp/User/list.html.twig</jms:reference-file>
-        <jms:reference-file line="38">Acp/Group/list.html.twig</jms:reference-file>
+        <jms:reference-file line="37">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="27">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="df174a3f2faa31814e06540acda7af8825403fac" resname="Enabled">
         <source>Enabled</source>
         <target>Aktiviert</target>
-        <jms:reference-file line="35">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="80">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="28">Acp/User/list.html.twig</jms:reference-file>
+        <jms:reference-file line="36">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="83">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="649df08a448ee3fa90f3746baaf6b0907df42c91" resname="English">
         <source>English</source>
         <target>Englisch</target>
-        <jms:reference-file line="84">views/AcpAngular/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="92">views/AcpAngular/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="83">views/AcpAngular/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="94">views/AcpAngular/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="091cd97999248ec3d4cbb827fad2d6ed89dee3d7" resname="Entries per page">
         <source>Entries per page</source>
         <target>Einträge pro Seite</target>
-        <jms:reference-file line="93">AcpAngular/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="659087d3ca23db6ae11e0a43579b5f4a260dda11" resname="Extension">
-        <source>Extension</source>
-        <target>Erweiterung</target>
-        <jms:reference-file line="20">Acp/System/extensions.html.twig</jms:reference-file>
+        <jms:reference-file line="100">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="656bcfe284e2da39c77d4fdab55b16ad3c654719" resname="Extensions">
         <source>Extensions</source>
         <target>Erweiterungen</target>
-        <jms:reference-file line="123">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="131">views/AcpAngular/navi.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bce706e2dc077829097cc52db2c8457ccc4bad18" resname="Feed List">
+        <source>Feed List</source>
+        <target>Feed Liste</target>
+        <jms:reference-file line="92">AcpAngular/Forum/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ffe8e99492ee9b850395d53f6c519938952fde0d" resname="Feeds">
+        <source>Feeds</source>
+        <target>Feeds</target>
+        <jms:reference-file line="110">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c326a4660b674d2f6ea82687a1e1abae2337541f" resname="Field">
         <source>Field</source>
         <target>Feld</target>
-        <jms:reference-file line="30">Acp/UserField/list.html.twig</jms:reference-file>
+        <jms:reference-file line="75">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="92f9a3104326dd169a6517cfef4e9845e673ac46" resname="Filter Regex">
+        <source>Filter Regex</source>
+        <target>Filter Regex</target>
+        <jms:reference-file line="114">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf1d2c9702ec3c2c9c19d4853cd487b92618fb0c" resname="Forum">
         <source>Forum</source>
         <target>Forum</target>
         <jms:reference-file line="5">AcpAngular/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="11">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="82">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="87">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="142">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="56">Acp/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="85">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="90">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="151">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e43e291f7614229d24e296bd9d9257d2750da95e" resname="Forummanagment">
         <source>Forummanagment</source>
         <target>Forenverwaltung</target>
-        <jms:reference-file line="37">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="35">Acp/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="38">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="da91388c72d3e31da19dcd85c97374197748485d" resname="German">
         <source>German</source>
         <target>Deutsch</target>
-        <jms:reference-file line="84">views/AcpAngular/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="89">views/AcpAngular/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="83">views/AcpAngular/layout.html.twig</jms:reference-file>
+        <jms:reference-file line="90">views/AcpAngular/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="171a0606f7c74580fd3982cf57c49d604104120a" resname="Group">
         <source>Group</source>
         <target>Gruppe</target>
-        <jms:reference-file line="60">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="73">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="27">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="58">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="29">Acp/Group/list.html.twig</jms:reference-file>
+        <jms:reference-file line="63">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="28">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="60">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d4d697e041e86977b235a8ba592ea004014680a4" resname="Groupaccess">
         <source>Groupaccess</source>
         <target>Gruppenrechte</target>
-        <jms:reference-file line="88">views/AcpAngular/navi.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="c833853304415839661ad5bafafc81a91dab127b" resname="Groupmanagment">
-        <source>Groupmanagment</source>
-        <target>Gruppenverwaltung</target>
-        <jms:reference-file line="12">Acp/Group/list.html.twig</jms:reference-file>
+        <jms:reference-file line="93">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ae9629f4ebb82c6331c0809fa9a0e54b00e578e6" resname="Groups">
         <source>Groups</source>
         <target>Gruppen</target>
-        <jms:reference-file line="81">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="85">AcpAngular/User/userlist.html.twig</jms:reference-file>
         <jms:reference-file line="5">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="67">views/AcpAngular/navi.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="f4e8075cef9dd01c29f3d3523cd1b788e525a78b" resname="Gruppe">
-        <source>Gruppe</source>
-        <target>Gruppe</target>
-        <jms:reference-file line="22">Acp/Group/accessS2.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="70f8bb9a8a5393ef080507a89e4b98d139000d65" resname="Home">
-        <source>Home</source>
-        <target>Home</target>
-        <jms:reference-file line="23">Acp/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="50e19fda0d5b4b74a4a1a1d584e56578693a4ea4" resname="Image">
-        <source>Image</source>
-        <target>Bild</target>
-        <jms:reference-file line="33">Acp/BBCode/list.html.twig</jms:reference-file>
+        <jms:reference-file line="70">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f3236b59975ab01b48ef10a2bc1de7327611e81d" resname="Include subforums">
         <source>Include subforums</source>
         <target>schließe Unterforen mit ein</target>
-        <jms:reference-file line="79">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="82">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9d5941ea24f5ed1dd401ecc51fd228c1ec1bd35b" resname="Internally key of the route">
         <source>Internally key of the route</source>
         <target>Internally key of the route</target>
-        <jms:reference-file line="86">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="91">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c67dd20ee842986086a0a915ddc2a279490130ed" resname="Key">
         <source>Key</source>
         <target>Key</target>
-        <jms:reference-file line="76">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="80">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="74341e3c271df3c784e595b804b1f90be0f80429" resname="Label">
         <source>Label</source>
         <target>Label</target>
-        <jms:reference-file line="30">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="77">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="31">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="80">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2df48ad223beccb8f6821904f38bb72e782904a8" resname="Last Login">
         <source>Last Login</source>
         <target>letzter Login</target>
-        <jms:reference-file line="33">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="34">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d0517071aa376e797705058bbad4b658954b9930" resname="Link">
         <source>Link</source>
         <target>Link</target>
         <jms:reference-file line="12">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="86">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="96">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="89">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="104">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="530afa5bce434b05e3a10e83ff2567f7f8622af9" resname="Loading ...">
-        <source>Loading ...</source>
-        <target>Daten werden geladen ...</target>
+      <trans-unit id="64175046c4479cd3d06b43cc7373a89a56a36565" resname="Link Regex">
+        <source>Link Regex</source>
+        <target>Link Regex</target>
+        <jms:reference-file line="115">AcpAngular/Forum/list.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ab4c501ce7f77b9e53740fda792c39dcd33a961a" resname="Loading&#10;            ...">
+        <source>Loading
+            ...</source>
+        <target>Loading...</target>
         <jms:reference-file line="17">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="21">AcpAngular/Site/list.html.twig</jms:reference-file>
-        <jms:reference-file line="9">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="65">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="75">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="77">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
         <jms:reference-file line="10">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="65">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="75">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="77">AcpAngular/User/userlist.html.twig</jms:reference-file>
         <jms:reference-file line="10">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="50">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="60">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="62">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e7e122560ffbddef6c8f3321150a65e0f577ab8a" resname="Loading&#10;        ...">
+        <source>Loading
+        ...</source>
+        <target>Loading...</target>
+        <jms:reference-file line="9">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="94de303bbef8935622224c5db48199c807ab7d71" resname="Maintenance">
         <source>Maintenance</source>
         <target>Wartung</target>
-        <jms:reference-file line="129">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="137">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ca1c802cf8c5bbe21f6beb4486940ccb72fafc2c" resname="Media Domain">
         <source>Media Domain</source>
         <target>Medien Domain</target>
-        <jms:reference-file line="44">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="49">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="08512df7efd96987867d093a1f44418c45af290f" resname="Metadata: Description">
         <source>Metadata: Description</source>
         <target>Metadaten: Beschreibung</target>
-        <jms:reference-file line="52">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="57">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="edb210a4b4237c1a2ebd835d392806f6bc309254" resname="Metadata: Keywords">
         <source>Metadata: Keywords</source>
         <target>Metadaten: Schlüsselwörter</target>
-        <jms:reference-file line="56">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="61">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="709a23220f2c3d64d1e1d6d18c4d5280f8d82fca" resname="Name">
         <source>Name</source>
         <target>Name</target>
-        <jms:reference-file line="83">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="36">AcpAngular/Site/list.html.twig</jms:reference-file>
-        <jms:reference-file line="62">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="86">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="37">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="65">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf03cf2e9cdf95a20af09137dfb9071db0c31bf2" resname="Navigation">
         <source>Navigation</source>
         <target>Navigation</target>
-        <jms:reference-file line="74">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="78">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
         <jms:reference-file line="4">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c1624885989b65e9859cd3a8564235b91adb4ddd" resname="Navigation Item">
         <source>Navigation Item</source>
         <target>Navigation Element</target>
-        <jms:reference-file line="78">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="82">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="09b81f88235cea8efbfa75eacf630632faa26dab" resname="Navigations">
         <source>Navigations</source>
         <target>Navigationen</target>
         <jms:reference-file line="5">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="29">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="30">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6403f2b7eb2aaafe6de34cbf2a029b01afebc512" resname="New">
         <source>New</source>
         <target>Neu</target>
-        <jms:reference-file line="32">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="33">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4741e1446746dfe79e1c9f0dd9808e1c7b643571" resname="New Field">
         <source>New Field</source>
         <target>neues Feld</target>
-        <jms:reference-file line="14">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="15">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c7a980841aee5357b4cfd91f93cd06a97a981f9" resname="New Forum">
         <source>New Forum</source>
         <target>neues Forum</target>
-        <jms:reference-file line="21">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="22">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="15013982cbefa60777590c3a496b204e6d131557" resname="New Group">
         <source>New Group</source>
         <target>neue Gruppe</target>
-        <jms:reference-file line="14">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="15">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0fd806d75f9daff2b1a6a7bead3cdaaac9e721f5" resname="New Navigation">
         <source>New Navigation</source>
@@ -388,146 +345,85 @@
       <trans-unit id="b85e445f60044c26c53dc928d018cf9dfb200a6e" resname="New User">
         <source>New User</source>
         <target>neuer User</target>
-        <jms:reference-file line="14">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="15">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6bf5da9c080bee3a8142586c412aa39971137eee" resname="Options">
         <source>Options</source>
         <target>Optionen</target>
-        <jms:reference-file line="105">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="113">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0efc2e6be4c23b9a513d7ce0dcff8ed80e8912e7" resname="Overview">
         <source>Overview</source>
         <target>Übersicht</target>
-        <jms:reference-file line="45">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="47">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8be3c943b1609fffbfc51aad666d0a04adf83c9d" resname="Password">
         <source>Password</source>
         <target>Passwort</target>
-        <jms:reference-file line="65">Form/Type/User.php</jms:reference-file>
-        <jms:reference-file line="79">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="82">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf1c85adba548e8d681255278976584a7e4a44de" resname="Position">
         <source>Position</source>
         <target>Position</target>
-        <jms:reference-file line="92">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="102">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a0ca0c3198947ded7419101f3e83d48a9cb41f2a" resname="Posts">
         <source>Posts</source>
         <target>Beiträge</target>
         <jms:reference-file line="14">views/AcpAngular/dashboard.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="886cbff9d9df761ec642945e519631a23ed173a2" resname="Priority">
-        <source>Priority</source>
-        <target>Priorität</target>
-        <jms:reference-file line="32">Forum/TopicTag/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="8446c6cafdc85a2c90822f7d6d0e306070b4a773" resname="Really delete entry?">
-        <source>Really delete entry?</source>
-        <target>Den Eintrag wirklich löschen?</target>
-        <jms:reference-file line="69">Acp/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="43">Acp/UserField/list.html.twig</jms:reference-file>
-        <jms:reference-file line="46">Acp/BBCode/list.html.twig</jms:reference-file>
-        <jms:reference-file line="48">Acp/User/list.html.twig</jms:reference-file>
-        <jms:reference-file line="39">Acp/Group/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="4b05057251e4302f4bc3d01e5b6a51b7c98a6d87" resname="Really delete entry? All Topic with this Tag will be reset to normal Topics!">
-        <source>Really delete entry? All Topic with this Tag will be reset to normal Topics!</source>
-        <target>Eintrag wirklich löschen? Alle Themen mit diesem Tag werden zurückgesetzt.</target>
-        <jms:reference-file line="44">Forum/TopicTag/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="349cb9a7b41e04bd6466ff68e6f764cbbfbd3eff" resname="Really restore the defaults? All Topics will be reset to normal Topics!">
-        <source>Really restore the defaults? All Topics will be reset to normal Topics!</source>
-        <target>Standart wirklich wieder herstellen? Alle Themen mit diesem Tag werden zurückgesetzt.</target>
-        <jms:reference-file line="15">Forum/TopicTag/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="bab9bc458f38d4d574e5baa63c72341db6ddaa30" resname="Repeat Password">
-        <source>Repeat Password</source>
-        <target>Passwort wiederholen</target>
-        <jms:reference-file line="66">Form/Type/User.php</jms:reference-file>
-      </trans-unit>
       <trans-unit id="bb57e147c8a792a77f55666b959ac70a1dba1e25" resname="Route Params">
         <source>Route Params</source>
         <target>Route Params</target>
-        <jms:reference-file line="87">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="94">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="efc007a393f66cdb14d57d385822a3d9e36ef873" resname="Save">
         <source>Save</source>
         <target>Speichern</target>
-        <jms:reference-file line="24">AcpAngular/Site/list.html.twig</jms:reference-file>
+        <jms:reference-file line="25">AcpAngular/Site/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7531e26e2293e4bdabe4ba80ff44a77a8454062f" resname="Select a Site">
         <source>Select a Site</source>
         <target>wähle einen Internetauftritt</target>
         <jms:reference-file line="9">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="448ab73ba1c21e671e218fb91f2644c834f0c16f" resname="Set">
-        <source>Set</source>
-        <target>Set</target>
-        <jms:reference-file line="32">Acp/BBCode/list.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="c7f73bb54d928922c3838bb789ee9fb8a5b1eb37" resname="Settings">
         <source>Settings</source>
         <target>Einstellungen</target>
-        <jms:reference-file line="97">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="104">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2092e32828955aa854a64a07f64746490cddce56" resname="Show sub forum list">
         <source>Show sub forum list</source>
         <target>zeige Unterforenliste an</target>
-        <jms:reference-file line="92">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="98">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5cae88ddf5336e6a23091c01317b646467eb857e" resname="Sites">
         <source>Sites</source>
         <target>Internetauftritte</target>
         <jms:reference-file line="5">AcpAngular/Site/list.html.twig</jms:reference-file>
         <jms:reference-file line="16">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="24">views/AcpAngular/navi.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="1c2e9c2bf417e2da9bfe11c8aae5b14d112cf8d7" resname="Step 1: Select a group">
-        <source>Step 1: Select a group</source>
-        <target>Schritt 1: Wähle eine Gruppe</target>
-        <jms:reference-file line="13">Acp/Group/accessS1.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="2a8a5048d9dcf548e9f610712da748a93aba593b" resname="Step 2: Select a forum">
-        <source>Step 2: Select a forum</source>
-        <target>Schritt 2: Wähle ein Forum</target>
-        <jms:reference-file line="19">Acp/Group/accessS1.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="4330bd72220b32bf0735f54e464c2603a4f7a184" resname="Step 3: Include Sub-forums ?">
-        <source>Step 3: Include Sub-forums ?</source>
-        <target>Schritt 3: Unterforen miteinschließen?</target>
-        <jms:reference-file line="25">Acp/Group/accessS1.html.twig</jms:reference-file>
+        <jms:reference-file line="25">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="faec8cc5c1f1b8fb4e70bda4c03e361de07f1b5f" resname="Symfony Route">
         <source>Symfony Route</source>
         <target>Symfony Route</target>
-        <jms:reference-file line="86">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="91">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8028567282bd58bb910a7804d05eb30cdf0bb528" resname="System Link">
         <source>System Link</source>
         <target>System Link</target>
-        <jms:reference-file line="82">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="982963c1c41cbed8cab073724749592fe35c532b" resname="Tag">
-        <source>Tag</source>
-        <target>Tag</target>
-        <jms:reference-file line="31">Forum/TopicTag/list.html.twig</jms:reference-file>
+        <jms:reference-file line="86">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="768e0c1c69573fb588f61f1308a015c11468e05f" resname="Title">
         <source>Title</source>
         <target>Title</target>
-        <jms:reference-file line="75">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
         <jms:reference-file line="79">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="1ec0b00d7e4a7ebd7e91c21e91a99ece12fa858a" resname="Toggle navigation">
-        <source>Toggle navigation</source>
-        <target>Navigation umschalten</target>
-        <jms:reference-file line="8">views/Acp/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="83">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3cf4950a69c8c4376d462a765b4d4329f6c02004" resname="Topic Tags">
         <source>Topic Tags</source>
         <target>Themen Tags</target>
-        <jms:reference-file line="115">views/AcpAngular/navi.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Forum/TopicTag/list.html.twig</jms:reference-file>
+        <jms:reference-file line="123">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="07e4f9c27860c8f452d481954e498a807cd27a98" resname="Topics">
         <source>Topics</source>
@@ -537,32 +433,30 @@
       <trans-unit id="8ad8302d110b05d7e02330dac58628134fdcff02" resname="Translations">
         <source>Translations</source>
         <target>Übersetzungen</target>
-        <jms:reference-file line="136">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="145">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3deb7456519697ecf4eefc455516c969a3681bae" resname="Type">
         <source>Type</source>
         <target>Art</target>
-        <jms:reference-file line="84">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="80">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="31">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="78">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="57">Acp/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="31">Acp/UserField/list.html.twig</jms:reference-file>
+        <jms:reference-file line="87">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="84">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="32">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="81">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0e2d9b0777a485c1276de0803c12a7d76fbc5c39" resname="URL">
         <source>URL</source>
         <target>URL</target>
-        <jms:reference-file line="83">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="87">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a32959d6cdd4500a095ff22a20fff18ca8765db1" resname="Url">
         <source>Url</source>
         <target>Url</target>
-        <jms:reference-file line="90">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="99">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="56c2417395587380f4cc57e131f1ada883fe56c2" resname="Url with http://">
         <source>Url with http://</source>
         <target>Url mit http://</target>
-        <jms:reference-file line="90">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="99">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="61160bb10c389872e5b75e6f7858b43885625971" resname="Useerfields">
         <source>Useerfields</source>
@@ -572,30 +466,24 @@
       <trans-unit id="9f8a2389a20ca0752aa9e95093515517e90e194c" resname="User">
         <source>User</source>
         <target>Benutzer</target>
-        <jms:reference-file line="31">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="73">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="27">Acp/User/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="93a3c0e1d21b6c530aa585a7ccbb8f94a90d7443" resname="Usermanagement">
-        <source>Usermanagement</source>
-        <target>Benutzerverwaltung</target>
-        <jms:reference-file line="11">Acp/User/list.html.twig</jms:reference-file>
+        <jms:reference-file line="32">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="75">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2592801658f3aab159c21f200c8d5ab55465e84d" resname="Usermanagment">
         <source>Usermanagment</source>
         <target>Benutzerverwaltung</target>
-        <jms:reference-file line="54">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="56">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="84c29015de33e5d22422382a372caba5c58f8c01" resname="Username">
         <source>Username</source>
         <target>Benutzername</target>
-        <jms:reference-file line="77">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="80">AcpAngular/User/userlist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57f2b181d0a5e79a147ea1cdf41457f58dbbb3c9" resname="Users">
         <source>Users</source>
         <target>Benutzer</target>
         <jms:reference-file line="5">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="62">views/AcpAngular/navi.html.twig</jms:reference-file>
+        <jms:reference-file line="65">views/AcpAngular/navi.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f8f3b6f931db7357358449f2e905d8470e3394cd" resname="Visitors">
         <source>Visitors</source>
@@ -606,11 +494,6 @@
         <source>Welcome to Symbb Application</source>
         <target>Willkommen in deinem Symbb Forum</target>
         <jms:reference-file line="6">views/AcpAngular/dashboard.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="9f628b61ae0f13b47185ee50b5a770a5c09ff035" resname="Yes/No">
-        <source>Yes/No</source>
-        <target>Ja/Nein</target>
-        <jms:reference-file line="33">Form/Type/Field.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="089fe637c8ad26c6b56a529c1199d4311c34f766" resname="You can manage your Forum and Categories on this Pages">
         <source>You can manage your Forum and Categories on this Pages</source>
@@ -647,169 +530,100 @@
         <target>aktive Benutzer</target>
         <jms:reference-file line="26">views/AcpAngular/dashboard.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="ac14d17e3e8a927e89aa2df9ebf36bfa0465b7bb" resname="and all subforums">
-        <source>and all subforums</source>
-        <target>und alle Unterforen</target>
-        <jms:reference-file line="28">Acp/Group/accessS2.html.twig</jms:reference-file>
+      <trans-unit id="dbdafefa91fb7e46f8b794176e15fa976e335125" resname="add feed">
+        <source>add feed</source>
+        <target>feed hinzufügen</target>
+        <jms:reference-file line="120">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5aaabad1f83526068ed8740ef854fcf3eb83adc8" resname="copy access from">
         <source>copy access from</source>
         <target>kopiere Rechte von</target>
-        <jms:reference-file line="67">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="70">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9485989ff514b5106b7738850fd73c23e8c1e3f7" resname="delete">
         <source>delete</source>
         <target>löschen</target>
         <jms:reference-file line="35">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="58">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="56">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="56">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="41">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="60">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="57">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="57">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="42">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9ead47a82a0d25985f22f10651d1f93b3abba317" resname="edit">
         <source>edit</source>
         <target>editieren</target>
         <jms:reference-file line="31">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="54">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="52">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="52">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="37">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+        <jms:reference-file line="55">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="53">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="53">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="38">AcpAngular/User/grouplist.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="072e688dac6f670261c6bdb59f1fcdde7cfb414a" resname="feed Url">
+        <source>feed Url</source>
+        <target state="new">feed Url</target>
+        <jms:reference-file line="113">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="52e6d8ab88471af82da12a0eae7aab01357e3881" resname="full">
         <source>full</source>
         <target>voll</target>
-        <jms:reference-file line="76">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="79">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d4122b88753cdf0fdc641d33ae24bc9eb612aba9" resname="inactive Users">
         <source>inactive Users</source>
         <target>inaktive Benutzer</target>
         <jms:reference-file line="32">views/AcpAngular/dashboard.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="7f62f8687fec9cab63bcb58605d2228365afc9ef" resname="long Text">
-        <source>long Text</source>
-        <target>langer Text</target>
-        <jms:reference-file line="33">Form/Type/Field.php</jms:reference-file>
-      </trans-unit>
       <trans-unit id="79f52b5b92498b00cb18284f1dcb466bd40ad559" resname="moderator">
         <source>moderator</source>
         <target>Moderator</target>
-        <jms:reference-file line="77">AcpAngular/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="9b3878a7cc2eb7e565ee5e2bd1a668b4af25d86d" resname="new BBCode">
-        <source>new BBCode</source>
-        <target>neuer BBCode</target>
-        <jms:reference-file line="14">Acp/BBCode/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d9c8d4cba555a31528d0d549913551de383581dc" resname="new Category">
-        <source>new Category</source>
-        <target>neue Kategorie</target>
-        <jms:reference-file line="39">Acp/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="a9e647459a1242a24b3e9ec19d2efa338881da4b" resname="new Field">
-        <source>new Field</source>
-        <target>neues Feld</target>
-        <jms:reference-file line="14">Acp/UserField/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="086fe1b5faa6184d5f47abd926742d0c7acf4266" resname="new Forum">
-        <source>new Forum</source>
-        <target>neues Forum</target>
-        <jms:reference-file line="38">Acp/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="b1137ffcc2586f87499dacad12fa61ebe8d92917" resname="new Group">
-        <source>new Group</source>
-        <target>neue Gruppe</target>
-        <jms:reference-file line="15">Acp/Group/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="f12dc235aa3bcf323ad91daad98979b784eb65c8" resname="new Link">
-        <source>new Link</source>
-        <target>neuer Link</target>
-        <jms:reference-file line="40">Acp/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="ad1642f79942bfac7eb5f670e7b3992f30706d9c" resname="new Topic Tag">
-        <source>new Topic Tag</source>
-        <target>neuer Themen Tag</target>
-        <jms:reference-file line="14">Forum/TopicTag/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="0740bf1097ba965a2877a508daf46d0c621c58bf" resname="new User">
-        <source>new User</source>
-        <target>neuer User</target>
-        <jms:reference-file line="14">Acp/User/list.html.twig</jms:reference-file>
+        <jms:reference-file line="80">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="947e89bfb2d7ee040bfbdee128e1fddbcf580d83" resname="new subitem">
         <source>new subitem</source>
         <target>neues Kind-Element</target>
         <jms:reference-file line="27">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="50">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="51">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fbfc120b1f6ec909476a76a231bec5708d8e66e4" resname="no access">
         <source>no access</source>
         <target>kein Zugriff</target>
-        <jms:reference-file line="73">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="76">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9c2a6e4809aeef7b7712ca4db05a681452f4f748" resname="normal">
         <source>normal</source>
         <target>normal</target>
-        <jms:reference-file line="75">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="78">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1758356db21759f7c5a0da9b4dd1db8fd6feab3f" resname="or">
         <source>or</source>
         <target>oder</target>
-        <jms:reference-file line="70">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="73">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9a27718297218c3757c365d357d13f49d0fa3065" resname="readonly">
         <source>readonly</source>
         <target>readonly</target>
-        <jms:reference-file line="74">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="77">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="8fe2db0478f37eddf35eaa7b950ff1c5a92563cf" resname="restore Default">
-        <source>restore Default</source>
-        <target>Standard wiederherstellen</target>
-        <jms:reference-file line="15">Forum/TopicTag/list.html.twig</jms:reference-file>
-        <jms:reference-file line="15">Acp/BBCode/list.html.twig</jms:reference-file>
+      <trans-unit id="db99845855b2ecbfecca9a095062b96c3e27703f" resname="remove">
+        <source>remove</source>
+        <target>entfernen</target>
+        <jms:reference-file line="116">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13a4a11319d31c1b323d5774f44240a9ffc984d0" resname="save">
         <source>save</source>
         <target>speichern</target>
-        <jms:reference-file line="58">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="82">AcpAngular/Forum/list.html.twig</jms:reference-file>
-        <jms:reference-file line="74">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="61">AcpAngular/Forum/list.html.twig</jms:reference-file>
+        <jms:reference-file line="85">AcpAngular/Forum/list.html.twig</jms:reference-file>
         <jms:reference-file line="78">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
-        <jms:reference-file line="73">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
-        <jms:reference-file line="73">AcpAngular/User/userlist.html.twig</jms:reference-file>
-        <jms:reference-file line="58">AcpAngular/User/grouplist.html.twig</jms:reference-file>
-        <jms:reference-file line="43">Acp/System/config.html.twig</jms:reference-file>
-        <jms:reference-file line="16">Acp/Forum/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="19">Forum/TopicTag/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="16">Acp/Site/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="16">Site/Navigation/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="15">Navigation/Item/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="19">Acp/UserField/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="19">Acp/BBCode/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="19">Acp/User/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="20">Acp/Group/edit.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="b45fb120e349c03a5d42803c686b9c4c572e5f76" resname="save entry">
-        <source>save entry</source>
-        <target>Eintrag speichern</target>
-        <jms:reference-file line="7">Acp/Forum/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Forum/TopicTag/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="7">Acp/Site/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="7">Site/Navigation/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="7">Navigation/Item/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/UserField/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/BBCode/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/User/edit.html.twig</jms:reference-file>
-        <jms:reference-file line="11">Acp/Group/edit.html.twig</jms:reference-file>
+        <jms:reference-file line="82">AcpAngular/Site/navigationList.html.twig</jms:reference-file>
+        <jms:reference-file line="75">AcpAngular/User/fieldlist.html.twig</jms:reference-file>
+        <jms:reference-file line="75">AcpAngular/User/userlist.html.twig</jms:reference-file>
+        <jms:reference-file line="60">AcpAngular/User/grouplist.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cbcf12f0d5573a60dc9b02ec623d290cc3b79f19" resname="set accesslevel">
         <source>set accesslevel</source>
         <target>Zugriffslevel setzten</target>
-        <jms:reference-file line="71">AcpAngular/Forum/list.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="b1786b982e50522a74084d57429d28700a0bfd29" resname="short Text">
-        <source>short Text</source>
-        <target>kurzer Text</target>
-        <jms:reference-file line="33">Form/Type/Field.php</jms:reference-file>
+        <jms:reference-file line="74">AcpAngular/Forum/list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="74f29cc41603dca032d746438c067643131c682a" resname="successfully saved">
         <source>successfully saved</source>

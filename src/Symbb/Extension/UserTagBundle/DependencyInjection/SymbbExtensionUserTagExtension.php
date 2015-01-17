@@ -28,6 +28,6 @@ class SymbbExtensionUserTagExtension extends Extension implements PrependExtensi
 
     public function load(array $configs, ContainerBuilder $container)
     {
-        
+
     }
 }

@@ -11,7 +11,7 @@ namespace Symbb\Core\UserBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
-    
+
 class UserParseSignatureEvent extends Event
 {
 

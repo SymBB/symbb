@@ -10,6 +10,8 @@
 namespace Symbb\Core\SystemBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractController extends Controller
 {
@@ -27,5 +29,40 @@ abstract class AbstractController extends Controller
         }
 
         return $this->templateBundle;
+    }
+
+    public function addSuccess($message, $request)
+    {
+        $request->getSession()->getFlashBag()->add(
+            'success',
+            $message
+        );
+    }
+
+    public function addError($message, $request)
+    {
+        $request->getSession()->getFlashBag()->add(
+            'error',
+            $message
+        );
+    }
+
+    public function addInfo($message, $request)
+    {
+        $request->getSession()->getFlashBag()->add(
+            'notice',
+            $message
+        );
+    }
+
+    public function returnToLastPage($request)
+    {
+        $referer = $request->headers->get('referer');
+        return new RedirectResponse($referer);
+    }
+
+    public function addSavedSuccess(Request $request){
+        $message = $this->get("translator")->trans("Saved successful.", array(), "symbb_frontend");
+        $this->addSuccess($message, $request);
     }
 }

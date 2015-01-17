@@ -1,27 +1,27 @@
 symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$routeParams", "$http",
-    function($scope, $symbbRestCrud, $routeParams, $http) {
+    function ($scope, $symbbRestCrud, $routeParams, $http) {
         var service = new $symbbRestCrud();
         service.parentIdField = 'parent';
         service.routingIdField = 'forum';
         service.init($scope);
 
-        $scope.addForumAsSelectOption = function (list, select, prefix){
-            $.each(list, function(key, element){
+        $scope.addForumAsSelectOption = function (list, select, prefix) {
+            $.each(list, function (key, element) {
                 var option = $('<option>', {html: prefix + ' ' + element.name, value: element.id});
                 $(select).append(option);
-                if(element.children){
-                    $scope.addForumAsSelectOption(element.children, select, prefix+'-');
+                if (element.children) {
+                    $scope.addForumAsSelectOption(element.children, select, prefix + '-');
                 }
             });
         };
 
-        $scope.removeForumFeedEntry = function(index){
+        $scope.removeForumFeedEntry = function (index) {
             console.debug(index);
-            if($scope.formEntry){
-                if($scope.formEntry.feeds){
+            if ($scope.formEntry) {
+                if ($scope.formEntry.feeds) {
                     var newList = [];
-                    for(var i = 0; i < $scope.formEntry.feeds.length; i++){
-                        if(i != index){
+                    for (var i = 0; i < $scope.formEntry.feeds.length; i++) {
+                        if (i != index) {
                             newList[newList.length] = $scope.formEntry.feeds[i];
                         }
                     }
@@ -30,9 +30,9 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
             }
         };
 
-        $scope.addForumFeedEntry = function(){
-            if($scope.formEntry){
-                if(!$scope.formEntry.feeds){
+        $scope.addForumFeedEntry = function () {
+            if ($scope.formEntry) {
+                if (!$scope.formEntry.feeds) {
                     $scope.formEntry.feeds = [];
                 }
                 $scope.formEntry.feeds[$scope.formEntry.feeds.length] = {
@@ -43,7 +43,7 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
             console.debug($scope.formEntry.feeds);
         };
 
-        $scope.access = function(node){
+        $scope.access = function (node) {
 
             $scope.accessEntry = {
                 forumFrom: 0,
@@ -55,7 +55,7 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
 
 
             $('#accessFormForumList').html("");
-            var option = $('<option>', {html: ' ', value:0});
+            var option = $('<option>', {html: ' ', value: 0});
             $('#accessFormForumList').append(option);
 
             console.debug($('#accessFormForumList'));
@@ -64,12 +64,12 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
             $('#accessForm').find('.modal').modal('show');
             $('#accessForm').find('.modal-button').unbind("click");
             $('#accessForm').find('.modal-button').click(function () {
-                if(
+                if (
                     $scope.accessEntry.forumFrom > 0 &&
                     $scope.accessEntry.forumTo > 0 &&
                     $scope.accessEntry.group > 0 &&
                     $scope.accessEntry.set == 0
-                ){
+                ) {
                     var routeParams = {_locale: $routeParams._locale};
                     var route = angularConfig.getSymfonyRoute('symbb_backend_api_forum_copy_access', routeParams);
                     $http.post(route, {data: $scope.accessEntry}).success(function (response) {
@@ -80,12 +80,12 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
                     }).error(function () {
                         $scope.restCrudSaving = false;
                     })
-                } else if(
+                } else if (
                     $scope.accessEntry.forumFrom == 0 &&
                     $scope.accessEntry.forumTo > 0 &&
                     $scope.accessEntry.group > 0 &&
                     $scope.accessEntry.set > 0
-                ){
+                ) {
                     var routeParams = {_locale: $routeParams._locale};
                     var route = angularConfig.getSymfonyRoute('symbb_backend_api_forum_apply_access_set', routeParams);
                     $http.post(route, {data: $scope.accessEntry}).success(function (response) {

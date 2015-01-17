@@ -9,23 +9,24 @@
 
 namespace Symbb\Core\EventBundle\Event;
 
+use Symbb\Core\ForumBundle\DependencyInjection\PostManager;
 use Symfony\Component\EventDispatcher\Event;
 use \Symbb\Core\ForumBundle\Entity\Post;
 use Symfony\Component\Form\FormBuilderInterface;
 use \Symbb\Core\UserBundle\Manager\UserManager;
 use \Symbb\Core\UserBundle\Manager\GroupManager;
 
-class FormPostEvent extends Event 
+class FormPostEvent extends Event
 {
 
     /**
-     * @var Post 
+     * @var Post
      */
     protected $post;
 
     /**
      *
-     * @var FormBuilderInterface 
+     * @var FormBuilderInterface
      */
     protected $builder;
 
@@ -37,9 +38,9 @@ class FormPostEvent extends Event
 
     /**
      *
-     * @var \Doctrine\ORM\EntityManager 
+     * @var PostManager
      */
-    protected $em;
+    protected $postManager;
 
     /**
      * @var \Symbb\Core\UserBundle\Manager\UserManager
@@ -51,68 +52,64 @@ class FormPostEvent extends Event
      * @var \Symbb\Core\UserBundle\Manager\GroupManager
      */
     protected $groupManager;
-    
 
-    public function __construct(Post $post, FormBuilderInterface $builder, $translator, $em, UserManager $userManager, GroupManager $groupManager)
+
+    public function __construct(FormBuilderInterface $builder, $translator, PostManager $postManager, UserManager $userManager, GroupManager $groupManager)
     {
-        $this->post = $post;
         $this->builder = $builder;
         $this->translator = $translator;
-        $this->em = $em;
+        $this->postManager = $postManager;
         $this->userManager = $userManager;
         $this->groupManager = $groupManager;
 
     }
 
+    /**
+     * @return Post
+     */
     public function getPost()
     {
         return $this->post;
-
-    }
-
-    public function getBuilder()
-    {
-        return $this->builder;
-
     }
 
     /**
-     * 
+     * @return FormBuilderInterface
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
      * @return \Symfony\Component\Translation\TranslatorInterface
      */
     public function getTranslator()
     {
         return $this->translator;
-
     }
 
     /**
-     * 
-     * @return \Doctrine\ORM\EntityManager
+     * @return PostManager
      */
-    public function getEntityManager()
+    public function getPostManager()
     {
-        return $this->em;
-
+        return $this->postManager;
     }
 
     /**
-     * 
-     * @return \Symbb\Core\UserBundle\Manager\GroupManager
-     */
-    public function getGroupManager()
-    {
-        return $this->groupManager;
-
-    }
-
-    /**
-     * 
-     * @return \Symbb\Core\UserBundle\Manager\UserManager
+     * @return UserManager
      */
     public function getUserManager()
     {
         return $this->userManager;
-
     }
+
+    /**
+     * @return GroupManager
+     */
+    public function getGroupManager()
+    {
+        return $this->groupManager;
+    }
+
 }

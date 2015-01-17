@@ -12,8 +12,4 @@ namespace Symbb\Core\EventBundle\Event;
 class TemplateFormPostEvent extends BaseTemplateEvent
 {
 
-    public function __construct($env)
-    {
-        $this->env = $env;
-    }
 }

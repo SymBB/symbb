@@ -1,0 +1,57 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+
+{% block section_content %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ profileUser.getUsername() }}</div>
+        <div class="panel-body">
+            <div class="row profile">
+                <div class="avatar">
+                    <img src="{{ getSymbbUserAvatar(profileUser) }}">
+                </div>
+                <div class="infos">
+                    <div class="">
+                        <h1>{{ profileUser.getUsername() }}</h1>
+
+                        <div class="countDiv">
+                            <div class="count">{{ profileUser.getCreated() | date("d.m.Y") }}</div>
+                            <div class="title">{{ 'Join Date'|trans }}</div>
+                        </div>
+                        <div class="countDiv">
+                            <div class="count">{{ getUserManager().getPostCount(profileUser) }}</div>
+                            <div class="title">{{ 'Posts'|trans }}</div>
+                        </div>
+                        <div class="countDiv last">
+                            <div class="count">{{ getUserManager().getTopicCount(profileUser) }}</div>
+                            <div class="title">{{ 'Topics'|trans }}</div>
+                        </div>
+                        <div class="clear"></div>
+                        <table class="table">
+                            {% for field in userfields %}
+                                <tr>
+                                    <td>
+                                        {{ field.getLabel() }}:
+                                    </td>
+                                    <td>
+                                        {% set fieldValue = profileUser.getFieldValue(field) %}
+                                        {% if field.getDataType() == "boolean" %}
+                                            {% if fieldValue.getValue() %}
+                                                <span class="glyphicon glyphicon-ok glyphicon-success"></span>
+                                            {% else %}
+                                                <span class="glyphicon glyphicon-remove glyphicon-danger"></span>
+                                            {% endif %}
+                                        {% else %}
+                                            {{ fieldValue.getValue() }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+{% endblock %}

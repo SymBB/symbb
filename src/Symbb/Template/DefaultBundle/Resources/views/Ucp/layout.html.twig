@@ -1,0 +1,46 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+
+{% block section_tabs %}
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="{{ path('symbb_forum_index') }}" title="{{ 'home'|trans }}">
+                <span class="glyphicon glyphicon-chevron-left glyphicon-success"></span>
+                <span class="glyphicon-label">{% trans %}home{% endtrans %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('symbb_user_ucp') }}" title="{{ 'profile'|trans }}">
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="glyphicon-label">{% trans %}profile{% endtrans %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('symbb_user_ucp_security') }}" title="{{ 'security'|trans }}">
+                <span class="glyphicon glyphicon-lock"></span>
+                <span class="glyphicon-label">{% trans %}security{% endtrans %}</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('symbb_user_ucp_notifications') }}" title="{{ 'security'|trans }}">
+                <span class=" glyphicon glyphicon-volume-up"></span>
+                <span class="glyphicon-label">{% trans %}notifications{% endtrans %}</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ path('symbb_message_list') }}" title="{% trans %}Messages{% endtrans %}">
+                <span class="glyphicon glyphicon-comment {% if getSymbbMessageManager().countNewMessages() > 0 %}glyphicon-danger{% endif %}">
+                <span class="message_count">{{ getSymbbMessageManager().countNewMessages() }}</span></span>
+                <span class="glyphicon-label">{% trans %}Messages{% endtrans %}</span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block section_content %}
+    <div class="symbb_content_bg">
+        {% block section_content_ucp %}
+        {% endblock %}
+    </div>
+{% endblock %}

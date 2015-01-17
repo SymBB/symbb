@@ -1,0 +1,36 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+{% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block section_content_ucp %}
+    <h1>{{ message.getSubject() }}</h1>
+    {% trans with {
+            '%user%':  message.getSender().getUsername() ,
+            '%date%':  message.getDate() | date("d.m.Y") ,
+            '%time%':  message.getDate() | date("H:i")
+        }
+    %}by %user% on %date% at %time%
+    {% endtrans %}
+
+    <div class="padding10">
+        {{ message.getMessage() | raw }}
+    </div>
+
+    {% if isReceiver %}
+        {{ form_start(form) }}
+            <h1>{{ 'Reply'|trans }}</h1>
+            {{ form_row(form.subject) }}
+            <div class="symbb_editor small">
+                {{ form_row(form.message) }}
+            </div>
+            {{ form_errors(form) }}
+            <div class="pull-right btn-group">
+                <a class="btn btn-success" type="submit"
+                   onclick="return symbbForum.saveEditor(true)">{{ 'Save'|trans }}</a>
+                <a class="btn btn-danger"
+                   href="{{ path("symbb_user_ucp") }}">{{ 'Abort'|trans }}</a>
+            </div>
+            <div class="clear"></div>
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}

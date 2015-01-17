@@ -36,7 +36,7 @@ class Set
      *      joinColumns={@ORM\JoinColumn(name="set_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="bbcode_id", referencedColumnName="id")}
      *      )
-     * @var ArrayCollection 
+     * @var ArrayCollection
      */
     protected $codes;
 
@@ -49,8 +49,9 @@ class Set
     {
         $this->id = $value;
     }
-    
-    public function getId(){
+
+    public function getId()
+    {
         return $this->id;
     }
 

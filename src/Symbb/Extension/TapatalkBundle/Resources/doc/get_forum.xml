@@ -486,7 +486,9 @@
                                                                                             <member>
                                                                                                 <name>forum_name</name>
                                                                                                 <value>
-                                                                                                    <base64>QXJjaGl2LUtsYXNzZW4=</base64>
+                                                                                                    <base64>
+                                                                                                        QXJjaGl2LUtsYXNzZW4=
+                                                                                                    </base64>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
@@ -508,13 +510,15 @@
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>can_subscribe</name>
+                                                                                                <name>can_subscribe
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>is_subscribed</name>
+                                                                                                <name>is_subscribed
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
@@ -538,7 +542,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>RGlzemlwbGluIGRlciBLcmllZ2Vy</base64>
+                                                                            <base64>RGlzemlwbGluIGRlciBLcmllZ2Vy
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -584,7 +589,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>RGlzemlwbGluIGRlciBNYWdpZXI=</base64>
+                                                                            <base64>RGlzemlwbGluIGRlciBNYWdpZXI=
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -630,7 +636,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>RGlzemlwbGluIGRlciBIYW5kd2Vya2Vy</base64>
+                                                                            <base64>RGlzemlwbGluIGRlciBIYW5kd2Vya2Vy
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -676,7 +683,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>RGlzemlwbGluIGRlciBTYW1tbGVy</base64>
+                                                                            <base64>RGlzemlwbGluIGRlciBTYW1tbGVy
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -783,7 +791,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>V2FmZmVuLCBSw7xzdHVuZ2VuIHVuZCBhbmRlcmUgQXVzcsO8c3R1bmc=</base64>
+                                                                            <base64>
+                                                                                V2FmZmVuLCBSw7xzdHVuZ2VuIHVuZCBhbmRlcmUgQXVzcsO8c3R1bmc=
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -829,7 +839,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>U3ludGhlc2VtYXRlcmlhbGllbg==</base64>
+                                                                            <base64>U3ludGhlc2VtYXRlcmlhbGllbg==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -875,7 +886,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>SGFuZHdlcmtzZGllbnN0bGVpc3R1bmdlbg==</base64>
+                                                                            <base64>
+                                                                                SGFuZHdlcmtzZGllbnN0bGVpc3R1bmdlbg==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1028,7 +1041,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>T2ZmaXppZWxsZSBHdWlkZXMgYXVmIGZpbmFsZmFudGFzeS0xNC5kZQ==</base64>
+                                                                            <base64>
+                                                                                T2ZmaXppZWxsZSBHdWlkZXMgYXVmIGZpbmFsZmFudGFzeS0xNC5kZQ==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1046,7 +1061,9 @@
                                                                     <member>
                                                                         <name>url</name>
                                                                         <value>
-                                                                            <string>http:\/\/www.finalfantasy-14.de\/guides</string>
+                                                                            <string>
+                                                                                http:\/\/www.finalfantasy-14.de\/guides
+                                                                            </string>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1080,7 +1097,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>RmVlZGJhY2sgdW5kIEtyaXRpayB6dSBkZW4gb2ZmaXppZWxsZW4gR3VpZGVz</base64>
+                                                                            <base64>
+                                                                                RmVlZGJhY2sgdW5kIEtyaXRpayB6dSBkZW4gb2ZmaXppZWxsZW4gR3VpZGVz
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1126,7 +1145,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>VGlwcHMgdW5kIFRha3Rpa2VuIHp1IEZpbmFsIEZhbnRhc3kgWElWOiBBIFJlYWxtIFJlYm9ybg==</base64>
+                                                                            <base64>
+                                                                                VGlwcHMgdW5kIFRha3Rpa2VuIHp1IEZpbmFsIEZhbnRhc3kgWElWOiBBIFJlYWxtIFJlYm9ybg==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1227,7 +1248,8 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>QXJjaGl2LURpc2t1c3Npb25lbg==</base64>
+                                                                            <base64>QXJjaGl2LURpc2t1c3Npb25lbg==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -1842,7 +1864,9 @@
                                             <member>
                                                 <name>forum_name</name>
                                                 <value>
-                                                    <base64>S29udGFrdGtyZWlzZSAvIEZyZWllIEdlc2VsbHNjaGFmdGVuIFZvcnN0ZWxsdW5n</base64>
+                                                    <base64>
+                                                        S29udGFrdGtyZWlzZSAvIEZyZWllIEdlc2VsbHNjaGFmdGVuIFZvcnN0ZWxsdW5n
+                                                    </base64>
                                                 </value>
                                             </member>
                                             <member>
@@ -1943,7 +1967,8 @@
                                             <member>
                                                 <name>forum_name</name>
                                                 <value>
-                                                    <base64>S29udGFrdGtyZWlzZSAvIEZyZWllIEdlc2VsbHNjaGFmdGVuIFN1Y2hl</base64>
+                                                    <base64>S29udGFrdGtyZWlzZSAvIEZyZWllIEdlc2VsbHNjaGFmdGVuIFN1Y2hl
+                                                    </base64>
                                                 </value>
                                             </member>
                                             <member>
@@ -2215,7 +2240,9 @@
                                                                     <member>
                                                                         <name>url</name>
                                                                         <value>
-                                                                            <string>http:\/\/de.ff14-shiva.wikia.com\/wiki\/FinalFantasy14_ARR_-_Shiva_RP_Wiki</string>
+                                                                            <string>
+                                                                                http:\/\/de.ff14-shiva.wikia.com\/wiki\/FinalFantasy14_ARR_-_Shiva_RP_Wiki
+                                                                            </string>
                                                                         </value>
                                                                     </member>
                                                                     <member>
@@ -2613,7 +2640,8 @@
                                             <member>
                                                 <name>logo_url</name>
                                                 <value>
-                                                    <string>http:\/\/www.finalfantasy-14.de\/forum\/logo_rdc_new.png</string>
+                                                    <string>http:\/\/www.finalfantasy-14.de\/forum\/logo_rdc_new.png
+                                                    </string>
                                                 </value>
                                             </member>
                                             <member>
@@ -2720,7 +2748,8 @@
                                             <member>
                                                 <name>logo_url</name>
                                                 <value>
-                                                    <string>http:\/\/www.finalfantasy-14.de\/forum\/Logo_fG_klein.png</string>
+                                                    <string>http:\/\/www.finalfantasy-14.de\/forum\/Logo_fG_klein.png
+                                                    </string>
                                                 </value>
                                             </member>
                                             <member>
@@ -2818,7 +2847,9 @@
                                                                                             <member>
                                                                                                 <name>forum_name</name>
                                                                                                 <value>
-                                                                                                    <base64>w5xiZXIgdW5z</base64>
+                                                                                                    <base64>
+                                                                                                        w5xiZXIgdW5z
+                                                                                                    </base64>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
@@ -2836,17 +2867,21 @@
                                                                                             <member>
                                                                                                 <name>url</name>
                                                                                                 <value>
-                                                                                                    <string>http:\/\/www.finalfantasy-14.de\/forum\/finalfantasy-14-de-t590.html</string>
+                                                                                                    <string>
+                                                                                                        http:\/\/www.finalfantasy-14.de\/forum\/finalfantasy-14-de-t590.html
+                                                                                                    </string>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>can_subscribe</name>
+                                                                                                <name>can_subscribe
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>is_subscribed</name>
+                                                                                                <name>is_subscribed
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
@@ -2870,7 +2905,9 @@
                                                                                             <member>
                                                                                                 <name>forum_name</name>
                                                                                                 <value>
-                                                                                                    <base64>QmV3ZXJidW5nIGbDvHIgWElWREU=</base64>
+                                                                                                    <base64>
+                                                                                                        QmV3ZXJidW5nIGbDvHIgWElWREU=
+                                                                                                    </base64>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
@@ -2892,13 +2929,15 @@
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>can_subscribe</name>
+                                                                                                <name>can_subscribe
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
                                                                                             </member>
                                                                                             <member>
-                                                                                                <name>is_subscribed</name>
+                                                                                                <name>is_subscribed
+                                                                                                </name>
                                                                                                 <value>
                                                                                                     <boolean>0</boolean>
                                                                                                 </value>
@@ -2911,45 +2950,69 @@
                                                                                                             <value>
                                                                                                                 <struct>
                                                                                                                     <member>
-                                                                                                                        <name>forum_id</name>
+                                                                                                                        <name>
+                                                                                                                            forum_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>118</string>
+                                                                                                                            <string>
+                                                                                                                                118
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>forum_name</name>
+                                                                                                                        <name>
+                                                                                                                            forum_name
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <base64>QXJjaGl2IFtBdWZnZW5vbW1lbl0=</base64>
+                                                                                                                            <base64>
+                                                                                                                                QXJjaGl2IFtBdWZnZW5vbW1lbl0=
+                                                                                                                            </base64>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>parent_id</name>
+                                                                                                                        <name>
+                                                                                                                            parent_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>65</string>
+                                                                                                                            <string>
+                                                                                                                                65
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>logo_url</name>
+                                                                                                                        <name>
+                                                                                                                            logo_url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>url</name>
+                                                                                                                        <name>
+                                                                                                                            url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>can_subscribe</name>
+                                                                                                                        <name>
+                                                                                                                            can_subscribe
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>is_subscribed</name>
+                                                                                                                        <name>
+                                                                                                                            is_subscribed
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                 </struct>
@@ -2957,45 +3020,69 @@
                                                                                                             <value>
                                                                                                                 <struct>
                                                                                                                     <member>
-                                                                                                                        <name>forum_id</name>
+                                                                                                                        <name>
+                                                                                                                            forum_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>119</string>
+                                                                                                                            <string>
+                                                                                                                                119
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>forum_name</name>
+                                                                                                                        <name>
+                                                                                                                            forum_name
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <base64>QXJjaGl2IFtBYmdlbGVobnRd</base64>
+                                                                                                                            <base64>
+                                                                                                                                QXJjaGl2IFtBYmdlbGVobnRd
+                                                                                                                            </base64>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>parent_id</name>
+                                                                                                                        <name>
+                                                                                                                            parent_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>65</string>
+                                                                                                                            <string>
+                                                                                                                                65
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>logo_url</name>
+                                                                                                                        <name>
+                                                                                                                            logo_url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>url</name>
+                                                                                                                        <name>
+                                                                                                                            url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>can_subscribe</name>
+                                                                                                                        <name>
+                                                                                                                            can_subscribe
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>is_subscribed</name>
+                                                                                                                        <name>
+                                                                                                                            is_subscribed
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                 </struct>
@@ -3003,45 +3090,69 @@
                                                                                                             <value>
                                                                                                                 <struct>
                                                                                                                     <member>
-                                                                                                                        <name>forum_id</name>
+                                                                                                                        <name>
+                                                                                                                            forum_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>248</string>
+                                                                                                                            <string>
+                                                                                                                                248
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>forum_name</name>
+                                                                                                                        <name>
+                                                                                                                            forum_name
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <base64>QXJjaGl2</base64>
+                                                                                                                            <base64>
+                                                                                                                                QXJjaGl2
+                                                                                                                            </base64>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>parent_id</name>
+                                                                                                                        <name>
+                                                                                                                            parent_id
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <string>65</string>
+                                                                                                                            <string>
+                                                                                                                                65
+                                                                                                                            </string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>logo_url</name>
+                                                                                                                        <name>
+                                                                                                                            logo_url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>url</name>
+                                                                                                                        <name>
+                                                                                                                            url
+                                                                                                                        </name>
                                                                                                                         <value>
                                                                                                                             <string></string>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>can_subscribe</name>
+                                                                                                                        <name>
+                                                                                                                            can_subscribe
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                     <member>
-                                                                                                                        <name>is_subscribed</name>
+                                                                                                                        <name>
+                                                                                                                            is_subscribed
+                                                                                                                        </name>
                                                                                                                         <value>
-                                                                                                                            <boolean>0</boolean>
+                                                                                                                            <boolean>
+                                                                                                                                0
+                                                                                                                            </boolean>
                                                                                                                         </value>
                                                                                                                     </member>
                                                                                                                 </struct>
@@ -3436,7 +3547,9 @@
                                                                     <member>
                                                                         <name>forum_name</name>
                                                                         <value>
-                                                                            <base64>Vm9yc3RlbGx1bmcgdW5kIFppZWxlIGRlciBHaWxkZQ==</base64>
+                                                                            <base64>
+                                                                                Vm9yc3RlbGx1bmcgdW5kIFppZWxlIGRlciBHaWxkZQ==
+                                                                            </base64>
                                                                         </value>
                                                                     </member>
                                                                     <member>

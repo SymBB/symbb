@@ -9,7 +9,7 @@
  */
 
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -79,7 +79,7 @@
                     }
 
                     var cached = cache !== undefined ?
-                        cache.get(config.url) !== undefined : false;
+                    cache.get(config.url) !== undefined : false;
 
                     if (config.cached !== undefined && cached !== config.cached) {
                         return config.cached;
@@ -90,13 +90,13 @@
 
 
                 return {
-                    'request': function(config) {
+                    'request': function (config) {
                         // Check to make sure this request hasn't already been cached and that
                         // the requester didn't explicitly ask us to ignore this request:
                         if (!config.ignoreLoadingBar && !isCached(config)) {
                             $rootScope.$broadcast('cfpLoadingBar:loading', {url: config.url});
                             if (reqsTotal === 0) {
-                                startTimeout = $timeout(function() {
+                                startTimeout = $timeout(function () {
                                     cfpLoadingBar.start();
                                 }, latencyThreshold);
                             }
@@ -106,7 +106,7 @@
                         return config;
                     },
 
-                    'response': function(response) {
+                    'response': function (response) {
                         if (!response.config.ignoreLoadingBar && !isCached(response.config)) {
                             reqsCompleted++;
                             $rootScope.$broadcast('cfpLoadingBar:loaded', {url: response.config.url});
@@ -119,7 +119,7 @@
                         return response;
                     },
 
-                    'responseError': function(rejection) {
+                    'responseError': function (rejection) {
                         if (!rejection.config.ignoreLoadingBar && !isCached(rejection.config)) {
                             reqsCompleted++;
                             $rootScope.$broadcast('cfpLoadingBar:loaded', {url: rejection.config.url});
@@ -148,7 +148,7 @@
      * use a service.
      */
     angular.module('cfp.loadingBar', [])
-        .provider('cfpLoadingBar', function() {
+        .provider('cfpLoadingBar', function () {
 
             this.includeSpinner = true;
             this.includeBar = true;
@@ -220,7 +220,7 @@
                     // progress but make sure to cancel the previous timeouts so we don't
                     // have multiple incs running at the same time.
                     $timeout.cancel(incTimeout);
-                    incTimeout = $timeout(function() {
+                    incTimeout = $timeout(function () {
                         _inc();
                     }, 250);
                 }
@@ -274,8 +274,8 @@
                     $timeout.cancel(completeTimeout);
 
                     // Attempt to aggregate any start/complete calls within 500ms:
-                    completeTimeout = $timeout(function() {
-                        $animate.leave(loadingBarContainer, function() {
+                    completeTimeout = $timeout(function () {
+                        $animate.leave(loadingBarContainer, function () {
                             status = 0;
                             started = false;
                         });
@@ -284,15 +284,15 @@
                 }
 
                 return {
-                    start            : _start,
-                    set              : _set,
-                    status           : _status,
-                    inc              : _inc,
-                    complete         : _complete,
-                    includeSpinner   : this.includeSpinner,
-                    latencyThreshold : this.latencyThreshold,
-                    parentSelector   : this.parentSelector,
-                    startSize        : this.startSize
+                    start: _start,
+                    set: _set,
+                    status: _status,
+                    inc: _inc,
+                    complete: _complete,
+                    includeSpinner: this.includeSpinner,
+                    latencyThreshold: this.latencyThreshold,
+                    parentSelector: this.parentSelector,
+                    startSize: this.startSize
                 };
 
 

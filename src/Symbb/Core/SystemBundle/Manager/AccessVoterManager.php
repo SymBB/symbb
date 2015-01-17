@@ -23,11 +23,12 @@ class AccessVoterManager
     protected $voterList = array();
 
 
-    public function getAccessList($object){
+    public function getAccessList($object)
+    {
         $list = array();
 
-        foreach($this->voterList as $voter){
-            if($voter->supportsClass(ClassUtils::getRealClass($object))){
+        foreach ($this->voterList as $voter) {
+            if ($voter->supportsClass(ClassUtils::getRealClass($object))) {
                 $attributes = $voter->getGroupedAttributes();
                 $list = array_merge_recursive($list, $attributes);
             }
@@ -36,11 +37,12 @@ class AccessVoterManager
         return $list;
     }
 
-    public function getAccessSetList($object){
+    public function getAccessSetList($object)
+    {
         $list = array();
 
-        foreach($this->voterList as $voter){
-            if($voter->supportsClass(ClassUtils::getRealClass($object))){
+        foreach ($this->voterList as $voter) {
+            if ($voter->supportsClass(ClassUtils::getRealClass($object))) {
                 $attributes = $voter->getAccessSets();
                 $list = array_merge_recursive($list, $attributes);
             }
@@ -49,8 +51,9 @@ class AccessVoterManager
         return $list;
     }
 
-    public function addVoter($voter){
-        if($voter instanceof AbstractVoter){
+    public function addVoter($voter)
+    {
+        if ($voter instanceof AbstractVoter) {
             $this->voterList[] = $voter;
         }
     }

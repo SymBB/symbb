@@ -18,7 +18,7 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
 
     public function __construct($em)
     {
-        $this->em  = $em;
+        $this->em = $em;
     }
 
     public function createToken(Request $request, $providerKey)

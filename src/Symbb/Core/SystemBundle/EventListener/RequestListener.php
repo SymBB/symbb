@@ -28,17 +28,18 @@ class RequestListener
      */
     protected $securityContext;
 
-    public function __construct(StatisticApi $api, SecurityContextInterface $securityContext){
+    public function __construct(StatisticApi $api, SecurityContextInterface $securityContext)
+    {
         $this->statisticApi = $api;
         $this->securityContext = $securityContext;
     }
 
     public function statistic(FinishRequestEvent $event)
     {
-        if($event->isMasterRequest()){
+        if ($event->isMasterRequest()) {
             $request = $event->getRequest();
             $token = $this->securityContext->getToken();
-            if($token){
+            if ($token) {
                 $this->statisticApi->addVisitor($token->getUser(), $request);
             }
         }

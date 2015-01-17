@@ -9,17 +9,19 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
 
-class ForumFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+class ForumFlagHandler extends AbstractFlagHandler
 {
+
 
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)
     {
         $ignore = false;
         // if we add a topic "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
-        if ($flag === 'new') {
+        if ($flag === AbstractFlagHandler::FLAG_NEW) {
             $access = $this->securityContext->isGranted('VIEW', $object, $user);
             if ($access) {
                 $ignore = $this->checkFlag($object, 'ignore', $user);
@@ -43,9 +45,9 @@ class ForumFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\Abstr
         parent::removeFlag($object, $flag, $user);
 
         /** remove recusivly to the childs */
-        foreach($object->getTopics() as $topic){
+        foreach ($object->getTopics() as $topic) {
             parent::removeFlag($topic, $flag, $user);
-            foreach($topic->getPosts() as $post){
+            foreach ($topic->getPosts() as $post) {
                 parent::removeFlag($post, $flag, $user);
             }
         }
