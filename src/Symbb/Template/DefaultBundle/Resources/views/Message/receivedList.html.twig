@@ -37,7 +37,11 @@
                     <tbody>
                     {% for entry in messages %}
                         <tr>
-                            <td>{{ entry.getSender().getUsername() }}</td>
+                            <td>
+                                <a href="{{ path("symbb_user_profile", {id: entry.getSender().getId(), username: entry.getSender().getUsername()}) }}">
+                                    {{ entry.getSender().getUsername() }}
+                                </a>
+                            </td>
                             <td>
                                 {% if getSymbbMessageManager().isNew(entry) %}
                                     <span class="label label-success">{{ 'new'|trans }}</span>
