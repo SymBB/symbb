@@ -349,9 +349,13 @@ class ForumManager extends AbstractManager
         $count = $this->getCacheData($cacheKey);
 
         if ($count === null) {
-            $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum = ?0";
+
+            $ids = array($forum->getId());
+            $this->getAllForumChildIds($forum, $ids);
+
+            $sql = "SELECT COUNT(t.id) FROM SymbbCoreForumBundle:Topic t WHERE t.forum IN (?0)";
             $query = $this->em->createQuery($sql);
-            $query->setParameter(0, $forum->getId());
+            $query->setParameter(0, $ids);
             $count = $query->getSingleScalarResult();
             if (!$count) {
                 $count = 0;
@@ -373,9 +377,13 @@ class ForumManager extends AbstractManager
         $count = $this->getCacheData($cacheKey);
 
         if ($count === null) {
-            $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum = ?0";
+
+            $ids = array($forum->getId());
+            $this->getAllForumChildIds($forum, $ids);
+
+            $sql = "SELECT COUNT(p.id) FROM SymbbCoreForumBundle:Post p JOIN p.topic t WHERE t.forum IN (?0)";
             $query = $this->em->createQuery($sql);
-            $query->setParameter(0, $forum->getId());
+            $query->setParameter(0, $ids);
             $count = $query->getSingleScalarResult();
             if (!$count) {
                 $count = 0;
