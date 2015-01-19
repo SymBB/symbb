@@ -641,6 +641,10 @@ class ForumManager extends AbstractManager
      */
     public function getLastPost(Forum $forum)
     {
+
+        $ids = array($forum->getId());
+        $this->getAllForumChildIds($forum, $ids);
+
         $sql = "SELECT
                     p
                 FROM
@@ -648,15 +652,27 @@ class ForumManager extends AbstractManager
                 JOIN
                     p.topic t
                 WHERE
-                    t.forum = ?0
+                    t.forum IN (?0)
                 ORDER BY
                     p.created DESC";
 
         $query = $this->em->createQuery($sql);
-        $query->setParameter(0, $forum->getId());
+        $query->setParameter(0, $ids);
         $query->setMaxResults(1);
 
         $post = $query->getOneOrNullResult();
         return $post;
+    }
+
+    /**
+     * @param $forum
+     * @param $ids
+     */
+    public function getAllForumChildIds($forum, &$ids){
+        foreach($this->getChildren($forum, 1, 100) as $child){
+            $id = $child->getId();
+            $ids[$id] = $id;
+            $this->getAllForumChildIds($child, $ids);
+        }
     }
 }

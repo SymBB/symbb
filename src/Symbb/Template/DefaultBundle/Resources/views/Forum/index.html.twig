@@ -108,13 +108,13 @@
         <div class="col-md-2 col number-align">{{ object.getPosts().count() }}</div>
         <div class="col-md-5 col">
             {% if object.getPosts().count() > 0 %}
-                <a href="{{ path("symbb_forum_topic_show", {"id": getSymbbTopicManager().getLastPost().getId(), "name": getSymbbTopicManager().getLastPost().getSeoName(), "page": "last"}) }}">
+                <a href="{{ path("symbb_forum_topic_show", {"id": getSymbbTopicManager().getLastPost(object).getId(), "name": getSymbbTopicManager().getLastPost(object).getSeoName(), "page": "last"}) }}">
                     <div class="avatar_mini pull-left">
-                        <img title="{{ getSymbbTopicManager().getLastPost().getAuthor().getUsername() }}"
+                        <img title="{{ getSymbbTopicManager().getLastPost(object).getAuthor().getUsername() }}"
                              src="getSymbbUserManager().getAvatar(getSymbbTopicManager().getLastPost().getAuthor())"/>
                     </div>
                     <div class="text pull-left">
-                        {% trans with {'%user%': getSymbbTopicManager().getLastPost().getAuthor().getUsername(), '%date%': getSymbbTopicManager().getLastPost().getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost().getCreated() | date("H:i")} %}from %user% on %date% at %time%{% endtrans %}
+                        {% trans with {'%user%': getSymbbTopicManager().getLastPost(object).getAuthor().getUsername(), '%date%': getSymbbTopicManager().getLastPost(object).getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost(object).getCreated() | date("H:i")} %}from %user% on %date% at %time%{% endtrans %}
                     </div>
                 </a>
             {% endif %}
