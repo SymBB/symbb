@@ -677,6 +677,7 @@ class ForumManager extends AbstractManager
      * @param $ids
      */
     public function getAllForumChildIds($forum, &$ids){
+        //todo cache this will not change often, refesh cache at backend forum save action!
         foreach($this->getChildren($forum, 1, 100) as $child){
             $id = $child->getId();
             $ids[$id] = $id;
