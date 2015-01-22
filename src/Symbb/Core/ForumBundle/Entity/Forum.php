@@ -11,7 +11,6 @@ namespace Symbb\Core\ForumBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symbb\Core\ForumBundle\Entity\Forum\Feed;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -83,19 +82,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $topics;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed", mappedBy="forum", orphanRemoval=true, cascade={"persist"}, fetch="EXTRA_LAZY")
-     * @var ArrayCollection
-     */
-    protected $feeds;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="forum", orphanRemoval=true, cascade={"persist"}, fetch="EXTRA_LAZY")
-     * @ORM\OrderBy({"created" = "DESC"})
-     * @var ArrayCollection
-     */
-    protected $feedEntries;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $active = true;
@@ -139,7 +125,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     {
         $this->children = new ArrayCollection();
         $this->topics = new ArrayCollection();
-        $this->feeds = new ArrayCollection();
 
     }
 
@@ -480,45 +465,8 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
         return array(
             'forum',
             'category',
-            'link',
-            'rss'
+            'link'
         );
-    }
-
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getFeeds()
-    {
-        return $this->feeds;
-
-    }
-
-    /**
-     *
-     */
-    public function removeFeeds()
-    {
-        $this->feeds->clear();
-    }
-
-    /**
-     * @param Feed $feed
-     */
-    public function addFeed(Feed $feed)
-    {
-        $feed->setForum($this);
-        $this->feeds->add($feed);
-    }
-
-    /**
-     * @param ArrayCollection $feeds
-     */
-    public function setFeeds(ArrayCollection $feeds)
-    {
-        $this->feeds->clear();
-        $this->feeds = $feeds;
     }
 
     /**
@@ -543,13 +491,5 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     public function isForum()
     {
         return $this->getType() == "forum";
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFeed()
-    {
-        return $this->getType() == "rss";
     }
 }

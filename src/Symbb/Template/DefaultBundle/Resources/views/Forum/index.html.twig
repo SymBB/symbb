@@ -25,9 +25,6 @@
         {% if object.isCategory() %}
             {{ _self.symbbCategoryRow(object) }}
             {% set forumHeader = true %}
-        {% elseif object.isFeed() %}
-            {{ _self.symbbCategoryRow(object) }}
-            {% set forumHeader = true %}
         {% else %}
             {% if forumHeader %}
                 <div class="row symbb_forum_header_row">

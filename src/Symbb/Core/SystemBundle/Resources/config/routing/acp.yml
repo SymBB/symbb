@@ -2,6 +2,10 @@ symbb_backend_api_system:
     resource: "@SymbbCoreSystemBundle/Controller"
     type: annotation
 
+symbb_backend_api_news:
+    resource: "@SymbbCoreNewsBundle/Controller"
+    type: annotation
+
 # other symbb bundles
 _symbb_template_default_backend:
     resource: "@SymbbTemplateDefaultBundle/Resources/config/routing/acp.yml"

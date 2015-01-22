@@ -11,6 +11,7 @@ namespace Symbb\Core\SystemBundle\Api;
 
 use Doctrine\ORM\Query;
 use Symbb\Core\MessageBundle\DependencyInjection\MessageManager;
+use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use Symbb\Core\SystemBundle\Manager\AccessManager;
 use Symbb\Core\UserBundle\Manager\UserManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
@@ -27,6 +28,7 @@ abstract class AbstractApi
     const ERROR_ENTRY_NOT_FOUND = 'Entry not found';
     const SUCCESS_SAVED = 'successfully saved';
     const SUCCESS_DELETED = 'successfully deleted';
+    const ERROR_WRONG_OBJECT = 'you have passed a wrong object';
 
     /**
      * in backend we will disable the access checks
@@ -101,6 +103,11 @@ abstract class AbstractApi
      * @var array
      */
     protected static $success = true;
+
+    /**
+     * @var AbstractManager
+     */
+    protected $manager;
 
     /**
      * @param AccessManager $manager
@@ -442,5 +449,13 @@ abstract class AbstractApi
     protected function createNewSubobject($parent, $field)
     {
         return null;
+    }
+
+    /**
+     * @param AbstractManager $manager
+     */
+    public function setManager(AbstractManager $manager)
+    {
+        $this->manager = $manager;
     }
 }

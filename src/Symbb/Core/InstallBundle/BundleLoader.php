@@ -42,6 +42,7 @@ class BundleLoader
             '\Symbb\Core\BBCodeBundle\SymbbCoreBBCodeBundle',
             '\Symbb\Core\AngularBundle\SymbbCoreAngularBundle',
             '\Symbb\Core\MessageBundle\SymbbCoreMessageBundle',
+            '\Symbb\Core\NewsBundle\SymbbCoreNewsBundle',
             // Symbb optional bundles
             '\Symbb\FOS\UserBundle\SymbbFOSUserBundle',
             '\Symbb\ExtensionBundle\SymbbExtensionBundle',

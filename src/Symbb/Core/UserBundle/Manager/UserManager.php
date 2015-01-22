@@ -134,6 +134,10 @@ class UserManager
         return true;
     }
 
+    public function remove(UserInterface $user){
+        return $this->removeUser($user);
+    }
+
     /**
      * @param UserInterface $user
      * @param $newPassword

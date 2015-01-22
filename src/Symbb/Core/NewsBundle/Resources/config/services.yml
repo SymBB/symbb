@@ -1,0 +1,10 @@
+services:
+    symbb.core.manager.news.category:
+        class: Symbb\Core\NewsBundle\Manager\CategoryManager
+        parent: symbb.core.abstract.manager
+
+    symbb.core.api.news.category:
+        class: Symbb\Core\NewsBundle\Api\CategoryApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setManager', ['@symbb.core.manager.news.category']]
