@@ -34,7 +34,7 @@ class Category
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="\Symbb\Core\ForumBundle\Entity\Forum")
+     * @ORM\ManyToOne(targetEntity="\Symbb\Core\ForumBundle\Entity\Forum")
      * @ORM\JoinColumn(nullable=false)
      * @var \Symbb\Core\ForumBundle\Entity\Forum
      */

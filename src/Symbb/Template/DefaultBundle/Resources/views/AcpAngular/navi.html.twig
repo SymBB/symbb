@@ -49,6 +49,30 @@
             </li>
         </ul>
     </li>
+    {% if app.environment == "dev" %}
+    <li ng-class="{'active': currNavi == 'news'}">
+        <a href="" ng-click="currNavi = 'news'">
+            <i class="glyphicon glyphicon-fire"></i>
+            <span class="font-bold ng-scope">{{ 'Newsmanagment'|trans }}</span>
+
+            <div class="pull-right">
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </div>
+        </a>
+        <ul class="nav nav-sub dk">
+            <li class="nav-sub-header">
+                <a href="">
+                    <span>{{ 'News'|trans }}</span>
+                </a>
+            </li>
+            <li class="nav-sub-header">
+                <a href="" symbb-link="symbb_acp_news_category_list">
+                    <span>{{ 'Categories'|trans }}</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    {% endif %}
     <li class="line dk"></li>
     <li ng-class="{'active': currNavi == 'user'}">
         <a href="" ng-click="currNavi = 'user'">

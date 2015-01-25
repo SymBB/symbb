@@ -9,11 +9,14 @@
 
 namespace Symbb\Core\NewsBundle\Api;
 
+use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\NewsBundle\Entity\Category;
 use Symbb\Core\SystemBundle\Api\AbstractCrudApi;
 
 class CategoryApi extends AbstractCrudApi
 {
+
+    protected $forumManager;
 
     /**
      * @param $object
@@ -44,13 +47,32 @@ class CategoryApi extends AbstractCrudApi
             $fields = array(
                 'id',
                 'name',
-                'targetForum'
             );
-            if ($direction == "toArray") {
-                $fields[] = 'sources';
-            }
         }
 
         return $fields;
+    }
+
+    public function createArrayOfObject($object){
+        $data = array();
+        $data["id"] = $object->getId();
+        $data["name"] = $object->getName();
+        $data["targetForum"] = $object->getTargetForum()->getId();
+        $data["sources"] = array();
+        return $data;
+    }
+
+    public function assignArrayToObject(Category $object, $data){
+
+        $targetForum = $this->forumManager->find($data["targetForum"]);
+
+        $object->setName($data["name"]);
+        $object->setTargetForum($targetForum);
+
+        return $object;
+    }
+
+    public function setForumManager($manager){
+        $this->forumManager = $manager;
     }
 }

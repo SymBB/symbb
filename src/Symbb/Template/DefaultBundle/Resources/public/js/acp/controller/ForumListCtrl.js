@@ -31,7 +31,6 @@ symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$rout
             var option = $('<option>', {html: ' ', value: 0});
             $('#accessFormForumList').append(option);
 
-            console.debug($('#accessFormForumList'));
             $scope.addForumAsSelectOption($scope.data, $('#accessFormForumList'), "");
 
             $('#accessForm').find('.modal').modal('show');

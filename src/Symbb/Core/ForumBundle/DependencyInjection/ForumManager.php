@@ -186,11 +186,12 @@ class ForumManager extends AbstractManager
      * @param bool $checkAccess
      * @return Forum[]
      */
-    public function findAll($parentId = null, $limit = null, $page = null, $checkAccess = true)
+    public function findAll($parentId = null, $limit = 20, $page = 1, $checkAccess = true)
     {
         if ($parentId === 0) {
             $parentId = null;
         }
+
 
         $parentWhere = 'WHERE f.parent = ?0';
         if (!$parentId) {

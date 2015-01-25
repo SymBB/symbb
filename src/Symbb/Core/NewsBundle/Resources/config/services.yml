@@ -8,3 +8,4 @@ services:
         parent: symbb.core.abstract.api
         calls:
           - ['setManager', ['@symbb.core.manager.news.category']]
+          - ['setForumManager', ['@symbb.core.forum.manager']]

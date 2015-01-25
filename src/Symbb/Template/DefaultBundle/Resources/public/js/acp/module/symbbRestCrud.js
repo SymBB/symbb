@@ -12,6 +12,8 @@
                     this.parentIdField = null;
                     this.beforeSave = null;
                     this.beforeEdit = null;
+                    this.afterAssignData = null;
+                    this.afterOpenEdit = null;
 
                     this.init = function ($scope) {
 
@@ -56,6 +58,9 @@
                                     $('#restCurdForm').find('.modal-button').click(function () {
                                         $scope.save($scope.formEntry);
                                     });
+                                    if (service.afterOpenEdit) {
+                                        entry = service.afterOpenEdit(entry);
+                                    }
                                 };
 
                                 $scope.delete = function (entry) {
@@ -107,6 +112,14 @@
                                             $scope[key] = value;
                                         });
                                     }
+                                    if(service.afterAssignData){
+                                        service.afterAssignData($scope, response);
+                                    }
+
+                                    $(".chosen-select").chosen({
+                                        "disable_search_threshold": 10,
+                                        width: "300px"
+                                    });
                                 };
 
                                 $scope.query(1);

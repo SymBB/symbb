@@ -31,8 +31,10 @@ class BackendApiController extends AbstractController
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
+        $forumList = $this->getForumTreeArray();
         return $api->getJsonResponse(array(
-            'data' => $objectsData
+            'data' => $objectsData,
+            'forumList' => $forumList
         ));
     }
 
@@ -45,7 +47,9 @@ class BackendApiController extends AbstractController
         $api = $this->get('symbb.core.api.news.category');
         $data = $request->get('data');
         $site = $api->save($data);
-        $site = $api->createArrayOfObject($site);
+        if(is_object($site)){
+            $site = $api->createArrayOfObject($site);
+        }
         return $api->getJsonResponse(array(
             'data' => $site
         ));
