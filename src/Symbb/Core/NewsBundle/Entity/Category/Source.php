@@ -20,7 +20,7 @@ use Symbb\Core\NewsBundle\Entity\Category;
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"email" = "Symbb\Core\NewsBundle\Entity\Category\Source\Email", "feed" = "Symbb\Core\NewsBundle\Entity\Category\Source\Feed"})
  */
-class Source
+abstract class Source
 {
 
     /**
