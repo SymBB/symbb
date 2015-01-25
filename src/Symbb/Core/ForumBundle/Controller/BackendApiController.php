@@ -27,7 +27,7 @@ class BackendApiController extends AbstractController
         $api = $this->get('symbb.core.api.forum');
         $api->entityAccessCheck = false;
 
-        $objects = $api->findAll($request->get('parent', 0), $request->get('limit', 999), $request->get('page', 1));
+        $objects = $api->findAll(null, $request->get('limit', 999), $request->get('page', 1));
 
         $objectsData = array();
         foreach ($objects as $object) {

@@ -219,6 +219,8 @@ class ForumManager extends AbstractManager
                         )
                     )
                 ";
+        } else {
+            $accessWhere = $parentWhere;
         }
 
         $sql = "SELECT
