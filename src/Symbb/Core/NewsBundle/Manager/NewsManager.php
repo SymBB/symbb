@@ -18,6 +18,7 @@ use Ddeboer\Imap\Search\Text\Body;
 use Ddeboer\Imap\Search\Date\After;
 use Ddeboer\Imap\Search\State\Undeleted;
 
+use Symbb\Core\SystemBundle\Utils;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use Ddeboer\Imap\Exception\AuthenticationFailedException;
 
@@ -39,13 +40,14 @@ class NewsManager extends AbstractManager
     {
         $qb = $this->em->getRepository('SymbbCoreNewsBundle:Category\Entry')->createQueryBuilder('s');
         $qb->select("s");
-        $qb->addOrderBy("s.created", "desc");
+        $qb->where("s.topic IS NOT NULL");
+        $qb->addOrderBy("s.date", "desc");
         $query = $qb->getQuery();
         $objects = $this->createPagination($query, $page, $limit);
         return $objects;
     }
 
-    public function collectNews()
+    public function collectNews($page = 1, $limit = 20, &$errors)
     {
         $objects = array();
 
@@ -63,6 +65,7 @@ class NewsManager extends AbstractManager
                 } else {
                     $date->modify("- 2 weeks");
                 }
+                $source->setLastCall(new \DateTime());
                 if($source instanceof Category\Source\Email){
                     // $connection is instance of \Ddeboer\Imap\Connection
                     try {
@@ -75,32 +78,28 @@ class NewsManager extends AbstractManager
                             $search->addCondition(new Undeleted());
                             $messages = $mailbox->getMessages($search);
                             foreach ($messages as $message) {
+                                $text = $message->getBodyHtml();
+                                if(empty($text)){
+                                    $text = $message->getBodyText();
+                                }
+                                $text = Utils::purifyHtml($text);
                                 $objects[] = array(
                                     'email_id' => $message->getId(),
                                     'title' => $message->getSubject(),
-                                    'text' => $message->getBodyHtml(),
+                                    'text' => $text,
                                     'realSource' => $message->getFrom(),
                                     'date' => $message->getDate(),
                                     'type' => "email",
-                                    'category' => array(
-                                        "id" => $category->getId(),
-                                        "name" => $category->getName()
-                                    ),
-                                    'source' => $source->getId()
+                                    'category' => $category,
+                                    'source' => $source
                                 );
                             }
                         }
                     } catch (\Exception $exp){
-                        $objects[] = array(
+                        $errors[] = array(
                             'title' => "error while connection to email server",
                             "text" => $exp->getMessage(),
-                            "date" => new \DateTime(),
-                            'type' => "error",
-                            'category' => array(
-                                "id" => $category->getId(),
-                                "name" => $category->getName()
-                            ),
-                            'source' => $source->getId()
+                            "date" => new \DateTime()
                         );
                     }
                 } else if($source instanceof Category\Source\Feed){
@@ -115,26 +114,34 @@ class NewsManager extends AbstractManager
                             'date' => $item->getUpdated(),
                             'realSource' => (string)$item->getLink(),
                             'type' => "feed",
-                            'category' => array(
-                                "id" => $category->getId(),
-                                "name" => $category->getName()
-                            ),
-                            'source' => $source->getId()
+                            'category' => $category,
+                            'source' => $source
                         );
                     }
                 }
+                $this->em->persist($source);
             }
         }
 
-        usort($objects, function($a, $b){
-            if ($a['date'] == $b['date']) {
-                return 0;
-            } else if($a['date'] >= $b['date']) {
-                return -1;
-            } else {
-                return 1;
-            }
-        });
+        foreach($objects as $object){
+            $entry = new Category\Entry();
+            $entry->setCategory($object["category"]);
+            $entry->setSource($object["source"]);
+            $entry->setType($object["type"]);
+            $entry->setTitle($object["title"]);
+            $entry->setText($object["text"]);
+            $entry->setDate($object["date"]);
+            $this->em->persist($entry);
+        }
+
+        $this->em->flush();
+
+        $qb = $this->em->getRepository('SymbbCoreNewsBundle:Category\Entry')->createQueryBuilder('s');
+        $qb->select("s");
+        $qb->where("s.topic IS NULL");
+        $qb->addOrderBy("s.date", "desc");
+        $query = $qb->getQuery();
+        $objects = $this->createPagination($query, $page, $limit);
 
         return $objects;
     }

@@ -45,23 +45,35 @@ class Entry
 
     /**
      * @ORM\OneToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Topic")
-     * @ORM\JoinColumn(onDelete="cascade", nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @var Topic
      */
     protected $topic;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    protected $created;
+    protected $date;
 
     /**
-     * @return string
+     * @ORM\Column(type="string", nullable=false)
+     * @var string
      */
-    public function getTitle(){
-        return $this->topic->getName();
-    }
+    protected $type;
+
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     * @var string
+     */
+    protected $title;
+
+
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     * @var string
+     */
+    protected $text;
 
     /**
      * @return int
@@ -120,19 +132,67 @@ class Entry
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getCreated()
+    public function getType()
     {
-        return $this->created;
+        return $this->type;
     }
 
     /**
-     * @param \DateTime $created
+     * @param string $type
      */
-    public function setCreated($created)
+    public function setType($type)
     {
-        $this->created = $created;
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
     }
 
 
