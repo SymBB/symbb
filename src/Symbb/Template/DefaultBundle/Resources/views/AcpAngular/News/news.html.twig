@@ -16,12 +16,30 @@
 {% block content %}
     <div class="row">
         <div class="col-md-6">
+            <h4>{{ 'writen News'|trans }}</h4>
             <div class="news_row" ng-repeat="news in oldNews">
+                <span class="btn-group">
+                    <a class="btn btn-xs btn-primary" symbb-sf-link="symbb_forum_topic_show" target="_blank" param-id="[[news.topic.id]]" param-name="[[news.topic.seoName]]">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </a>
+                    <a class="btn btn-xs btn-danger" ng-click="delete(news)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </span>
                 [[news.title]]
             </div>
         </div>
         <div class="col-md-6">
+            <h4>{{ 'unwritten News'|trans }}</h4>
             <div class="news_row" ng-repeat="news in newNews">
+                <span class="btn-group">
+                    <a class="btn btn-xs btn-primary" symbb-sf-link="symbb_news_create_topic" target="_blank" param-id="[[news.id]]">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    <a class="btn btn-xs btn-danger" ng-click="delete(news)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </span>
                 [[news.title]]
                 <span class="label label-primary pull-right" ng-if="news.type == 'email'">{{ "E-Mail"|trans }}</span>
                 <span class="label label-info pull-right" ng-if="news.type == 'feed'">{{ "Feed"|trans }}</span>

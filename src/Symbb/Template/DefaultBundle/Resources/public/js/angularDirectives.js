@@ -11,12 +11,28 @@ symbbControllers.directive('symbbBreadcrumb', function () {
 }).directive('symbbSfLink', function () {
     return {
         restrict: 'A',
-        transclude: true,
-        template: '<a href="" target="_self" ng-transclude></a>',
+        transclude: false,
+        replace: false,
         link: function (scope, element, attrs) {
+
+            var aTag = element[0];
+            if (element[0].tagName !== "A") {
+                var aTag = $('<a></a>');
+                $(element[0]).children().each(function (key, element) {
+                    aTag.append(element);
+                });
+                var html = $(element[0]).html();
+                $(element[0]).html('');
+                aTag.prepend(html);
+                $(element[0]).append(aTag);
+            }
+
             var params = prepareParams(attrs);
             var path = angularConfig.getSymfonyRoute(attrs.symbbSfLink, params);
-            $(element[0]).children('a').attr('href', path);
+            $(aTag).attr('href', path);
+            if (attrs.target) {
+                $(aTag).attr('target', attrs.target);
+            }
         }
     };
 }).directive('symbbLink', function () {

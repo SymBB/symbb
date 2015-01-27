@@ -13,27 +13,30 @@ use Symbb\Core\NewsBundle\Entity\Category\Entry;
 use Symbb\Core\NewsBundle\Entity\Category\Source\Email;
 use Symbb\Core\NewsBundle\Entity\Category\Source\Feed;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
+use Symbb\Core\SystemBundle\Api\AbstractCrudApi;
 
-class NewsApi extends AbstractApi
+class NewsApi extends AbstractCrudApi
 {
 
-    /**
-     * return a array with all Sites
-     * @return array
-     */
-    public function getList()
+    protected function isCorrectInstance($object)
     {
-        $objects = $this->manager->findAll();
-        $this->addPaginationData($objects);
-        $objects = $objects->getItems();
-        if (empty($objects)) {
-            $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
+        if($object instanceof Entry){
+            return true;
         }
-        return $objects;
+
+        return false;
     }
+
+    protected function createNewObject()
+    {
+        return new Entry();
+    }
+
 
     public function collectNews(){
         $objects = $this->manager->collectNews();
+        $this->addPaginationData($objects);
+        $objects = $objects->getItems();
         if (empty($objects)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
@@ -65,16 +68,28 @@ class NewsApi extends AbstractApi
         $data = array();
         $data["id"] = $object->getId();
         $data["title"] = $object->getTitle();
-        $data["created"] = $this->getISO8601ForUser($object->getCreated());
+        $data["created"] = $this->getISO8601ForUser($object->getDate());
         $source = $object->getSource();
         if($source instanceof Email){
             $data["type"] = "email";
         } else if($source instanceof Feed){
             $data["type"] = "feed";
         }
+        $topic = $object->getTopic();
+        if($topic){
+            $data["topic"] = array(
+                "id" => $topic->getId(),
+                "name" => $topic->getName(),
+                "seoName" => $topic->getSeoName(),
+            );
+        }
         $data["category"] = array(
             "id" => $object->getCategory()->getId(),
             "name" => $object->getCategory()->getName(),
+            "forum" => array(
+                "id" => $object->getCategory()->getTargetForum()->getId(),
+                "name" => $object->getCategory()->getTargetForum()->getName()
+            )
         );
         return $data;
     }

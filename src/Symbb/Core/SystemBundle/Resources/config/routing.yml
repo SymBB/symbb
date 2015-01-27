@@ -24,10 +24,6 @@ _symbb_acp_routings:
     resource: "@SymbbCoreSystemBundle/Resources/config/routing/acp.yml"
     prefix: /acp
 
-_symbb_acp_routings:
-    resource: "@SymbbCoreSystemBundle/Resources/config/routing/acp.yml"
-    prefix: /acp
-
 _symbb_index:
     pattern:  /
     defaults: { _controller: SymbbCoreForumBundle:Frontend:forum }

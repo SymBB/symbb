@@ -117,6 +117,7 @@ class AngularRouter
 
     public function createAngularRouteJson($filterBySection = null)
     {
+
         $data = array();
         foreach ($this->getFrontendRouting() as $key => $routing) {
 

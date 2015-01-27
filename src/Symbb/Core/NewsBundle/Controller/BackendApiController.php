@@ -70,7 +70,7 @@ class BackendApiController extends AbstractController
      * @Route("/api/news/category/{category}", name="symbb_backend_api_news_category_delete")
      * @Method({"DELETE"})
      */
-    public function deleteAction($category)
+    public function deleteCategoryAction($category)
     {
         $api = $this->get('symbb.core.api.news.category');
         $api->delete((int)$category);
@@ -93,11 +93,26 @@ class BackendApiController extends AbstractController
         }
 
         $newNews = $api->collectNews();
+        $newNewsData = array();
+        foreach ($newNews as $newNew) {
+            $newNewsData[] = $api->createArrayOfObject($newNew);
+        }
 
         return $api->getJsonResponse(array(
             'oldNews' => $objectsData,
-            'newNews' => $newNews
+            'newNews' => $newNewsData
         ));
     }
 
+
+    /**
+     * @Route("/api/news/{id}", name="symbb_backend_api_news_delete")
+     * @Method({"DELETE"})
+     */
+    public function deleteAction($id)
+    {
+        $api = $this->get('symbb.core.api.news');
+        $api->delete((int)$id);
+        return $api->getJsonResponse();
+    }
 }

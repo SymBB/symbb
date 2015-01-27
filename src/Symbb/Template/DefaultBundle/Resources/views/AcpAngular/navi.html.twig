@@ -11,7 +11,7 @@
     </li>
     <li class="line dk"></li>
     <li ng-class="{'active': currNavi == 'siteNavigation'}">
-        <a href="" ng-click="currNavi = 'siteNavigation'">
+        <a href="" ng-click="currNavi = 'siteNavigation'" symbb-link="symbb_acp_site_list">
             <i class="glyphicon glyphicon-globe"></i>
             <span class="font-bold ng-scope">{{ 'Sites'|trans }}</span>
 
@@ -33,7 +33,7 @@
         </ul>
     </li>
     <li ng-class="{'active': currNavi == 'forum'}">
-        <a href="" ng-click="currNavi = 'forum'">
+        <a href="" ng-click="currNavi = 'forum'" symbb-link="symbb_acp_forum_list">
             <i class="glyphicon glyphicon-tasks"></i>
             <span class="font-bold ng-scope">{{ 'Forummanagment'|trans }}</span>
 
@@ -49,9 +49,8 @@
             </li>
         </ul>
     </li>
-    {% if app.environment == "dev" %}
     <li ng-class="{'active': currNavi == 'news'}">
-        <a href="" ng-click="currNavi = 'news'">
+        <a href="" ng-click="currNavi = 'news'" symbb-link="symbb_acp_news_list">
             <i class="glyphicon glyphicon-fire"></i>
             <span class="font-bold ng-scope">{{ 'Newsmanagment'|trans }}</span>
 
@@ -72,10 +71,9 @@
             </li>
         </ul>
     </li>
-    {% endif %}
     <li class="line dk"></li>
     <li ng-class="{'active': currNavi == 'user'}">
-        <a href="" ng-click="currNavi = 'user'">
+        <a href="" ng-click="currNavi = 'user'" symbb-link="symbb_acp_user_list">
             <i class="glyphicon glyphicon-user"></i>
             <span class="font-bold ng-scope">{{ 'Usermanagment'|trans }}</span>
 
@@ -119,9 +117,7 @@
                 </li>
             </ul>
         </li>
-    {% endif %}
-    <li class="line dk"></li>
-    {% if app.environment == "dev" %}
+        <li class="line dk"></li>
         <li ng-class="{'active': currNavi == 'settings'}">
             <a href="" ng-click="currNavi = 'settings'">
                 <i class="glyphicon glyphicon-cog"></i>
@@ -164,7 +160,7 @@
         <li class="line dk"></li>
     {% endif %}
     <li>
-        <a href="/de/_trans/">
+        <a href="/de/_trans/" target="_blank">
             <i class="glyphicon glyphicon-sort-by-alphabet"></i>
             <span class="font-bold ng-scope">{{ 'Translations'|trans }}</span>
         </a>

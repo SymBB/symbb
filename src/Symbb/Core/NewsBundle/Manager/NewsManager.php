@@ -31,6 +31,20 @@ class NewsManager extends AbstractManager
         $this->feedReader = $reader;
     }
 
+    public function find($id)
+    {
+        $post = $this->em->getRepository('SymbbCoreNewsBundle:Category\Entry')->find($id);
+        return $post;
+    }
+
+    public function remove(Category\Entry $object)
+    {
+        $this->em->remove($object);
+        $this->em->remove($object->getTopic());
+        $this->em->flush();
+        return true;
+    }
+
     /**
      * @param int $page
      * @param int $limit
@@ -73,26 +87,32 @@ class NewsManager extends AbstractManager
                         $category = $source->getCategory();
                         $mailboxes = $connection->getMailboxes();
                         foreach ($mailboxes as $mailbox) {
-                            $search = new SearchExpression();
-                            $search->addCondition(new After($date));
-                            $search->addCondition(new Undeleted());
-                            $messages = $mailbox->getMessages($search);
-                            foreach ($messages as $message) {
-                                $text = $message->getBodyHtml();
-                                if(empty($text)){
-                                    $text = $message->getBodyText();
+                            if(strpos($mailbox->getName(), "INBOX") === 0){
+                                $search = new SearchExpression();
+                                $search->addCondition(new After($date));
+                                $search->addCondition(new Undeleted());
+                                $messages = $mailbox->getMessages($search);
+                                foreach ($messages as $message) {
+                                    // imap filter will only check the day not the time...
+                                    if($message->getDate() <= $date){
+                                        continue;
+                                    }
+                                    $text = $message->getBodyHtml();
+                                    if(empty($text)){
+                                        $text = $message->getBodyText();
+                                    }
+                                    $text = Utils::purifyHtml($text);
+                                    $objects[] = array(
+                                        'email_id' => $message->getId(),
+                                        'title' => $message->getSubject(),
+                                        'text' => $text,
+                                        'realSource' => $message->getFrom(),
+                                        'date' => $message->getDate(),
+                                        'type' => "email",
+                                        'category' => $category,
+                                        'source' => $source
+                                    );
                                 }
-                                $text = Utils::purifyHtml($text);
-                                $objects[] = array(
-                                    'email_id' => $message->getId(),
-                                    'title' => $message->getSubject(),
-                                    'text' => $text,
-                                    'realSource' => $message->getFrom(),
-                                    'date' => $message->getDate(),
-                                    'type' => "email",
-                                    'category' => $category,
-                                    'source' => $source
-                                );
                             }
                         }
                     } catch (\Exception $exp){
@@ -136,10 +156,10 @@ class NewsManager extends AbstractManager
 
         $this->em->flush();
 
-        $qb = $this->em->getRepository('SymbbCoreNewsBundle:Category\Entry')->createQueryBuilder('s');
-        $qb->select("s");
-        $qb->where("s.topic IS NULL");
-        $qb->addOrderBy("s.date", "desc");
+        $qb = $this->em->getRepository('SymbbCoreNewsBundle:Category\Entry')->createQueryBuilder('e');
+        $qb->select("e");
+        $qb->where("e.topic IS NULL");
+        $qb->addOrderBy("e.date", "desc");
         $query = $qb->getQuery();
         $objects = $this->createPagination($query, $page, $limit);
 

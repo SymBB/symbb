@@ -41,6 +41,10 @@ _symbb_core_message:
 _symbb_core_install:
     resource: "@SymbbCoreInstallBundle/Resources/config/routing.yml"
     prefix: /
+
+_symbb_core_news:
+    resource: "@SymbbCoreNewsBundle/Resources/config/routing.yml"
+    prefix: /
     
 _symbb_core_bbcode_frontend:
     resource: "@SymbbCoreBBCodeBundle/Resources/config/routing/frontend.yml"
