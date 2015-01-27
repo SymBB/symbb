@@ -1,8 +1,11 @@
 symbbControllers.controller('ForumListCtrl', ["$scope", "$symbbRestCrud", "$routeParams", "$http",
     function ($scope, $symbbRestCrud, $routeParams, $http) {
+
+
         var service = new $symbbRestCrud();
         service.parentIdField = 'parent';
         service.routingIdField = 'forum';
+        service.treeSortable = true;
         service.init($scope);
 
         $scope.addForumAsSelectOption = function (list, select, prefix) {

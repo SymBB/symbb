@@ -14,6 +14,7 @@
                     this.beforeEdit = null;
                     this.afterAssignData = null;
                     this.afterOpenEdit = null;
+                    this.treeSortable = false;
 
                     this.init = function ($scope) {
 
@@ -122,9 +123,37 @@
                                     });
                                 };
 
+                                if(this.treeSortable){
+                                    $scope.treeOptions  = {
+                                        dropped: function(event){
+                                            var targetElement = event.dest.nodesScope.node;
+                                            var element = event.source.nodeScope.node;
+                                            var newElementsOrder = targetElement.children;
+                                            var saveRoutingKey = apiRoutingKey;
+                                            saveRoutingKey = saveRoutingKey.replace('_list', '_move');
+                                            var routeParams = {_locale: $routeParams._locale};
+                                            var route = angularConfig.getSymfonyRoute(saveRoutingKey, routeParams);
+                                            var data = {
+                                                element: element.id,
+                                                parent: targetElement.id,
+                                                elements: newElementsOrder
+                                            };
+                                            $http.post(route, {data: data}).success(function (response) {
+                                                if (response.success) {
+                                                    $scope.query(1);
+                                                }
+                                                $scope.restCrudSaving = false;
+                                            }).error(function () {
+                                                $scope.restCrudSaving = false;
+                                            })
+                                        }
+                                    };
+                                }
+
+
+
                                 $scope.query(1);
                                 $anchorScroll();
-
 
                             } else {
                                 console.debug('No Api Route found for: ' + routingKey)

@@ -259,10 +259,11 @@ abstract class AbstractApi
      */
     public function addErrorMessage($message, $params = array())
     {
+        $message = $this->trans($message, $params);
         static::$messages[] = array(
             'type' => 'error',
             'bootstrapType' => 'danger',
-            'message' => $this->trans($message, $params)
+            'message' => $message
         );
         static::$success = false;
     }
@@ -273,10 +274,11 @@ abstract class AbstractApi
      */
     public function addSuccessMessage($message, $params = array())
     {
-        static::$messages[] = array(
+        $message = $this->trans($message, $params);
+        static::$messages[$message] = array(
             'type' => 'success',
             'bootstrapType' => 'success',
-            'message' => $this->trans($message, $params)
+            'message' => $message
         );
     }
 
@@ -286,10 +288,11 @@ abstract class AbstractApi
      */
     public function addInfoMessage($message, $params = array())
     {
+        $message =  $this->trans($message, $params);
         static::$messages[] = array(
             'type' => 'info',
             'bootstrapType' => 'info',
-            'message' => $this->trans($message, $params)
+            'message' => $message
         );
     }
 
@@ -299,10 +302,11 @@ abstract class AbstractApi
      */
     public function addWarningMessage($message, $params = array())
     {
+        $message = $this->trans($message, $params);
         static::$messages[] = array(
             'type' => 'warning',
             'bootstrapType' => 'warning',
-            'message' => $this->trans($message, $params)
+            'message' => $message
         );
     }
 
