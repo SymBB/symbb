@@ -11,11 +11,15 @@ namespace Symbb\Core\NewsBundle\Manager;
 
 use Symbb\Core\NewsBundle\Entity\Category;
 use Symbb\Core\SystemBundle\Manager\AbstractManager;
-use Ddeboer\Imap\Server;
+use Ddeboer\Imap\Connection;
 use Ddeboer\Imap\SearchExpression;
 use Ddeboer\Imap\Search\Email\To;
 use Ddeboer\Imap\Search\Text\Body;
 use Ddeboer\Imap\Search\Date\After;
+use Ddeboer\Imap\Search\State\Undeleted;
+
+use Symfony\Component\Security\Acl\Exception\Exception;
+use Ddeboer\Imap\Exception\AuthenticationFailedException;
 
 class NewsManager extends AbstractManager
 {
@@ -60,24 +64,44 @@ class NewsManager extends AbstractManager
                     $date->modify("- 2 weeks");
                 }
                 if($source instanceof Category\Source\Email){
-                    $server = new Server($source->getServer());
                     // $connection is instance of \Ddeboer\Imap\Connection
-                    $connection = $server->authenticate($source->getUsername(), $source->getPassword());
-                    $mailboxes = $connection->getMailboxes();
-                    foreach ($mailboxes as $mailbox) {
-                        $search = new SearchExpression();
-                        $search->addCondition(new After($date->format("Y-m-d")));
-                        $messages = $mailbox->getMessages($search);
-                        foreach ($messages as $message) {
-                            $objects[] = array(
-                                'email_id' => $message->getId(),
-                                'title' => $message->getSubject(),
-                                'text' => $message->getBodyHtml(),
-                                'type' => "email",
-                                'category' => $category->getId(),
-                                'source' => $source->getId()
-                            );
+                    try {
+                        $connection = $this->getEmailConnection($source);
+                        $category = $source->getCategory();
+                        $mailboxes = $connection->getMailboxes();
+                        foreach ($mailboxes as $mailbox) {
+                            $search = new SearchExpression();
+                            $search->addCondition(new After($date));
+                            $search->addCondition(new Undeleted());
+                            $messages = $mailbox->getMessages($search);
+                            foreach ($messages as $message) {
+                                $objects[] = array(
+                                    'email_id' => $message->getId(),
+                                    'title' => $message->getSubject(),
+                                    'text' => $message->getBodyHtml(),
+                                    'realSource' => $message->getFrom(),
+                                    'date' => $message->getDate(),
+                                    'type' => "email",
+                                    'category' => array(
+                                        "id" => $category->getId(),
+                                        "name" => $category->getName()
+                                    ),
+                                    'source' => $source->getId()
+                                );
+                            }
                         }
+                    } catch (\Exception $exp){
+                        $objects[] = array(
+                            'title' => "error while connection to email server",
+                            "text" => $exp->getMessage(),
+                            "date" => new \DateTime(),
+                            'type' => "error",
+                            'category' => array(
+                                "id" => $category->getId(),
+                                "name" => $category->getName()
+                            ),
+                            'source' => $source->getId()
+                        );
                     }
                 } else if($source instanceof Category\Source\Feed){
                     $reader = $this->feedReader;
@@ -86,10 +110,15 @@ class NewsManager extends AbstractManager
                     foreach($items as $item){
                         $objects[] = array(
                             'feed_id' => null,
-                            'title' => $item->getTitle(),
-                            'text' => $item->getDescription(),
+                            'title' => (string)$item->getTitle(),
+                            'text' => (string)$item->getDescription(),
+                            'date' => $item->getUpdated(),
+                            'realSource' => (string)$item->getLink(),
                             'type' => "feed",
-                            'category' => $category->getId(),
+                            'category' => array(
+                                "id" => $category->getId(),
+                                "name" => $category->getName()
+                            ),
                             'source' => $source->getId()
                         );
                     }
@@ -97,8 +126,55 @@ class NewsManager extends AbstractManager
             }
         }
 
+        usort($objects, function($a, $b){
+            if ($a['date'] == $b['date']) {
+                return 0;
+            } else if($a['date'] >= $b['date']) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
 
         return $objects;
     }
 
+    protected function getEmailConnection(Category\Source\Email $source){
+
+        if($source->isSsl()){
+            $flags = "/imap/ssl/validate-cert";
+        } else {
+            if($source->getPort() == 143){
+                $flags = "/imap/notls";
+            } else {
+                $flags = "/imap/ssl/novalidate-cert";
+            }
+        }
+
+        $serverString = sprintf(
+            '{%s:%s%s}INBOX',
+            $source->getServer(),
+            $source->getPort(),
+            $flags
+        );
+
+        $resource = imap_open(
+            $serverString,
+            $source->getUsername(),
+            $source->getPassword(),
+            null,
+            1,
+            array()
+        );
+
+        if (false === $resource) {
+            throw new AuthenticationFailedException($source->getUsername());
+        }
+
+        $check = imap_check($resource);
+        $mailbox = $check->Mailbox;
+        $connection = substr($mailbox, 0, strpos($mailbox, '}')+1);
+        $connection = new Connection($resource, $connection);
+        return $connection;
+    }
 }

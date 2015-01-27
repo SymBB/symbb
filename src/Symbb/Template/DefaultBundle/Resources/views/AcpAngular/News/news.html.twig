@@ -11,14 +11,17 @@
             <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
             ...{% endtrans %}
         </button>
-        <button ng-click="create()" class="btn btn-default btn-xs">
-            <span class="glyphicon glyphicon-plus"></span>
-            {{ 'New Category'|trans }}
-        </button>
     </div>
 {% endblock %}
 {% block content %}
     <div class="row">
+        <div class="col-md-12">
+            <label>{{ "Title" }}</label>
+            <input class="form-controll" />
+            <div class="symbb_editor">
+                <textarea></textarea>
+            </div>
+        </div>
         <div class="col-md-6">
             <div class="news_row" ng-repeat="news in oldNews">
                 [[news.title]]
@@ -26,7 +29,9 @@
         </div>
         <div class="col-md-6">
             <div class="news_row" ng-repeat="news in newNews">
-                [[news.title]] <span class="label label-primary">[[news.type]]</span>
+                [[news.title]]
+                <span class="label label-primary pull-right" ng-if="news.type == 'email'">{{ "E-Mail"|trans }}</span>
+                <span class="label label-info pull-right" ng-if="news.type == 'feed'">{{ "Feed"|trans }}</span>
             </div>
         </div>
     </div>

@@ -69,6 +69,8 @@ class CategoryApi extends AbstractCrudApi
                 $sourceData["server"] = $source->getServer();
                 $sourceData["username"] = $source->getUsername();
                 $sourceData["password"] = $source->getPassword();
+                $sourceData["port"] = $source->getPort();
+                $sourceData["ssl"] = $source->isSsl();
                 $sourceData["type"] = "email";
             } else if($source instanceof Category\Source\Feed){
                 $sourceData["url"] = $source->getUrl();
@@ -85,25 +87,52 @@ class CategoryApi extends AbstractCrudApi
 
         $object->setName($data["name"]);
         $object->setTargetForum($targetForum);
-        $object->setSources(new ArrayCollection());
+
+        $sources = $object->getSources();
+        $newSourceIds = array();
 
         foreach($data["sources"] as $sourceData){
-            $source = null;
-            if($sourceData["type"] == "email"){
-                $source = new Category\Source\Email();
-                $source->setServer($sourceData["server"]);
-                $source->setUsername($sourceData["username"]);
-                $source->setPassword($sourceData["password"]);
-            } else if($sourceData["type"] == "feed") {
-                $source = new Category\Source\Feed();
-                $source->setUrl($sourceData["url"]);
+            $newSource = null;
+            $oldSourceId = null;
+            foreach($sources as $source){
+                if($sourceData["id"] == $source->getId()){
+                    $newSource = $source;
+                    $newSourceIds[] = $newSource->getId();
+                    break;
+                }
             }
-            if($source){
-                $source->setName($sourceData["name"]);
-                $source->setCategory($object);
-                $object->addSource($source);
+
+            if($sourceData["type"] == "email"){
+                if(!($newSource instanceof Category\Source\Email)){
+                    $this->em->remove($newSource);
+                    $newSource = new Category\Source\Email();
+                }
+                $newSource->setServer($sourceData["server"]);
+                $newSource->setUsername($sourceData["username"]);
+                $newSource->setPassword($sourceData["password"]);
+                $newSource->setSsl((bool)$sourceData["ssl"]);
+                $newSource->setPort($sourceData["port"]);
+            } else if($sourceData["type"] == "feed") {
+                if(!($newSource instanceof Category\Source\Feed)){
+                    $this->em->remove($newSource);
+                    $newSource = new Category\Source\Feed();
+                }
+                $newSource->setUrl($sourceData["url"]);
+            }
+            if($newSource){
+                $newSource->setName($sourceData["name"]);
+                $newSource->setCategory($object);
+                $this->em->persist($newSource);
             }
         }
+
+        // remove old
+        foreach($sources as $source){
+            if(!in_array($source->getId(), $newSourceIds)){
+                $this->em->remove($source);
+            }
+        }
+
 
         return $object;
     }

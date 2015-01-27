@@ -38,6 +38,19 @@ use Symbb\Core\NewsBundle\Entity\Category;
     */
     protected $password;
 
+
+    /**
+    * @ORM\Column(type="integer", nullable=false)
+    * @var integer
+    */
+    protected $port = 143;
+
+    /**
+    * @ORM\Column(type="boolean", nullable=false)
+    * @var boolean
+    */
+    protected $ssl = false;
+
      /**
       * @return string
       */
@@ -84,6 +97,38 @@ use Symbb\Core\NewsBundle\Entity\Category;
      public function setPassword($password)
      {
          $this->password = $password;
+     }
+
+     /**
+      * @return int
+      */
+     public function getPort()
+     {
+         return $this->port;
+     }
+
+     /**
+      * @param int $port
+      */
+     public function setPort($port)
+     {
+         $this->port = $port;
+     }
+
+     /**
+      * @return boolean
+      */
+     public function isSsl()
+     {
+         return $this->ssl;
+     }
+
+     /**
+      * @param boolean $ssl
+      */
+     public function setSsl($ssl)
+     {
+         $this->ssl = $ssl;
      }
 
 

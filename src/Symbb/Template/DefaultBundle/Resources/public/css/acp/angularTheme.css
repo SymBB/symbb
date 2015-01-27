@@ -481,3 +481,10 @@ h1, .h1 {
 .forumtype-link, .angular-ui-tree-handle.link {
     background-color: #bdbdbd !important;
 }
+
+.news_row {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    padding: 5px;
+    margin-bottom: 5px;
+}

@@ -57,6 +57,8 @@
         </select>
         <div ng-if="formEntry.sources[0].type == 'email'">
             <label>{{ 'Server'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].server"/>
+            <label>{{ 'Port'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].port"/>
+            <label>{{ 'SSL'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.sources[0].ssl"/>
             <label>{{ 'Username'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].username"/>
             <label>{{ 'Password'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].password"/>
         </div>

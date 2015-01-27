@@ -38,9 +38,11 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
 
         try {
 
-            $code = $exception->getCode();
+            $code = 404;
             if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
                 $code = 404;
+            } else if ($exception instanceof \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException) {
+                $code = 403;
             }
 
             $file = $code;

@@ -93,14 +93,10 @@ class BackendApiController extends AbstractController
         }
 
         $newNews = $api->collectNews();
-        $newNewsData = array();
-        foreach ($newNews as $object) {
-            $newNewsData[] = $api->createArrayOfObject($object);
-        }
 
         return $api->getJsonResponse(array(
             'oldNews' => $objectsData,
-            'newNews' => $newNewsData
+            'newNews' => $newNews
         ));
     }
 
