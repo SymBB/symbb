@@ -17,6 +17,7 @@ use Symbb\Core\SystemBundle\Manager\AbstractManager;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
+use Symbb\Core\SystemBundle\Utils;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
@@ -65,7 +66,7 @@ class PostManager extends AbstractManager
         $event = new PostManagerParseTextEvent($post, (string)$text);
         $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.parse.text', $event);
         $text = $event->getText();
-
+        $text = Utils::purifyHtml($text);
         return $text;
     }
 
@@ -75,6 +76,7 @@ class PostManager extends AbstractManager
         $event = new PostManagerParseTextEvent($post, $text);
         $this->eventDispatcher->dispatch('symbb.core.forum.post.manager.clean.text', $event);
         $text = $event->getText();
+        $text = Utils::purifyHtml($text);
         return $text;
     }
 
@@ -234,6 +236,8 @@ class PostManager extends AbstractManager
         if($post->getId() <= 0){
             $new = true;
         }
+        $text = Utils::purifyHtml($post->getText());
+        $post->setText($text);
         $this->em->persist($post);
         $this->em->flush();
 

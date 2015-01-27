@@ -58,6 +58,7 @@ class CategoryApi extends AbstractCrudApi
         $data = array();
         $data["id"] = $object->getId();
         $data["name"] = $object->getName();
+        $data["image"] = $object->getImage();
         $data["targetForum"] = $object->getTargetForum()->getId();
         $data["sources"] = array();
         foreach($object->getSources() as $source){
@@ -86,6 +87,7 @@ class CategoryApi extends AbstractCrudApi
         $targetForum = $this->forumManager->find($data["targetForum"]);
 
         $object->setName($data["name"]);
+        $object->setImage($data["image"]);
         $object->setTargetForum($targetForum);
 
         $sources = $object->getSources();

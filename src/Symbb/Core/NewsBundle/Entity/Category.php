@@ -53,6 +53,11 @@ class Category
      */
     protected $entries;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $image;
+
     public function __construct(){
         $this->sources = new ArrayCollection();
     }
@@ -134,4 +139,22 @@ class Category
     {
         $this->entries = $entries;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
+
 }
