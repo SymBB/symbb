@@ -9,6 +9,7 @@
 
 namespace Symbb\Core\NewsBundle\Api;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\NewsBundle\Entity\Category;
 use Symbb\Core\SystemBundle\Api\AbstractCrudApi;
@@ -53,12 +54,28 @@ class CategoryApi extends AbstractCrudApi
         return $fields;
     }
 
-    public function createArrayOfObject($object){
+    public function createArrayOfObject(Category $object){
         $data = array();
         $data["id"] = $object->getId();
         $data["name"] = $object->getName();
         $data["targetForum"] = $object->getTargetForum()->getId();
         $data["sources"] = array();
+        foreach($object->getSources() as $source){
+            $sourceData = array(
+                'id' =>   $source->getId(),
+                'name' => $source->getName()
+            );
+            if($source instanceof Category\Source\Email){
+                $sourceData["server"] = $source->getServer();
+                $sourceData["username"] = $source->getUsername();
+                $sourceData["password"] = $source->getPassword();
+                $sourceData["type"] = "email";
+            } else if($source instanceof Category\Source\Feed){
+                $sourceData["url"] = $source->getUrl();
+                $sourceData["type"] = "feed";
+            }
+            $data["sources"][] = $sourceData;
+        }
         return $data;
     }
 
@@ -68,6 +85,25 @@ class CategoryApi extends AbstractCrudApi
 
         $object->setName($data["name"]);
         $object->setTargetForum($targetForum);
+        $object->setSources(new ArrayCollection());
+
+        foreach($data["sources"] as $sourceData){
+            $source = null;
+            if($sourceData["type"] == "email"){
+                $source = new Category\Source\Email();
+                $source->setServer($sourceData["server"]);
+                $source->setUsername($sourceData["username"]);
+                $source->setPassword($sourceData["password"]);
+            } else if($sourceData["type"] == "feed") {
+                $source = new Category\Source\Feed();
+                $source->setUrl($sourceData["url"]);
+            }
+            if($source){
+                $source->setName($sourceData["name"]);
+                $source->setCategory($object);
+                $object->addSource($source);
+            }
+        }
 
         return $object;
     }

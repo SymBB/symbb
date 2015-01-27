@@ -11,6 +11,7 @@ namespace Symbb\Core\NewsBundle\Entity\Category;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symbb\Core\ForumBundle\Entity\Post;
+use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\NewsBundle\Entity\Category;
 
 /**
@@ -43,17 +44,96 @@ class Entry
     protected $source;
 
     /**
-     * @ORM\OneToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Post")
+     * @ORM\OneToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Topic")
      * @ORM\JoinColumn(onDelete="cascade", nullable=false)
-     * @var Post
+     * @var Topic
      */
-    protected $post;
+    protected $topic;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @var \DateTime
      */
     protected $created;
+
+    /**
+     * @return string
+     */
+    public function getTitle(){
+        return $this->topic->getName();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return Source
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param Source $source
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * @return Topic
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param Topic $topic
+     */
+    public function setTopic($topic)
+    {
+        $this->topic = $topic;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
 
 
 }

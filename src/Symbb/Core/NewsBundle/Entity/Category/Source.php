@@ -82,14 +82,6 @@ abstract class Source
     }
 
     /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getLastCall()

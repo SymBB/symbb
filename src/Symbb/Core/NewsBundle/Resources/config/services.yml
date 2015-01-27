@@ -3,9 +3,21 @@ services:
         class: Symbb\Core\NewsBundle\Manager\CategoryManager
         parent: symbb.core.abstract.manager
 
+    symbb.core.manager.news:
+        class: Symbb\Core\NewsBundle\Manager\NewsManager
+        parent: symbb.core.abstract.manager
+        calls:
+          - ['setFeedReader', ['@debril.reader']]
+
     symbb.core.api.news.category:
         class: Symbb\Core\NewsBundle\Api\CategoryApi
         parent: symbb.core.abstract.api
         calls:
           - ['setManager', ['@symbb.core.manager.news.category']]
           - ['setForumManager', ['@symbb.core.forum.manager']]
+
+    symbb.core.api.news:
+        class: Symbb\Core\NewsBundle\Api\NewsApi
+        parent: symbb.core.abstract.api
+        calls:
+          - ['setManager', ['@symbb.core.manager.news']]

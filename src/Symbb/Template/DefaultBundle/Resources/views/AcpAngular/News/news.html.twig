@@ -1,0 +1,33 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'News'|trans }}{% endblock %}
+{% block subtitle %}
+    {{ 'You can manage your News'|trans }}
+    <div class="clear"></div>
+    <div class="pull-right">
+        <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
+            ...{% endtrans %}
+        </button>
+        <button ng-click="create()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Category'|trans }}
+        </button>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="news_row" ng-repeat="news in oldNews">
+                [[news.title]]
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="news_row" ng-repeat="news in newNews">
+                [[news.title]] <span class="label label-primary">[[news.type]]</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

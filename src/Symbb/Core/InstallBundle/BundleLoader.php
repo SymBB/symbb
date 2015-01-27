@@ -63,6 +63,7 @@ class BundleLoader
             '\Liip\ImagineBundle\LiipImagineBundle',
             //important! need for json post request from angular
             '\FOS\RestBundle\FOSRestBundle',
+            '\Debril\RssAtomBundle\DebrilRssAtomBundle',
         );
 
         foreach ($symbbBundles as $symbbBundle) {

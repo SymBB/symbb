@@ -77,4 +77,31 @@ class BackendApiController extends AbstractController
         return $api->getJsonResponse();
     }
 
+
+    /**
+     * @Route("/api/news", name="symbb_backend_api_news_list")
+     * @Method({"GET"})
+     */
+    public function newsAction()
+    {
+        $api = $this->get('symbb.core.api.news');
+
+        $objects = $api->getList();
+        $objectsData = array();
+        foreach ($objects as $object) {
+            $objectsData[] = $api->createArrayOfObject($object);
+        }
+
+        $newNews = $api->collectNews();
+        $newNewsData = array();
+        foreach ($newNews as $object) {
+            $newNewsData[] = $api->createArrayOfObject($object);
+        }
+
+        return $api->getJsonResponse(array(
+            'oldNews' => $objectsData,
+            'newNews' => $newNewsData
+        ));
+    }
+
 }

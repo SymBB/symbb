@@ -384,7 +384,7 @@ abstract class AbstractApi
         return $array;
     }
 
-    abstract protected function getFieldsForObject($object, $direction);
+
 
     /**
      * @param object $site
@@ -445,6 +445,8 @@ abstract class AbstractApi
 
         return $object;
     }
+
+    abstract protected function getFieldsForObject($object, $direction);
 
     protected function createNewSubobject($parent, $field)
     {

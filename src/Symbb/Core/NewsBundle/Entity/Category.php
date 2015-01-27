@@ -41,13 +41,13 @@ class Category
     protected $targetForum;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Source", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Source", mappedBy="category",cascade={"persist"})
      * @var ArrayCollection
      */
     protected $sources;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Entry", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Entry", mappedBy="category",cascade={"persist"})
      * @ORM\OrderBy({"created" = "DESC"})
      * @var ArrayCollection
      */
@@ -113,6 +113,13 @@ class Category
     }
 
     /**
+     * @param Source $source
+     */
+    public function addSource(Source $source){
+        $this->sources->add($source);
+    }
+
+    /**
      * @return Entry
      */
     public function getEntries()
@@ -127,6 +134,4 @@ class Category
     {
         $this->entries = $entries;
     }
-
-
 }
