@@ -40,13 +40,6 @@ symbb_user_ucp_notification_unsubscribe:
     pattern:  /ucp/notification/{id}/unsubscribe
     defaults: { _controller: SymbbCoreUserBundle:Ucp:notificationUnsubscribe }
 
-fos_user_registration_confirmed:
-    path: /login/ok
-    defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: symbb_forum_index
-        permanent: true
-
 symbb_user_ucp_security:
     pattern:  /ucp/security
     defaults: { _controller: SymbbCoreUserBundle:Ucp:security }
