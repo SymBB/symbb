@@ -19,9 +19,13 @@ html, body {
 }
 
 h1 {
-    font-size: 200%;
+    font-size: 26px;
     border-bottom: 1px solid #CCC;
     width: 100%;
+}
+
+h2, h3, h4 {
+    font-size: 20px;
 }
 
 blockquote {
