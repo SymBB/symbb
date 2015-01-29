@@ -42,8 +42,14 @@ class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormTyp
                     'constraints' => $this->usermanager->getPasswordValidatorConstraints()
                 )
             )
-            ->add('recaptcha', 'formextra_recaptcha')
             ->add('terms', 'checkbox', array('label' => 'Read and accepted Terms of Use', 'translation_domain' => 'symbb_frontend', 'mapped' => false, 'required' => true));
+
+        $builder->add('recaptcha', 'formextra_recaptcha', array(
+            'widget_options' => array(
+                'theme' => 'white', // blackglass, clean, red is the predefined themes.
+            ),
+            'mapped' => false
+        ));
     }
 
     public function getName()
