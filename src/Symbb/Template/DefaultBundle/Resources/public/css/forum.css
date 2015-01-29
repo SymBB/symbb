@@ -108,18 +108,12 @@
 .symbb_forum_body_row {
     background-color: #ffffff;
     color: #000;
-    border-left: 1px solid #428bca;
-    border-right: 1px solid #428bca;
 }
 
-.symbb_forum_body_row.last {
-    border-bottom: 1px solid #428bca;
-}
 
 .symbb_forum_body_row + .symbb_category_header_row::before {
     display: block;
     width: 100%;
-    border-bottom: 1px solid #428bca;
 }
 
 .symbb_forum_body_row:nth-child(even) {
