@@ -106,8 +106,10 @@
 }
 
 .symbb_forum_body_row {
-    background-color: #ffffff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     color: #000;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 
