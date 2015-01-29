@@ -21,3 +21,10 @@ services:
         parent: symbb.core.abstract.api
         calls:
           - ['setManager', ['@symbb.core.manager.news']]
+
+    symbb.core.twig.news:
+        twig.extension.symbb.core.system.intl.twig:
+        class: Symbb\Core\NewsBundle\Twig\TemplateExtension
+        arguments: ['@symbb.core.manager.news', '@symbb.core.manager.news.category']
+        tags:
+            - { name: twig.extension }

@@ -23,7 +23,7 @@
     {% set topic = object.getTopic() %}
     {% set forum = topic.getForum() %}
 
-    <article class="symbb_post " itemtype="http://schema.org/Article">
+    <article class="symbb_post " itemtype="http://schema.org/BlogPosting">
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
             <a class="avatar"
@@ -36,9 +36,9 @@
                href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">{{ object.getAuthor().getUsername() }}</a>
             {{ executeSymbbTemplatePostEvent('after.username', object) }}
             {{ executeSymbbTemplatePostEvent('before.userdata', object) }}
-            <dd><strong>{% trans %}posts{% endtrans %}:</strong> {{ getUserManager().getPostCount(object.getAuthor()) }}
+            <dd><strong>{% trans %}posts{% endtrans %}:</strong> <span itemprop="author">{{ getUserManager().getPostCount(object.getAuthor()) }}</span>
             </dd>
-            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> {{ object.getAuthor().getCreated() | date("d.m.Y") }}</dd>
+            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> <span>{{ object.getAuthor().getCreated() | date("d.m.Y") }}</span></dd>
             {{ executeSymbbTemplatePostEvent('after.userdata', object) }}
         </dl>
         <div class="postbody">
@@ -61,19 +61,19 @@
                 {{ executeSymbbTemplatePostEvent('after.actions', object) }}
             </div>
             <div class="clear-left"></div>
-            <div class="title" itemprop="name">{{ object.getName() }}</div>
+            <div class="title" itemprop="headline">{{ object.getName() }}</div>
             <div class="labels">
                 {% for flag in getSymbbPostManager().getFlags(object) %}
                     <span class="label label-default">{{ flag.getFlag() }}</span>
                 {% endfor %}
             </div>
             <div class="clear-left"></div>
-            <div class="date">
+            <div class="date" itemprop="dateCreated">
                 {% trans with {'%date%': object.getCreated() | date("d.m.Y") , '%time%': object.getCreated() | date("H:i")} %}on %date% at %time%{% endtrans %}
             </div>
             <div class="clear-left"></div>
             {{ executeSymbbTemplatePostEvent('before.text', object) }}
-            <div class="text">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
+            <div class="text" itemprop="articleBody">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
             {{ executeSymbbTemplatePostEvent('after.text', object) }}
 
             {% if object.getHistory().count() > 0 %}
