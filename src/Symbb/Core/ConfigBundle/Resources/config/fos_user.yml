@@ -8,6 +8,13 @@ fos_user:
     registration:
         form:
             type: symbb_fos_user_registration
+        confirmation:
+            enabled:    true
+    from_email:
+        address:        %system.email%
+        sender_name:    %system.name%
+    service:
+        mailer: fos_user.mailer.default
 
 simple_things_form_extra:
     recaptcha:
