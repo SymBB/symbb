@@ -131,7 +131,9 @@ class CategoryApi extends AbstractCrudApi
         // remove old
         foreach($sources as $source){
             if(!in_array($source->getId(), $newSourceIds)){
-                $this->em->remove($source);
+                if($source){
+                    $this->em->remove($source);
+                }
             }
         }
 
