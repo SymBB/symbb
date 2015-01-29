@@ -12,4 +12,9 @@ class Utils {
         return $cleanHtml;
     }
 
+    public static function removeHtml($html){
+        $html = htmlspecialchars(strip_tags($html));
+        return $html;
+    }
+
 }
