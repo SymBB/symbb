@@ -106,7 +106,9 @@ class CategoryApi extends AbstractCrudApi
 
             if($sourceData["type"] == "email"){
                 if(!($newSource instanceof Category\Source\Email)){
-                    $this->em->remove($newSource);
+                    if($newSource){
+                        $this->em->remove($newSource);
+                    }
                     $newSource = new Category\Source\Email();
                 }
                 $newSource->setServer($sourceData["server"]);
@@ -116,7 +118,9 @@ class CategoryApi extends AbstractCrudApi
                 $newSource->setPort($sourceData["port"]);
             } else if($sourceData["type"] == "feed") {
                 if(!($newSource instanceof Category\Source\Feed)){
-                    $this->em->remove($newSource);
+                    if($newSource){
+                        $this->em->remove($newSource);
+                    }
                     $newSource = new Category\Source\Feed();
                 }
                 $newSource->setUrl($sourceData["url"]);
