@@ -106,7 +106,7 @@
 }
 
 .symbb_forum_body_row {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
     color: #000;
     margin-left: 1px;
     margin-right: 1px;
@@ -120,6 +120,10 @@
 
 .symbb_forum_body_row:nth-child(even) {
     background-color: #FAFAFA;
+}
+
+.symbb_forum_body_row:nth-child(odd) {
+    background-color: #f1f3f9;
 }
 
 
