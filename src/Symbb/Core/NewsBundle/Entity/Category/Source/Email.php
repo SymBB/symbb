@@ -46,7 +46,7 @@ use Symbb\Core\NewsBundle\Entity\Category;
     protected $port = 143;
 
     /**
-    * @ORM\Column(type="boolean", nullable=false)
+    * @ORM\Column(type="boolean", nullable=false, name="is_ssl")
     * @var boolean
     */
     protected $ssl = false;

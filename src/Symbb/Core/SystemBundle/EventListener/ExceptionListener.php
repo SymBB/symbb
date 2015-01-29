@@ -38,6 +38,7 @@ class ExceptionListener extends \Symfony\Component\HttpKernel\EventListener\Exce
 
         if($this->env != "prod"){
             $event->setException($exception);
+            return;
         }
 
         try {
