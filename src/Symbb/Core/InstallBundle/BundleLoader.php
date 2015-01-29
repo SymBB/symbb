@@ -51,6 +51,7 @@ class BundleLoader
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
+            '\SimpleThings\FormExtraBundle\SimpleThingsFormExtraBundle',
             // KNP
             '\Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',

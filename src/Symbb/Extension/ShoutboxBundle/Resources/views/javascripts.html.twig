@@ -1,6 +1,5 @@
 <script>
-
-
+    {% if app.user.getSymbbType() == "user" %}
     var symbbExtensionShoutbox = {
 
         lastElementDate: 0,
@@ -53,23 +52,29 @@
             }
         });
 
-        var top = $('#symbb_extension_shoutbox').offset().top - parseFloat($('#symbb_extension_shoutbox').css('marginTop').replace(/auto/, 0));
-        var left = $('#symbb_extension_shoutbox').offset().left;
-        $(window).scroll(function (event) {
-            // what the y position of the scroll is
-            var y = $(this).scrollTop();
+        if($('#symbb_extension_shoutbox')){
+            var offset = $('#symbb_extension_shoutbox').offset();
+            if(offset){
+                var top = offset.top - parseFloat($('#symbb_extension_shoutbox').css('marginTop').replace(/auto/, 0));
+                var left = offset.left;
+                $(window).scroll(function (event) {
+                    // what the y position of the scroll is
+                    var y = $(this).scrollTop();
 
-            // whether that's below the form
-            if (y >= top) {
-                // if so, ad the fixed class
-                $('#symbb_extension_shoutbox').addClass('fixed');
-                $('#symbb_extension_shoutbox').css("left", left);
-            } else {
-                // otherwise remove it
-                $('#symbb_extension_shoutbox').removeClass('fixed');
+                    // whether that's below the form
+                    if (y >= top) {
+                        // if so, ad the fixed class
+                        $('#symbb_extension_shoutbox').addClass('fixed');
+                        $('#symbb_extension_shoutbox').css("left", left);
+                    } else {
+                        // otherwise remove it
+                        $('#symbb_extension_shoutbox').removeClass('fixed');
+                    }
+                });
             }
-        });
-    });
+        }
 
+    });
+    {% endif %}
 
 </script>

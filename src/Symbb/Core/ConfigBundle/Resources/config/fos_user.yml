@@ -8,3 +8,9 @@ fos_user:
     registration:
         form:
             type: symbb_fos_user_registration
+
+
+simple_things_form_extra:
+    recaptcha:
+        private_key: "your-private-key"
+        public_key:  "your-public-key"

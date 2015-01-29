@@ -33,6 +33,7 @@
         "friendsofsymfony/user-bundle": ">=2.0",
         "friendsofsymfony/jsrouting-bundle": ">=1.1",
         "friendsofsymfony/rest-bundle": ">=0.13",
+        "simplethings/form-extra-bundle": "1.0.*",
         "knplabs/knp-menu-bundle": "2.0.0",
         "knplabs/knp-paginator-bundle": "2.4.*@dev",
         "sonata-project/intl-bundle": "2.2.*@dev",

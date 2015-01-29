@@ -63,17 +63,14 @@ class ConfigManager
         $value = null;
         $default = $this->getDefault($key, $section);
 
-        if ($default) {
+        $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
 
-            $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $default->get('key'), 'section' => $default->get('section')));
+        if ($config) {
+            $value = $config->getValue();
+        }
 
-            if ($config) {
-                $value = $config->getValue();
-            }
-
-            if ($value === null) {
-                $value = $default->get('value');
-            }
+        if ($default && $value === null) {
+            $value = $default->get('value');
         }
 
         return $value;

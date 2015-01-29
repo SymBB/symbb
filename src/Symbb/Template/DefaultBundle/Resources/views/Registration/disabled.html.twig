@@ -1,12 +1,8 @@
 {% trans_default_domain "symbb_frontend" %}
 
-{% extends getSymbbTemplate('forum') ~ '::layout.html.twig' %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
 
-{% block symbb_slider %}
-{% endblock %}
-
-{% block symbb_body %}
-    {% include getSymbbTemplate('forum') ~ ':Angular:Forum/layout.html.twig' %}
+{% block section_content %}
     <div class="alert alert-danger">{% trans %}Registration is currently closed.{% endtrans %}</div>
 {% endblock %}
 
