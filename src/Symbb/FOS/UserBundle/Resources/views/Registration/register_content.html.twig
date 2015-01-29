@@ -1,5 +1,4 @@
 {% trans_default_domain 'FOSUserBundle' %}
-
 {% form_theme form getSymbbTemplate('forum') ~ '::form.html.twig' %}
 
 <form action="{{ path('symbb_register') }}" {{ form_enctype(form) }} method="post" role="form" class="form-horizontal">
