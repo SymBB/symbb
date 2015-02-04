@@ -458,12 +458,14 @@ class ForumManager extends AbstractManager
             if ($forum->getId() > 0) {
                 $query->setParameter(0, $forum->getId());
             }
-            $query->setParameter(1, get_class($forum));
-            $query->setParameter(2, ForumVoter::VIEW);
-            $query->setParameter(3, get_class($this->getUser()));
-            $query->setParameter(4, $this->getUser()->getId());
-            $query->setParameter(5, $groupClass);
-            $query->setParameter(6, $groupIds);
+            if ($checkAccess) {
+                $query->setParameter(1, get_class($forum));
+                $query->setParameter(2, ForumVoter::VIEW);
+                $query->setParameter(3, get_class($this->getUser()));
+                $query->setParameter(4, $this->getUser()->getId());
+                $query->setParameter(5, $groupClass);
+                $query->setParameter(6, $groupIds);
+            }
 
             $pagination = $this->createPagination($query, $page, $limit);
             $this->setCacheData($cacheKey, $pagination);
