@@ -613,7 +613,7 @@ class ForumManager extends AbstractManager
     {
         $this->accessManager->copyAccessForIdentity($forumFrom, $forumTo, $group);
         if ($includeChilds) {
-            foreach ($this->getChildren($forumTo) as $child) {
+            foreach ($this->getChildren($forumTo, 1, 999, false) as $child) {
                 $this->copyAccessOfGroup($forumFrom, $child, $group, $includeChilds);
             }
         }
@@ -629,7 +629,7 @@ class ForumManager extends AbstractManager
     {
         $this->accessManager->applyAccessSetForIdentity($forum, $group, $accessSet);
         if ($includeChilds) {
-            foreach ($this->getChildren($forum) as $child) {
+            foreach ($this->getChildren($forum, 1, 999, false) as $child) {
                 $this->applyAccessSetForGroup($child, $group, $accessSet, $includeChilds);
             }
         }
