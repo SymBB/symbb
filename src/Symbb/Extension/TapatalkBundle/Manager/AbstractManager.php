@@ -82,7 +82,8 @@ class AbstractManager
         $this->messageManager = $messageManager;
     }
 
-    public function setContainer(Container $container){
+    public function setContainer(Container $container)
+    {
         $this->request = $container->get('request');
         $this->securityContext = $container->get('security.context');
     }
@@ -92,9 +93,9 @@ class AbstractManager
 
         $valueObject = \Zend\XmlRpc\AbstractValue::getXmlRpcValue($value, $type);
 
-        $content = '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param>'.$valueObject->saveXml().'</param></params></methodResponse>';
+        $content = '<?xml version="1.0" encoding="UTF-8"?><methodResponse><params><param>' . $valueObject->saveXml() . '</param></params></methodResponse>';
 
-        $this->debug("XML: ".$content);
+        $this->debug("XML: " . $content);
 
         $response = new \Symfony\Component\HttpFoundation\Response();
         $response->headers->set('Content-Type', 'text/xml');
@@ -122,7 +123,7 @@ class AbstractManager
     {
 
         $limit = $lastNumber - $startNumber;
-        if($startNumber <= 0){
+        if ($startNumber <= 0) {
             $startNumber = 1;
         }
         $page = \ceil($startNumber / $limit);
@@ -132,15 +133,17 @@ class AbstractManager
      * @param $text
      * @return string
      */
-    protected function createShortContent($text){
-        return substr($text, 0 , 200);
+    protected function createShortContent($text)
+    {
+        return substr($text, 0, 200);
     }
 
     /**
      * @param §message $
      * @param $data
      */
-    public function debug($message, $data = array()){
-        $this->logger->debug('Tapatalk: '.$message, $data);
+    public function debug($message, $data = array())
+    {
+        $this->logger->debug('Tapatalk: ' . $message, $data);
     }
 }

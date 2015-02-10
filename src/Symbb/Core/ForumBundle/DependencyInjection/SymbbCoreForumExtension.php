@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
@@ -17,16 +17,16 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 
 class SymbbCoreForumExtension extends Extension implements PrependExtensionInterface
 {
-    
+
     public function prepend(ContainerBuilder $container)
     {
-        
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('doctrine.yml');
     }
-        
+
     public function load(array $configs, ContainerBuilder $container)
-    {    
+    {
     }
 }

@@ -12,10 +12,8 @@ namespace Symbb\Core\MessageBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symbb\Core\MessageBundle\Entity\Message\Receiver;
-use Symbb\Core\UserBundle\Entity\UserInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="user_messages")
@@ -34,16 +32,23 @@ class Message
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     protected $subject;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     protected $message;
 
     /**
      * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="message", cascade={"persist"})
+     * @Assert\NotBlank()
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You must specify at least one receiver"
+     * )
      * @var ArrayCollection
      */
     protected $receivers;
@@ -51,12 +56,13 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_sent")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @Assert\NotBlank()
      */
     protected $sender;
 
     /**
      * @ORM\Column(type="datetime")
-     *
+     * @Assert\NotNull()
      * @var \DateTime $date
      */
     protected $date;
@@ -124,7 +130,7 @@ class Message
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Receiver[]
      */
     public function getReceivers()
     {
@@ -167,7 +173,8 @@ class Message
     /**
      * @param Receiver $receiver
      */
-    public function addReceiver(Receiver $receiver){
+    public function addReceiver(Receiver $receiver)
+    {
         $this->receivers->add($receiver);
     }
 

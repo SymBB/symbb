@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Core\UserBundle;
 
@@ -15,10 +15,10 @@ class GravatarApi
      * @var array $defaults Array of default options that can be overriden with getters and in the construct.
      */
     protected $defaults = array(
-        'size'    => 80,
-        'rating'  => 'g',
+        'size' => 80,
+        'rating' => 'g',
         'default' => null,
-        'secure'  => false,
+        'secure' => false,
     );
 
     /**
@@ -35,10 +35,10 @@ class GravatarApi
     /**
      * Returns a url for a gravatar.
      *
-     * @param  string  $email
+     * @param  string $email
      * @param  integer $size
-     * @param  string  $rating
-     * @param  string  $default
+     * @param  string $rating
+     * @param  string $default
      * @param  Boolean $secure
      * @return string
      */
@@ -52,18 +52,18 @@ class GravatarApi
     /**
      * Returns a url for a gravatar for the given hash.
      *
-     * @param  string  $hash
+     * @param  string $hash
      * @param  integer $size
-     * @param  string  $rating
-     * @param  string  $default
+     * @param  string $rating
+     * @param  string $default
      * @param  Boolean $secure
      * @return string
      */
     public function getUrlForHash($hash, $size = null, $rating = null, $default = null, $secure = null)
     {
         $map = array(
-            's' => $size    ?: $this->defaults['size'],
-            'r' => $rating  ?: $this->defaults['rating'],
+            's' => $size ?: $this->defaults['size'],
+            'r' => $rating ?: $this->defaults['rating'],
             'd' => $default ?: $this->defaults['default'],
         );
 
@@ -83,10 +83,10 @@ class GravatarApi
      */
     public function exists($email)
     {
-        $path       = $this->getUrl($email, null, null, '404');
-        $errorNo    = null;
-        $error      = null;
-        $sock       = fsockopen('gravatar.com', 80, $errorNo, $error);
+        $path = $this->getUrl($email, null, null, '404');
+        $errorNo = null;
+        $error = null;
+        $sock = fsockopen('gravatar.com', 80, $errorNo, $error);
         fputs($sock, "HEAD " . $path . " HTTP/1.0\r\n\r\n");
 
         $header = fgets($sock, 128);

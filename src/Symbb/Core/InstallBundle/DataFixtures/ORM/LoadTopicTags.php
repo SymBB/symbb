@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\InstallBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -17,13 +17,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadTopicTags extends AbstractFixture
 {
-    
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        
+
         $tag1 = new Tag();
         $tag1->setId('announcement');
         $tag1->setName('Announcement');
@@ -33,11 +33,11 @@ class LoadTopicTags extends AbstractFixture
         $tag2->setId('important');
         $tag2->setName('Important');
         $tag2->setPriority(1);
-        
+
         $manager->persist($tag1);
         $manager->persist($tag2);
-        
+
         $manager->flush();
-        
+
     }
 }

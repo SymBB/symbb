@@ -87,16 +87,16 @@ class FieldValue
         $field = $this->getField();
         switch ($field->getDataType()) {
             case 'string':
-                $this->stringValue = (string) $value;
+                $this->stringValue = (string)$value;
                 break;
             case 'text':
-                $this->textValue = (string) $value;
+                $this->textValue = (string)$value;
                 break;
             case 'boolean':
-                $this->booleanValue = (boolean) $value;
+                $this->booleanValue = (boolean)$value;
                 break;
             case 'timestamp':
-                $this->timestampValue = (int) $value;
+                $this->timestampValue = (int)$value;
                 break;
         }
     }
@@ -106,16 +106,16 @@ class FieldValue
         $field = $this->getField();
         switch ($field->getDataType()) {
             case 'string':
-                return (string) $this->stringValue;
+                return (string)$this->stringValue;
                 break;
             case 'text':
-                return (string) $this->textValue;
+                return (string)$this->textValue;
                 break;
             case 'boolean':
-                return (boolean) $this->booleanValue;
+                return (boolean)$this->booleanValue;
                 break;
             case 'timestamp':
-                return (int) $this->timestampValue;
+                return (int)$this->timestampValue;
                 break;
         }
         return null;

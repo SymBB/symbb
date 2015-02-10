@@ -1,0 +1,72 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% import getSymbbTemplate('forum') ~ ':Forum:macros.html.twig' as forumMacros %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        {{ forumMacros.breadcrumbForTopic(topic) }}
+        {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::CREATE_POST'), topic) %}
+            <li class="pull-right">
+                <a title="{% trans %}new Answer{% endtrans %}" type="button" class="btn btn-primary btn-xs"
+                   href="{{ path("symbb_forum_topic_post_create", {"topic": topic.getId()}) }}">
+                    <span class="glyphicon glyphicon-plus"></span> {% trans %}new Answer{% endtrans %}
+                </a>
+            </li>
+        {% endif %}
+    </ol>
+{% endblock %}
+
+{% block section_content %}
+
+
+    {% if topic.isLocked() %}
+        <div class="clear m-top-1">
+            <div class="alert alert-warning">{% trans %}This topic is closed.{% endtrans %}</div>
+            <div class="clear"></div>
+        </div>
+    {% endif %}
+
+    {% if posts.count() > 2 %}
+    {{ forumMacros.answer_btn(topic, posts) }}
+    {% endif %}
+
+    {% for object in posts %}
+        {{ forumMacros.post(object) }}
+    {% endfor %}
+
+    {% if form %}
+        {% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+        <div class="symbb_action_row ">
+            <div >
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::REPLY'), topic) %}
+                    <a href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}"
+                       class="btn btn-primary btn-sm pull-left"><span
+                                class="glyphicon glyphicon-share-alt"></span> {{ 'Leave a Reply'|trans }}</a>
+                {% endif %}
+            </div>
+            <div class="pull-right">
+                {{ knp_pagination_render(posts, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <hr>
+            <div class="padding10">
+                {{ form_start(form) }}
+                <i>{{ 'or write a quick answer'|trans }}</i>
+                {% if posts.getPaginationData().last !=  posts.getPaginationData().current %}
+                    <div class="danger"><i>{{ "Warning this is not the last page! Are you sure now to post a reply?"|trans }}</i></div>
+                {% endif %}
+                <div class="symbb_editor" data-id="0" data-forum="{{ topic.getForum().getId() }}">
+                    {{ form_widget(form.text) }}
+                    {{ form_errors(form.text) }}
+                </div>
+                <br/>
+                <a class="btn btn-success" type="submit" onclick="return symbbForum.saveEditor(true)">{{ 'save'|trans }}</a>
+                <div class="clear"></div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    {%  endif %}
+
+
+{% endblock %}

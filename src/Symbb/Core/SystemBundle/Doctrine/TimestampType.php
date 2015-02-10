@@ -13,7 +13,7 @@ class TimestampType extends Type
 
     const TIMESTAMP = 'timestamp'; // modify to match your type name
     const FORMAT = 'Y-m-d H:i:s';
-    
+
     public function getSqlDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
         return 'TIMESTAMP';

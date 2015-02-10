@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Core\SystemBundle\Entity;
 
@@ -13,9 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
 /**
- * @ORM\Table(name="flags")
+ * @ORM\Table(name="flags", indexes={
+ *      @ORM\Index(name="findOne", columns={"objectId", "objectClass", "user_id", "flag"}),
+ *      @ORM\Index(name="findAll", columns={"objectId", "objectClass", "user_id"}),
+ *      @ORM\Index(name="findFlagsByObjectAndFlag", columns={"objectId", "objectClass", "flag"}),
+ *      @ORM\Index(name="findFlagsByClassAndFlag", columns={"objectClass", "flag", "user_id"})
+ * })
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
+ *
  */
 class Flag
 {
@@ -52,28 +58,66 @@ class Flag
     private $created;
 
 
-
     ############################################################################
     # Default Get and Set
     ############################################################################
-    public function getFlag(){return $this->flag;}
-    public function setFlag($value){$this->flag = $value;}
-    public function setObject($object){
+    public function getFlag()
+    {
+        return $this->flag;
+    }
+
+    public function setFlag($value)
+    {
+        $this->flag = $value;
+    }
+
+    public function setObject($object)
+    {
         $this->objectClass = ClassUtils::getRealClass($object);
         $this->objectId = $object->getId();
     }
-    public function getObjectClass(){return $this->objectClass;}
-    public function getObjectId(){return $this->objectId;}
-    public function setUser($object){$this->user = $object;}
-    public function getUser(){return $this->user;}
-    public function getCreated(){return $this->created;}
+
+    public function getObjectClass()
+    {
+        return $this->objectClass;
+    }
+
+    public function getObjectId()
+    {
+        return $this->objectId;
+    }
+
+    public function setUser($object)
+    {
+        $this->user = $object;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getCreated()
+    {
+        return $this->created;
+    }
     ############################################################################
-    
+
     /**
-    * @ORM\PrePersist
-    */
+     * @ORM\PrePersist
+     */
     public function setCreatedValue()
     {
-       $this->created = new \DateTime();
+        $this->created = new \DateTime();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 }

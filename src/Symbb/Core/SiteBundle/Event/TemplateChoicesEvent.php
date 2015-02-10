@@ -15,7 +15,7 @@ class TemplateChoicesEvent extends Event
 {
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection 
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $options;
 

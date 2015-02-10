@@ -1,0 +1,61 @@
+{% trans_default_domain "symbb_frontend" %}
+
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+
+{% block section_content_ucp %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <div class="btn-group">
+                    <a type="button" class="btn btn-default btn-sm" href="{{ path("symbb_message_sent_list") }}">
+                        <span class="glyphicon glyphicon-open"></span> {{ 'sent Messages'|trans }}
+                    </a>
+                    <a type="button" class="btn btn-primary btn-sm" href="{{ path("symbb_message_new") }}">
+                        <span class="glyphicon glyphicon-pencil"></span> {{ 'new Message'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">{{ 'received Messages'|trans }}
+                    {{ knp_pagination_render(messages, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+                    <div class="clear"></div>
+                </div>
+                <!-- Table -->
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-md-4">{{ 'Sender'|trans }}</th>
+                        <th class="col-md-5">{{ 'Subject'|trans }}</th>
+                        <th class="col-md-3">{{ 'Date'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entry in messages %}
+                        <tr>
+                            <td>
+                                <a href="{{ path("symbb_user_profile", {id: entry.getSender().getId(), username: entry.getSender().getUsername()}) }}">
+                                    {{ entry.getSender().getUsername() }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if getSymbbMessageManager().isNew(entry) %}
+                                    <span class="label label-success">{{ 'new'|trans }}</span>
+                                {% endif %}
+                                <a href="{{ path("symbb_message_show", {id: entry.getId()}) }}">
+                                    {{ entry.getSubject() }}
+                                </a>
+                            </td>
+                            <td>{{ entry.getDate() | date("d.m.Y H:i") }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

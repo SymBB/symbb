@@ -9,7 +9,10 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\ForumBundle\Entity\Forum;
+use Symbb\Core\ForumBundle\Entity\Post;
 use Symbb\Core\ForumBundle\Entity\Topic;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
 
@@ -18,7 +21,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 
     /**
      *
-     * @var ConfigManager 
+     * @var ConfigManager
      */
     protected $configManager;
 
@@ -29,7 +32,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     protected $topicFlagHandler;
 
     public function __construct(
-    TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
+        TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
@@ -37,7 +40,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $topicId
      * @return \Symbb\Core\ForumBundle\Entity\Topic
      */
@@ -48,48 +51,50 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $topicId
-     * @return array(<\Symbb\Core\ForumBundle\Entity\Topic>)
+     * @return Post[]
      */
     public function findPosts(\Symbb\Core\ForumBundle\Entity\Topic $topic, $page = 1, $limit = null, $orderDir = 'desc')
     {
-        if ($limit === null) {
-            $limit = $topic->getForum()->getEntriesPerPage();
+        $cacheKey = implode("_", array("findPosts", $topic->getId(), $page, $limit, $orderDir));
+        $pagination = $this->getCacheData($cacheKey);
+        if ($pagination === null) {
+            if ($limit === null) {
+                $limit = $topic->getForum()->getEntriesPerPage();
+            }
+
+            $sql = "SELECT
+                    p
+                FROM
+                    SymbbCoreForumBundle:Post p
+                WHERE
+                  p.topic = ?1
+                ORDER BY
+                  p.created " . strtoupper($orderDir);
+
+            $query = $this->em->createQuery($sql);
+            $query->setParameter(1, $topic->getId());
+
+            $pagination = $this->createPagination($query, $page, $limit);
+            $this->setCacheData($cacheKey, $pagination);
         }
-
-        $qbPage = $this->em->createQueryBuilder();
-        $qbPage->add('select', 'count(p)')
-            ->add('from', 'SymbbCoreForumBundle:Post p')
-            ->add('where', 'p.topic = ?1')
-            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic->getId());
-        $queryPage = $qbPage->getQuery();
-        $count = $queryPage->getSingleScalarResult();
-
-        $qb = $this->em->createQueryBuilder();
-        $qb->add('select', 'p')
-            ->add('from', 'SymbbCoreForumBundle:Post p')
-            ->add('where', 'p.topic = ?1')
-            ->add('orderBy', 'p.created ' . strtoupper($orderDir))
-            ->setParameter(1, $topic->getId());
-
-        $query = $qb->getQuery();
-        $query->setHint('knp_paginator.count', $count);
-
-        if ($page === 'last') {
-            $page = \ceil($count / $limit);
-        }
-
-        $pagination = $this->paginator->paginate(
-            $query, $page, $limit, array('distinct' => false)
-        );
 
         return $pagination;
     }
 
     /**
-     * 
+     * @param Topic $topic
+     * @return Post
+     */
+    public function getLastPost(Topic $topic)
+    {
+        $posts = $this->findPosts($topic, 1, 1, "desc");
+        return $posts->current();
+    }
+
+    /**
+     *
      * @return \Symbb\Core\ForumBundle\DependencyInjection\TopicFlagHandler
      */
     public function getFlagHandler()
@@ -117,9 +122,28 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param Topic $topic
      * @return bool
      */
-    public function markAsRead(Topic $topic){
-        $this->topicFlagHandler->removeFlag($topic, 'new');
+    public function markAsRead(Topic $topic)
+    {
+        $this->topicFlagHandler->removeFlag($topic, AbstractFlagHandler::FLAG_NEW);
         return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @param string $searchForFlag
+     * @return bool
+     */
+    public function checkFlag(Topic $topic, $searchForFlag = '')
+    {
+        if(empty($searchForFlag)){
+            $searchForFlag = AbstractFlagHandler::FLAG_NEW;
+        }
+        foreach ($this->topicFlagHandler->findAll($topic) as $flag) {
+            if ($flag->getFlag() == $searchForFlag) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -127,19 +151,20 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      * @param string $flag
      * @return bool
      */
-    public function checkFlag(Topic $topic, $flag = 'new'){
-        foreach ($this->topicFlagHandler->findAll($topic) as $flag) {
-            if($flag->getFlag() == 'new'){
-                return true;
-            }
+    public function hasFlag(Topic $topic, $flag = null)
+    {
+        if(!$flag){
+            $flag = AbstractFlagHandler::FLAG_NEW;
         }
+        return $this->checkFlag($topic, $flag);
     }
 
     /**
      * @param Topic $topic
      * @return bool
      */
-    public function save(Topic $topic){
+    public function save(Topic $topic)
+    {
         $this->em->persist($topic);
         $this->em->persist($topic->getMainPost());
         $this->em->flush();
@@ -154,9 +179,8 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                     t
                 FROM
                     SymbbCoreForumBundle:Topic t
-                INNER JOIN
-                    SymbbCoreForumBundle:Post p WITH
-                    p.topic = t.id
+                JOIN
+                    t.posts p
                 WHERE
                     p.author = ?0
                 GROUP BY
@@ -164,16 +188,137 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 ORDER BY
                     p.created DESC ";
 
-        if(!$user){
+        if (!$user) {
             $user = $this->getUser();
         }
 
-        //// count
         $query = $this->em->createQuery($sql);
         $query->setParameter(0, $user->getId());
 
         $pagination = $this->createPagination($query, $page, $limit);
 
         return $pagination;
+    }
+
+    public function findBy($criteria, $page = 1, $limit = 20){
+
+        $where = "WHERE ";
+        $values = array();
+        $valueKey = 0;
+        foreach($criteria as $field => $crit){
+            $where .= "t.".$field;
+            if(is_array($crit)){
+                if(!isset($crit["operator"]) || !isset($crit["value"])){
+                    throw new \Exception("Criteria array need to have a operator and value element");
+                }
+                if($crit["operator"] == "IN"){
+                    $where .= " IN (?".$valueKey.")";
+                } else {
+                    $where .= " ".$crit["operator"]." ?".$valueKey;
+                }
+                $values[$valueKey] = $crit["value"];
+            } else {
+                $where .= " = ?".$valueKey;
+                $values[$valueKey] = $crit;
+            }
+            $valueKey++;
+        }
+
+        $sql = "SELECT
+                    t
+                FROM
+                    SymbbCoreForumBundle:Topic t
+                ".$where."
+                ORDER BY
+                    t.id DESC ";
+
+
+        $query = $this->em->createQuery($sql);
+        foreach($values as $key => $value){
+            $query->setParameter($key, $value);
+        }
+
+        $pagination = $this->createPagination($query, $page, $limit);
+
+        return $pagination;
+    }
+
+    /**
+     * @param Topic $topic
+     * @param Forum $forum
+     * @return bool
+     */
+    public function move(Topic $topic, Forum $forum)
+    {
+        $topic->setForum($forum);
+        $this->em->persist($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function delete(Topic $topic)
+    {
+        $this->em->remove($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     */
+    public function close(Topic $topic)
+    {
+        $topic->setLocked(true);
+        $this->em->persist($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return bool
+     */
+    public function open(Topic $topic)
+    {
+        $topic->setLocked(false);
+        $this->em->persist($topic);
+        $this->em->flush();
+
+        return true;
+    }
+
+    public function getAvailableTags()
+    {
+        $sql = "SELECT
+                    tag
+                FROM
+                    SymbbCoreForumBundle:Topic\Tag tag
+                ORDER BY
+                    tag.priority DESC ";
+        $query = $this->em->createQuery($sql);
+        return $query->getResult();
+    }
+
+    /**
+     * @param Topic $topic
+     * @param UserInterface $user
+     */
+    public function subscribeNotification(Topic $topic, UserInterface $user = null){
+        $this->topicFlagHandler->insertFlag($topic, TopicFlagHandler::FLAG_NOTIFY, $user);
+    }
+
+    /**
+     * @param Topic $topic
+     * @param UserInterface $user
+     */
+    public function unsubscribeNotification(Topic $topic, UserInterface $user = null){
+        $this->topicFlagHandler->removeFlag($topic, TopicFlagHandler::FLAG_NOTIFY, $user);
     }
 }

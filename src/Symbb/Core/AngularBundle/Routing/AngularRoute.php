@@ -51,7 +51,8 @@ class AngularRoute
         $this->router = $router;
     }
 
-    public function getSection(){
+    public function getSection()
+    {
         return $this->section;
     }
 
@@ -70,7 +71,7 @@ class AngularRoute
         $prefix = $this->router->generate('_symbb_index', array('_locale' => 'xxx'));
         $pattern = $this->getPattern();
         $pattern = \str_replace(array('{', '}'), array(':', '',), $pattern);
-        $prefix = \str_replace(array('/xxx'), array(''), $prefix); // remove locale from prefix
+        $prefix = \str_replace(array('/xxx', '/?_locale=xxx'), array(''), $prefix); // remove locale from prefix
         $prefix = \rtrim($prefix, '/');
         $pattern = $prefix . $pattern;
         return $pattern;

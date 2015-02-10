@@ -26,7 +26,7 @@ class AcpConfigController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
         foreach ($configData as $section => $configs) {
             foreach ($configs as $key => $value) {
                 $type = $this->get('symbb.core.config.manager')->getType($key, $section);
-        
+
                 $options = array(
                     'data' => $this->get('symbb.core.config.manager')->get($key, $section)
                 );
@@ -40,7 +40,7 @@ class AcpConfigController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
                 if ($type == 'number' || $type == 'int') {
                     $type = 'integer';
                 }
-                $key = $section.':'.$key;
+                $key = $section . ':' . $key;
                 $name = \str_replace('.', '_', $key);
                 $label = \str_replace(':', '.', $key);
                 $options['attr']['section'] = $section;
@@ -57,7 +57,7 @@ class AcpConfigController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
             foreach ($configData as $section => $configs) {
                 foreach ($configs as $key => $value) {
                     $name = \str_replace('.', '_', $key);
-                    $name = $section.':'.$name;
+                    $name = $section . ':' . $name;
                     $newValue = $form->get($name)->getData();
                     $this->get('symbb.core.config.manager')->set($key, $section, $newValue);
                 }

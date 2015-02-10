@@ -13,12 +13,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Table(name="forums")
  * @ORM\Entity()
- * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
 class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
@@ -30,17 +28,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @Assert\File(
-     *     maxSize="1M",
-     *     mimeTypes={"image/png", "image/jpeg", "image/pjpeg"}
-     * )
-     * @Vich\UploadableField(mapping="symbb_forum_image", fileNameProperty="imageName")
-     *
-     * @var File $image
-     */
-    protected $image;
 
     /**
      * @ORM\Column(type="string", length=255, name="image_name", nullable=true)
@@ -75,7 +62,7 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Forum", mappedBy="parent", cascade={"persist", "remove"}, fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"position" = "ASC", "id" = "ASC"})
      * @var ArrayCollection
      */
@@ -88,24 +75,11 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum")
+     * @ORM\OneToMany(targetEntity="Topic", mappedBy="forum", fetch="EXTRA_LAZY")
      * @ORM\OrderBy({"changed" = "ASC", "created" = "ASC"})
      * @var ArrayCollection
      */
     protected $topics;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\Feed", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
-     * @var ArrayCollection
-     */
-    protected $feeds;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\ForumBundle\Entity\Forum\FeedEntry", mappedBy="forum", orphanRemoval=true, cascade={"persist"})
-     * @ORM\OrderBy({"created" = "DESC"})
-     * @var ArrayCollection
-     */
-    protected $feedEntries;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -151,7 +125,6 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
     {
         $this->children = new ArrayCollection();
         $this->topics = new ArrayCollection();
-        $this->feeds = new ArrayCollection();
 
     }
 
@@ -492,42 +465,31 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
         return array(
             'forum',
             'category',
-            'link',
-            'rss'
+            'link'
         );
     }
 
-
-
     /**
-     * @return ArrayCollection
+     * @return bool
      */
-    public function getFeeds()
+    public function isCategory()
     {
-        return $this->feeds;
-
+        return $this->getType() == "category";
     }
 
     /**
-     *
+     * @return bool
      */
-    public function removeFeeds(){
-        $this->feeds->clear();
+    public function isLink()
+    {
+        return $this->getType() == "link";
     }
 
     /**
-     * @param Feed $feed
+     * @return bool
      */
-    public function addFeed(Feed $feed){
-        $feed->setForum($this);
-        $this->feeds->add($feed);
-    }
-
-    /**
-     * @param ArrayCollection $feeds
-     */
-    public function setFeeds(ArrayCollection $feeds){
-        $this->feeds->clear();
-        $this->feeds = $feeds;
+    public function isForum()
+    {
+        return $this->getType() == "forum";
     }
 }

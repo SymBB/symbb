@@ -1,31 +1,53 @@
-<div class="survey" ng-show="object.extension.survey.question">
-    <div class="answers" ng-show="object.access.viewSurvey">
-            <ul class="list-group">
-                <li class="list-group-item active">[[object.extension.survey.question]]</li>
-                <li class="list-group-item" ng-repeat='answer in object.extension.survey.answersArray'>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="[[answer.percent]]" aria-valuemin="0" aria-valuemax="100" style="width: [[answer.percent]]%;">
-                            <span class="sr-only">[[answer.percent]]% : [[answer.name]] </span>
-                        </div>
-                    </div>
-                    <div class="answer">
-                        <div class="animate-switch-container pull-left"  ng-switch on="answer.type">
-                            <div class="animate-switch" ng-switch-when="checkbox">
-                                <input ng-show="object.extension.survey.votable" type="checkbox" ng-model="object.extension.survey.myVote[answer.key]" ng-checked="object.extension.survey.myVote[answer.key]"  name="surveyAnswer[]" ng-true-value="1" ng-false-value="0">
+{% if survey and survey.getQuestion() and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::VIEW_SURVEY'), post.getTopic().getForum()) %}
+    <div class="survey">
+        <div class="answers">
+            <form action="{{ path("symbb_extension_survey_vote", {"post": post.getId()}) }}" method="post"
+                  id="extensionSurveyForm">
+                <ul class="list-group">
+                    <li class="list-group-item active">{{ survey.getQuestion() }}</li>
+                    {% for answer in survey.getAnswersArray() %}
+                        <li class="list-group-item">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"
+                                     aria-valuenow="{{ survey.getAnswerPercent(loop.index0) }}" aria-valuemin="0"
+                                     aria-valuemax="100" style="width: {{ survey.getAnswerPercent(loop.index0) }}%;">
+                                    <span class="sr-only">{{ survey.getAnswerPercent(loop.index) }}% : answer </span>
+                                </div>
                             </div>
-                            <div class="animate-switch" ng-switch-default>
-                                <input ng-show="object.extension.survey.votable" type="radio" ng-model="object.extension.survey.myVote" ng-value="answer.key" name="surveyAnswer">
+                            <div class="answer">
+                                <div class="animate-switch-container pull-left">
+                                    {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
+                                        {% if survey.getChoices() > 1 %}
+                                            <div class="animate-switch">
+                                                <input type="hidden" name="answers[{{ loop.index0 }}]" value="0">
+                                                <input type="checkbox" {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %}
+                                                       name="answers[{{ loop.index0 }}]" value="1">
+                                            </div>
+                                        {% else %}
+                                            <div class="animate-switch">
+                                                <input type="radio"  {% if survey.checkForVote(loop.index0, app.user) %} checked="checked" {% endif %}
+                                                       name="answers" value="{{ loop.index0 }}">
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="pull-left">{{ answer }} ( {{ survey.getAnswerPercent(loop.index0) }}% )
+                                </div>
                             </div>
-                        </div>
-                        <div class="pull-left">[[answer.name]] ( [[answer.percent]]% )</div>
-                    </div>
-                    <div class="clear"></div>
-                </li>
+                            <div class="clear"></div>
+                        </li>
+                    {% endfor %}
+                    {% if survey.checkIfVoteable(app.user) and is_granted(constant('Symbb\\Extension\\SurveyBundle\\Security\\Authorization\\SurveyVoter::CREATE_SURVEY'), post.getTopic().getForum()) %}
+                        <li class="list-group-item">
+                            <a onclick="$('#extensionSurveyForm').submit();"
+                               class="btn btn-default">{{ 'vote'|trans }}</a>
 
-                <li ng-show="object.extension.survey.votable" class="list-group-item">
-                    <button type="button" symbb-request="symbb_api_extension_survey_vote" param-items="[[ object.extension.survey.myVote ]]" param-post="[[object.id]]"  class="btn btn-default">{{ 'vote'|trans}}</button>
-                    <div class="clear"></div>
-                </li>
-            </ul>
+                            <div class="clear"></div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </form>
+        </div>
     </div>
-</div>
+
+{% endif %}

@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\SystemBundle\Twig;
 
+use Symbb\Core\SystemBundle\Utils;
+
 class TemplateExtension extends \Twig_Extension
 {
 
@@ -26,7 +28,9 @@ class TemplateExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('getSymbbTemplate', array($this, 'getSymbbTemplate'))
+            new \Twig_SimpleFunction('getSymbbTemplate', array($this, 'getSymbbTemplate')),
+            new \Twig_SimpleFunction('removeHtml', array($this, 'removeHtml')),
+            new \Twig_SimpleFunction('cutText', array($this, 'cutText'))
         );
     }
 
@@ -34,6 +38,14 @@ class TemplateExtension extends \Twig_Extension
     {
         $template = $this->siteManager->getTemplate($config);
         return $template;
+    }
+
+    public function cutText($text, $length){
+        return substr($text, 0 , $length);
+    }
+
+    public function removeHtml($html){
+        return Utils::removeHtml($html);
     }
 
     public function getName()

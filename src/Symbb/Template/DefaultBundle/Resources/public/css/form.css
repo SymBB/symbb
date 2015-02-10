@@ -15,7 +15,7 @@ form .input-group .input-group-addon:first-child {
 }
 
 form label {
-    margin-bottom: 0;   
+    margin-bottom: 0;
 }
 
 form div .input-group {
@@ -34,7 +34,7 @@ form .form-control[type="file"] {
     font-size: 12px;
 }
 
-form .panel-heading .nav-tabs.nav-justified {   
+form .panel-heading .nav-tabs.nav-justified {
     margin-bottom: -11px;
 }
 
@@ -51,22 +51,21 @@ form .btn {
     float: left;
 }
 
-
-form fieldset .btn-group  {
+form fieldset .btn-group {
     margin-bottom: 5px;
 }
 
 form .collection_item {
-    
+
     margin-bottom: 5px;
     position: relative;
-    
+
 }
 
 form .collection_add {
-    
+
     margin-bottom: 10px;
-    
+
 }
 
 form .collection_item_buttons {
@@ -80,17 +79,16 @@ form .collection_item_buttons .symbb_bbcode_btn {
 }
 
 form .collection_item.pull-left {
-    
+
     margin-bottom: 5px;
     margin-right: 20px;
-    
+
 }
 
-
 form .collection_item img {
-    
+
     float: left;
-    
+
 }
 
 form .collection_item.hidden {
@@ -101,3 +99,5 @@ form .collection_item .symbb_bbcode_btn {
     cursor: pointer;
     margin-left: 5px;
 }
+
+form .input-group .input-group-addon:first-child

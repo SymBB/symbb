@@ -44,7 +44,7 @@ class AccessManager
     {
         $this->container = $container;
         $this->symbbConfig = $symbbConfig;
-        $this->em =  $this->container->get('doctrine.orm.symbb_entity_manager');
+        $this->em = $this->container->get('doctrine.orm.symbb_entity_manager');
         $this->memcache = $container->get('memcache.acl');
     }
 
@@ -133,12 +133,12 @@ class AccessManager
 
         $identityList = array($identity);
 
-        if($identity instanceof UserInterface){
+        if ($identity instanceof UserInterface) {
             $groups = $identity->getGroups();
             $identityList = array_merge($identityList, $groups->toArray());
         }
 
-        foreach($identityList as $currIdentity){
+        foreach ($identityList as $currIdentity) {
 
             $identityClass = ClassUtils::getRealClass($currIdentity);
             $identityId = $currIdentity->getId();
@@ -179,19 +179,20 @@ class AccessManager
      * @param $identityId
      * @return array
      */
-    public function checkCache($objectClass, $objectId, $identityClass, $identityId){
+    public function checkCache($objectClass, $objectId, $identityClass, $identityId)
+    {
 
-        $key    = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
-        $cache  = $this->accessCache;
+        $key = $this->generateCacheKey($objectClass, $objectId, $identityClass, $identityId);
+        $cache = $this->accessCache;
 
-        if(empty($cache)){
+        if (empty($cache)) {
 
             $cache = $this->memcache->get('symbb_acl_cache');
 
-            if(!$cache){
+            if (!$cache) {
                 $accessList = $this->em->getRepository('SymbbCoreSystemBundle:Access')->findAll();
                 $cache = array();
-                foreach($accessList as $access){
+                foreach ($accessList as $access) {
                     $currKey = $this->generateCacheKey($access->getObject(), $access->getObjectId(), $access->getIdentity(), $access->getIdentityId());
                     $accessKey = $access->getAccess();
                     $cache[$currKey][$accessKey] = $accessKey;
@@ -204,11 +205,11 @@ class AccessManager
 
         $accessData = array();
 
-        if(isset($cache[$key])){
-            $accessData =  $cache[$key];
+        if (isset($cache[$key])) {
+            $accessData = $cache[$key];
         }
 
-        if(!$accessData){
+        if (!$accessData) {
             $accessData = array();
         }
 
@@ -222,10 +223,12 @@ class AccessManager
      * @param $identityId
      * @return string
      */
-    protected function generateCacheKey($objectClass, $objectId, $identityClass, $identityId){
-        $key = 'acl_'.($objectClass.$objectId.$identityClass.$identityId);
+    protected function generateCacheKey($objectClass, $objectId, $identityClass, $identityId)
+    {
+        $key = 'acl_' . ($objectClass . $objectId . $identityClass . $identityId);
         return $key;
     }
+
     /**
      *
      * @return UserInterface
@@ -240,7 +243,8 @@ class AccessManager
      * @param $objectTo
      * @param $identity
      */
-    public function copyAccessForIdentity($objectFrom, $objectTo, $identity){
+    public function copyAccessForIdentity($objectFrom, $objectTo, $identity)
+    {
 
         $objectClass = ClassUtils::getRealClass($objectFrom);
         $objectId = $objectFrom->getId();
@@ -258,7 +262,7 @@ class AccessManager
         $accessList = $this->em->getRepository('SymbbCoreSystemBundle:Access')->findBy($criteria);
 
         $this->removeAllAccess($objectTo, $identity);
-        foreach($accessList as $access){
+        foreach ($accessList as $access) {
             $this->grantAccess($access->getAccess(), $objectTo, $identity);
         }
     }
@@ -268,12 +272,13 @@ class AccessManager
      * @param $identity
      * @param $set
      */
-    public function applyAccessSetForIdentity($object, $identity, $set){
+    public function applyAccessSetForIdentity($object, $identity, $set)
+    {
         $sets = $this->container->get('symbb.core.access.voter.manager')->getAccessSetList($object);
-        if(isset($sets[$set])){
+        if (isset($sets[$set])) {
             $accessList = $sets[$set];
             $this->removeAllAccess($object, $identity);
-            foreach($accessList as $access){
+            foreach ($accessList as $access) {
                 $this->grantAccess($access, $object, $identity);
             }
         }

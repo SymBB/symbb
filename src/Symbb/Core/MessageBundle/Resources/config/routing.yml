@@ -1,6 +1,19 @@
-symbb_api_message:
-    resource: "@SymbbCoreMessageBundle/Controller"
-    type: annotation
+symbb_message_list:
+    pattern:  /message/list/received/{page}/
+    defaults:
+        page: 1
+        _controller: SymbbCoreMessageBundle:Frontend:receivedList
 
+symbb_message_sent_list:
+    pattern:  /message/list/sent/{page}/
+    defaults:
+        page: 1
+        _controller: SymbbCoreMessageBundle:Frontend:sentList
 
+symbb_message_show:
+    pattern:  /message/show/{id}/
+    defaults: { _controller: SymbbCoreMessageBundle:Frontend:show }
 
+symbb_message_new:
+    pattern:  /message/new/
+    defaults: { _controller: SymbbCoreMessageBundle:Frontend:new }

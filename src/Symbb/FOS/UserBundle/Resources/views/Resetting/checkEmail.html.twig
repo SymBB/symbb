@@ -1,0 +1,9 @@
+
+{% extends "FOSUserBundle::layout.html.twig" %}
+{% trans_default_domain 'FOSUserBundle' %}
+{% block fos_user_content %}
+    <div class="alert alert-success" role="alert">
+        <h1>{{ "Yeah!"|trans }}</h1>
+        {{ 'resetting.check_email'|trans({'%email%': email}) }}
+    </div>
+{% endblock %}

@@ -2,37 +2,37 @@
 // some helper methods
 var angularConfig = {
 
-    goTo: function($timeout, $location, route, params, urlKey){
+    goTo: function ($timeout, $location, route, params, urlKey) {
         var routing = this.getAngularRoute(route, params, urlKey, true);
-        $timeout(function() {
+        $timeout(function () {
             $location.path(routing);
-        }, 0 );
+        }, 0);
         //$scope = angular.element(document).scope(); // this is the came as $rootScope
         //$scope.$apply(); // so this also has no effect
     },
 
     angularRoutes: [],
 
-    getSymfonyRoute: function(route, params){
-        if(!params){
+    getSymfonyRoute: function (route, params) {
+        if (!params) {
             params = {};
         }
         params._locale = symbbUser.lang;
-        var routePath =  Routing.generate(route, params);
+        var routePath = Routing.generate(route, params);
         return routePath;
     },
 
-    getSymfonyApiRoute: function(route, params){
-        var routePath =  '';
-        if(this.angularRoutes[route] && this.angularRoutes[route]['api']){
-            if(!params){
+    getSymfonyApiRoute: function (route, params) {
+        var routePath = '';
+        if (this.angularRoutes[route] && this.angularRoutes[route]['api']) {
+            if (!params) {
                 params = {};
             }
             var realParams = this.angularRoutes[route]['api']['params'];
-            if(!realParams){
+            if (!realParams) {
                 realParams = {};
             }
-            $.each(params, function(key, value){
+            $.each(params, function (key, value) {
                 realParams[key] = value;
             });
             realParams._locale = symbbUser.lang;
@@ -41,25 +41,25 @@ var angularConfig = {
         return routePath;
     },
 
-    getSymfonyApiRouteKey: function(route, params){
-        var routePath =  '';
-        if(this.angularRoutes[route] && this.angularRoutes[route]['api']){
+    getSymfonyApiRouteKey: function (route, params) {
+        var routePath = '';
+        if (this.angularRoutes[route] && this.angularRoutes[route]['api']) {
             routePath = this.angularRoutes[route]['api']['route']
         }
         return routePath;
     },
 
-    getSymfonyTemplateRoute: function(route, params){
-        var routePath =  '';
-        if(this.angularRoutes[route] && this.angularRoutes[route]['template']){
-            if(!params){
+    getSymfonyTemplateRoute: function (route, params) {
+        var routePath = '';
+        if (this.angularRoutes[route] && this.angularRoutes[route]['template']) {
+            if (!params) {
                 params = {};
             }
             var realParams = this.angularRoutes[route]['template']['params'];
-            if(!realParams){
+            if (!realParams) {
                 realParams = {};
             }
-            $.each(params, function(key, value){
+            $.each(params, function (key, value) {
                 realParams[key] = value;
             });
             realParams._locale = symbbUser.lang;
@@ -68,37 +68,37 @@ var angularConfig = {
         return routePath;
     },
 
-    getAngularController: function(route){
+    getAngularController: function (route) {
         return this.angularRoutes[route]['controller'];
     },
 
-    getAngularRoute: function(route, params, urlKey, removeHost){
+    getAngularRoute: function (route, params, urlKey, removeHost) {
 
-        if(!params){
+        if (!params) {
             params = {};
         }
 
         params._locale = symbbUser.lang;
 
-        if(!urlKey){
+        if (!urlKey) {
             urlKey = 0;
         }
-        if(this.angularRoutes[route]){
+        if (this.angularRoutes[route]) {
             var routePath = this.angularRoutes[route]['pattern'];
             routePath = routePath[urlKey];
-            $.each(this.angularRoutes[route]['defaults'], function(key, value){
-                if(!params[key]){
+            $.each(this.angularRoutes[route]['defaults'], function (key, value) {
+                if (!params[key]) {
                     params[key] = value;
                 }
             });
-            $.each(params, function(key, value){
-                routePath = routePath.replace(':'+key, value);
+            $.each(params, function (key, value) {
+                routePath = routePath.replace(':' + key, value);
             });
-            if(!removeHost){
-                routePath = 'http://'+window.location.host+routePath;
+            if (!removeHost) {
+                routePath = 'http://' + window.location.host + routePath;
             }
         } else {
-            console.debug('Route not found! -> '+route);
+            console.debug('Route not found! -> ' + route);
             console.debug(this.angularRoutes);
         }
 
@@ -106,11 +106,11 @@ var angularConfig = {
         return routePath;
     },
 
-    createAngularRouting: function($routeProvider){
-        $.each(this.angularRoutes, function(key, value){
-            if(value.pattern){
-                $.each(value.pattern, function(urlKey, urlValue){
-                    if(value.controller){
+    createAngularRouting: function ($routeProvider) {
+        $.each(this.angularRoutes, function (key, value) {
+            if (value.pattern) {
+                $.each(value.pattern, function (urlKey, urlValue) {
+                    if (value.controller) {
                         $routeProvider.when(urlValue, {
                             templateUrl: angularConfig.getSymfonyTemplateRoute(key),
                             controller: angularConfig.getAngularController(key)
@@ -121,12 +121,12 @@ var angularConfig = {
         });
     },
 
-    getRoutingKeyBasedOnPattern: function(pattern){
+    getRoutingKeyBasedOnPattern: function (pattern) {
         var finalKey = '';
-        $.each(this.angularRoutes, function(key, value){
-            if(value.pattern){
-                $.each(value.pattern, function(urlKey, urlValue){
-                    if( urlValue == pattern){
+        $.each(this.angularRoutes, function (key, value) {
+            if (value.pattern) {
+                $.each(value.pattern, function (urlKey, urlValue) {
+                    if (urlValue == pattern) {
                         finalKey = key;
                     }
                 });
@@ -140,47 +140,47 @@ var angularConfig = {
 // Change Template Symbold
 // create dynamicly the Routing based on the provided Data
 app.config(['$routeProvider', '$interpolateProvider', '$httpProvider', '$locationProvider',
-    function($routeProvider, $interpolateProvider, $httpProvider, $locationProvider) {
+        function ($routeProvider, $interpolateProvider, $httpProvider, $locationProvider) {
 
-        //changeing because of twig
-        $interpolateProvider.startSymbol('[[').endSymbol(']]');
-        //html5 pushState
-        $locationProvider.html5Mode(true);
+            //changeing because of twig
+            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+            //html5 pushState
+            $locationProvider.html5Mode(true);
 
-        angularConfig.createAngularRouting($routeProvider);
-        //angularConfig.configHook($routeProvider, $interpolateProvider, $httpProvider, $locationProvider);
+            angularConfig.createAngularRouting($routeProvider);
+            //angularConfig.configHook($routeProvider, $interpolateProvider, $httpProvider, $locationProvider);
 
-        // Add the interceptor to the $httpProvider.
-        $httpProvider.interceptors.push('symbbApiHttpInterceptor');
+            // Add the interceptor to the $httpProvider.
+            $httpProvider.interceptors.push('symbbApiHttpInterceptor');
 
-    }]
+        }]
 );
 
 // check every Request for API Errors/Messages
-app.factory('symbbApiHttpInterceptor', function($q, $injector) {
+app.factory('symbbApiHttpInterceptor', function ($q, $injector) {
     return {
         // On request success
-        request: function(config) {
+        request: function (config) {
             // console.log(config); // Contains the data about the request before it is sent.
             // Return the config or wrap it in a promise if blank.
             return config || $q.when(config);
         },
         // On request failure
-        requestError: function(rejection) {
+        requestError: function (rejection) {
             // console.log(rejection); // Contains the data about the error on the request.
             // Return the promise rejection.
             return $q.reject(rejection);
         },
         // On response success
-        response: function(response) {
-            if(typeof response.data  === 'object'){
+        response: function (response) {
+            if (typeof response.data === 'object') {
                 response.data = symbbAngularUtils.checkResponse(response.data, $injector);
             }
             // Return the response or promise.
             return response || $q.when(response);
         },
         // On response failture
-        responseError: function(rejection) {
+        responseError: function (rejection) {
             symbbAngularUtils.checkResponse(rejection, $injector);
             //console.log(rejection); // Contains the data about the error.
             // Return the promise rejection.
@@ -195,52 +195,51 @@ var symbbControllers = angular.module('symbbControllers', []);
 
 //default controller
 symbbControllers.controller('DefaultApiCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll', '$route',
-    function($scope, $http, $routeParams, $anchorScroll, $route) {
+    function ($scope, $http, $routeParams, $anchorScroll, $route) {
         var pattern = $route.current.$$route.originalPath;
         var routingKey = angularConfig.getRoutingKeyBasedOnPattern(pattern);
-        if(routingKey){
+        if (routingKey) {
             var route = angularConfig.getSymfonyApiRoute(routingKey, $routeParams);
-            if(route){
-                $http.get(route).success(function(data) {
-                    $.each(data, function(key, value) {
+            if (route) {
+                $http.get(route).success(function (data) {
+                    $.each(data, function (key, value) {
                         $scope[key] = value;
                     });
                 });
                 $anchorScroll();
             } else {
-                console.debug('No Api Route found for: '+routingKey)
+                console.debug('No Api Route found for: ' + routingKey)
             }
         } else {
-            console.debug('No configured angular route found for: '+pattern)
+            console.debug('No configured angular route found for: ' + pattern)
         }
     }
 ]);
 
 symbbControllers.controller('DefaultCtrl', ['$scope', '$http', '$routeParams', '$anchorScroll', '$route',
-    function($scope, $http, $routeParams, $anchorScroll, $route) {
+    function ($scope, $http, $routeParams, $anchorScroll, $route) {
         var pattern = $route.current.$$route.originalPath;
         var routingKey = angularConfig.getRoutingKeyBasedOnPattern(pattern);
-        if(routingKey){
+        if (routingKey) {
             $anchorScroll();
         } else {
-            console.debug('No configured angular route found for: '+pattern)
+            console.debug('No configured angular route found for: ' + pattern)
         }
     }
 ]);
 
 
-var refresh = function(data, route){
+var refresh = function (data, route) {
     route.reload();
 };
 
-var textMatchOneLine = function(){
-    $(".textMatchOneLine").each(function() {
-        var jThis=$(this);
+var textMatchOneLine = function () {
+    $(".textMatchOneLine").each(function () {
+        var jThis = $(this);
         var fontSize = parseInt(jThis.css("font-size"));
-        for(var i=0; jThis.height() > (fontSize + 5) && i<30;i++)
-        {
+        for (var i = 0; jThis.height() > (fontSize + 5) && i < 30; i++) {
             fontSize--;
-            jThis.css("font-size",fontSize+"px");
+            jThis.css("font-size", fontSize + "px");
         }
     });
 };
@@ -249,11 +248,11 @@ var symbbAngularUtils = {
 
     breadcrumbElement: null,
 
-    checkResponse: function(data, $injector){
+    checkResponse: function (data, $injector) {
 
         var $route = $injector.get('$route');
         var errors = false;
-        if(data.status === 500){
+        if (data.status === 500) {
             data.messages = [
                 {
                     type: 'error',
@@ -262,19 +261,21 @@ var symbbAngularUtils = {
                 }
             ];
         }
-        if(data.messages){
-            $.each(data.messages, function(key, value){
-                if(value.type === 'error'){
+        if (data.messages) {
+            $.each(data.messages, function (key, value) {
+                if (value.type === 'error') {
                     errors = true;
                 }
-                var myMessage = $('<div class="alert alert-'+value.bootstrapType+'"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>'+value.message+'</div>');
+                var myMessage = $('<div class="alert alert-' + value.bootstrapType + '"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + value.message + '</div>');
                 myMessage.appendTo($('#symbbMessages'));
-                setTimeout(function(){myMessage.remove();}, 10000);
+                setTimeout(function () {
+                    myMessage.remove();
+                }, 10000);
             });
         }
 
-        if(data.callbacks){
-            $.each(data.callbacks, function(key, value){
+        if (data.callbacks) {
+            $.each(data.callbacks, function (key, value) {
                 // find object
                 var fn = window[value];
 
@@ -283,65 +284,65 @@ var symbbAngularUtils = {
             });
         }
 
-        if(data.breadcrumbItems && data.breadcrumbItems.length > 0){
+        if (data.breadcrumbItems && data.breadcrumbItems.length > 0) {
             this.createBreadcrumnb(data.breadcrumbItems);
         }
 
         return data;
     },
 
-    createBreadcrumbLi: function(item, spacer){
+    createBreadcrumbLi: function (item, spacer) {
         var route = 'symbb_forum_index';
         var params = {};
-        if(item.type === 'forum'){
+        if (item.type === 'forum') {
             route = 'symbb_forum_show';
             params = {id: item.id, name: item.seoName};
-        } else if(item.type === 'topic'){
+        } else if (item.type === 'topic') {
             route = 'symbb_forum_topic_show';
             params = {id: item.id, name: item.seoName};
-        }  else if(item.type === 'home'){
+        } else if (item.type === 'home') {
             route = 'symbb_forum_index';
-        } else if(item.type === 'message_home'){
+        } else if (item.type === 'message_home') {
             route = 'symbb_message_list';
-        }   else if(item.type === 'message'){
+        } else if (item.type === 'message') {
             route = 'symbb_message_show';
             params = {id: item.id};
         } else {
             console.debug(item);
         }
-        if(item){
+        if (item) {
             var path = angularConfig.getAngularRoute(route, params);
-            return $('<li><a href="'+path+'">'+item.name+'</a>'+spacer+'</li>');
+            return $('<li><a href="' + path + '">' + item.name + '</a>' + spacer + '</li>');
         }
     },
 
-    createBreadcrumnb: function(items){
+    createBreadcrumnb: function (items) {
 
-        $(symbbAngularUtils.breadcrumbElement).find("li").each(function(key, element){
-            if(!$(element).hasClass('pull-right')){
+        $(symbbAngularUtils.breadcrumbElement).find("li").each(function (key, element) {
+            if (!$(element).hasClass('pull-right')) {
                 $(element).remove();
             }
         });
         var spacer = '';
         var count = 0;
-        $.each(items, function(key, value){
+        $.each(items, function (key, value) {
             count++;
         });
         var i = 0;
         var that = this;
-        $.each(items, function(key, value){
-            if(i === count - 1){
+        $.each(items, function (key, value) {
+            if (i === count - 1) {
                 spacer = '';
             }
             var item = symbbAngularUtils.createBreadcrumbLi(value, spacer);
-            if(item){
+            if (item) {
                 $(symbbAngularUtils.breadcrumbElement).append(item);
             }
             i++;
         });
     },
 
-    createPostUploader: function($scope, $fileUploader, $scopeObject, $injector){
+    createPostUploader: function ($scope, $fileUploader, $scopeObject, $injector) {
 
         // Creates a uploader
         var uploader = $scope.uploader = $fileUploader.create({
@@ -351,19 +352,19 @@ var symbbAngularUtils = {
             formData: [{id: $scopeObject.id}]
         });
 
-        $.each($scopeObject.files, function(key, value) {
+        $.each($scopeObject.files, function (key, value) {
             var item = {
                 file: {
                     name: value,
                     path: value,
-                    url: 'http://'+window.location.host+value
+                    url: 'http://' + window.location.host + value
                 },
                 progress: 100,
                 isUploaded: true,
                 isSuccess: true
             };
             uploader.queue.push(item);
-            item.remove = function() {
+            item.remove = function () {
                 uploader.removeFromQueue(this);
             };
             uploader.progress = 100;
@@ -371,7 +372,7 @@ var symbbAngularUtils = {
 
         // ADDING FILTERS
         // Images only
-        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+        uploader.filters.push(function (item /*{File|HTMLInputElement}*/) {
             var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
             type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
             return '|jpg|png|jpeg|bmp|gif|txt|pdf|doc|plain|'.indexOf(type) !== -1;
@@ -379,29 +380,29 @@ var symbbAngularUtils = {
 
         uploader.bind('complete', function (event, xhr, item, response) {
             response = symbbAngularUtils.checkResponse(response, $injector);
-            if(response.files){
-                $.each(response.files, function(key, value) {
+            if (response.files) {
+                $.each(response.files, function (key, value) {
                     $scopeObject.files[$scopeObject.files.length] = value.url;
                     item.path = value.url;
-                    item.url = 'http://'+window.location.host+value.url;
+                    item.url = 'http://' + window.location.host + value.url;
                 });
             }
         });
 
 
         $scope.bbcode = {
-            insertUploadImage: function(item){
+            insertUploadImage: function (item) {
                 var element = $('.symbb_editor textarea')[0];
-                if(
+                if (
                     item.file.type === 'image/jpeg' ||
-                        item.file.type === 'image/jpg' ||
-                        item.file.type === 'image/png' ||
-                        item.file.type === 'image/gif' ||
-                        item.file.type === 'image/bmp'
-                    ){
-                    var tagCode = '[IMG]'+item.path+'[/IMG]';
+                    item.file.type === 'image/jpg' ||
+                    item.file.type === 'image/png' ||
+                    item.file.type === 'image/gif' ||
+                    item.file.type === 'image/bmp'
+                ) {
+                    var tagCode = '[IMG]' + item.path + '[/IMG]';
                 } else {
-                    var tagCode = '[LINK=http://'+item.path+']'+item.file.name+'[/LINK]';
+                    var tagCode = '[LINK=http://' + item.path + ']' + item.file.name + '[/LINK]';
                 }
 
                 if (document.selection) {
@@ -426,11 +427,11 @@ var symbbAngularUtils = {
 };
 
 // Topic constructor function to encapsulate HTTP and pagination logic
-app.factory('ScrollPagination', function($http) {
+app.factory('ScrollPagination', function ($http) {
 
-    var ScrollPagination = function(route, routeParams, itemsKey) {
+    var ScrollPagination = function (route, routeParams, itemsKey) {
 
-        if(!itemsKey){
+        if (!itemsKey) {
             itemsKey = 'items';
         }
 
@@ -444,7 +445,7 @@ app.factory('ScrollPagination', function($http) {
         this.route = route;
         this.itemsKey = itemsKey;
 
-        if(this.page == this.lastPage) {
+        if (this.page == this.lastPage) {
             this.end = true;
         }
 
@@ -452,7 +453,7 @@ app.factory('ScrollPagination', function($http) {
 
     };
 
-    ScrollPagination.prototype.nextPage = function() {
+    ScrollPagination.prototype.nextPage = function () {
 
         if (this.busy || this.end) return;
 
@@ -464,7 +465,7 @@ app.factory('ScrollPagination', function($http) {
 
         var url = angularConfig.getSymfonyRoute(this.route, this.routeParams);
 
-        $http.get(url).success(function(data) {
+        $http.get(url).success(function (data) {
 
             var items = data[this.itemsKey];
 
@@ -472,18 +473,18 @@ app.factory('ScrollPagination', function($http) {
             this.lastPage = data.paginationData.endPage;
 
             for (var i = 0; i < items.length; i++) {
-                if(items[i].flags){
+                if (items[i].flags) {
                     items[i].tmp = [];
                     items[i].tmp.css = '';
-                    $.each( items[i].flags, function( key, value ) {
-                        items[i].tmp.css += value.type+' ';
+                    $.each(items[i].flags, function (key, value) {
+                        items[i].tmp.css += value.type + ' ';
                     });
                     this.items.push(items[i]);
                 }
                 this.count++;
             }
 
-            if(!items.length || items.length <= 0 || this.page == this.lastPage ){
+            if (!items.length || items.length <= 0 || this.page == this.lastPage) {
                 this.end = true;
             }
 

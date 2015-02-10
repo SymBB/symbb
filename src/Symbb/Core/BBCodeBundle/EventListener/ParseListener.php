@@ -72,7 +72,8 @@ class ParseListener
     /**
      * @param ParseMessageEvent $event
      */
-    public function parseMessageText(ParseMessageEvent $event){
+    public function parseMessageText(ParseMessageEvent $event)
+    {
         $text = $event->getText();
         $text = $this->bbcodeManager->parse($text, 'pm');
         $event->setText($text);

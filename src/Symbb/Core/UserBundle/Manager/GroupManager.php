@@ -18,7 +18,7 @@ class GroupManager extends AbstractManager
 {
 
     /**
-     * @var string 
+     * @var string
      */
     protected $groupClass = '';
 
@@ -68,7 +68,7 @@ class GroupManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @param type $groupId
      * @return \Symbb\Core\UserBundle\Entity\GroupInterface
      */
@@ -80,7 +80,7 @@ class GroupManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @return array(<"\Symbb\Core\UserBundle\Entity\GroupInterface">)
      */
     public function findAll($limit = 20, $page = 1)
@@ -96,5 +96,5 @@ class GroupManager extends AbstractManager
         return $this->groupClass;
 
     }
-    
+
 }

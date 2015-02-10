@@ -9,60 +9,111 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
+use Symbb\Core\SystemBundle\Entity\Flag;
+use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
 use \Symbb\Core\ForumBundle\DependencyInjection\ForumFlagHandler;
 
-class TopicFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\AbstractFlagHandler
+/**
+ * Class TopicFlagHandler
+ * @package Symbb\Core\ForumBundle\DependencyInjection
+ */
+class TopicFlagHandler extends AbstractFlagHandler
 {
 
     /**
-     * @var ForumFlagHandler 
+     * @var ForumFlagHandler
      */
     protected $forumFlagHandler;
 
+    /**
+     * @var array
+     */
     protected $foundTopics = array();
 
+    /**
+     * @param ForumFlagHandler $handler
+     */
     public function setForumFlagHandler(ForumFlagHandler $handler)
     {
         $this->forumFlagHandler = $handler;
     }
 
-    public function removeFlag($object, $flag, UserInterface $user = null){
+    /**
+     * @param $object
+     * @param $flags
+     * @return array
+     */
+    protected function addStaticFlags($object, $flags, $searchFlag = null)
+    {
+        if($object instanceof Topic){
+            if ($object->isLocked() && ($searchFlag === null || $searchFlag == "locked")) {
+                $flag = new Flag();
+                $flag->setFlag("locked");
+                $flag->setObject($object);
+                $flag->setUser($this->getUser());
+                $flags[] = $flag;
+            }
+            if ($object->getAuthor() && $object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
+                $flag = new Flag();
+                $flag->setFlag("author");
+                $flag->setObject($object);
+                $flag->setUser($this->getUser());
+                $flags[] = $flag;
+            }
+        }
+        return $flags;
+    }
+
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     */
+    public function removeFlag($object, $flag, UserInterface $user = null)
+    {
         parent::removeFlag($object, $flag, $user);
         // remove from all posts (childs)
-        foreach($object->getPosts() as $subobject){
+        foreach ($object->getPosts() as $subobject) {
             parent::removeFlag($subobject, $flag, $user);
         }
         // remove from parents if the child is the only one with that flag
         $parent = $object->getForum();
         do {
-            if(is_object($parent)){
+            if (is_object($parent)) {
                 $topics = $parent->getTopics();
                 $otherFlagFound = false;
-                foreach($topics as $topic){
+                foreach ($topics as $topic) {
                     $otherFlagFound = $this->checkFlag($topic, $flag, $user);
-                    if($otherFlagFound){
+                    if ($otherFlagFound) {
                         break;
                     }
                 }
-                if(!$otherFlagFound){
+                if (!$otherFlagFound) {
                     parent::removeFlag($parent, $flag, $user);
                 }
             } else {
                 break;
             }
-        } while($parent = $parent->getParent());
+        } while ($parent = $parent->getParent());
 
     }
 
+    /**
+     * @param $object
+     * @param $flag
+     * @param UserInterface $user
+     * @param bool $flushEm
+     */
     public function insertFlag($object, $flag, UserInterface $user = null, $flushEm = true)
     {
         $ignore = false;
 
         // if we add a topic "new" flag, we need to check if the user has read access to the forum
         // an we must check if the user has ignore the forum
-        if ($flag === 'new') {
+        if ($flag === AbstractFlagHandler::FLAG_NEW) {
             $access = $this->securityContext->isGranted(ForumVoter::VIEW, $object->getForum(), $user);
             if ($access) {
                 $ignore = $this->forumFlagHandler->checkFlag($object->getForum(), 'ignore', $user);
@@ -74,19 +125,19 @@ class TopicFlagHandler extends \Symbb\Core\ForumBundle\DependencyInjection\Abstr
         if (!$ignore) {
             parent::insertFlag($object, $flag, $user, $flushEm);
 
-            if($flag === 'new'){
+            if ($flag === AbstractFlagHandler::FLAG_NEW) {
                 // insert to all parents ( recrusivly )
                 $parent = $object->getForum();
                 do {
-                    if(is_object($parent)){
+                    if (is_object($parent)) {
                         parent::insertFlag($parent, $flag, $user, $flushEm);
                     } else {
                         break;
                     }
-                } while($parent = $parent->getParent());
+                } while ($parent = $parent->getParent());
 
                 // insert to all posts (childs)
-                foreach($object as $post){
+                foreach ($object->getPosts() as $post) {
                     parent::insertFlag($post, $flag, $user, $flushEm);
                 }
             }

@@ -105,3 +105,28 @@ symbb_acp_forum_list:
           route: symbb_template_acp_angular
           params:
               file: 'Forum|list'
+
+## News BUNDLE
+symbb_acp_news_category_list:
+    pattern:  /news/category
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: NewsCategoryListCtrl
+      symbb_angular_api_route: symbb_backend_api_news_category_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'News|categoryList'
+
+symbb_acp_news_list:
+    pattern:  /news
+    defaults: { _controller: SymbbTemplateDefaultBundle:Angular:acpIndex }
+    options:
+      symbb_angular_section: acp
+      symbb_angular_controller: NewsListCtrl
+      symbb_angular_api_route: symbb_backend_api_news_list
+      symbb_angular_template:
+          route: symbb_template_acp_angular
+          params:
+              file: 'News|news'

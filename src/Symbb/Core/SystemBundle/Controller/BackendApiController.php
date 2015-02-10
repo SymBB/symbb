@@ -36,13 +36,13 @@ class BackendApiController extends AbstractController
         $guestVisitors = array();
         $date = new \DateTime();
 
-        foreach($visitors as $dayTimestamp => $visitorList){
+        foreach ($visitors as $dayTimestamp => $visitorList) {
             $date->setTimestamp($dayTimestamp);
             $dayTimestamp = $statisticApi->getISO8601ForUser($date);
             $userVisitors[$dayTimestamp] = array();
             $guestVisitors[$dayTimestamp] = array();
-            foreach($visitorList as $visitor){
-                if($visitor['type'] == 'user'){
+            foreach ($visitorList as $visitor) {
+                if ($visitor['type'] == 'user') {
                     $userVisitors[$dayTimestamp][] = $visitor;
                 } else {
                     $guestVisitors[$dayTimestamp][] = $visitor;

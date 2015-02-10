@@ -48,8 +48,9 @@ class Group extends BaseGroup implements GroupInterface
         return null;
 
     }
-    
-    public function __toString(){
+
+    public function __toString()
+    {
         return $this->getName();
     }
 }

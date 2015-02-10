@@ -1,5 +1,80 @@
-{% javascripts
-'@SymbbExtensionShoutboxBundle/Resources/public/js/shoutbox.js' filter='?uglifyjs2'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
+<script>
+    {% if app.user.getSymbbType() == "user" %}
+    var symbbExtensionShoutbox = {
+
+        lastElementDate: 0,
+        listOfElements: [],
+
+        loadSymbbExtensionShoutboxData: function (route) {
+            $.get("{{ path("symbb_api_extension_shoutbox_list") }}", function (data) {
+                $(data.shoutboxEntries).each(function (key, element) {
+                    if (element.dateTimestamp > symbbExtensionShoutbox.lastElementDate) {
+                        symbbExtensionShoutbox.listOfElements[symbbExtensionShoutbox.listOfElements.length] = element;
+                        symbbExtensionShoutbox.addToList(element);
+                        symbbExtensionShoutbox.lastElementDate = element.dateTimestamp;
+                    }
+                });
+                //scroll down
+                $('#symbb_extension_shoutbox_entries').animate({scrollTop: 0});
+            }, "json");
+        },
+
+        addToList: function (element) {
+            var div = $("<div>", {"class": "shoutbox_row"});
+            var date = new Date(element.date);
+            div.html("<span class='shoutbox_user'>[" + date.toLocaleDateString() + " " + date.getHours() + ":" + date.getMinutes() + "] " + element.author.username + ": </span><span class='shoutbox_text'> " + element.message+"</span>");
+            $("#symbb_extension_shoutbox_entries").prepend(div);
+        }
+    };
+
+
+    $(window).load(function () {
+        //load firsttime
+        symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
+
+        //load every 60s again
+        setInterval(function () {
+            symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
+        }, 60000);
+
+
+        // send message if press enter
+        $('#symbb_extension_shoutbox_input').keypress(function (event) {
+            if (event.which == 13) {
+                var that = this;
+                $.post("{{ path("symbb_api_extension_shoutbox_save") }}", {message: this.value}, function (data) {
+                    symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
+                    that.placeholder = "";
+                }, "json");
+                this.value = "";
+                this.placeholder = "Loading...";
+                event.preventDefault();
+            }
+        });
+
+        if($('#symbb_extension_shoutbox')){
+            var offset = $('#symbb_extension_shoutbox').offset();
+            if(offset){
+                var top = offset.top - parseFloat($('#symbb_extension_shoutbox').css('marginTop').replace(/auto/, 0));
+                var left = offset.left;
+                $(window).scroll(function (event) {
+                    // what the y position of the scroll is
+                    var y = $(this).scrollTop();
+
+                    // whether that's below the form
+                    if (y >= top) {
+                        // if so, ad the fixed class
+                        $('#symbb_extension_shoutbox').addClass('fixed');
+                        $('#symbb_extension_shoutbox').css("left", left);
+                    } else {
+                        // otherwise remove it
+                        $('#symbb_extension_shoutbox').removeClass('fixed');
+                    }
+                });
+            }
+        }
+
+    });
+    {% endif %}
+
+</script>

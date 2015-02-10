@@ -21,7 +21,7 @@ class CallManager
     // ++++ Forum +++++ //
 
     /**
-     * 
+     *
      * @return object
      */
     public function get_config()
@@ -35,7 +35,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param boolean $returnDescription
      * @param integer $forumId
      * @return object
@@ -51,7 +51,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @return object
      */
     public function get_participated_forum()
@@ -65,7 +65,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param integer $forumId
      * @return object
      */
@@ -80,7 +80,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param integer $forumId
      * @param base64 $password
      * @return object
@@ -96,7 +96,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @return object
      */
     public function get_board_stat()
@@ -110,7 +110,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param array $forumIds
      * @return object
      */
@@ -125,7 +125,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @return object
      */
     public function get_smilies()
@@ -140,7 +140,7 @@ class CallManager
     // ++++ Topic +++++ //
 
     /**
-     * 
+     *
      * @param array $topics
      * @return object
      */
@@ -155,7 +155,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param array $topics
      * @return object
      */
@@ -170,7 +170,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param string $forumId
      * @param base64 $subject
      * @param base64 $text
@@ -190,7 +190,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param string $forumId
      * @param integer $startNumber
      * @param integer $lastNumber
@@ -208,7 +208,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param integer $startNumber
      * @param integer $lastNumber
      * @param string $searchid
@@ -226,7 +226,7 @@ class CallManager
     }
 
     /**
-     * 
+     *
      * @param base64 $userName
      * @param integer $startNumber
      * @param integer $lastNumber
@@ -241,14 +241,14 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
-    
-    
-    
+
+
+
+
     // ++++ Post +++++ //
 
     /**
-     * 
+     *
      * @param string $forum_id
      * @param string $topic_id
      * @param base64 $subject
@@ -264,9 +264,9 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
+
     /**
-     * 
+     *
      * @param string $post_id
      * @return object
      */
@@ -279,9 +279,9 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
+
     /**
-     * 
+     *
      * @param string $post_id
      * @return object
      */
@@ -294,10 +294,10 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
+
 
     /**
-     * 
+     *
      * @param string $post_id
      * @param base64 $post_title
      * @param base64 $post_content
@@ -312,10 +312,10 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
+
 
     /**
-     * 
+     *
      * @param string $topic_id
      * @param integer $startNum
      * @param integer $endNum
@@ -330,12 +330,12 @@ class CallManager
             return $this->errorResponse($exc);
         }
     }
-    
-    
+
+
     // ++++ User +++++ //
 
     /**
-     * 
+     *
      * @param base64 $loginName
      * @param base64 $password
      * @return object
@@ -388,7 +388,8 @@ class CallManager
      * @param integer $action
      * @param string $pmId
      */
-    public function create_message($userName, $subject, $textBody, $action = null, $pmId = null){
+    public function create_message($userName, $subject, $textBody, $action = null, $pmId = null)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->createMessage($userName, $subject, $textBody, $action, $pmId);
@@ -400,7 +401,8 @@ class CallManager
     /**
      * https://tapatalk.com/api/api_section.php?id=7#get_box_info
      */
-    public function get_box_info(){
+    public function get_box_info()
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->getBoxInfo();
@@ -415,7 +417,8 @@ class CallManager
      * @param int $startNum
      * @param int $endNum
      */
-    public function get_box($boxId, $startNum = null, $endNum = null){
+    public function get_box($boxId, $startNum = null, $endNum = null)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->getBox($boxId, $startNum, $endNum);
@@ -429,7 +432,8 @@ class CallManager
      * @param string $messageId
      * @param string $boxId
      */
-    public function get_message($messageId, $boxId){
+    public function get_message($messageId, $boxId)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->getMessage($messageId, $boxId);
@@ -442,7 +446,8 @@ class CallManager
      * https://tapatalk.com/api/api_section.php?id=7#get_quote_pm
      * @param string $messageId
      */
-    public function get_quote_pm($messageId){
+    public function get_quote_pm($messageId)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->getQuotePm($messageId);
@@ -456,7 +461,8 @@ class CallManager
      * @param string $messageId
      * @param base64 $boxId
      */
-    public function delete_message($messageId, $boxId){
+    public function delete_message($messageId, $boxId)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->deleteMessage($messageId, $boxId);
@@ -469,7 +475,8 @@ class CallManager
      * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
      * @param string $messageId
      */
-    public function mark_pm_unread($messageId){
+    public function mark_pm_unread($messageId)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->markPmUnread($messageId);
@@ -482,7 +489,8 @@ class CallManager
      * https://tapatalk.com/api/api_section.php?id=7#mark_pm_unread
      * @param string $messageId
      */
-    public function mark_pm_read($messageId){
+    public function mark_pm_read($messageId)
+    {
         try {
             $manager = $this->container->get('symbb.extension.tapatalk.manager.user');
             return $manager->markPmRead($messageId);
@@ -495,7 +503,7 @@ class CallManager
     {
 
         $this->container->get('monolog.logger.tapatalk')->error('Error in CallManager: ' . $exc->getMessage());
-        $this->container->get('monolog.logger.tapatalk')->error('File: '.$exc->getTraceAsString());
+        $this->container->get('monolog.logger.tapatalk')->error('File: ' . $exc->getTraceAsString());
         $this->container->get('monolog.logger.tapatalk')->error($this->container->get('request'));
         throw new $exc;
     }

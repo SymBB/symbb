@@ -31,6 +31,7 @@ services:
             - [setTranslator, ['@translator']]
             - [setEntityManager, ['@doctrine.orm.symbb_entity_manager']]
             - [setEventDispatcher, ['@event_dispatcher']]
+            - [setValidator, ['@validator']]
 
     symbb.core.abstract.api:
         abstract: true
@@ -99,3 +100,9 @@ services:
     symbb.core.update.manager:
         class: Symbb\Core\SystemBundle\Manager\UpdateManager
         arguments: ['@kernel']
+
+    data_collector.symbb_core_doctrine_collector:
+        class: Symbb\Core\SystemBundle\DependencyInjection\DoctrineDataCollector
+        arguments: ['@doctrine.orm.symbb_entity_manager']
+        tags:
+            - { name: data_collector, template: "SymbbCoreSystemBundle:Collector:doctrine", id: "symbb_doctrine" }

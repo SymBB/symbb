@@ -3,41 +3,50 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block fos_user_content %}
-{% if error %}
-    <div class="alert alert-danger">{{ error|trans }}</div>
-{% endif %}
+    {% if error %}
+        <div class="alert alert-danger">{{ error|trans }}</div>
+    {% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post" role="form" class="form-signin form-horizontal">
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+    <form action="{{ path("fos_user_security_check") }}" method="post" role="form" class="form-signin form-horizontal">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="username">{{ 'form.username'|trans }}</label>
-        <div class="col-sm-10">
-            <input class="form-control" type="text" autofocus="" required="" placeholder="{{ 'security.login.username'|trans }}" id="username" name="_username" >
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="username">{{ 'form.username'|trans }}</label>
+
+            <div class="col-sm-10">
+                <input class="form-control" type="text" autofocus="" required=""
+                       placeholder="{{ 'security.login.username'|trans }}" id="username" name="_username">
+            </div>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="password">{{ 'form.password'|trans }}</label>
-        <div class="col-sm-10">
-            <input class="form-control" type="password" required="" placeholder="{{ 'security.login.password'|trans }}" id="password" name="_password" >
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">{{ 'form.password'|trans }}</label>
+
+            <div class="col-sm-10">
+                <input class="form-control" type="password" required=""
+                       placeholder="{{ 'security.login.password'|trans }}" id="password" name="_password">
+            </div>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <label class="col-sm-2 control-label" for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-        <div class="col-sm-10">
-            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+
+            <div class="col-sm-10">
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+            </div>
         </div>
-    </div>
-    
-    <div class="form-group">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-10">
-            <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="btn btn-lg btn-primary" />
+
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <div class="btn-group">
+                    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}"
+                           class="btn btn-primary"/>
+                    <a href="{{ path("fos_user_resetting_request") }}" class="btn btn-danger">{{ "Forgot your password?"|trans }}</a>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    
-</form>
+
+
+    </form>
 {% endblock fos_user_content %}

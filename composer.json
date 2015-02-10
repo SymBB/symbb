@@ -15,14 +15,14 @@
     ],
     "require": {
         "php": ">=5.4",
-        "symfony/symfony": "2.5.*",
+        "symfony/symfony": "2.7.x-dev",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0",
+        "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "jms/serializer-bundle": "0.12.*@dev",
@@ -33,17 +33,22 @@
         "friendsofsymfony/user-bundle": ">=2.0",
         "friendsofsymfony/jsrouting-bundle": ">=1.1",
         "friendsofsymfony/rest-bundle": ">=0.13",
-        "knplabs/knp-menu-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "~2.4",
+        "simplethings/form-extra-bundle": "1.1.*",
+        "knplabs/knp-menu-bundle": "2.0.0",
+        "knplabs/knp-paginator-bundle": "2.4.*@dev",
         "sonata-project/intl-bundle": "2.2.*@dev",
         "leaseweb/memcache-bundle": "1.1.*@dev",
         "symbb/extension-bundle": "dev-master",
         "coresphere/console-bundle": "dev-master",
-        "vich/uploader-bundle": "dev-master",
         "knplabs/knp-gaufrette-bundle" : "dev-master",
         "liip/imagine-bundle" : "dev-master",
         "zendframework/zend-xmlrpc": "2.3.*@dev",
-        "debril/rss-atom-bundle": "~1.3"
+        "debril/rss-atom-bundle": "~1.3",
+        "ddeboer/imap": "dev-master",
+        "ezyang/htmlpurifier": "dev-master"
+    },
+    "require-dev": {
+        "sensio/generator-bundle": "~2.3"
     },
     "minimum-stability": "dev",
     "autoload": {

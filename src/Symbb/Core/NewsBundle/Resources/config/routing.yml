@@ -1,0 +1,3 @@
+symbb_news_create_topic:
+    pattern:  /news/{id}/topic/create
+    defaults: { _controller: SymbbCoreNewsBundle:Frontend:createNews }

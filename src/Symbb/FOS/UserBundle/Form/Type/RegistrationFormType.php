@@ -14,13 +14,13 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormType
 {
-    
+
     /**
      *
      * @var \Symbb\Core\UserBundle\Manager\UserManager
      */
     protected $usermanager;
-    
+
     public function __construct($class, $usermanager)
     {
         parent::__construct($class);
@@ -31,7 +31,7 @@ class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormTyp
     {
         $builder
             ->add('email', 'email', array('label' => 'form.email', 'translation_domain' => 'symbb_frontend', 'attr' => array('placeholder' => 'Your E-Mail'),
-                ))
+            ))
             ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'symbb_frontend', 'attr' => array('placeholder' => 'Your Username')))
             ->add('plainPassword', 'repeated', array(
                     'type' => 'password',
@@ -40,9 +40,16 @@ class RegistrationFormType extends \FOS\UserBundle\Form\Type\RegistrationFormTyp
                     'second_options' => array('label' => 'form.password_confirmation', 'attr' => array('placeholder' => 'Retype your Password')),
                     'invalid_message' => 'fos_user.password.mismatch',
                     'constraints' => $this->usermanager->getPasswordValidatorConstraints()
-                )   
+                )
             )
             ->add('terms', 'checkbox', array('label' => 'Read and accepted Terms of Use', 'translation_domain' => 'symbb_frontend', 'mapped' => false, 'required' => true));
+
+        $builder->add('recaptcha', 'formextra_recaptcha', array(
+            'widget_options' => array(
+                'theme' => 'white', // blackglass, clean, red is the predefined themes.
+            ),
+            'mapped' => false
+        ));
     }
 
     public function getName()

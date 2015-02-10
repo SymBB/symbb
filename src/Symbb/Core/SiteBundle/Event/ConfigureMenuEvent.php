@@ -21,9 +21,9 @@ class ConfigureMenuEvent extends Event
     private $menu;
 
     /**
-    * @param \Knp\Menu\FactoryInterface $factory
-    * @param \Knp\Menu\ItemInterface $menu
-    */
+     * @param \Knp\Menu\FactoryInterface $factory
+     * @param \Knp\Menu\ItemInterface $menu
+     */
     public function __construct(FactoryInterface $factory, ItemInterface $menu)
     {
         $this->factory = $factory;
@@ -31,16 +31,16 @@ class ConfigureMenuEvent extends Event
     }
 
     /**
-    * @return \Knp\Menu\FactoryInterface
-    */
+     * @return \Knp\Menu\FactoryInterface
+     */
     public function getFactory()
     {
         return $this->factory;
     }
 
     /**
-    * @return \Knp\Menu\ItemInterface
-    */
+     * @return \Knp\Menu\ItemInterface
+     */
     public function getMenu()
     {
         return $this->menu;

@@ -1,3 +1,227 @@
 {% trans_default_domain "symbb_frontend" %}
-
 {% extends getSymbbTemplate('forum') ~ ':Forum:layout.html.twig' %}
+{% import getSymbbTemplate('forum') ~ ':Forum:macros.html.twig' as forumMacros %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        {{ forumMacros.breadcrumbForForum(forum) }}
+        {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_TOPIC'), forum) and forum.isForum() %}
+            <li class="pull-right">
+                <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-primary btn-xs"
+                   href="{{ path("symbb_forum_topic_create", {"forum": forum.getId()}) }}">
+                    <span class="glyphicon glyphicon-plus"></span> {% trans %}new Topic{% endtrans %}
+                </a>
+            </li>
+        {% endif %}
+    </ol>
+{% endblock %}
+
+{% block section_content %}
+    <div class="clear"></div>
+
+    {% set forumHeader = true %}
+
+    {% for object in getSymbbForumManager().getChildren(forum) %}
+        {% if object.isCategory() %}
+            {{ _self.symbbCategoryRow(object) }}
+            {% set forumHeader = true %}
+        {% else %}
+            {% if forumHeader %}
+                <div class="row symbb_forum_header_row">
+                    <div class="col-md-5">{{ 'Forum'|trans }}</div>
+                    <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
+                    <div class="col-md-3">{{ 'Last post'|trans }}</div>
+                    <div class="col-md-2"></div>
+                </div>
+            {% endif %}
+            <div class="row symbb_forum_body_row {% if loop.last %}last{% endif %}">
+                {{ _self.symbbForumRow(object) }}
+            </div>
+            {% set forumHeader = false %}
+        {% endif %}
+    {% endfor %}
+
+    {{ include('SymbbTemplateDefaultBundle:Forum:topicEntry.html.twig',{ }) }}
+
+{% endblock %}
+
+
+{% macro symbbCategoryRow(object) %}
+    {% if object.isCategory() %}
+        <div class="row symbb_category_header_row">
+            <div class="col-md-5"><a
+                        href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getName()}) }}">{{ object.getName() }}</a>
+            </div>
+            <div class="col-md-2 number-align">{{ 'Topics'|trans }} / {{ 'Posts'|trans }}</div>
+            <div class="col-md-3">{{ 'Last post'|trans }}</div>
+            <div class="col-md-2"></div>
+        </div>
+        {% for object in getSymbbForumManager().getChildren(object) %}
+            <div class="row symbb_forum_body_row">
+                {{ _self.symbbForumRow(object) }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro symbbTopicRow(object) %}
+    <div class="row symbb_forum_body_row">
+        <div class="col-md-5 col">
+            <div class="pull-left">
+                <div class="title">
+                    <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName() }) }}">{{ object.getName() }}</a>
+
+                    <div class="labels">
+                        {% for flag in object.getFlags() %}
+                            <div>
+                                <span class="label label-flag.getType()">{{ flag.getTitle() }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="description">
+                    <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName() }) }}">{{ object.getDescription() }}</a>
+                </div>
+                {% if object.hasShowSubForumList() %}
+                    <div class="subforumlist">
+                        {{ 'Subforums'|trans }}:
+                        {% for object in getSymbbForumManager().getChildren(object) %}
+                            <span>
+                                {% if not object.isLink() %}
+                                    <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a> {% if not loop.last %}
+                                    <span>,</span>{% endif %}
+                                {% else %}
+                                    <a ng-href="{{ object.getLink() }}"
+                                       target="_blank">{{ object.getName() }}</a> {% if not loop.last %}
+                                        <span>,</span>{% endif %}
+                                {% endif %}
+                            </span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-2 col number-align">{{ object.getPosts().count() }}</div>
+        <div class="col-md-5 col">
+            {% if object.getPosts().count() > 0 %}
+                <a href="{{ path("symbb_forum_topic_show", {"id": getSymbbTopicManager().getLastPost(object).getId(), "name": getSymbbTopicManager().getLastPost(object).getSeoName(), "page": "last"}) }}">
+                    <div class="avatar_mini pull-left">
+                        <img title="{{ getSymbbTopicManager().getLastPost(object).getAuthor().getUsername() }}"
+                             src="{{getSymbbUserAvatar(getSymbbTopicManager().getLastPost().getAuthor()) }}"/>
+                    </div>
+                    <div class="text pull-left">
+                        {% trans with {'%user%': getSymbbTopicManager().getLastPost(object).getAuthor().getUsername(), '%date%': getSymbbTopicManager().getLastPost(object).getCreated() | date("d.m.Y"), '%time%': getSymbbTopicManager().getLastPost(object).getCreated() | date("H:i")} %}from %user% on %date% at %time%{% endtrans %}
+                    </div>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro symbbForumRow(object) %}
+    {% if not object.isLink() %}
+        <div class="{% if getSymbbForumManager().hasFlag(object, "new") %}new{% endif %}{% if getSymbbForumManager().hasFlag(object, "ignore") %}ignore{% endif %}">
+            <div class="col-md-5 col">
+                {% if object.getImage() %}
+                    <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">
+                        <img class="forumimage" src="{{ object.getImage() }}"/>
+                    </a>
+                {% else %}
+                    <span class="forumimage glyphicon glyphicon-comment"></span>
+                {% endif %}
+                <div class="infos">
+                    <div class="title">
+                        <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a>
+                    </div>
+                    <div class="description"><a
+                                href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getDescription() }}</a>
+                    </div>
+                    {% if object.hasShowSubForumList() %}
+                        <div class="subforumlist">
+                            {{ 'Subforums'|trans }}:
+                            {% for object in getSymbbForumManager().getChildren(object) %}
+                                <span>
+                                    {% if not object.isLink() %}
+                                        <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a> {% if not loop.last %}
+                                        <span>,</span>{% endif %}
+                                    {% else %}
+                                        <a ng-href="{{ object.getLink() }}"
+                                           target="_blank">{{ object.getName() }}</a> {% if not loop.last %}
+                                            <span>,</span>{% endif %}
+                                    {% endif %} 
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2 col number-align">{{ getSymbbForumManager().getTopicCount(object) }}
+                / {{ getSymbbForumManager().getPostCount(object) }}</div>
+            <div class="col-md-3 col">
+                {% if getSymbbForumManager().getPostCount(object) > 0 %}
+                    <div>
+                        <div class="text pull-left">
+                            <a href="{{ path("symbb_forum_topic_show", {"page": "last", "id": getSymbbForumManager().getLastPost(object).getTopic().getId(), "name": getSymbbForumManager().getLastPost(object).getTopic().getSeoName()}) }}">{{ getSymbbForumManager().getLastPost(object).getName() }}</a></br>
+                            <a href="{{ path("symbb_user_profile", {"id": getSymbbForumManager().getLastPost(object).getAuthor().getId(), "username": getSymbbForumManager().getLastPost(object).getAuthor().getUsername()}) }}">{% trans with {'%user%': getSymbbForumManager().getLastPost(object).getAuthor().getUsername()} %}from %user%{% endtrans %}</a> </br>
+                            {% trans with {'%date%': getSymbbForumManager().getLastPost(object).getChanged()|date("d.m.Y"), '%time%': getSymbbForumManager().getLastPost(object).getChanged()|date("H:i")} %}written on %date% at %time%{% endtrans %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-2 col">
+                {% if not object.isLink() %}
+                    <div class="btn-group pull-right">
+                        {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_TOPIC'), object) and object.isForum() %}
+                            <a title="{% trans %}new Topic{% endtrans %}" type="button" class="btn btn-default btn-xs"
+                               href="{{ path("symbb_forum_topic_create", {"forum": object.getId()}) }}">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        {% endif %}
+                        {% if not isSymbbGuest() and object.isForum() %}
+                            <a type="button" class="btn btn-default btn-xs"
+                               title="{% trans %}Mark as read{% endtrans %}"
+                               href="{{ path("symbb_forum_mark_as_read", {"id": object.getId()}) }}">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </a>
+                        {% endif %}
+                        {% if not isSymbbGuest() and getSymbbForumManager().hasFlag(object, "ignore") %}
+                            <a id="symbbForumIgnoreButton" title="{{ 'You ignore the forum'|trans }}" type="button"
+                               class="btn btn-warning btn-xs"
+                               href="{{ path("symbb_forum_unignore", {"id": object.getId()}) }}">
+                                <span class="glyphicon glyphicon-eye-close"></span>
+                            </a>
+                        {% endif %}
+                        {% if not isSymbbGuest() and not getSymbbForumManager().hasFlag(object, "ignore") %}
+                            <a id="symbbForumWatchButton" title="{{ 'You watch the forum'|trans }}" type="button"
+                               class="btn btn-success btn-xs"
+                               href="{{ path("symbb_forum_ignore", {"id": object.getId()}) }}">
+                                <span class="glyphicon glyphicon glyphicon-eye-open"></span>
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <a href="{{ object.getLink() }}" target="_blank">
+                {% if object.getImage() %}
+                    <img class="forumimage pull-left" src="{{ object.getImage() }}"/>
+                {% else %}
+                    <span class="forumimage glyphicon glyphicon-link pull-left"></span>
+                {% endif %}
+                <div class="infos pull-left">
+                    <div class="name">
+                        <div class="pull-left">{{ object.getName() }}</div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="description">
+                        {{ object.getDescription }}
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </div>
+    {% endif %}
+{% endmacro %}

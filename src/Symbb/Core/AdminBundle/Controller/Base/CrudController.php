@@ -39,13 +39,13 @@ abstract class CrudController extends Controller
         $params = array('entityList' => $entityList, 'breadcrum' => $this->getBreadcrum($parent), $this->parentField => $parent);
         $params = $this->addListParams($params, $parent);
         return $this->render(
-                $this->getTemplateBundleName() . ':Acp/' . $this->getTemplateDirectory() . ':list.html.twig', $params
+            $this->getTemplateBundleName() . ':Acp/' . $this->getTemplateDirectory() . ':list.html.twig', $params
         );
     }
 
     protected function getTemplateDirectory()
     {
-        if(!$this->templateDirectory){
+        if (!$this->templateDirectory) {
             $this->templateDirectory = $this->entityName;
         }
         return $this->templateDirectory;
@@ -81,10 +81,10 @@ abstract class CrudController extends Controller
         if ($request->isMethod('POST')) {
             $repository = $this->getRepository();
             $em = $this->getEntityManager();
-            $entries = (array) $request->get('entry');
+            $entries = (array)$request->get('entry');
             $i = 0;
             foreach ($entries as $entry) {
-                $entityId = (int) $entry;
+                $entityId = (int)$entry;
                 $entity = $repository->findOneById($entityId);
                 if ($entity) {
                     $entity->setPosition($i);
@@ -144,7 +144,8 @@ abstract class CrudController extends Controller
         }
     }
 
-    protected function beforeSaveFlush(Request $request, Form $form, $entity){
+    protected function beforeSaveFlush(Request $request, Form $form, $entity)
+    {
 
     }
 
@@ -154,7 +155,7 @@ abstract class CrudController extends Controller
         $entity = $repository->findOneById($id);
         $parent = null;
         if (is_object($entity)) {
-            $method = "get".ucfirst($this->parentField);
+            $method = "get" . ucfirst($this->parentField);
             if (\method_exists($entity, $method)) {
                 $parent = $entity->$method();
             }
@@ -197,7 +198,7 @@ abstract class CrudController extends Controller
                 $id = $entity->getId();
             }
 
-            if(!is_object($entity) || empty($id) ){
+            if (!is_object($entity) || empty($id)) {
                 // new form, return empty entity
                 $entity_class_name = $repository->getClassName();
                 $entity = new $entity_class_name();
@@ -255,7 +256,7 @@ abstract class CrudController extends Controller
     {
         $parent = null;
 
-        $method = "get".ucfirst($this->parentField);
+        $method = "get" . ucfirst($this->parentField);
         if (\method_exists($entity, $method)) {
             $parent = $entity->$method();
         }

@@ -31,7 +31,7 @@ class RouterExtension extends \Twig_Extension
     }
 
     /**
-     * 
+     *
      * @return AngularRouter
      */
     public function getAngularRouter()

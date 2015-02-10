@@ -4,10 +4,6 @@ Getting Started With Symbb
 
 # Api
 
-## Frontend Api
-
-### Frontend Api Routes
-
 ## Backend Api
 
 ### Backend Api Service
@@ -129,4 +125,26 @@ array of messages of the System like error, success, informations ( e.g if you h
 | symbb_backend_api_user_field_save | /api/userfield | POST | JSON |
 | symbb_backend_api_user_field_data | /api/userfield/{group} | GET |  |
 | symbb_backend_api_user_field_delete | /api/userfield/{group} | DELETE |  
+
+
+# Events
+
+## Frontend
+
+### SymbbCoreForumBundle
+
+While creating the topic formular (Symbb\Core\EventBundle\Event\FormTopicEvent)
+- symbb.core.forum.topic.form.create
+
+Event while saving topic over the SF Formular (Symbb\Core\ForumBundle\Event\TopicFormSaveEvent)
+- symbb.core.forum.form.topic.before.save
+- symbb.core.forum.form.topic.after.save
+
+Event while saving post over the SF Formular (Symbb\Core\ForumBundle\Event\PostFormSaveEvent)
+- symbb.core.forum.form.post.before.save
+- symbb.core.forum.form.post.after.save
+
+While parsing/cleaning post text (Symbb\Core\ForumBundle\Event\PostManagerParseTextEvent)
+- symbb.core.forum.post.manager.parse.text
+- symbb.core.forum.post.manager.clean.text
 

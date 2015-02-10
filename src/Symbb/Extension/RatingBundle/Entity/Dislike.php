@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Extension\RatingBundle\Entity;
 
@@ -36,16 +36,39 @@ class Dislike
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
      */
     private $user;
-    
+
     ############################################################################
     # Default Get and Set
     ############################################################################
-    public function getId(){return $this->id;}
-    public function setId($value){$this->id = $value;}
-    public function setUser($object){$this->user = $object;}
-    public function getUser(){return $this->user;}
-    public function setPost($object){$this->post = $object;}
-    public function getPost(){return $this->post;}
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($value)
+    {
+        $this->id = $value;
+    }
+
+    public function setUser($object)
+    {
+        $this->user = $object;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setPost($object)
+    {
+        $this->post = $object;
+    }
+
+    public function getPost()
+    {
+        return $this->post;
+    }
     ############################################################################
-    
+
 }

@@ -27,7 +27,7 @@ class BackendApiController extends AbstractController
         $objects = $api->getList($request->get('limit', 20), $request->get('page', 1));
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -83,7 +83,7 @@ class BackendApiController extends AbstractController
         $objects = $api->getList($request->get('limit', 20), $request->get('page', 1));
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -139,7 +139,7 @@ class BackendApiController extends AbstractController
         $objects = $api->findAll($request->get('limit', 20), $request->get('page', 1));
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -159,8 +159,8 @@ class BackendApiController extends AbstractController
         $object = $api->save($data);
         $object = $api->createArrayOfObject($object);
         return $api->getJsonResponse(array(
-                'data' => $object
-            ));
+            'data' => $object
+        ));
     }
 
     /**

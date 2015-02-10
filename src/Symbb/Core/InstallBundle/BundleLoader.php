@@ -42,6 +42,7 @@ class BundleLoader
             '\Symbb\Core\BBCodeBundle\SymbbCoreBBCodeBundle',
             '\Symbb\Core\AngularBundle\SymbbCoreAngularBundle',
             '\Symbb\Core\MessageBundle\SymbbCoreMessageBundle',
+            '\Symbb\Core\NewsBundle\SymbbCoreNewsBundle',
             // Symbb optional bundles
             '\Symbb\FOS\UserBundle\SymbbFOSUserBundle',
             '\Symbb\ExtensionBundle\SymbbExtensionBundle',
@@ -50,6 +51,7 @@ class BundleLoader
             // FOS 
             '\FOS\UserBundle\FOSUserBundle',
             '\FOS\JsRoutingBundle\FOSJsRoutingBundle',
+            '\SimpleThings\FormExtraBundle\SimpleThingsFormExtraBundle',
             // KNP
             '\Knp\Bundle\MenuBundle\KnpMenuBundle',
             '\Knp\Bundle\PaginatorBundle\KnpPaginatorBundle',
@@ -59,16 +61,16 @@ class BundleLoader
             //
             '\Lsw\MemcacheBundle\LswMemcacheBundle',
             '\JMS\TranslationBundle\JMSTranslationBundle',
-            '\Vich\UploaderBundle\VichUploaderBundle',
             '\Liip\ImagineBundle\LiipImagineBundle',
             //important! need for json post request from angular
             '\FOS\RestBundle\FOSRestBundle',
+            '\Debril\RssAtomBundle\DebrilRssAtomBundle',
         );
 
         foreach ($symbbBundles as $symbbBundle) {
             $found = false;
             foreach ($bundles as $bundle) {
-                if ($bundle instanceof $symbbBundle) { 
+                if ($bundle instanceof $symbbBundle) {
                     $found = true;
                     break;
                 }

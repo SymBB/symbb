@@ -1,4 +1,10 @@
-root, body, html { 
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url(http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/fonts/glyphicons-halflings-regular.eot);
+    src: url(http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'), url(http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/fonts/glyphicons-halflings-regular.woff) format('woff'), url(http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/fonts/glyphicons-halflings-regular.ttf) format('truetype'), url(http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')
+}
+
+root, body, html {
     display: block;
     margin: 0;
     padding: 0;
@@ -13,9 +19,13 @@ html, body {
 }
 
 h1 {
-    font-size: 200%;
+    font-size: 26px;
     border-bottom: 1px solid #CCC;
     width: 100%;
+}
+
+h2, h3, h4 {
+    font-size: 20px;
 }
 
 blockquote {
@@ -36,6 +46,7 @@ blockquote {
     margin-left: 20px;
     margin-top: 20px;
 }
+
 .codebox:before {
     display: block;
     font-family: "FontAwesome";
@@ -53,6 +64,7 @@ blockquote {
     background-color: #EAECF0;
     box-shadow: 2px 0 0 #DDDFE3;
 }
+
 .codebox dt {
     border-bottom: 1px solid #DDDFE3;
     display: block;
@@ -70,6 +82,7 @@ blockquote {
     margin-left: 40px;
     margin-top: 20px;
 }
+
 blockquote cite {
     border-bottom: 1px solid #DDDFE3;
     display: block;
@@ -133,7 +146,7 @@ blockquote .codebox,
 blockquote blockquote blockquote .codebox,
 blockquote blockquote blockquote blockquote blockquote .codebox,
 blockquote blockquote blockquote blockquote blockquote blockquote blockquote .codebox {
-    background-color:  #DDDFE3;
+    background-color: #DDDFE3;
 }
 
 blockquote .codebox dt,
@@ -170,7 +183,6 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     padding: 0 0 60px;
 }
 
-
 .symbb_container {
     width: 95%;
     width: calc(100% - 100px);
@@ -188,11 +200,9 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     margin-top: 50px;
 }
 
-
 .symbb_container .row {
     padding: 10px;
 }
-
 
 .row {
     margin-left: 0;
@@ -241,7 +251,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     height: 40px;
     width: 100%;
     background-color: #428BCA;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 1000;
     color: #FFF;
     display: none;
@@ -264,6 +274,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     display: block;
     float: left;
 }
+
 .symbb_user_panel .content {
     background-color: #232323;
     padding-top: 5px;
@@ -302,21 +313,19 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     padding: 10px;
 }
 
-
-.symbb_user_panel  .navbar {
+.symbb_user_panel .navbar {
     margin-bottom: 0;
     min-height: 10px;
     border-radius: 0;
     border: none;
     float: left;
 }
-.symbb_user_panel  .navbar .container{
-    width: auto; 
+
+.symbb_user_panel .navbar .container {
+    width: auto;
 }
 
-
-
-.symbb_user_panel .navbar-nav>li>a {
+.symbb_user_panel .navbar-nav > li > a {
     padding: 5px;
     margin: 0;
     border-right: 1px solid #FFF;
@@ -344,24 +353,25 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 }
 
 .symbb_action_row {
-    margin-bottom: 10px;
-    height: 42px;
+    margin-bottom: 0px;
+    min-height: 42px;
     width: 100%;
-    background-color: #FFF;
+    background-color: #F5F5F5;
     margin-top: 0px;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
+    padding: 5px;
 }
 
 .anker {
     height: 0;
 }
 
-.anker-group { 
+.anker-group {
     padding-bottom: 0px;
     height: 0px;
 }
 
-.symbb_action_row .title{
+.symbb_action_row .title {
     float: left;
     background-color: #428BCA;
     height: 100%;
@@ -370,11 +380,11 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     padding-left: 20px;
 }
 
-.symbb_action_row .title a{
+.symbb_action_row .title a {
     color: #FFF;
 }
 
-.symbb_action_row .arrow{
+.symbb_action_row .arrow {
     content: "";
     border-top: 21px solid transparent;
     border-bottom: 21px solid transparent;
@@ -385,11 +395,11 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     float: left;
 }
 
-.symbb_action_row .pagination{
- margin: 0;   
- margin-top: 5px;
- margin-right: 5px;
- margin-left: 5px;
+.symbb_action_row .pagination {
+    margin: 0;
+    margin-top: 0px;
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 .symbb_action_row .btn-group {
@@ -397,11 +407,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     margin-left: 5px;
 }
 
-
-.arrow_box { 
-    position: relative; 
+.arrow_box {
+    position: relative;
     width: 0;
-} 
+}
 
 .arrow_box_li span {
     width: 30px;
@@ -409,33 +418,33 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     display: block;
 }
 
-.arrow_box:after, 
-.arrow_box:before 
-{ 
-    left: 100%; 
-    top: 50%; 
-    border: solid transparent; 
-    content: " "; 
-    height: 0; 
-    width: 0; 
+.arrow_box:after,
+.arrow_box:before {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
     position: absolute;
-} 
-.arrow_box:after {
-    border-color: rgba(213, 213, 213, 0); 
-    border-left-color: #FFF; 
-    border-width: 20px; 
-    margin-top: -27px; 
-} 
-.arrow_box:before { 
-    border-color: rgba(194, 225, 245, 0); 
-    border-left-color: #c2e1f5; 
-    border-width: 23px; 
-    margin-top: -30px; 
 }
 
+.arrow_box:after {
+    border-color: rgba(213, 213, 213, 0);
+    border-left-color: #FFF;
+    border-width: 20px;
+    margin-top: -27px;
+}
+
+.arrow_box:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-left-color: #c2e1f5;
+    border-width: 23px;
+    margin-top: -30px;
+}
 
 .page-header .pagination,
-.symbb_actions .pagination{
+.symbb_actions .pagination {
     margin: 0;
 }
 
@@ -444,20 +453,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     line-height: 31px;
 }
 
-
 .page-header.mini .btn-group {
     margin-right: 5px;
 }
 
-.symbb_body .btn-default {
-    position: relative;
-    float: left;
-    padding: 6px 12px;
-    margin-left: -1px;
-    line-height: 1.428571429;
-    text-decoration: none;
-    border: 1px solid #ddd;
-}
 
 .spacer-bottom {
     margin-bottom: 20px;
@@ -480,7 +479,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     margin-bottom: 5px;
 }
 
-.chatbox  {
+.chatbox {
     float: right;
 }
 
@@ -515,6 +514,10 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     padding: 10px;
 }
 
+.danger {
+    color: #d9534f !important;
+}
+
 .glyphicon-danger {
     color: #d9534f !important;
 }
@@ -529,7 +532,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 
 .glyphicon-warning {
     color: #f0ad4e !important;
-} 
+}
 
 .carousel-control {
     width: 50px;
@@ -537,7 +540,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     background-image: none !important;
 }
 
-.carousel-inner>.item {
+.carousel-inner > .item {
     height: 100%;
 }
 
@@ -572,7 +575,7 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
     border-radius: 0px;
 }
 
-.list-group-item{
+.list-group-item {
     border-radius: 0px !important;
 }
 
@@ -585,10 +588,8 @@ blockquote blockquote blockquote blockquote blockquote blockquote blockquote .co
 }
 
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-display: none !important;
+    display: none !important;
 }
-
-
 
 #page-footer {
     background-color: #323A45;
@@ -605,6 +606,7 @@ display: none !important;
     height: 60px;
     font-size: 1.1em;
 }
+
 #page-footer #footer-menu > ul {
     list-style: none;
     line-height: 60px;
@@ -612,24 +614,45 @@ display: none !important;
     float: left;
     width: 100%;
 }
+
 #page-footer #footer-menu > ul > li {
     height: 100%;
     float: left;
     color: #EAECF0;
     margin-right: 40px;
 }
-#page-footer #footer-menu > ul > .right { float: right; margin-left: 40px; margin-right: 0; }
+
+#page-footer #footer-menu > ul > .right {
+    float: right;
+    margin-left: 40px;
+    margin-right: 0;
+}
+
 #page-footer #footer-menu > ul > li > a {
     display: inline;
     color: #EAECF0;
     transition: color 0.15s ease;
 }
-#page-footer #footer-menu > ul > li > a:hover { color: #CCCED2; }
-#page-footer #footer-menu > ul > li > a:active { color: #FFFFFF; }
-#page-footer #footer-menu > ul > li > .w-icon { padding: 0 10px; }
-#page-footer #footer-menu > ul > li > .w-icon > i { font-size: 14px; }
-#page-footer #footer-menu > ul > li > .w-icon > span { padding: 0 10px 0 0; }
 
+#page-footer #footer-menu > ul > li > a:hover {
+    color: #CCCED2;
+}
+
+#page-footer #footer-menu > ul > li > a:active {
+    color: #FFFFFF;
+}
+
+#page-footer #footer-menu > ul > li > .w-icon {
+    padding: 0 10px;
+}
+
+#page-footer #footer-menu > ul > li > .w-icon > i {
+    font-size: 14px;
+}
+
+#page-footer #footer-menu > ul > li > .w-icon > span {
+    padding: 0 10px 0 0;
+}
 
 #page-footer .copyright {
     width: 100%;
@@ -637,7 +660,6 @@ display: none !important;
     background-color: #161E29;
     padding: 20px 0;
 }
-
 
 .section_tabs {
     background-color: #fff;
@@ -701,16 +723,12 @@ display: none !important;
     text-align: center;
 }
 
-.section_tabs .breadcrumb button {
+.section_tabs .breadcrumb .btn {
     margin-top: -3px;
 }
 
 .section_content {
-    background-color: #ffffff;
-    border: 1px solid #CCC;
-    padding: 10px;
 }
-
 
 .loading-spinner-icon {
     width: 14px;
@@ -773,4 +791,10 @@ display: none !important;
 
 .profile .countDiv .title {
     color: #666666;
+}
+
+.symbb_content_bg {
+    background-color: #FFF;
+    padding: 10px;
+    border: 1px solid #ccc;
 }

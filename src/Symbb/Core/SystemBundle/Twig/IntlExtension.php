@@ -55,7 +55,7 @@ class IntlExtension extends \Twig_Extension
     }
 
     /**
-     * 
+     *
      * @param type $format
      * @return \IntlDateFormatter
      * @throws Exception

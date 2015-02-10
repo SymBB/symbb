@@ -1,0 +1,70 @@
+{% trans_default_domain "symbb_backend" %}
+
+{% extends getSymbbTemplate('acp') ~ ':AcpAngular:contentTemplate.html.twig' %}
+
+{% block title %}{{ 'News Category'|trans }}{% endblock %}
+{% block subtitle %}
+    {{ 'You can manage your News category and sources on this Pages'|trans }}
+    <div class="clear"></div>
+    <div class="pull-right">
+        <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
+            ...{% endtrans %}
+        </button>
+        <button ng-click="create()" class="btn btn-default btn-xs">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'New Category'|trans }}
+        </button>
+    </div>
+{% endblock %}
+{% block content %}
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle ng-class="node.type">
+            [[ node.name ]]
+            <div class="pull-right">
+                <button ng-click="create(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    {{ 'New'|trans }}
+                </button>
+                <button ng-click="edit(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    {{ 'Edit'|trans }}
+                </button>
+                <button ng-click="delete(node)" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    {{ 'Delete'|trans }}
+                </button>
+            </div>
+        </div>
+    </script>
+    <div ui-tree>
+        <ol ui-tree-nodes="" ng-model="data" id="tree-root" class="angular-ui-tree-nodes">
+            <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"
+                class="angular-ui-tree-node"></li>
+        </ol>
+    </div>
+    <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'News Category'|trans }}">
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name"/>
+        <label>{{ 'Image'|trans }}</label><input class="form-control" ng-model="formEntry.image"/>
+        <label>{{ 'Forum'|trans }}</label> <br/>
+        <select class="chosen-select form-control" id="targetForumList">
+        </select>
+        <h4>{{ "Source"|trans }}</h4>
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].name"/>
+        <label>{{ 'Type'|trans }}</label>
+        <select class="form-control" ng-model="formEntry.sources[0].type">
+            <option value="email">{{ 'E-Mail'|trans }}</option>
+            <option value="feed">{{ 'Feed'|trans }}</option>
+        </select>
+        <div ng-if="formEntry.sources[0].type == 'email'">
+            <label>{{ 'Server'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].server"/>
+            <label>{{ 'Port'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].port"/>
+            <label>{{ 'SSL'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.sources[0].ssl"/>
+            <label>{{ 'Username'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].username"/>
+            <label>{{ 'Password'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].password"/>
+        </div>
+        <div ng-if="formEntry.sources[0].type == 'feed'">
+            <label>{{ 'Url'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].url"/>
+        </div>
+    </symbb-modal-form>
+{% endblock %}

@@ -50,7 +50,7 @@ class FieldManager extends AbstractManager
     }
 
     /**
-     * 
+     *
      * @param int $id
      * @return Field
      */

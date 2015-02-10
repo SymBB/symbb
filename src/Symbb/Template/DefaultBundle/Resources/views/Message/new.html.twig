@@ -1,0 +1,22 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+{% form_theme form  getSymbbTemplate('forum') ~ '::form.html.twig' %}
+
+{% block section_content_ucp %}
+    {{ form_start(form) }}
+    <h1>{{ 'New Message'|trans }}</h1>
+    {{ form_row(form.receivers) }}
+    {{ form_row(form.subject) }}
+    <div class="symbb_editor small">
+        {{ form_row(form.message) }}
+    </div>
+    {{ form_errors(form) }}
+    <div class="pull-right btn-group">
+        <a class="btn btn-success" type="submit"
+           onclick="return symbbForum.saveEditor(true)">{{ 'Save'|trans }}</a>
+        <a class="btn btn-danger"
+           href="{{ path("symbb_user_ucp") }}">{{ 'Abort'|trans }}</a>
+    </div>
+    <div class="clear"></div>
+    {{ form_end(form) }}
+{% endblock %}

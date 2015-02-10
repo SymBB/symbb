@@ -1,0 +1,37 @@
+{% trans_default_domain "symbb_frontend" %}
+{% extends getSymbbTemplate('forum') ~ ':Ucp:layout.html.twig' %}
+
+{% block section_content_ucp %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">{{ 'Topic Notifications'|trans }}
+                    {{ knp_pagination_render(topics, 'SymbbTemplateDefaultBundle:Pagination:pagination.html.twig') }}
+                    <div class="clear"></div>
+                </div>
+                <!-- Table -->
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-md-7">{{ 'Topic'|trans }}</th>
+                        <th class="col-md-3">{{ 'Action'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for topic in topics %}
+                        <tr>
+                            <td>
+                                <a href="{{ path("symbb_forum_topic_show", {id: topic.getId(), name: topic.getSeoName() }) }}"> {{ topic.getName() }}</a>
+                            </td>
+                            <td>
+                                <a href="{{ path("symbb_user_ucp_notification_unsubscribe", {id: topic.getId()}) }}">{{ "unsubscribe"|trans }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

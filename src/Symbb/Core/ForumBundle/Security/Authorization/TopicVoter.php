@@ -47,7 +47,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $check = parent::vote($token, $object, $attributes);
-        if($check !== null){
+        if ($check !== null) {
             return $check;
         }
 
@@ -57,7 +57,7 @@ class TopicVoter extends AbstractVoter implements VoterInterface
         // set the attribute to check against
         $attribute = strtolower($attributes[0]);
 
-        switch($attribute) {
+        switch ($attribute) {
             case self::VIEW:
                 $forum = $object->getForum();
                 $this->accessManager->addVoterAccessCheck(ForumVoter::VIEW, $forum);

@@ -1,4 +1,0 @@
-fos_message:
-    db_driver: orm
-    thread_class: Symbb\Core\MessageBundle\Entity\Thread
-    message_class: Symbb\Core\MessageBundle\Entity\Message

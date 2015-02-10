@@ -1,9 +1,22 @@
 
 .symbb_post {
-    background-color: #DDDFE3;
-    margin-bottom: 20px;
+    background-color: #EAEAEA;
     position: relative;
+    border: 1px solid #ccc;
 }
+
+.symbb_post + .symbb_post {
+    margin-top: 20px;
+}
+
+.symbb_action_row + .symbb_post {
+    border-top: 0;
+}
+
+.symbb_post + .symbb_action_row {
+    border-top: 0;
+}
+
 
 .symbb_post .row {
     padding: 0;
@@ -18,6 +31,7 @@
     margin-right: 200px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.05);
     min-height: 300px;
+    border-right: 1px solid #ccc;
 }
 
 .symbb_post .postbody .title {
@@ -48,7 +62,6 @@
 .symbb_post .postbody .text img {
     max-width: 80%;
 }
-
 
 .symbb_post .postbody .breadcrumb_mini {
     font-size: 80%;

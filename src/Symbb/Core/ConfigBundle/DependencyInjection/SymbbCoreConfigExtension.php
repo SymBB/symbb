@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 namespace Symbb\Core\ConfigBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -17,11 +17,11 @@ use Symfony\Component\Yaml\Parser;
 
 class SymbbCoreConfigExtension extends Extension implements PrependExtensionInterface
 {
-    
-    public function prepend(ContainerBuilder $container) 
+
+    public function prepend(ContainerBuilder $container)
     {
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('doctrine.yml');
         $loader->load('twig.yml');
         $loader->load('fos_user.yml');
@@ -30,17 +30,16 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
         $loader->load('lsw_memcache.yml');
         $loader->load('swiftmailer.yml');
         $loader->load('framework.yml');
-        $loader->load('vich_uploader.yml');
         $loader->load('jms_translation.yml');
         $loader->load('liip_imagine.yml');
         $loader->load('fosjsrouting.yml');
         $loader->load('assetic.yml');
         $loader->load('monolog.yml');
     }
-        
+
     public function load(array $configs, ContainerBuilder $container)
     {
-        $locator = new FileLocator(__DIR__.'/../Resources/config');
+        $locator = new FileLocator(__DIR__ . '/../Resources/config');
         $yaml = new Parser();
         $myConfig = $yaml->parse(file_get_contents(($locator->locate('symbb.yml'))));
 
@@ -54,8 +53,8 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
         $config = array_merge_recursive($config, $myConfig);
 
         $configuration = new \Symbb\Core\ConfigBundle\DependencyInjection\Configuration();
-        $config        = $this->processConfiguration($configuration, array($config));
- 
+        $config = $this->processConfiguration($configuration, array($config));
+
         $container->setParameter('symbb_config', $config);
         $container->setParameter('twig.globals.symbb_config', $config);
     }

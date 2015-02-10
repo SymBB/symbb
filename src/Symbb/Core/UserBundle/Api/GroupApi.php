@@ -27,9 +27,10 @@ class GroupApi extends AbstractApi
      * @param $id
      * @return GroupInterface
      */
-    public function find($id){
+    public function find($id)
+    {
         $object = $this->groupManager->find($id);
-        if(!is_object($object)){
+        if (!is_object($object)) {
             $this->addErrorMessage(self::ERROR_ENTRY_NOT_FOUND);
         }
         return $object;
@@ -40,11 +41,12 @@ class GroupApi extends AbstractApi
      * @param $page
      * @return array
      */
-    public function getList($limit, $page){
+    public function getList($limit, $page)
+    {
         $objects = $this->groupManager->findAll($limit, $page);
         $this->addPaginationData($objects);
         $objects = $objects->getItems();
-        if(empty($objects)){
+        if (empty($objects)) {
             $this->addInfoMessage(self::INFO_NO_ENTRIES_FOUND);
         }
         return $objects;
@@ -57,23 +59,24 @@ class GroupApi extends AbstractApi
      * @param GroupInterface|array $object
      * @return GroupInterface
      */
-    public function save($object){
+    public function save($object)
+    {
 
-        if(is_array($object)){
+        if (is_array($object)) {
             $objectData = $object;
-            if($object['id'] > 0){
+            if ($object['id'] > 0) {
                 $object = $this->find($object['id']);
             } else {
                 $object = new Group();
             }
             $this->assignArrayToObject($object, $objectData);
-        } else if(!($object instanceof GroupInterface)) {
+        } else if (!($object instanceof GroupInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
 
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->groupManager->update($object);
-            if($check === true){
+            if ($check === true) {
                 $this->addSuccessMessage(self::SUCCESS_SAVED);
             }
         }
@@ -85,15 +88,16 @@ class GroupApi extends AbstractApi
      * @param int|GroupInterface $object
      * @return bool
      */
-    public function delete($object){
-        if(is_numeric($object)){
+    public function delete($object)
+    {
+        if (is_numeric($object)) {
             $object = $this->find($object);
-        } else if(!($object instanceof GroupInterface)) {
+        } else if (!($object instanceof GroupInterface)) {
             $this->addErrorMessage(self::ERROR_WRONG_OBJECT);
         }
-        if(!$this->hasError()){
+        if (!$this->hasError()) {
             $check = $this->groupManager->remove($object);
-            if($check){
+            if ($check) {
                 $this->addSuccessMessage(self::SUCCESS_DELETED);
             }
             return $check;
@@ -106,7 +110,8 @@ class GroupApi extends AbstractApi
      * @param $direction
      * @return array|null
      */
-    protected function getFieldsForObject($object, $direction){
+    protected function getFieldsForObject($object, $direction)
+    {
         // only this fields are allowed
         $fields = array(
             'id',
@@ -118,7 +123,8 @@ class GroupApi extends AbstractApi
     /**
      * @param GroupManager $manager
      */
-    public function setGroupManager(GroupManager $manager){
+    public function setGroupManager(GroupManager $manager)
+    {
         $this->groupManager = $manager;
     }
 

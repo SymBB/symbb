@@ -16,7 +16,7 @@ class ConfigDefaultsEvent extends Event
 
     /**
      *
-     * @var \Doctrine\Common\Collections\ArrayCollection 
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $configList;
 
@@ -39,6 +39,6 @@ class ConfigDefaultsEvent extends Event
         $valueArray->set('section', $section);
         $valueArray->set('key', $key);
         $valueArray->set('type', $type);
-        $this->configList->set($section.'.'.$key, $valueArray);
+        $this->configList->set($section . '.' . $key, $valueArray);
     }
 }

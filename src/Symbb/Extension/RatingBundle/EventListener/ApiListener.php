@@ -32,7 +32,7 @@ class ApiListener
     public function postData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $post = $event->getObject();
-        if(is_object($post)){
+        if (is_object($post)) {
             $forum = $post->getTopic()->getForum();
             $createSurvey = $this->securityContext->isGranted(RatingVoter::CREATE_RATING, $forum);
             $event->addAccessData('createRating', $createSurvey);
@@ -45,7 +45,7 @@ class ApiListener
     public function topicData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
     {
         $topic = $event->getObject();
-        if(is_object($topic)){
+        if (is_object($topic)) {
             $forum = $topic->getForum();
             $createSurvey = $this->securityContext->isGranted(RatingVoter::CREATE_RATING, $forum);
             $event->addAccessData('createRating', $createSurvey);
@@ -55,7 +55,8 @@ class ApiListener
         }
     }
 
-    protected function addExtensionData($event, $post){
+    protected function addExtensionData($event, $post)
+    {
 
         $user = $this->securityContext->getToken()->getUser();
 
@@ -65,13 +66,13 @@ class ApiListener
         $myDislike = $this->em->getRepository('SymbbExtensionRatingBundle:Dislike')
             ->findOneBy(array('post' => $post, 'user' => $user));
 
-        if(is_object($myLike)){
+        if (is_object($myLike)) {
             $myLike = true;
         } else {
             $myLike = false;
         }
 
-        if(is_object($myDislike)){
+        if (is_object($myDislike)) {
             $myDislike = true;
         } else {
             $myDislike = false;

@@ -27,7 +27,7 @@ class BackendApiController extends AbstractController
         $objects = $api->getList();
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -83,7 +83,7 @@ class BackendApiController extends AbstractController
         $objects = $api->findAll($site);
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
@@ -116,8 +116,7 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $api->delete((int)$navigation);
-        return $api->getJsonResponse(array(
-        ));
+        return $api->getJsonResponse(array());
     }
 
     /**
@@ -143,8 +142,7 @@ class BackendApiController extends AbstractController
     {
         $api = $this->get('symbb.core.api.site.navigation');
         $api->deleteItem((int)$item);
-        return $api->getJsonResponse(array(
-        ));
+        return $api->getJsonResponse(array());
     }
 
 }

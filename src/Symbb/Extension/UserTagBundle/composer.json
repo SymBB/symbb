@@ -2,7 +2,11 @@
     "name": "symbb/extension-user-tag",
     "type": "symbb-extension",
     "description": "Symbb User Tag Extension",
-    "keywords": ["Symbb","Extension", "Survey"],
+    "keywords": [
+        "Symbb",
+        "Extension",
+        "Survey"
+    ],
     "homepage": "https://github.com/SymBB/symbb",
     "license": "GPL",
     "authors": [
@@ -18,7 +22,7 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "Symbb\\Extension": "" }
+        "psr-0": {"Symbb\\Extension": ""}
     },
     "target-dir": "Symbb/Extension"
 }

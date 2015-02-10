@@ -15,6 +15,8 @@ use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
 use \Symbb\Core\UserBundle\Entity\UserInterface;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\Validator;
 
 /**
  *
@@ -37,7 +39,7 @@ class UserManager
     protected $securityFactory;
 
     /**
-     * @var string 
+     * @var string
      */
     protected $userClass = '';
 
@@ -58,7 +60,7 @@ class UserManager
     protected $container;
 
     protected $postCountCache = array();
-    
+
     protected $symbbDataCache = array();
 
     public function __construct($container)
@@ -76,7 +78,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Request
      */
     protected function getRequest()
@@ -85,7 +87,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
     public function getCurrentUser()
@@ -110,10 +112,12 @@ class UserManager
      * update the given user data
      * @param \Symbb\Core\UserBundle\Entity\User\Data $user
      */
-    public function updateUserData(Data $data)
+    public function updateUserData(Data $data, $flush = true)
     {
         $this->em->persist($data);
-        $this->em->flush();
+        if($flush){
+            $this->em->flush();
+        }
 
         //return array with sf validator errors
         return new \Symfony\Component\Validator\ConstraintViolationList();
@@ -130,10 +134,14 @@ class UserManager
         return true;
     }
 
+    public function remove(UserInterface $user){
+        return $this->removeUser($user);
+    }
+
     /**
-     * change the password of an user
-     * @param \Symbb\Core\UserBundle\Entity\UserInterface $user
-     * @param string $newPassword
+     * @param UserInterface $user
+     * @param $newPassword
+     * @return ConstraintViolationList
      */
     public function changeUserPassword(UserInterface $user, $newPassword)
     {
@@ -141,12 +149,16 @@ class UserManager
         $encoder = $this->securityFactory->getEncoder($user);
         $password = $encoder->encodePassword($newPassword, $user->getSalt());
         $user->setPassword($password);
+
+        /**
+         * @var $validator Validator
+         */
         $validator = $this->container->get('validator');
         $passwordConstraints = $this->getPasswordValidatorConstraints();
         $passwordConstraints[] = new \Symfony\Component\Validator\Constraints\NotBlank();
         $errorsPassword = $validator->validateValue($newPassword, $passwordConstraints);
 
-        if($errorsPassword->count() === 0){
+        if ($errorsPassword->count() === 0) {
             $this->em->persist($user);
             $this->em->flush();
         }
@@ -166,7 +178,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param type $userId
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -177,7 +189,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param string $username
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -188,10 +200,10 @@ class UserManager
     }
 
     /**
-     * 
-     * @return array(<"\Symbb\Core\UserBundle\Entity\UserInterface">)
+     *
+     * @return UserInterface[]
      */
-    public function findUsers($limit = 20 , $page = 1)
+    public function findUsers($limit = 20, $page = 1)
     {
         $users = $this->findBy(array(), $limit, $page);
         return $users;
@@ -226,7 +238,7 @@ class UserManager
             $qb->setParameter($i, $value);
             $i++;
         }
-        if(!empty($whereParts)){
+        if (!empty($whereParts)) {
             $qb->add("where", implode(' AND ', $whereParts));
         }
         $qb->orderBy("u.username", "ASC");
@@ -299,7 +311,7 @@ class UserManager
         if (!$user) {
             $user = $this->getCurrentUser();
         }
-        
+
         if (!isset($this->postCountCache[$user->getId()])) {
             $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
@@ -442,7 +454,7 @@ class UserManager
     }
 
     /**
-     * 
+     *
      * @param string $username
      * @return \Symbb\Core\UserBundle\Entity\UserInterface
      */
@@ -461,30 +473,31 @@ class UserManager
     }
 
 
-    public function createPagination($query, $page, $limit){
+    public function createPagination($query, $page, $limit)
+    {
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addScalarResult('count', 'count');
 
         $queryCount = $query->getSql();
-        $queryCount = "SELECT COUNT(*) as count FROM (".$queryCount.") as temp";
+        $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCount . ") as temp";
         $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
-        if(!$count){
+        if (!$count) {
             $count = 0;
         }
 
-        if(!$limit){
+        if ($limit === null) {
             $limit = 20;
         }
 
-        if($page === 'last'){
-            $page = $count / $limit;
+        if ($page === 'last') {
+            $page = $count / (int)$limit;
             $page = ceil($page);
         }
 
-        if($page <= 0){
+        if ($page <= 0) {
             $page = 1;
         }
 
@@ -497,7 +510,17 @@ class UserManager
         return $pagination;
     }
 
-    public function isGranted($access, $object, $identity = null){
+    public function isGranted($access, $object, $identity = null)
+    {
         return $this->securityContext->isGranted($access, $object, $identity);
+    }
+
+    /**
+     * @return UserInterface
+     */
+    public function getGuestUser()
+    {
+        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        return $user;
     }
 }

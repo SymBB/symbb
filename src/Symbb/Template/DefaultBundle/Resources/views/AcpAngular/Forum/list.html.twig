@@ -14,7 +14,8 @@
     <div class="pull-right">
 
         <button ng-if="restCrudLoading" class="btn btn-warning btn-xs">
-            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif" /> {% trans %}Loading ...{% endtrans %}
+            <img style="width: 16px" src="/bundles/symbbtemplatedefault/images/loading.gif"/> {% trans %}Loading
+            ...{% endtrans %}
         </button>
         <button ng-click="create()" class="btn btn-default btn-xs">
             <span class="glyphicon glyphicon-plus"></span>
@@ -50,7 +51,7 @@
             </li>
         </ol>
     </script>
-    <div ui-tree>
+    <div ui-tree="treeOptions" >
         <ol ui-tree-nodes="" ng-model="data" id="tree-root" class="angular-ui-tree-nodes">
             <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" class="angular-ui-tree-node"></li>
         </ol>
@@ -61,9 +62,9 @@
         <select class="form-control" ng-model="accessEntry.group">
             {% for group in getGroupManager().findAll() %}
                 <option value="{{ group.getId() }}" selected>{{ group.getName() }}</option>
-            {%  endfor %}
+            {% endfor %}
         </select>
-        <hr />
+        <hr/>
         {{ 'copy access from'|trans }}
         <select class="form-control" ng-model="accessEntry.forumFrom" id="accessFormForumList">
         </select>
@@ -77,38 +78,29 @@
             <option value="5">{{ 'moderator'|trans }}</option>
         </select>
         <label>{{ 'Include subforums'|trans }}</label> <br/>
-        <input type="checkbox" value="1" ng-model="accessEntry.childs" />
+        <input type="checkbox" value="1" ng-model="accessEntry.childs"/>
     </symbb-modal-form>
     <symbb-modal-form id="restCurdForm" button-text="{{ 'save'|trans }}" header-text="{{ 'Forum'|trans }}">
-        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name" />
+        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.name"/>
         <label>{{ 'Type'|trans }}</label>
         <select class="form-control" ng-model="formEntry.type">
             <option value="link">{{ 'Link'|trans }}</option>
             <option value="forum">{{ 'Forum'|trans }}</option>
             <option value="category">{{ 'Category'|trans }}</option>
-            <option value="feed">{{ 'Feed List'|trans }}</option>
         </select>
-        <label>{{ 'Description'|trans }}</label><textarea class="form-control" ng-model="formEntry.description" ></textarea>
+        <label>{{ 'Description'|trans }}</label><textarea class="form-control"
+                                                          ng-model="formEntry.description"></textarea>
+
         <div ng-if="formEntry.type != 'link'">
-            <label>{{ 'Show sub forum list'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.show_sub_forum_list" />
-            <label>{{ 'Entries per page'|trans }}</label><input type="number" class="form-control" ng-model="formEntry.entries_per_page" />
+            <label>{{ 'Show sub forum list'|trans }}</label><input type="checkbox" class="form-control"
+                                                                   ng-model="formEntry.show_sub_forum_list"/>
+            <label>{{ 'Entries per page'|trans }}</label><input type="number" class="form-control"
+                                                                ng-model="formEntry.entries_per_page"/>
         </div>
         <div ng-if="formEntry.type == 'link'">
-            <label>{{ 'Link'|trans }}</label><input  class="form-control" ng-model="formEntry.link" />
-            <label>{{ 'Count Link calls'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.count_link_calls" />
-        </div>
-        <div ng-if="formEntry.type == 'feed'">
-            <hr>
-            <h4>{{ 'Feeds'|trans }}</h4>
-            <div ng-repeat="link in formEntry.feeds">
-                <label>{{ 'feed Url'|trans }}</label><input  class="form-control" ng-model="link.url" />
-                <label>{{ 'Filter Regex'|trans }}</label><input class="form-control" ng-model="link.filter_regex" />
-                <label>{{ 'Link Regex'|trans }}</label><input class="form-control" ng-model="link.link_regex" />
-                <button class="btn" ng-click="removeForumFeedEntry($index)">{{ 'remove'|trans }}</button>
-                <br>
-                <br>
-            </div>
-            <button class="btn" ng-click="addForumFeedEntry()">{{ 'add feed'|trans }}</button>
+            <label>{{ 'Link'|trans }}</label><input class="form-control" ng-model="formEntry.link"/>
+            <label>{{ 'Count Link calls'|trans }}</label><input type="checkbox" class="form-control"
+                                                                ng-model="formEntry.count_link_calls"/>
         </div>
     </symbb-modal-form>
 {% endblock %}

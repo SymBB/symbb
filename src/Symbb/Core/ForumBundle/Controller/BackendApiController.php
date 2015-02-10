@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\ForumBundle\Controller;
 
+use Symbb\Core\ForumBundle\Api\ForumApi;
+use Symbb\Core\ForumBundle\Entity\Forum;
 use Symbb\Core\SystemBundle\Api\AbstractApi;
 use Symbb\Core\SystemBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,15 +29,61 @@ class BackendApiController extends AbstractController
         $api = $this->get('symbb.core.api.forum');
         $api->entityAccessCheck = false;
 
-        $objects = $api->findAll($request->get('parent', 0), $request->get('limit', 20), $request->get('page', 1));
+        $objects = $api->findAll(null, $request->get('limit', 999), $request->get('page', 1));
 
         $objectsData = array();
-        foreach($objects as $object){
+        foreach ($objects as $object) {
             $objectsData[] = $api->createArrayOfObject($object);
         }
 
         return $api->getJsonResponse(array(
             'data' => $objectsData
+        ));
+    }
+
+    /**
+     * @Route("/api/forum/move", name="symbb_backend_api_forum_move")
+     * @Method({"POST"})
+     */
+    public function moveAction(Request $request)
+    {
+        $api = $this->get('symbb.core.api.forum');
+        /**
+         * @var $api ForumApi
+         */
+        $api->entityAccessCheck = false;
+
+        $data = $request->get('data');
+
+        $forum = $api->find($data['element']);
+
+        /**
+         * at first get the parent element and set it to the moved element
+         * @var $forum Forum
+         */
+        if($data['parent']){
+            $parentForum = $api->find($data['parent']);
+            $forum->setParent($parentForum);
+        } else {
+            $forum->setParent(null);
+        }
+
+        $api->save($forum);
+
+        // now get the list of elements to create the new order
+        $pos = 1;
+        foreach($data['elements'] as $elementData){
+            $element = $api->find($elementData['id']);
+            /**
+             * @var $element Forum
+             */
+            $element->setPosition($pos);
+            $pos++;
+            $api->save($element);
+        }
+
+        return $api->getJsonResponse(array(
+            'data' => array()
         ));
     }
 
@@ -122,7 +170,7 @@ class BackendApiController extends AbstractController
         $group = $groupApi->find($data['group']);
         $set = $data['set'];
         $childs = (bool)$data['childs'];
-        $set = "default_".$set;
+        $set = "default_" . $set;
 
         $api->applyAccessSetForGroup($forumTo, $group, $set, $childs);
         $api->addSuccessMessage(AbstractApi::SUCCESS_SAVED);

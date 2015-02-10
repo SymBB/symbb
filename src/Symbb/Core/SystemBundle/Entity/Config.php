@@ -98,18 +98,18 @@ class Config
 
         switch ($this->type) {
             case 'integer':
-                $value = (int) $value;
+                $value = (int)$value;
                 break;
             case 'boolean':
-                $value = (boolean) $value;
+                $value = (boolean)$value;
                 break;
             case 'text':
             case 'string':
             default:
-                $value = (string) $value;
+                $value = (string)$value;
                 break;
         }
-        
+
         return $value;
     }
 

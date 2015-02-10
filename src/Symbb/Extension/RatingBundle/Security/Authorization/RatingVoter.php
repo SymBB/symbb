@@ -34,7 +34,8 @@ class RatingVoter extends AbstractVoter implements VoterInterface
         );
     }
 
-    public function getAccessSets(){
+    public function getAccessSets()
+    {
         return array(
             // full (add extension access)
             "default_3" => array(

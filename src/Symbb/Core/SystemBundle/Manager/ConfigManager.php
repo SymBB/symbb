@@ -13,7 +13,7 @@ class ConfigManager
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager 
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
@@ -26,11 +26,11 @@ class ConfigManager
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $defaults;
-    
+
     protected $container;
 
     /**
-     * 
+     *
      * @param type $em
      */
     public function __construct($container)
@@ -44,7 +44,7 @@ class ConfigManager
     }
 
     /**
-     * 
+     *
      * @param string $key
      * @param string $section
      * @return \Doctrine\Common\Collections\ArrayCollection
@@ -63,17 +63,14 @@ class ConfigManager
         $value = null;
         $default = $this->getDefault($key, $section);
 
-        if ($default) {
+        $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
 
-            $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $default->get('key'), 'section' => $default->get('section')));
+        if ($config) {
+            $value = $config->getValue();
+        }
 
-            if ($config) {
-                $value = $config->getValue();
-            }
-
-            if ($value === null) {
-                $value = $default->get('value');
-            }
+        if ($default && $value === null) {
+            $value = $default->get('value');
         }
 
         return $value;
@@ -82,7 +79,7 @@ class ConfigManager
     public function set($key, $section, $value, $type = null)
     {
 
-        
+
         $config = $this->em->getRepository('SymbbCoreSystemBundle:Config')->findOneBy(array('key' => $key, 'section' => $section));
 
         if (!$config) {
@@ -106,7 +103,7 @@ class ConfigManager
     }
 
     /**
-     * 
+     *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getDefaults()
@@ -198,7 +195,8 @@ class ConfigManager
         $this->em->flush();
     }
 
-    public function getSymbbConfig($key){
+    public function getSymbbConfig($key)
+    {
         $config = $this->container->getParameter('symbb_config');
         return $config[$key];
     }

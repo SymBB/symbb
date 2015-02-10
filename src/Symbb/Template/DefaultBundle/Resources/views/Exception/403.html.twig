@@ -1,1 +1,17 @@
-Test 403
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <title>{{ status_text }} ({{ status_code }})</title>
+    <link href="/bundles/symbbtemplatedefault/css/exception.css" rel="stylesheet" type="text/css" media="all"/>
+</head>
+<body class="bg404">
+<div class="code">
+    {{ status_code }}
+</div>
+<div class="message">
+    {{ status_text }}
+</div>
+</body>
+</html>

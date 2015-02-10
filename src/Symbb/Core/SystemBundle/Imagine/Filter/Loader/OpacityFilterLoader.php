@@ -1,11 +1,11 @@
 <?
 /**
-*
-* @package symBB
-* @copyright (c) 2013-2014 Christian Wielath
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package symBB
+ * @copyright (c) 2013-2014 Christian Wielath
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace Symbb\Core\SystemBundle\Imagine\Filter\Loader;
 
@@ -17,7 +17,7 @@ use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 
 class OpacityFilterLoader implements LoaderInterface
 {
-    
+
     public function __construct(ImagineInterface $imagine, $rootPath)
     {
         $this->imagine = $imagine;
@@ -25,17 +25,17 @@ class OpacityFilterLoader implements LoaderInterface
     }
 
     /**
-    * @see Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface::load()
-    */
+     * @see Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface::load()
+     */
     public function load(ImageInterface $image, array $options = array())
     {
 
-        $size       = $image->getSize();
-        $width      = $size->getWidth();
-        $height     = $size->getHeight();
-        
-        $alpha      = $options['opacity'];
-        
+        $size = $image->getSize();
+        $width = $size->getWidth();
+        $height = $size->getHeight();
+
+        $alpha = $options['opacity'];
+
         for ($x = 0; $x < $width; $x++) {
             for ($y = 0; $y < $height; $y++) {
                 $point = new Point($x, $y);
@@ -46,7 +46,7 @@ class OpacityFilterLoader implements LoaderInterface
                 $image->draw()->dot($point, new Color(array($dR, $dG, $dB), $alpha));
             }
         }
-        
-        return $image; 
+
+        return $image;
     }
 }

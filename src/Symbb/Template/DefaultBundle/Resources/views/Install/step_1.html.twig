@@ -2,27 +2,30 @@
 
 {% block progress %}
 
-<div class="progress progress-striped active">
-  <div class="progress-bar"  role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-    <span class="sr-only">0% Complete</span>
-  </div>
-</div>
+    <div class="progress progress-striped active">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+             style="width: 0%">
+            <span class="sr-only">0% Complete</span>
+        </div>
+    </div>
 {% endblock %}
 
 {% block symbb_body %}
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title"> Install the basic data </h3>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"> Install the basic data </h3>
+        </div>
+        <div class="panel-body">
+            {% if step == 1 %}
+                <button type="button" class="btn btn-primary btn-sm"
+                        onclick="window.location.href='{{ path('symbb_install_step', {'step': 2}) }}'">Install
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-default btn-sm">Install</button>
+            {% endif %}
+        </div>
     </div>
-    <div class="panel-body">
-        {% if step == 1 %}
-            <button type="button" class="btn btn-primary btn-sm" onclick="window.location.href='{{ path('symbb_install_step', {'step': 2}) }}'">Install</button>
-        {% else %}
-        <button type="button" class="btn btn-default btn-sm">Install</button>
-        {% endif %}
-    </div>
-</div>
 
 {% endblock %}

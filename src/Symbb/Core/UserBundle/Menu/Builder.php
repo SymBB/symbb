@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 class Builder extends ContainerAware
 {
 
-    
+
     public function optionMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
@@ -26,6 +26,6 @@ class Builder extends ContainerAware
         return $menu;
 
     }
-    
-    
+
+
 }
