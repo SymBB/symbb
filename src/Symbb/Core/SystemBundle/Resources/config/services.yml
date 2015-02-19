@@ -63,6 +63,7 @@ services:
         arguments: ['@service_container']
 
     symbb.core.upload.manager:
+        parent: symbb.core.abstract.manager
         class: Symbb\Core\SystemBundle\Manager\UploadManager
         arguments: ["%symbb_config%", '%kernel.root_dir%']
             
