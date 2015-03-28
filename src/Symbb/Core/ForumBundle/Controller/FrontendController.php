@@ -584,12 +584,15 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             $fileData = reset($fileData);
             $params["link"] = $fileData["url"];
             $params["files"] = $fileData;
+            if(!empty($fileData['error'])){
+                $response = new \Symfony\Component\HttpFoundation\JsonResponse($params, 400);
+                return $response;
+            }
         } else {
             $params["error"] = "Error while uploading file.";
         }
 
-        $response = new \Symfony\Component\HttpFoundation\Response(json_encode($params));
-        $response->headers->set('Content-Type', 'application/json');
+        $response = new \Symfony\Component\HttpFoundation\JsonResponse($params);
         return $response;
     }
 

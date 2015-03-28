@@ -3,18 +3,19 @@ var symbbForum = {
     initEditor: function (uploadPath, lang) {
         $(".symbb_editor").each(function (key, element) {
             var textarea = $(element).find("textarea");
-            parentId = $(element).data("id");
+            var parentId = $(element).data("id");
             parentId = parseInt(parentId);
-            forum = $(parent).data("forum");
+            var forum = $(element).data("forum");
             forum = parseInt(forum);
             var height = 300;
             if($(element).hasClass("small")){
-                var height = 150;
+                height = 150;
             }
             var editor = $(textarea).editable(
                 {
                     inlineMode: false,
                     imageUploadURL: uploadPath,
+                    allowedImageTypes: ["jpeg", "jpg", "png", "gif"],
                     imageUploadParams: {'id': parentId, 'forum': forum},
                     language: lang,
                     autosave: true,
@@ -24,8 +25,19 @@ var symbbForum = {
                     minHeight: height
                 }
             );
+            $(textarea).on('editable.imageError', function (e, editor, error) {
+                var message = error.message;
+                var errorDiv = $('<div class="alert alert-danger alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <strong>Error!</strong> '+message+' </div>');
+                $(errorDiv).insertAfter(textarea);
+                setTimeout(function() {
+                   if(errorDiv){
+                       $(errorDiv).remove();
+                   }
+                }, 5000)
+            });
             $(textarea).on('editable.beforeSave', function (e, editor) {
                 var html = editor.getHTML();
+                console.debug(e);
                 $(textarea).html(html);
                 //dont send save request we will put the text into the from field
                 return false;
