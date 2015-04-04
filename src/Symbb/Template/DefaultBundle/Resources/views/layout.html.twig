@@ -52,7 +52,7 @@
     <div class="topnavi">
         {% block symbb_topnavi %}
             <div class="symbb_menu">
-                {{ knp_menu_render('main') }}
+                {{ knp_menu_render('SymbbCoreSiteBundle:DynamicBuilder:createMenu', {'name': 'main'}) }}
             </div>
         {% endblock %}
     </div>
