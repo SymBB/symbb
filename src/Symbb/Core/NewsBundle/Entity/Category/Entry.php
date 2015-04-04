@@ -45,7 +45,7 @@ class Entry
 
     /**
      * @ORM\OneToOne(targetEntity="Symbb\Core\ForumBundle\Entity\Topic")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @var Topic
      */
     protected $topic;
