@@ -147,10 +147,13 @@ abstract class AbstractManager
         $countQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('Symbb\Core\SystemBundle\DependencyInjection\CountSqlWalker'));
         $countQuery->setFirstResult(null)->setMaxResults(null);
         $countQuery->setParameters($query->getParameters());
+        $count = 0;
         try {
-            $count = $countQuery->getSingleScalarResult();
+            $counts = $countQuery->getScalarResult();
+            foreach($counts as $c){
+                $count += reset($c);
+            }
         } catch(NoResultException $e){
-            $count = 0;
         }
         // get sql, get the from part and remove all other fields then the id field
         // so that we have a query who select only one field
