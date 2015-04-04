@@ -174,7 +174,7 @@ abstract class AbstractManager
         $query->setHint('knp_paginator.count', $count);
 
         $pagination = $this->paginator->paginate(
-            $query, (int)$page, $limit, array('distinct' => false)
+            $query, (int)$page, $limit, array('distinct' => false, 'wrap-queries'=>true)
         );
 
         return $pagination;
