@@ -35,19 +35,19 @@ class Category
 
     /**
      * @ORM\ManyToOne(targetEntity="\Symbb\Core\ForumBundle\Entity\Forum")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @var \Symbb\Core\ForumBundle\Entity\Forum
      */
     protected $targetForum;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Source", mappedBy="category",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Source", mappedBy="category", cascade={"persist"})
      * @var ArrayCollection
      */
     protected $sources;
 
     /**
-     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Entry", mappedBy="category",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Symbb\Core\NewsBundle\Entity\Category\Entry", mappedBy="category", cascade={"persist"})
      * @ORM\OrderBy({"created" = "DESC"})
      * @var ArrayCollection
      */
