@@ -9,6 +9,7 @@
 
 namespace Symbb\Core\ForumBundle\DependencyInjection;
 
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symbb\Core\ForumBundle\Security\Authorization\ForumVoter;
@@ -80,10 +81,10 @@ class ForumManager extends AbstractManager
                     t
                 FROM
                     SymbbCoreForumBundle:Topic t
+                INNER JOIN
+                    t.posts p
                 LEFT JOIN
                     t.tags tag
-                LEFT JOIN
-                    t.posts p
                 WHERE
                   t.forum = ?1 AND
                   p.id = (SELECT MAX(p2.id) FROM SymbbCoreForumBundle:POST p2 WHERE p2.topic = t.id ORDER BY p2.created )
