@@ -122,13 +122,14 @@ class SiteManager extends AbstractManager
     public function findAll($page = 1, $limit = 20)
     {
         $qb = $this->em->getRepository('SymbbCoreSiteBundle:Site')->createQueryBuilder('s');
-        $qb->select("s, n, i");
+        $qb->select("s");
         $qb->leftJoin('s.navigations', 'n');
         $qb->leftJoin('n.items', 'i');
         $qb->where("i.parentItem IS NULL");
         $qb->orderBy("s.id", "ASC");
-        $qb->add('orderBy', 's.id ASC, n.id ASC', 'i.position ASC');
+        $qb->add('orderBy', 's.id ASC', 'i.position ASC');
         $query = $qb->getQuery();
+
         $objects = $this->createPagination($query, $page, $limit);
         return $objects;
     }
