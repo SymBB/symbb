@@ -31,6 +31,11 @@ class Site
     protected $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $logo;
+
+    /**
      * @ORM\Column(type="text")
      */
     protected $metaDataDescription = "";
@@ -267,6 +272,22 @@ class Site
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $logo
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
     }
 
 }
