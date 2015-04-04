@@ -33,13 +33,16 @@ trait BuilderTrait
                 $uri = $child->getFixUrl();
                 $childMenu = $menu->addChild($child->getTitle(), array('uri' => $uri));
                 if (strpos($uri, "www.") !== false || strpos($uri, "http") === 0) {
-                    $domains = $siteManager->getSite()->getDomainArray();
+                    $sites = $siteManager->findAll();
                     $found = false;
-                    foreach ($domains as $domain) {
-                        $domain = str_replace(array('https://', 'http://', 'www.'), '', $domain);
-                        if (!empty($uri) && !empty($domain) && strpos($uri, $domain) !== false) {
-                            $found = true;
-                            break;
+                    foreach($sites as $site){
+                        $domains = $site->getDomainArray();
+                        foreach ($domains as $domain) {
+                            $domain = str_replace(array('https://', 'http://', 'www.'), '', $domain);
+                            if (!empty($uri) && !empty($domain) && strpos($uri, $domain) !== false) {
+                                $found = true;
+                                break;
+                            }
                         }
                     }
                     if (!$found) {
