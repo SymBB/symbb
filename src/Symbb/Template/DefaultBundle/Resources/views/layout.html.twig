@@ -52,7 +52,8 @@
     <div class="topnavi">
         {% block symbb_topnavi %}
             <div class="symbb_menu">
-                {{ knp_menu_render('SymbbCoreSiteBundle:DynamicBuilder:createMenu', {'name': 'main'}) }}
+                {% set main_menu = knp_menu_get('SymbbCoreSiteBundle:DynamicBuilder:createMenu', [], {'name': 'main'}) %}
+                {{ knp_menu_render(main_menu) }}
             </div>
         {% endblock %}
     </div>
@@ -68,7 +69,8 @@
 </div>
 <footer id="page-footer">
     <div id="footer-menu" class="wrap">
-        {{ knp_menu_render('footer') }}
+        {% set footer_menu = knp_menu_get('SymbbCoreSiteBundle:DynamicBuilder:createMenu', [], {'name': 'footer'}) %}
+        {{ knp_menu_render(footer_menu) }}
     </div>
     <div class="copyright">
         <div class="wrap">
