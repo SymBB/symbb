@@ -44,3 +44,8 @@ php app/console translation:extract de -c symbb
 - php app/console fos:js-routing:dump
 - php app/console assets:install
 - php app/console assetic:dump --env=prod
+
+
+## Sending Emails
+
+The "system.email" must be the same domain as the "mailer_host"

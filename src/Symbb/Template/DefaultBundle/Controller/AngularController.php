@@ -63,5 +63,4 @@ class AngularController extends \Symbb\Core\SystemBundle\Controller\AbstractCont
 
         return $response;
     }
-
 }
