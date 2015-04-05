@@ -4,10 +4,11 @@ jms_translation:
             dirs: 
                 - %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/Core
                 - %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/Template
+                - %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/FOS
             output_dir: %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/Template/DefaultBundle/Resources/translations
             ignored_domains: [routes]
             excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
-            external-translations-dir: 
+            external-translations-dir:
                 - %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/Extension
                 - %kernel.root_dir%/../vendor/symbb/symbb/src/Symbb/Template/DefaultBundle/Resources/translations

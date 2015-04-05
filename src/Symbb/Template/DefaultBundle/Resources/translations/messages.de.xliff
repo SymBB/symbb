@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2015-01-17T19:53:51Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
+  <file date="2015-04-05T18:17:17Z" source-language="en" target-language="de" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -76,6 +76,11 @@
         <target>Abfrage Warningen</target>
         <jms:reference-file line="24">views/Collector/doctrine.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="1899fc55e80eee8aca969aea96d2cc32a61bd87a" resname="Retype your Password">
+        <source>Retype your Password</source>
+        <target>Passwort wiederholen</target>
+        <jms:reference-file line="40">Form/Type/RegistrationFormType.php</jms:reference-file>
+      </trans-unit>
       <trans-unit id="ada2e9e96fa9ce85430225b412068b5b62b79800" resname="Sign in">
         <source>Sign in</source>
         <target>Anmelden</target>
@@ -98,6 +103,21 @@
         <source>You are not currently logged.</source>
         <target>Du bist derzeit nicht angemeldet!</target>
         <jms:reference-file line="60">views/Forum/layout.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="978da615d2f4ded6060f80addd5225ab80fd770f" resname="Your Password">
+        <source>Your Password</source>
+        <target>Dein Passwort</target>
+        <jms:reference-file line="39">Form/Type/RegistrationFormType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6d384fb8ef3ca9318f0f9d983868842a211770f8" resname="form.password">
+        <source>form.password</source>
+        <target>Passwort</target>
+        <jms:reference-file line="39">Form/Type/RegistrationFormType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="30de94712c8550862006ed6a664870c398c9482d" resname="form.password_confirmation">
+        <source>form.password_confirmation</source>
+        <target>Passwort wiederholen</target>
+        <jms:reference-file line="40">Form/Type/RegistrationFormType.php</jms:reference-file>
       </trans-unit>
     </body>
   </file>
