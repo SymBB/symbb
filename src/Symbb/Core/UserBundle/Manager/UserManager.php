@@ -205,7 +205,7 @@ class UserManager
      */
     public function findUsers($limit = 20, $page = 1)
     {
-        $users = $this->findBy(array(), $limit, $page);
+        $users = $this->findBy(array("symbbType" => "user"), $limit, $page);
         return $users;
     }
 
