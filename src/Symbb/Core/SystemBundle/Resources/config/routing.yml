@@ -14,7 +14,7 @@ fos_js_routing:
 
 fos_user_resetting:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-    prefix: /resetting
+    prefix: /
     
 _symbb_frontend_routings:
     resource: "@SymbbCoreSystemBundle/Resources/config/routing/frontend.yml"
