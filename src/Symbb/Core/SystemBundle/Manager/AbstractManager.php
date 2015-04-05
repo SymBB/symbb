@@ -143,28 +143,47 @@ abstract class AbstractManager
     public function createPagination(Query $query, $page, $limit)
     {
 
-        $countQuery = clone $query;
-        $countQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('Symbb\Core\SystemBundle\DependencyInjection\CountSqlWalker'));
-        $countQuery->setFirstResult(null)->setMaxResults(null);
-        $countQuery->setParameters($query->getParameters());
-        $count = 0;
-        try {
-            $counts = $countQuery->getScalarResult();
-            foreach($counts as $c){
-                $count += reset($c);
-            }
-        } catch(NoResultException $e){
-        }
-        // get sql, get the from part and remove all other fields then the id field
-        // so that we have a query who select only one field
-        // for count this is better because we dont need the data
-
-        if (!$count) {
-            $count = 0;
-        }
-
-
+        // in the case of last page
+        // we need the count of the query to calculate the last page
+        // normaly we can create a own count query and use it instead of paginator counting
+        // but the hint setting is net working
+        // it is executing also a own count query
+        // therefore we will only define a own count query in the case of "last" page to calculate it
         if ($page === 'last') {
+            $count = 0;
+            $queryCount = $query->getSql();
+
+            if(strpos($queryCount, "GROUP BY") === false){
+                $countQuery = clone $query;
+                $countQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('Symbb\Core\SystemBundle\DependencyInjection\CountSqlWalker'));
+                $countQuery->setFirstResult(null)->setMaxResults(null);
+                $countQuery->setParameters($query->getParameters());
+            } else {
+                // get sql, get the from part and remove all other fields then the id field
+                // so that we have a query who select only one field
+                // for count this is better because we dont need the data
+                $rsm = new ResultSetMappingBuilder($this->em);
+                $rsm->addScalarResult('count', 'count');
+                $queryCountTmp = explode("FROM", $queryCount);
+                $queryCountSelect = array_shift($queryCountTmp);
+                $queryCountEnd = implode("FROM", $queryCountTmp);
+                $queryCountSelect = explode(",", $queryCountSelect);
+                $queryCountSelect = reset($queryCountSelect);
+                $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCountSelect . " FROM " . $queryCountEnd . ") as temp";
+                // create now the query based on the native sql query and get the count
+                $countQuery = $this->em->createNativeQuery($queryCount, $rsm);
+                $countQuery->setParameters($query->getParameters());
+            }
+
+            $count = $countQuery->getSingleScalarResult();
+
+            if (!$count) {
+                $count = 0;
+            }
+            // this is not working! therfore make it only in case of "last" page
+            // because we need the count
+            $query->setHint('knp_paginator.count', $count);
+
             $page = $count / $limit;
             $page = ceil($page);
         }
@@ -174,7 +193,6 @@ abstract class AbstractManager
         }
 
         $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, 'Symbb\Core\SystemBundle\DependencyInjection\MysqlWalker');
-        $query->setHint('knp_paginator.count', $count);
 
         $pagination = $this->paginator->paginate(
             $query, (int)$page, $limit, array('distinct' => false, 'wrap-queries'=>true)
