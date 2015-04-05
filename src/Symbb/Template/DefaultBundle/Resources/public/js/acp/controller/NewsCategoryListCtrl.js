@@ -16,6 +16,15 @@ symbbControllers.controller('NewsCategoryListCtrl', ["$scope", "$symbbRestCrud",
             entry.targetForum = $('.chosen-select').val();
             return entry;
         };
+        $scope.create = function (parent) {
+            var entry = {};
+            if (service.parentIdField && parent) {
+                entry[service.parentIdField] = parent[service.entityIdField];
+            }
+            entry.sources = [];
+            entry.sources[0] = {id: 0, name: ""};
+            $scope.edit(entry);
+        };
         $scope.addForumAsSelectOption = function (list, select) {
             $.each(list, function (key, element) {
                 var option = $('<option>', {html: element.name, value: element.id});

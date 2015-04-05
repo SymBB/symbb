@@ -59,7 +59,11 @@ class CategoryApi extends AbstractCrudApi
         $data["id"] = $object->getId();
         $data["name"] = $object->getName();
         $data["image"] = $object->getImage();
-        $data["targetForum"] = $object->getTargetForum()->getId();
+        $targetForum = $object->getTargetForum();
+        $data["targetForum"] =  0;
+        if($targetForum){
+            $data["targetForum"] = $targetForum->getId();
+        }
         $data["sources"] = array();
         foreach($object->getSources() as $source){
             $sourceData = array(
@@ -79,37 +83,46 @@ class CategoryApi extends AbstractCrudApi
             }
             $data["sources"][] = $sourceData;
         }
+        if(empty($data["sources"])){
+            $data["sources"][] = array(
+                "id" => 0,
+                "name" => ""
+            );
+        }
         return $data;
     }
 
     public function assignArrayToObject(Category $object, $data){
 
-        $targetForum = $this->forumManager->find($data["targetForum"]);
-
         $object->setName($data["name"]);
         $object->setImage($data["image"]);
-        $object->setTargetForum($targetForum);
+
+        if($data["targetForum"]){
+            $targetForum = $this->forumManager->find($data["targetForum"]);
+            $object->setTargetForum($targetForum);
+        }
 
         $sources = $object->getSources();
-        $newSourceIds = array();
 
         foreach($data["sources"] as $sourceData){
             $newSource = null;
+            $oldSource = null;
             $oldSourceId = null;
             foreach($sources as $source){
                 if($sourceData["id"] == $source->getId()){
-                    $newSource = $source;
-                    $newSourceIds[] = $newSource->getId();
+                    $oldSource = $source;
                     break;
                 }
             }
 
             if($sourceData["type"] == "email"){
-                if(!($newSource instanceof Category\Source\Email)){
-                    if($newSource){
-                        $this->em->remove($newSource);
+                if(!($oldSource instanceof Category\Source\Email)){
+                    if($oldSource){
+                        $this->em->remove($oldSource);
                     }
                     $newSource = new Category\Source\Email();
+                } else {
+                    $newSource = $oldSource;
                 }
                 $newSource->setServer($sourceData["server"]);
                 $newSource->setUsername($sourceData["username"]);
@@ -117,11 +130,13 @@ class CategoryApi extends AbstractCrudApi
                 $newSource->setSsl((bool)$sourceData["ssl"]);
                 $newSource->setPort($sourceData["port"]);
             } else if($sourceData["type"] == "feed") {
-                if(!($newSource instanceof Category\Source\Feed)){
-                    if($newSource){
-                        $this->em->remove($newSource);
+                if(!($oldSource instanceof Category\Source\Feed)){
+                    if($oldSource){
+                        $this->em->remove($oldSource);
                     }
                     $newSource = new Category\Source\Feed();
+                } else {
+                    $newSource = $oldSource;
                 }
                 $newSource->setUrl($sourceData["url"]);
             }
@@ -131,16 +146,6 @@ class CategoryApi extends AbstractCrudApi
                 $this->em->persist($newSource);
             }
         }
-
-        // remove old
-        foreach($sources as $source){
-            if(!in_array($source->getId(), $newSourceIds)){
-                if($source){
-                    $this->em->remove($source);
-                }
-            }
-        }
-
 
         return $object;
     }

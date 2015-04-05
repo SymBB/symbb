@@ -49,22 +49,24 @@
         <label>{{ 'Forum'|trans }}</label> <br/>
         <select class="chosen-select form-control" id="targetForumList">
         </select>
-        <h4>{{ "Source"|trans }}</h4>
-        <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].name"/>
-        <label>{{ 'Type'|trans }}</label>
-        <select class="form-control" ng-model="formEntry.sources[0].type">
-            <option value="email">{{ 'E-Mail'|trans }}</option>
-            <option value="feed">{{ 'Feed'|trans }}</option>
-        </select>
-        <div ng-if="formEntry.sources[0].type == 'email'">
-            <label>{{ 'Server'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].server"/>
-            <label>{{ 'Port'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].port"/>
-            <label>{{ 'SSL'|trans }}</label><input type="checkbox" class="form-control" ng-model="formEntry.sources[0].ssl"/>
-            <label>{{ 'Username'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].username"/>
-            <label>{{ 'Password'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].password"/>
-        </div>
-        <div ng-if="formEntry.sources[0].type == 'feed'">
-            <label>{{ 'Url'|trans }}</label><input class="form-control" ng-model="formEntry.sources[0].url"/>
+        <div ng-repeat="source in formEntry.sources">
+            <h4>{{ "Source"|trans }}</h4>
+            <label>{{ 'Name'|trans }}</label><input class="form-control" ng-model="source.name"/>
+            <label>{{ 'Type'|trans }}</label>
+            <select class="form-control" ng-model="source.type">
+                <option value="email">{{ 'E-Mail'|trans }}</option>
+                <option value="feed">{{ 'Feed'|trans }}</option>
+            </select>
+            <div ng-if="source.type == 'email'">
+                <label>{{ 'Server'|trans }}</label><input class="form-control" ng-model="source.server"/>
+                <label>{{ 'Port'|trans }}</label><input class="form-control" ng-model="source.port"/>
+                <label>{{ 'SSL'|trans }}</label><input type="checkbox" class="form-control" ng-model="source.ssl"/>
+                <label>{{ 'Username'|trans }}</label><input class="form-control" ng-model="source.username"/>
+                <label>{{ 'Password'|trans }}</label><input class="form-control" ng-model="source.password"/>
+            </div>
+            <div ng-if="source.type == 'feed'">
+                <label>{{ 'Url'|trans }}</label><input class="form-control" ng-model="source.url"/>
+            </div>
         </div>
     </symbb-modal-form>
 {% endblock %}
