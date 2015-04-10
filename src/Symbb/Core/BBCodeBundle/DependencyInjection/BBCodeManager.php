@@ -88,7 +88,21 @@ class BBCodeManager
         }
 
         $text = \nl2br($text);
+
+        // replace urls with html links
+        $text = $this->parseUrls($text);
+
         return $text;
+    }
+
+    /**
+     * @param $message
+     * @return mixed
+     */
+    public function parseUrls($message){
+        $find=array('`((?:https?|ftp)://\S+[[:alnum:]]/?)`si','`((?<!//)(www\.\S+[[:alnum:]]/?))`si');
+        $replace=array('<a href="$1" target="_blank">$1</a>','<a href="http://$1"    target="_blank">$1</a>');
+        return preg_replace($find,$replace,$message);
     }
 
     /**
@@ -147,39 +161,45 @@ class BBCodeManager
     {
 
         $emoticons = array();
-        $smilies = array(
-            ':D' => "/bundles/symbbtemplatedefault/images/emoticon/default/Big-Grin.png",
-            ':)' => "/bundles/symbbtemplatedefault/images/emoticon/default/smile.png",
-            ';)' => "/bundles/symbbtemplatedefault/images/emoticon/default/Winking.png",
-            ':cool:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Cool.png",
-            ':lol:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Laughing.png",
-            ':?' => "/bundles/symbbtemplatedefault/images/emoticon/default/Confused.png",
-            ':zzz:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Sleeping.png"
-        );
+        if($set > 0){
+            $smilies = array(
+                ':D' => "/bundles/symbbtemplatedefault/images/emoticon/default/Big-Grin.png",
+                ':)' => "/bundles/symbbtemplatedefault/images/emoticon/default/smile.png",
+                ';)' => "/bundles/symbbtemplatedefault/images/emoticon/default/Winking.png",
+                ':cool:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Cool.png",
+                ':lol:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Laughing.png",
+                ':?' => "/bundles/symbbtemplatedefault/images/emoticon/default/Confused.png",
+                ':zzz:' => "/bundles/symbbtemplatedefault/images/emoticon/default/Sleeping.png"
+            );
 
-        $i = 0;
-        foreach ($smilies as $smilie => $image) {
-            $bbcodeListItem = new Emoticon();
-            $bbcodeListItem->setName($smilie);
-            $bbcodeListItem->setSearchRegex('# ' . preg_quote($smilie) . ' #');
-            $bbcodeListItem->setReplaceRegex('<img class="smilie" src="' . $image . '" />');
-            $bbcodeListItem->setButtonRegex(' ' . $smilie . ' ');
-            $bbcodeListItem->setImage($image);
-            $bbcodeListItem->setPosition($i++);
-            $emoticons[] = $bbcodeListItem;
+            $i = 0;
+            foreach ($smilies as $smilie => $image) {
+                $bbcodeListItem = new Emoticon();
+                $bbcodeListItem->setName($smilie);
+                $bbcodeListItem->setSearchRegex('# ' . preg_quote($smilie) . ' #');
+                $bbcodeListItem->setReplaceRegex('<img class="smilie" src="' . $image . '" />');
+                $bbcodeListItem->setButtonRegex(' ' . $smilie . ' ');
+                $bbcodeListItem->setImage($image);
+                $bbcodeListItem->setPosition($i++);
+                $emoticons[] = $bbcodeListItem;
+            }
+
         }
-
         return $emoticons;
     }
 
     /**
      * get a list of grouped BBCodes
+     * @param int $setId
      * @return \Symbb\Core\BBCodeBundle\Entity\BBCode[]
      */
     public function getBBCodes($setId = 1)
     {
-        $set = $this->getSet($setId);
-        $bbcodes = $set->getCodes();
+        $bbcodes = array();
+        if($setId > 0){
+            $set = $this->getSet($setId);
+            $bbcodes = $set->getCodes();
+        }
         return $bbcodes;
     }
 }

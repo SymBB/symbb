@@ -34,7 +34,7 @@ class FrontendApiController extends AbstractApiController
             $author = $result->getAuthor();
             $data['shoutboxEntries'][] = array(
                 'id' => $result->getId(),
-                'message' => $result->getMessage(),
+                'message' => $this->formatMessage($result->getMessage()),
                 'date' => $this->getISO8601ForUser($result->getDate()),
                 'dateTimestamp' => $result->getDate()->getTimestamp(),
                 'author' => array(
@@ -48,6 +48,10 @@ class FrontendApiController extends AbstractApiController
         $data['shoutboxEntries'] = array_reverse($data['shoutboxEntries']);
 
         return $this->getJsonResponse($data);
+    }
+
+    protected function formatMessage($message){
+       return $this->get('symbb.core.bbcode.manager')->parse($message);
     }
 
     public function saveAction(Request $request)
