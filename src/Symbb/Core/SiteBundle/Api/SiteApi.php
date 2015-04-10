@@ -149,7 +149,8 @@ class SiteApi extends AbstractApi
                 'template_email',
                 'template_forum',
                 'template_portal',
-                'google_tracking_id'
+                'google_tracking_id',
+                'logo'
             );
             if ($direction == "toArray") {
                 $fields[] = 'navigations';
