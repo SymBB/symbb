@@ -87,9 +87,9 @@ class Site
     protected $navigations;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    protected $googleAnalyticsCode = "";
+    protected $googleTrackingId;
 
     /**
      * @ORM\Column(type="text")
@@ -174,16 +174,6 @@ class Site
     public function getDomains()
     {
         return $this->domains;
-    }
-
-    public function getGoogleAnalyticsCode()
-    {
-        return $this->googleAnalyticsCode;
-    }
-
-    public function setGoogleAnalyticsCode($value)
-    {
-        $this->googleAnalyticsCode = $value;
     }
 
     public function getDomainArray()
@@ -290,4 +280,19 @@ class Site
         $this->logo = $logo;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getGoogleTrackingId()
+    {
+        return $this->googleTrackingId;
+    }
+
+    /**
+     * @param mixed $googleTrackingId
+     */
+    public function setGoogleTrackingId($googleTrackingId)
+    {
+        $this->googleTrackingId = $googleTrackingId;
+    }
 }

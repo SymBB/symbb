@@ -30,7 +30,6 @@
         <script src="https://code.jquery.com/jquery.js"></script>
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        {{ getSymbbSite().getGoogleAnalyticsCode() |raw }}
         {% javascripts filter='?uglifyjs2'
         '@SymbbTemplateDefaultBundle/Resources/public/js/jquery.magnific-popup.min.js'
         '@SymbbTemplateDefaultBundle/Resources/public/js/datepicker/jquery.datetimepicker.js'
@@ -82,5 +81,16 @@
         </div>
     </div>
 </footer>
+{% if getSymbbSite().getGoogleTrackingId() %}
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{{ getSymbbSite().getGoogleTrackingId() }}', 'auto');
+        ga('send', 'pageview');
+    </script>
+{% endif %}
 </body>
 </html>
