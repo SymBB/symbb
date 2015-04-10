@@ -1,5 +1,18 @@
 .symbb_extension_scoutbox {
+ margin-bottom: 20px;
+}
+.symbb_extension_scoutbox h3 {
+    float: left;
+}
+.symbb_extension_scoutbox .refesh_options {
+    float: right;
+    padding-top: 3px;
+}
 
+.symbb_extension_scoutbox .refesh_options input {
+    float: left;
+    margin-right: 5px;
+    margin-top: 2px;
 }
 
 .symbb_extension_scoutbox .shoutbox_row {
@@ -9,7 +22,7 @@
 .symbb_extension_scoutbox .shoutbox_content {
     overflow: hidden;
     overflow-y: scroll;
-    max-height: 500px;
+    height: 140px;
 }
 
 .symbb_extension_scoutbox .form-controll {
@@ -17,25 +30,13 @@
 }
 
 .symbb_extension_scoutbox {
-    width: 300px;
-    float: right;
-    min-height: 300px;
-}
-
-.symbb_extension_scoutbox .panel {
-
-    margin-left: 20px;
+    width: 100%;
+    height: 250px;
 }
 
 .symbb_extension_scoutbox .panel-title {
     height: 27px;
     line-height: 27px;
-}
-
-.section_content {
-    width: 100%;
-    width: calc(100% - 300px);
-    float: left;
 }
 
 .shoutbox_user {
@@ -50,10 +51,4 @@
 
 .shoutbox_input {
     margin-bottom: 5px;
-}
-
-.symbb_extension_scoutbox.fixed {
-    position: fixed;
-    top: 0;
-    right: 0;
 }

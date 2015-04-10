@@ -4,6 +4,11 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">{{ 'Shoutbox'|trans }}</h3>
+                <div class="refesh_options">
+                    <input type="checkbox" checked="checked" value="1" class="refresh_enabled" id="symbb_extension_shoutbox_refresh_enabled" />{{ 'refresh enabled'|trans }} |
+                    <button class="btn btn-info btn-xs refresh_now" id="symbb_extension_shoutbox_refresh_now">{{ 'refresh now!'|trans }}</button>
+                </div>
+                <div class="clear"></div>
             </div>
             <div class="panel-body">
                 <div class="shoutbox_input">

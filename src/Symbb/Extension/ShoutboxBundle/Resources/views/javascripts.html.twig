@@ -34,8 +34,10 @@
 
         //load every 60s again
         setInterval(function () {
-            symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
-        }, 60000);
+            if($('#symbb_extension_shoutbox_refresh_enabled').prop('checked')){
+                symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
+            }
+        }, 10000);
 
 
         // send message if press enter
@@ -52,27 +54,10 @@
             }
         });
 
-        if($('#symbb_extension_shoutbox')){
-            var offset = $('#symbb_extension_shoutbox').offset();
-            if(offset){
-                var top = offset.top - parseFloat($('#symbb_extension_shoutbox').css('marginTop').replace(/auto/, 0));
-                var left = offset.left;
-                $(window).scroll(function (event) {
-                    // what the y position of the scroll is
-                    var y = $(this).scrollTop();
 
-                    // whether that's below the form
-                    if (y >= top) {
-                        // if so, ad the fixed class
-                        $('#symbb_extension_shoutbox').addClass('fixed');
-                        $('#symbb_extension_shoutbox').css("left", left);
-                    } else {
-                        // otherwise remove it
-                        $('#symbb_extension_shoutbox').removeClass('fixed');
-                    }
-                });
-            }
-        }
+        $('#symbb_extension_shoutbox_refresh_now').click(function(event){
+            symbbExtensionShoutbox.loadSymbbExtensionShoutboxData();
+        });
 
     });
     {% endif %}
