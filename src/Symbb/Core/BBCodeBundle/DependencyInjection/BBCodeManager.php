@@ -90,7 +90,11 @@ class BBCodeManager
         $text = \nl2br($text);
 
         // replace urls with html links
-        $text = $this->parseUrls($text);
+        // do not use this here, the function is not 100% correct
+        // if there are already html links it will also add again an a tag...
+        // fix at first the regext before activete again
+        // regex should check if the string is already inside of an a tag
+        //$text = $this->parseUrls($text);
 
         return $text;
     }

@@ -51,7 +51,7 @@ class FrontendApiController extends AbstractApiController
     }
 
     protected function formatMessage($message){
-       return $this->get('symbb.core.bbcode.manager')->parse($message);
+       return $this->get('symbb.core.bbcode.manager')->parseUrls($message);
     }
 
     public function saveAction(Request $request)
