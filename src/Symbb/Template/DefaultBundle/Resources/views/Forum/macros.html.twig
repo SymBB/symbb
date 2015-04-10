@@ -99,6 +99,7 @@
             {% if getSymbbUserSignature(object.getAuthor()) %}
                 <div class="signature">
                     {{ getSymbbUserSignature(object.getAuthor()) | raw }}
+                    <div class="clear"></div>
                 </div>
             {% endif %}
             {{ executeSymbbTemplatePostEvent('after.signature', object) }}
