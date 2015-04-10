@@ -73,7 +73,7 @@
             </div>
             <div class="clear-left"></div>
             {{ executeSymbbTemplatePostEvent('before.text', object) }}
-            <div class="text" itemprop="articleBody">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
+            <div class="text froala-view" itemprop="articleBody">{{ parseSymbBBBCodes(object.getText()) | raw }}</div>
             {{ executeSymbbTemplatePostEvent('after.text', object) }}
 
             {% if object.getHistory().count() > 0 %}
@@ -97,7 +97,7 @@
             {% endif %}
             {{ executeSymbbTemplatePostEvent('before.signature', object) }}
             {% if getSymbbUserSignature(object.getAuthor()) %}
-                <div class="signature">
+                <div class="signature froala-view">
                     {{ getSymbbUserSignature(object.getAuthor()) | raw }}
                     <div class="clear"></div>
                 </div>
