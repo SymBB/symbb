@@ -15,7 +15,6 @@ doctrine:
             mapping_types:
                 enum: string
     orm:
-        default_entity_manager:   default
         entity_managers:
             default:
                 auto_mapping: false
