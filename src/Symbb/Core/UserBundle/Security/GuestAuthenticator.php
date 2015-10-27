@@ -33,12 +33,15 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
-
+        $roles = array();
+        if(is_object($user)){
+            $roles = $user->getRoles();
+        }
         return new PreAuthenticatedToken(
             $user,
             "symbb_guest",
             $providerKey,
-            $user->getRoles()
+            $roles
         );
     }
 
