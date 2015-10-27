@@ -2,6 +2,7 @@
 
 namespace Symbb\Core\UserBundle\Security;
 
+use Symbb\Core\UserBundle\Entity\User;
 use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -36,6 +37,8 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
         $roles = array();
         if(is_object($user)){
             $roles = $user->getRoles();
+        } else {
+            $user = new User();
         }
         return new PreAuthenticatedToken(
             $user,
