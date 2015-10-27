@@ -1,9 +1,7 @@
 lsw_memcache:
     session:
         pool: default
-        options:
-            # important if we have more than one symbb installations!
-            prefix: %secret%
+        prefix: %secret%
     pools:
         default:
             servers:
