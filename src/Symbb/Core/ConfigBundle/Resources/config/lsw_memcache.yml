@@ -1,16 +1,14 @@
 lsw_memcache:
-    session:
-        client: default
-    clients:
+    pools:
         default:
+            servers:
+              - { dsn: localhost, port: 11211 }
             options:
                 # important if we have more than one symbb installations!
-                prefix_key: %secret% 
-            hosts:
-              - { dsn: localhost, port: 11211 }
+                prefix_key: %secret%
         acl:
+            servers:
+              - { dsn: localhost, port: 11211 }
             options:
                 # important if we have more than one symbb installations!
                 prefix_key: acl_%secret%
-            hosts:
-              - { dsn: localhost, port: 11211 }
