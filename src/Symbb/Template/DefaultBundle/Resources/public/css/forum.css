@@ -155,10 +155,15 @@
 .forumimage {
     max-height: 64px;
     color: #DCDEE3;
-    font-size: 20px;
+    font-size: 45px;
     float: left;
     margin-right: 10px;
 }
+
+.forumimage.glyphicon-link {
+ font-size: 20px;
+}
+
 
 .symbb_forum_body_row .col .forumimage .avatar img {
     max-height: 64px;
