@@ -9,7 +9,7 @@ fos_user:
         form:
             type: symbb_fos_user_registration
         confirmation:
-            enabled:    true
+            enabled:    false
     from_email:
         address:        %system.email%
         sender_name:    %system.name%
