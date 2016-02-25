@@ -118,6 +118,8 @@ class Forum extends \Symbb\Core\SystemBundle\Entity\Base\CrudAbstract
      */
     protected $postCount = null;
 
+    protected $image;
+
     /**
      *
      */

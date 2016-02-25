@@ -216,7 +216,10 @@ abstract class AbstractManager
      */
     public function getCacheData($key)
     {
-        return $this->cacheData[$key];
+        if(isset($this->cacheData[$key])){
+            return $this->cacheData[$key];
+        }
+        return null;
     }
 
     /**
