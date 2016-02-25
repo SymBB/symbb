@@ -8,6 +8,7 @@ services:
     symbb.core.site.navigation.manager:
         class: Symbb\Core\SiteBundle\Manager\NavigationManager
         parent: symbb.core.abstract.manager
+        arguments: ["@doctrine.orm.symbb_entity_manager", "@event_dispatcher"]
 
     symbb.core.api.site:
         class: Symbb\Core\SiteBundle\Api\SiteApi
