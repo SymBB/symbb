@@ -67,7 +67,7 @@
                    href="{{ path("symbb_forum_topic_show", {"id": object.getId(), "name": object.getSeoName()}) }}">
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
-                {% if is_granted(constant('Symbb\Core\ForumBundle\Security\Authorization\TopicVoter::CREATE_POST'), object) %}
+                {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_POST'), object.getForum()) %}
                     <a type="button" class="btn btn-default btn-xs" title="{{ 'answer'|trans }}"
                        href="{{ path("symbb_forum_post_create", {"topic": object.id}) }}">
                         <span class="glyphicon glyphicon-share-alt"></span>

@@ -5,10 +5,10 @@
 {% block breadcrumb %}
     <ol class="breadcrumb">
         {{ forumMacros.breadcrumbForTopic(topic) }}
-        {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\TopicVoter::CREATE_POST'), topic) %}
+        {% if is_granted(constant('Symbb\\Core\\ForumBundle\\Security\\Authorization\\ForumVoter::CREATE_POST'), topic.getForum()) %}
             <li class="pull-right">
                 <a title="{% trans %}new Answer{% endtrans %}" type="button" class="btn btn-primary btn-xs"
-                   href="{{ path("symbb_forum_topic_post_create", {"topic": topic.getId()}) }}">
+                   href="{{ path("symbb_forum_post_create", {"topic": topic.getId()}) }}">
                     <span class="glyphicon glyphicon-plus"></span> {% trans %}new Answer{% endtrans %}
                 </a>
             </li>
