@@ -160,6 +160,11 @@
     margin-right: 10px;
 }
 
+.forumimage.glyphicon-link {
+ font-size: 20px;
+}
+
+
 .symbb_forum_body_row .col .forumimage .avatar img {
     max-height: 64px;
     border: none;

@@ -92,7 +92,7 @@
                                     <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a> {% if not loop.last %}
                                     <span>,</span>{% endif %}
                                 {% else %}
-                                    <a ng-href="{{ object.getLink() }}"
+                                    <a href="{{ object.getLink() }}"
                                        target="_blank">{{ object.getName() }}</a> {% if not loop.last %}
                                         <span>,</span>{% endif %}
                                 {% endif %}
@@ -146,7 +146,7 @@
                                         <a href="{{ path("symbb_forum_show", {"id": object.getId(), "name": object.getSeoName()}) }}">{{ object.getName() }}</a> {% if not loop.last %}
                                         <span>,</span>{% endif %}
                                     {% else %}
-                                        <a ng-href="{{ object.getLink() }}"
+                                        <a href="{{ object.getLink() }}"
                                            target="_blank">{{ object.getName() }}</a> {% if not loop.last %}
                                             <span>,</span>{% endif %}
                                     {% endif %} 
