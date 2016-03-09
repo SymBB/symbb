@@ -66,7 +66,7 @@ class NotifyHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     {
 
         if (is_numeric($user)) {
-            $user = $this->em->getRepository('SymbbCoreUserBundle:User')->find($user);
+            $user = $this->userManager->find($user);
         }
 
         $templateBundle = $this->siteManager->getTemplate("email");

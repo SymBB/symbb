@@ -34,7 +34,7 @@
                                         {{ field.getLabel() }}:
                                     </td>
                                     <td>
-                                        {% set fieldValue = profileUser.getFieldValue(field) %}
+                                        {% set fieldValue = getUserManager().getFieldValue(field, profileUser) %}
                                         {% if field.getDataType() == "boolean" %}
                                             {% if fieldValue.getValue() %}
                                                 <span class="glyphicon glyphicon-ok glyphicon-success"></span>

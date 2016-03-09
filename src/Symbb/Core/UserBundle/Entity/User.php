@@ -45,19 +45,6 @@ class User extends BaseUser implements UserInterface
     protected $groups;
 
     /**
-     * @ORM\OneToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User\Data", cascade={"persist"})
-     * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
-     * @var \Symbb\Core\UserBundle\Entity\User\Data
-     */
-    private $symbbData;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\Symbb\Core\UserBundle\Entity\User\FieldValue", cascade={"persist"}, mappedBy="user")
-     * @var array(<"\Symbb\Core\UserBundle\Entity\User\Field">)
-     */
-    private $symbbFieldValues;
-
-    /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
@@ -75,38 +62,8 @@ class User extends BaseUser implements UserInterface
     public function __construct()
     {
         parent::__construct();
-        $this->topics = new ArrayCollection();
-        $this->posts = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->created = new \DateTime();
-        $this->symbbFieldValues = new ArrayCollection();
-    }
-
-    /**
-     *
-     * @return array(<"\Symbb\Core\ForumBundle\Entity\Topic">)
-     */
-    public function getTopics()
-    {
-        return $this->topics;
-    }
-
-    /**
-     *
-     * @return array(<"\Symbb\Core\ForumBundle\Entity\Post">)
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-
-    /**
-     *
-     * @param \Symbb\Core\UserBundle\Entity\User\Data $value
-     */
-    public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value)
-    {
-        $this->symbbData = $value;
     }
 
     /**
@@ -218,20 +175,6 @@ class User extends BaseUser implements UserInterface
     }
 
     /**
-     *
-     * @return \Symbb\Core\UserBundle\Entity\User\Data
-     */
-    public function getSymbbData()
-    {
-        $data = $this->symbbData;
-        if (!is_object($data)) {
-            $this->symbbData = $data = new User\Data();
-            $data->setUser($this);
-        }
-        return $data;
-    }
-
-    /**
      * @param string $pw
      */
     public function setPlainPassword($pw)
@@ -267,35 +210,5 @@ class User extends BaseUser implements UserInterface
     public function enable()
     {
         $this->enabled = 1;
-    }
-
-    /**
-     * @return array|ArrayCollection
-     */
-    public function getFieldValues()
-    {
-        return $this->symbbFieldValues;
-    }
-
-    /**
-     * @param Field $field
-     * @return null|User\FieldValue
-     */
-    public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field)
-    {
-        $values = $this->getFieldValues();
-        $found = null;
-        foreach ($values as $value) {
-            if ($value->getField()->getId() === $field->getId()) {
-                $found = $value;
-            }
-        }
-        if (!$found || !is_object($found)) {
-            $found = new \Symbb\Core\UserBundle\Entity\User\FieldValue();
-            $found->setField($field);
-            $found->setUser($this);
-        }
-
-        return $found;
     }
 }

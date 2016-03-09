@@ -25,7 +25,7 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
     public function groupStep1Action(Request $request)
     {
 
-        $groups = $this->get('doctrine')->getRepository('SymbbCoreUserBundle:Group', 'symbb')->findAll();
+        $groups = $this->get('symcode.core.group.manager')->findAll(999);
         $forumList = $this->get('symbb.core.forum.manager')->getSelectList(array(), false);
         $groupList = array();
         foreach ($groups as $group) {
@@ -83,8 +83,7 @@ class AcpAccessController extends \Symbb\Core\SystemBundle\Controller\AbstractCo
 
         if (is_array($forumIds) && !empty($forumIds) && $groupId > 0) {
 
-            $group = $this->get('doctrine')->getRepository('SymbbCoreUserBundle:Group', 'symbb')
-                ->find($groupId);
+            $group = $this->get('symcode.core.group.manager')->find($groupId);
 
             $defaultData = array();
             $form = $this->get('form.factory')->createNamedBuilder('step2', 'form', $defaultData, array('translation_domain' => 'symbb_backend'))

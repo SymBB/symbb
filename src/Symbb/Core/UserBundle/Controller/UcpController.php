@@ -41,7 +41,7 @@ class UcpController extends AbstractController
          * @var $user UserInterface
          */
         $user = $usermanager->getCurrentUser();
-        $userData = $user->getSymbbData();
+        $userData = $usermanager->getSymbbData($user);
 
         //only user can access this page
         if (!is_object($user) || $user->getSymbbType() != "user") {
@@ -50,7 +50,7 @@ class UcpController extends AbstractController
 
         $em = $this->getDoctrine()->getManager('symbb');
         $fields = $em->getRepository('SymbbCoreUserBundle:Field')->findBy(array(), array('position' => 'asc', 'id' => 'asc'));
-        $formType = new Option($fields, $user);
+        $formType = new Option($fields, $user, $usermanager);
         $form = $this->createForm($formType, $userData);
 
         $form->handleRequest($request);
@@ -58,7 +58,7 @@ class UcpController extends AbstractController
         if ($form->isValid()) {
             $usermanager->updateUserData($userData, false);
             foreach ($fields as $field) {
-                $currFieldValue = $user->getFieldValue($field);
+                $currFieldValue = $usermanager->getFieldValue($field, $user);
                 $data = $form->get("field_" . $field->getId())->getData();
                 $currFieldValue->setValue($data);
                 $em->persist($currFieldValue);

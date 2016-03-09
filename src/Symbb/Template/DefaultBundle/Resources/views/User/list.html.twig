@@ -29,7 +29,7 @@
                         <td>{{ entry.getLastLogin() | date("d.m.Y") }}</td>
                         {% for field in userfields %}
                             <th>
-                                {% set fieldValue = entry.getFieldValue(field) %}
+                                {% set fieldValue = getUserManager().getFieldValue(field, entry) %}
                                 {% if field.getDataType() == "boolean" %}
                                     {% if fieldValue.getValue() %}
                                         <span class="glyphicon glyphicon-ok glyphicon-success"></span>

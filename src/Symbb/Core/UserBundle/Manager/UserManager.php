@@ -486,15 +486,6 @@ class UserManager
         return $fields;
     }
 
-    public function getSymbbData(\Symbb\Core\UserBundle\Entity\UserInterface $user)
-    {
-        if (!isset($this->symbbDataCache[$user->getId()])) {
-            $this->symbbDataCache[$user->getId()] = $user->getSymbbData();
-        }
-        return $this->symbbDataCache[$user->getId()];
-    }
-
-
     public function createPagination($query, $page, $limit)
     {
 
@@ -542,7 +533,60 @@ class UserManager
      */
     public function getGuestUser()
     {
-        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        $user = $this->em->getRepository($this->config['usermanager']['user_class'], 'symbb')->findOneBy(array('symbbType' => 'guest'));
         return $user;
     }
+
+
+    /**
+     * @param UserInterface $user
+     * @return mixed
+     */
+    public function getSymbbData(\Symbb\Core\UserBundle\Entity\UserInterface $user)
+    {
+        if (!isset($this->symbbDataCache[$user->getId()])) {
+            $data = $this->em->getRepository('SymbbCoreUserBundle:User\Data', 'symbb')->findOneBy(array('userId' => $user->getId()));
+            if (!is_object($data)) {
+                $data = new User\Data();
+                $data->setUser($user);
+            }
+            $this->symbbDataCache[$user->getId()] = $data;
+        }
+        return $this->symbbDataCache[$user->getId()];
+    }
+
+
+    /**
+     * @param UserInterface $user
+     * @return mixed
+     */
+    public function getFieldValues(\Symbb\Core\UserBundle\Entity\UserInterface $user)
+    {
+        $data = $this->em->getRepository('SymbbCoreUserBundle:User\Data', 'symbb')->findBy(array('userId' => $user->getId()));
+        return $data;
+    }
+
+    /**
+     * @param \Symbb\Core\UserBundle\Entity\Field $field
+     * @param UserInterface $user
+     * @return null|User\FieldValue
+     */
+    public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field, \Symbb\Core\UserBundle\Entity\UserInterface $user)
+    {
+        $values = $this->getFieldValues($user);
+        $found = null;
+        foreach ($values as $value) {
+            if ($value->getField()->getId() === $field->getId()) {
+                $found = $value;
+            }
+        }
+        if (!$found || !is_object($found)) {
+            $found = new \Symbb\Core\UserBundle\Entity\User\FieldValue();
+            $found->setField($field);
+            $found->setUser($user);
+        }
+
+        return $found;
+    }
+
 }

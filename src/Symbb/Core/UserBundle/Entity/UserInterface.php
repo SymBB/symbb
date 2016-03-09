@@ -18,24 +18,9 @@ interface UserInterface extends AdvancedUserInterface
 
     public function getEmail();
 
-    public function getTopics();
-
-    public function getPosts();
-
     public function getGroups();
 
     public function getSymbbType();
-
-    public function getFieldValues();
-
-    public function getFieldValue(\Symbb\Core\UserBundle\Entity\Field $field);
-
-    /**
-     * @return \Symbb\Core\UserBundle\Entity\User\Data
-     */
-    public function getSymbbData();
-
-    public function setSymbbData(\Symbb\Core\UserBundle\Entity\User\Data $value);
 
     /**
      * this method need to set some other data e.g a "changed" field

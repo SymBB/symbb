@@ -92,7 +92,7 @@ class GroupManager extends AbstractManager
      */
     public function findAll($limit = 20, $page = 1)
     {
-        $dql = "SELECT g FROM SymbbCoreUserBundle:Group g";
+        $dql = "SELECT g FROM ".$this->groupClass." g";
         $query = $this->em->createQuery($dql);
         $pagination = $this->createPagination($query, $page/* page number */, $limit);
         return $pagination;

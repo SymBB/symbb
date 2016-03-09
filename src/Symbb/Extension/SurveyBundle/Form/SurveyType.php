@@ -10,6 +10,7 @@
 namespace Symbb\Extension\SurveyBundle\Form;
 
 use Symbb\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -22,14 +23,20 @@ class SurveyType extends AbstractType
      */
     protected $user;
 
-    public function __construct(UserInterface $user)
+    /**
+     * @var UserManager
+     */
+    protected $usermanager;
+
+    public function __construct(UserInterface $user, UserManager $usermanager)
     {
         $this->user = $user;
+        $this->usermanager = $usermanager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $timezone = $this->user->getSymbbData()->getTimezone();
+        $timezone = $this->usermanager->getSymbbData($this->user)->getTimezone();
         $builder
             ->add('question', 'text', array("required" => false))
             ->add('answers', "text", array("required" => false))

@@ -29,9 +29,15 @@ class FormListener
 
     protected $em;
 
+    /**
+     * @var UserManager
+     */
+    protected $usermanager;
+
     public function __construct(UserManager $usermanager, $em)
     {
         $this->user = $usermanager->getCurrentUser();
+        $this->usermanager = $usermanager;
         $this->em = $em;
     }
 
@@ -56,7 +62,7 @@ class FormListener
                     $survey->setEnd(null);
                 }
 
-                $form->add("extensionSurvey", new SurveyType($this->user), array("data" => $survey));
+                $form->add("extensionSurvey", new SurveyType($this->user, $this->usermanager), array("data" => $survey));
             }
         });
     }

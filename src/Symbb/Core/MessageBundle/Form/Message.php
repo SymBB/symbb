@@ -56,7 +56,7 @@ class Message extends AbstractType
 
             $receivers = $builder->create('receivers', 'entity', array(
                 'choices' => $users,
-                'class' => 'SymbbCoreUserBundle:User',
+                'class' => $this->userManager->getClass(),
                 'required' => true,
                 "multiple" => true
             ))->addModelTransformer($transformer);

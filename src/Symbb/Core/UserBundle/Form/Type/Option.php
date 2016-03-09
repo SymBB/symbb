@@ -9,6 +9,8 @@
 
 namespace Symbb\Core\UserBundle\Form\Type;
 
+use Symbb\Core\UserBundle\Entity\User;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -20,10 +22,16 @@ class Option extends AbstractType
 
     protected $entity;
 
-    public function __construct($fields, $entity)
+    /**
+     * @var UserManager
+     */
+    protected $usermanager;
+
+    public function __construct($fields, $entity, UserManager $usermanager)
     {
         $this->fields = $fields;
         $this->entity = $entity;
+        $this->usermanager = $usermanager;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
