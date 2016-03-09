@@ -39,8 +39,8 @@
                         <tr>
                             <td>
                             {% for receiver in entry.getReceivers() %}
-                                <a href="{{ path("symbb_user_profile", {id: receiver.getUser().getId(), username: receiver.getUser().getUsername()}) }}">
-                                    {{ receiver.getUser().getUsername() }}
+                                <a href="{{ path("symbb_user_profile", {id: receiver.getUserId(), username: getUserManager().find(receiver.getUserId()).getUsername()}) }}">
+                                    {{ getUserManager().find(receiver.getUserId()).getUsername() }}
                                 </a>
                                 {% if not loop.last %},{% endif %}
                             {% endfor %}

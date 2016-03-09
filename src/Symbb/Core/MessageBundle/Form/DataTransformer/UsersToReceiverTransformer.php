@@ -4,7 +4,9 @@ namespace Symbb\Core\MessageBundle\Form\DataTransformer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symbb\Core\MessageBundle\Entity\Message;
 use Symbb\Core\MessageBundle\Entity\Message\Receiver;
+use Symbb\Core\UserBundle\Entity\User;
 use Symbb\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class UsersToReceiverTransformer implements DataTransformerInterface
@@ -15,8 +17,14 @@ class UsersToReceiverTransformer implements DataTransformerInterface
      */
     protected $message;
 
-    public function __construct(Message $message){
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    public function __construct(Message $message, UserManager $userManager){
         $this->message = $message;
+        $this->userManager = $userManager;
     }
 
     public function reverseTransform($users)
@@ -28,7 +36,7 @@ class UsersToReceiverTransformer implements DataTransformerInterface
         $data = new ArrayCollection();
         foreach($users as $user){
             $receiver = new Receiver();
-            $receiver->setUser($user);
+            $receiver->setUserId($user);
             $receiver->setMessage($this->message);
             $data->add($receiver);
         }
@@ -44,7 +52,8 @@ class UsersToReceiverTransformer implements DataTransformerInterface
 
         $data = new ArrayCollection();
         foreach($receivers as $receiver){
-            $user = $receiver->getUser();
+            $user = $receiver->getUserId();
+            $user = $this->userManager->find($user);
             $data->add($user);
         }
 

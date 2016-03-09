@@ -37,9 +37,9 @@ class Receiver
     protected $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_receive")
+     * @ORM\Column(type="integer", name="user_id")
      */
-    protected $user;
+    protected $userId;
 
     /**
      * @ORM\Column(type="boolean")
@@ -81,17 +81,20 @@ class Receiver
     /**
      * @param mixed $user
      */
-    public function setUser($user)
+    public function setUserId($user)
     {
-        $this->user = $user;
+        if(is_object($user)){
+            $user = $user->getId();
+        }
+        $this->userId = $user;
     }
 
     /**
      * @return mixed
      */
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->userId;
     }
 
     /**

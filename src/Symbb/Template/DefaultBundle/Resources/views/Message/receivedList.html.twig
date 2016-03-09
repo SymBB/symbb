@@ -38,8 +38,8 @@
                     {% for entry in messages %}
                         <tr>
                             <td>
-                                <a href="{{ path("symbb_user_profile", {id: entry.getSender().getId(), username: entry.getSender().getUsername()}) }}">
-                                    {{ entry.getSender().getUsername() }}
+                                <a href="{{ path("symbb_user_profile", {id: entry.getSenderId(), username: getUserManager().find(entry.getSenderId()).getUsername()}) }}">
+                                    {{ getUserManager().find(entry.getSenderId()).getUsername() }}
                                 </a>
                             </td>
                             <td>

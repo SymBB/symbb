@@ -5,7 +5,7 @@
 {% block section_content_ucp %}
     <h1>{{ message.getSubject() }}</h1>
     {% trans with {
-            '%user%':  message.getSender().getUsername() ,
+            '%user%':  getUserManager().find(message.getSenderId()).getUsername() ,
             '%date%':  message.getDate() | date("d.m.Y") ,
             '%time%':  message.getDate() | date("H:i")
         }

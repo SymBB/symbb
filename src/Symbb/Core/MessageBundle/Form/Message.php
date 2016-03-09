@@ -50,7 +50,7 @@ class Message extends AbstractType
 
         if($this->full){
 
-            $transformer = new UsersToReceiverTransformer($this->message);
+            $transformer = new UsersToReceiverTransformer($this->message, $this->userManager);
 
             $users = $this->userManager->findUsers(999999, 1);
 

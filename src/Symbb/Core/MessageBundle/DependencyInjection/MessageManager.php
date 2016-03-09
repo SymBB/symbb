@@ -49,7 +49,7 @@ class MessageManager extends AbstractManager
             $user = $this->getUser();
         }
         foreach($message->getReceivers() as $receiver){
-            if($receiver->getUser()->getId() == $user->getId() && $receiver->getNew()){
+            if($receiver->getUserId() == $user->getId() && $receiver->getNew()){
                 return true;
             }
         }
@@ -112,7 +112,7 @@ class MessageManager extends AbstractManager
                 FROM
                     SymbbCoreMessageBundle:Message m
                 WHERE
-                  m.sender = ?1
+                  m.senderId = ?1
                 ORDER BY
                   m.date DESC";
 
@@ -157,7 +157,7 @@ class MessageManager extends AbstractManager
                 LEFT JOIN
                     m.receivers r
                 WHERE
-                  r.user = ?1 " . $where . "
+                  r.userId = ?1 " . $where . "
                 GROUP BY
                     m.id
                 ORDER BY
@@ -235,7 +235,7 @@ class MessageManager extends AbstractManager
         $cacheKey = "user_count_new_messages_" . $user->getId();
         $recievedNewMessages = $this->getCacheData($cacheKey);
         if ($recievedNewMessages === null) {
-            $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId(), 'new' => true));
+            $recievedNewMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('userId' => $user->getId(), 'new' => true));
             $recievedNewMessages = count($recievedNewMessages);
             $this->setCacheData($cacheKey, $recievedNewMessages);
         }
@@ -254,7 +254,7 @@ class MessageManager extends AbstractManager
         $cacheKey = "user_count_messages_" . $user->getId();
         $recievedMessages = $this->getCacheData($cacheKey);
         if ($recievedMessages === null) {
-            $recievedMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('user' => $user->getId()));
+            $recievedMessages = $this->em->getRepository('SymbbCoreMessageBundle:Message\Receiver')->findBy(array('userId' => $user->getId()));
             $recievedMessages = count($recievedMessages);
             $this->setCacheData($cacheKey, $recievedMessages);
         }

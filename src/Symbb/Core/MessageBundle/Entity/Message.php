@@ -54,11 +54,10 @@ class Message
     protected $receivers;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User", inversedBy="messages_sent")
-     * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\Column(name="sender_id", nullable=true)
      * @Assert\NotBlank()
      */
-    protected $sender;
+    protected $senderId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -140,17 +139,20 @@ class Message
     /**
      * @param mixed $sender
      */
-    public function setSender($sender)
+    public function setSenderId($sender)
     {
-        $this->sender = $sender;
+        if(is_object($sender)){
+            $sender = $sender->getId();
+        }
+        $this->senderId = $sender;
     }
 
     /**
      * @return mixed
      */
-    public function getSender()
+    public function getSenderId()
     {
-        return $this->sender;
+        return $this->senderId;
     }
 
     /**

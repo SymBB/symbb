@@ -68,15 +68,15 @@ class FrontendController extends AbstractController
             $isReceiver = false;
             $isSender = false;
             foreach ($message->getReceivers() as $receiver) {
-                if ($receiver->getUser()->getId() == $this->getUser()->getId()) {
+                if ($receiver->getUserId() == $this->getUser()->getId()) {
                     $isReceiver = true;
                     $this->get('symbb.core.message.manager')->read($receiver);
                     break;
                 }
             }
 
-            $sender = $message->getSender();
-            if ($this->getUser()->getId() === $sender->getid()) {
+            $senderId = $message->getSenderId();
+            if ($this->getUser()->getId() === $senderId) {
                 $isSender = true;
             }
 
@@ -85,9 +85,9 @@ class FrontendController extends AbstractController
             }
 
             $newMessage = new Message();
-            $newMessage->setSender($this->getUser());
+            $newMessage->setSenderId($this->getUser());
             $receiver = new Message\Receiver();
-            $receiver->setUser($sender);
+            $receiver->setUserId($senderId);
             $receiver->setMessage($newMessage);
             $newMessage->addReceiver($receiver);
             $newMessage->setSubject($this->get("translator")->trans("Re:", array(), "symbb_frontend")." ".$message->getSubject());
@@ -134,7 +134,7 @@ class FrontendController extends AbstractController
      */
     public function newAction(Request $request){
         $newMessage = new Message();
-        $newMessage->setSender($this->getUser());
+        $newMessage->setSenderId($this->getUser());
         $form = $this->getForm($newMessage, $request);
         $form->handleRequest($request);
         if ($form->isValid()) {
