@@ -28,7 +28,14 @@ class GroupManager extends AbstractManager
         $config = $container->getParameter('symbb_config');
         $this->config = $config['groupmanager'];
         $this->groupClass = $this->config['group_class'];
+        $config = $container->getParameter('symbb_config');
+        $this->em = $container->get('doctrine.orm.'.$config['usermanager']['entity_manager'].'_entity_manager');
 
+    }
+
+    public function setEntityManager(EntityManager $em)
+    {
+        // will be done in constructor
     }
 
     /**
