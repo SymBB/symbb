@@ -45,13 +45,13 @@ services:
             
     symbb.core.user.access.twig:
         class: Symbb\Core\UserBundle\Twig\AccessExtension
-        arguments: ['@symbb.core.access.manager', '@security.context']
+        arguments: ['@symbb.core.access.manager', '@security.authorization_checker']
         tags:
             - { name: twig.extension } 
             
     symbb.core.user.whoisonline.manager:
         class: Symbb\Core\UserBundle\DependencyInjection\WhoIsOnlineManager
-        arguments: ['@symbb.core.user.manager', '@security.context', '@memcache.default']
+        arguments: ['@symbb.core.user.manager', '@security.token_storage', '@memcache.default']
         
     symbb.core.user.whoisonline.manager.twig:
         class: Symbb\Core\UserBundle\Twig\WhoIsOnlineExtension
@@ -61,4 +61,4 @@ services:
 
     symbb.security.authentication.guest:
         class: Symbb\Core\UserBundle\Security\GuestAuthenticator
-        arguments: ['@doctrine.orm.symbb_entity_manager']
+        arguments: ["@service_container"]

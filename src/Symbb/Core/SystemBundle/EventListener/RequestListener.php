@@ -28,7 +28,7 @@ class RequestListener
      */
     protected $securityContext;
 
-    public function __construct(StatisticApi $api, SecurityContextInterface $securityContext)
+    public function __construct(StatisticApi $api, $securityContext)
     {
         $this->statisticApi = $api;
         $this->securityContext = $securityContext;

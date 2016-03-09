@@ -23,10 +23,13 @@ class ApiListener
 
     protected $em;
 
-    public function __construct($securityContext, $em)
+    protected $tokenStorage;
+
+    public function __construct($securityContext, $em, $tokenStorage)
     {
         $this->securityContext = $securityContext;
         $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function postData(\Symbb\Core\EventBundle\Event\ApiDataEvent $event)
@@ -58,7 +61,7 @@ class ApiListener
     protected function addExtensionData($event, $post)
     {
 
-        $user = $this->securityContext->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
         $myLike = $this->em->getRepository('SymbbExtensionRatingBundle:Like')
             ->findOneBy(array('post' => $post, 'user' => $user));

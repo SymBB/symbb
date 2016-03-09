@@ -17,9 +17,13 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
 {
     protected $em;
 
-    public function __construct($em)
+    protected $config;
+
+    public function __construct($container)
     {
-        $this->em = $em;
+        $config = $container->getParameter('symbb_config');
+        $this->em = $container->get('doctrine.orm.'.$config['usermanager']['entity_manager'].'_entity_manager');
+        $this->config = $config;
     }
 
     public function createToken(Request $request, $providerKey)
@@ -33,7 +37,7 @@ class GuestAuthenticator implements SimplePreAuthenticatorInterface
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
-        $user = $this->em->getRepository('SymbbCoreUserBundle:User', 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        $user = $this->em->getRepository($this->config['usermanager']['user_class'])->findOneBy(array('symbbType' => 'guest'));
         if(is_object($user)){
             $roles = $user->getRoles();
         } else {

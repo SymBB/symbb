@@ -61,7 +61,7 @@ class XmlrpcController extends Controller
         }
 
         if (!$user) {
-            $user = new \Symbb\Core\UserBundle\Entity\User();
+            $user = $this->get('symbb.core.user.manager')->createUser($username);
         }
 
         $avatar = $user->getAvatar();

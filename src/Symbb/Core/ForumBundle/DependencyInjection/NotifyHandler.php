@@ -42,7 +42,7 @@ class NotifyHandler extends \Symbb\Core\SystemBundle\Manager\AbstractManager
     public function __construct($container)
     {
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
-        $this->securityContext = $container->get('security.context');
+        $this->securityContext = $container->get('security.token_storage');
         $this->flagHandler = $container->get('symbb.core.topic.flag');
         $this->mailer = $container->get('swiftmailer.mailer.default');
         $this->translator = $container->get('translator');

@@ -94,7 +94,7 @@ services:
 
     symbb.core.system.request.listener:
         class: Symbb\Core\SystemBundle\EventListener\RequestListener
-        arguments: ['@symbb.core.api.statistic', '@security.context']
+        arguments: ['@symbb.core.api.statistic', '@security.token_storage']
         tags:
             - { name: kernel.event_listener, event: kernel.finish_request, method: statistic }
 

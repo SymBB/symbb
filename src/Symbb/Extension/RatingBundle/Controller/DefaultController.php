@@ -29,7 +29,7 @@ class DefaultController extends AbstractApiController
                 if (is_object($forum) && $forum->getId() > 0) {
                     $user = $this->getUser();
                     if (is_object($user) && $user->getId() > 0 && $user->getSymbbType() === 'user') {
-                        $createSurvey = $this->get('security.context')->isGranted(RatingVoter::CREATE_RATING, $forum);
+                        $createSurvey = $this->get('security.authorization_checker')->isGranted(RatingVoter::CREATE_RATING, $forum);
                         if ($createSurvey) {
                             if ($like === 'like') {
                                 $this->addPostLike($post, $user);

@@ -85,7 +85,7 @@ class AbstractManager
     public function setContainer(Container $container)
     {
         $this->request = $container->get('request');
-        $this->securityContext = $container->get('security.context');
+        $this->securityContext = $container->get('security.authorization_checker');
     }
 
     protected function getResponse($value, $type, $login = false)

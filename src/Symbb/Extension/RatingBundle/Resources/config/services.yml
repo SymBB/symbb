@@ -8,13 +8,13 @@ services:
     symbb.extensionrating.util:
         twig.extension.symbb.extensionrating.util:
         class: Symbb\Extension\RatingBundle\Twig\UtilExtension
-        arguments: ['@doctrine', '@security.context']
+        arguments: ['@doctrine', '@security.token_storage']
         tags:
             - { name: twig.extension }
 
     symbb.extension.rating.listener.api.data:
         class: Symbb\Extension\RatingBundle\EventListener\ApiListener
-        arguments: ['@security.context', '@doctrine.orm.symbb_entity_manager']
+        arguments: ['@security.authorization_checker', '@doctrine.orm.symbb_entity_manager', '@security.token_storage',]
         tags:
             - { name: kernel.event_listener, event: symbb.api.post.data, method: postData }
             - { name: kernel.event_listener, event: symbb.api.topic.data, method: topicData }

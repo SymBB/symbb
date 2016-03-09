@@ -11,6 +11,7 @@ namespace Symbb\Core\UserBundle\Manager;
 
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\ORM\Query;
+use Symbb\Core\UserBundle\Entity\User;
 use Symbb\Core\UserBundle\Entity\User\Data;
 use \Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 use \Doctrine\ORM\EntityManager;
@@ -45,11 +46,10 @@ class UserManager
 
     protected $paginator;
 
-    /**
-     *
-     * @var \Symfony\Component\Security\Core\SecurityContextInterface
-     */
+
     protected $securityContext;
+
+    protected $securityContextToken;
 
     /**
      *
@@ -65,13 +65,14 @@ class UserManager
 
     public function __construct($container)
     {
-        $this->em = $container->get('doctrine.orm.symbb_entity_manager');
-        $this->securityFactory = $container->get('security.encoder_factory');
         $config = $container->getParameter('symbb_config');
+        $this->em = $container->get('doctrine.orm.'.$config['usermanager']['entity_manager'].'_entity_manager');
+        $this->securityFactory = $container->get('security.encoder_factory');
         $this->config = $config['usermanager'];
         $this->userClass = $this->config['user_class'];
         $this->paginator = $container->get('knp_paginator');
-        $this->securityContext = $container->get('security.context');
+        $this->securityContextToken = $container->get('security.token_storage');
+        $this->securityContext = $container->get('security.authorization_checker');
         $this->dispatcher = $container->get('event_dispatcher');
         $this->container = $container;
         $this->translator = $container->get("translator");
@@ -92,8 +93,9 @@ class UserManager
      */
     public function getCurrentUser()
     {
-        return $this->securityContext->getToken()->getUser();
+        return $this->securityContextToken->getToken()->getUser();
     }
+
 
     /**
      * update the given user
@@ -170,10 +172,13 @@ class UserManager
      * create a new User
      * @return UserInterface
      */
-    public function createUser()
+    public function createUser($username = "")
     {
         $userClass = $this->userClass;
         $user = new $userClass();
+        if(!empty($username)){
+            $user->setUsername($username);
+        }
         return $user;
     }
 
@@ -390,7 +395,7 @@ class UserManager
         if ($user->getPassword() === $password2) {
             $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken($user, $user->getPassword(), 'symbb', $user->getRoles());
 
-            $this->securityContext->setToken($token);
+            $this->securityContextToken->setToken($token);
 
             $securityKey = 'myKey';
             $random = new \Symfony\Component\Security\Core\Util\SecureRandom();

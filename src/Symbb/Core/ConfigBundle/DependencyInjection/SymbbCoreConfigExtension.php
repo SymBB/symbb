@@ -22,19 +22,59 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
     {
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('doctrine.yml');
-        $loader->load('twig.yml');
-        $loader->load('fos_user.yml');
-        $loader->load('fos_rest.yml');
-        $loader->load('knp.yml');
-        $loader->load('lsw_memcache.yml');
-        $loader->load('swiftmailer.yml');
-        $loader->load('framework.yml');
-        $loader->load('jms_translation.yml');
-        $loader->load('liip_imagine.yml');
-        $loader->load('fosjsrouting.yml');
-        $loader->load('assetic.yml');
-        $loader->load('monolog.yml');
+
+        if(!$container->getParameter('symbb_config_disable_fos_user')){
+            $loader->load('fos_user.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_doctrine')) {
+            $loader->load('doctrine.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_twig')) {
+            $loader->load('twig.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_monolog')) {
+            $loader->load('monolog.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_assetic')) {
+            $loader->load('assetic.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_fos_rest')) {
+            $loader->load('fos_rest.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_knp')) {
+            $loader->load('knp.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_lsw_memcache')) {
+            $loader->load('lsw_memcache.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_swiftmailer')) {
+            $loader->load('swiftmailer.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_framework')) {
+            $loader->load('framework.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_jms_translation')) {
+            $loader->load('jms_translation.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_liip_imagine')) {
+            $loader->load('liip_imagine.yml');
+        }
+
+        if(!$container->getParameter('symbb_config_disable_fosjsrouting')) {
+            $loader->load('fosjsrouting.yml');
+        }
+
     }
 
     public function load(array $configs, ContainerBuilder $container)

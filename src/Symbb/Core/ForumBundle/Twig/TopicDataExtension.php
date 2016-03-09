@@ -32,7 +32,7 @@ class TopicDataExtension extends \Twig_Extension
         $this->em = $container->get('doctrine.orm.symbb_entity_manager');
         $this->topicFlagHandler = $container->get('symbb.core.topic.flag');
         $this->siteManager = $container->get('symbb.core.site.manager');
-        $this->securityContext = $container->get('security.context');
+        $this->securityContext = $container->get('security.token_storage');
         $this->translator = $container->get('translator');
         $this->dispatcher = $container->get('event_dispatcher');
 

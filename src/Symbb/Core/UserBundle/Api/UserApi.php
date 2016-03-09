@@ -74,7 +74,7 @@ class UserApi extends AbstractApi
             if (isset($object['id']) && $object['id'] > 0) {
                 $object = $this->find($object['id']);
             } else {
-                $object = new User();
+                $object = $this->userManager->createUser();
             }
             if (isset($objectData['password'])) {
                 $newPassword = $objectData['password'];
