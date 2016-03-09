@@ -184,7 +184,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
     {
         $flagObject = new Flag();
         $flagObject->setObject($object);
-        $flagObject->setUser($user);
+        $flagObject->setUserId($user);
         $flagObject->setFlag($flag);
         return $flagObject;
     }

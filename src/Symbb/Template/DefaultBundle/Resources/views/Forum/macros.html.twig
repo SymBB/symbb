@@ -87,7 +87,7 @@
                         <div class="well">
                             {% for historyEntry in object.getHistory() %}
                                 <div class="historyEntry">
-                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': historyEntry.getEditor().getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
+                                    {% trans with {'%date%': historyEntry.getChanged() | date("d.m.Y"), '%time%': historyEntry.getChanged() | date("H:i"), '%user%': getUserManager().find(historyEntry.getEditor()).getUsername()} %}edit by %user% on %date% at %time%{% endtrans %} {% if historyEntry.getReason() %}
                                         <span>({{ historyEntry.getReason() }})</span>{% endif %}
                                 </div>
                             {% endfor %}

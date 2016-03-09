@@ -46,8 +46,7 @@ class History
     protected $post;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
-     * @ORM\JoinColumn(referencedColumnName="id", onDelete="NO ACTION")
+     * @ORM\Column(name="editor_id", type="integer")
      *
      * @var User $editor
      */
@@ -150,8 +149,11 @@ class History
     /**
      * @param User $editor
      */
-    public function setEditor(User $editor)
+    public function setEditor($editor)
     {
+        if(is_object($editor)){
+            $editor = $editor->getId();
+        }
         $this->editor = $editor;
     }
 
