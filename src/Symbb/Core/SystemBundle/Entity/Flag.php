@@ -47,10 +47,9 @@ class Flag
     private $flag = 'ignore';
 
     /**
-     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $user;
+    private $userId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -87,14 +86,17 @@ class Flag
         return $this->objectId;
     }
 
-    public function setUser($object)
+    public function setUserId($object)
     {
-        $this->user = $object;
+        if(is_object($object)){
+            $object = $object->getId();
+        }
+        $this->userId = $object;
     }
 
-    public function getUser()
+    public function getUserId()
     {
-        return $this->user;
+        return $this->userId;
     }
 
     public function getCreated()

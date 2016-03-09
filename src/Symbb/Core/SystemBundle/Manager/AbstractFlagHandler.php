@@ -314,7 +314,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         $flags = $this->findFlagsByObjectAndFlag($object, $flag);
         $finalFlags = array();
         foreach ($flags as $flagObject) {
-            $userId = $flagObject->getUser()->getId();
+            $userId = $flagObject->getUserId();
             $finalFlags[$userId] = $flagObject->getFlag();
         }
         return $finalFlags;
