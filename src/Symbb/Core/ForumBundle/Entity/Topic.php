@@ -67,7 +67,7 @@ class Topic
     private $forum;
 
     /**
-     * @ORM\Column(name="author_id", nullable=false)
+     * @ORM\Column(name="author_id", nullable=false, type="integer")
      */
     private $authorId;
 

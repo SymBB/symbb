@@ -54,7 +54,7 @@ class Message
     protected $receivers;
 
     /**
-     * @ORM\Column(name="sender_id", nullable=true)
+     * @ORM\Column(name="sender_id", nullable=true, type="integer")
      * @Assert\NotBlank()
      */
     protected $senderId;

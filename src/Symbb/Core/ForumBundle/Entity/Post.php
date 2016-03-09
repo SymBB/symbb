@@ -58,7 +58,7 @@ class Post
     private $topic;
 
     /**
-     * @ORM\Column(name="author_id", nullable=false)
+     * @ORM\Column(name="author_id", nullable=false, type="integer")
      */
     private $authorId;
 
