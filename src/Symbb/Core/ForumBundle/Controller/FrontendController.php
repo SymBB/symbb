@@ -290,7 +290,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             if($this->get('security.authorization_checker')->isGranted(ForumVoter::CREATE_POST, $topic->getForum())){
 
                 $post = new Post();
-                $post->setAuthor($this->getUser());
+                $post->setAuthorId($this->getUser());
                 $post->setTopic($topic);
                 $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
                 $form = $this->createForm("quick_post", $post);
@@ -334,8 +334,8 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
 
         $topic = new Topic();
         $post = new Post();
-        $post->setAuthor($this->getUser());
-        $topic->setAuthor($this->getUser());
+        $post->setAuthorId($this->getUser());
+        $topic->setAuthorId($this->getUser());
         $post->setTopic($topic);
         $topic->setForum($forum);
         $topic->setMainPost($post);
@@ -378,7 +378,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             }
 
             $post = new Post();
-            $post->setAuthor($this->getUser());
+            $post->setAuthorId($this->getUser());
             $post->setTopic($topic);
             $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
 
@@ -407,7 +407,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
                 throw $this->createAccessDeniedException();
             }
             $post = new Post();
-            $post->setAuthor($this->getUser());
+            $post->setAuthorId($this->getUser());
             $post->setText("[quote=" . $this->get('symbb.core.post.manager')->getAuthor($quotePost)->getUsername() . "]" . $quotePost->getText() . "[/quote]");
             $post->setTopic($topic);
             $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());

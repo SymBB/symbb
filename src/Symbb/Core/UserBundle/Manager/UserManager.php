@@ -534,7 +534,7 @@ class UserManager
      */
     public function getGuestUser()
     {
-        $user = $this->emUser->getRepository($this->config['usermanager']['user_class'])->findOneBy(array('symbbType' => 'guest'));
+        $user = $this->emUser->getRepository($this->userClass)->findOneBy(array('symbbType' => 'guest'));
         return $user;
     }
 
@@ -546,7 +546,7 @@ class UserManager
     public function getSymbbData(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
         if (!isset($this->symbbDataCache[$user->getId()])) {
-            $data = $this->em->getRepository('SymbbCoreUserBundle:User\Data', 'symbb')->findOneBy(array('userId' => $user->getId()));
+            $data = $this->em->getRepository(Data::class, 'symbb')->findOneBy(array('user' => $user->getId()));
             if (!is_object($data)) {
                 $data = new User\Data();
                 $data->setUser($user);
@@ -563,7 +563,7 @@ class UserManager
      */
     public function getFieldValues(\Symbb\Core\UserBundle\Entity\UserInterface $user)
     {
-        $data = $this->em->getRepository('SymbbCoreUserBundle:User\Data', 'symbb')->findBy(array('userId' => $user->getId()));
+        $data = $this->em->getRepository('SymbbCoreUserBundle:User\Data', 'symbb')->findBy(array('user' => $user->getId()));
         return $data;
     }
 

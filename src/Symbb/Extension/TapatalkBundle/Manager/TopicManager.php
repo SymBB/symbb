@@ -89,13 +89,13 @@ class TopicManager extends AbstractManager
         if ($access) {
             if ($forum) {
                 $topic = new Topic();
-                $topic->setAuthor($this->userManager->getCurrentUser());
+                $topic->setAuthorId($this->userManager->getCurrentUser());
                 $topic->setName($subject);
                 $topic->setForum($forum);
 
                 $post = new Post();
                 $post->setName($subject);
-                $post->setAuthor($this->userManager->getCurrentUser());
+                $post->setAuthorId($this->userManager->getCurrentUser());
                 $post->setText($text);
                 $post->setTopic($topic);
                 $topic->setMainPost($post);

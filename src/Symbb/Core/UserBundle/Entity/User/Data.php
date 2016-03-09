@@ -28,8 +28,7 @@ class Data
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Symbb\Core\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
+     * @ORM\Column(name="user_id", type="integer")
      */
     private $user;
 
@@ -80,6 +79,9 @@ class Data
 
     public function setUser($value)
     {
+        if(is_object($value)){
+            $value = $value->getid();
+        }
         $this->user = $value;
 
     }

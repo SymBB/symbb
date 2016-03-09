@@ -53,14 +53,14 @@ class TopicFlagHandler extends AbstractFlagHandler
                 $flag = new Flag();
                 $flag->setFlag("locked");
                 $flag->setObject($object);
-                $flag->setUser($this->getUser());
+                $flag->setUserId($this->getUser());
                 $flags[] = $flag;
             }
             if ($object->getAuthorId() && $object->getAuthorId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
                 $flag = new Flag();
                 $flag->setFlag("author");
                 $flag->setObject($object);
-                $flag->setUser($this->getUser());
+                $flag->setUserId($this->getUser());
                 $flags[] = $flag;
             }
         }

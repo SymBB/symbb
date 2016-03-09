@@ -55,7 +55,7 @@ class Message
     /**
      * @param mixed $author
      */
-    public function setAuthor($author)
+    public function setAuthorId($author)
     {
         if(is_object($author)){
             $author = $author->getId();

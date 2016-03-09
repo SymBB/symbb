@@ -26,8 +26,7 @@ class FieldValue
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="symbbFieldValues")
-     * @ORM\JoinColumn(onDelete="cascade")
+     * @ORM\Column(type="integer", name="user")
      */
     private $user;
 
@@ -69,6 +68,9 @@ class FieldValue
 
     public function setUser($value)
     {
+        if(is_object($value)){
+            $value = $value->getId();
+        }
         $this->user = $value;
     }
 

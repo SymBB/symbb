@@ -98,7 +98,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         $flag = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findOneBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
-            'user' => $user->getId(),
+            'userId' => $user->getId(),
             'flag' => (string)$flag
         ));
         $flags = array($flag);
@@ -129,7 +129,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'objectId' => $object->getId(),
-            'user' => (string)$user->getId()
+            'userId' => (string)$user->getId()
         ));
         //static stuff who is not assigned to an user
         $flags = $this->addStaticFlags($object, $flags);
@@ -167,7 +167,7 @@ abstract class AbstractFlagHandler extends \Symbb\Core\SystemBundle\Manager\Abst
         $flags = $this->em->getRepository('SymbbCoreSystemBundle:Flag', 'symbb')->findBy(array(
             'objectClass' => ClassUtils::getRealClass(get_class($object)),
             'flag' => (string)$flag,
-            'user' => (string)$user->getId()
+            'userId' => (string)$user->getId()
         ));
         //static stuff who is not assigned to an user
         $flags = $this->addStaticFlags($object, $flags, $flag);

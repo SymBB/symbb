@@ -198,7 +198,7 @@ class Post
     {
         $post = new self();
         $post->setTopic($topic);
-        $post->setAuthor($user);
+        $post->setAuthorId($user);
         $post->setName($topic->getName());
         return $post;
     }

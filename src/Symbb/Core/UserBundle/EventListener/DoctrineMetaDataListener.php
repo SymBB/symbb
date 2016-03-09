@@ -26,6 +26,8 @@ class DoctrineMetaDataListener
 
     public function loadClassMetadata(\Doctrine\ORM\Event\LoadClassMetadataEventArgs $eventArgs)
     {
+        /**
+         * no longer needed, all relations to user and groups are removed from doctrine config
         $classMetadata = $eventArgs->getClassMetadata();
         foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {
             if ($mapping['targetEntity'] == 'Symbb\Core\UserBundle\Entity\User') {
@@ -34,6 +36,7 @@ class DoctrineMetaDataListener
                 $classMetadata->associationMappings[$fieldName]['targetEntity'] = $this->groupClass;
             }
         }
+         */
 
     }
 }

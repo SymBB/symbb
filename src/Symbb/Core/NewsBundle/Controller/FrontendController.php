@@ -49,13 +49,13 @@ class FrontendController extends \Symbb\Core\ForumBundle\Controller\FrontendCont
 
             $topic = new Topic();
             $topic->setForum($forum);
-            $topic->setAuthor($this->getUser());
+            $topic->setAuthorId($this->getUser());
             $topic->setName($entry->getTitle());
             $entry->setTopic($topic);
             $this->get("doctrine.orm.symbb_entity_manager")->persist($entry);
 
             $post = new Post();
-            $post->setAuthor($this->getUser());
+            $post->setAuthorId($this->getUser());
             $post->setText($entry->getText());
             $post->setTopic($topic);
             $post->setName($entry->getTitle());

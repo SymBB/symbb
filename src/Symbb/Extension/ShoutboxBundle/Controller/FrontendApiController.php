@@ -63,7 +63,7 @@ class FrontendApiController extends AbstractApiController
 
         if (!empty($messageBody)) {
             $message = new Message();
-            $message->setAuthor($this->getUser());
+            $message->setAuthorId($this->getUser());
             $message->setMessage($messageBody);
             $em = $this->get('doctrine.orm.symbb_entity_manager');
             $em->persist($message);

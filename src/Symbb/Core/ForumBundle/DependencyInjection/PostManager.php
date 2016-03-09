@@ -149,7 +149,7 @@ class PostManager extends AbstractManager
                     SymbbCoreSystemBundle:Flag f WITH
                         f.objectClass = 'Symbb\Core\ForumBundle\Entity\Post' AND
                         f.objectId = p.id AND
-                        f.user = :user AND
+                        f.userId = :user AND
                         f.flag = '".AbstractFlagHandler::FLAG_NEW."'
                 WHERE
                     p.authorId != :user AND
