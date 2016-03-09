@@ -15,8 +15,3 @@ fos_user:
         sender_name:    %system.name%
     service:
         mailer: fos_user.mailer.default
-
-simple_things_form_extra:
-    recaptcha:
-        private_key: %recaptcha.private_key%
-        public_key:  %recaptcha.public_key%

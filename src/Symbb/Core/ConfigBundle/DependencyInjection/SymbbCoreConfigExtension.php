@@ -23,56 +23,60 @@ class SymbbCoreConfigExtension extends Extension implements PrependExtensionInte
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        if(!$container->getParameter('symbb_config_disable_fos_user')){
+        if(!$container->hasParameter('symbb_config_disable_fos_user') || !$container->getParameter('symbb_config_disable_fos_user')){
             $loader->load('fos_user.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_doctrine')) {
+        if(!$container->hasParameter('symbb_config_disable_doctrine') || !$container->getParameter('symbb_config_disable_doctrine')) {
             $loader->load('doctrine.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_twig')) {
+        if(!$container->hasParameter('symbb_config_disable_twig') || !$container->getParameter('symbb_config_disable_twig')) {
             $loader->load('twig.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_monolog')) {
+        if(!$container->hasParameter('symbb_config_disable_monolog') || !$container->getParameter('symbb_config_disable_monolog')) {
             $loader->load('monolog.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_assetic')) {
+        if(!$container->hasParameter('symbb_config_disable_assetic') || !$container->getParameter('symbb_config_disable_assetic')) {
             $loader->load('assetic.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_fos_rest')) {
+        if(!$container->hasParameter('symbb_config_disable_fos_rest') || !$container->getParameter('symbb_config_disable_fos_rest')) {
             $loader->load('fos_rest.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_knp')) {
+        if(!$container->hasParameter('symbb_config_disable_knp') || !$container->getParameter('symbb_config_disable_knp')) {
             $loader->load('knp.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_lsw_memcache')) {
+        if(!$container->hasParameter('symbb_config_disable_lsw_memcache') || !$container->getParameter('symbb_config_disable_lsw_memcache')) {
             $loader->load('lsw_memcache.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_swiftmailer')) {
+        if(!$container->hasParameter('symbb_config_disable_swiftmailer') || !$container->getParameter('symbb_config_disable_swiftmailer')) {
             $loader->load('swiftmailer.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_framework')) {
+        if(!$container->hasParameter('symbb_config_disable_framework') || !$container->getParameter('symbb_config_disable_framework')) {
             $loader->load('framework.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_jms_translation')) {
+        if(!$container->hasParameter('symbb_config_disable_jms_translation') || !$container->getParameter('symbb_config_disable_jms_translation')) {
             $loader->load('jms_translation.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_liip_imagine')) {
+        if(!$container->hasParameter('symbb_config_disable_liip_imagine') || !$container->getParameter('symbb_config_disable_liip_imagine')) {
             $loader->load('liip_imagine.yml');
         }
 
-        if(!$container->getParameter('symbb_config_disable_fosjsrouting')) {
+        if(!$container->hasParameter('symbb_config_disable_fosjsrouting') || !$container->getParameter('symbb_config_disable_fosjsrouting')) {
             $loader->load('fosjsrouting.yml');
+        }
+
+        if(!$container->hasParameter('symbb_config_disable_simple_things') || !$container->getParameter('symbb_config_disable_simple_things')) {
+            $loader->load('simple_things.yml');
         }
 
     }
