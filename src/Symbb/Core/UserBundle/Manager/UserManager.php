@@ -66,7 +66,8 @@ class UserManager
     public function __construct($container)
     {
         $config = $container->getParameter('symbb_config');
-        $this->em = $container->get('doctrine.orm.'.$config['usermanager']['entity_manager'].'_entity_manager');
+        $this->emUser = $container->get('doctrine.orm.'.$config['usermanager']['entity_manager'].'_entity_manager');
+        $this->em = $container->get('doctrine.orm.symbb_entity_manager');
         $this->securityFactory = $container->get('security.encoder_factory');
         $this->config = $config['usermanager'];
         $this->userClass = $this->config['user_class'];
@@ -105,8 +106,8 @@ class UserManager
     public function updateUser(UserInterface $user)
     {
         $user->setChangedValue();
-        $this->em->persist($user);
-        $this->em->flush();
+        $this->emUser->persist($user);
+        $this->emUser->flush();
         return true;
     }
 
@@ -131,8 +132,8 @@ class UserManager
      */
     public function removeUser(UserInterface $user)
     {
-        $this->em->remove($user);
-        $this->em->flush();
+        $this->emUser->remove($user);
+        $this->emUser->flush();
         return true;
     }
 
@@ -161,8 +162,8 @@ class UserManager
         $errorsPassword = $validator->validateValue($newPassword, $passwordConstraints);
 
         if ($errorsPassword->count() === 0) {
-            $this->em->persist($user);
-            $this->em->flush();
+            $this->emUser->persist($user);
+            $this->emUser->flush();
         }
 
         return $errorsPassword;
@@ -189,7 +190,7 @@ class UserManager
      */
     public function find($userId)
     {
-        $user = $this->em->getRepository($this->userClass)->find($userId);
+        $user = $this->emUser->getRepository($this->userClass)->find($userId);
         return $user;
     }
 
@@ -200,7 +201,7 @@ class UserManager
      */
     public function findByUsername($username)
     {
-        $user = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username));
+        $user = $this->emUser->getRepository($this->userClass)->findOneBy(array('username' => $username));
         return $user;
     }
 
@@ -228,7 +229,7 @@ class UserManager
     public function findBy($criteria, $limit, $page = 1)
     {
 
-        $qb = $this->em->getRepository($this->userClass)->createQueryBuilder('u');
+        $qb = $this->emUser->getRepository($this->userClass)->createQueryBuilder('u');
         $qb->select("u");
         $whereParts = array();
         $i = 0;
@@ -326,7 +327,7 @@ class UserManager
         }
 
         if (!isset($this->postCountCache[$user])) {
-            $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
+            $qb = $this->em->getRepository('SymbbCoreForumBundle:Post', 'symbb')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
             $qb->where("p.authorId = " . $user);
             $count = $qb->getQuery()->getSingleScalarResult();
@@ -348,7 +349,7 @@ class UserManager
             $user = $user->getId();
         }
 
-        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Post', 'symbb')->createQueryBuilder('p');
         $qb->select('p');
         $qb->where("p.authorId = " . $user);
         $qb->orderBy("p.created", "desc");
@@ -368,7 +369,7 @@ class UserManager
             $user = $user->getId();
         }
 
-        $qb = $this->em->getRepository('SymbbCoreForumBundle:Topic')->createQueryBuilder('p');
+        $qb = $this->em->getRepository('SymbbCoreForumBundle:Topic', 'symbb')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
         $qb->where("p.authorId = " . $user);
         $count = $qb->getQuery()->getSingleScalarResult();
@@ -482,19 +483,19 @@ class UserManager
      */
     public function findFields($criteria)
     {
-        $fields = $this->em->getRepository('SymbbCoreUserBundle:Field')->findBy($criteria);
+        $fields = $this->em->getRepository('SymbbCoreUserBundle:Field', 'symbb')->findBy($criteria);
         return $fields;
     }
 
     public function createPagination($query, $page, $limit)
     {
 
-        $rsm = new ResultSetMappingBuilder($this->em);
+        $rsm = new ResultSetMappingBuilder($this->emUser);
         $rsm->addScalarResult('count', 'count');
 
         $queryCount = $query->getSql();
         $queryCount = "SELECT COUNT(*) as count FROM (" . $queryCount . ") as temp";
-        $queryCount = $this->em->createNativeQuery($queryCount, $rsm);
+        $queryCount = $this->emUser->createNativeQuery($queryCount, $rsm);
         $queryCount->setParameters($query->getParameters());
         $count = $queryCount->getSingleScalarResult();
         if (!$count) {
@@ -533,7 +534,7 @@ class UserManager
      */
     public function getGuestUser()
     {
-        $user = $this->em->getRepository($this->config['usermanager']['user_class'], 'symbb')->findOneBy(array('symbbType' => 'guest'));
+        $user = $this->emUser->getRepository($this->config['usermanager']['user_class'])->findOneBy(array('symbbType' => 'guest'));
         return $user;
     }
 
