@@ -407,7 +407,6 @@ class ForumManager extends AbstractManager
     public function getChildren(Forum $forum, $page = 1, $limit = 20, $checkAccess = true)
     {
 
-
         $cacheKey = implode("_", array("getPostCount", $forum->getId(), $page, $limit, $checkAccess));
         $pagination = $this->getCacheData($cacheKey);
 
