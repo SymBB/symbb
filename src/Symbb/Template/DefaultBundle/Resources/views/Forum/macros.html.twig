@@ -27,18 +27,18 @@
         <dl class="postprofile">
             {{ executeSymbbTemplatePostEvent('before.avatar', object) }}
             <a class="avatar"
-               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">
-                <img src="{{ getSymbbUserAvatar(object.getAuthor()) }}"/>
+               href="{{ path("symbb_user_profile", {"id": object.getAuthorId(), "username": getSymbbPostManager().getAuthor(object).getUsername()}) }}">
+                <img src="{{ getSymbbUserAvatar(getSymbbPostManager().getAuthor(object)) }}"/>
             </a>
             {{ executeSymbbTemplatePostEvent('after.avatar', object) }}
             {{ executeSymbbTemplatePostEvent('before.username', object) }}
             <a class="username"
-               href="{{ path("symbb_user_profile", {"id": object.getAuthor().getId(), "username": object.getAuthor().getUsername()}) }}">{{ object.getAuthor().getUsername() }}</a>
+               href="{{ path("symbb_user_profile", {"id": getSymbbPostManager().getAuthor(object).getId(), "username": getSymbbPostManager().getAuthor(object).getUsername()}) }}">{{ getSymbbPostManager().getAuthor(object).getUsername() }}</a>
             {{ executeSymbbTemplatePostEvent('after.username', object) }}
             {{ executeSymbbTemplatePostEvent('before.userdata', object) }}
-            <dd><strong>{% trans %}posts{% endtrans %}:</strong> <span itemprop="author">{{ getUserManager().getPostCount(object.getAuthor()) }}</span>
+            <dd><strong>{% trans %}posts{% endtrans %}:</strong> <span itemprop="author">{{ getUserManager().getPostCount(object.getAuthorId()) }}</span>
             </dd>
-            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> <span>{{ object.getAuthor().getCreated() | date("d.m.Y") }}</span></dd>
+            <dd><strong>{% trans %}Join Date{% endtrans %}:</strong> <span>{{ getSymbbPostManager().getAuthor(object).getCreated() | date("d.m.Y") }}</span></dd>
             {{ executeSymbbTemplatePostEvent('after.userdata', object) }}
         </dl>
         <div class="postbody">
@@ -96,9 +96,9 @@
                 </div>
             {% endif %}
             {{ executeSymbbTemplatePostEvent('before.signature', object) }}
-            {% if getSymbbUserSignature(object.getAuthor()) %}
+            {% if getSymbbUserSignature(getSymbbPostManager().getAuthor(object)) %}
                 <div class="signature froala-view">
-                    {{ getSymbbUserSignature(object.getAuthor()) | raw }}
+                    {{ getSymbbUserSignature(getSymbbPostManager().getAuthor(object)) | raw }}
                     <div class="clear"></div>
                 </div>
             {% endif %}

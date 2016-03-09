@@ -19,6 +19,7 @@ use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use \Doctrine\ORM\Query\Lexer;
 use Symbb\Core\SystemBundle\Utils;
 use Symbb\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\Manager\UserManager;
 use Symfony\Component\Security\Core\Util\ClassUtils;
 
 class PostManager extends AbstractManager
@@ -47,17 +48,24 @@ class PostManager extends AbstractManager
      */
     protected $notifyHandler;
 
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
     public function __construct(
         PostFlagHandler $postFlagHandler,
         TopicFlagHandler $topicFlagHandler,
         ConfigManager $configManager,
-        NotifyHandler $notifyHandler
+        NotifyHandler $notifyHandler,
+        UserManager $userManager
     )
     {
         $this->postFlagHandler = $postFlagHandler;
         $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
         $this->notifyHandler = $notifyHandler;
+        $this->userManager = $userManager;
     }
 
     public function parseText(Post $post)
@@ -144,7 +152,7 @@ class PostManager extends AbstractManager
                         f.user = :user AND
                         f.flag = '".AbstractFlagHandler::FLAG_NEW."'
                 WHERE
-                    p.author != :user AND
+                    p.authorId != :user AND
                     (
                         ( SELECT COUNT(a.id) FROM SymbbCoreSystemBundle:Access a WHERE
                             a.objectId = t.forum AND
@@ -251,7 +259,7 @@ class PostManager extends AbstractManager
             $flags = $this->topicFlagHandler->findFlagsByObjectAndFlag($post->getTopic(), AbstractFlagHandler::FLAG_NOTIFY);
             foreach($flags as $flag){
                 // if the notify user is not the author of the new post
-                if($flag->getUser()->getId() !== $post->getAuthor()->getId()){
+                if($flag->getUser()->getId() !== $post->getAuthorId()){
                     // send a notify
                     $this->notifyHandler->sendTopicNotifications($post->getTopic(), $flag->getUser());
                 }
@@ -259,6 +267,15 @@ class PostManager extends AbstractManager
         }
 
         return true;
+    }
+
+    /**
+     * @param Post $post
+     * @return UserInterface
+     */
+    public function getAuthor(Post $post){
+        $authorId = $post->getAuthorId();
+        return $this->userManager->find($authorId);
     }
 
     /**

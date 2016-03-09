@@ -298,6 +298,10 @@ class UserManager
             $user = $this->getCurrentUser();
         }
 
+        if(!is_object($user)){
+            $user = $this->find($user);
+        }
+
         $data = $this->getSymbbData($user);
         $avatar = $data->getAvatar();
         if (empty($avatar)) {
@@ -306,33 +310,42 @@ class UserManager
         return $avatar;
     }
 
-    public function getPostCount(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getPostCount($user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
 
-        if (!isset($this->postCountCache[$user->getId()])) {
+        if(is_object($user)){
+            $user = $user->getId();
+        }
+
+        if (!isset($this->postCountCache[$user])) {
             $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
             $qb->select('COUNT(p.id)');
-            $qb->where("p.author = " . $user->getId());
+            $qb->where("p.authorId = " . $user);
             $count = $qb->getQuery()->getSingleScalarResult();
-            $this->postCountCache[$user->getId()] = $count;
+            $this->postCountCache[$user] = $count;
         } else {
-            $count = $this->postCountCache[$user->getId()];
+            $count = $this->postCountCache[$user];
         }
+
         return $count;
     }
 
-    public function getLastPosts(\Symbb\Core\UserBundle\Entity\UserInterface $user = null, $limit = 20)
+    public function getLastPosts($user = null, $limit = 20)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
+        }
+
+        if(is_object($user)){
+            $user = $user->getId();
         }
 
         $qb = $this->em->getRepository('SymbbCoreForumBundle:Post')->createQueryBuilder('p');
         $qb->select('p');
-        $qb->where("p.author = " . $user->getId());
+        $qb->where("p.authorId = " . $user);
         $qb->orderBy("p.created", "desc");
         $dql = $qb->getDql();
         $query = $this->em->createQuery($dql);
@@ -340,15 +353,19 @@ class UserManager
         return $posts;
     }
 
-    public function getTopicCount(\Symbb\Core\UserBundle\Entity\UserInterface $user = null)
+    public function getTopicCount($user = null)
     {
         if (!$user) {
             $user = $this->getCurrentUser();
         }
 
+        if(is_object($user)){
+            $user = $user->getId();
+        }
+
         $qb = $this->em->getRepository('SymbbCoreForumBundle:Topic')->createQueryBuilder('p');
         $qb->select('COUNT(p.id)');
-        $qb->where("p.author = " . $user->getId());
+        $qb->where("p.authorId = " . $user);
         $count = $qb->getQuery()->getSingleScalarResult();
         return $count;
     }

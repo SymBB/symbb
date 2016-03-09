@@ -45,31 +45,6 @@ class User extends BaseUser implements UserInterface
     protected $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Topic", mappedBy="author")
-     * @var \Symbb\Core\ForumBundle\Entity\Topic[]
-     */
-    private $topics;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\Symbb\Core\ForumBundle\Entity\Post", mappedBy="author")
-     * @var \Symbb\Core\ForumBundle\Entity\Post[]
-     */
-    private $posts;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message\Receiver", mappedBy="user", cascade={"persist"})
-     * @var \Symbb\Core\MessageBundle\Entity\Message\Receiver[]
-     */
-    private $messages_receive;
-
-    /**
-     * @ORM\OneToMany(targetEntity="\Symbb\Core\MessageBundle\Entity\Message", mappedBy="sender")
-     * @var \Symbb\Core\MessageBundle\Entity\Message[]
-     */
-    private $messages_sent;
-
-
-    /**
      * @ORM\OneToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User\Data", cascade={"persist"})
      * @ORM\JoinColumn(name="data_id", referencedColumnName="id", onDelete="SET NULL")
      * @var \Symbb\Core\UserBundle\Entity\User\Data

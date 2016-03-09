@@ -36,10 +36,9 @@ class Message
     protected $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Symbb\Core\UserBundle\Entity\User")
-     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @ORM\Column(name="author")
      */
-    protected $author;
+    protected $authorId;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,15 +57,18 @@ class Message
      */
     public function setAuthor($author)
     {
-        $this->author = $author;
+        if(is_object($author)){
+            $author = $author->getId();
+        }
+        $this->authorId = $author;
     }
 
     /**
      * @return mixed
      */
-    public function getAuthor()
+    public function getAuthorId()
     {
-        return $this->author;
+        return $this->authorId;
     }
 
     /**

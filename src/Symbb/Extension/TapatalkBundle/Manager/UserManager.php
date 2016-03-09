@@ -49,7 +49,7 @@ class UserManager extends AbstractManager
         //$result['usergroup_id'] = new \Zend\XmlRpc\Value\Struct($groupIds);
         $result['email'] = new \Zend\XmlRpc\Value\Base64($user->getEmail());
         $result['icon_url'] = new \Zend\XmlRpc\Value\String($this->userManager->getAbsoluteAvatarUrl());
-        $result['post_count'] = new \Zend\XmlRpc\Value\Integer($user->getPosts()->count());
+        $result['post_count'] = new \Zend\XmlRpc\Value\Integer($this->userManager->getPostCount($user));
         $result['user_type'] = new \Zend\XmlRpc\Value\Base64('normal');
         $result['can_pm'] = new \Zend\XmlRpc\Value\Boolean(true);
         $result['can_send_pm'] = new \Zend\XmlRpc\Value\Boolean(true);

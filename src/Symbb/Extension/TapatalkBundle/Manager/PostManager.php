@@ -49,7 +49,7 @@ class PostManager extends AbstractManager
         );
 
         foreach ($posts as $post) {
-            $author = $post->getAuthor();
+            $author = $this->postManager->getAuthor($post);
             $configList["posts"][] = new \Zend\XmlRpc\Value\Struct(array(
                 "post_id" => new \Zend\XmlRpc\Value\String($post->getId()),
                 "post_title" => new \Zend\XmlRpc\Value\Base64($post->getName()),

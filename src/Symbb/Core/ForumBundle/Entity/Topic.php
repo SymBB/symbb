@@ -67,10 +67,9 @@ class Topic
     private $forum;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Symbb\Core\UserBundle\Entity\User", inversedBy="topics")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", onDelete="NO ACTION", nullable=false)
+     * @ORM\Column(name="author_id", nullable=false)
      */
-    private $author;
+    private $authorId;
 
     /**
      * @ORM\Column(type="boolean")
@@ -112,16 +111,17 @@ class Topic
 
     }
 
-    public function setAuthor($object)
+    public function setAuthorId($object)
     {
-        $this->author = $object;
-
+        if(is_object($object)){
+            $object = $object->getId();
+        }
+        $this->authorId = $object;
     }
 
-    public function getAuthor()
+    public function getAuthorId()
     {
-        return $this->author;
-
+        return $this->authorId;
     }
 
     public function getPosts()

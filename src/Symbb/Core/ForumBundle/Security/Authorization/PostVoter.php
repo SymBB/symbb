@@ -64,7 +64,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
                 break;
 
             case self::EDIT:
-                if ($user->getId() === $object->getAuthor()->getId()) {
+                if ($user->getId() === $object->getAuthorId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getTopic()->getForum();
@@ -75,7 +75,7 @@ class PostVoter extends AbstractVoter implements VoterInterface
                 break;
 
             case self::DELETE:
-                if ($user->getId() === $object->getAuthor()->getId()) {
+                if ($user->getId() === $object->getAuthorId()) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 $forum = $object->getTopic()->getForum();

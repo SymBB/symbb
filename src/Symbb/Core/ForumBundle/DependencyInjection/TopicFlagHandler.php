@@ -56,7 +56,7 @@ class TopicFlagHandler extends AbstractFlagHandler
                 $flag->setUser($this->getUser());
                 $flags[] = $flag;
             }
-            if ($object->getAuthor() && $object->getAuthor()->getId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
+            if ($object->getAuthorId() && $object->getAuthorId() == $this->getUser()->getId() && ($searchFlag === null || $searchFlag == "author")) {
                 $flag = new Flag();
                 $flag->setFlag("author");
                 $flag->setObject($object);

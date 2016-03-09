@@ -21,8 +21,8 @@
         <div class="col-md-5 col">
             <span class="forumimage">
                 <div class="avatar">
-                    <img title="{{ object.getAuthor().getUsername() }}"
-                         src="{{ getSymbbUserAvatar(object.getAuthor()) }}"/>
+                    <img title="{{ getSymbbTopicManager().getAuthor(object).getUsername() }}"
+                         src="{{ getSymbbUserAvatar(getSymbbTopicManager().getAuthor(object)) }}"/>
                 </div>
                 <div class="clear"></div>
             </span>
@@ -42,7 +42,7 @@
                     <div class="clear"></div>
                 </div>
                 <div class="description">
-                    {% trans with {'%user%': object.getAuthor().getUsername() } %}from %user%{% endtrans %} </br>
+                    {% trans with {'%user%': getSymbbTopicManager().getAuthor(object).getUsername() } %}from %user%{% endtrans %} </br>
                     {% trans with {'%date%': object.getCreated() | date("d.m.Y"), '%time%': object.getCreated() | date("H:i")} %}%date% at %time%{% endtrans %}
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         : {{ object.getName() }}</a></br>
                     {% set lastPost = getSymbbTopicManager().getLastPost(object) %}
                     {% if lastPost %}
-                        {% trans with {'%user%': lastPost.getAuthor().getUsername()} %}from %user%{% endtrans %} </br>
+                        {% trans with {'%user%': getSymbbPostManager().getAuthor(lastPost).getUsername()} %}from %user%{% endtrans %} </br>
                         {% trans with {'%date%': lastPost.getCreated() | date("d.m.Y"), '%time%': lastPost.getCreated() | date("H:i")} %} %date% at %time%{% endtrans %}
                     {% endif %}
                 </div>

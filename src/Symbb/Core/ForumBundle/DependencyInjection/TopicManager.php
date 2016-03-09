@@ -15,6 +15,7 @@ use Symbb\Core\ForumBundle\Entity\Topic;
 use Symbb\Core\SystemBundle\Manager\AbstractFlagHandler;
 use \Symbb\Core\SystemBundle\Manager\ConfigManager;
 use Symbb\Core\UserBundle\Entity\UserInterface;
+use Symbb\Core\UserBundle\Manager\UserManager;
 
 class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
 {
@@ -31,12 +32,35 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
      */
     protected $topicFlagHandler;
 
+    /**
+     * @var UserManager
+     */
+    protected $userManager;
+
+    /**
+     * TopicManager constructor.
+     * @param TopicFlagHandler $topicFlagHandler
+     * @param ConfigManager $configManager
+     * @param UserManager $userManager
+     */
     public function __construct(
-        TopicFlagHandler $topicFlagHandler, ConfigManager $configManager
+        TopicFlagHandler $topicFlagHandler,
+        ConfigManager $configManager,
+        UserManager $userManager
     )
     {
         $this->topicFlagHandler = $topicFlagHandler;
         $this->configManager = $configManager;
+        $this->userManager = $userManager;
+    }
+
+    /**
+     * @param Topic $topic
+     * @return UserInterface
+     */
+    public function getAuthor(Topic $topic){
+        $authorId = $topic->getAuthorId();
+        return $this->userManager->find($authorId);
     }
 
     /**
@@ -182,7 +206,7 @@ class TopicManager extends \Symbb\Core\SystemBundle\Manager\AbstractManager
                 JOIN
                     t.posts p
                 WHERE
-                    p.author = ?0
+                    p.authorId = ?0
                 GROUP BY
                     t.id
                 ORDER BY

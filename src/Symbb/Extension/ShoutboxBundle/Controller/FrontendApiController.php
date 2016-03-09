@@ -30,8 +30,10 @@ class FrontendApiController extends AbstractApiController
         $data = array();
         $data['shoutboxEntries'] = array();
 
+        $userManager = $this->get('symbb.core.user.manager');
         foreach ($pagination as $result) {
-            $author = $result->getAuthor();
+            $authorId = $result->getAuthorId();
+            $author = $userManager->find($authorId);
             $data['shoutboxEntries'][] = array(
                 'id' => $result->getId(),
                 'message' => $this->formatMessage($result->getMessage()),

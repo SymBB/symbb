@@ -159,7 +159,7 @@ class TopicManager extends AbstractManager
             foreach ($topics as $topic) {
 
                 $closed = $topic->isLocked();
-                $author = $topic->getAuthor();
+                $author = $this->topicManager->getAuthor($topic);
                 $lastPost = $topic->getLastPost();
 
                 $new = $this->topicManager->getFlagHandler()->checkFlag($topic, "new");
@@ -224,7 +224,7 @@ class TopicManager extends AbstractManager
     protected function getTopicAsStruct(Topic $topic)
     {
         $forum = $topic->getForum();
-        $author = $topic->getAuthor();
+        $author = $this->topicManager->getAuthor($topic);
         $closed = $topic->isLocked();
         $new = $this->topicManager->checkFlag($topic, "new");
         return new \Zend\XmlRpc\Value\Struct(

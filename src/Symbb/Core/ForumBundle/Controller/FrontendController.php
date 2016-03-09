@@ -408,7 +408,7 @@ class FrontendController extends \Symbb\Core\SystemBundle\Controller\AbstractCon
             }
             $post = new Post();
             $post->setAuthor($this->getUser());
-            $post->setText("[quote=" . $quotePost->getAuthor()->getUsername() . "]" . $quotePost->getText() . "[/quote]");
+            $post->setText("[quote=" . $this->get('symbb.core.post.manager')->getAuthor($quotePost)->getUsername() . "]" . $quotePost->getText() . "[/quote]");
             $post->setTopic($topic);
             $post->setName($this->get("translator")->trans("Re:", array(), "symbb_frontend") . " " . $topic->getName());
             return $this->handlePost($request, $post);
